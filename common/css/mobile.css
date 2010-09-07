@@ -1,0 +1,122 @@
+/* CSS Document print handheld version*/
+
+/* A List Apart 3.0 layout for handhelds - alistapart.com */
+
+body	{
+	border-top: none;
+	font-family: sans-serif;
+	padding-bottom: 5px;
+	}
+
+#header img	{
+	max-height: 1.5cm;
+	max-width: none;
+	}
+#header {
+	overflow: hidden;
+	}
+
+/* Linearize menu */
+#sidebar ul li {
+	float: none;
+	}
+
+#sidebar ul li a {
+	width: auto;
+	height: 1.5em;
+	border: 1px solid #ccc;
+	margin: 1px 0;
+	line-height: 1.5em;
+	}
+#sidebar ul li a	{
+	width: auto;
+	}
+
+#bodyText	{
+	float: none;
+	padding: 2%;
+	width: auto;
+	max-width: 597px;
+	}
+
+#bodyText ol, #bodyText ul	{
+	padding-left: 1%;
+	margin-left: 1%;
+	}
+
+#bodyText li	{
+	line-height: 1.4;
+	margin-bottom: 0.83em;
+	padding-left: 1%;
+	margin-left: 1%;
+	}
+
+#bodyText ul ul li {
+	margin-top: 0.83em;
+	}
+
+#bodyText li	{
+	padding: 0 0.4em 0 0;
+	}
+
+#sidebar	{
+	padding: 2%;
+	margin: 0;
+	height: auto;
+	}
+
+
+#footer {
+	padding: 0.5em 0.7em 0.7em 0.7em;
+	}
+#footer p	{
+	margin: 1em 0;
+	}
+#footer ul	{
+	margin: 1em 0 0 0;
+	}
+#footer li	{
+	padding: 0 1.5em 0 0;
+	}
+
+
+code, pre	{
+	font-family: monospace;
+	}
+
+	/*  Typography */
+
+h1, h2, h3, h4, h5, h6	{
+	line-height: 1em;
+	margin-top: 1.3em;
+	}
+
+#sidebar h2	{
+	font-size: 1.23em;
+	margin: 0.3em 0 0 0 ;
+	}
+
+h3 {
+	font-size: 1.23em;
+	}
+#sidebar h3	{
+	font-size: 1em;
+	}
+
+h4 {
+	font-size: 1em;
+	}
+
+#sidebar h4	{
+	margin: 0 0 1.2em 0;
+	}
+
+	/*  Forms */
+input, textarea, select {
+	max-width: 100%;
+	}
+
+form label	{
+	font-size: 0.90em;
+	margin-top: 0.4em;
+	}

@@ -1,0 +1,101 @@
+/* CSS Document */
+/*========== [Tables]  ==========*/
+
+caption{
+/* padding because IE ignores margin */
+	padding-bottom:10px;
+	text-align:left;
+	font-weight:bold;
+}
+
+table{
+	border-right:1px solid #97ACBD;	
+	margin:0 0 20px 0;
+/*	paddding:0;*/
+	width:90%;
+	
+}
+
+
+table a {
+  text-decoration: none;
+}
+
+
+table a:hover {
+  text-decoration: underline;
+}
+
+td{
+	text-align:center;
+	border-width:1px 0px 0px 0px;
+	border-color:#97ACBD;
+	border-style:solid;
+	padding:5px;
+	margin:0;
+}
+
+tbody td{
+	border-left:1px solid #97ACBD;
+	font-size: 85%;
+	padding:5px;
+}
+
+thead th{
+	/*border:1px solid #97ACBD;*/
+	border-left:1px solid #97ACBD;
+	font-size: 95%;
+	text-align:center;
+	padding:5px;
+	background-color: rgb(239, 239, 239);
+}
+
+
+
+tbody th{
+	padding:5px;
+	text-align:left;
+}
+
+
+.lead{
+	text-align:left;
+	border:0;
+}
+
+.totals{
+	background:#C5D0DA;
+}
+
+th{
+	border-top:1px solid #97ACBD;
+}
+
+tr{
+	border-bottom:1px solid #97ACBD;
+}
+
+
+tfoot{		
+	background-color: rgb(239, 239, 239);	
+}
+
+tfoot td{		
+	border:0.5px solid #97ACBD;
+	
+}
+
+tbody tr:hover {
+	background-color: #fcf8d6;
+}
+
+
+tbody td:hover {
+	background-color: #F4F6FF;
+}
+
+
+.izq {
+	text-align:left;
+}
+
