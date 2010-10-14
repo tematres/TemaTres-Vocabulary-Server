@@ -282,7 +282,8 @@ $idiomas_disponibles = array(
      "fr"  => array("français","", "fr"),
      "it"  => array("italiano","", "it"),
      "nl"  => array("nederlands","", "nl"),
-     "pt"  => array("portugüés","", "pt")    
+     "pl"  => array("polski","", "pl"),    
+     "pt"  => array("portugüés","", "pt")
     );
 
 
@@ -343,6 +344,7 @@ define("LABEL_reIndice","recreate indexes") ;
 define("LABEL_dbMantenimiento","maintenance database") ;
 
 
+
 /*
 v 1.2
 */
@@ -357,4 +359,7 @@ define('LABEL_ShowTargetTermsforUpdate',"check terms update");
 define('LABEL_enable',"enable");
 define('LABEL_disable',"disable");
 define('LABEL_notFound',"term not found");
+define('LABEL_termUpdated',"term updated");
+define('LABEL_ShowTargetTermforUpdate',"update");
+define('LABEL_relbetweenVocabularies',"relations between vocabularies");
 ?>

@@ -1,14 +1,14 @@
 <?php
-#   TemaTres : aplicación para la gestión de lenguajes documentales #       #
+#   TemaTres : aplicaciÃ³n para la gestiÃ³n de lenguajes documentales #       #
 #                                                                        #
 #   Copyright (C) 2004-2008 Diego Ferreyra tematres@r020.com.ar
-#   Distribuido bajo Licencia GNU Public License, versión 2 (de junio de 1.991) Free Software Foundation
+#   Distribuido bajo Licencia GNU Public License, versiÃ³n 2 (de junio de 1.991) Free Software Foundation
 #  
 ###############################################################################################################
 # funciones de consulta SQL #
 
 #
-# Cantidad de términos relacionados generales y por usuarios
+# Cantidad de tÃ©rminos relacionados generales y por usuarios
 #
 function SQLcantTR($tipo,$idUser=""){
 GLOBAL $DBCFG;
@@ -28,7 +28,7 @@ if($tipo=='U'){
 
 
 #
-# Cantidad de términos generales y por usuarios
+# Cantidad de tÃ©rminos generales y por usuarios
 #
 function SQLcantTerminos($tipo,$idUser=""){
 GLOBAL $DBCFG;
@@ -66,7 +66,7 @@ return $sql;
 };
 
 #
-# Búsqueda de términos hacia arriba desde un tema.
+# BÃºsqueda de tÃ©rminos hacia arriba desde un tema.
 #
 function SQLbucleArriba($tema_id){
 GLOBAL $DBCFG;
@@ -89,7 +89,7 @@ return $sql;
 
 
 #
-# Búsqueda de términos hacia abajo desde un tema.
+# BÃºsqueda de tÃ©rminos hacia abajo desde un tema.
 #
 
 function SQLbucleAbajo($tema_id){
@@ -113,7 +113,7 @@ $sql=SQL("select","rel_abajo.id_menor as id_abajo,
 
 
 #
-# Buscador general según string
+# Buscador general segÃºn string
 #
 function SQLbuscaSimple($texto){
 GLOBAL $DBCFG;
@@ -151,7 +151,7 @@ return $sql;
 };
 
 #
-# Buscador general según string SIN UF ni términos EQ
+# Buscador general segÃºn string SIN UF ni tÃ©rminos EQ
 #
 function SQLSimpleSearchTrueTerms($texto,$limit="20"){
 GLOBAL $DBCFG;
@@ -205,7 +205,7 @@ return $sql;
 
 
 #
-# ARRAY de cada términos sin relaciones
+# ARRAY de cada tÃ©rminos sin relaciones
 # Retrive simple term data for id
 #
 function ARRAYverTerminoBasico($tema_id){
@@ -246,7 +246,7 @@ return $array;
 
 
 #
-# SQL de datos de notas de un término
+# SQL de datos de notas de un tÃ©rmino
 #
 
 function SQLdatosTerminoNotas($tema_id,$array_tipo_nota=""){
@@ -288,7 +288,7 @@ return SQL("select","notas.id as nota_id, notas.tipo_nota,notas.nota,notas.lang_
 
 
 #
-# Búsqueda de términos relacionados candidatos para un término según un string
+# BÃºsqueda de tÃ©rminos relacionados candidatos para un tÃ©rmino segÃºn un string
 #
 function SQLbuscaTR($tema_id,$string){
 GLOBAL $DBCFG;
@@ -317,7 +317,7 @@ return $sql;
 
 
 #
-# Datos de cada términos con su tipificación y notas
+# Datos de cada tÃ©rminos con su tipificaciÃ³n y notas
 #
 
 function ARRAYverDatosTermino($tema_id){
@@ -399,7 +399,7 @@ $sql=SQL("select","relaciones.t_relacion,BT.tema_id as id,BT.tema,BT.cuando as t
 	and relaciones.id_menor='$tema_id'
 	and BT.tema_id=relaciones.id_mayor
 	and c.id=BT.tesauro_id
-	order by relaciones.t_relacion,lower(tema.tema)");
+	order by relaciones.t_relacion,lower(BT.tema)");
 return $sql;
 };
 
@@ -453,8 +453,8 @@ return $sql;
 
 
 /*
-Buscador de términos aceptados UF,TR y TG directo de tema_id == retrive accepted UF,TR and direct TG for tema_id
-* Changelog v 1.1: no traía los tema_id que están a la derecha de tabla_rel
+Buscador de tÃ©rminos aceptados UF,TR y TG directo de tema_id == retrive accepted UF,TR and direct TG for tema_id
+* Changelog v 1.1: no traÃ­a los tema_id que estÃ¡n a la derecha de tabla_rel
 */
 function SQLterminosDirectos($tema_id){
 	GLOBAL $DBCFG;
@@ -482,7 +482,7 @@ return SQL("select","if(t1.tema_id='$tema_id',t2.tema_id,t1.tema_id) as tema_id,
 
 
 #
-# lista de términos ACEPTADOS totales (prederidos, no preferidos y mapeados) con el tema_id del referido
+# lista de tÃ©rminos ACEPTADOS totales (prederidos, no preferidos y mapeados) con el tema_id del referido
 #
 function SQLlistaTemas($tema_id="0"){
 GLOBAL $DBCFG;
@@ -554,7 +554,7 @@ return $sql;
 
 
 #
-# Buscador de términos iguales
+# Buscador de tÃ©rminos iguales
 #
 function SQLverTerminosRepetidos(){
 GLOBAL $DBCFG;
@@ -568,7 +568,7 @@ return $sql;
 
 
 #
-# BUSCADOR DE TERMINOS específicos de un término general
+# BUSCADOR DE TERMINOS especÃ­ficos de un tÃ©rmino general
 #
 function SQLverTerminosE($tema_id){
 GLOBAL $DBCFG;
@@ -611,7 +611,7 @@ return $sql;
 
 
 #
-# Lista de términos de una letra
+# Lista de tÃ©rminos de una letra
 #
 function SQLmenuABC($letra){
 GLOBAL $DBCFG;
@@ -623,7 +623,10 @@ $letra=secure_data($letra,"sql");
 LEFT(tema.tema,1) REGEXP '[^[:alpha:]]'
 */
 
+/*
 $where_letter=(ctype_alpha($letra)) ? " LEFT(tema.tema,1)='$letra' " : " LEFT(tema.tema,1) REGEXP '[[:digit:]]' ";
+*/
+$where_letter=(!ctype_digit($letra)) ? " LEFT(tema.tema,1)='$letra' " : " LEFT(tema.tema,1) REGEXP '[[:digit:]]' ";
 
 //Control de estados
 (!$_SESSION[$_SESSION["CFGURL"]][ssuser_id]) ? $where=" and tema.estado_id='13' " : $where="";
@@ -643,11 +646,12 @@ $sql=SQL("select","if(relaciones.id is not null,relaciones.id_menor,tema.tema_id
 		$where
 		group by tema.tema_id
 		order by lower(tema.tema)");
+		
 		return $sql;
 };
 
 #
-# Lista de términos de una secuencia de letras sin importar relaciones
+# Lista de tÃ©rminos de una secuencia de letras sin importar relaciones
 #
 function SQLbuscaTerminosSimple($string,$limit="20"){
 GLOBAL $DBCFG;
@@ -673,12 +677,12 @@ return $sql;
 
 
 #
-# Lista de Ids de términos válidos y aceptados (sin UF ni términos libres)
+# Lista de Ids de tÃ©rminos vÃ¡lidos y aceptados (sin UF ni tÃ©rminos libres)
 #
 function SQLIdTerminosValidos(){
 GLOBAL $DBCFG;
 
-//Solo término aceptados
+//Solo tÃ©rmino aceptados
 $where=" and tema.estado_id='13' ";
 
 $sql=SQL("SELECT","tema.tema_id as id,tema.cuando,tema.uid,tema.cuando_final
@@ -694,7 +698,7 @@ return $sql;
 
 
 #
-# Lista de términos válidos (sin UF ni términos libres)
+# Lista de tÃ©rminos vÃ¡lidos (sin UF ni tÃ©rminos libres)
 #
 function SQLTerminosValidos($tema_id=""){
 GLOBAL $DBCFG;
@@ -720,12 +724,12 @@ return $sql;
 
 
 #
-# Lista de Ids de términos válidos y aceptados (sin UF ni términos libres) y con TE
+# Lista de Ids de tÃ©rminos vÃ¡lidos y aceptados (sin UF ni tÃ©rminos libres) y con TE
 #
 function SQLIdTerminosIndice(){
 GLOBAL $DBCFG;
 
-//Solo término aceptados
+//Solo tÃ©rmino aceptados
 $where=" and t.estado_id='13' ";
 
 $sql=SQL("SELECT","t.tema_id as id,t.tema_id as tema_id,t.cuando,t.uid,t.cuando_final,i.indice
@@ -738,7 +742,7 @@ return $sql;
 
 
 #
-# Lista de términos válidos (sin UF )
+# Lista de tÃ©rminos vÃ¡lidos (sin UF )
 #
 function SQLTerminosPreferidos($tema_id=""){
 GLOBAL $DBCFG;
@@ -764,7 +768,7 @@ return $sql;
 
 
 #
-# lista de términos según fechas
+# lista de tÃ©rminos segÃºn fechas
 #
 function SQLlistTermsfromDate($month,$year,$ord=""){
 GLOBAL $DBCFG;
@@ -809,7 +813,7 @@ switch($ord){
 
 
 #
-# lista de términos recientes
+# lista de tÃ©rminos recientes
 #
 function SQLlastTerms($limit="30"){
 GLOBAL $DBCFG;
@@ -832,7 +836,7 @@ return $sql;
 
 
 #
-# lista de términos según estados 
+# lista de tÃ©rminos segÃºn estados 
 #
 function SQLterminosEstado($estado_id,$limite=""){
 GLOBAL $DBCFG;
@@ -861,7 +865,7 @@ return $sql;
 
 
 #
-# Lista de términos según meses y años
+# Lista de tÃ©rminos segÃºn meses y aÃ±os
 #
 function SQLtermsByDate(){
 
@@ -875,7 +879,7 @@ return $sql;
 };
 
 #
-# Lista de datos según usuarios
+# Lista de datos segÃºn usuarios
 #
 function SQLdatosUsuarios($user_id=""){
 GLOBAL $DBCFG;
@@ -892,7 +896,7 @@ return $sql;
 };
 
 #
-# Lista de términos según usuarios
+# Lista de tÃ©rminos segÃºn usuarios
 #
 function SQLlistTermsfromUser($id_user,$ord=""){
 GLOBAL $DBCFG;
@@ -932,7 +936,7 @@ return $sql;
 
 
 #
-# Resúmen de datos del tesauro
+# ResÃºmen de datos del tesauro
 #
 function ARRAYresumen($id_tesa,$tipo,$idUser=""){
 
@@ -996,7 +1000,7 @@ if($ARRAYtema_indice){
 
 
 #
-# SQL lista terminos que contienen en algún momento de sus arbol un tema
+# SQL lista terminos que contienen en algÃºn momento de sus arbol un tema
 #
 function SQLtieneTema($tema_id){
 GLOBAL $DBCFG;
@@ -1024,7 +1028,7 @@ $sql=SQL("select","i.tema_id,i.indice from $DBCFG[DBprefix]indice i where i.tema
 
 
 #
-# sql de expansión sobre un tema (expansión hacia arriba expansio to TG)
+# sql de expansiÃ³n sobre un tema (expansiÃ³n hacia arriba expansio to TG)
 #
 function SQLexpansionTema($tema_id){
 GLOBAL $DBCFG;
@@ -1044,7 +1048,7 @@ order by distancia");
 
 
 #
-# sql de expansión sobre una lista de ids hacia temas relacionados (expansion to TR)
+# sql de expansiÃ³n sobre una lista de ids hacia temas relacionados (expansion to TR)
 #
 function SQLexpansionTR($lista_temas_id){
 GLOBAL $DBCFG;
@@ -1128,12 +1132,12 @@ return mysqli_fetch_array($sql[datos]);
 
 
 #
-# Busca lista de términos para evaluar similitud de una expresiona de búsqueda
+# Busca lista de tÃ©rminos para evaluar similitud de una expresiona de bÃºsqueda
 #
 function SQLsimiliar($texto,$lista_temas_id="0"){
 GLOBAL $DBCFG;
 /*
-El termino a evaluar debe ser mayor o menor en no más de 2 caracteres con respecto al texto de búsqueda
+El termino a evaluar debe ser mayor o menor en no mÃ¡s de 2 caracteres con respecto al texto de bÃºsqueda
 El termino a evaluar no debe estar en la lista de resultados
 13 = estado aceptado
 */
@@ -1143,7 +1147,7 @@ $texto=trim($texto);
 $maxstrlen = strlen($texto)+2;
 $minstrlen = strlen($texto)-2;
 
-//Hubo resultados de búsqueda
+//Hubo resultados de bÃºsqueda
 if(count(explode("|",$lista_temas_id))>1){
 
 	$lista_temas_id=str_replace("|",",",$lista_temas_id);
@@ -1165,8 +1169,8 @@ return $sql;
 
 
 /*
- * Verificar que no sea un no-termino o un término de otro vocabularios. Check if isnt no-term
- * Verficar que sea un término válido para relaciones y notas > no (UF,EQ,EQP,NEQ)
+ * Verificar que no sea un no-termino o un tÃ©rmino de otro vocabularios. Check if isnt no-term
+ * Verficar que sea un tÃ©rmino vÃ¡lido para relaciones y notas > no (UF,EQ,EQP,NEQ)
  */
 function SQLcheckIsValidTerm($tema_id)
 {
@@ -1269,7 +1273,7 @@ if($array[hasNote])
 $array[fromDate]=secure_data($array[fromDate],"sql");
 if($array[fromDate])
 {
-	$where.="		and ($term_table.cuando between '$array[fromDate]-01' and now())";
+	$where.="		and (t.cuando between '$array[fromDate]-01' and now())";
 }
 
 
@@ -1337,7 +1341,7 @@ return SQL("select","t.tema_id,t.tema,t.cuando,t.cuando_final,t.estado_id $selec
 }
 
 /*
-regenerate indice table => only in case of corrupt database or import thesaurus vía dump
+regenerate indice table => only in case of corrupt database or import thesaurus vÃ­a dump
 */
 function SQLreCreateTermIndex() 
 {
@@ -1407,7 +1411,7 @@ $where= ($tvocab_status=='1') ? " where tv.tvocab_status='1' " : " where tv.tvoc
 
 $where.= ($tvocab_id>0) ? " and tv.tvocab_id='$tvocab_id' " : "";
 
-return SQL("select","tv.tvocab_id,tv.tvocab_label,tv.tvocab_tag,
+return SQL("select","tv.tvocab_id,tv.tvocab_label,tv.tvocab_tag,tv.tvocab_lang,
 		tv.tvocab_title,tv.tvocab_url,tv.tvocab_uri_service,tv.tvocab_status,tv.cuando,tv.uid,
 		count(t2t.tterm_id) as cant
 		from $DBCFG[DBprefix]tvocab tv
@@ -1427,9 +1431,9 @@ $tterm_id=secure_data($tterm_id,"sql");
 
 $where = ($tterm_id>0) ? " and t2tt.tterm_id ='$tterm_id' " : "";
 
-return SQL("select","tv.tvocab_id,tv.tvocab_label,tv.tvocab_tag,
-		tv.tvocab_title,tv.tvocab_url,tv.tvocab_uri_service,tv.cuando,tv.uid,
-		t2tt.tterm_id,t2tt.tterm_url,t2tt.tterm_uri,t2tt.tterm_string,t2tt.cuando,t2tt.cuando_last
+return SQL("select","tv.tvocab_id,tv.tvocab_label,tv.tvocab_tag,tv.tvocab_lang,
+		tv.tvocab_title,tv.tvocab_url,tv.tvocab_uri_service,tv.cuando as tvoacb_cuando,tv.uid,
+		t2tt.tema_id,t2tt.tterm_id,t2tt.tterm_url,t2tt.tterm_uri,t2tt.tterm_string,t2tt.cuando,t2tt.cuando_last
 		from $DBCFG[DBprefix]tvocab tv,$DBCFG[DBprefix]term2tterm t2tt
 		where tv.tvocab_id=t2tt.tvocab_id
 		and t2tt.tema_id='$tema_id'
@@ -1458,7 +1462,7 @@ $from=(is_numeric($from)) ? $from : "0";
 $limit=(is_numeric($limit)) ? $limit : "20";
 
 $idUser=secure_data($idUser,"sql");
-return SQL("select","tv.tvocab_id,tv.tvocab_label,tv.tvocab_tag,
+return SQL("select","tv.tvocab_id,tv.tvocab_label,tv.tvocab_tag,tv.tvocab_lang,
 		tv.tvocab_title,tv.tvocab_url,tv.tvocab_uri_service,tv.cuando,tv.uid,
 		t2tt.tterm_id,t2tt.tterm_url,t2tt.tterm_uri,t2tt.tterm_string,t2tt.cuando,t2tt.cuando_last,
 		t.tema_id,t.tema

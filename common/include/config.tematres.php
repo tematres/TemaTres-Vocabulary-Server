@@ -1,8 +1,8 @@
 <?php
-#   TemaTres : aplicaciÛn para la gestiÛn de lenguajes documentales #       #
+#   TemaTres : aplicaci√≥n para la gesti√≥n de lenguajes documentales #       #
 #                                                                        #
 #   Copyright (C) 2004-2008 Diego Ferreyra tematres@r020.com.ar
-#   Distribuido bajo Licencia GNU Public License, versiÛn 2 (de junio de 1.991) Free Software Foundation
+#   Distribuido bajo Licencia GNU Public License, versi√≥n 2 (de junio de 1.991) Free Software Foundation
 #  
 ###############################################################################################################
 # ARCHIVO DE CONFIGURACION == CONFIG FILE #
@@ -30,7 +30,7 @@ $CFG["_CHAR_ENCODE"] ='utf-8';
 // use term codes to sort the terms
 $CFG["_USE_CODE"] ='1';
 
-// Maximum level of depth in the tree of items for display on the same page [M·ximo nivel de profundidad en el ·rbol de temas para la visualizaciÛn en una misma p·gina]
+// Maximum level of depth in the tree of items for display on the same page [M√°ximo nivel de profundidad en el √°rbol de temas para la visualizaci√≥n en una misma p√°gina]
 define('CFG_MAX_TREE_DEEP','3');
 
 // Status details visible for any users [Detalles del estado de terminos visibles para todos los usurios] 0 => no public details / 1 => public details
@@ -39,36 +39,37 @@ define('CFG_VIEW_STATUS','1');
 // Available Web simple web services (1 = Yes, 0 = No: default: 1)
 define('CFG_SIMPLE_WEB_SERVICE','1');
 
-// 	Minimum characters for search operations / n˙mero mÌnimo de caracteres para operaciones de b˙squeda 
+// 	Minimum characters for search operations / n√∫mero m√≠nimo de caracteres para operaciones de b√∫squeda 
 define('CFG_MIN_SEARCH_SIZE','1');
 
-// Idiomas disponibles: cÛdigo interno => "nombre del idioma","nombre del script de idioma", "cÛdigo del idioma",cÛdigo ISO del idioma"
+// Idiomas disponibles: c√≥digo interno => "nombre del idioma","nombre del script de idioma", "c√≥digo del idioma",c√≥digo ISO del idioma"
 // El primer idioma del array es el que toma como idioma por defecto.
 
 $CFG["_CHAR_ENCODE"]=(in_array($CFG["_CHAR_ENCODE"],array('utf-8','iso-8859-1'))) ? $CFG["_CHAR_ENCODE"] : 'iso-8859-1';
 
 $idiomas_disponibles = array(
-     "ca"  => array("catal‡", "ca-$CFG[_CHAR_ENCODE].inc.php", "ca","ca-$CFG[_CHAR_ENCODE]"),
+     "ca"  => array("catal√†", "ca-$CFG[_CHAR_ENCODE].inc.php", "ca","ca-$CFG[_CHAR_ENCODE]"),
      "de"  => array("deutsch","de-$CFG[_CHAR_ENCODE].inc.php", "de","de-$CFG[_CHAR_ENCODE]"),
      "en"  => array("english", "en-$CFG[_CHAR_ENCODE].inc.php", "en","en-$CFG[_CHAR_ENCODE]"),
-     "es"  => array("espaÒol", "es-$CFG[_CHAR_ENCODE].inc.php", "es","es-$CFG[_CHAR_ENCODE]"),
-     "fr"  => array("franÁais","fr-$CFG[_CHAR_ENCODE].inc.php", "fr","fr-$CFG[_CHAR_ENCODE]"),
+     "es"  => array("espa√±ol", "es-$CFG[_CHAR_ENCODE].inc.php", "es","es-$CFG[_CHAR_ENCODE]"),
+     "fr"  => array("fran√ßais","fr-$CFG[_CHAR_ENCODE].inc.php", "fr","fr-$CFG[_CHAR_ENCODE]"),
      "it"  => array("italiano","it-$CFG[_CHAR_ENCODE].inc.php", "it","it-$CFG[_CHAR_ENCODE]"),
-     "nl"  => array("nederlands","nl-$CFG[_CHAR_ENCODE].inc.php", "nl","nl-$CFG[_CHAR_ENCODE]"),
-     "cn"  => array("chinese","cn-$CFG[_CHAR_ENCODE].inc.php", "cn","cn-$CFG[_CHAR_ENCODE]"),
-     "pt"  => array("portug¸Ès","pt-$CFG[_CHAR_ENCODE].inc.php", "pt","ptbr-$CFG[_CHAR_ENCODE]")    
+     "nl"  => array("Vlaams","nl-$CFG[_CHAR_ENCODE].inc.php", "nl","nl-$CFG[_CHAR_ENCODE]"),
+     "cn"  => array("Ê±âËØ≠, Êº¢Ë™û","cn-$CFG[_CHAR_ENCODE].inc.php", "cn","cn-$CFG[_CHAR_ENCODE]"),
+     "pl"  => array("polski","pl-$CFG[_CHAR_ENCODE].inc.php", "pl","pl-$CFG[_CHAR_ENCODE]"),
+     "pt"  => array("portug√º√©s","pt-$CFG[_CHAR_ENCODE].inc.php", "pt","ptbr-$CFG[_CHAR_ENCODE]")    
     );
 
 
 # Contantes
-define("id_TR","2");//Tipo relacion tÈrmino relacionado
-define("id_TG","3");//Tipo relacion tÈrmino superior
-define("id_UP","4");//Tipo relacion tÈrmino no preferido
+define("id_TR","2");//Tipo relacion t√©rmino relacionado
+define("id_TG","3");//Tipo relacion t√©rmino superior
+define("id_UP","4");//Tipo relacion t√©rmino no preferido
 
-define("id_EQ","6");//Tipo relacion tÈrmino equivalente
-define("id_EQ_PARCIAL","5");//Tipo relacion tÈrmino equivalente parcialmente
-define("id_EQ_NO","7");//Tipo relacion tÈrmino no equivalente
-define("id_EQ_INEXACTA","8");//Tipo relacion tÈrmino equivalente inexacta
+define("id_EQ","6");//Tipo relacion t√©rmino equivalente
+define("id_EQ_PARCIAL","5");//Tipo relacion t√©rmino equivalente parcialmente
+define("id_EQ_NO","7");//Tipo relacion t√©rmino no equivalente
+define("id_EQ_INEXACTA","8");//Tipo relacion t√©rmino equivalente inexacta
 
 define("SI","1");
 define("NO","2");

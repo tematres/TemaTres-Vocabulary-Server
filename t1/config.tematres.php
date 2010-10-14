@@ -23,13 +23,6 @@ if(!$db)
 include('../common/include/config.tematres.php');
 
 
-
-/*
-$CFG["Version"]        = "TemaTres 1.1 beta";
-
-$CFG["VersionWebService"]        = "0.4";
-*/
-
 // ID del Tesauro por DEFAULT
 $CFG["DFT_TESA"] ='1';
 
@@ -57,6 +50,9 @@ define('CFG_VIEW_STATUS','1');
 
 // Available Web simple web services (1 = Yes, 0 = No: default: 1)
 define('CFG_SIMPLE_WEB_SERVICE','1');
+
+//Number of terms display by status view
+define('CFG_NUM_SHOW_TERMSxSTATUS','100');
 
 // 	Minimum characters for search operations / número mínimo de caracteres para operaciones de búsqueda 
 /*

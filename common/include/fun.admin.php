@@ -489,9 +489,6 @@ if(is_array($arrayVocab))
 		
 		$arrayTterm[tterm_url]=$arrayVocab[tvocab_url].'?tema='.$tgetTerm_id;
 		
-	/*
-		$arrayTterm[tterm_string]=utf8_decode($arrayTterm[result][term]["string"]);
-	*/
 		$arrayTterm[tterm_string]=FixEncoding($arrayTterm[result][term]["string"]);
 		
 		$sql=SQL("insert","into $DBCFG[DBprefix]term2tterm (tema_id,tvocab_id,tterm_url,tterm_uri,tterm_string,cuando,uid) 
@@ -514,9 +511,6 @@ if(is_array($arrayVocab))
 		//obtener datos externos del término
 		$arrayTterm=xmlVocabulary2array($arrayTterm[tterm_uri]);
 		
-	/*
-		$arrayTterm[tterm_string]=utf8_decode($arrayTterm[result][term]["string"]);
-	*/
 		$arrayTterm[tterm_string]=FixEncoding($arrayTterm[result][term]["string"]);
 		
 		$sql=SQL("update","$DBCFG[DBprefix]term2tterm set 
@@ -533,25 +527,6 @@ if(is_array($arrayVocab))
 
 return $target_relation_id;
 };
-
-
-/*
-check update data for term from target vocabulary
-*/
-function ARRAYSimpleChkUpdateTterm($method,$tterm_uri) 
-{
-	
-	require_once('vocabularyservices.php')	;
-	switch ($method) {
-		case 'tematres':
-		return xmlVocabulary2array($tterm_uri);
-		break;
-	
-		default :
-		return xmlVocabulary2array($tterm_uri);
-		break;
-	}
-}
 
 
 #
@@ -807,14 +782,15 @@ switch($do){
 	{
 		$array[tvocab_label]=$_POST[tvocab_label];
 		$array[tvocab_tag]=$_POST[tvocab_tag];
+		$array[tvocab_lang]=$_POST[tvocab_lang];
 		$array[tvocab_title]=$arrayVocab[result][title];
 		$array[tvocab_uri]=$arrayVocab[result][uri];
 		$array[tvocab_uri_service]=$_POST[tvocab_uri_service];
 		$array[tvocab_status]=$_POST[tvocab_status];
 		
-		$sql=SQL("insert","into $DBCFG[DBprefix]tvocab (tvocab_label, tvocab_tag, tvocab_title, tvocab_url, tvocab_uri_service, tvocab_status, cuando, uid) 
+		$sql=SQL("insert","into $DBCFG[DBprefix]tvocab (tvocab_label, tvocab_tag,tvocab_lang, tvocab_title, tvocab_url, tvocab_uri_service, tvocab_status, cuando, uid) 
 		VALUES 
-		('$array[tvocab_label]', '$array[tvocab_tag]', '$array[tvocab_title]', '$array[tvocab_uri]', '$array[tvocab_uri_service]', '$array[tvocab_status]', now(), '$user_id')");
+		('$array[tvocab_label]', '$array[tvocab_tag]', '$array[tvocab_lang]', '$array[tvocab_title]', '$array[tvocab_uri]', '$array[tvocab_uri_service]', '$array[tvocab_status]', now(), '$user_id')");
 
 		$tvocab_id=$sql[cant];
 	}	
@@ -840,6 +816,7 @@ switch($do){
 	{
 		$array[tvocab_label]=$_POST[tvocab_label];
 		$array[tvocab_tag]=$_POST[tvocab_tag];
+		$array[tvocab_lang]=$_POST[tvocab_lang];
 		$array[tvocab_status]=$_POST[tvocab_status];
 
 		$array[tvocab_title]=$arrayVocab[result][title];
@@ -850,9 +827,10 @@ switch($do){
 		$sql=SQL("update","$DBCFG[DBprefix]tvocab set 
 		tvocab_label='$array[tvocab_label]', 
 		tvocab_tag='$array[tvocab_tag]', 
+		tvocab_lang='$array[tvocab_lang]', 
 		tvocab_title='$array[tvocab_title]',
 		tvocab_url= '$array[tvocab_uri]', 
-		tvocab_uri_service='$array[tvocab_uri_service]', 
+		#tvocab_uri_service='$array[tvocab_uri_service]', 
 		tvocab_status='$array[tvocab_status]', 
 		cuando=now(), 
 		uid='$user_id'
@@ -1191,13 +1169,12 @@ $rows.='<tbody>';
 
 while($array=mysqli_fetch_array($sql[datos])){
 
-	$status_tterm='1';
-
 	$last_term_update=($array[cuando_last]) ? $array[cuando_last] : $array[cuando];
 	
 	if($_GET["doAdmin2"]=='checkDateTermsTargetVocabulary')
 	{
 		$iUpd=0;
+		
 		$ARRAYSimpleChkUpdateTterm=ARRAYSimpleChkUpdateTterm("tematres",$array[tterm_uri]);
 /*
 		El término no existe más en el vocabulario de destino
@@ -1208,9 +1185,7 @@ while($array=mysqli_fetch_array($sql[datos])){
 			$linkUpdateTterm["$array[tterm_uri]"].= '<li><strong>'.ucfirst(LABEL_notFound).'</strong></li>';
 			$linkUpdateTterm["$array[tterm_uri]"].= '<li>[<a href="admin.php?doAdmin=seeTermsTargetVocabulary&amp;doAdmin2=checkDateTermsTargetVocabulary&amp;tvocab_id='.$ARRAYtargetVocabulary[tvocab_id].'&amp;f='.$from.'&amp;tterm_id='.$array[tterm_id].'&amp;tema='.$array[tema_id].'&amp;taskrelations=delTgetTerm" title="'.ucfirst(LABEL_borraRelacion).'">'.ucfirst(LABEL_borraRelacion).'</a>]</li>';
 			$linkUpdateTterm["$array[tterm_uri]"].= '</ul>';
-			
-			$status_tterm='x';
-
+			$array[tema_id]["status_tterm"]= false;
 		}
 /*
 		hay actualizacion del término
@@ -1228,22 +1203,20 @@ while($array=mysqli_fetch_array($sql[datos])){
 			$linkUpdateTterm["$array[tterm_uri]"].= '<li>[<a href="admin.php?doAdmin=seeTermsTargetVocabulary&amp;doAdmin2=checkDateTermsTargetVocabulary&amp;tvocab_id='.$ARRAYtargetVocabulary[tvocab_id].'&amp;f='.$from.'&amp;tterm_id='.$array[tterm_id].'&amp;tema='.$array[tema_id].'&amp;taskrelations=delTgetTerm" title="'.ucfirst(LABEL_borraRelacion).'">'.ucfirst(LABEL_borraRelacion).'</a>]</li>';
 			$linkUpdateTterm["$array[tterm_uri]"].= '</ul>';
 			
-			$status_tterm='1';
+			$array[tema_id]["status_tterm"]= true;
 		}
-		
+		else
+		{
+			$array[tema_id]["status_tterm"]= true;
+		}
 	}
-/*
-	else
-	{
-			$status_tterm='1';
-	}
-*/
+	
 	$rows.='<tr>';
 	
 	$rows.='<td class="izq"><a href="index.php?tema='.$array[tema_id].'" title="'.LABEL_verDetalle.' '.$array[tema].'">'.$array[tema].'</a></td>';
 	$rows.='<td class="izq">';
 	
-	$rows.=($status_tterm=='1') ? ' <a href="'.$array[tterm_url].'" title="'.LABEL_verDetalle.' '.FixEncoding($array[tterm_string]).'" >'.FixEncoding($array[tterm_string]).'</a>' : FixEncoding($array[tterm_string]);
+	$rows.=($array[tema_id]["status_tterm"]==1) ? ' <a href="'.$array[tterm_url].'" title="'.LABEL_verDetalle.' '.FixEncoding($array[tterm_string]).'" >'.FixEncoding($array[tterm_string]).'</a>' : FixEncoding($array[tterm_string]);
 	
 	$rows.=' '.$linkUpdateTterm["$array[tterm_uri]"].'</td>';
 	$rows.='<td class="izq">'.$last_term_update.'</td>';

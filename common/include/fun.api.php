@@ -211,6 +211,27 @@ function fetchRelatedTermsByIds($tema_id_list){
 	return $result;
 	}
 
+// Devuelve lista de términos mapeados para un tema_id
+// array(tema_id,string)
+function fetchTargetTermsById($tema_id){
+
+	$sql=SQLtargetTerms($tema_id);
+
+	while($array=mysqli_fetch_array($sql[datos])){
+		$result["result"][$array[tterm_id]]= array(
+					
+					"string"=>$array[tterm_string],
+					"url"=>$array[tterm_url],
+					"uri"=>$array[tterm_uri],
+					"term_id"=>$array[tema_id],
+					"target_vocabulary_label"=>$array[tvocab_label],
+					"target_vocabulary_tag"=>$array[tvocab_tag],
+					"target_vocabulary_title"=>$array[tvocab_title]
+					);
+		};
+	return $result;
+	}
+
 // Array de términos que comienzan con una letra
 // array(tema_id,string,no_term_string,relation_type_id)
 function fetchTermsByLetter($letter){
@@ -389,6 +410,11 @@ function describeService(){
 	$array['fetchSimilar']['arg'] = 'string (for example: arg=trrends)';
 	$array['fetchSimilar']['example'] = $_SESSION["CFGURL"].'/services.php?task=letter&arg=a';
 
+	$array['fetchTargetTerms']['action'] = 'Search and retrieve data about target terms mapped via web services for one term_id';
+	$array['fetchTargetTerms']['task'] = 'fetchTargetTerms';
+	$array['fetchTargetTerms']['arg'] = 'one ID term_id (int)';
+	$array['fetchTargetTerms']['example'] = $_SESSION["CFGURL"].'/services.php?task=fetchTargetTerms&arg=1';
+
 	$array['fetchVocabularyData']['action'] = 'Retrieve data about vocabulary';
 	$array['fetchVocabularyData']['task'] = 'fetchVocabularyData ';
 	$array['fetchVocabularyData']['arg'] = '1';
@@ -505,6 +531,12 @@ if(CFG_SIMPLE_WEB_SERVICE !== "1"){
 		// Devuelve lista de términos relacionados para una lista separada por comas de tema_id
 		// array(tema_id,string)
 		$response = $service-> fetchRelatedTermsByIds($arg);
+		break;
+
+		case 'fetchTargetTerms':
+		// Devuelve lista de términos mapeados para un tema_id
+		// array(tema_id,string)
+		$response = $service-> fetchTargetTermsById($arg);
 		break;
 
 		case 'letter':

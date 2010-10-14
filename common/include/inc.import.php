@@ -137,7 +137,7 @@ if($_SESSION[$_SESSION["CFGURL"]][ssuser_nivel]=='1'){
 		<?php }
 
 		if ( $end == $stop ) {
-			echo '<p><a href="admin.php?doAdmin=import&amp;do_it=1&amp;dernier='.$dernier.'&amp;start='.$end.'">'.ucfirst(IMPORT_working).' ('.LABEL_Termino.' '.$end.')</a></p>' ;
+			echo '<p><a href="admin.php?doAdmin=import&do_it=1&dernier='.$dernier.'&start='.$end.'">'.ucfirst(IMPORT_working).' ('.LABEL_Termino.' '.$end.')</a></p>' ;
 		}
 		else {
 			echo '<p class="true">'.ucfirst(IMPORT_finish).'</p>' ;
@@ -160,7 +160,7 @@ if($_SESSION[$_SESSION["CFGURL"]][ssuser_nivel]=='1'){
 
 	if ( file_exists($src_txt) ) {
 		echo "<p>".ucfirst(IMPORT_file_already_exists)."</p>" ;
-		echo "<p><a href=\"admin.php?doAdmin=import&amp;do_it=true\">".ucfirst(IMPORT_do_it)."</a></p>" ;
+		echo "<p><a href=\"admin.php?doAdmin=import&do_it=true\">".ucfirst(IMPORT_do_it)."</a></p>" ;
 	}
 	else {
 		echo "<p>".ucfirst(IMPORT_file_not_exists)."</p>" ;

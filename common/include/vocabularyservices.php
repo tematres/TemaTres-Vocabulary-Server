@@ -105,7 +105,7 @@ Hacer una consulta y devolver un array
 * +    & arg = argumentos de la consulta
 */
 function xmlVocabulary2array($url){
-	$url= str_replace(' ','%',$url);
+	$url=$string = str_replace(' ','%',$url);
 	$xml=file_get_contents($url) or die ("Could not open a feed called: " . $url);
 	return xml2arraySimple($xml);
 	}

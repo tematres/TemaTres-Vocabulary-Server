@@ -290,7 +290,8 @@ $idiomas_disponibles = array(
      "fr"  => array("français","", "fr"),
      "it"  => array("italiano","", "it"),
      "nl"  => array("nederlands","", "nl"),
-     "pt"  => array("portugüés","", "pt")    
+     "pl"  => array("polski","", "pl"),    
+     "pt"  => array("portugüés","", "pt")
     );
 
 /* Install messages */
@@ -360,8 +361,11 @@ define('LABEL_tvocab_label',"leyenda de la referencia");
 define('LABEL_tvocab_tag',"etiqueta de la referencia");
 define('LABEL_tvocab_uri_service',"URL del servicio web de referencia");
 define('LABEL_targetTermsforUpdate',"términos con actualizaciones pendientes");
-define('LABEL_ShowTargetTermsforUpdate',"revisar actualizaciones de términos");
+define('LABEL_ShowTargetTermsforUpdate',"actualizar términos");
+define('LABEL_ShowTargetTermforUpdate',"actualizar");
 define('LABEL_enable',"habilitado");
 define('LABEL_disable',"deshabilitado");
 define('LABEL_notFound',"término no encontrado");
+define('LABEL_termUpdated',"término actualizado");
+define('LABEL_relbetweenVocabularies',"relaciones entre vocabularios");
 ?>

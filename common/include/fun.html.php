@@ -1,21 +1,21 @@
 <?php
-#   TemaTres : aplicaciÛn para la gestiÛn de lenguajes documentales #       #
+#   TemaTres : aplicaci√≥n para la gesti√≥n de lenguajes documentales #       #
 #                                                                        #
 #   Copyright (C) 2004-2008 Diego Ferreyra tematres@r020.com.ar
-#   Distribuido bajo Licencia GNU Public License, versiÛn 2 (de junio de 1.991) Free Software Foundation
+#   Distribuido bajo Licencia GNU Public License, versi√≥n 2 (de junio de 1.991) Free Software Foundation
 #  
 ###############################################################################################################
 # Funciones HTML. #
 #
 
 #
-# Armado de resultados de b˙squeda
+# Armado de resultados de b√∫squeda
 #
 function resultaBusca($texto,$tipo=""){
 
 $texto=trim($texto);
 
-//AnulaciÛn de sugerencia de tÈrminos
+//Anulaci√≥n de sugerencia de t√©rminos
 $sgs=$_GET[sgs];
 
 //Ctrol lenght string
@@ -49,13 +49,13 @@ if($sql[cant]>0)
 
 		if($ibusca=='1')
 		{
-			//Guardar el primer tÈrmino para ver si hay coincidencia exacta
+			//Guardar el primer t√©rmino para ver si hay coincidencia exacta
 			$primerTermino=$resulta_busca[tema];
 		}
 		
 		$leyendaTerminoLibre=($resulta_busca[esTerminoLibre]=='SI') ? ' ('.LABEL_terminoLibre.')' : '';
 
-	//Si no es un tÈrmino preferido
+	//Si no es un t√©rmino preferido
 		if($resulta_busca[termino_preferido])
 		{
 				switch($resulta_busca[t_relacion])
@@ -64,26 +64,26 @@ if($sql[cant]>0)
 				$leyendaConector=USE_termino;
 				break;
 	
-				case '5'://Tipo relacion tÈrmino equivalente parcialmente
+				case '5'://Tipo relacion t√©rmino equivalente parcialmente
 				$leyendaConector='<acronym title="'.LABEL_termino_parcial_equivalente.'" lang="'.LANG.'">'.EQP_acronimo.'</acronym>';
 				break;
 	
-				case '6'://Tipo relacion tÈrmino equivalente
+				case '6'://Tipo relacion t√©rmino equivalente
 				$leyendaConector='<acronym title="'.LABEL_termino_equivalente.'" lang="'.LANG.'">'.EQ_acronimo.'</acronym>';
 				break;
 	
-				case '7'://Tipo relacion tÈrmino no equivalente
+				case '7'://Tipo relacion t√©rmino no equivalente
 				$leyendaConector='<acronym title="'.LABEL_termino_no_equivalente.'" lang="'.LANG.'">'.NEQ_acronimo.'</acronym>';
 				break;
 	
-				case '8'://Tipo relacion tÈrmino equivalente inexacta
+				case '8'://Tipo relacion t√©rmino equivalente inexacta
 				$leyendaConector='<acronym title="'.LABEL_termino_parcial_equivalente.'" lang="'.LANG.'">'.EQP_acronimo.'</acronym>';
 				break;
 				}
 
 			$row_result.='<li><em><a title="'.LABEL_verDetalle.$resulta_busca[tema].'" href="index.php?tema='.$resulta_busca[tema_id].'&amp;/'.string2url($resulta_busca[tema]).'">'.$resulta_busca[tema].'</a></em> '.$leyendaConector.' <a title="'.LABEL_verDetalle.$resulta_busca[tema].'" href="index.php?tema='.$resulta_busca[id_definitivo].'">'.$resulta_busca[termino_preferido].'</a> </li>'."\r\n" ;
 		}
-		else // es un tÈrmino preferido
+		else // es un t√©rmino preferido
 		{
 			$row_result.='<li><a title="'.LABEL_verDetalle.$resulta_busca[tema].'" href="index.php?tema='.$resulta_busca[id_definitivo].'&amp;/'.string2url($resulta_busca[tema]).'">'.$resulta_busca[tema].'</a> '.$leyendaTerminoLibre.'</li>'."\r\n" ;
 		}
@@ -99,7 +99,7 @@ if($sql[cant]>0)
 	}
 
 }
-elseif(strlen($texto)>=CFG_MIN_SEARCH_SIZE)// Si no hay resultados y la expresiÛn es mayor al mÌnimo
+elseif(strlen($texto)>=CFG_MIN_SEARCH_SIZE)// Si no hay resultados y la expresi√≥n es mayor al m√≠nimo
 {
 
 	$body.=HTMLsugerirTermino($texto);
@@ -126,13 +126,13 @@ function doContextoTermino($idTema,$i_profundidad){
 GLOBAL $CFG;
 
 //recibe de HTMLbodyTermino
-//$idTema = id del tÈrmino
+//$idTema = id del t√©rmino
 //$i_profundidad= contador de profundidad
 
-//Terminos especÌficos
+//Terminos espec√≠ficos
 $sqlNT=SQLverTerminosE($idTema);
 
-//Se devolver· el tema_id para utilizar en fuentes XML y como tema_id canÛnico
+//Se devolver√° el tema_id para utilizar en fuentes XML y como tema_id can√≥nico
 $tema_id=$idTema;
 
 while ($datosNT=mysqli_fetch_array($sqlNT[datos])){
@@ -151,7 +151,7 @@ while ($datosNT=mysqli_fetch_array($sqlNT[datos])){
 		};
 	$row_NT.=' <li id="t'.$datosNT[id_tema].'">'.$td_delete.'<acronym title="'.TE_termino.'" lang="'.LANG.'">'.TE_acronimo.$i_profundidad.'</acronym>';
 	
-	//Editor de cÛdigo
+	//Editor de c√≥digo
 	if(($_SESSION[$_SESSION["CFGURL"]][ssuser_id]) && ($CFG["_USE_CODE"]=='1'))
 	{
 		$row_NT.='<div title="term code, click to edit" class="editable_textarea" id="code_tema'.$datosNT[id_tema].'">'.$datosNT[code].'</div>';
@@ -214,14 +214,14 @@ while($datosTotalRelacionados= mysqli_fetch_array($sqlTotalRelacionados[datos]))
 	}
 };
 
-//Si no es un tÈrmino v·lido y es un UF.
+//Si no es un t√©rmino v√°lido y es un UF.
 if($sqlTotalRelacionados[cant]==0){
 	
 	$sqlTerminosValidosUF=SQLterminosValidosUF($idTema);
 
 	while($arrayTerminosValidosUF= mysqli_fetch_array($sqlTerminosValidosUF[datos])){
 		
-		//ReasignaciÛn del tema_id para utilizar en fuentes XML y como tema_id canÛnico
+		//Reasignaci√≥n del tema_id para utilizar en fuentes XML y como tema_id can√≥nico
 		$tema_id=$arrayTerminosValidosUF[tema_pref_id];
 		
 		switch($arrayTerminosValidosUF[t_relacion]){
@@ -330,7 +330,7 @@ $body.='<div id="relacionesTermino">';
 $body.=$HTMLterminos[HTMLterminos]["UP"];
 $body.=$HTMLterminos[HTMLterminos]["TG"];
 
-	//Editor de cÛdigo
+	//Editor de c√≥digo
 	if(($_SESSION[$_SESSION["CFGURL"]][ssuser_id]) && ($CFG["_USE_CODE"]=='1'))
 	{
 		$body.='<div title="term code, click to edit" class="editable_textarea" id="code_tema'.$array[tema_id].'">'.$array[code].'</div>';
@@ -384,7 +384,7 @@ $body.='</ul>'.$label_estado.'</div> ';
 $body.=HTML_URLsearch($CFG[SEARCH_URL_SITES],$array);
 
 /*
- * $HTMLterminos[tema_id] es el ID del tÈrmino v·lido siempre
+ * $HTMLterminos[tema_id] es el ID del t√©rmino v√°lido siempre
  * 
 */
 $body.='<ul id="enlaces_xml">';
@@ -403,7 +403,7 @@ return $body;
 menu: deprecated
 */
 function do_menuABM($array_tema,$relacionesTermino){
-//SÛlo si hay session
+//S√≥lo si hay session
 if($_SESSION[$_SESSION["CFGURL"]][ssuser_id]){
 
 $sqlcheckIsValidTerm=SQLcheckIsValidTerm($array_tema[idTema]);
@@ -466,7 +466,7 @@ if( ( ($relacionesTermino[cantTG]==0) || ($_SESSION[CFGPolijerarquia]=='1') ) &&
 		$row.='      <li><a href="#" onmouseover="montre(\'menu_opciones\');" onmouseout="cache(\'menu_opciones\');" >'.ucfirst(LABEL_Opciones).'</a><menu id="menu_opciones" onmouseover="montre(\'menu_opciones\');" onmouseout="cache(\'menu_opciones\');">';
 		$row.='      <li><a title="'.MENU_EditT.'" href="index.php?taskterm=editTerm&amp;tema='.$array_tema[idTema].'">'.ucfirst(MENU_EditT).'</a></li>';
 		
-		//es un tÈrmino que admite notas y relaciones
+		//es un t√©rmino que admite notas y relaciones
 		if($sqlcheckIsValidTerm[cant]=='0')
 		{
 			$row.='     <li><a title="'.LABEL_EditorNota.'" href="index.php?taskterm=editNote&amp;note_id=?&amp;editNota=?&amp;tema='.$array_tema[idTema].'">'.ucfirst(LABEL_EditorNota).'</a></li>';
@@ -475,7 +475,7 @@ if( ( ($relacionesTermino[cantTG]==0) || ($_SESSION[CFGPolijerarquia]=='1') ) &&
 		}	
 		$row.='    </menu></li>';
 
-		//solo acepta relaciones si el tÈrmino esta aceptado
+		//solo acepta relaciones si el t√©rmino esta aceptado
 		if(($array_tema[estado_id]=='13') && ($sqlcheckIsValidTerm[cant]=='0')){
 			$row.='<li><a href="#" onmouseover="montre(\'menu_agregar\');" onmouseout="cache(\'menu_agregar\');" >'.ucfirst(LABEL_Agregar).'</a><menu id="menu_agregar" onmouseover="montre(\'menu_agregar\');" onmouseout="cache(\'menu_agregar\');">';
 			//link agregar un TE
@@ -508,7 +508,7 @@ function HTMLmainMenu(){
 	$row.='<ul class="menumanager">';
 
 /*
-Agregar tÈrm
+Agregar t√©rm
 */
         $row.='<li><a title="'.ucfirst(MENU_AgregarT).'" href="index.php?taskterm=addTerm&amp;tema=0">'.ucfirst(MENU_AgregarT).'</a></li>';
 
@@ -605,7 +605,7 @@ if( ( ($relacionesTermino[cantTG]==0) || ($_SESSION[CFGPolijerarquia]=='1') ) &&
 	
 	
 		$row.='      <li><a title="'.MENU_EditT.'" href="index.php?taskterm=editTerm&amp;tema='.$array_tema[idTema].'">'.ucfirst(MENU_EditT).'</a></li>';	
-		//es un tÈrmino que admite notas y relaciones
+		//es un t√©rmino que admite notas y relaciones
 		if($sqlcheckIsValidTerm[cant]=='0')
 		{
 			$row.='     <li><a title="'.LABEL_EditorNota.'" href="index.php?taskterm=editNote&amp;note_id=?&amp;editNota=?&amp;tema='.$array_tema[idTema].'">'.ucfirst(LABEL_EditorNota).'</a></li>';
@@ -614,30 +614,36 @@ if( ( ($relacionesTermino[cantTG]==0) || ($_SESSION[CFGPolijerarquia]=='1') ) &&
 		$row.=$link_estado;
 		
 		
-		//solo acepta relaciones si el tÈrmino esta aceptado
+		//solo acepta relaciones si el t√©rmino esta aceptado
 		if(($array_tema[estado_id]=='13') && ($sqlcheckIsValidTerm[cant]=='0')){
 			$row.='<li><a href="#">'.ucfirst(LABEL_Agregar).'</a><ul id="menu_agregar">';
-			//link agregar un TE
-			$row.='     <li><a title="'.MENU_AgregarTE.'" href="index.php?taskterm=addNT&amp;tema='.$array_tema[idTema].'">'.ucfirst(MENU_AgregarTE).'</a></li>';
-			//link agregar un UP
-			$row.='     <li><a href="index.php?taskterm=addUF&amp;tema='.$array_tema[idTema].'">'.ucfirst(MENU_AgregarUP).'</a></li>';
-			//link agregar un EQ
-			$row.='     <li><a title="'.LABEL_relacion_vocabulario.'" href="index.php?taskterm=addEQ&amp;tema='.$array_tema[idTema].'">'.ucfirst(LABEL_relacion_vocabulario).'</a></li>';
-			//link agregar un tÈrmino externo vÌa web services
-			$row.='     <li><a title="'.LABEL_relacion_vocabularioWebService.'" href="index.php?taskterm=findTargetTerm&amp;tema='.$array_tema[idTema].'">'.ucfirst(LABEL_relacion_vocabularioWebService).'</a></li>';
-			$row.='    </ul></li>';
 			
-			
-			$row.='<li><a href="#">'.ucfirst(FORM_LABEL_RelTerminos).'</a><ul id="menu_agregar_relaciones">';
 			//link agregar un TE
-			$row.='    '.$link_subordinar.'';
-			$row.='     <li><a title="'.MENU_AgregarTEexist.'" href="index.php?taskterm=addFreeNT&amp;tema='.$array_tema[idTema].'">'.ucfirst(MENU_AgregarTEexist).'</a></li>'; //SafetyLit			
-
+			$row.='     <li><a title="'.MENU_AgregarTE.'" href="#">'.ucfirst(MENU_AgregarTE).'</a><ul>';
+			
+			//elegir v√≠a de agregacion
+			$row.='     <li><a title="'.MENU_AgregarTE.'" href="index.php?taskterm=addNT&amp;tema='.$array_tema[idTema].'">'.ucfirst(MENU_AgregarT).'</a></li>';
+			$row.='     <li><a title="'.MENU_AgregarTEexist.'" href="index.php?taskterm=addFreeNT&amp;tema='.$array_tema[idTema].'">'.ucfirst(MENU_AgregarTEexist).'</a></li>'; //SafetyLit					
+			$row.='</ul></li>';
+	
 			//link agregar un UP
-			$row.='     <li><a href="index.php?taskterm=addFreeUF&amp;tema='.$array_tema[idTema].'">'.ucfirst(MENU_AgregarUPexist).'</a></li>'; //SafetyLit			
+			$row.='     <li><a title="'.MENU_AgregarUP.'" href="#">'.ucfirst(MENU_AgregarUP).'</a><ul>';
+			//elegir v√≠a de agregacion
+			$row.='     <li><a href="index.php?taskterm=addUF&amp;tema='.$array_tema[idTema].'">'.ucfirst(MENU_AgregarT).'</a></li>';
+			$row.='     <li><a href="index.php?taskterm=addFreeUF&amp;tema='.$array_tema[idTema].'">'.ucfirst(MENU_AgregarUPexist).'</a></li>'; //SafetyLit	
+			$row.='</ul></li>';
 
 			//link agregar un TR
 			$row.='     <li><a title="'.MENU_AgregarTR.'" href="index.php?taskterm=addRT&amp;tema='.$array_tema[idTema].'">'.ucfirst(MENU_AgregarTR).'</a></li>';
+			$row.='    '.$link_subordinar;
+			$row.='    </ul></li>';
+			
+			
+			$row.='<li><a href="#">'.ucfirst(LABEL_relbetweenVocabularies).'</a><ul id="menu_agregar_relaciones">';
+		//link agregar un EQ
+			$row.='     <li><a title="'.LABEL_vocabulario_referencia.'" href="index.php?taskterm=addEQ&amp;tema='.$array_tema[idTema].'">'.ucfirst(LABEL_vocabulario_referencia).'</a></li>';
+			//link agregar un t√©rmino externo v√≠a web services
+			$row.='     <li><a title="'.LABEL_relacion_vocabularioWebService.'" href="index.php?taskterm=findTargetTerm&amp;tema='.$array_tema[idTema].'">'.ucfirst(LABEL_vocabulario_referenciaWS).'</a></li>';
 			$row.='    </ul>
 			</li>';
 			}
@@ -655,7 +661,7 @@ return $row;
 
 
 #
-# Ficha del tÈrmino
+# Ficha del t√©rmino
 #
 function HTMLNotasTermino($array){
   if(count($array[notas])){
@@ -804,7 +810,7 @@ function evalSubordina($datos,$i,$idTemaEvaluado){
 
 
 #
-# Armado del men˙ de cambio de idioma
+# Armado del men√∫ de cambio de idioma
 #
 function doMenuLang(){
 
@@ -833,7 +839,7 @@ function doMenuLang(){
 
 
 #
-# Armado de tabla de tÈrminos seg˙n meses
+# Armado de tabla de t√©rminos seg√∫n meses
 #
 function doBrowseTermsFromDate($month,$year,$ord=""){
 
@@ -884,7 +890,7 @@ function doBrowseTermsFromDate($month,$year,$ord=""){
 
 
 #
-# Armado de browse de tÈrminos
+# Armado de browse de t√©rminos
 #
 function doBrowseTermsByDate(){
         GLOBAL $MONTHS;
@@ -965,7 +971,7 @@ function HTMLlistaAlfabetica($letra=""){
 
 $letra=urldecode($letra[0]);
 
-$sqlMenuAlfabetico=SQLlistaABC($letra);
+$sqlMenuAlfabetico=SQLlistaABC();
 
 $openBodyDiv='<div id="bodyText"><h1>'.MENU_ListaAbc.'</h1>';
 
@@ -1001,26 +1007,26 @@ if ($letra!=='?')
 	$terminosLetra.='<div id="listaBusca"><ul>';
 	while ($datosLetra= mysqli_fetch_array($sqlDatosLetra[datos])){
 
-	//Si no es un tÈrmino preferido
+	//Si no es un t√©rmino preferido
 		if($datosLetra[termino_preferido]){
 			switch($datosLetra[t_relacion]){
 //UF
 				case '4':
 				$leyendaConector=USE_termino;
 				break;
-//Tipo relacion tÈrmino equivalente parcialmente
+//Tipo relacion t√©rmino equivalente parcialmente
 				case '5':
 				$leyendaConector='<acronym title="'.LABEL_termino_parcial_equivalente.'" lang="'.LANG.'">'.EQP_acronimo.'</acronym>';
 				break;
-//Tipo relacion tÈrmino equivalente
+//Tipo relacion t√©rmino equivalente
 				case '6':
 				$leyendaConector='<acronym title="'.LABEL_termino_equivalente.'" lang="'.LANG.'">'.EQ_acronimo.'</acronym>';
 				break;
-//Tipo relacion tÈrmino no equivalente
+//Tipo relacion t√©rmino no equivalente
 				case '7':
 				$leyendaConector='<acronym title="'.LABEL_termino_no_equivalente.'" lang="'.LANG.'">'.NEQ_acronimo.'</acronym>';
 				break;
-//Tipo relacion tÈrmino equivalente inexacta
+//Tipo relacion t√©rmino equivalente inexacta
 				case '8':
 				$leyendaConector='<acronym title="'.LABEL_termino_parcial_equivalente.'" lang="'.LANG.'">'.EQP_acronimo.'</acronym>';
 				break;
@@ -1046,7 +1052,7 @@ return $openBodyDiv.$menuAlfabetico.$terminosLetra.$endBodyDiv;
 };
 
 #
-# Expande una busqueda hacia arriba == busca los tÈrminos m·s generales de los tÈrminos especificos devueltos en una busqueda
+# Expande una busqueda hacia arriba == busca los t√©rminos m√°s generales de los t√©rminos especificos devueltos en una busqueda
 #
 function HTMLbusquedaExpandidaTG($acumula_indice,$acumula_temas){
 global $DBCFG;
@@ -1066,7 +1072,7 @@ while (list($key, $val) = each($array_indice))
 };
 
 
-//Si no hay tÈrminos m·s genericos que los resultados
+//Si no hay t√©rminos m√°s genericos que los resultados
 if(@$temas_ids)
 {
 	$sql=SQLlistaTema_id(substr($temas_ids,0,-1));
@@ -1093,12 +1099,12 @@ return $row_result;
 
 
 #
-# Expande una busqueda hacia terminos relacionados == busca los tÈrminos relacionados de los tÈrminos especificos devueltos en una busqueda
+# Expande una busqueda hacia terminos relacionados == busca los t√©rminos relacionados de los t√©rminos especificos devueltos en una busqueda
 #
 function HTMLbusquedaExpandidaTR($acumula_temas){
 
 $temas_ids=str_replace("|",",", $acumula_temas);
-//Si no hay tÈrminos m·s genericos que los resultados
+//Si no hay t√©rminos m√°s genericos que los resultados
 if(@$temas_ids){
 $sql=SQLexpansionTR(substr($temas_ids,0,-1));
 
@@ -1127,7 +1133,7 @@ GLOBAL $CFG;
 $sql=SQLverTerminosE($tema_id);
 $rows='<ul id="masTE'.$tema_id.'" style="display: none">';
 
-//Contador de profundidad de TE desde la raÌz
+//Contador de profundidad de TE desde la ra√≠z
 $i_profundidad=++$i_profundidad;
 
 //Contador de profundidad de TE desde el TE base
@@ -1221,7 +1227,7 @@ $rows.='<div class="clearer-top"></div>';
 while ($array = mysqli_fetch_array($sql[datos])){
 
 	$rows.='<h2 class="TT">';
-	//Editor de cÛdigo
+	//Editor de c√≥digo
 	if(($_SESSION[$_SESSION["CFGURL"]][ssuser_id]) && ($CFG["_USE_CODE"]=='1'))
 	{
 		$rows.='<div title="term code, click to edit" class="editable_textarea" id="code_tema'.$array[tema_id].'">'.$array[code].'</div>';
@@ -1250,7 +1256,10 @@ $sqlMenuAlfabetico=SQLlistaABC($letra);
 
 while ($datosAlfabetico = mysqli_fetch_row($sqlMenuAlfabetico[datos])) 
 {
+/*
 	if(ctype_alpha($datosAlfabetico[0]))
+*/
+	if(!ctype_digit($datosAlfabetico[0]))
 	{
 	$classMenu = ($datosAlfabetico[1]==0)  ? '' : ' class="selected" ';
 	$menuAlfabetico.='<a '.$classMenu.' title="'.LABEL_verTerminosLetra.' '.$datosAlfabetico[0].'" href="'.$PHP_SELF.'?letra='.$datosAlfabetico[0].'">'.$datosAlfabetico[0].'</a>';        
@@ -1277,7 +1286,10 @@ function HTMLterminosLetra($letra)
 
 $sqlDatosLetra=SQLmenuABC($letra);
 
+/*
 $letra_label= (ctype_alpha($letra)) ?  $letra : '0-9';
+*/
+$letra_label= (!ctype_digit($letra)) ?  $letra : '0-9';
 $terminosLetra.='<div id="breadScrumb" class="letters"><ol><li><a title="'.MENU_Inicio.'" href="index.php">'.ucfirst(MENU_Inicio).'</a></li><li><em>'.$letra_label.'</em>: <strong>'.$sqlDatosLetra[cant].' </strong>'.LABEL_Terminos.'</li></ol></div>';
 
 if($sqlDatosLetra[cant])
@@ -1285,26 +1297,26 @@ if($sqlDatosLetra[cant])
 $terminosLetra.='<div id="listaBusca"><ul>';
 while ($datosLetra= mysqli_fetch_array($sqlDatosLetra[datos])){
 
-//Si no es un tÈrmino preferido
+//Si no es un t√©rmino preferido
 	if($datosLetra[termino_preferido]){
 		switch($datosLetra[t_relacion]){
 			//UF
 			case '4':
 			$leyendaConector=USE_termino;
 			break;
-			//Tipo relacion tÈrmino equivalente parcialmente
+			//Tipo relacion t√©rmino equivalente parcialmente
 			case '5':
 			$leyendaConector='<acronym title="'.LABEL_termino_parcial_equivalente.'" lang="'.LANG.'">'.EQP_acronimo.'</acronym>';
 			break;
-			//Tipo relacion tÈrmino equivalente
+			//Tipo relacion t√©rmino equivalente
 			case '6':
 			$leyendaConector='<acronym title="'.LABEL_termino_equivalente.'" lang="'.LANG.'">'.EQ_acronimo.'</acronym>';
 			break;
-			//Tipo relacion tÈrmino no equivalente
+			//Tipo relacion t√©rmino no equivalente
 			case '7':
 			$leyendaConector='<acronym title="'.LABEL_termino_no_equivalente.'" lang="'.LANG.'">'.NEQ_acronimo.'</acronym>';
 			break;
-			//Tipo relacion tÈrmino equivalente inexacta
+			//Tipo relacion t√©rmino equivalente inexacta
 			case '8':
 			$leyendaConector='<acronym title="'.LABEL_termino_parcial_equivalente.'" lang="'.LANG.'">'.EQP_acronimo.'</acronym>';
 			break;
@@ -1329,7 +1341,7 @@ while ($datosLetra= mysqli_fetch_array($sqlDatosLetra[datos])){
 
 
 #
-# Armado de resultados de b˙squeda avanzada
+# Armado de resultados de b√∫squeda avanzada
 #
 function HTMLadvancedSearchResult($array){
 
@@ -1339,7 +1351,7 @@ $array[xstring]=secure_data(trim($array[xstring]),"sql");
 if(strlen(trim($array[xstring]))>=CFG_MIN_SEARCH_SIZE)
 {
 	$sql= SQLadvancedSearch($array);
-
+echo $sql[error];
 	$classMensaje= ($sql[cant]) ? 'information' : 'warning';
 	
 	$resumeResult = '<p id="adsearch" class='.$classMensaje.'><strong>'.$sql[cant].'</strong> '.MSG_ResultBusca.' <strong> "<em>'.stripslashes($array[xstring]).'</em>"</strong></p>';
@@ -1359,7 +1371,7 @@ if($sql[cant]>0)
 	 while($resulta_busca=mysqli_fetch_array($sql[datos])){
 		$ibusca=++$ibusca;
 
-		//Si no es un tÈrmino preferido
+		//Si no es un t√©rmino preferido
 		if($resulta_busca[uf_tema_id])
 		{
 				switch($resulta_busca[t_relacion])
@@ -1368,26 +1380,26 @@ if($sql[cant]>0)
 				$leyendaConector=USE_termino;
 				break;
 	
-				case '5'://Tipo relacion tÈrmino equivalente parcialmente
+				case '5'://Tipo relacion t√©rmino equivalente parcialmente
 				$leyendaConector='<acronym title="'.LABEL_termino_parcial_equivalente.'" lang="'.LANG.'">'.EQP_acronimo.'</acronym>';
 				break;
 	
-				case '6'://Tipo relacion tÈrmino equivalente
+				case '6'://Tipo relacion t√©rmino equivalente
 				$leyendaConector='<acronym title="'.LABEL_termino_equivalente.'" lang="'.LANG.'">'.EQ_acronimo.'</acronym>';
 				break;
 	
-				case '7'://Tipo relacion tÈrmino no equivalente
+				case '7'://Tipo relacion t√©rmino no equivalente
 				$leyendaConector='<acronym title="'.LABEL_termino_no_equivalente.'" lang="'.LANG.'">'.NEQ_acronimo.'</acronym>';
 				break;
 	
-				case '8'://Tipo relacion tÈrmino equivalente inexacta
+				case '8'://Tipo relacion t√©rmino equivalente inexacta
 				$leyendaConector='<acronym title="'.LABEL_termino_parcial_equivalente.'" lang="'.LANG.'">'.EQP_acronimo.'</acronym>';
 				break;
 				}
 
 			$row_result.='<li><em><a title="'.LABEL_verDetalle.$resulta_busca[tema].'" href="index.php?tema='.$resulta_busca[uf_tema_id].'&amp;/'.string2url($resulta_busca[uf_tema]).'">'.$resulta_busca[uf_tema].'</a></em> '.$leyendaConector.' <a title="'.LABEL_verDetalle.$resulta_busca[tema].'" href="index.php?tema='.$resulta_busca[tema_id].'">'.$resulta_busca[tema].'</a> </li>'."\r\n" ;
 		}
-		else // es un tÈrmino preferido
+		else // es un t√©rmino preferido
 		{
 			$row_result.='<li><a title="'.LABEL_verDetalle.$resulta_busca[tema].'" href="index.php?tema='.$resulta_busca[tema_id].'&amp;/'.string2url($resulta_busca[tema]).'">'.$resulta_busca[tema].'</a></li>'."\r\n" ;
 		}
@@ -1417,9 +1429,20 @@ function HTMLtargetTerms($tema_id)
 		
 	 while ($array=mysqli_fetch_array($sql[datos]))
 		{
-			$del = ($_SESSION[$_SESSION["CFGURL"]][ssuser_id]) ?  '[<a id="elimina_'.$array[tterm_id].'" title="'.LABEL_borraRelacion.'"  class="eliminar" href="'.$PHP_SELF.'?tterm_id='.$array[tterm_id].'&amp;tema='.$tema_id.'&amp;tvocab_id='.$array[tvocab_id].'&amp;taskrelations=delTgetTerm" onclick="return askData();"><acronym title="'.LABEL_borraRelacion.'" lang="'.LANG.'">x</acronym></a>]' : '';
+			if ($_SESSION[$_SESSION["CFGURL"]][ssuser_id]) 
+			{
+				$delLink= '[<a id="elimina_'.$array[tterm_id].'" title="'.LABEL_borraRelacion.'"  class="eliminar" href="'.$PHP_SELF.'?tterm_id='.$array[tterm_id].'&amp;tema='.$tema_id.'&amp;tvocab_id='.$array[tvocab_id].'&amp;taskrelations=delTgetTerm" onclick="return askData();"><acronym title="'.LABEL_borraRelacion.'" lang="'.LANG.'">x</acronym></a>]'; 
+				$checkLink= '[<a id="actua_'.$array[tterm_id].'" title="'.LABEL_ShowTargetTermforUpdate.'"  href="'.$PHP_SELF.'?tterm_id='.$array[tterm_id].'&amp;tema='.$tema_id.'&amp;tvocab_id='.$array[tvocab_id].'&amp;tterm_id='.$array[tterm_id].'&amp;taskEdit=checkDateTermsTargetVocabulary">'.LABEL_ShowTargetTermforUpdate.'</a>]'; 
+				
+				$ttermManageLink=' '.$delLink.' '.$checkLink.'  ';
+			
+			}
+			
+			
 
-			$rows.='<li>'.$del.' '.FixEncoding(ucfirst($array[tvocab_label])).' <a href="'.$array[tterm_url].'" title="'.FixEncoding($array[tterm_string]).'">'.FixEncoding($array[tterm_string]).'</a></li>';
+			$rows.='<li>'.$ttermManageLink.' '.FixEncoding(ucfirst($array[tvocab_label])).' <a href="'.$array[tterm_url].'" title="'.FixEncoding($array[tterm_string]).'">'.FixEncoding($array[tterm_string]).'</a>';
+			$rows.=(($_GET[taskEdit]=='checkDateTermsTargetVocabulary') && ($_GET[tterm_id]==$array[tterm_id]) && ($_SESSION[$_SESSION["CFGURL"]][ssuser_nivel])) ? HTMLcheckTargetTerm($array) : '';
+			$rows.='</li>';
 
 		}
 		$rows.='</ul>';
@@ -1427,5 +1450,51 @@ function HTMLtargetTerms($tema_id)
 
 return $rows;	
 }
+
+
+/*
+check changes in one foreing term
+*/
+function HTMLcheckTargetTerm($array) 
+{
+
+$ARRAYSimpleChkUpdateTterm=ARRAYSimpleChkUpdateTterm("tematres",$array[tterm_uri]);	
+
+$last_term_update=($array[cuando_last]) ? $array[cuando_last] : $array[cuando];
+	
+/*
+	El t√©rmino no existe m√°s en el vocabulario de destino
+*/
+	if(!$ARRAYSimpleChkUpdateTterm[result][term][tema_id])
+	{
+		$rows.= '<ul class="errorNoImage">';
+		$rows.= '<li><strong>'.ucfirst(LABEL_notFound).'</strong></li>';
+		$rows.= '<li>[<a href="index.php?tvocab_id='.$array[tvocab_id].'&amp;tterm_id='.$array[tterm_id].'&amp;tema='.$array[tema_id].'&amp;taskrelations=delTgetTerm" title="'.ucfirst(LABEL_borraRelacion).'">'.ucfirst(LABEL_borraRelacion).'</a>]</li>';
+		$rows.= '</ul>';
+	}
+/*
+	hay actualizacion del t√©rmino
+*/
+	elseif ($ARRAYSimpleChkUpdateTterm[result][term][date_mod]>$last_term_update) 
+	{
+		$ARRAYupdateTterm["$array[tterm_uri]"]["string"]=FixEncoding($ARRAYSimpleChkUpdateTterm[result][term]["string"]);	
+		$ARRAYupdateTterm["$array[tterm_uri]"]["date_mod"]=$ARRAYSimpleChkUpdateTterm[result][term]["date_mod"];
+					
+		$rows.= '<ul class="warningNoImage">';
+		$rows.= '<li><strong>'.$ARRAYupdateTterm["$array[tterm_uri]"]["string"].'</strong></li>';
+		$rows.= '<li>'.$ARRAYupdateTterm["$array[tterm_uri]"]["date_mod"].'</li>';
+		$rows.= '<li>[<a href="index.php?tvocab_id='.$array[tvocab_id].'&amp;tterm_id='.$array[tterm_id].'&amp;tgetTerm_id='.$array[tterm_id].'&amp;tema='.$array[tema_id].'&amp;taskrelations=updTgetTerm" title="'.ucfirst(LABEL_actualizar).'">'.ucfirst(LABEL_actualizar).'</a>]</li>';
+		$rows.= '<li>[<a href="index.php?tvocab_id='.$array[tvocab_id].'&amp;tterm_id='.$array[tterm_id].'&amp;tema='.$array[tema_id].'&amp;taskrelations=delTgetTerm" title="'.ucfirst(LABEL_borraRelacion).'">'.ucfirst(LABEL_borraRelacion).'</a>]</li>';
+		$rows.= '</ul>';
+	}
+	else
+	{
+		$array[tema_id]["status_tterm"]= true;
+		$rows='<span class="successNoImage">'.LABEL_termUpdated.'</span>';
+	}	
+
+return $rows;
+}
+
 #######################################################################
 ?>

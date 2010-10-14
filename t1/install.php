@@ -187,6 +187,7 @@ if(@$DBCFG["DBcharset"]){
 				 `tvocab_id` int(22) NOT NULL AUTO_INCREMENT,
 				  `tvocab_label` varchar(150) NOT NULL,
 				  `tvocab_tag` varchar(5) NOT NULL,
+				  `tvocab_lang` VARCHAR( 5 ),
 				  `tvocab_title` varchar(200) NOT NULL,
 				  `tvocab_url` varchar(250) NOT NULL,
 				  `tvocab_uri_service` varchar(250) NOT NULL,

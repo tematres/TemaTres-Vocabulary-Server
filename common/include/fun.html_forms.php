@@ -319,6 +319,10 @@ $rows.=' <fieldset>
 	$rows.='<input name="tvocab_tag" type="text" id="tvocab_tag" size="5" maxlength="5" value="'.$array[tvocab_tag].'"/>';
 	$rows.='</div>';
 
+	$rows.='<div><label for="tvocab_lang" accesskey="t">'.ucfirst(LABEL_Idioma).'</label>';
+	$rows.='<input name="tvocab_lang" type="text" id="tvocab_lang" size="5" maxlength="5" value="'.$array[tvocab_lang].'"/>';
+	$rows.='</div>';
+
 	$rows.='<div><label for="tvocab_uri_service" accesskey="u">'.ucfirst(LABEL_tvocab_uri_service).'</label>';
 	if($array[tvocab_id])
 	{
@@ -381,7 +385,7 @@ if(!$sql[cant]){
 	$rows.=FORM_LABEL_nombre_vocabulario.'*</label>';
 	$rows.='<select id="tvocab_id" name="tvocab_id">';
 	$rows.='<optgroup label="'.FORM_LABEL_nombre_vocabulario.'">';
-	$rows.=doSelectForm($array_vocabularios,"");
+	$rows.=doSelectForm($array_vocabularios,"$_GET[tvocab_id]");
 	$rows.='</optgroup>';
 	$rows.='</select><br/>';
 	$rows.='</div>';
@@ -389,7 +393,10 @@ if(!$sql[cant]){
 	$rows.='<div>';
 	$rows.='<label for="string2search" accesskey="s">';
 	$rows.=LABEL_Buscar.'</label>';
-	$rows.='<input name="string2search" type="text" id="string2search" size="15" maxlength="50"/>';
+	
+	$string2search = ($_GET[string2search]) ? $_GET[string2search] : $ARRAYtermino[titTema];
+	
+	$rows.='<input name="string2search" type="text" id="string2search" size="15" maxlength="50" value="'.$string2search.'"/>';
 	$rows.='</div>';
 	
 	$rows.='<div class="submit_form" align="center">';

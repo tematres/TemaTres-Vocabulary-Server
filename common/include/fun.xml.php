@@ -231,6 +231,7 @@ while ($arrayTT=mysqli_fetch_array($sqlTT[datos])){
 	$meta_tag.='  xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"';
 	$meta_tag.='  xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"';
 	$meta_tag.='  xmlns:skos="http://www.w3.org/2004/02/skos/core#"';
+	$meta_tag.='  xmlns:map="http://www.w3c.rl.ac.uk/2003/11/21-skos-mapping#"';
 	$meta_tag.='  xmlns:dct="http://purl.org/dc/terms/"';
 	$meta_tag.='  xmlns:dc="http://purl.org/dc/elements/1.1/">';
 
@@ -275,14 +276,16 @@ $_URI_SEPARATOR_ID = ($CFG["_URI_SEPARATOR_ID"]) ? $CFG["_URI_SEPARATOR_ID"] : '
 
 
 $datosTermino=ARRAYverDatosTermino($idTema);
+
 $SQLTerminosE=SQLverTerminosE($idTema);
+
 $SQLterminosRelacionados=SQLverTerminoRelaciones($idTema);
 
+$SQLtargetTerms=SQLtargetTerms($idTema);
 
 while ($datosTerminosE=mysqli_fetch_array($SQLTerminosE[datos])){
 	$skos_narrower.='<skos:narrower rdf:resource="'.$_URI_BASE_ID.$_URI_SEPARATOR_ID.$datosTerminosE[id_tema].'"/>';
 	};
-
 
 while ($datosTerminosRelacionados= mysqli_fetch_array($SQLterminosRelacionados[datos])){
 if($datosTerminosRelacionados[t_relacion]=='2'){// TR
@@ -298,6 +301,18 @@ if($datosTerminosRelacionados[t_relacion]=='4'){// UF
 	$skos_hiddenLabel.='<skos:hiddenLabel xml:lang="'.$_SESSION["CFGIdioma"].'">'.xmlentities($datosTerminosRelacionados[tema]).'</skos:hiddenLabel>';
 	};
 };
+
+while ($datosTargetTerms=mysqli_fetch_array($SQLtargetTerms[datos])){
+	
+	$map_label=(in_array($datosTargetTerms[tvocab_tag], array('Exact','Inexact','Major','Minor','Partial','Broad','Narrow'))) ? $datosTargetTerms[tvocab_tag] : 'Exact';
+	
+	$skos_map.='<map:exactMatch>';
+	$skos_map.=' <skos:Concept rdf:about="'.$datosTargetTerms[tterm_url].'">';
+	$skos_map.=' <prefLabel xml:lang="'.$datosTargetTerms[tvocab_lang].'">'.$datosTargetTerms[tterm_string].'</prefLabel>';
+	$skos_map.=' </skos:Concept>';
+	$skos_map.='</map:exactMatch>';
+	};
+
 
 for($iNota=0; $iNota<(count($datosTermino[notas])); ++$iNota){
    if($datosTermino[notas][$iNota][id]){
@@ -333,6 +348,7 @@ $meta_tag.='<skos:inScheme rdf:resource="'.$_URI_BASE_ID.'"/>';
 $meta_tag.=$skos_related;
 $meta_tag.=$skos_broader;
 $meta_tag.=$skos_narrower;
+$meta_tag.=$skos_map;
 
 $meta_tag.='  <dct:created>'.$datosTermino[cuando].'</dct:created>';
 if($datosTermino[cuando_final]){
@@ -897,5 +913,25 @@ function doRelacionesXTM($tema_id=""){
 	};
 return $row;
 };
+
+
+
+
+/*
+check update data for term from target vocabulary
+*/
+function ARRAYSimpleChkUpdateTterm($method,$tterm_uri) 
+{
+	require_once('vocabularyservices.php')	;
+	switch ($method) {
+		case 'tematres':
+		return xmlVocabulary2array($tterm_uri);
+		break;
+	
+		default :
+		return xmlVocabulary2array($tterm_uri);
+		break;
+	}
+}
 
 ?>

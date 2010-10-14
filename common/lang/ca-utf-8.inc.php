@@ -289,7 +289,8 @@ $idiomas_disponibles = array(
      "fr"  => array("français","", "fr"),
      "it"  => array("italiano","", "it"),
      "nl"  => array("nederlands","", "nl"),
-     "pt"  => array("portugüés","", "pt")    
+     "pl"  => array("polski","", "pl"),    
+     "pt"  => array("portugüés","", "pt")
     );
 
 
@@ -322,46 +323,52 @@ $install_message[305] = "Indicació sobre el grau de seguretat de la clau.";
 $install_message[306] = 'Instal·lació completa, <a href="index.php">comenci a fer servir el seu vocabulari</a>' ;
 /* end Install messages */
 
+
+
 /* v 1.1 */
-define('MSG_ERROR_CODE',"invalid code");
-define('LABEL_CODE',"code");
-define('LABEL_Ver',"Show");
-define('LABEL_OpcionesTermino',"term");
-define('LABEL_CambiarEstado',"Change term status");
-define('LABEL_ClickEditar',"Click to edit...");
-define('LABEL_TopTerm',"Has this top term");
-define('LABEL_esFraseExacta',"exact phrase");
-define('LABEL_DesdeFecha',"created on or after");
-define('LABEL_ProfundidadTermino',"is located in deep level");
-define('LABEL_esNoPreferido',"no prefered term");
-define('LABEL_BusquedaAvanzada',"advanced search");
-define('LABEL_Todos',"all");
-define('LABEL_QueBuscar',"what search?");
+define('MSG_ERROR_CODE',"codi duplicat");
+define('LABEL_CODE',"codi");
+define('LABEL_Ver',"veure");
+define('LABEL_OpcionesTermino',"terme");
+define('LABEL_CambiarEstado',"canviar estat");
+define('LABEL_ClickEditar',"clicar per a editar...");
+define('LABEL_TopTerm',"Té aquest terme capçalera");
+define('LABEL_esFraseExacta',"amb la frase exacta");
+define('LABEL_DesdeFecha',"creat el o després del");
+define('LABEL_ProfundidadTermino',"Nivell de jerarquia");
+define('LABEL_esNoPreferido',"terme no preferit");
+define('LABEL_BusquedaAvanzada',"cerca avançada");
+define('LABEL_Todos',"tots");
+define('LABEL_QueBuscar',"¿Què cercar?");
 
-define("LABEL_import","import") ;
-define("IMPORT_form_legend","import thesaurus from tabulated txt file") ;
-define("IMPORT_form_label","file") ;
-define("IMPORT_file_already_exists","a txt file is already present on the server") ;
-define("IMPORT_file_not_exists","no import txt file yet") ;
-define("IMPORT_do_it","You can start the import") ;
-define("IMPORT_working","import task are working") ;
-define("IMPORT_finish","import task finished") ;
-define("LABEL_reIndice","recreate indexes") ;
-define("LABEL_dbMantenimiento","maintenance database");
-
+define("LABEL_import","Importar") ;
+define("IMPORT_form_legend","Importar un arxiu de text tabulat ") ;
+define("IMPORT_form_label","Arxiu") ;
+define("IMPORT_file_already_exists","Un arxiu txt ja existeix al servidor") ;
+define("IMPORT_file_not_exists","No hi ha arxius encara") ;
+define("IMPORT_do_it","Pot iniciar la importació") ;
+define("IMPORT_working","procés d’importació en marxa") ;
+define("IMPORT_finish","importació finalitzada") ;
+define("LABEL_reIndice","Recrear índexs de termes") ;
+define("LABEL_dbMantenimiento","Manteniment de la base de dades") ;
 
 /*
 v 1.2
 */
-define('LABEL_relacion_vocabularioWebService',"relation with term from remote target vocabulary");
-define('LABEL_vocabulario_referenciaWS',"remote target vocabulary (web  services)");
-define('LABEL_TargetVocabularyWS',"remote target vocabulary (web  services)");
-define('LABEL_tvocab_label',"label for the reference");
-define('LABEL_tvocab_tag',"tag for the reference");
-define('LABEL_tvocab_uri_service',"URL for the web services reference");
-define('LABEL_targetTermsforUpdate',"terms with pending update");
-define('LABEL_ShowTargetTermsforUpdate',"check terms update");
-define('LABEL_enable',"enable");
-define('LABEL_disable',"disable");
-define('LABEL_notFound',"term not found");
+
+define('LABEL_relacion_vocabularioWebService',"Relació amb un terme d’altre vocabulari");
+define('LABEL_vocabulario_referenciaWS',"Vocabulari extern via serveis web");
+define('LABEL_TargetVocabularyWS',"Vocabulari extern via serveis web");
+define('LABEL_tvocab_label',"llegenda de la referència");
+define('LABEL_tvocab_tag',"etiqueta de la referència");
+define('LABEL_tvocab_uri_service',"URL del servei web de referència");
+define('LABEL_targetTermsforUpdate',"termes amb actualitzacions pendents");
+define('LABEL_ShowTargetTermsforUpdate',"revisar actualitzacions de termes");
+define('LABEL_enable',"habilitat");
+define('LABEL_disable',"Inhabilitat");
+define('LABEL_notFound',"terme no trobat");
+define('LABEL_termUpdated',"term updated");
+define('LABEL_ShowTargetTermforUpdate',"update");
+define('LABEL_relbetweenVocabularies',"relations between vocabularies");
+
 ?>
