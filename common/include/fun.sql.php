@@ -1388,6 +1388,74 @@ return $sql;
 
 
 
+#
+# actualiza version // update version
+#
+function SQLupdateTemaTresVersion($ver2ver){
+
+GLOBAL $DBCFG;
+
+$linkDB = mysqli_connect("$DBCFG[Server]", "$DBCFG[DBLogin]", "$DBCFG[DBPass]");
+
+$prefix=$DBCFG['DBprefix'] ;
+
+
+// Si se establecio un charset para la conexion
+if(@$DBCFG["DBcharset"]){
+	mysqli_query($linkDB,"SET NAMES $DBCFG[DBcharset]");
+	}
+
+mysqli_select_db($linkDB,"$DBCFG[DBName]");
+
+
+switch ($ver2ver) {
+	case '1_1x1_2' :
+		$result61 = mysqli_query($linkDB,"CREATE TABLE IF NOT EXISTS `".$prefix."term2tterm` (
+			 `tterm_id` int(22) NOT NULL AUTO_INCREMENT,
+			  `tvocab_id` int(22) NOT NULL,
+			  `tterm_url` varchar(200) NOT NULL,
+			  `tterm_uri` varchar(200) NOT NULL,
+			  `tterm_string` varchar(250) NOT NULL,
+			  `cuando` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+			  `cuando_last` timestamp NULL DEFAULT NULL,
+			  `uid` int(22) NOT NULL,
+			  `tema_id` int(22) NOT NULL,
+			  PRIMARY KEY (`tterm_id`),
+			  KEY `tvocab_id` (`tvocab_id`,`cuando`,`cuando_last`,`uid`),
+			  KEY `tema_id` (`tema_id`)
+			) ENGINE=MyISAM") ;
+
+		$result62 = mysqli_query($linkDB,"CREATE TABLE IF NOT EXISTS `".$prefix."tvocab` (
+				  `tvocab_id` int(22) NOT NULL AUTO_INCREMENT,
+				  `tvocab_label` varchar(150) NOT NULL,
+				  `tvocab_tag` varchar(5) NOT NULL,
+				  `tvocab_lang` VARCHAR( 5 ),
+				  `tvocab_title` varchar(200) NOT NULL,
+				  `tvocab_url` varchar(250) NOT NULL,
+				  `tvocab_uri_service` varchar(250) NOT NULL,
+				  `tvocab_status` tinyint(1) NOT NULL,
+				  `cuando` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+				  `uid` int(22) NOT NULL,
+				  PRIMARY KEY (`tvocab_id`),
+				  KEY `uid` (`uid`),
+				  KEY `status` (`tvocab_status`)
+				) ENGINE=MyISAM ;") ;
+	
+	$logTask["1_1x1_2"] = $result61+$result62;
+	break;
+
+	default :
+	return false;
+	break;
+	}
+
+	return $logTask;
+}
+
+
+
+
+
 function ARRAYtargetVocabulary($tvocab_id)
 {
 GLOBAL $DBCFG;

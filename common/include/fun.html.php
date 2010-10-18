@@ -448,7 +448,8 @@ if( ( ($relacionesTermino[cantTG]==0) || ($_SESSION[CFGPolijerarquia]=='1') ) &&
 		$row.='<li><a title="'.ucfirst(LABEL_lcConfig).'" href="admin.php?vocabulario_id=list">'.ucfirst(LABEL_lcConfig).'</a></li>';
 		$row.='<li><a title="'.ucfirst(MENU_Usuarios).'" href="admin.php?user_id=list">'.ucfirst(MENU_Usuarios).'</a></li>';
 		$row.='<li><a title="'.ucfirst(LABEL_export).'" href="admin.php?doAdmin=export">'.ucfirst(LABEL_export).'</a></li>';
-		$row.='<li><a title="'.ucfirst(MENU_DatosTesauro).'" href="admin.php?opTbl=TRUE">'.ucfirst(LABEL_OptimizarTablas).'</a></li>';
+		$row.='<li><a title="'.ucfirst(LABEL_OptimizarTablas).'" href="admin.php?opTbl=TRUE">'.ucfirst(LABEL_OptimizarTablas).'</a></li>';
+		$row.='<li><a title="'.ucfirst(LABEL_update1_1x1_2).'" href="admin.php?doAdmin=updte1_1x1_2">'.ucfirst(LABEL_update1_1x1_2).'</a></li>';
 		$row.='</menu></li>';
 		}
 
@@ -523,9 +524,11 @@ if($_SESSION[$_SESSION["CFGURL"]][ssuser_nivel]=='1'){
 	$row.='<li><a title="'.ucfirst(LABEL_export).'" href="admin.php?doAdmin=export">'.ucfirst(LABEL_export).'</a></li>';
 
 	$row.='<li><a href="#">'.ucfirst(LABEL_dbMantenimiento).'</a><ul>';
-	$row.='<li><a title="'.ucfirst(MENU_DatosTesauro).'" href="admin.php?opTbl=TRUE">'.ucfirst(LABEL_OptimizarTablas).'</a></li>';
 	$row.='<li><a  href="admin.php?doAdmin=reindex">'.ucfirst(LABEL_reIndice).'</a></li>';	
 	$row.='<li><a href="admin.php?doAdmin=import" title='.ucfirst(LABEL_import).'>'.ucfirst(LABEL_import).'</a></li>';
+	$row.='<li><a title="'.ucfirst(MENU_DatosTesauro).'" href="admin.php?opTbl=TRUE">'.ucfirst(LABEL_OptimizarTablas).'</a></li>';
+	$row.='<li><a title="'.ucfirst(LABEL_update1_1x1_2).'" href="admin.php?doAdmin=updte1_1x1_2">'.ucfirst(LABEL_update1_1x1_2).'a</a></li>';
+
 	$row.='</ul></li>';
 
 	$row.='</ul></li>';

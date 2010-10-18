@@ -311,6 +311,7 @@ $id_t=secure_data($id_t,"sql");
 $sqlCtrl=SQLverTerminosLibres($id_t);
 if($sqlCtrl[cant]=='1')
 	{
+	$delete=SQL("delete","from $DBCFG[DBprefix]term2tterm where tema_id='$id_t'");
 	$delete=SQL("delete","from $DBCFG[DBprefix]tabla_rel where '$id_t' in (id_menor,id_mayor)");
 	$delete=SQL("delete","from $DBCFG[DBprefix]indice where tema_id='$id_t'");
 	$delete=SQL("delete","from $DBCFG[DBprefix]notas where id_tema='$id_t'");
@@ -887,6 +888,32 @@ function optimizarTablas(){
 
 return $rows;
 };
+
+
+
+
+
+
+function updateTemaTres($ver2ver) 
+{
+
+GLOBAL $install_message;
+	
+switch ($ver2ver) {
+	case '1_1x1_2':
+		$task=SQLupdateTemaTresVersion('1_1x1_2');
+		
+		$rows=($task["$ver2ver"]=='2') ? '<br/><span class="success">'.$install_message[306].'</span>' : '<br/><span class="error">'.ERROR.'</span>';
+	break;
+
+	default :
+
+	break;
+}
+
+return $rows;
+
+}
 
 }; // fin funciones de administracion
 

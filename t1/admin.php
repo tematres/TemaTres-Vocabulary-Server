@@ -1,8 +1,8 @@
 <?php
-#   TemaTres : aplicaci髇 para la gesti髇 de lenguajes documentales #       #
+#   TemaTres : aplicaci贸n para la gesti贸n de lenguajes documentales #       #
 #                                                                        #
 #   Copyright (C) 2004-2008 Diego Ferreyra tematres@r020.com.ar
-#   Distribuido bajo Licencia GNU Public License, versi髇 2 (de junio de 1.991) Free Software Foundation
+#   Distribuido bajo Licencia GNU Public License, versi贸n 2 (de junio de 1.991) Free Software Foundation
 #  
 ###############################################################################################################
 #
@@ -49,6 +49,7 @@ if(($_POST[doAdmin]=='saveTargetVocabulary')){
 	abm_targetVocabulary("M",$_POST[tvocab_id]);
 	};
 
+		
 //Acciones de gestion de vocabularios
 ?>
 <!DOCTYPE html
@@ -186,7 +187,7 @@ if($_SESSION[$_SESSION["CFGURL"]][ssuser_id]){
 		echo HTMLlistaTargetVocabularios();
 		};
 
-	//Formulario de exportaci髇
+	//Formulario de exportaci贸n
 	if($_GET[doAdmin]=='export'){
 		echo HTMLformExport();
 		}
@@ -197,7 +198,7 @@ if($_SESSION[$_SESSION["CFGURL"]][ssuser_id]){
 		echo $sql[cant_terms_index].' '.LABEL_Terminos;
 		}
 		
-	//Formulario de import line 127 after Formulario de exportaci髇
+	//Formulario de import line 127 after Formulario de exportaci贸n
 	if($_GET[doAdmin]=='import'){
 			include('../common/include/inc.import.php');
 		};
@@ -210,7 +211,12 @@ if($_SESSION[$_SESSION["CFGURL"]][ssuser_id]){
 	//Form to add / edit foreing target vocabulary 
 	if($_GET[doAdmin]=='seeTermsTargetVocabulary'){
 			echo HTMLlistaTermsTargetVocabularios($_GET[tvocab_id],$_GET[f]);
-			}						
+			}		
+			
+	//update from tematres 1.1 -> tematres 1.2 
+	if($_GET[doAdmin]=='updte1_1x1_2'){
+				echo updateTemaTres('1_1x1_2');
+				}								
 }
 ?>
 </div>
