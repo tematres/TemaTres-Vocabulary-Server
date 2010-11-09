@@ -1,8 +1,8 @@
 <?php
-#   TemaTres : aplicación para la gestión de lenguajes documentales #       #
+#   TemaTres : aplicaciÃ³n para la gestiÃ³n de lenguajes documentales #       #
 #                                                                        #
 #   Copyright (C) 2004-2008 Diego Ferreyra tematres@r020.com.ar
-#   Distribuido bajo Licencia GNU Public License, versión 2 (de junio de 1.991) Free Software Foundation
+#   Distribuido bajo Licencia GNU Public License, versiÃ³n 2 (de junio de 1.991) Free Software Foundation
 #  
 ###############################################################################################################
 # funciones de consulta SQL #
@@ -62,6 +62,29 @@ $sql=SQL("select","count(n.id) as cant, n.tipo_nota
 			$w
 			group by tipo_nota");
 return $sql;
+
+};
+
+#
+# Cantidad de términos mapeados (externos), por usuario y por vocabulario
+#
+function ARRAYcant_term2tterm($tvocab_id="0",$user_id="0"){
+GLOBAL $DBCFG;
+
+$user_id=secure_data($user_id,"sql");
+$tvocab_id=secure_data($tvocab_id,"sql");
+
+	$w = ($user_id>0) ? " and tt.uid='$user_id' " : "";
+	$w.= ($user_id>0) ? " and tt.tvocab_id='$tvocab_id' " : "";
+
+
+$sql=SQL("select","count(*) as cant
+			from $DBCFG[DBprefix]term2tterm
+			where 1=1
+			$w");
+
+return mysqli_fetch_array($sql[datos]);
+
 
 };
 
@@ -317,7 +340,7 @@ return $sql;
 
 
 #
-# Datos de cada términos con su tipificación y notas
+# Datos de cada términos con su tipificaciÃ³n y notas
 #
 
 function ARRAYverDatosTermino($tema_id){
@@ -454,7 +477,7 @@ return $sql;
 
 /*
 Buscador de términos aceptados UF,TR y TG directo de tema_id == retrive accepted UF,TR and direct TG for tema_id
-* Changelog v 1.1: no traía los tema_id que están a la derecha de tabla_rel
+* Changelog v 1.1: no traÃ­a los tema_id que están a la derecha de tabla_rel
 */
 function SQLterminosDirectos($tema_id){
 	GLOBAL $DBCFG;
@@ -539,7 +562,7 @@ if($tema_id!=="0"){
 	$tema_id=secure_data($tema_id,"sql");
 	$where=" and TT.tema_id='$tema_id'";
 	}
-$sql=SQL("select","TT.tema_id as id,TT.tema
+$sql=SQL("select","TT.tema_id,TT.tema,TT.cuando
 			from $DBCFG[DBprefix]tema as TT
 			left join $DBCFG[DBprefix]tabla_rel as no_menor on no_menor.id_menor=TT.tema_id
 			left join $DBCFG[DBprefix]tabla_rel as no_mayor on no_mayor.id_mayor=TT.tema_id
@@ -568,7 +591,7 @@ return $sql;
 
 
 #
-# BUSCADOR DE TERMINOS específicos de un término general
+# BUSCADOR DE TERMINOS especÃ­ficos de un término general
 #
 function SQLverTerminosE($tema_id){
 GLOBAL $DBCFG;
@@ -865,7 +888,7 @@ return $sql;
 
 
 #
-# Lista de términos según meses y años
+# Lista de términos según meses y aÃ±os
 #
 function SQLtermsByDate(){
 
@@ -965,12 +988,15 @@ while ($arrayCantNotas=mysqli_fetch_array($sqlCantNotas[datos]))
 }
 
 
+$ARRAYcant_term2tterm=ARRAYcant_term2tterm();
+
 $resumen=array("cant_rel"=>$cant_terminos_relacionados,
 			"cant_up"=>$cant_terminos_up,
 			"cant_total"=>$cant_term[cant],
 			"cant_candidato"=>$cant_term[cant_candidato],
 			"cant_rechazado"=>$cant_term[cant_rechazado],
-			"cant_notas"=>$cant_notas
+			"cant_notas"=>$cant_notas,
+			"cant_term2tterm"=>$ARRAYcant_term2tterm[cant]
 			);
 return $resumen;
 };
@@ -1028,7 +1054,7 @@ $sql=SQL("select","i.tema_id,i.indice from $DBCFG[DBprefix]indice i where i.tema
 
 
 #
-# sql de expansión sobre un tema (expansión hacia arriba expansio to TG)
+# sql de expansiÃ³n sobre un tema (expansiÃ³n hacia arriba expansio to TG)
 #
 function SQLexpansionTema($tema_id){
 GLOBAL $DBCFG;
@@ -1048,7 +1074,7 @@ order by distancia");
 
 
 #
-# sql de expansión sobre una lista de ids hacia temas relacionados (expansion to TR)
+# sql de expansiÃ³n sobre una lista de ids hacia temas relacionados (expansion to TR)
 #
 function SQLexpansionTR($lista_temas_id){
 GLOBAL $DBCFG;
@@ -1250,8 +1276,8 @@ function SQLadvancedSearch($array)
 {
 GLOBAL $DBCFG;
 
-
 #has top term X
+$array[hasTopTerm]=secure_data($array[hasTopTerm],"sql");
 if($array[hasTopTerm]>0)
 {
 	$size_i=strlen($array[hasTopTerm])+2;
@@ -1278,6 +1304,7 @@ if($array[fromDate])
 
 
 #deep level
+$array[termDeep]=secure_data($array[termDeep],"sql");
 if($array[termDeep]>0)
 {
 	$select=",LENGTH(i.indice) - LENGTH(REPLACE(i.indice, '|', '')) AS tdeep";
@@ -1302,6 +1329,7 @@ if($array[isUF]=='1')
 #time update filter
 #and (cuando_final between '2010-05-19' and now())
 
+$array[xstring]=secure_data($array[xstring],"sql");
 switch ($array[ws]) {
 	case 't'://term
 	$initial_where=($array[isExactMatch]=='1') ? " t.tema='$array[xstring]' " : " t.tema like '%$array[xstring]%' ";
@@ -1319,6 +1347,18 @@ switch ($array[ws]) {
 
 	case 'c':// code
 	$initial_where=($array[isExactMatch]=='1') ? " t.code='$array[xstring]' " : " t.code like '%$array[xstring]%' ";
+	break;
+
+	case 'n':// note
+	$initial_where=($array[isExactMatch]=='1') ? " ns.nota='$array[xstring]' " : " ns.nota like '%$array[xstring]%' ";
+	$from.=	"	,$DBCFG[DBprefix]notas ns";
+	$where.="	and t.tema_id=ns.id_tema";
+	break;
+
+	case 'tgt':// target term from target vocabulary (foreign term)
+	$initial_where=($array[isExactMatch]=='1') ? " tt.tterm_string='$array[xstring]' " : " tt.tterm_string like '%$array[xstring]%' ";
+	$from.=	"	,$DBCFG[DBprefix]term2tterm tt";
+	$where.="	and t.tema_id=tt.tema_id";
 	break;
 
 	default ://term
@@ -1340,8 +1380,110 @@ return SQL("select","t.tema_id,t.tema,t.cuando,t.cuando_final,t.estado_id $selec
 		order by t.tema");
 }
 
+
+
+
+#
+# SQL for term reporter
+#
+function SQLadvancedTermReport($array)
+{
+GLOBAL $DBCFG;
+
+#has top term X
+$array[hasTopTerm]=secure_data($array[hasTopTerm],"sql");
+if($array[hasTopTerm]>0)
+{
+	$size_i=strlen($array[hasTopTerm])+2;
+	$from="$DBCFG[DBprefix]indice tti,";
+	$where="	and t.tema_id=tti.tema_id";
+	$where.="	and left(tti.indice,$size_i)='|$array[hasTopTerm]|'";
+}
+
+#has note type X
+$array[hasNote]=secure_data($array[hasNote],"sql");
+if($array[hasNote])
+{
+	$from.="$DBCFG[DBprefix]notas n,";
+	$where.="		and n.id_tema=t.tema_id";
+	$where.="		and n.tipo_nota='$array[hasNote]'";
+}
+
+#time filter
+$array[fromDate]=secure_data($array[fromDate],"sql");
+if($array[fromDate])
+{
+	$where.="		and (t.cuando between '$array[fromDate]-01' and now())";
+}
+#time update filter
+#and (cuando_final between '2010-05-19' and now())
+
+#user filter
+$array[byuser_id]=secure_data($array[byuser_id],"sql");
+if(($array[byuser_id]) && ($_SESSION[$_SESSION["CFGURL"]][ssuser_nivel]=='1'))
+{
+	$where.="		and '$array[byuser_id]' in (t.uid,t.uid_final)";
+}
+
+
+#string filter
+$array[csvstring]=secure_data(trim($array[csvstring]),"sql");
+if((strlen($array[csvstring])>1) && (in_array($array[w_string],array('s','e'))))
+{
+	if ($array[w_string]=='s') 
+	{
+		$where.="		and (t.tema like '% $array[csvstring]%' or t.tema like '$array[csvstring]%')";
+	}
+	else 
+	{
+		$where.="		and (t.tema like '%$array[csvstring] %' or t.tema like '%$array[csvstring]')";		
+	}
+	
+}
+
+
+#mapped terms
+$array[csv_tvocab_id]=secure_data($array[csv_tvocab_id],"sql");
+if($array[csv_tvocab_id]) 
+{
+	if ($array[mapped]=='n') 
+	{	
+		$leftJoin=" left join $DBCFG[DBprefix]term2tterm tt on tt.tema_id=t.tema_id and tt.tvocab_id='$array[csv_tvocab_id]'";
+		$leftJoin.=" left join $DBCFG[DBprefix]tabla_rel as r on t.tema_id in (r.id_menor,r.id_mayor) ";
+		$leftJoin.=" and r.t_relacion in (4,5,6,7)";
+		$where.=" and	r.id is null";
+		$where.=" and tt.tterm_id is null";
+		$where.=" and t.tesauro_id='$_SESSION[id_tesa]'";	
+	}
+	else 
+	{
+		$select=" ,tv.tvocab_title as target_vocabulary_title,tt.tterm_string as target_vocabulary_term,tt.cuando as date_mapped";
+		$from.=" $DBCFG[DBprefix]tvocab tv,$DBCFG[DBprefix]term2tterm tt,";
+		$where.=" and tt.tema_id=t.tema_id and tt.tvocab_id='$array[csv_tvocab_id]'";
+		$where.=" and tt.tvocab_id=tv.tvocab_id";
+	}
+}
+
+$LABEL_Candidato=LABEL_Candidato;
+$LABEL_Aceptado=LABEL_Aceptado;
+$LABEL_Rechazado=LABEL_Rechazado;
+
+return SQL("select","t.tema_id,t.tema,t.cuando as created_date,if(t.cuando_final is null,t.cuando,t.cuando_final) last_change,
+		elt(field(t.estado_id,'12','13','14'),'$LABEL_Candidato','$LABEL_Aceptado','$LABEL_Rechazado') as status,concat(u.APELLIDO,', ',u.NOMBRES) as user_data $select		
+		from $from $DBCFG[DBprefix]values v,$DBCFG[DBprefix]usuario u, $DBCFG[DBprefix]tema t
+		$leftJoin
+		where t.uid=u.id 
+		and t.estado_id=v.value_id
+		and v.value_type='t_estado'
+		$initial_where		
+		$where
+		group by t.tema_id
+		$having		
+		order by t.tema");
+}
+
 /*
-regenerate indice table => only in case of corrupt database or import thesaurus vía dump
+regenerate indice table => only in case of corrupt database or import thesaurus vÃ­a dump
 */
 function SQLreCreateTermIndex() 
 {
@@ -1422,7 +1564,8 @@ switch ($ver2ver) {
 			  `tema_id` int(22) NOT NULL,
 			  PRIMARY KEY (`tterm_id`),
 			  KEY `tvocab_id` (`tvocab_id`,`cuando`,`cuando_last`,`uid`),
-			  KEY `tema_id` (`tema_id`)
+			  KEY `tema_id` (`tema_id`),
+			  KEY `tterm_string` (`tterm_string`)
 			) ENGINE=MyISAM") ;
 
 		$result62 = mysqli_query($linkDB,"CREATE TABLE IF NOT EXISTS `".$prefix."tvocab` (
@@ -1440,8 +1583,10 @@ switch ($ver2ver) {
 				  KEY `uid` (`uid`),
 				  KEY `status` (`tvocab_status`)
 				) ENGINE=MyISAM ;") ;
-	
-	$logTask["1_1x1_2"] = $result61+$result62;
+
+		$result622 = mysqli_query($linkDB,"ALTER TABLE `".$prefix."notas` ADD FULLTEXT `notas` (`nota`);");		
+
+	$logTask["1_1x1_2"] = $result61+$result62+$result622;
 	break;
 
 	default :
@@ -1540,6 +1685,70 @@ return SQL("select","tv.tvocab_id,tv.tvocab_label,tv.tvocab_tag,tv.tvocab_lang,
 		and tv.tvocab_id='$tvocab_id'
 		order by tv.tvocab_tag,t2tt.tterm_string
 		limit $from,$limit");
+}
+
+/*
+terms who arent mapped to specific external target vocabulary 
+*/
+function SQLtermsNoMapped($tesauro_id,$tvocab_id) 
+{
+	GLOBAL $DBCFG;
+	$tvocab_id=secure_data($tvocab_id,"sql");
+
+	//term no mapped and no UF or EQ
+	return SQL("select","t.tema_id,t.tema,t.cuando,t.cuando_final
+	from $DBCFG[DBprefix]tema as t
+	left join $DBCFG[DBprefix]term2tterm tt on tt.tema_id=t.tema_id and tt.tvocab_id='$tvocab_id' 
+	left join $DBCFG[DBprefix]tabla_rel as r on t.tema_id in (r.id_menor,r.id_mayor) 
+	and r.t_relacion in (4,5,6,7)
+	where
+	r.id is null
+	and tt.tterm_id is null
+	and t.tesauro_id='$tesauro_id'
+	group by t.tema_id
+	order by lower(t.tema)");
+}
+
+
+/*
+terms by status (only candidate or reject)
+*/
+function SQLtermsXstatus($tesauro_id,$status_id) 
+{
+	GLOBAL $DBCFG;
+	$tesauro_id=secure_data($tesauro_id,"sql");
+	
+	$status_id=($status_id=='12') ? '12' : '14';	
+
+	//term no mapped and no UF or EQ
+	return SQL("select","t.tema_id,t.tema,t.cuando,concat(u.APELLIDO,', ',u.NOMBRES) as user_data,v.value as status,t.cuando_estado 
+	from $DBCFG[DBprefix]usuario u,$DBCFG[DBprefix]values v,$DBCFG[DBprefix]tema as t
+	where
+	t.tesauro_id='$tesauro_id'
+	and u.id=t.uid
+	and v.value_id=t.estado_id
+	and v.value_type='t_estado'
+	and t.estado_id='$status_id'
+	order by lower(t.tema)");
+}
+
+
+
+/*
+terms with more than one BT
+*/
+function SQLpoliBT() 
+{
+	GLOBAL $DBCFG;
+	
+	return SQL("select","t.tema_id,t.tema,t.cuando,count(t.tema_id) as cantBT
+		from $DBCFG[DBprefix]tema t,$DBCFG[DBprefix]usuario u, $DBCFG[DBprefix]tabla_rel r
+		where t.uid=u.id 
+		and t.tema_id=r.id_menor
+		and t_relacion='3'
+		group by t.tema_id
+		having cantBT>1
+		order by t.tema");
 }
 
 ?>

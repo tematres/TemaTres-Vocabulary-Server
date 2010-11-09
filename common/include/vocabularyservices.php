@@ -227,7 +227,7 @@ return $rows;
 
 
 /*
-datos HTML de un término
+datos HTML de un tÃ©rmino
 */
 function arrayTerm2html($array){
 
@@ -244,21 +244,21 @@ Notas // notes
 
 
 /*
-Buscar términos genericos // fetch broader terms
+Buscar tÃ©rminos genericos // fetch broader terms
 */
 	$arrayTG=xmlVocabulary2array($URL_BASE.'?task=fetchUp&arg='.$array[result][term][tema_id]);
 	$rows.=arrayVocabulary2html($arrayTG,"Broader terms","ol");
 
 
 /*
-Buscar términos específicos // fetch narrow terms
+Buscar tÃ©rminos especÃ­ficos // fetch narrow terms
 */
 	$arrayTE=xmlVocabulary2array($URL_BASE.'?task=fetchDown&arg='.$array[result][term][tema_id]);
 	
 	$rows.=arrayVocabulary2html($arrayTE,"Narrower terms","ul");
 
 /*
-Buscar términos relacionados // fetch related terms
+Buscar tÃ©rminos relacionados // fetch related terms
 */
 	$arrayTR=xmlVocabulary2array($URL_BASE.'?task=fetchRelated&arg='.$array[result][term][tema_id]);
 	$rows.=arrayVocabulary2html($arrayTR,"Related terms","ul");

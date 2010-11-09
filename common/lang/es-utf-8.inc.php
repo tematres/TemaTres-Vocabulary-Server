@@ -368,4 +368,18 @@ define('LABEL_disable',"deshabilitado");
 define('LABEL_notFound',"término no encontrado");
 define('LABEL_termUpdated',"término actualizado");
 define('LABEL_relbetweenVocabularies',"relaciones entre vocabularios");
+define('LABEL_update1_1x1_2',"Actualizar Tematres (1.1 -> 1.2)");
+define('LABEL_TargetTerm',"término externo (mapeo terminológico)");
+define('LABEL_TargetTerms',"términos externos (mapeo terminológico)");
+define('LABEL_seleccionar','seleccionar');
+define('LABEL_poliBT','más de un término genérico');
+define('LABEL_FORM_simpleReport','Reportes');
+define('LABEL_FORM_advancedReport','Reportes avanzados');
+define('LABEL_FORM_nullValue','no importa');
+define('LABEL_FORM_haveNoteType','tienen nota de tipo');
+define('LABEL_haveEQ','tienen equivalencias');
+define('LABEL_nohaveEQ','no tienen equivalencias');
+define('LABEL_start','que comienzan con');
+define('LABEL_end','finalizadas en');
+define('LABEL_haveWords','incluyen palabras');
 ?>

@@ -1,13 +1,14 @@
 <?php
-#   TemaTres : aplicación para la gestión de lenguajes documentales #       #
+#   TemaTres : aplicaciÃ³n para la gestiÃ³n de lenguajes documentales #       #
 #                                                                        #
 #   Copyright (C) 2004-2008 Diego Ferreyra tematres@r020.com.ar
-#   Distribuido bajo Licencia GNU Public License, versión 2 (de junio de 1.991) Free Software Foundation
+#   Distribuido bajo Licencia GNU Public License, versiÃ³n 2 (de junio de 1.991) Free Software Foundation
 #  
 ###############################################################################################################
 # Abstraccion de funciones de consulta
 #
-
+// Be careful, access to this file is not protected
+if (stristr( $_SERVER['REQUEST_URI'], "fun.api.php") ) die("no access");
 
 class XMLvocabularyServices {
 
@@ -30,7 +31,7 @@ function fetchRelatedTerms($tema_id){
 	}
 
 
-// Devuelve array de términos no preferidos 
+// Devuelve array de tÃ©rminos no preferidos 
 // array with "use for" or "alternative" or  "non prefered" terms for tema_id
 // array (tema_id, tema,t_relacion_id)
 function fetchAltTerms($tema_id){
@@ -49,7 +50,7 @@ function fetchAltTerms($tema_id){
 	return $result;
 	}
 
-// Devuelve array de términos UF,TR y TG directos
+// Devuelve array de tÃ©rminos UF,TR y TG directos
 // array with non prefered (UF),related and direct TG terms for tema_id
 // array (tema_id, string,t_relacion_id)
 function fetchDirectTerms($tema_id){
@@ -162,7 +163,7 @@ function fetchTermNotes($tema_id){
 	}
 
 
-// Array de términos tope
+// Array de tÃ©rminos tope
 // array(tema_id,string)
 function fetchTopTerms($arrayCfg){
 
@@ -171,7 +172,7 @@ function fetchTopTerms($arrayCfg){
 	while($array=mysqli_fetch_array($sql[datos])){
 		$result["result"][$array[id]]= array(
 					"term_id"=>$array[id],
-					"string"=>FixEncoding2($array[tema])
+					"string"=>FixEncoding($array[tema])
 					);
 		};
 	return $result;
@@ -179,7 +180,7 @@ function fetchTopTerms($arrayCfg){
 
 
 
-// Devuelve lista de términos para una lista separada por comas de tema_id 
+// Devuelve lista de tÃ©rminos para una lista separada por comas de tema_id 
 // array(tema_id,string)
 function fetchTermsByIds($tema_id_list){
 
@@ -196,7 +197,7 @@ function fetchTermsByIds($tema_id_list){
 
 
 
-// Devuelve lista de términos relacionados para una lista separada por comas de tema_id
+// Devuelve lista de tÃ©rminos relacionados para una lista separada por comas de tema_id
 // array(tema_id,string)
 function fetchRelatedTermsByIds($tema_id_list){
 
@@ -211,7 +212,7 @@ function fetchRelatedTermsByIds($tema_id_list){
 	return $result;
 	}
 
-// Devuelve lista de términos mapeados para un tema_id
+// Devuelve lista de tÃ©rminos mapeados para un tema_id
 // array(tema_id,string)
 function fetchTargetTermsById($tema_id){
 
@@ -232,7 +233,7 @@ function fetchTargetTermsById($tema_id){
 	return $result;
 	}
 
-// Array de términos que comienzan con una letra
+// Array de tÃ©rminos que comienzan con una letra
 // array(tema_id,string,no_term_string,relation_type_id)
 function fetchTermsByLetter($letter){
 
@@ -251,7 +252,7 @@ function fetchTermsByLetter($letter){
 	}
 
 
-// Devuelve lista de términos para una busqueda
+// Devuelve lista de tÃ©rminos para una busqueda
 // array(tema_id,string,no_term_string,relation_type_id,array(index),order)
 function fetchTermsBySearch($string){
 
@@ -294,7 +295,7 @@ function fetchVocabularyData($vocabulary_id){
 	return $arrayResponse;
 	}
 
-//Devuelve un término con cadena similar para una una cadena de búsqueda
+//Devuelve un tÃ©rmino con cadena similar para una una cadena de bÃºsqueda
 //array($tema_id,$tema)
 function fetchSimilar($string) 
 {
@@ -510,37 +511,37 @@ if(CFG_SIMPLE_WEB_SERVICE !== "1"){
 		break;
 
 		case 'fetchTopTerms':
-		// Array de términos tope
+		// Array de tÃ©rminos tope
 		// array(tema_id,string)
 		$response = $service-> fetchTopTerms($arg);
 		break;
 
 		case 'fetchDirectTerms':
-		// Array de términos vinculados directamente con el termino (TG,TR,UF)
+		// Array de tÃ©rminos vinculados directamente con el termino (TG,TR,UF)
 		// array(tema_id,string,relation_type_id)
 		$response = $service-> fetchDirectTerms($arg);
 		break;
 
 		case 'fetchTerms':
-		// Devuelve lista de términos para una lista separada por comas de tema_id 
+		// Devuelve lista de tÃ©rminos para una lista separada por comas de tema_id 
 		// array(tema_id,string)
 		$response = $service-> fetchTermsByIds($arg);
 		break;
 
 		case 'fetchRelatedTerms':
-		// Devuelve lista de términos relacionados para una lista separada por comas de tema_id
+		// Devuelve lista de tÃ©rminos relacionados para una lista separada por comas de tema_id
 		// array(tema_id,string)
 		$response = $service-> fetchRelatedTermsByIds($arg);
 		break;
 
 		case 'fetchTargetTerms':
-		// Devuelve lista de términos mapeados para un tema_id
+		// Devuelve lista de tÃ©rminos mapeados para un tema_id
 		// array(tema_id,string)
 		$response = $service-> fetchTargetTermsById($arg);
 		break;
 
 		case 'letter':
-		// Array de términos que comienzan con una letra
+		// Array de tÃ©rminos que comienzan con una letra
 		// array(tema_id,string,no_term_string,relation_type_id)
 		$response = $service-> fetchTermsByLetter($arg);
 		break;

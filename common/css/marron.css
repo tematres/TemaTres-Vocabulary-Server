@@ -648,6 +648,12 @@ float:left;
     font-size:120%;
 }
 
+
+.successNoImage {
+	background:#e2f9e3;
+	color:#080;
+	padding:1px 5px 1px 5px;
+}
 .help{
 	background:#dedfff url('../images/icon_information.png') 13px 50% no-repeat;
 	border:1px solid #9bb8d9;
@@ -982,7 +988,7 @@ style for UL menumanager
 .menumanager { font-size:82.5%; }
 
 #glossary{ width:379px}  
- #footer #glossary a,.glossary a{ float:left; width:19px; height:24px;; line-height:24px; margin:5px 3px; text-align:center; border:1px solid #bdbdbd; background:#f8f8f8 ; -moz-border-radius:5px; -webkit-border-radius:5px; font-size:1.2em; font-weight:bold; color:#000 !important; text-decoration:none !important; }  
+ #footer #glossary a,.glossary a{ float:left; width:19px; height:24px;; line-height:24px; margin:5px 3px; text-align:center; border:1px solid #bdbdbd; background:#f8f8f8 url(/es.kioskea.net/_skin/_common/img/bg_glossaryButton.png) repeat-x; -moz-border-radius:5px; -webkit-border-radius:5px; font-size:1.2em; font-weight:bold; color:#000 !important; text-decoration:none !important; }  
  #footer #glossary a:hover,#footer #glossary a:focus,.glossary a:hover,.glossary a:focus,.glossary a.selected{ padding:5px 3px; font-size:1.6em; margin:0}  
  .glossary a{ margin:5px 1px }  
  .glossary a:hover,.glossary a:focus,.glossary a.selected{ color:#d6071b !important}  

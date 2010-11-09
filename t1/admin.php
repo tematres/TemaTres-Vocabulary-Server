@@ -72,7 +72,7 @@ PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
 		<style type="text/css" media="handheld">
 			@import "../common/css/mobile.css";
  		</style>
-<script type="text/javascript" src="../common/jq/lib/jquery-1.4.2.min.js"></script>
+<script type="text/javascript" src="../common/jq/lib/jquery-1.4.3.min.js"></script>
 <script type='text/javascript' src='../common/jq/lib/jquery.bgiframe.min.js'></script>
 <script type='text/javascript' src='../common/jq/jquery.autocomplete.min.js'></script>
 <link rel="stylesheet" type="text/css" href="../common/jq/jquery.autocomplete.css" />
@@ -80,7 +80,7 @@ PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
 <link type="text/css" href="../common/jq/fg.menu.css" media="screen" rel="stylesheet" />
 <link type="text/css" href="../common/jq/theme/ui.all.css" media="screen" rel="stylesheet" />			
  <script type="text/javascript">    
-    $(function(){
+window.onload=function() {
     	// BUTTONS
     	$('.fg-button').hover(
     		function(){ $(this).removeClass('ui-state-default').addClass('ui-state-focus'); },
@@ -107,7 +107,7 @@ PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
 			callerOnState: 'ui-state-active'
 		});
 		
-    });
+    };
 </script>
 	
 <script type="text/javascript" src="js.php" ></script>

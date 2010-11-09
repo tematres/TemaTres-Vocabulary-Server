@@ -41,6 +41,15 @@ elseif(($_GET[xsearch]=='1'))
 	echo HTMLformAdvancedSearch($_GET);
 	echo '</div>';
 }
+//Vista de reporteador 
+elseif(($_GET[mod]=='csv') && ($_SESSION[$_SESSION["CFGURL"]][ssuser_id]))
+{
+	echo '<div id="bodyText">';
+	echo HTMLformSimpleTermReport($_GET);
+
+	echo HTMLformAdvancedTermReport($_GET);
+	echo '</div>';
+}
 //Esta login y mostrar terminios libres o repetidos
 elseif(($_SESSION[$_SESSION["CFGURL"]][ssuser_id])&&($_GET[verT]))
 {

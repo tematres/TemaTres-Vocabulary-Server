@@ -172,6 +172,55 @@ switch ($_GET[taskrelations])
 		$MSG_ERROR_ESTADO=$cambio_estado[msg_error];
 	};
 
+
+/*
+function to select wich report download
+*/
+function wichReport($task) 
+{
+	switch ($task) {
+	
+	//advanced report
+	case 'csv1':
+	$sql=SQLadvancedTermReport($_GET);
+	break;
+
+	//free terms
+	case 'csv2':
+	$sql=SQLverTerminosLibres();
+	break;
+
+	//duplicated terms
+	case 'csv3':
+	$sql=SQLverTerminosRepetidos();
+	break;
+
+	//polit BT terms
+	case 'csv4':
+	$sql=SQLpoliBT();
+	break;
+
+	//candidate terms
+	case 'csv5':
+	$sql=SQLtermsXstatus($_SESSION[id_tesa],"12");
+	break;
+
+	//rejected terms
+	case 'csv6':
+	$sql=SQLtermsXstatus($_SESSION[id_tesa],"14");
+	break;
+	
+	default :
+
+	break;
+}
+
+return sql2csv($sql,string2url($_SESSION[CFGTitulo]).'.csv');
+}
+
+
+
+
 };// fin de llamdas de funciones de gestion
 
 
@@ -903,7 +952,7 @@ switch ($ver2ver) {
 	case '1_1x1_2':
 		$task=SQLupdateTemaTresVersion('1_1x1_2');
 		
-		$rows=($task["$ver2ver"]=='2') ? '<br/><span class="success">'.$install_message[306].'</span>' : '<br/><span class="error">'.ERROR.'</span>';
+		$rows=($task["$ver2ver"]=='3') ? '<br/><span class="success">'.$install_message[306].'</span>' : '<br/><span class="error">'.ERROR.'</span>';
 	break;
 
 	default :
@@ -931,7 +980,7 @@ function verTerminosLibres(){
 		$rows.='<li>'.ucfirst(MSG_noTerminosLibres).'<li/>';
 	}else{
 		while ($array = mysqli_fetch_array($sql[datos])){
-		$rows.='<li><a title="'.$array[tema].'" href="index.php?tema='.$array[id].'">'.$array[tema].'</a><li/>';
+		$rows.='<li><a title="'.$array[tema].'" href="index.php?tema='.$array[tema_id].'">'.$array[tema].'</a><li/>';
 		};
 	}
 	$rows.='</ul>';

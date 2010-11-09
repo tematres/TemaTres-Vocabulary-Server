@@ -527,7 +527,7 @@ if($_SESSION[$_SESSION["CFGURL"]][ssuser_nivel]=='1'){
 	$row.='<li><a  href="admin.php?doAdmin=reindex">'.ucfirst(LABEL_reIndice).'</a></li>';	
 	$row.='<li><a href="admin.php?doAdmin=import" title='.ucfirst(LABEL_import).'>'.ucfirst(LABEL_import).'</a></li>';
 	$row.='<li><a title="'.ucfirst(MENU_DatosTesauro).'" href="admin.php?opTbl=TRUE">'.ucfirst(LABEL_OptimizarTablas).'</a></li>';
-	$row.='<li><a title="'.ucfirst(LABEL_update1_1x1_2).'" href="admin.php?doAdmin=updte1_1x1_2">'.ucfirst(LABEL_update1_1x1_2).'a</a></li>';
+	$row.='<li><a title="'.ucfirst(LABEL_update1_1x1_2).'" href="admin.php?doAdmin=updte1_1x1_2">'.ucfirst(LABEL_update1_1x1_2).'</a></li>';
 
 	$row.='</ul></li>';
 
@@ -545,6 +545,7 @@ $row.='</ul></li>';
 
 
 //User menu		
+$row.='<li><a title="'.LABEL_FORM_simpleReport.'" href="index.php?mod=csv">'.LABEL_FORM_simpleReport.'</a></li>';
 $row.='<li><a title="'.MENU_MisDatos.'" href="login.php">'.MENU_MisDatos.'</a></li>';
 $row.='<li><a title="'.MENU_Salir.'" href="index.php?cmdlog='.substr(md5(date("Ymd")),"5","10").'">'.MENU_Salir.'</a></li>';
 

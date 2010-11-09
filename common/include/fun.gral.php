@@ -279,6 +279,47 @@ function sendFile($input,$filename){
 
 
 
+//sql 2 CSV and send as attach
+//based on http://www.phpclasses.org/browse/file/16237.html
+function sql2csv($sql,$filename) 
+{
+$res = $sql[datos];
+$colnames = array();
+
+// get column captions and enclose them in doublequotes (") 
+	for ($i = 0; $i < mysqli_num_fields($res); $i++) {
+		$fld = mysqli_fetch_field($res);
+		$colnames[] = '"'.$fld->name.'"';
+	}
+
+	// insert column captions at the beginning of .csv file
+	//replace some colnames
+	$CSV .= str_replace ( array("tema_id","cuando","tema","date_estado") , array("internal_term_id","date","term","date_status"), implode(";", $colnames) );
+
+// iterate through each row
+// replace single double-quotes with double double-quotes
+// and add values to .csv file contents
+if (mysqli_num_rows($res) > 0) {
+	while ($row = mysqli_fetch_array($res, MYSQL_NUM)) {
+		
+		for ($i = 0; $i < sizeof($row); $i++)
+			$row[$i] = '"'.str_replace('"', '""', $row[$i]).'"';			
+		
+		$CSV .= "\n".implode(";", $row);
+	}
+}
+
+// send output to browser as attachment (force to download file
+header('Expires: Mon, 1 Jan 1990 00:00:00 GMT');
+header('Last-Modified: '.gmdate("D,d M Y H:i:s").' GMT');
+header('Pragma: no-cache');
+header('Content-type: text/csv');
+header('Content-Disposition: attachment; filename='.$filename);
+// print the final contents of .csv file
+print $CSV;
+}
+
+
 //From TematresView by Nicolas Poulain
 function secure_data($data,$type="alnum") {
 

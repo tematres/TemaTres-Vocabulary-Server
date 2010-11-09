@@ -358,5 +358,5 @@ define('LABEL_notFound',"term not found");
 define('LABEL_termUpdated',"term updated");
 define('LABEL_ShowTargetTermforUpdate',"update");
 define('LABEL_relbetweenVocabularies',"relations between vocabularies");
-
-;?>
+define('LABEL_update1_1x1_2',"Update Tematres (1.1 -> 1.2)");
+?>

@@ -1,8 +1,8 @@
 <?php
-#   TemaTres : aplicación para la gestión de lenguajes documentales #       #
+#   TemaTres : aplicaciÃ³n para la gestiÃ³n de lenguajes documentales #       #
 #                                                                        #
 #   Copyright (C) 2004-2008 Diego Ferreyra tematres@r020.com.ar
-#   Distribuido bajo Licencia GNU Public License, versión 2 (de junio de 1.991) Free Software Foundation
+#   Distribuido bajo Licencia GNU Public License, versiÃ³n 2 (de junio de 1.991) Free Software Foundation
 #  
 ###############################################################################################################
 #
@@ -29,7 +29,7 @@ PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
 		<style type="text/css" media="handheld">
 			@import "../common/css/mobile.css";
  		</style>
-<script type="text/javascript" src="../common/jq/lib/jquery-1.4.2.min.js"></script>
+<script type="text/javascript" src="../common/jq/lib/jquery-1.4.3.min.js"></script>
 <script type='text/javascript' src='../common/jq/lib/jquery.bgiframe.min.js'></script>
 <script type='text/javascript' src='../common/jq/jquery.autocomplete.min.js'></script>
 <link rel="stylesheet" type="text/css" href="../common/jq/jquery.autocomplete.css" />
@@ -45,7 +45,7 @@ if ($_SESSION[$_SESSION["CFGURL"]][ssuser_nivel]>0)
 ?>
 
  <script type="text/javascript">    
-    $(function(){
+window.onload=function() {
     	// BUTTONS
     	$('.fg-button').hover(
     		function(){ $(this).removeClass('ui-state-default').addClass('ui-state-focus'); },
@@ -69,11 +69,10 @@ if ($_SESSION[$_SESSION["CFGURL"]][ssuser_nivel]>0)
 			showSpeed: 300,
 			backLink: false,
 			flyOut: true,
-			callerOnState: 'ui-state-active' ,
-			crumbDefaultText: 'Choose an aaa:'
+			callerOnState: 'ui-state-active'
 		});
 		
-    });
+    };
     </script>
 
 <?php
@@ -179,7 +178,7 @@ if ($_SESSION[$_SESSION["CFGURL"]][ssuser_nivel]>0)
   		elseif($_GET[user_id])
   		{
 		echo doBrowseTermsFromUser(secure_data($_SESSION[$_SESSION["CFGURL"]][ssuser_id],"sql"),secure_data($_GET[ord],"sql"));
-		//quiere ver un año
+		//quiere ver un aÃ±o
 		}
 		elseif($_GET[y])
 		{

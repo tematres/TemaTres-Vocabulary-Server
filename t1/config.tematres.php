@@ -1,8 +1,8 @@
 <?php
-#   TemaTres : aplicaci髇 para la gesti髇 de lenguajes documentales #       #
+#   TemaTres : aplicaci贸n para la gesti贸n de lenguajes documentales #       #
 #                                                                        #
 #   Copyright (C) 2004-2008 Diego Ferreyra tematres@r020.com.ar
-#   Distribuido bajo Licencia GNU Public License, versi髇 2 (de junio de 1.991) Free Software Foundation
+#   Distribuido bajo Licencia GNU Public License, versi贸n 2 (de junio de 1.991) Free Software Foundation
 #  
 ###############################################################################################################
 # ARCHIVO DE CONFIGURACION == CONFIG FILE #
@@ -11,7 +11,7 @@
 include('db.tematres.php');
 include('../common/include/fun.gral.php');
 
-// Conexi髇 con la BD || => proceso de instalaci髇
+// Conexi贸n con la BD || => proceso de instalaci贸n
 $db = ConectarseMySqli("$DBCFG[Server]", "$DBCFG[DBLogin]","$DBCFG[DBPass]", "$DBCFG[DBName]");
 
 if(!$db)
@@ -39,10 +39,14 @@ $CFG["_URI_SEPARATOR_ID"] ='?tema=';
 $CFG["_CHAR_ENCODE"] ='utf-8';
 
 
-// use term codes to sort the terms
+// use term codes to sort the terms: (1 = Yes, 0 = No: default: 1)
 $CFG["_USE_CODE"] ='1';
 
-// Maximum level of depth in the tree of items for display on the same page [M醲imo nivel de profundidad en el 醨bol de temas para la visualizaci髇 en una misma p醙ina]
+
+// Shown term codes in public view (1 = Yes, 0 = No: default: 1)
+$CFG["_SHOW_CODE"] ='1';
+
+// Maximum level of depth in the tree of items for display on the same page [M谩ximo nivel de profundidad en el 谩rbol de temas para la visualizaci贸n en una misma p谩gina]
 define('CFG_MAX_TREE_DEEP','3');
 
 // Status details visible for any users [Detalles del estado de terminos visibles para todos los usurios] 0 => no public details / 1 => public details
@@ -54,7 +58,7 @@ define('CFG_SIMPLE_WEB_SERVICE','1');
 //Number of terms display by status view
 define('CFG_NUM_SHOW_TERMSxSTATUS','100');
 
-// 	Minimum characters for search operations / n鷐ero m韓imo de caracteres para operaciones de b鷖queda 
+// 	Minimum characters for search operations / n煤mero m铆nimo de caracteres para operaciones de b煤squeda 
 /*
 define('CFG_MIN_SEARCH_SIZE','1');
 */

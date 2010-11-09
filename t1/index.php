@@ -8,6 +8,13 @@
 #
 include("config.tematres.php");
 $metadata=do_meta_tag();
+ /*
+term reporter
+*/
+if(($_GET[mod]=='csv') && (substr($_GET[task],0,3)=='csv') && ($_SESSION[$_SESSION["CFGURL"]][ssuser_id]))  
+{
+	return wichReport($_GET[task]);
+}
 ?>
 <!DOCTYPE html
 PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
@@ -30,7 +37,7 @@ PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
 			@import "../common/css/mobile.css";
  		</style>
 
-<script type="text/javascript" src="../common/jq/lib/jquery-1.4.2.min.js"></script>
+<script type="text/javascript" src="../common/jq/lib/jquery-1.4.3.min.js"></script>
 <script type='text/javascript' src='../common/jq/lib/jquery.bgiframe.min.js'></script>
 <script type='text/javascript' src='../common/jq/jquery.autocomplete.min.js'></script>
 <link rel="stylesheet" type="text/css" href="../common/jq/jquery.autocomplete.css" />
@@ -120,7 +127,7 @@ if ($_SESSION[$_SESSION["CFGURL"]][ssuser_nivel]>0)
 	</script>
 
  <script type="text/javascript">    
-    $(function(){
+ window.onload=function() {
     	// BUTTONS
     	$('.fg-button').hover(
     		function(){ $(this).removeClass('ui-state-default').addClass('ui-state-focus'); },
@@ -144,10 +151,10 @@ if ($_SESSION[$_SESSION["CFGURL"]][ssuser_nivel]>0)
 			showSpeed: 300,
 			backLink: false,
 			flyOut: true,
-			callerOnState: 'ui-state-active' 
+			callerOnState: 'ui-state-active'
 		});
 		
-    });
+    };
     </script>
 	
 <?php

@@ -1,13 +1,13 @@
 <?php
-#   TemaTres : aplicaci髇 para la gesti髇 de lenguajes documentales #       #
+#   TemaTres : aplicaci贸n para la gesti贸n de lenguajes documentales #       #
 #                                                                        #
 #   Copyright (C) 2004-2008 Diego Ferreyra tematres@r020.com.ar
-#   Distribuido bajo Licencia GNU Public License, versi髇 2 (de junio de 1.991) Free Software Foundation
+#   Distribuido bajo Licencia GNU Public License, versi贸n 2 (de junio de 1.991) Free Software Foundation
 #  
 ###############################################################################################################
-#   Include para seleccionar include o funci髇 de formulario de edici髇
+#   Include para seleccionar include o funci贸n de formulario de edici贸n
 
-//array de acciones posibles para asociar t閞minos
+//array de acciones posibles para asociar t茅rminos
 $arrayTaskExistTerms=array("addBT","addRT","addFreeUF","addFreeNT");
 
 //verificar que hay datos de un termino y que hubiera session

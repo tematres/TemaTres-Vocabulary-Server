@@ -131,7 +131,8 @@ if(@$DBCFG["DBcharset"]){
 				  `uid` int(5) NOT NULL default '0',
 				  PRIMARY KEY  (`id`),
 				  KEY `id_tema` (`id_tema`),
-				  KEY `orden_notas` (`tipo_nota`,`lang_nota`)
+				  KEY `orden_notas` (`tipo_nota`,`lang_nota`),
+				  FULLTEXT `notas` (`nota`)		
 				) TYPE=MyISAM COMMENT='Tabla de notas' AUTO_INCREMENT=1 ;") ;
 
 		$result5 = mysqli_query($linkDB,"CREATE TABLE `".$prefix."tabla_rel` (
@@ -150,7 +151,7 @@ if(@$DBCFG["DBcharset"]){
 
 		$result6 = mysqli_query($linkDB,"CREATE TABLE `".$prefix."tema` (
 				  `tema_id` int(10) NOT NULL auto_increment,
-				  `code` VARCHAR( 20 ) NULL COMMENT 'code_term' ,
+				  `code` VARCHAR( 30 ) NULL COMMENT 'code_term' ,
 				  `tema` varchar(250) default NULL,
 				  `tesauro_id` int(5) NOT NULL default '0',
 				  `uid` tinyint(3) unsigned NOT NULL default '0',

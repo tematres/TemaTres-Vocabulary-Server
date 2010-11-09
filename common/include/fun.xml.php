@@ -1,8 +1,8 @@
 <?php
-#   TemaTres : aplicación para la gestión de lenguajes documentales #       #
+#   TemaTres : aplicaciÃ³n para la gestiÃ³n de lenguajes documentales #       #
 #                                                                        #
 #   Copyright (C) 2004-2008 Diego Ferreyra tematres@r020.com.ar
-#   Distribuido bajo Licencia GNU Public License, versión 2 (de junio de 1.991) Free Software Foundation
+#   Distribuido bajo Licencia GNU Public License, versiÃ³n 2 (de junio de 1.991) Free Software Foundation
 #
 ###############################################################################################################
 # funciones XML #
@@ -441,7 +441,7 @@ return  $xml;
 
 
 #
-# Armado de salida Dublin Core x término
+# Armado de salida Dublin Core x tÃ©rmino
 #
 function do_dublin_core($idTema){
 
@@ -520,10 +520,10 @@ $_URI_SEPARATOR_ID = ($CFG["_URI_SEPARATOR_ID"]) ? $CFG["_URI_SEPARATOR_ID"] : '
 //Buscar datos del termino
 $datosTermino=ARRAYverDatosTermino($tema_id);
 
-//Términos específicos (NT) del término
+//TÃ©rminos especÃ­ficos (NT) del tÃ©rmino
 $SQLTerminosE=SQLverTerminosE($tema_id);
 
-//Otras relaciones del término (UF,RT, BT) del término
+//Otras relaciones del tÃ©rmino (UF,RT, BT) del tÃ©rmino
 $SQLterminosRelacionados=SQLverTerminoRelaciones($tema_id);
 
 //Nodos de NT
@@ -575,7 +575,7 @@ for($iNota=0; $iNota<(count($datosTermino[notas])); ++$iNota){
     };
 };
 
-//Nodo del término
+//Nodo del tÃ©rmino
 $xmlnodoTermino.='<PreferredTerm dc:identifier="'.$_URI_BASE_ID.$_URI_SEPARATOR_ID.$datosTermino[idTema].'" xml:lang="'.$_SESSION["CFGIdioma"].'">';
 $xmlnodoTermino.='	<LexicalValue>'.xmlentities($datosTermino[titTema]).'</LexicalValue>';
 $xmlnodoTermino.='	<dcterms:created>'.$datosTermino[cuando].'</dcterms:created>';
@@ -684,7 +684,7 @@ function do_meta_tag($arrayTermino=""){
 
 GLOBAL $CFG;
 
-//Si hay algún tema de proveniente de algún proceso
+//Si hay algÃºn tema de proveniente de algÃºn proceso
 GLOBAL $tema;
 
 if(secure_data($tema,"digit")){
@@ -693,7 +693,7 @@ if(secure_data($tema,"digit")){
 	$tema_id = ($_POST[tema]) ? $_POST[tema] : $_GET[tema];
 
 
-	//Si hay tema_id desde algún proceso
+	//Si hay tema_id desde algÃºn proceso
 	$tema_id = ($tema) ? $tema : $tema_id;
 	}
 
@@ -719,7 +719,7 @@ elseif(secure_data($_GET[letra],"alnum"))
 
 	$meta_tag='<title>'.xmlentities($ver_sub_title.' '.$_SESSION[CFGTitulo]).'</title>';
 /*
- * Error en verificación
+ * Error en verificaciÃ³n
 	$meta_tag.='<meta http-equiv="content-language" content="'.LANG.'" />';
 */
 	$meta_tag.='<meta http-equiv="content-type" content="application/xhtml+xml; charset='.$CFG["_CHAR_ENCODE"].'" />';
@@ -806,9 +806,9 @@ while ($array=mysqli_fetch_array($sql[datos])){
 	$row.='</topic>';
 	};
 
-//Esta pidiendo el vocabulario completo -> incluir topic de términos no preferidos.
+//Esta pidiendo el vocabulario completo -> incluir topic de tÃ©rminos no preferidos.
 if(!isset($tema_id)){
-	//Sql de términos no prereridos (UF)
+	//Sql de tÃ©rminos no prereridos (UF)
 	$sql=SQLterminosValidosUF();
 	while ($array=mysqli_fetch_array($sql[datos])){
 		$row.='<topic id="'.$_URI_BASE_ID.$_URI_SEPARATOR_ID.$array[tema_id].'">';
@@ -827,7 +827,7 @@ return $row;
 
 
 /*
-Creación de relacion XTM
+CreaciÃ³n de relacion XTM
 */
 function doRelacionesXTM($tema_id=""){
 	GLOBAL $DBCFG;

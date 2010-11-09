@@ -164,17 +164,44 @@ $rows.=' <fieldset>
     $LABEL_Termino=ucfirst(LABEL_Termino);
     $LABEL_esNoPreferido=ucfirst(LABEL_esNoPreferido);
     $LABEL_CODE=ucfirst(LABEL_CODE);
+    $LABEL_NOTE=ucfirst(LABEL_nota);
+    $LABEL_TARGET_TERM=ucfirst(LABEL_TargetTerm);
 		
+	$arrayWS=array("t#$LABEL_Termino");
+
+	$arrayVocabStats=ARRAYresumen($_SESSION[id_tesa],"G","");
+
+	if($arrayVocabStats["cant_up"]>0)
+	{
+		array_push($arrayWS,"uf#$LABEL_esNoPreferido");
+	}
+	
+	if($arrayVocabStats["cant_notas"]>0)
+	{
+		array_push($arrayWS,"n#$LABEL_NOTE");
+	}
+	
+	if($CFG["_SHOW_CODE"]=='1')
+	{
+		array_push($arrayWS,"c#$LABEL_CODE");
+	}
+
+	if($arrayVocabStats["cant_term2tterm"])
+	{
+		array_push($arrayWS,"tgt#$LABEL_TARGET_TERM");
+	}
+
+/*
+solo si hay más de un opción		
+*/
+if(count($arrayWS)>1)
+{		
 	$rows.='<div><label for="ws" accesskey="f">'.ucfirst(LABEL_QueBuscar).'</label>';
 	$rows.='<select id="ws" name="ws">';
-
-	$arrayWS=($CFG["_USE_CODE"]=='1') ? array("t#$LABEL_Termino","uf#$LABEL_esNoPreferido","c#$LABEL_CODE") : array("t#$LABEL_Termino","uf#$LABEL_esNoPreferido");  
-
 	$rows.=doSelectForm($arrayWS,"$_GET[ws]");
 	$rows.='</select>';
-//	$rows.='<input name="isUF" type="checkbox" id="isUF" value="1" '.do_check('1',$_GET[isUF],"checked").'/>';
 	$rows.='</div>';
-
+}
 
 	$rows.='<div><label for="xstring" accesskey="s">'.ucfirst(LABEL_BuscaTermino).'</label>';
 	$rows.='<input name="xstring" type="text" id="xstring" size="25" maxlength="50" value="'.$_GET[xstring].'"/>';
@@ -202,22 +229,27 @@ $rows.=' <fieldset>
 	}
     
 	//Evaluar si hay notas
-	$resumen=ARRAYresumen($_SESSION[id_tesa],"G","");
-	if (is_array($resumen["cant_notas"])) 
+	if (is_array($arrayVocabStats["cant_notas"])) 
 	{
 		
 		$arrayTiposNotas= array('NA'=>LABEL_NA,'NH'=>LABEL_NH,'NC'=>LABEL_NC,'NB'=>LABEL_NB,'NP'=>LABEL_NP);
-
-		foreach ($resumen["cant_notas"] as $knotas => $vnotas) 
+		foreach ($arrayVocabStats["cant_notas"] as $knotas => $vnotas) 
 		{
 			$formSelectTipoNota[]=$knotas.'#'.$arrayTiposNotas[$knotas].' ('.$vnotas.')';			 
 		}
-	$rows.='<div><label for="hasNote" accesskey="n">'.ucfirst(LABEL_tipoNota).'</label>';
-	$rows.='<select id="hasNote" name="hasNote">';
-	$rows.='<option value="">'.ucfirst(LABEL_Todos).'</option>';
-	$rows.=doSelectForm($formSelectTipoNota,"$_GET[hasNote]");
-	$rows.='</select>';
-	$rows.='</div>';
+
+/*
+		Si hay más de un tipo de nota
+*/
+		if(count($arrayVocabStats["cant_notas"])>0)
+		{	
+			$rows.='<div><label for="hasNote" accesskey="n">'.ucfirst(LABEL_tipoNota).'</label>';
+			$rows.='<select id="hasNote" name="hasNote">';
+			$rows.='<option value="">'.ucfirst(LABEL_Todos).'</option>';
+			$rows.=doSelectForm($formSelectTipoNota,"$_GET[hasNote]");
+			$rows.='</select>';
+			$rows.='</div>';
+		}
 	}
 	
   	
@@ -277,6 +309,210 @@ if($_GET[boton]==LABEL_Enviar)
 
 return $rows;
 }
+
+/*
+Term Report form
+* 
+*/
+function HTMLformAdvancedTermReport($array) 
+{
+
+GLOBAL $CFG;
+
+$LABEL_Termino=ucfirst(LABEL_Termino);
+$LABEL_esNoPreferido=ucfirst(LABEL_esNoPreferido);
+$LABEL_CODE=ucfirst(LABEL_CODE);
+$LABEL_NOTE=ucfirst(LABEL_nota);
+$LABEL_TARGET_TERM=ucfirst(LABEL_TargetTerm);
+$LABEL_haveEQ=LABEL_haveEQ;
+$LABEL_nohaveEQ=LABEL_nohaveEQ;
+$LABEL_start=LABEL_start;
+$LABEL_end=LABEL_end;
+
+$arrayVocabStats=ARRAYresumen($_SESSION[id_tesa],"G","");
+
+
+$rows.=' <fieldset>
+    <legend>'.ucfirst(LABEL_FORM_advancedReport).'</legend>
+   <form class="formdiv" name="advancedreport" action="index.php#csv" method="GET" onsubmit="return checkrequired(this)">';
+		
+	$arrayWS=array("t#$LABEL_Termino");
+
+	if($arrayVocabStats["cant_up"]>0)
+	{
+		array_push($arrayWS,"uf#$LABEL_esNoPreferido");
+	}
+	
+	if($arrayVocabStats["cant_notas"]>0)
+	{
+		array_push($arrayWS,"n#$LABEL_NOTE");
+	}
+
+	//Evaluar si hay top terms
+	$sqlTopTerm=SQLverTopTerm();
+	if($sqlTopTerm[cant])
+	{
+		while ($arrayTopTerms=mysqli_fetch_array($sqlTopTerm[datos])) 
+		{
+			$formSelectTopTerms[]=$arrayTopTerms[tema_id].'#'.$arrayTopTerms[tema];
+		}
+		$rows.='<div><label for="hasTopTerm" accesskey="t">'.ucfirst(LABEL_TopTerm).'</label>';
+		$rows.='<select id="hasTopTerm" name="hasTopTerm">';
+		$rows.='<option value="">'.ucfirst(LABEL_FORM_nullValue).'</option>';
+		$rows.=doSelectForm($formSelectTopTerms,"$_GET[hasTopTerm]");
+		$rows.='</select>';
+		$rows.='</div>';
+	}
+	
+	//Evaluar si hay notas
+	if (is_array($arrayVocabStats["cant_notas"])) 
+	{
+		
+		$arrayTiposNotas= array('NA'=>LABEL_NA,'NH'=>LABEL_NH,'NC'=>LABEL_NC,'NB'=>LABEL_NB,'NP'=>LABEL_NP);
+		foreach ($arrayVocabStats["cant_notas"] as $knotas => $vnotas) 
+		{
+			$formSelectTipoNota[]=$knotas.'#'.$arrayTiposNotas[$knotas].' ('.$vnotas.')';			 
+		}
+
+/*
+		Si hay más de un tipo de nota
+*/
+		if(count($arrayVocabStats["cant_notas"])>0)
+		{	
+			$rows.='<div><label for="hasNote" accesskey="n">'.ucfirst(LABEL_FORM_haveNoteType).'</label>';
+			$rows.='<select id="hasNote" name="hasNote">';
+			$rows.='<option value="">'.ucfirst(LABEL_FORM_nullValue).'</option>';
+			$rows.=doSelectForm($formSelectTipoNota,"$_GET[hasNote]");
+			$rows.='</select>';
+			$rows.='</div>';
+		}
+	}
+	
+  	
+   	//Evaluar si hay terminos
+    $sqlTermsByDates=SQLtermsByDate();   	
+	if($sqlTermsByDates[cant])
+	{   	
+		GLOBAL $MONTHS;
+		while ($arrayTermsByDates=mysqli_fetch_array($sqlTermsByDates[datos])) 
+		{
+			//normalizacion de fechas
+			$arrayTermsByDates[months]=(strlen($arrayTermsByDates[months])==1) ? '0'.$arrayTermsByDates[months] : $arrayTermsByDates[months];
+			
+			$formSelectByDate[]=$arrayTermsByDates[years].'-'.$arrayTermsByDates[months].'#'.$MONTHS["$arrayTermsByDates[months]"].'/'.$arrayTermsByDates[years].' ('.$arrayTermsByDates[cant].')';
+		}
+
+		$rows.='<div><label for="fromDate" accesskey="d">'.ucfirst(LABEL_DesdeFecha).'</label>';
+		$rows.='<select id="fromDate" name="fromDate">';
+		$rows.='<option value="">'.ucfirst(LABEL_FORM_nullValue).'</option>';
+		$rows.=doSelectForm($formSelectByDate,"$_GET[fromDate]");
+		$rows.='</select>'.ucfirst(LABEL_mes).'/'.ucfirst(LABEL_ano);
+		$rows.='</div>';
+	};
+	
+		
+	if($arrayVocabStats["cant_term2tterm"])
+	{
+		
+		$sql=SQLtargetVocabulary("1");
+		
+		$array_vocabularios=array();
+		while($array=mysqli_fetch_array($sql[datos])){
+		if($array[vocabulario_id]!=='1'){
+			//vocabularios que no sean el vocabulario principal
+			array_push($array_vocabularios,$array[tvocab_id].'#'.FixEncoding($array[tvocab_label]));
+			}
+		};
+		
+		$rows.='<div><label for="report_tvocab_id" accesskey="t">'.ucfirst(LABEL_TargetTerms).'</label>';
+		$rows.='<select id="csv_tvocab_id" name="csv_tvocab_id">';
+		$rows.='<option value="">'.ucfirst(LABEL_FORM_nullValue).'</option>';
+		$rows.=doSelectForm($array_vocabularios,"$_GET[csv_tvocab_id]");
+		$rows.='</select>';
+		
+		$rows.='<select id="mapped" name="mapped">';
+		$rows.=doSelectForm(array("y#$LABEL_haveEQ","n#$LABEL_nohaveEQ"),"$_GET[mapped]");
+		$rows.='</select>';
+		$rows.='</div>';
+	}		
+
+//only for admin
+if($_SESSION[$_SESSION["CFGURL"]][ssuser_nivel]=='1')
+{
+	$sqlUsers=SQLdatosUsuarios();
+	if($sqlUsers[cant]>1)
+	{
+		while ($arrayUsers=mysqli_fetch_array($sqlUsers[datos])) 
+		{
+			$formSelectUsers[]=$arrayUsers[id].'#'.$arrayUsers[apellido].', '.$arrayUsers[nombres];
+		}
+		$rows.='<div><label for="user_id" accesskey="u">'.ucfirst(MENU_Usuarios).'</label>';
+		$rows.='<select id="byuser_id" name="byuser_id">';
+		$rows.='<option value="">'.ucfirst(LABEL_FORM_nullValue).'</option>';
+		$rows.=doSelectForm($formSelectUsers,"$_GET[byuser_id]");
+		$rows.='</select>';
+		$rows.='</div>';  
+	}
+}
+
+
+	$rows.='<div><label for="csvstring" accesskey="s">'.ucfirst(LABEL_haveWords).'</label>';
+	$rows.='<select id="w_string" name="w_string">';
+	$rows.=doSelectForm(array("s#$LABEL_start","e#$LABEL_end"),"$_GET[w_string]");
+	$rows.='</select>';
+	$rows.='<input name="csvstring" type="text" id="csvstring" size="5" maxlength="10" value="'.$_GET[csvstring].'"/>';
+	$rows.='</div>';
+		
+$rows.='<div class="submit_form" align="center">';	
+$rows.='<input type="submit"  id="boton" name="boton" value="'.ucfirst(LABEL_Guardar).'"/>';
+$rows.='<input type="hidden"  name="mod" id="mod" value="csv"/>';
+$rows.='<input type="hidden"  name="task" id="mod" value="csv1"/>';
+$rows.='<input type="button"  name="cancelar" type="button" onClick="location.href=\'index.php\'" value="'.ucfirst(LABEL_Cancelar).'"/>';
+$rows.='</div>';
+$rows.='</form>';
+$rows.='  </fieldset>';
+
+return $rows;
+}
+
+
+
+/*
+Simple Term report by 
+*/
+function HTMLformSimpleTermReport($array) 
+{
+
+$LABEL_FreeTerms=ucfirst(LABEL_terminosLibres);
+$LABEL_DuplicatedTerms=ucfirst(LABEL_terminosRepetidos);
+$LABEL_PoliBT=ucfirst(LABEL_poliBT);
+$LABEL_candidate=ucfirst(LABEL_Candidato);
+$LABEL_rejected=ucfirst(LABEL_Rechazado);
+
+$rows.=' <fieldset>
+    <legend>'.ucfirst(LABEL_FORM_simpleReport).'</legend>
+   <form class="formdiv" name="advancedsearch" action="index.php#xstring" method="get" onsubmit="return checkrequired(this)">';
+  
+
+$rows.='<div><label for="simpleReport" accesskey="s">'.ucfirst(LABEL_seleccionar).'</label>';
+$rows.='<select id="task" name="task">';
+$rows.='<option value="">'.ucfirst(LABEL_seleccionar).'</option>';
+$rows.=doSelectForm(array("csv2#$LABEL_FreeTerms","csv3#$LABEL_DuplicatedTerms","csv4#$LABEL_PoliBT","csv5#$LABEL_candidate","csv6#$LABEL_rejected"),"$_GET[task]");
+$rows.='</select>';
+$rows.='</div>';
+
+	
+$rows.='<div class="submit_form" align="center">';	
+$rows.='<input type="submit"  id="boton" name="boton" value="'.LABEL_Guardar.'"/>';
+$rows.='<input type="hidden"  name="mod" id="mod" value="csv"/>';
+$rows.='<input type="button"  name="cancelar" type="button" onClick="location.href=\'index.php\'" value="'.ucfirst(LABEL_Cancelar).'"/>';
+$rows.='</div>';
+$rows.='</form>';
+$rows.='  </fieldset>';
+	
+return $rows;
+}
+
 
 
 
