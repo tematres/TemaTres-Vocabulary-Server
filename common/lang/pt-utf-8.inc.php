@@ -351,6 +351,7 @@ define("LABEL_reIndice","recreate indexes") ;
 define("LABEL_dbMantenimiento","maintenance database");
 
 
+
 /*
 v 1.2
 */
@@ -369,4 +370,18 @@ define('LABEL_termUpdated',"term updated");
 define('LABEL_ShowTargetTermforUpdate',"update");
 define('LABEL_relbetweenVocabularies',"relations between vocabularies");
 define('LABEL_update1_1x1_2',"Update Tematres (1.1 -> 1.2)");
+define('LABEL_TargetTerm',"terminological mapping)");
+define('LABEL_TargetTerms',"terms (terminological mapping)");
+define('LABEL_seleccionar','select');
+define('LABEL_poliBT','more than one broader term');
+define('LABEL_FORM_simpleReport','reports');
+define('LABEL_FORM_advancedReport','advances reports');
+define('LABEL_FORM_nullValue','no matters');
+define('LABEL_FORM_haveNoteType','have note type');
+define('LABEL_haveEQ','have equivalences');
+define('LABEL_nohaveEQ','no equivalences');
+define('LABEL_start','beginning with');
+define('LABEL_end','ending with');
+define('LABEL_haveWords','include words');
+define('LABEL_encode','encoding');
 ?>

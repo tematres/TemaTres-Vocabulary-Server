@@ -372,4 +372,5 @@ define('LABEL_nohaveEQ','no equivalences');
 define('LABEL_start','beginning with');
 define('LABEL_end','ending with');
 define('LABEL_haveWords','include words');
+define('LABEL_encode','encoding');
 ?>

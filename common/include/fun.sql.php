@@ -557,12 +557,21 @@ return $sql;
 # TERMINOS LIBRES
 #
 function SQLverTerminosLibres($tema_id="0"){
+
 GLOBAL $DBCFG;
+
+GLOBAL $CFG;
+
 if($tema_id!=="0"){	
 	$tema_id=secure_data($tema_id,"sql");
 	$where=" and TT.tema_id='$tema_id'";
 	}
-$sql=SQL("select","TT.tema_id,TT.tema,TT.cuando
+
+
+$show_code=($CFG["_USE_CODE"]=='1') ? 'TT.code,' : '';
+
+	
+$sql=SQL("select","TT.tema_id, $show_code TT.tema,TT.cuando
 			from $DBCFG[DBprefix]tema as TT
 			left join $DBCFG[DBprefix]tabla_rel as no_menor on no_menor.id_menor=TT.tema_id
 			left join $DBCFG[DBprefix]tabla_rel as no_mayor on no_mayor.id_mayor=TT.tema_id
@@ -1389,6 +1398,7 @@ return SQL("select","t.tema_id,t.tema,t.cuando,t.cuando_final,t.estado_id $selec
 function SQLadvancedTermReport($array)
 {
 GLOBAL $DBCFG;
+GLOBAL $CFG;
 
 #has top term X
 $array[hasTopTerm]=secure_data($array[hasTopTerm],"sql");
@@ -1468,7 +1478,10 @@ $LABEL_Candidato=LABEL_Candidato;
 $LABEL_Aceptado=LABEL_Aceptado;
 $LABEL_Rechazado=LABEL_Rechazado;
 
-return SQL("select","t.tema_id,t.tema,t.cuando as created_date,if(t.cuando_final is null,t.cuando,t.cuando_final) last_change,
+$show_code=($CFG["_USE_CODE"]=='1') ? 't.code,' : '';
+
+
+return SQL("select","t.tema_id, $show_code t.tema,t.cuando as created_date,if(t.cuando_final is null,t.cuando,t.cuando_final) last_change,
 		elt(field(t.estado_id,'12','13','14'),'$LABEL_Candidato','$LABEL_Aceptado','$LABEL_Rechazado') as status,concat(u.APELLIDO,', ',u.NOMBRES) as user_data $select		
 		from $from $DBCFG[DBprefix]values v,$DBCFG[DBprefix]usuario u, $DBCFG[DBprefix]tema t
 		$leftJoin
@@ -1716,12 +1729,19 @@ terms by status (only candidate or reject)
 function SQLtermsXstatus($tesauro_id,$status_id) 
 {
 	GLOBAL $DBCFG;
+	GLOBAL $CFG;
+	
 	$tesauro_id=secure_data($tesauro_id,"sql");
 	
 	$status_id=($status_id=='12') ? '12' : '14';	
 
+
+	$show_code=($CFG["_USE_CODE"]=='1') ? 't.code,' : '';
+
+
+
 	//term no mapped and no UF or EQ
-	return SQL("select","t.tema_id,t.tema,t.cuando,concat(u.APELLIDO,', ',u.NOMBRES) as user_data,v.value as status,t.cuando_estado 
+	return SQL("select","t.tema_id, $show_code t.tema,t.cuando,concat(u.APELLIDO,', ',u.NOMBRES) as user_data,v.value as status,t.cuando_estado 
 	from $DBCFG[DBprefix]usuario u,$DBCFG[DBprefix]values v,$DBCFG[DBprefix]tema as t
 	where
 	t.tesauro_id='$tesauro_id'

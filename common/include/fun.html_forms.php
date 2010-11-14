@@ -415,7 +415,6 @@ $rows.=' <fieldset>
 	{
 		
 		$sql=SQLtargetVocabulary("1");
-		
 		$array_vocabularios=array();
 		while($array=mysqli_fetch_array($sql[datos])){
 		if($array[vocabulario_id]!=='1'){
@@ -463,6 +462,13 @@ if($_SESSION[$_SESSION["CFGURL"]][ssuser_nivel]=='1')
 	$rows.='<input name="csvstring" type="text" id="csvstring" size="5" maxlength="10" value="'.$_GET[csvstring].'"/>';
 	$rows.='</div>';
 		
+if ($CFG["_CHAR_ENCODE"]=='utf-8') 
+{
+	$rows.='<div><label for="csv_encode" accesskey="e">'.ucfirst(LABEL_encode).' latin1</label>';
+	$rows.='<input name="csv_encode" type="checkbox" id="csv_encode" value="latin1" '.do_check('latin1',$_GET[csv_encode],"checked").'/>';
+	$rows.='</div>';
+}		
+		
 $rows.='<div class="submit_form" align="center">';	
 $rows.='<input type="submit"  id="boton" name="boton" value="'.ucfirst(LABEL_Guardar).'"/>';
 $rows.='<input type="hidden"  name="mod" id="mod" value="csv"/>';
@@ -483,6 +489,8 @@ Simple Term report by
 function HTMLformSimpleTermReport($array) 
 {
 
+GLOBAL $CFG;
+
 $LABEL_FreeTerms=ucfirst(LABEL_terminosLibres);
 $LABEL_DuplicatedTerms=ucfirst(LABEL_terminosRepetidos);
 $LABEL_PoliBT=ucfirst(LABEL_poliBT);
@@ -491,7 +499,7 @@ $LABEL_rejected=ucfirst(LABEL_Rechazado);
 
 $rows.=' <fieldset>
     <legend>'.ucfirst(LABEL_FORM_simpleReport).'</legend>
-   <form class="formdiv" name="advancedsearch" action="index.php#xstring" method="get" onsubmit="return checkrequired(this)">';
+   <form class="formdiv" name="simprereport" id="simprereport" action="index.php" method="get" onsubmit="return checkrequired(this)">';
   
 
 $rows.='<div><label for="simpleReport" accesskey="s">'.ucfirst(LABEL_seleccionar).'</label>';
@@ -501,9 +509,17 @@ $rows.=doSelectForm(array("csv2#$LABEL_FreeTerms","csv3#$LABEL_DuplicatedTerms",
 $rows.='</select>';
 $rows.='</div>';
 
+		
+if ($CFG["_CHAR_ENCODE"]=='utf-8') 
+{
+	$rows.='<div><label for="csv_encode_simpre" accesskey="s">'.ucfirst(LABEL_encode).' latin1</label>';
+	$rows.='<input name="csv_encode" type="checkbox" id="csv_encode_simpre" value="latin1" '.do_check('latin1',$_GET[csv_encode],"checked").'/>';
+	$rows.='</div>';
+}		
+
 	
 $rows.='<div class="submit_form" align="center">';	
-$rows.='<input type="submit"  id="boton" name="boton" value="'.LABEL_Guardar.'"/>';
+$rows.='<input type="submit"  id="boton" name="boton" value="'.ucfirst(LABEL_Guardar).'"/>';
 $rows.='<input type="hidden"  name="mod" id="mod" value="csv"/>';
 $rows.='<input type="button"  name="cancelar" type="button" onClick="location.href=\'index.php\'" value="'.ucfirst(LABEL_Cancelar).'"/>';
 $rows.='</div>';

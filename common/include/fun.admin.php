@@ -215,7 +215,7 @@ function wichReport($task)
 	break;
 }
 
-return sql2csv($sql,string2url($_SESSION[CFGTitulo]).'.csv');
+return sql2csv($sql,string2url($_SESSION[CFGTitulo]).'.csv',$_GET[csv_encode]);
 }
 
 

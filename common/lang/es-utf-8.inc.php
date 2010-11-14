@@ -382,4 +382,5 @@ define('LABEL_nohaveEQ','no tienen equivalencias');
 define('LABEL_start','que comienzan con');
 define('LABEL_end','finalizadas en');
 define('LABEL_haveWords','incluyen palabras');
+define('LABEL_encode','codificación');
 ?>
