@@ -369,6 +369,7 @@ define('LABEL_notFound',"término no encontrado");
 define('LABEL_termUpdated',"término actualizado");
 define('LABEL_relbetweenVocabularies',"relaciones entre vocabularios");
 define('LABEL_update1_1x1_2',"Actualizar Tematres (1.1 -> 1.2)");
+define('LABEL_update1x1_2',"Actualizar Tematres (1.0x -> 1.2)");
 define('LABEL_TargetTerm',"término externo (mapeo terminológico)");
 define('LABEL_TargetTerms',"términos externos (mapeo terminológico)");
 define('LABEL_seleccionar','seleccionar');

@@ -955,6 +955,12 @@ switch ($ver2ver) {
 		$rows=($task["$ver2ver"]=='3') ? '<br/><span class="success">'.$install_message[306].'</span>' : '<br/><span class="error">'.ERROR.'</span>';
 	break;
 
+	case '1x1_2':
+		$task=SQLupdateTemaTresVersion('1x1_2');
+		
+		$rows=($task["$ver2ver"]=='5') ? '<br/><span class="success">'.$install_message[306].'</span>' : '<br/><span class="error">'.ERROR.'</span>';
+	break;
+
 	default :
 
 	break;

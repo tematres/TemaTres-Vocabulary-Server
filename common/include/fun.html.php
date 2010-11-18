@@ -156,7 +156,7 @@ while ($datosNT=mysqli_fetch_array($sqlNT[datos])){
 	{
 		$row_NT.='<div title="term code, click to edit" class="editable_textarea" id="code_tema'.$datosNT[id_tema].'">'.$datosNT[code].'</div>';
 	}
-	else 
+	elseif($CFG["_SHOW_CODE"]=='1')
 	{
 		$row_NT.=' '.$datosNT[code].' ';
 	}
@@ -338,7 +338,7 @@ $body.=$HTMLterminos[HTMLterminos]["TG"];
 		$body.=HTMLtermMenu($array,$HTMLterminos[cantRelaciones]);
 
 	}
-	else 
+	elseif($CFG["_SHOW_CODE"]=='1')
 	{
 		$body.= ($array[code]) ? ' <label class="code_tema" for="T'.$array[tema_id].'">'.$array[code].'</label>' : '';
 	}
@@ -450,6 +450,7 @@ if( ( ($relacionesTermino[cantTG]==0) || ($_SESSION[CFGPolijerarquia]=='1') ) &&
 		$row.='<li><a title="'.ucfirst(LABEL_export).'" href="admin.php?doAdmin=export">'.ucfirst(LABEL_export).'</a></li>';
 		$row.='<li><a title="'.ucfirst(LABEL_OptimizarTablas).'" href="admin.php?opTbl=TRUE">'.ucfirst(LABEL_OptimizarTablas).'</a></li>';
 		$row.='<li><a title="'.ucfirst(LABEL_update1_1x1_2).'" href="admin.php?doAdmin=updte1_1x1_2">'.ucfirst(LABEL_update1_1x1_2).'</a></li>';
+		$row.='<li><a title="'.ucfirst(LABEL_update1x1_2).'" href="admin.php?doAdmin=updte1x1_2">'.ucfirst(LABEL_update1x1_2).'</a></li>';
 		$row.='</menu></li>';
 		}
 
@@ -528,6 +529,7 @@ if($_SESSION[$_SESSION["CFGURL"]][ssuser_nivel]=='1'){
 	$row.='<li><a href="admin.php?doAdmin=import" title='.ucfirst(LABEL_import).'>'.ucfirst(LABEL_import).'</a></li>';
 	$row.='<li><a title="'.ucfirst(MENU_DatosTesauro).'" href="admin.php?opTbl=TRUE">'.ucfirst(LABEL_OptimizarTablas).'</a></li>';
 	$row.='<li><a title="'.ucfirst(LABEL_update1_1x1_2).'" href="admin.php?doAdmin=updte1_1x1_2">'.ucfirst(LABEL_update1_1x1_2).'</a></li>';
+	$row.='<li><a title="'.ucfirst(LABEL_update1x1_2).'" href="admin.php?doAdmin=updte1x1_2">'.ucfirst(LABEL_update1x1_2).'</a></li>';
 
 	$row.='</ul></li>';
 
@@ -1236,7 +1238,7 @@ while ($array = mysqli_fetch_array($sql[datos])){
 	{
 		$rows.='<div title="term code, click to edit" class="editable_textarea" id="code_tema'.$array[tema_id].'">'.$array[code].'</div>';
 	}
-	else 
+	elseif($CFG["_SHOW_CODE"]=='1') 
 	{
 		$rows.=' '.$array[code].' ';
 	}

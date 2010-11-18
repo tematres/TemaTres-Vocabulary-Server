@@ -370,6 +370,7 @@ define('LABEL_termUpdated',"term updated");
 define('LABEL_ShowTargetTermforUpdate',"update");
 define('LABEL_relbetweenVocabularies',"relations between vocabularies");
 define('LABEL_update1_1x1_2',"Update Tematres (1.1 -> 1.2)");
+define('LABEL_update1x1_2',"Update Tematres (1.0x -> 1.2)");
 define('LABEL_TargetTerm',"terminological mapping)");
 define('LABEL_TargetTerms',"terms (terminological mapping)");
 define('LABEL_seleccionar','select');

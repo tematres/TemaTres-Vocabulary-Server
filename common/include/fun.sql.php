@@ -1565,6 +1565,51 @@ mysqli_select_db($linkDB,"$DBCFG[DBName]");
 
 switch ($ver2ver) {
 	case '1_1x1_2' :
+	$result61 = mysqli_query($linkDB,"CREATE TABLE IF NOT EXISTS `".$prefix."term2tterm` (
+			 `tterm_id` int(22) NOT NULL AUTO_INCREMENT,
+			  `tvocab_id` int(22) NOT NULL,
+			  `tterm_url` varchar(200) NOT NULL,
+			  `tterm_uri` varchar(200) NOT NULL,
+			  `tterm_string` varchar(250) NOT NULL,
+			  `cuando` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+			  `cuando_last` timestamp NULL DEFAULT NULL,
+			  `uid` int(22) NOT NULL,
+			  `tema_id` int(22) NOT NULL,
+			  PRIMARY KEY (`tterm_id`),
+			  KEY `tvocab_id` (`tvocab_id`,`cuando`,`cuando_last`,`uid`),
+			  KEY `tema_id` (`tema_id`),
+			  KEY `tterm_string` (`tterm_string`)
+			) ENGINE=MyISAM") ;
+
+	$result62 = mysqli_query($linkDB,"CREATE TABLE IF NOT EXISTS `".$prefix."tvocab` (
+				  `tvocab_id` int(22) NOT NULL AUTO_INCREMENT,
+				  `tvocab_label` varchar(150) NOT NULL,
+				  `tvocab_tag` varchar(5) NOT NULL,
+				  `tvocab_lang` VARCHAR( 5 ),
+				  `tvocab_title` varchar(200) NOT NULL,
+				  `tvocab_url` varchar(250) NOT NULL,
+				  `tvocab_uri_service` varchar(250) NOT NULL,
+				  `tvocab_status` tinyint(1) NOT NULL,
+				  `cuando` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+				  `uid` int(22) NOT NULL,
+				  PRIMARY KEY (`tvocab_id`),
+				  KEY `uid` (`uid`),
+				  KEY `status` (`tvocab_status`)
+				) ENGINE=MyISAM ;") ;
+
+	$result622 = mysqli_query($linkDB,"ALTER TABLE `".$prefix."notas` ADD FULLTEXT `notas` (`nota`);");		
+
+	$logTask["1_1x1_2"] = $result61+$result62+$result622;
+	break;
+
+
+	case '1x1_2' :
+		//update to 1.1
+		$result60=mysqli_query($linkDB,"ALTER TABLE `".$prefix."tema` ADD `code` VARCHAR( 30 ) NULL COMMENT 'code_term' AFTER `tema_id`") ;
+		$result601=mysqli_query($linkDB,"ALTER TABLE `".$prefix."tema` ADD INDEX ( `code` )") ;
+		echo $result60[error].'aa';
+
+
 		$result61 = mysqli_query($linkDB,"CREATE TABLE IF NOT EXISTS `".$prefix."term2tterm` (
 			 `tterm_id` int(22) NOT NULL AUTO_INCREMENT,
 			  `tvocab_id` int(22) NOT NULL,
@@ -1599,7 +1644,52 @@ switch ($ver2ver) {
 
 		$result622 = mysqli_query($linkDB,"ALTER TABLE `".$prefix."notas` ADD FULLTEXT `notas` (`nota`);");		
 
-	$logTask["1_1x1_2"] = $result61+$result62+$result622;
+	$logTask["1x1_2"] = $result61+$result62+$result622+$result60+$result601;
+	break;
+
+
+	case '1x1_2' :
+		//update to 1.1
+		$result60 =mysqli_query($linkDB,"ALTER TABLE `".$prefix."tema` ADD `code` VARCHAR( 20 ) NULL COMMENT 'code_term' AFTER `tema_id`") ;
+		$result601 =mysqli_query($linkDB,"ALTER TABLE `".$prefix."tema` ADD INDEX ( `code` )") ;
+
+
+
+		$result61 = mysqli_query($linkDB,"CREATE TABLE IF NOT EXISTS `".$prefix."term2tterm` (
+			 `tterm_id` int(22) NOT NULL AUTO_INCREMENT,
+			  `tvocab_id` int(22) NOT NULL,
+			  `tterm_url` varchar(200) NOT NULL,
+			  `tterm_uri` varchar(200) NOT NULL,
+			  `tterm_string` varchar(250) NOT NULL,
+			  `cuando` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+			  `cuando_last` timestamp NULL DEFAULT NULL,
+			  `uid` int(22) NOT NULL,
+			  `tema_id` int(22) NOT NULL,
+			  PRIMARY KEY (`tterm_id`),
+			  KEY `tvocab_id` (`tvocab_id`,`cuando`,`cuando_last`,`uid`),
+			  KEY `tema_id` (`tema_id`),
+			  KEY `tterm_string` (`tterm_string`)
+			) ENGINE=MyISAM") ;
+
+		$result62 = mysqli_query($linkDB,"CREATE TABLE IF NOT EXISTS `".$prefix."tvocab` (
+				  `tvocab_id` int(22) NOT NULL AUTO_INCREMENT,
+				  `tvocab_label` varchar(150) NOT NULL,
+				  `tvocab_tag` varchar(5) NOT NULL,
+				  `tvocab_lang` VARCHAR( 5 ),
+				  `tvocab_title` varchar(200) NOT NULL,
+				  `tvocab_url` varchar(250) NOT NULL,
+				  `tvocab_uri_service` varchar(250) NOT NULL,
+				  `tvocab_status` tinyint(1) NOT NULL,
+				  `cuando` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+				  `uid` int(22) NOT NULL,
+				  PRIMARY KEY (`tvocab_id`),
+				  KEY `uid` (`uid`),
+				  KEY `status` (`tvocab_status`)
+				) ENGINE=MyISAM ;") ;
+
+		$result622 = mysqli_query($linkDB,"ALTER TABLE `".$prefix."notas` ADD FULLTEXT `notas` (`nota`);");		
+
+	$logTask["1x1_2"] = $result61+$result62+$result622+$result60+$result601;
 	break;
 
 	default :

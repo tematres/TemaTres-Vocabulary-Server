@@ -217,6 +217,11 @@ if($_SESSION[$_SESSION["CFGURL"]][ssuser_id]){
 	if($_GET[doAdmin]=='updte1_1x1_2'){
 				echo updateTemaTres('1_1x1_2');
 				}								
+
+	//update from tematres 1.1 -> tematres 1.2 
+	if($_GET[doAdmin]=='updte1x1_2'){
+				echo updateTemaTres('1x1_2');
+				}								
 }
 ?>
 </div>
