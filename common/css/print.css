@@ -1,41 +1,7 @@
-/* CSS Document print version*/
-
-body {
-   background: white;
-   font-size: 12pt;
-   }
-#sidebar {
-   display: none;
-   }
-#bodyText {
-   width: auto;
-   margin: 0 5%;
-   padding: 0;
-   border: 0;
-   float: none !important;
-   color: black;
-   background: transparent none;
-   }
-a:link, a:visited {
-   color: #520;
-   background: transparent;
-   font-weight: bold;
-   text-decoration: underline;
-   }
-
-/*#bodyText a:link:after, #bodyText a:visited:after {
-   content: " (" attr(href) ") ";
-   font-size: 90%;
-   }*/
-
-#enlaces_xml{
-   display: none;
-   }
-
-#enlaces_web{
-   display: none;
-   }
-
-form{
-   display: none;
-   }
+body{background:white;font-size:12pt;}
+#sidebar{display:none;}
+#bodyText{width:auto;margin:0 5%;padding:0;border:0;float:none !important;color:black;background:transparent none;}
+a:link, a:visited{color:#520;background:transparent;font-weight:bold;text-decoration:underline;}
+#enlaces_xml{display:none;}
+#enlaces_web{display:none;}
+form{display:none;}

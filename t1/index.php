@@ -24,9 +24,7 @@ PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   <?php echo $metadata["metadata"]; ?>
 	<meta content="text/css" />
 		<style type="text/css" media="screen">
-			@import "../common/css/marron.css";
-			@import "../common/css/tables.css";
-			@import "../common/css/forms.css";
+			@import "../common/css/style.css";
  		</style>
 
 		<style type="text/css" media="print">
@@ -40,7 +38,6 @@ PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
 <script type="text/javascript" src="../common/jq/lib/jquery-1.4.3.min.js"></script>
 <script type='text/javascript' src='../common/jq/lib/jquery.bgiframe.min.js'></script>
 <script type='text/javascript' src='../common/jq/jquery.autocomplete.min.js'></script>
-<link rel="stylesheet" type="text/css" href="../common/jq/jquery.autocomplete.css" />
 <?php
 /*
  * Load tinyMCE only if there are login
@@ -73,7 +70,7 @@ if ($_SESSION[$_SESSION["CFGURL"]][ssuser_nivel]>0)
 		theme_advanced_buttons3 : "",
 		theme_advanced_toolbar_location : "top",
 		theme_advanced_toolbar_align : "left",
-		content_css : "../common/css/marron.css",
+		content_css : "../common/css/style.css",
 		entity_encoding : "raw",
 		add_unload_trigger : false,
 		remove_linebreaks : false,

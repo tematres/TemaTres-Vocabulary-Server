@@ -17,9 +17,7 @@ PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   <?php echo $metadata["metadata"]; ?>
   <meta content="text/css" />
 		<style type="text/css" media="screen">
-			@import "../common/css/marron.css";
-			@import "../common/css/forms.css";
-			@import "../common/css/tables.css";
+			@import "../common/css/style.css";
  		</style>
 
 		<style type="text/css" media="print">

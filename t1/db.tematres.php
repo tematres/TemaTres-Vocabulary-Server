@@ -19,7 +19,7 @@ $DBCFG["DBPass"] = "";
 $DBCFG["DBprefix"] = "lc_";                
 
 
-//$DBCFG["DBcharset"] ="utf8";
+$DBCFG["DBcharset"] ="utf8";
 
 //  modo debug = 1 // debug mode = 1
 $DBCFG["debugMode"] = "0";                

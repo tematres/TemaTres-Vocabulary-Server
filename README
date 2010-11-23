@@ -17,10 +17,14 @@ For examples, please visit: http://www.vocabularyserver.com/
 
 TemaTres Installation Instructions
 
+TemaTres use mysqli php library.
+
 1. Unpack TemaTres in your web document root (i.e. /var/www/tematres/)
-2. Configure MySQL database connection in /include/db.tematres.php 
+2. Configure MySQL database connection in TEMATRES_PATH/t1/db.tematres.php 
 3. Open your browser in your tematres path installation and run Install script .
 =============================================================================
+
+You can change the t1 directory to any name, or copy t1 directory to create more vocabularies.
 
 If you have any problems with these instructions, or if they weren't clear
 or just didn't plain work, please let me know at tematres@r020.com.ar

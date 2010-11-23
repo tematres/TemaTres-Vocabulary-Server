@@ -44,7 +44,7 @@ $CFG["_USE_CODE"] ='1';
 
 
 // Shown term codes in public view (1 = Yes, 0 = No: default: 1)
-$CFG["_SHOW_CODE"] ='1';
+$CFG["_SHOW_CODE"] ='0';
 
 // Maximum level of depth in the tree of items for display on the same page [Máximo nivel de profundidad en el árbol de temas para la visualización en una misma página]
 define('CFG_MAX_TREE_DEEP','3');
