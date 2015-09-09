@@ -1,9 +1,10 @@
 <?php
+if ((stristr( $_SERVER['REQUEST_URI'], "session.php") ) || ( !defined('T3_ABSPATH') )) die("no access");
 #   TemaTres : aplicación para la gestión de lenguajes documentales #       #
 #                                                                        #
 #   Copyright (C) 2004-2008 Diego Ferreyra tematres@r020.com.ar
 #   Distribuido bajo Licencia GNU Public License, versión 2 (de junio de 1.991) Free Software Foundation
-#  
+#
 ###############################################################################################################
 #   Include para seleccionar include o función de formulario de edición
 
@@ -36,7 +37,7 @@ if($_SESSION[$_SESSION["CFGURL"]][ssuser_id])
 		break;
 
 		case 'editNote':
-		include('inc.abmNota.php');	
+		require_once(T3_ABSPATH . 'common/include/inc.abmNota.php');
 		break;
 
 		case 'addNT':
@@ -50,22 +51,39 @@ if($_SESSION[$_SESSION["CFGURL"]][ssuser_id])
 		case 'addTerm':
 		echo HTMLformEditTerms($_GET[taskterm],$metadata["arraydata"]);
 		break;
-		
+
+
+		case 'addRTnw':
+		echo HTMLformEditTerms($_GET[taskterm],$metadata["arraydata"]);
+		break;
+
 		case 'editTerm':
 		echo HTMLformEditTerms($_GET[taskterm],$metadata["arraydata"]);
 		break;
-		
+
 		case 'findTargetTerm':
 		echo HTMLformAssociateTargetTerms($metadata["arraydata"]);
 		break;
-		
+
+		case 'findSuggestionTargetTerm':
+		echo HTMLformSuggestTermsXRelations($metadata["arraydata"]);
+		break;
+
+		case 'addTermSuggested':
+		echo HTMLformSuggestTerms($metadata["arraydata"]);
+		break;
+
+		case 'addURI':
+		echo HTMLformURI4term($metadata["arraydata"]);
+		break;
+
 		default:
 		echo HTMLbodyTermino($metadata["arraydata"]);
 	}
 
-} 
+}
 elseif($metadata["arraydata"])
 {
-		echo HTMLbodyTermino($metadata["arraydata"]);
+	echo HTMLbodyTermino($metadata["arraydata"]);
 }
 ?>

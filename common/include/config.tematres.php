@@ -1,4 +1,5 @@
 <?php
+if ((stristr( $_SERVER['REQUEST_URI'], "session.php") ) || ( !defined('T3_ABSPATH') )) die("no access");
 #   TemaTres : aplicación para la gestión de lenguajes documentales #       #
 #                                                                        #
 #   Copyright (C) 2004-2008 Diego Ferreyra tematres@r020.com.ar
@@ -7,9 +8,9 @@
 ###############################################################################################################
 # ARCHIVO DE CONFIGURACION == CONFIG FILE #
 
-$CFG["Version"]        = "TemaTres 1.2 beta";
+$CFG["Version"]        = "TemaTres 2.0";
 
-$CFG["VersionWebService"]        = "0.5";
+$CFG["VersionWebService"]        = "1.5";
 
 // ID del Tesauro por DEFAULT
 $CFG["DFT_TESA"] ='1';
@@ -26,21 +27,81 @@ $CFG["_URI_SEPARATOR_ID"] ='?tema=';
 // Config char encode (only can be: utf-8 or iso-8859-1)
 $CFG["_CHAR_ENCODE"] ='utf-8';
 
+// Config minimun value to evaluate distance between to strings (Levenstein distance)
+$CFG["_MIN_DISTANCE_"] ='6';
 
-// use term codes to sort the terms
-$CFG["_USE_CODE"] ='1';
+// Define way to display top terms, 0=AJAX, 1=HTML div, default = 0
+$CFG["_TOP_TERMS_BROWSER"] ='0';
 
-// Maximum level of depth in the tree of items for display on the same page [Máximo nivel de profundidad en el árbol de temas para la visualización en una misma página]
-define('CFG_MAX_TREE_DEEP','3');
 
-// Status details visible for any users [Detalles del estado de terminos visibles para todos los usurios] 0 => no public details / 1 => public details
-define('CFG_VIEW_STATUS','1');
+/*
+Define specific excluded characters from the alphabetic menu
+ */
+$CFG["_EXCLUDED_CHARS"]=array("<",">","[","]","(",")",'"',"'","|");
 
-// Available Web simple web services (1 = Yes, 0 = No: default: 1)
-define('CFG_SIMPLE_WEB_SERVICE','1');
+$arrayCFGs =array('CFG_MAX_TREE_DEEP'=>'3',
+				  'CFG_MIN_SEARCH_SIZE'=>'2',
+				  'CFG_NUM_SHOW_TERMSxSTATUS'=>'200',
+				  '_USE_CODE'=>'0',
+				  '_SHOW_CODE'=>'0',
+				  'CFG_VIEW_STATUS'=>'0',
+				  'CFG_SIMPLE_WEB_SERVICE'=>'1',
+				  '_SHOW_TREE'=>'1',
+				  '_PUBLISH_SKOS'=>'2',
+				  'CFG_SEARCH_METATERM'=>'0',
+				  'CFG_ENABLE_SPARQL'=>'0',
+				  'CFG_SUGGESTxWORD'=>'1');
 
-// 	Minimum characters for search operations / número mínimo de caracteres para operaciones de búsqueda 
-define('CFG_MIN_SEARCH_SIZE','1');
+$CFG["CONFIG_VAR"]=array('2','3','4','config','DATESTAMP','t_estado','t_nota','t_relacion','t_usuario','URI_TYPE','METADATA','CONTACT_MAIL');
+
+$CFG["ISO639-1"]=array(
+	"ab"=>array("ab","Abkhazian"),
+	"ar"=>array("ar","Arabic"),
+	"ay"=>array("ay","Aymara"),
+	"eu"=>array("eu","Basque"),
+	"ca"=>array("ca","Catalan"),
+	"zh"=>array("zh","Chinese (Simplified)"),
+	"co"=>array("co","Corsican"),
+	"hr"=>array("hr","Croatian"),
+	"cs"=>array("cs","Czech"),
+	"da"=>array("da","Danish"),
+	"nl"=>array("nl","Dutch"),
+	"en"=>array("en","English"),
+	"en-GB"=>array("en-GB","English GB"),
+	"en-US"=>array("en-US","English US"),
+	"et"=>array("et","Estonian"),
+	"fa"=>array("fa","Farsi"),
+	"fi"=>array("fi","Finnish"),
+	"fr"=>array("fr","French"),
+	"gl"=>array("gl","Galician"),
+	"gd"=>array("gd","Gaelic (Scottish)"),
+	"de"=>array("de","German"),
+	"el"=>array("el","Greek"),
+	"gn"=>array("gn","Guarani"),
+	"iw"=>array("iw","Hebrew"),
+	"hi"=>array("hi","Hindi"),
+	"hu"=>array("hu","Hungarian"),
+	"it"=>array("it","Italian"),
+	"ja"=>array("ja","Japanese"),
+	"lt"=>array("lt","Lithuanian"),
+	"mi"=>array("mi","Maori"),
+	"pl"=>array("pl","Polish"),
+	"pt"=>array("pt","Portuguese"),
+	"qu"=>array("qu","Quechua"),
+	"ro"=>array("ro","Romanian"),
+	"ru"=>array("ru","Russian"),
+	"sr"=>array("sr","Serbian"),
+	"sh"=>array("sh","Serbo-Croatian"),
+	"sk"=>array("sk","Slovak"),
+	"sl"=>array("sl","Slovenian"),
+	"so"=>array("so","Somali"),
+	"es"=>array("es","Spanish"),
+	"sv"=>array("sv","Swedish"),
+	"tr"=>array("tr","Turkish"),
+	"uk"=>array("uk","Ukrainian"),
+	"uz"=>array("uz","Uzbek")
+	);
+
 
 // Idiomas disponibles: código interno => "nombre del idioma","nombre del script de idioma", "código del idioma",código ISO del idioma"
 // El primer idioma del array es el que toma como idioma por defecto.
@@ -52,12 +113,15 @@ $idiomas_disponibles = array(
      "de"  => array("deutsch","de-$CFG[_CHAR_ENCODE].inc.php", "de","de-$CFG[_CHAR_ENCODE]"),
      "en"  => array("english", "en-$CFG[_CHAR_ENCODE].inc.php", "en","en-$CFG[_CHAR_ENCODE]"),
      "es"  => array("español", "es-$CFG[_CHAR_ENCODE].inc.php", "es","es-$CFG[_CHAR_ENCODE]"),
+     "eu"  => array("euskeda", "eu-$CFG[_CHAR_ENCODE].inc.php", "eu","eu-$CFG[_CHAR_ENCODE]"),
      "fr"  => array("français","fr-$CFG[_CHAR_ENCODE].inc.php", "fr","fr-$CFG[_CHAR_ENCODE]"),
+     "gl"  => array("galego","gl-$CFG[_CHAR_ENCODE].inc.php", "gl","gl-$CFG[_CHAR_ENCODE]"),
      "it"  => array("italiano","it-$CFG[_CHAR_ENCODE].inc.php", "it","it-$CFG[_CHAR_ENCODE]"),
      "nl"  => array("Vlaams","nl-$CFG[_CHAR_ENCODE].inc.php", "nl","nl-$CFG[_CHAR_ENCODE]"),
      "cn"  => array("汉语, 漢語","cn-$CFG[_CHAR_ENCODE].inc.php", "cn","cn-$CFG[_CHAR_ENCODE]"),
      "pl"  => array("polski","pl-$CFG[_CHAR_ENCODE].inc.php", "pl","pl-$CFG[_CHAR_ENCODE]"),
-     "pt"  => array("portugüés","pt-$CFG[_CHAR_ENCODE].inc.php", "pt","ptbr-$CFG[_CHAR_ENCODE]")    
+     "pt"  => array("portugüés","pt-$CFG[_CHAR_ENCODE].inc.php", "pt","ptbr-$CFG[_CHAR_ENCODE]"),    
+     "ru"  => array("Pусский","ru-$CFG[_CHAR_ENCODE].inc.php", "ru","ru-$CFG[_CHAR_ENCODE]")    
     );
 
 
@@ -78,6 +142,7 @@ define("NO","2");
  ##
  # Reporte de errores pero no de noticias (variables no inicializadas);
   error_reporting(E_ALL ^ E_NOTICE);
+
  ##
 
 $CFG["SEARCH_URL_SITES_SINTAX"] = Array(
@@ -114,7 +179,7 @@ $CFG["SEARCH_URL_SITES_SINTAX"] = Array(
 	'Google exacto' => Array(
 		'favicon' => 'google.gif',
 		'leyenda' => 'Google b&uacute;squeda exacta',
-		'url' => 'http://www.google.com/custom?as_q=%22STRING_BUSQUEDA%22',
+		'url' => 'http://www.google.com/search?as_epq=STRING_BUSQUEDA',
 		'encode'=>FALSE
 	),
 
@@ -122,7 +187,7 @@ $CFG["SEARCH_URL_SITES_SINTAX"] = Array(
 	'Google' => Array(
 		'favicon' => 'google.gif',
 		'leyenda' => 'Google',
-		'url' => 'http://www.google.com/custom?as_q=STRING_BUSQUEDA"',
+		'url' => 'http://www.google.com/search?channel=fs&q=STRING_BUSQUEDA',
 		'encode'=>FALSE
 	),
 
@@ -143,7 +208,7 @@ $CFG["SEARCH_URL_SITES_SINTAX"] = Array(
 	'Google books' => Array(
 		'favicon' => 'goo_books.gif',
 		'leyenda' => 'Google books',
-		'url' => 'http://books.google.com/?ie=UTF-8&amp;q=%22STRING_BUSQUEDA%22&amp;btnG=Search',
+		'url' => 'http://books.google.com/?ie=UTF-8&amp;as_epq=%22STRING_BUSQUEDA%22&amp;btnG=Search',
 		'encode'=>FALSE
 	),
 

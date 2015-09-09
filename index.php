@@ -2,7 +2,7 @@
 /*
  *      index.php
  *      
- *      Copyright 2010 diego <tematres@r020.com.ar>
+ *      Copyright 2013 diego <tematres@r020.com.ar>
  *      
  *      This program is free software; you can redistribute it and/or modify
  *      it under the terms of the GNU General Public License as published by
@@ -19,6 +19,5 @@
  *      Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
  *      MA 02110-1301, USA.
  */
-		header("Location:t1/index.php");
-
+		header("Location:vocab/index.php");
 ?>
