@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='utf-8' />
+    <meta http-equiv="X-UA-Compatible" content="chrome=1" />
+
+    <link href="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.no-icons.min.css" rel="stylesheet">
+    <link href="http://netdna.bootstrapcdn.com/font-awesome/3.1.1/css/font-awesome.min.css" rel="stylesheet">
+    <link href="./libs/bootstrap-editable.css" rel="stylesheet">
+    <link href="../src/bootstrap-filterable.css" rel="stylesheet">
+    <link href="http://lightswitch05.github.io/filterable/stylesheets/main.css" rel="stylesheet">
+
+    <title>Filterable</title>
+  </head>
+
+  <body>
+    <div class="container" style="padding-bottom:50px;">
+      <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="navbar-inner">
+          <div class="container">
+            <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+              <span class="icon-bar"></span>
+            </button>
+            <div class="nav-collapse collapse">
+              <ul class="nav">
+                <li><a href="https://github.com/lightswitch05/filterable">Github</a></li>
+              </ul>
+            </div><!--/.nav-collapse -->
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="container">
+      <div class="hero-unit">
+        <h1>Filterable</h1>
+        <p class="muted">
+          <a href="http://twitter.github.io/bootstrap">Bootstrap</a>
+          and <a href="http://vitalets.github.io/x-editable/">X-editable</a>
+          themed per-column filtering for an HTML table.
+        </p>
+        
+        <div style="text-align: center">
+          <p>
+            <a class="btn btn-success btn-large" href="https://github.com/lightswitch05/filterable/zipball/master">Download .zip</a>
+            <a class="btn btn-primary btn-large" href="https://github.com/lightswitch05/filterable/tarball/master">Download tar.gz</a>
+          </p>                    
+        </div>
+      </div>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div class="container">
+      <div class="row center span10">
+        <h1>Demo <small>Click one of the <i class="icon-filter"></i> 's below to begin</small></h1>
+        <table id="example-table" class="table table-striped table-hover table-condensed">
+          <tr>
+            <th>Make</th>
+            <th>Model</th>
+            <th>Color</th>
+            <th>Year</th>
+          </tr>
+          <tbody>
+            <tr>
+              <td>Ford</td>
+              <td>Escort</td>
+              <td>Blue</td>
+              <td>2000</td>
+            </tr>
+            <tr>
+              <td>Ford</td>
+              <td>Ranger</td>
+              <td>Blue</td>
+              <td>1990</td>
+            </tr>
+            <tr>
+              <td>Toyota</td>
+              <td>Tacoma</td>
+              <td>Red</td>
+              <td>2012</td>
+            </tr>
+            <tr>
+              <td>Ford</td>
+              <td>Mustang</td>
+              <td>Silver</td>
+              <td>2012</td>
+            </tr>
+            <tr>
+              <td>Mercury</td>
+              <td>Sable</td>
+              <td>Silver</td>
+              <td>2002</td>
+            </tr>
+            <tr>
+              <td>Toyota</td>
+              <td>Corolla</td>
+              <td>Blue</td>
+              <td>2012</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- FOOTER  -->
+    <footer class="footer">
+      <div class="container">
+        <p class="copyright">
+          Filterable &copy; <a href="https://github.com/lightswitch05">Daniel White</a> 2013.
+          Released under the <a href="https://github.com/lightswitch05/filterable/blob/master/MIT-LICENSE">MIT license</a>.
+        </p>
+      </div>
+    </footer>
+
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+  <script src="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
+  <script src="./libs/bootstrap-editable.min.js"></script>
+  <script src="../src/filterable-utils.js"></script>
+  <script src="../src/filterable-cell.js"></script>
+  <script src="../src/filterable-row.js"></script>
+  <script src="../src/filterable.js"></script>
+  <script type="text/javascript">
+    $('table').filterable();
+  </script>
+
+  </body>
+</html>

@@ -1,0 +1,456 @@
+/* ==========================================================================
+    Demo Styles. Declarations in this first section are NOT necessary for the
+    form to function, but you can use them if you want 
+    ========================================================================== */
+html {
+	margin:0;
+	padding:0;
+	background: #303030 url(img/low_contrast_linen.png) repeat center top;
+	font-size:100%;
+/* Corrects text resizing oddly in IE 6/7 when body `font-size` is set using `em` units. */
+	-webkit-text-size-adjust:100%;
+/* Prevents iOS text size adjust after orientation change, without disabling user zoom. */
+	-ms-text-size-adjust:100%;
+}
+
+body {
+	font-size:14px;
+	font-family:Helvetica,Arial,Verdana,sans-serif;
+	color: #c7c5c5;
+	line-height: 1.5em;
+	margin: 0;
+	padding: 0;
+}
+
+#wrapper { 
+	width:595px;
+	margin:0 auto;
+	}
+
+p,ul {
+	text-align:left;
+}
+
+h2 { color: #ccc; padding: 10px; background: #000;}
+
+a:link, a:visited { color: #c7c5c5; text-decoration: none; border-bottom: 1px solid #c7c5c5;}
+a:hover, a:active { color: #fff; text-decoration: none; border-bottom: 1px solid #fff;}
+
+.sign-up_box {
+	width:100%;
+	padding:0;
+	-webkit-border-radius:4px;
+	-moz-border-radius:4px;
+	border-radius:4px;
+}
+/* HTML5 placeholder text styling */
+::-webkit-input-placeholder {
+   font-style: italic;
+}
+
+:-moz-placeholder { /* Firefox 18- */
+   font-style: italic; 
+}
+
+::-moz-placeholder {  /* Firefox 19+ */
+   font-style: italic;
+}
+
+:-ms-input-placeholder {  
+   font-style: italic;
+}
+form { padding-top: 25px;}
+label { color: #f6f5f3;}
+.sign-up_box input[type="text"],.sign-up_box input[type="select"],form fieldset textarea { 
+	background: rgba(33,33,33,.5); 
+	border-top: 1px solid #2e2e2e; 
+	border-left: 1px solid #2e2e2e; 
+	border-right: 1px solid #2e2e2e;
+	border-bottom: 1px solid #4d4d4d;
+	-webkit-box-shadow: inset 0 1px 2px rgba(0,0,0,.2);
+	-moz-box-shadow: inset 0 1px 2px rgba(0,0,0,.2);
+	-webkit-box-shadow: inset 0 1px 2px rgba(0,0,0,.2);
+	color: #c7c5c5;
+}
+.sign-up_box input[type="text"]:focus,.sign-up_box input[type="select"]:focus,form fieldset textarea:focus {
+	background: #f6f5f3;
+	color: #000;
+}
+#attribution {
+	font-size:12px;
+	color:#c7c5c5;
+	padding:20px;
+	margin:20px 0;
+	border-top:1px solid #ccc;
+}
+#O_o { 
+	text-align: center; 
+	background: #33577b;
+	color: #6e8ba7;
+	-webkit-box-shadow: 0 8px 6px -6px #222;
+	   -moz-box-shadow: 0 8px 6px -6px #222;
+	        box-shadow: 0 8px 6px -6px #222;
+}
+#O_o a:link, #O_o a:visited {
+	color: #6e8ba7;
+	border-bottom: #6e8ba7;
+	display: block;
+	padding: 8px;
+}
+#O_o a:hover, #O_o a:active {
+	color: #fff;
+	border-bottom: #fff;
+}
+/* ==========================================================================
+    Retina Display Media Query from http://css-tricks.com/snippets/css/retina-display-media-query/
+    This is only for the background image, which called "Low Contrast Linen" by Jordan Pittman.
+    Find more subtle patterns at http://subtlepatterns.com/ 
+    ========================================================================== */
+@media
+only screen and (-webkit-min-device-pixel-ratio: 2),
+only screen and (   min--moz-device-pixel-ratio: 2),
+only screen and (   -moz-min-device-pixel-ratio: 2),
+only screen and (     -o-min-device-pixel-ratio: 2/1),
+only screen and (        min-device-pixel-ratio: 2),
+only screen and (                min-resolution: 192dpi),
+only screen and (                min-resolution: 2dppx) { 
+ 
+html {background: #303030 url(img/low_contrast_linen_@2X.png) repeat center top; background-size: 256px;} 
+
+}
+/* end Demo Styles */
+/* ==========================================================================
+    HTML5 Boilerplate reset and fix section for forms - http://html5boilerplate.com/
+    ========================================================================== */
+/*
+    * Corrects margin displayed oddly in IE 6/7.
+    */
+form {
+	margin:0;
+}
+
+/*
+    * Define consistent border, margin, and padding.
+    */
+fieldset {
+	border:1px solid silver;
+	margin:0 2px;
+	padding:.35em .625em .75em;
+}
+
+/*
+    * 1. Corrects color not being inherited in IE 6/7/8/9.
+    * 2. Corrects text not wrapping in Firefox 3.
+    * 3. Corrects alignment displayed oddly in IE 6/7.
+    */
+legend {
+	border:0;
+/* 1 */
+	padding:0;
+	white-space:normal;
+/* 2 */
+	*margin-left:-7px;
+/* 3 */
+}
+
+/*
+    * 1. Corrects font size not being inherited in all browsers.
+    * 2. Addresses margins set differently in IE 6/7, Firefox 3+, Safari 5,
+    *    and Chrome.
+    * 3. Improves appearance and consistency in all browsers.
+    */
+button,input,select,textarea {
+	font-size:100%;
+/* 1 */
+	margin:0;
+/* 2 */
+	vertical-align:baseline;
+/* 3 */
+	*vertical-align:middle;
+/* 3 */
+}
+
+/*
+    * Addresses Firefox 3+ setting `line-height` on `input` using `!important` in
+    * the UA stylesheet.
+    */
+button,input {
+	line-height:normal;
+}
+
+/*
+    * 1. Avoid the WebKit bug in Android 4.0.* where (2) destroys native `audio`
+    *    and `video` controls.
+    * 2. Corrects inability to style clickable `input` types in iOS.
+    * 3. Improves usability and consistency of cursor style between image-type
+    *    `input` and others.
+    * 4. Removes inner spacing in IE 7 without affecting normal text inputs.
+    *    Known issue: inner spacing remains in IE 6.
+    */
+button,html input[type="button"],/* 1 */
+input[type="reset"],input[type="submit"] {
+	-webkit-appearance:button;
+/* 2 */
+	cursor:pointer;
+/* 3 */
+	*overflow:visible;
+/* 4 */
+}
+
+/*
+    * Re-set default cursor for disabled elements.
+    */
+button[disabled],input[disabled] {
+	cursor:default !important;
+}
+
+/*
+    * 1. Addresses box sizing set to content-box in IE 8/9.
+    * 2. Removes excess padding in IE 8/9.
+    * 3. Removes excess padding in IE 7.
+    *    Known issue: excess padding remains in IE 6.
+    */
+input[type="checkbox"],input[type="radio"] {
+	box-sizing:border-box;
+/* 1 */
+	padding:0;
+/* 2 */
+	*height:13px;
+/* 3 */
+	*width:13px;
+/* 3 */
+}
+
+/*
+    * 1. Addresses `appearance` set to `searchfield` in Safari 5 and Chrome.
+    * 2. Addresses `box-sizing` set to `border-box` in Safari 5 and Chrome
+    *    (include `-moz` to future-proof).
+    */
+input[type="search"] {
+	-webkit-appearance:textfield;
+/* 1 */
+	-moz-box-sizing:content-box;
+	-webkit-box-sizing:content-box;
+/* 2 */
+	box-sizing:content-box;
+}
+
+/*
+    * Removes inner padding and search cancel button in Safari 5 and Chrome
+    * on OS X.
+    */
+input[type="search"]::-webkit-search-cancel-button,input[type="search"]::-webkit-search-decoration {
+	-webkit-appearance:none;
+}
+
+/*
+    * Removes inner padding and border in Firefox 3+.
+    */
+button::-moz-focus-inner,input::-moz-focus-inner {
+	border:0;
+	padding:0;
+}
+
+/*
+    * 1. Removes default vertical scrollbar in IE 6/7/8/9.
+    * 2. Improves readability and alignment in all browsers.
+    */
+textarea {
+	overflow:auto;
+/* 1 */
+	vertical-align:top;
+/* 2 */
+}
+
+/* ==========================================================================
+    A bulk of the following CSS came from pea.rs - http://pea.rs
+    ========================================================================== */
+
+form {
+	margin:0;
+}
+
+form fieldset {
+	margin:0 0 10px;
+	padding:0 0 10px;
+	border:none;
+}
+
+label {
+	float:left;
+	width:20%;
+	margin:4px 0 5px;
+	font-weight:700;
+}
+
+.clonedInput + .clonedInput {
+	/*border-top: 2px solid #2a2a2a;*/
+	padding-top:20px;
+}
+
+.sign-up_box input[type="text"],.sign-up_box input[type="select"],form fieldset textarea {
+	width:76%;
+	font-size:15px;
+	/*border:1px solid #ddd; if you would like to control the border */
+	-webkit-box-shadow:inset 0 1px 2px rgba(0,0,0,.05);
+	-moz-box-shadow:inset 0 1px 2px rgba(0,0,0,.05);
+	-webkit-box-shadow:inset 0 1px 2px rgba(0,0,0,.05);
+	-webkit-border-radius:4px;
+	-moz-border-radius:4px;
+	border-radius:4px;
+}
+
+form fieldset textarea {
+	max-width:76%;
+}
+
+.sign-up_box input[type="text"] {
+	padding:10px;
+}
+
+form fieldset.check,form fieldset.form-actions {
+	padding-left:20%;
+}
+
+form fieldset.check label {
+	display:inline;
+	float:none;
+	width:auto;
+	font-weight:400;
+}
+
+form fieldset.entrylist ul li label {
+	display:inline;
+	float:none;
+	width:auto;
+	font-weight:400;
+}
+
+form fieldset textarea {
+	height:150px;
+	padding: 10px;
+}
+
+form fieldset select {
+	min-width:25%;
+	margin:0;
+}
+
+form fieldset.entrylist ul {
+	margin:5px 0 0 15%;
+	list-style:none;
+}
+
+form fieldset.entrylist ul li {
+	margin:0 0 5px;
+}
+
+form fieldset.entrylist ul li:last-child {
+	margin:0;
+}
+
+form fieldset p.form-help {
+	margin:5px 0 0 20%;
+	font-size:12px;
+	color:#999;
+}
+
+form input[type="submit"] {
+	color: #fff;
+	margin:0;
+	padding:5px 10px;
+	font-size:12px;
+	font-weight:700;
+	background:-moz-linear-gradient(top,#4281ff 0%,#004266);
+	background:-webkit-gradient(linear,left top,left bottom,from(#4281ff),to(#004266));
+	border:1px solid #1c4373;
+	filter:  progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr='#4281ff', endColorstr='#004266'); /* IE6 & IE7 */
+	-ms-filter: "progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr='#4281ff', endColorstr='#004266')"; /* IE8 */
+	-webkit-border-radius:4px;
+	-moz-border-radius:4px;
+	border-radius:4px;
+}
+
+form input[type="submit"]:active {
+	border:1px solid #ccc;
+	background:#eee;
+}
+
+#addDelButtons {
+	margin:5px 0 20px 20%;
+}
+
+#btnAdd,#btnDel {
+	color:#fff;
+	padding:3px 18px 5px;
+	-moz-border-radius:4px;
+	-webkit-border-radius:4px;
+	border-radius:4px;
+	-moz-box-shadow:0 1px 2px rgba(000,000,000,0.5),inset 0 0 0 rgba(255,255,255,0.9);
+	-webkit-box-shadow:0 1px 2px rgba(000,000,000,0.5),inset 0 0 0 rgba(255,255,255,0.9);
+	box-shadow:0 1px 2px rgba(000,000,000,0.5),inset 0 0 0 rgba(255,255,255,0.9);
+}
+
+#btnAdd {
+	background:-moz-linear-gradient(top,#4281ff 0%,#004266);
+	background:-webkit-gradient(linear,left top,left bottom,from(#4281ff),to(#004266));
+	border:1px solid #1c4373;
+	filter:  progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr='#4281ff', endColorstr='#004266'); /* IE6 & IE7 */
+	-ms-filter: "progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr='#4281ff', endColorstr='#004266')"; /* IE8 */
+}
+
+#btnDel {
+	background:-moz-linear-gradient(top,#f04856 0%,#600);
+	background:-webkit-gradient(linear,left top,left bottom,from(#f04856),to(#600));
+	border:1px solid #731c20;
+	filter:  progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr='#f04856', endColorstr='#600'); /* IE6 & IE7 */
+	-ms-filter: "progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr='#f04856', endColorstr='#600')"; /* IE8 */
+}
+button[disabled], input[disabled] {background:#d8dadd !important; color: #83868a !important;
+	border:1px solid #b5b7bb !important; -moz-box-shadow: none !important;
+	-webkit-box-shadow: none !important;
+	box-shadow: none !important;
+	text-shadow: none !important;}
+
+form input[type="submit"]:hover,form input[type="submit"]:focus, #btnAdd:hover {
+	background:#004266;
+	box-shadow: none;
+}
+
+#btnDel:hover {
+	background:#600;
+	box-shadow: none;
+}
+
+@media screen and (max-width: 600px) {
+
+#wrapper {
+	width:90%;
+	margin:0 auto;
+}
+
+form fieldset label {
+	display:block;
+	float:none;
+	width:auto;
+	margin:0 0 5px;
+}
+
+form fieldset.form-actions,form fieldset.check,form fieldset.entrylist ul,form fieldset p.form-help {
+	margin-left:0;
+	padding-left:0;
+}
+
+.sign-up_box input[type="text"],.sign-up_box input[type="select"],form fieldset textarea {
+	width:100%;
+	max-width:100%;
+	-webkit-box-sizing:border-box;
+	-moz-box-sizing:border-box;
+	box-sizing:border-box;
+}
+
+#addDelButtons {
+	margin:5px 0 20px;
+	font-size:12px;
+}
+}

@@ -1,0 +1,262 @@
+html,
+body {
+  height: 100%;
+  /* The html and body elements cannot have any padding or margin. */
+}
+
+p.metaTerm {background:#fff8bf 13px 50% no-repeat;border:2px solid #ffd324;color:#eb830c;font-size:120%;padding:5px 11px 5px 20px;}
+h1.metaTerm,a.metaTerm{color:#616161;}
+h1.metaTerm:before,a.metaTerm:before{content:'<'}
+h1.metaTerm:after,a.metaTerm:after{content:'>'}
+
+.check_label {
+  width: 90%;
+  float: right;
+  text-align: left;
+  margin-top: 4px;
+}
+
+.thesacronym{padding-right:2px;}
+#TE{margin-left:5mm;padding:4px;}
+#TG{margin-left:3mm;padding:4px;}
+#TR{margin-left:2mm;padding:4px;}
+#UP{font-style:italic;margin-left:1mm;padding:4px;}
+.NoTerm{text-decoration:line-through;}
+#EQ{margin-left:8mm;padding:4px;}
+
+#main{border-left:1px solid #F70;border-right:1px solid #F70;background:#fff;}
+#notas{clear:both;background-color:#f0fcff;margin-bottom:0.5em;border-color:#f0f0f0 #D6D6D6 #D6D6D6 #f0f0f0;border-style:solid;border-width:1px;padding:0.5em;}
+#notas > dd{padding-top:6px;padding-bottom:6px;border-top:1px dotted #d85d5d;visibility:inherit;text-align:justify;margin:1%;}
+#notas > dt{font-weight:700;}
+
+#term{font-size:100%;margin-bottom:1px;margin-top:1px;margin-left:6mm;padding:2px;}
+.clear{clear:both;}
+
+.error{background:#ffe1da url('../images/icon_error.png') 13px 50% no-repeat;border:2px solid #f34f4f;border-bottom:2px solid #f34f4f;color:#be0b0b;font-size:120%;padding:10px 11px 8px 36px;}
+.errorNoImage{background:#ffe1da 13px 50% no-repeat;border:2px solid #f34f4f;color:#be0b0b;font-size:120%;padding:10px 11px 8px 36px;}
+.information{background:#dedfff url('../images/icon_information.png') 13px 50% no-repeat;border:2px solid #9bb8d9;color:#406299;font-size:120%;padding:10px 11px 8px 36px;}
+.success{background:#e2f9e3 url('../images/icon_success.png') 13px 50% no-repeat;border:2px solid #9c9;color:#080;font-size:120%;padding:10px 11px 8px 38px;}
+.warning{background:#fff8bf url('../images/icon_warning.png') 13px 50% no-repeat;border:2px solid #ffd324;color:#eb830c;font-size:120%;padding:10px 11px 8px 38px;}
+.warningNoImage{background:#fff8bf 13px 50% no-repeat;border:2px solid #ffd324;color:#eb830c;font-size:120%;padding:10px 11px 8px 38px;}
+.successNoImage{background:#e2f9e3;color:#080;padding:1px 5px;}
+.help{background:#dedfff url('../images/icon_information.png') 13px 50% no-repeat;border:1px solid #9bb8d9;color:#406299;width:500px;font-size:90%;padding:10px 0 8px 36px;}
+.estado_termino12{background:#dedfff;color:#406299;display:block;padding:0 5px;}
+.estado_termino13{color:#080;display:block;}
+.estado_termino14{background:#ffe1da;color:#be0b0b;display:block;padding:0 5px;}
+
+.editable_textarea{padding-left:5px;padding-right:5px;display:inline;float:none;color:#d85d5d;text-decoration: none;
+border-bottom: 1px dashed #08C;}
+.code_tema{float:none;display:inline;}
+.code_tema:before{content:" >> ";}
+.edit_area_term,.editable_selectTE,.editable_select2,.editable_select3,.editable_select4{color:#d85d5d;text-decoration: none;
+border-bottom: 1px dashed #08C;}
+
+.eliminar,.button {
+  -moz-border-radius:6px;
+  -webkit-border-radius:6px;
+  border-radius:6px;
+  background-color:#000000;
+  border:0;
+  height:17px;
+  line-height:18px;
+  padding:1px 6px 1px 6px;
+  position:relative;
+  font-family:Helvetica, Arial, sans-serif;
+  font-size:11px;
+  font-weight:bold;
+  color:#FFFFFF;
+  cursor: pointer;
+  cursor: hand;
+}
+
+a.button:hover   {
+  color:#FFFFFF;
+}
+
+a.eliminar:hover   {
+  color:#FF0000;
+}
+
+a.eliminar   {
+  color:#FF0000;
+}
+
+.eliminar {
+  margin:5px;
+}
+
+
+
+.navbar-form {
+  overflow: auto;
+}
+.navbar-form .form-control {
+  display: inline-block;
+  width: 80%;
+  vertical-align: middle;
+}
+.navbar-form .form-group {
+  display: inline;
+}
+
+
+.navbar-form {
+  overflow: auto;
+}
+.navbar-form .form-control {
+  display: inline-block;
+  width: 80%;
+  vertical-align: middle;
+}
+.navbar-form .form-group {
+  display: inline;
+}
+
+.form-signin {
+  max-width: 330px;
+  padding: 15px;
+  margin: 0 auto;
+}
+.form-signin .form-signin-heading,
+.form-signin .checkbox {
+  margin-bottom: 10px;
+}
+.form-signin .checkbox {
+  font-weight: normal;
+}
+.form-signin .form-control {
+  position: relative;
+  height: auto;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  padding: 10px;
+  font-size: 16px;
+}
+.form-signin .form-control:focus {
+  z-index: 2;
+}
+.form-signin input[type="email"] {
+  margin-bottom: -1px;
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 0;
+}
+.form-signin input[type="password"] {
+  margin-bottom: 10px;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+.forgot-password {
+  text-decoration: underline;
+  color: #888;
+}
+.forgot-password:hover,
+.forgot-password:focus {
+  text-decoration: underline;
+  color: #666;
+}
+
+
+/* Wrapper for page content to push down footer */
+#wrap {
+  min-height: 100%;
+  height: auto !important;
+  height: 100%;
+  /* Negative indent footer by it's height */
+  margin: 0 auto -60px;
+}
+
+/* Set the fixed height of the footer here */
+.push,
+#footer {
+  height: 60px;
+}
+#footer {
+  background-color: #f5f5f5;
+}
+
+/* Lastly, apply responsive CSS fixes as necessary */
+@media (max-width: 767px) {
+  #footer {
+    margin-left: -20px;
+    margin-right: -20px;
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+}
+
+.hidden {
+     display:none;
+}
+
+
+/* checkbox css  http://bootsnipp.com/snippets/featured/fancy-bootstrap-checkboxes*/
+.form-group-chk input[type="checkbox"] {
+    display: none;
+}
+
+.form-group-chk input[type="checkbox"] + .btn-group > label span {
+    width: 20px;
+}
+
+.form-group-chk input[type="checkbox"] + .btn-group > label span:first-child {
+    display: none;
+}
+.form-group-chk input[type="checkbox"] + .btn-group > label span:last-child {
+    display: inline-block;
+}
+
+.form-group-chk input[type="checkbox"]:checked + .btn-group > label span:first-child {
+    display: inline-block;
+}
+.form-group-chk input[type="checkbox"]:checked + .btn-group > label span:last-child {
+    display: none;
+}
+
+
+/*Custom secondary button*/
+.btn-second {
+  color: #ffffff;
+  background-color: #1E5D94;
+  border-color: #0D033D;
+}
+
+.btn-second:hover,
+.btn-second:focus,
+.btn-second:active,
+.btn-second.active,
+.open .dropdown-toggle.btn-second {
+  color: #ffffff;
+  background-color: #49247A;
+  border-color: #0D033D;
+}
+
+.btn-second:active,
+.btn-second.active,
+.open .dropdown-toggle.btn-second {
+  background-image: none;
+}
+
+.btn-second.disabled,
+.btn-second[disabled],
+fieldset[disabled] .btn-second,
+.btn-second.disabled:hover,
+.btn-second[disabled]:hover,
+fieldset[disabled] .btn-second:hover,
+.btn-second.disabled:focus,
+.btn-second[disabled]:focus,
+fieldset[disabled] .btn-second:focus,
+.btn-second.disabled:active,
+.btn-second[disabled]:active,
+fieldset[disabled] .btn-second:active,
+.btn-second.disabled.active,
+.btn-second[disabled].active,
+fieldset[disabled] .btn-second.active {
+  background-color: #1E5D94;
+  border-color: #0D033D;
+}
+
+.btn-second .badge {
+  color: #1E5D94;
+  background-color: #ffffff;
+}

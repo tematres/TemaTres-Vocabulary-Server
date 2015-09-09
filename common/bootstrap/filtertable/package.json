@@ -1,0 +1,33 @@
+{
+  "name": "filterable",
+  "description": "jQuery plugin that filters an HTML table based on column-specific values using x-editable",
+  "version": "0.3.0",
+  "homepage": "http://lightswitch05.github.io/filterable",
+  "main": "lib/jquery.filterable.js",
+  "demo": "http://lightswitch05.github.io/filterable",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/lightswitch05/filterable.git"
+  },
+  "author": {
+    "name": "Daniel White"
+  },
+  "scripts": {
+    "test": "grunt jshint csslint qunit"
+  },
+  "devDependencies": {
+    "grunt": "~0.4.1",
+    "grunt-contrib-csslint": "~0.1.2",
+    "grunt-contrib-uglify": "~0.2.2",
+    "grunt-contrib-jshint": "~0.6.2",
+    "grunt-contrib-qunit": "~0.2.2",
+    "grunt-contrib-watch": "~0.5.1",
+    "grunt-contrib-concat": "~0.3.0"
+  },
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "https://github.com/lightswitch05/filterable/blob/master/MIT-LICENSE"
+    }
+  ]
+}

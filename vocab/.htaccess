@@ -1,0 +1,13 @@
+# Rewrite clean URLs onto real files
+<IfModule mod_rewrite.c>
+RewriteEngine On
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^api/([[a-zA-Z]+)/(.*)/(json|skos)?$ services.php?task=$1&arg=$2&output=$3 [L]
+RewriteRule ^api/([[a-zA-Z]+)/(.*)?$ services.php?task=$1&arg=$2 [L]
+RewriteRule ^api/([[a-zA-Z]+)?$ services.php?task=$1 [L]
+RewriteRule ^skos/(\w+)/?$ xml.php?skosTema=$1
+RewriteRule ^zthes/(\w+)/?$ xml.php?zthesTema=$1
+RewriteRule ^xtm/(\w+)/?$ xml.php?xtmTema=$1
+RewriteRule ^bs8723/(\w+)/?$ xml.php?bs8723Tema=$1
+RewriteRule ^lod/(\w+)/?$ index.php?tema=$1
+</IfModule>

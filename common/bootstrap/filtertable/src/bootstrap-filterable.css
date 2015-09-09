@@ -1,0 +1,27 @@
+.filterable tr:first-child .editable,
+.filterable tr:first-child .editable-click ,
+.filterable tr:first-child a.editable-click {
+  color: inherit;
+  border-bottom-style: none;
+  cursor: hand;
+  cursor: pointer;
+  font-style: normal;
+  text-decoration: none;
+}
+
+.filterable tr:first-child .editable:hover,
+.filterable tr:first-child .editable-click :hover,
+.filterable tr:first-child a.editable-click :hover {
+  color: #5bb75b;
+  border-bottom-style: none;
+  font-style: normal;
+}
+
+.filterable tr:first-child .filterable-active {
+  color: #5bb75b;
+  font-style: italic;
+}
+
+.filterable-mismatch {
+  display: none;
+}

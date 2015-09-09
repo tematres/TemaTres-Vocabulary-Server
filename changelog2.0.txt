@@ -1,0 +1,56 @@
+#   TemaTres : aplicación para la gestión de vocabularios controlados #
+#   TemaTres : The way to manage formal representations of knowledge #
+#
+#   Copyright (C) 2004-2015 Diego Ferreyra tematres@r020.com.ar
+#   Distribuido bajo Licencia GNU Public License, versión 2 (de junio de 1.991) Free Software Foundation
+#   Este es el archivo LEAME.TXT
+###############################################################################################################
+
+
+TemaTres se distribuye bajo licencia GNU Public License (GPL==Pública General de GNU), versión 2 (de junio de 1.991).
+
+Para instrucciones de instalación y documentación disponible: http://r020.com.ar/tematres/manual/
+
+For instruction, please visit: http://vocabularyserver.com/wiki/
+and (in spanish) http://r020.com.ar/tematres/manual/
+
+For examples, please visit: http://www.vocabularyserver.com/vocabularies.php
+
+=============================================================================
+
+Changelog TemaTres 2.0:
+
+- Export to Moodle your vocabulary: now you can export to Moodle Glossary XML format
+- Metadata summary about each term and about your vocabulary (data about terms, relations, notes and total descendants terms, deep levels, etc)
+- New report: reports about terms with mapping relations, terms by status, preferred terms, etc.
+- New report: reports about terms without notes or specific type of notes
+- Import the notes type defined by user (custom notes) using tagged file format
+- Select massively free terms to assign to other term
+- Improve utilities to take terminological recommendations from other vocabularies (more than 300: http://www.vocabularyserver.com/vocabularies/)
+- Update Zthes schema to Zthes 1.0 (Thanks to Wilbert Kraan)
+- Export the whole vocabulary to Metadata Authority Description Schema (MADS)
+- Fixed bugs and improved several functional aspects.
+- Uses Bootstrap v3.3.4
+
+Many thanks to the feedback provided by TemaTres community :)
+
+Some HOWTO:
+
+How to update to Tematres 2.0 from 1.82:
+- Replace the code but mantaine your db.tematres.php.
+
+How to update to Tematres 2.0 from Tematres 1.6 (or preious version):
+- Login as admin and go to: Menu -> Administration -> Database maintance -> Update 1.6 to 1.7
+
+How to manage many vocabularies with Tematres
+- Copy /vocab directory (example: vocab2/) and change the prefix tables in db.tematres.php
+
+How to enable SPARQL endpoint:
+1) Login as admin and go to Menu -> Administration -> Configuration -> Click in your vocabulary: Set as ENABLE SPARQL endpoint (by default is disable).
+
+2) Login as admin and Goto: Menu -> Administration -> Database maintance -> Update SPARQL endpoint.
+
+
+diego ferreyra
+tematres@r020.com.ar
+http://www.vocabularyserver.com

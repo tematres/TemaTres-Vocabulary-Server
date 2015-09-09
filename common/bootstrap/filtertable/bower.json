@@ -1,0 +1,15 @@
+{
+  "name": "filterable",
+  "version": "0.3.0",
+  "main": ["./lib/jquery.filterable.js", "./lib/bootstrap-filterable.css"],
+  "dependencies": {
+    "bootstrap": ">=2.3.2 <3.0.0",
+    "x-editable": ">=1.4.6"
+  },
+  "homepage": "https://github.com/lightswitch05/filterable",
+  "authors": [
+    "lightswitch05 <daniel@developerdan.com>"
+  ],
+  "description": "Bootstrap themed per-column filter for an HTML table",
+  "license": "MIT"
+}
