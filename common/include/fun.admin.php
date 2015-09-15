@@ -417,7 +417,7 @@ function wichReport($task)
 
 	//Preferred terms
 	case 'csv13':
-	$sql=SQLTerminosPreferidos();
+	$sql=SQLreportTerminosPreferidos();
 	break;
 
 	//Terms without note o note type
@@ -732,8 +732,6 @@ $tesauro_id = (secure_data($_POST[ref_vocabulario_id],"int")) ? $_POST[ref_vocab
 
 $titu_tema=trim($titu_tema);
 
-$titu_tema=XSSprevent($titu_tema);
-
 if(strlen($titu_tema)>0){
 
 $titu_tema=$DB->qstr($titu_tema,get_magic_quotes_gpc());
@@ -989,7 +987,7 @@ function edit_single_code($tema_id,$code)
 	GLOBAL $DBCFG;
 	GLOBAL $DB;
 
-	$code=XSSprevent(trim($code));
+	$code=trim($code);
 	$tema_id=secure_data($tema_id,"int");
 
 

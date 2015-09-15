@@ -1211,6 +1211,30 @@ function SQLTerminosPreferidos($tema_id=""){
 };
 
 
+
+#
+# XLS de términos válidos (sin UF )
+#
+function SQLreportTerminosPreferidos(){
+	GLOBAL $DBCFG;
+
+	$tesauro_id= $_SESSION["id_tesa"];
+
+	$sql=SQL("select","tema.tema_id as id,tema.tema,tema.cuando,tema.uid,tema.cuando_final,tema.isMetaTerm
+	from $DBCFG[DBprefix]tema as tema
+	left join $DBCFG[DBprefix]tabla_rel as relaciones on tema.tema_id = relaciones.id_mayor
+	and relaciones.t_relacion='4'
+	where
+	relaciones.id is null
+	and tema.tesauro_id='$tesauro_id'
+ 	and tema.estado_id='13'
+ 	group by tema.tema_id
+	order by lower(tema.tema)");
+	return $sql;
+};
+
+
+
 #
 # lista de términos según fechas
 #
