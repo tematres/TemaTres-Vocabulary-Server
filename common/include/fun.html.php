@@ -433,9 +433,8 @@ function HTMLbodyTermino($array){
 	# fin Div miga de pan
 	$cantNotas=count($array["notas"]);
 	$body.='<ul id="myTermTab" class="nav nav-tabs" style="margin-bottom: 15px;">
-						<li><a class="active" href="#theTerm" data-toggle="tab">'.ucfirst(LABEL_Termino).'</a></li>';
-
-	if($cantNotas>0) $body.='        <li><a href="#notesTerm" data-toggle="tab">'.ucfirst(LABEL_notes).' ('.$cantNotas.')</a></li>';
+							<li><a class="active" href="#theTerm" data-toggle="tab">'.ucfirst(LABEL_Termino).'</a></li>';
+	if($cantNotas>0) $body.='<li><a href="#notesTerm" data-toggle="tab">'.ucfirst(LABEL_notes).' ('.$cantNotas.')</a></li>';
 
 	//term menu
 	if($_SESSION[$_SESSION["CFGURL"]][ssuser_id])
@@ -523,13 +522,13 @@ function HTMLmainMenu(){
 
 	$row.='<ul class="nav navbar-nav navbar-right">';
 	$row.='<li class="dropdown">
-	<a href="#" class="dropdown-toggle" data-toggle="dropdown">'.ucfirst(LABEL_Menu).' <b class="caret"></b></a>';
+	<a href="#" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-toggle="dropdown">'.ucfirst(LABEL_Menu).' <b class="caret"></b></a>';
 
 	$row.='<ul class="dropdown-menu">';
 	/*
 	Agregar térm
 	*/
-	$row.='<li><a title="'.ucfirst(MENU_AgregarT).'" href="index.php?taskterm=addTerm&amp;tema=0">'.ucfirst(MENU_AgregarT).'</a></li>';
+	//$row.='<li><a btn-second btn-xs" role="button" title="'.ucfirst(MENU_AgregarT).'" href="index.php?taskterm=addTerm&amp;tema=0">'.ucfirst(MENU_AgregarT).'</a></li>';
 
 	/*
 	* Admin menu
@@ -581,7 +580,14 @@ function HTMLmainMenu(){
 	$row.='<li><a title="'.MENU_Salir.'" href="index.php?cmdlog='.substr(md5(date("Ymd")),"5","10").'">'.MENU_Salir.'</a></li>';
 
 	$row.='   </ul>';
-	$row.='</li></ul>';
+	$row.='</li>';
+
+	$row.='<li><a role="button" title="'.ucfirst(MENU_AgregarT).'" href="index.php?taskterm=addTerm&amp;tema=0">'.ucfirst(MENU_AgregarT).'</a></li>';
+
+	
+	$row.='</ul>';
+
+
 
 	return $row;
 
