@@ -124,8 +124,8 @@ function resultaBusca($texto,$tipo=""){
 			$body.=HTMLsugerirTermino($texto,$acumula_temas);
 		}
 
-		$result_suplementaTG=HTMLbusquedaExpandidaTG($acumula_indice,$acumula_temas);
-		$result_suplementaTR=HTMLbusquedaExpandidaTR($acumula_temas);
+		$result_suplementaTG=HTMLbusquedaExpandidaTG($acumula_indice,$acumula_temas,$texto);
+		$result_suplementaTR=HTMLbusquedaExpandidaTR($acumula_temas,$texto);
 
 
 
@@ -1045,7 +1045,8 @@ function HTML_URLsearch($display=Array(),$arrayTema=Array()) {
 #
 # Expande una busqueda hacia arriba == busca los términos más generales de los términos especificos devueltos en una busqueda
 #
-function HTMLbusquedaExpandidaTG($acumula_indice,$acumula_temas){
+function HTMLbusquedaExpandidaTG($acumula_indice,$acumula_temas,$string){
+	
 	global $DBCFG;
 
 	$array_indice = explode("|", $acumula_indice);
@@ -1073,7 +1074,9 @@ function HTMLbusquedaExpandidaTG($acumula_indice,$acumula_temas){
 		//Si hay resultados
 		if($recordCount>0)
 		{
-			$row_result.= '<p class="info">'.ucfirst(LABEL_resultados_suplementarios).'</p>';
+
+			$row_result.= '<p class="alert alert-info" role="alert"><strong>'.$recordCount.'</strong> '.LABEL_resultados_suplementarios.': <strong> "<em>'.stripslashes($string).'</em>"</strong></p>';
+
 			$row_result.='<ul >';
 			while($resulta_busca=$sql->FetchRow())
 			{
@@ -1093,7 +1096,7 @@ function HTMLbusquedaExpandidaTG($acumula_indice,$acumula_temas){
 #
 # Expande una busqueda hacia terminos relacionados == busca los términos relacionados de los términos especificos devueltos en una busqueda
 #
-function HTMLbusquedaExpandidaTR($acumula_temas){
+function HTMLbusquedaExpandidaTR($acumula_temas,$string){
 
 	$temas_ids=str_replace("|",",", $acumula_temas);
 	//Si no hay términos más genericos que los resultados
@@ -1104,7 +1107,9 @@ function HTMLbusquedaExpandidaTR($acumula_temas){
 
 		//Si hay resultados
 		if($recordCount>0){
-			$row_result.= '<p class="info">'.ucfirst(LABEL_resultados_relacionados).'</p>';
+
+			$row_result.= '<p class="alert alert-info" role="alert"><strong>'.$recordCount.'</strong> '.LABEL_resultados_relacionados.': <strong> "<em>'.stripslashes($string).'</em>"</strong></p>';
+
 			$row_result.='<ul >';
 
 			while($resulta_busca=$sql->FetchRow())
@@ -1857,18 +1862,29 @@ function paginate_links( $args = '' ) {
 
 			$body.='<dl class="dl-horizontal">';
 
-			$body.='<dt>'.ucfirst(LABEL_Fecha).'</dt>';
-			$body.='<dd>'.$fecha_crea[dia].'-'.$fecha_crea[descMes].'-'.$fecha_crea[ano].'</dd>';
+			if(@$_SESSION[$_SESSION["CFGURL"]]["ssuser_id"]){
 
-			if($arrayTerm[cuando_final]){
-				$fecha_cambio=do_fecha($arrayTerm[cuando_final]);
+
+				$ARRAYuserData4term=ARRAYuserData4term($arrayTerm["tema_id"]);
+				
+				$termCreator=' ('.$ARRAYuserData4term["c_nombres"].' '.$ARRAYuserData4term["c_apellido"].')';
+				$termMod=' ('.$ARRAYuserData4term["m_nombres"].' '.$ARRAYuserData4term["m_apellido"].')';
+
+			}
+
+			$body.='<dt>'.ucfirst(LABEL_Fecha).'</dt>';
+			$body.='<dd>'.$fecha_crea["dia"].'-'.$fecha_crea["descMes"].'-'.$fecha_crea["ano"].' '.$termCreator.'</dd>';
+
+			if($arrayTerm["cuando_final"]){
+
+				$fecha_cambio=do_fecha($arrayTerm["cuando_final"]);
 				$body.='<dt>'.ucfirst(LABEL_fecha_modificacion).'</dt>';
-				$body.='<dd>'.$fecha_cambio[dia].'-'.$fecha_cambio[descMes].'-'.$fecha_cambio[ano].'</dd>';
+				$body.='<dd>'.$fecha_cambio["dia"].'-'.$fecha_cambio["descMes"].'-'.$fecha_cambio["ano"].'  '.$termMod.'</dd>';
 			}
 
 
-			$body.='<dt class="estado_termino'.$arrayTerm["estado_id"].'">'.ucfirst( arrayReplace(array("12","13","14"),array(LABEL_Candidato,LABEL_Aceptado,LABEL_Rechazado),$arrayTerm[estado_id])).'</dt>';
-			$body.='<dd class="estado_termino'.$arrayTerm["estado_id"].'">'.$fecha_estado[dia].'-'.$fecha_estado[descMes].'-'.$fecha_estado[ano].'</dd>';
+			$body.='<dt class="estado_termino'.$arrayTerm["estado_id"].'">'.ucfirst( arrayReplace(array("12","13","14"),array(LABEL_Candidato,LABEL_Aceptado,LABEL_Rechazado),$arrayTerm["estado_id"])).'</dt>';
+			$body.='<dd class="estado_termino'.$arrayTerm["estado_id"].'">'.$fecha_estado["dia"].'-'.$fecha_estado["descMes"].'-'.$fecha_estado["ano"].'</dd>';
 
 			$body.='<dt>'.ucfirst(LABEL_totalTermsDescendants).'</dt>';
 			$body.='<dd> '.cantChildTerms($arrayTerm["idTema"]).'</dd>';
@@ -1889,15 +1905,15 @@ function paginate_links( $args = '' ) {
 			$body.='<dd>';
 
 			$body.='<ul class="list-inline" id="enlaces_xml">';
-			$body.='        <li><a class="btn btn-info btn-xs" target="_blank" title="'.LABEL_verEsquema.' BS8723-5"  href="xml.php?bs8723Tema='.$arrayTerm[tema_id].'">BS8723-5</a></li>';
-			$body.='        <li><a class="btn btn-info btn-xs" target="_blank" title="'.LABEL_verEsquema.' Dublin Core"  href="xml.php?dcTema='.$arrayTerm[tema_id].'">DC</a></li>';
-			$body.='        <li><a class="btn btn-info btn-xs"  target="_blank" title="'.LABEL_verEsquema.' MADS"  href="xml.php?madsTema='.$arrayTerm[tema_id].'">MADS</a></li>  ';
-			$body.='        <li><a class="btn btn-info btn-xs"  target="_blank" title="'.LABEL_verEsquema.' Skos"  href="xml.php?skosTema='.$arrayTerm[tema_id].'">SKOS-Core</a></li>';
-			$body.='        <li><a class="btn btn-info btn-xs"  target="_blank" title="'.LABEL_verEsquema.' IMS Vocabulary Definition Exchange (VDEX)"  href="xml.php?vdexTema='.$arrayTerm[tema_id].'">VDEX</a></li>';
-			$body.='        <li><a class="btn btn-info btn-xs"  target="_blank" title="'.LABEL_verEsquema.' TopicMap"  href="xml.php?xtmTema='.$arrayTerm[tema_id].'">XTM</a></li>';
-			$body.='        <li><a class="btn btn-info btn-xs"  target="_blank" title="'.LABEL_verEsquema.' Zthes" href="xml.php?zthesTema='.$arrayTerm[tema_id].'">Zthes</a></li>  ';
-			$body.='        <li><a class="btn btn-info btn-xs"  target="_blank" title="'.LABEL_verEsquema.' JavaScript Object Notation for Linked Data" href="xml.php?jsonTema='.$arrayTerm[tema_id].'">JSON</a></li>  ';
-			$body.='        <li><a class="btn btn-info btn-xs"  target="_blank" title="'.LABEL_verEsquema.' JavaScript Object Notation for Linked Data" href="xml.php?jsonldTema='.$arrayTerm[tema_id].'">JSON-LD</a></li>  ';
+			$body.='        <li><a class="btn btn-info btn-xs" target="_blank" title="'.LABEL_verEsquema.' BS8723-5"  href="xml.php?bs8723Tema='.$arrayTerm["tema_id"].'">BS8723-5</a></li>';
+			$body.='        <li><a class="btn btn-info btn-xs" target="_blank" title="'.LABEL_verEsquema.' Dublin Core"  href="xml.php?dcTema='.$arrayTerm["tema_id"].'">DC</a></li>';
+			$body.='        <li><a class="btn btn-info btn-xs"  target="_blank" title="'.LABEL_verEsquema.' MADS"  href="xml.php?madsTema='.$arrayTerm["tema_id"].'">MADS</a></li>  ';
+			$body.='        <li><a class="btn btn-info btn-xs"  target="_blank" title="'.LABEL_verEsquema.' Skos"  href="xml.php?skosTema='.$arrayTerm["tema_id"].'">SKOS-Core</a></li>';
+			$body.='        <li><a class="btn btn-info btn-xs"  target="_blank" title="'.LABEL_verEsquema.' IMS Vocabulary Definition Exchange (VDEX)"  href="xml.php?vdexTema='.$arrayTerm["tema_id"].'">VDEX</a></li>';
+			$body.='        <li><a class="btn btn-info btn-xs"  target="_blank" title="'.LABEL_verEsquema.' TopicMap"  href="xml.php?xtmTema='.$arrayTerm["tema_id"].'">XTM</a></li>';
+			$body.='        <li><a class="btn btn-info btn-xs"  target="_blank" title="'.LABEL_verEsquema.' Zthes" href="xml.php?zthesTema='.$arrayTerm["tema_id"].'">Zthes</a></li>  ';
+			$body.='        <li><a class="btn btn-info btn-xs"  target="_blank" title="'.LABEL_verEsquema.' JavaScript Object Notation for Linked Data" href="xml.php?jsonTema='.$arrayTerm["tema_id"].'">JSON</a></li>  ';
+			$body.='        <li><a class="btn btn-info btn-xs"  target="_blank" title="'.LABEL_verEsquema.' JavaScript Object Notation for Linked Data" href="xml.php?jsonldTema='.$arrayTerm["tema_id"].'">JSON-LD</a></li>  ';
 			$body.='</ul>';
 
 			$body.='</dd>';

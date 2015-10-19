@@ -3428,7 +3428,7 @@ function ARRAYmyTopTerm($term_id,$index="1")
 }
 
 #
-# total number of descendant terms for given $tema_id
+# total number of descendant terms for given $tema_idm
 #
 function cantChildTerms($tema_id)
 {
@@ -3443,4 +3443,23 @@ function cantChildTerms($tema_id)
 
 	return $array["cant"];
 }
+
+
+function ARRAYuserData4term($term_id,$user_id=0){
+
+	GLOBAL $DBCFG;
+
+	$term_id=secure_data($term_id,"int");
+
+	$sql=SQL("select","c.id as c_id,c.apellido as c_apellido,c.nombres as c_nombres,
+				m.id as m_id,m.apellido as m_apellido,m.nombres as m_nombres
+				from $DBCFG[DBprefix]usuario c ,$DBCFG[DBprefix]tema t
+				left join $DBCFG[DBprefix]usuario m on t.uid_final=m.id
+				where t.tema_id=$term_id
+				and c.id=t.uid
+				group by t.tema_id");
+
+	return (is_object($sql)) ? $sql->FetchRow() : array();
+}
+
 ?>

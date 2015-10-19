@@ -21,7 +21,7 @@ h1.metaTerm:after,a.metaTerm:after{content:'>'}
 #TG{margin-left:3mm;padding:4px;}
 #TR{margin-left:2mm;padding:4px;}
 #UP{font-style:italic;margin-left:1mm;padding:4px;}
-.NoTerm{text-decoration:line-through;}
+.NoTerm{color:#7288B5;}
 #EQ{margin-left:8mm;padding:4px;}
 
 #main{border-left:1px solid #F70;border-right:1px solid #F70;background:#fff;}
