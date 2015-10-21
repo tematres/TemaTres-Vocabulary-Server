@@ -693,17 +693,12 @@ function XSSprevent($string){
 
   require_once 'htmlpurifier/HTMLPurifier.auto.php';
 
-	$config = HTMLPurifier_Config::createDefault(); 
-  //$config->set('Cache.DefinitionImpl', null); // TODO: remove this later!
-  $config->set('HTML.Allowed', '');   
-  //$config->set('Core.Encoding', 'utf8'); 
-  $purifier = new HTMLPurifier($config);
+	$config = HTMLPurifier_Config::createDefault();
+	$purifier = new HTMLPurifier($config);
 	$clean_string = $purifier->purify($string);
 
 	return $clean_string;
 }
-
-
 
 
 function clean($val) {
