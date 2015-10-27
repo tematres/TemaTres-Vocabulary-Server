@@ -11,7 +11,7 @@ must be ADMIN
 */
 if($_SESSION[$_SESSION["CFGURL"]][ssuser_nivel]=='1'){
 	// get the variables
-
+	
 	if (($_POST['taskAdmin']=='importTab') && (file_exists($_FILES["file"]["tmp_name"])) )
 	{
 
@@ -43,16 +43,18 @@ if($_SESSION[$_SESSION["CFGURL"]][ssuser_nivel]=='1'){
 		if ($debug) echo "<textarea style=\"width:500px;height:500px;\">" ;
 
 		$fd=fopen($src_txt,"r");
-		$content = file($src_txt,FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES) ;
-		fclose($fd);
+		
+		while ( ($content= fgets($fd)) !== false ) {	
 
-		$start = ( !empty($_GET['start']) ) ? $_GET['start'] : 0 ;
-		$stop = $start + 200 ; // pas de l'import
-		$last = ( !empty($_GET['dernier']) ) ? unserialize($_GET['dernier']) : array() ;
-		$end = min( count($content) , $stop ) ;
-		for ( $i = $start ; $i < $end ; $i++ ) {
-
-			$terme = $content[$i] ;
+		$time_now = time();
+		if ($time_start >= $time_now + 10) {
+			$time_start = $time_now;
+			header('X-pmaPing: Pong');
+		};
+			
+			
+			//sleep(1) ;
+			$terme = $content ;
 			// traitement data
 			$level = substr_count($terme,"\t") ;
 			$terme = str_replace("\n","",$terme) ;
@@ -75,11 +77,11 @@ if($_SESSION[$_SESSION["CFGURL"]][ssuser_nivel]=='1'){
 			$encoded_term =($DBCFG["DBcharset"] =="utf8") ? $terme : utf8_decode($terme) ;
 
 			if ( $level == 0 ) {
-				$new_termino = abm_tema('alta',$encoded_term);
+				$new_termino = resolveTerm_id($encoded_term);
 				$last[0] = $new_termino;
 			}
 			elseif ( $level > 0 ) {
-				$new_termino = abm_tema('alta',$encoded_term);
+				$new_termino = resolveTerm_id($encoded_term);
 				//$new_relacion = do_r($last[$level-1],$new_termino,"3");
 				$to_do[] = $last[$level-1]."|".$new_termino."|3" ;
 				$last[$level] = $new_termino ;
@@ -110,33 +112,11 @@ if($_SESSION[$_SESSION["CFGURL"]][ssuser_nivel]=='1'){
 
 		if ($debug) echo "</textarea>" ;
 
-		$dernier = serialize($last) ;
+		fclose($fd);
+		//recreate index
+		$sql=SQLreCreateTermIndex();		
+		echo '<p class="true">'.ucfirst(IMPORT_finish).'</p>' ;
 
-		//if ( $debug == false ) {
-		if ( $debug == false ) { ?>
-			<script language="javascript" type="text/javascript">
-			function suite() {
-				<?php
-				if ( $end == $stop ) {
-					echo "window.location.replace(\"admin.php?doAdmin=import&taskAdmin=importTab&dernier=$dernier&start=$end\");" ;
-				}
-				?>
-			}
-			setTimeout("suite()",1000) ;
-			</script>
-		<?php }
-
-		if ( $end == $stop ) {
-			// admin.php?doAdmin=import
-			$nb = count($content) ;
-			echo '<p><a href="admin.php?doAdmin=import&taskAdmin=importTab&dernier='.$dernier.'&start='.$end.'">'.ucfirst(IMPORT_working).' ('.LABEL_Termino.' '.$end.' / '.$nb.')</a></p>' ;
-		}
-		else {
-			// recreate index
-			$sql=SQLreCreateTermIndex();
-			echo '<p class="true">'.ucfirst(IMPORT_finish).'</p>' ;
-		}
-		//fclose($fd);
 	}
 
 	else {

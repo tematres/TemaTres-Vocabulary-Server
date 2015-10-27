@@ -2153,9 +2153,14 @@ function SQLadvancedTermReport($array)
 		$array_where="1";
 	}
 
-	return SQLo("select","t.tema_id, $show_code t.tema,t.cuando as created_date,if(t.cuando_final is null,t.cuando,t.cuando_final) last_change,
-	elt(field(t.estado_id,'12','13','14'),'$LABEL_Candidato','$LABEL_Aceptado','$LABEL_Rechazado') as status,t.isMetaTerm,concat(u.APELLIDO,', ',u.NOMBRES) as user_data $select
+	return SQLo("select","t.tema_id, $show_code t.tema,t.isMetaTerm,t.cuando as created_date,
+		concat(u.APELLIDO,', ',u.NOMBRES) as user_data,
+		if(t.cuando_final is null,t.cuando,t.cuando_final) last_change,
+		concat(umod.APELLIDO,', ',umod.NOMBRES) as user_data,
+	elt(field(t.estado_id,'12','13','14'),'$LABEL_Candidato','$LABEL_Aceptado','$LABEL_Rechazado') as status
+	$select
 	from $from $DBCFG[DBprefix]values v,$DBCFG[DBprefix]usuario u, $DBCFG[DBprefix]tema t
+	left join $DBCFG[DBprefix]usuario umod on t.uid_final=umod.id
 	$leftJoin
 	where t.uid=u.id
 	and t.estado_id=v.value_id
