@@ -578,6 +578,6 @@ define('MSG_searchFor','texto que desea buscar (sensible a mayúsculas)');
 define('MSG_replaceWith','texto que reemplazará (sensible a mayúsculas)');
 define('LABEL_warningBulkEditor','Usted va a modificar masivamente datos ¡Estas acciones son IRREVERSIBLES!');
 define('LABEL_CFG_SUGGESTxWORD','¿se deben sugerir términos según palabras o frases?');
-define('LABEL_ALLOW_DUPLICATED','¿se debe impedir la creación de términos duplicados?');
+define('LABEL_ALLOW_DUPLICATED','¿se permiten términos duplicados?');
 define('LABEL_CFG_PUBLISH','¿el vocabulario puede ser consultado por cualquiera?');
 ?>

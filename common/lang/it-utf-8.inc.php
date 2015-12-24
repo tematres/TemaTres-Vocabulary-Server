@@ -551,6 +551,6 @@ define('MSG_searchFor','Input text you want to search for (case sensitive)');
 define('MSG_replaceWith','Input text you want to replace with (case sensitive)');
 define('LABEL_warningBulkEditor','You will modify data massively. These actions are irreversible!');
 define('LABEL_CFG_SUGGESTxWORD','suggest terms by words or phrases?');
-define('LABEL_ALLOW_DUPLICATED','avoid duplicate terms?');
+define('LABEL_ALLOW_DUPLICATED','enable duplicate terms?');
 define('LABEL_CFG_PUBLISH','Is the vocabulary can be consulted by anyone?');
 ?>
