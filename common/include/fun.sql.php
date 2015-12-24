@@ -182,6 +182,7 @@ function SQLbuscaSimple($texto){
 	tema.estado_id,
 	relaciones.t_relacion,
 	temasPreferidos.tema as termino_preferido,
+	tema.isMetaTerm,
 	if(?=tema.tema,1,0) as rank,
 	i.indice,
 	v.value_id as rel_rel_id,
@@ -347,7 +348,7 @@ function SQLbuscaExacta($texto){
 	//Check is include or not meta terms
 	$where.=(CFG_SEARCH_METATERM==0) ? " and tema.isMetaTerm=0 " : "";
 
-	$sql=SQL("select","if(relaciones.t_relacion=4,relaciones.id_menor,tema.tema_id) as id_definitivo,tema.tema_id,
+	$sql=SQL("select","if(relaciones.t_relacion=4,relaciones.id_menor,tema.tema_id) as id_definitivo,tema.tema_id,tema.isMetaTerm,
 	if(relaciones.t_relacion=4,concat(tema.tema,' ($codUP)'),tema.tema) as tema,tema.estado_id,
 	relaciones.t_relacion,if(relaciones.id is null and relacionesMenor.id is null,'SI','NO') as esTerminoLibre
 	from $DBCFG[DBprefix]tema as tema
@@ -1295,7 +1296,8 @@ function SQLlastTerms($limit="50"){
 
 	$sql=SQL("select","c.idioma,if(relaciones.t_relacion=4,relaciones.id_menor,tema.tema_id) as tema_id,tema.code,
 	if(relaciones.t_relacion=4,concat(tema.tema,' ($codUP)'),tema.tema) as tema,
-	tema.cuando,tema.cuando_final,tema.isMetaTerm
+	tema.cuando,tema.cuando_final,tema.isMetaTerm,
+	if(tema.cuando_final is not null,tema.cuando_final,tema.cuando) as lastdate
 	from $DBCFG[DBprefix]config c, $DBCFG[DBprefix]tema as tema
 	left join $DBCFG[DBprefix]tabla_rel as relaciones on relaciones.id_mayor=tema.tema_id
 	left join $DBCFG[DBprefix]values vrr on relaciones.rel_rel_id = vrr.value_id and vrr.value_code in ($hidden_labels)
@@ -1303,7 +1305,7 @@ function SQLlastTerms($limit="50"){
 	and tema.estado_id='13'
 	and vrr.value_id is null
 	group by tema.tema_id
-	order by tema.cuando_final desc,tema.cuando desc
+	order by lastdate desc
 	limit $limit");
 
 	return $sql;
@@ -3242,7 +3244,6 @@ function ARRAYfetchValueXValue($value_type,$value)
 	GLOBAL $DB;
 	GLOBAL $DBCFG;
 
-
 	$value=$DB->qstr($value,get_magic_quotes_gpc());
 	$value_type=$DB->qstr($value_type,get_magic_quotes_gpc());
 
@@ -3255,8 +3256,8 @@ function ARRAYfetchValueXValue($value_type,$value)
 	where value=$value
 	and value_type=$value_type
 	order by value_order,value_code,value");
-	return $sql->FetchRow();
 
+	return (is_object($sql)) ? $sql->FetchRow() : array();
 }
 
 
@@ -3264,7 +3265,8 @@ function ARRAYfetchValue($value_type,$value_code="")
 {
 	$sql=SQLfetchValue($value_type,$value_code);
 
-	return $sql->FetchRow();
+	return (is_object($sql)) ? $sql->FetchRow() : array();
+
 }
 
 
@@ -3467,4 +3469,68 @@ function ARRAYuserData4term($term_id,$user_id=0){
 	return (is_object($sql)) ? $sql->FetchRow() : array();
 }
 
+
+#
+# Search for duplicated term
+#
+function SQLcheckDuplicateTerm($string,$isMetaTerm,$tesauro_id){
+	
+	GLOBAL $DBCFG;
+
+	$tesauro_id=secure_data($tesauro_id,"int");
+	$isMetaTerm=secure_data($isMetaTerm,"int");
+	$string=secure_data($string,"ADOsql");		
+
+	return SQL("select","t.tema_id,t.tema
+		from $DBCFG[DBprefix]tema as t
+		where 
+		t.tesauro_id='$tesauro_id'
+		and t.tema=$string
+		and t.isMetaTerm='$isMetaTerm'
+		");		
+};
+#
+# Search for duplicated term
+#
+function checkDuplicateTerm($string,$isMetaTerm=0,$tesauro_id=1){
+	
+	$sql=SQLcheckDuplicateTerm($string,$isMetaTerm,$tesauro_id);
+
+	return (is_object($sql)) ? $sql->FetchRow() : array();	
+};
+
+
+//test bulk replace term 
+function SQLbulkReplaceTermTest($from,$to,$where){
+
+	GLOBAL $DBCFG;	
+	$from_string=secure_data($from,"ADOsql");	
+	$to_string=secure_data($to,"ADOsql");	
+	$where_string=secure_data("%$where%","ADOsql");
+
+	return SQL("select","t.tema_id,t.tema,replace(t.tema, $from_string, $to_string) tema_mod
+						from $DBCFG[DBprefix]tema t
+						where t.tema like BINARY $where_string
+						and t.tesauro_id=1
+						and length(replace(t.tema, $from_string, $to_string))>0
+						order by t.tema");
+
+}
+
+//test bulk replace notes
+function SQLbulkReplaceNoteTest($from,$to,$where){
+
+	GLOBAL $DBCFG;	
+	$from_string=secure_data($from,"ADOsql");	
+	$to_string=secure_data($to,"ADOsql");	
+	$where_string=secure_data("%$where%","ADOsql");
+
+	return SQL("select","t.tema_id,t.tema,n.id nota_id,n.nota,replace(n.nota, $from_string, $to_string) nota_mod
+						from $DBCFG[DBprefix]tema t,$DBCFG[DBprefix]notas n
+						where n.nota like BINARY $where_string
+						and t.tema_id=n.id_tema
+						and length(replace(n.nota, $from_string, $to_string))>0
+						order by t.tema");
+
+}
 ?>

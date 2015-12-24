@@ -18,19 +18,13 @@ For examples, please visit: http://www.vocabularyserver.com/vocabularies.php
 
 =============================================================================
 
-Changelog TemaTres 2.0:
+Changelog TemaTres 2.1:
 
-- Export to Moodle your vocabulary: now you can export to Moodle Glossary XML format
-- Metadata summary about each term and about your vocabulary (data about terms, relations, notes and total descendants terms, deep levels, etc)
-- New report: reports about terms with mapping relations, terms by status, preferred terms, etc.
-- New report: reports about terms without notes or specific type of notes
-- Import the notes type defined by user (custom notes) using tagged file format
-- Select massively free terms to assign to other term
-- Improve utilities to take terminological recommendations from other vocabularies (more than 300: http://www.vocabularyserver.com/vocabularies/)
-- Update Zthes schema to Zthes 1.0 (Thanks to Wilbert Kraan)
-- Export the whole vocabulary to Metadata Authority Description Schema (MADS)
-- Fixed bugs and improved several functional aspects.
-- Uses Bootstrap v3.3.4
+- Reemplazo global en términos y notas
+- Nuevas opciones de configuración de políticas de acceso: permitir/restringir consulta pública al vocabulario
+- Nuevas opciones de configuración de políticas de calidad: permitir/restringir términos duplicados
+- Mejoras de usabilidad (menús, mensajes, identificación gráfica de metatérminos)
+- Corrección de errores
 
 Many thanks to the feedback provided by TemaTres community :)
 
@@ -54,3 +48,4 @@ How to enable SPARQL endpoint:
 diego ferreyra
 tematres@r020.com.ar
 http://www.vocabularyserver.com
+

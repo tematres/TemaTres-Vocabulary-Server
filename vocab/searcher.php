@@ -34,17 +34,21 @@ if($_SESSION[$_SESSION["CFGURL"]][ssuser_id]){
 	//gestión de codigo de tema
 	if($_POST["edit_tema_id"])
 		{
-
 			$tema_id=str_replace("edit_tema", "", $_POST["edit_tema_id"]);			
 			//additional secure check
 			$string_term=trim($_POST["edit_tema"]);
-			if((is_numeric($tema_id)) && (strlen($string_term)>0))
-			{
-				$task=abm_tema('mod',$string_term,$tema_id);
+			if((is_numeric($tema_id)) && (strlen($string_term)>0)){
+				$taskMod=modTerm($string_term,$tema_id);
 			}
-			
 			$arrayTerm=ARRAYverTerminoBasico($tema_id);
-			echo $arrayTerm[tema];		
+			if($taskMod["log"]==false){
+				header("HTTP/1.1 406 Not Acceptable");
+				echo ucfirst(LABEL_duplicatedTerm);
+			}else{
+			echo $arrayTerm[tema];	
+			}
+
+			
 		}
 
 	//abm for relations defined by user

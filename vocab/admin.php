@@ -11,7 +11,7 @@ include("config.tematres.php");
 $metadata=do_meta_tag();
 
 if($_SESSION[$_SESSION["CFGURL"]]["ssuser_nivel"]!=='1'){
-	header("Location:login.php");
+	loadPage('login.php');
 	};
 
 //Acciones de gestion de usuarios
@@ -55,12 +55,12 @@ if(($_POST["doAdmin"]=='saveUserTypeNote')){
 
 if(($_POST["doAdmin"]=='massrem')){
 	REMmassiveData($_POST);
-	header("Location:index.php");
+	loadPage('index.php');
 	};
 
 if(($_POST["doAdmin"]=='updateEndpointNow')){
 	doSparqlEndpoint($_POST);
-	header("Location:sparql.php");
+	loadPage('sparql.php');
 	};
 
 //Acciones de gestion de vocabularios
@@ -178,6 +178,10 @@ if($_SESSION[$_SESSION["CFGURL"]]["ssuser_id"]){
 	//Formulario de exportación
 	if($_GET["doAdmin"]=='export'){
 		echo HTMLformExport();
+		}
+
+	if($_GET["doAdmin"]=='bulkReplace'){
+		echo HTMLformBulkReplace($_POST);
 		}
 
 	//Regenerate indice table

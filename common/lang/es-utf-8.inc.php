@@ -554,4 +554,24 @@ define('LABEL_showNewsTerm','ver cambios recientes');
 define('LABEL_newsTerm','cambios recientes');
 define('MSG_contactAdmin','contacte al administardor');
 define('LABEL_addTargetVocabulary','agregar vocabularios de referencia (servicios web terminológicos)');
+#v.2.1
+define('LABEL_duplicatedTerm','término duplicado');
+define('LABEL_duplicatedTerms','términos duplicados');
+define('MSG_duplicatedTerms','La configuración del vocabulario no permite términos duplicados.');
+define('LABEL_bulkReplace','cambios globales (buscar y reemplazar)');
+define('LABEL_searchFor','Texto a buscar');
+define('LABEL_replaceWith','reemplazar con');
+define('LABEL_bulkNotesWillReplace','notas serán modificadas');
+define('LABEL_bulkNotesReplaced','notas fueron modificadas');
+define('LABEL_bulkTermsWillReplace','términos serán modificados');
+define('LABEL_bulkTermsReplaced','términos fueron modificados');
+define('LABEL_termMOD','términos modificado');
+define('LABEL_noteMOD','nota modificada');
+define('MENU_bulkEdition','cambios globales');
+define('MSG_searchFor','texto que desea buscar (sensible a mayúsculas)');
+define('MSG_replaceWith','texto que reemplazará (sensible a mayúsculas)');
+define('LABEL_warningBulkEditor','Usted va a modificar masivamente datos ¡Estas acciones son IRREVERSIBLES!');
+define('LABEL_CFG_SUGGESTxWORD','¿se deben sugerir términos según palabras o frases?');
+define('LABEL_ALLOW_DUPLICATED','¿se debe impedir la creación de términos duplicados?');
+define('LABEL_CFG_PUBLISH','¿el vocabulario puede ser consultado por cualquiera?');
 ?>

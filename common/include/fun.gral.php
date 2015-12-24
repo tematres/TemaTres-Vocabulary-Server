@@ -921,10 +921,11 @@ function loadConfigValues($renew="0")
 		$sql=SQL("select","v.value_id,v.value_type,v.value,v.value_code,v.value_order
 						from $DBCFG[DBprefix]values v
 						where v.value_type='config'");
-	    if(SQLcount($sql)>0)
-	    {
-	    	$NEWarrayCFGs=array();
-			while ($array=$sql->FetchRow()){
+
+	 if(SQLcount($sql)>0){
+	    $NEWarrayCFGs=array();
+			
+      while ($array=$sql->FetchRow()){
 
 				switch ($array[value]){
 						case 'CFG_MAX_TREE_DEEP':
@@ -943,11 +944,11 @@ function loadConfigValues($renew="0")
 						$array[value_code] = (in_array($array[value_code],array(1,0))) ? $array[value_code] : $arrayCFGs[$array[value]];
 					}
 
-			$NEWarrayCFGs[$array["value"]]= $array["value_code"];
-			}
-	    }
+			   $NEWarrayCFGs[$array["value"]]= $array["value_code"];
+			   }
+	   }
 
-	  }
+	 }
 
 	//define default values
 	foreach ($arrayCFGs as $key => $value) {
@@ -1384,5 +1385,27 @@ function loadPageTerm($tema_id){
   $tema_id=secure_data($tema_id,"int");
 
   return header("Location:index.php?tema=$tema_id");
+}
+
+//load empty page
+function loadPage($page){
+
+  $page=in_array($page, array('admin.php','index.php','login.php','sobre.php','install.php','sparql.php')) ? $page : 'index.php';
+  return header("Location:$page");
+}
+
+//Check if is allow to public view the vocabulary 
+function checkAllowPublication($file){
+  
+  if(($_SESSION[$_SESSION["CFGURL"]]["ssuser_nivel"]<1) && 
+      ($_SESSION[$_SESSION["CFGURL"]]["CFG_PUBLISH"]==0) &&
+      ($file!=='login.php')
+      ){
+    return 0;
+} else {
+    return 1;
+}
+
+    ;
 }
 ?>

@@ -84,6 +84,7 @@ if($_SESSION[$_SESSION["CFGURL"]][ssuser_id])
 }
 elseif($metadata["arraydata"])
 {
+
 	echo HTMLbodyTermino($metadata["arraydata"]);
 }
 ?>

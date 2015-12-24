@@ -8,7 +8,7 @@ if ((stristr( $_SERVER['REQUEST_URI'], "session.php") ) || ( !defined('T3_ABSPAT
 ###############################################################################################################
 # ARCHIVO DE CONFIGURACION == CONFIG FILE #
 
-$CFG["Version"]        = "TemaTres 2.0";
+$CFG["Version"]        = "TemaTres 2.1";
 
 $CFG["VersionWebService"]        = "1.5";
 
@@ -50,7 +50,9 @@ $arrayCFGs =array('CFG_MAX_TREE_DEEP'=>'3',
 				  '_PUBLISH_SKOS'=>'2',
 				  'CFG_SEARCH_METATERM'=>'0',
 				  'CFG_ENABLE_SPARQL'=>'0',
-				  'CFG_SUGGESTxWORD'=>'1');
+				  'CFG_SUGGESTxWORD'=>'1',
+				  'CFG_ALLOW_DUPLICATED'=>'0',
+				  'CFG_PUBLISH'=>'1');
 
 $CFG["CONFIG_VAR"]=array('2','3','4','config','DATESTAMP','t_estado','t_nota','t_relacion','t_usuario','URI_TYPE','METADATA','CONTACT_MAIL');
 

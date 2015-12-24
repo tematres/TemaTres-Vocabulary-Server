@@ -77,6 +77,11 @@ if ($_SESSION[$_SESSION["CFGURL"]][ssuser_nivel]>0)
 		  submit : '<?php echo ucfirst(LABEL_Guardar);?>',
 		  cancel : '<?php echo ucfirst(LABEL_Cancelar);?>',
 		  cssclass : "editable",
+		  onerror : function(settings, original, xhr) {
+			original.reset()
+			alert(xhr.responseText)
+		}
+		  
 	  });
 	  <?php
 

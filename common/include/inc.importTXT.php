@@ -79,17 +79,21 @@ if($_SESSION[$_SESSION["CFGURL"]][ssuser_nivel]=='1'){
 					$i=++$i;
 				}
 
+				//Retomar tag
+				$label=($rwTerms[0]==$tabulador) ? $past_label : trim($rwTerms[0]);
+
+
 				//es una nota
-				if (in_array($rwTerms[0],$arrayTiposNotas)) {
+				if (in_array($label,$arrayTiposNotas)) {
+					
 					//re-redactar nota para prevenir signo de separación en notas
 					$note=implode($separador, array_slice($rwTerms, 1));
 
-					abmNota("A",$term_id,$rwTerms[0],"$thes_lang",trim($note));
-
-
-				}//es una relación terminológica
-				elseif (in_array($rwTerms[0],$arrayTiposTermino)) {
-
+					abmNota("A",$term_id,$label,"$thes_lang",trim($note));
+					$past_label=$label;										
+				}
+				//es una relación terminológica
+				elseif (in_array($label,$arrayTiposTermino)) {
 
 					//Retomar tag
 					$label=($rwTerms[0]==$tabulador) ? $past_label : trim($rwTerms[0]);

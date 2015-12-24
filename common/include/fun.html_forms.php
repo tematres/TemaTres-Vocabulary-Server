@@ -309,6 +309,8 @@ function HTMLformEditTerms($taskterm,$ARRAYtermino="0")
 */
 function HTMLformSuggestTerms($ARRAYtargetVocabulary=array())
 {
+
+	GLOBAL $CFG;
 	//SEND_KEY to prevent duplicated
 	session_start();
 	$_SESSION['SEND_KEY']=md5(uniqid(rand(), true));
@@ -328,7 +330,7 @@ function HTMLformSuggestTerms($ARRAYtargetVocabulary=array())
 			if($array[vocabulario_id]!=='1')
 			{
 				//vocabularios que no sean el vocabulario principal
-				array_push($array_vocabularios,$array[tvocab_id].'#'.FixEncoding($array[tvocab_label]));
+				array_push($array_vocabularios,$array[tvocab_id].'#'.FixEncoding($array[tvocab_label].' - '.$CFG["ISO639-1"][$array["tvocab_lang"]][1]));
 			}
 		};
 
@@ -1353,7 +1355,7 @@ Asociaci�n con datos provistos por web services terminol�gicos TemaTres
 */
 function HTMLformAssociateTargetTerms($ARRAYtermino,$term_id="0")
 {
-
+	GLOBAL $CFG;
 	$sql=SQLtargetVocabulary("1");
 
 	$rows='<div class="container" id="bodyText">';
@@ -1370,7 +1372,7 @@ function HTMLformAssociateTargetTerms($ARRAYtermino,$term_id="0")
 			if($array[vocabulario_id]!=='1')
 			{
 				//vocabularios que no sean el vocabulario principal
-				array_push($array_vocabularios,$array[tvocab_id].'#'.FixEncoding($array[tvocab_label]));
+				array_push($array_vocabularios,$array[tvocab_id].'#'.FixEncoding($array["tvocab_label"].' - '.$CFG["ISO639-1"][$array["tvocab_lang"]][1]));
 			}
 		};
 
@@ -1475,14 +1477,14 @@ function HTMLformAssociateTargetTerms($ARRAYtermino,$term_id="0")
 
 function HTMLtargetVocabularySearchResult($dataTerm,$string_search,$arrayVocab,$tema_id){
 
+	GLOBAL $CFG;
 	//SEND_KEY to prevent duplicated
 	session_start();
 
 	$_SESSION['SEND_KEY']=md5(uniqid(rand(), true));
 
 	$tag_type='ol';
-
-	$rows.='<h3>'.$dataTerm->resume->cant_result.' '.MSG_ResultBusca.' <i>'.$string_search.'</i>  ('.FixEncoding($arrayVocab[tvocab_title]).')</h3>'."\n\r";
+	$rows.='<h3>'.$dataTerm->resume->cant_result.' '.MSG_ResultBusca.' <i>'.$string_search.'</i>  ('.FixEncoding($arrayVocab[tvocab_title]).' - '.$CFG["ISO639-1"][$arrayVocab["tvocab_lang"]][1].')</h3>'."\n\r";
 
 
 	if($dataTerm->resume->cant_result > "0")	{
@@ -1506,6 +1508,8 @@ function HTMLtargetVocabularySearchResult($dataTerm,$string_search,$arrayVocab,$
 
 function HTMLformTargetVocabularySuggested($arrayTterm,$t_relation,$string_search,$arrayVocab,$tema_id){
 
+	GLOBAL $CFG;
+
 	//SEND_KEY to prevent duplicated
 	session_start();
 
@@ -1513,7 +1517,7 @@ function HTMLformTargetVocabularySuggested($arrayTterm,$t_relation,$string_searc
 
 	$label_relation=ucfirst(arrayReplace(array('0','2','3','4'),array(LABEL_Termino,TR_termino,TE_termino,UP_termino),$t_relation));
 
-	$rows.='<h3 id="suggestResult">'.FixEncoding($arrayVocab["tvocab_title"]).'</h3>';
+	$rows.='<h3 id="suggestResult">'.FixEncoding($arrayVocab["tvocab_title"]).' ('.$CFG["ISO639-1"][$arrayVocab["tvocab_lang"]][1].')</h3>';
 
 	if(count($arrayTterm) > 0)	{
 
@@ -1736,6 +1740,28 @@ function HTMLformConfigValues($array_vocabulario){
 
 	foreach ($arrayCFGs as $key => $value) {
 		switch ($key){
+
+			case 'CFG_PUBLISH':
+			$rows.='<div class="form-group">';
+			$rows.='<label class="col-sm-5 control-label" for="'.$key.'">'.$key.'</label>';
+			$rows.='<div class="col-sm-5">     <select id="'.$key.'" name="'.$key.'">';
+			$rows.=	doSelectForm(array("1#$si","00#$no"),$NEWarrayCFGs[$key]);
+			$rows.='</select>';
+			$rows.='<span class="help-block">'.ucfirst(LABEL_CFG_PUBLISH).'</span></div>';
+			$rows.='</div>';
+			break;
+
+			case 'CFG_ALLOW_DUPLICATED':
+			$rows.='<div class="form-group">';
+			$rows.='<label class="col-sm-5 control-label" for="'.$key.'">'.$key.'</label>';
+			$rows.='<div class="col-sm-5">     <select id="'.$key.'" name="'.$key.'">';
+			$rows.=	doSelectForm(array("1#$si","00#$no"),$NEWarrayCFGs[$key]);
+			$rows.='</select>';
+			$rows.='<span class="help-block">'.ucfirst(LABEL_ALLOW_DUPLICATED).'</span></div>';
+			$rows.='</div>';
+			break;
+
+
 			case 'CFG_MAX_TREE_DEEP':
 			$rows.='<div class="form-group">';
 			$rows.='<label class="col-sm-5 control-label" for="'.$key.'">'.$key.'</label>';
@@ -1773,6 +1799,16 @@ function HTMLformConfigValues($array_vocabulario){
 			$rows.=	doSelectForm(array("1#$si","00#$no"),$NEWarrayCFGs[$key]);
 			$rows.='</select>';
 			$rows.='<span class="help-block">'.ucfirst(NOTE_isMetaTermNote).'</span></div>';
+			$rows.='</div>';
+			break;
+
+			case 'CFG_SUGGESTxWORD':
+			$rows.='<div class="form-group">';
+			$rows.='<label class="col-sm-5 control-label" for="'.$key.'">'.$key.'</label>';
+			$rows.='<div class="col-sm-5">     <select id="'.$key.'" name="'.$key.'">';
+			$rows.=	doSelectForm(array("1#$si","00#$no"),$NEWarrayCFGs[$key]);
+			$rows.='</select>';
+			$rows.='<span class="help-block">'.ucfirst(LABEL_CFG_SUGGESTxWORD).'</span></div>';
 			$rows.='</div>';
 			break;
 
@@ -2319,6 +2355,214 @@ function HTMLalertNoTargetVocabulary(){
 	}
 
 	return '<p class="alert alert-danger" role="alert">'.ucfirst(LABEL_NO_vocabulario_referencia).'. '.$help_msg.'</p>';
+
+}
+
+
+
+function HTMLAlertDuplicateTerm($arrayDuplicateTerms){
+
+$rows='<h4>'.count($arrayDuplicateTerms).' '.LABEL__duplicatedTerms.'</h4>';
+
+foreach ($arrayDuplicateTerms as $term_id => $term) {
+	$rows.='<p>'.$term.'</p>';
+}
+
+return $rows;
+}
+
+
+function HTMLformBulkReplace($params=array()){
+
+	$rows.='<div class="row">';
+	$rows.='	<div class="col-md-6 col-md-offset-3">';
+
+	$rows.=' <h3>'.ucfirst(LABEL_bulkReplace).'</h3>';
+
+	$rows.='<form  class="col-xs-8 form-horizontal" role="form" name="bulkReplace" action="admin.php?doAdmin=bulkReplace" method="post">';
+	$rows.='<fieldset>';
+
+	$LABEL_Termino=ucfirst(LABEL_Terminos);
+	$LABEL_NOTE=ucfirst(LABEL_notes);
+
+	$arrayWS=array("t#$LABEL_Termino");
+
+	$arrayVocabStats=ARRAYresumen($_SESSION[id_tesa],"G","");
+
+	if($arrayVocabStats["cant_notas"]>0){
+		array_push($arrayWS,"n#$LABEL_NOTE");
+	}
+
+	/*
+	solo si hay m�s de un opci�n
+	*/
+	if(count($arrayWS)>1)
+	{
+		$rows.='<div class="form-group"><label class="label_ttl control-label" for="ws" accesskey="f">'.ucfirst(LABEL_QueBuscar).'</label>';
+		$rows.='<select class="select_ttl form-control" id="ws" name="ws">';
+		$rows.=doSelectForm($arrayWS,"$_POST[ws]");
+		$rows.='</select>';
+		$rows.='</div>';
+	}
+
+	$rows.='<div class="form-group"><label class="label_ln control-label" for="search_string" accesskey="s">'.ucfirst(LABEL_searchFor).'</label>';
+	$rows.='<input name="search_string" class="input_ln form-control" placeholder="'.MSG_searchFor.'" required type="search" id="search_string" size="25" maxlength="50" value="'.$params["search_string"].'"/>';
+	$rows.='</div>';
+
+	$rows.='<div class="form-group"><label class="label_ln control-label" for="replace_string" accesskey="r">'.ucfirst(LABEL_replaceWith).'</label>';
+
+	$rows.='<input name="replace_string" class="input_ln form-control" placeholder="'.MSG_replaceWith.'" id="replace_string" size="25" maxlength="50" value="'.$params["replace_string"].'"/>';
+	$rows.='</div>';
+
+
+	$rows.='<div class="text-center">';
+		$rows.='<input type="submit" class="btn btn-primary" role="button" name="boton" value="'.LABEL_Enviar.'"/>';
+		$rows.=' <input type="button" class="btn btn-default" role="button" name="cancelar" type="button" onClick="location.href=\'index.php\'" value="'.ucfirst(LABEL_Cancelar).'"/>';
+	$rows.='</div>';
+
+	$rows.='<input type="hidden"  name="taskAdmin" id="taskAdmin" value="bulkReplace"/>';
+	$rows.='<input type="hidden"  name="replaceStep" id="replaceStep" value="bulkReplaceTest"/>';
+	$rows.='<input type="hidden"  name="doAdmin" id="doAdmin" value="bulkReplace"/>';
+
+
+	$rows.='  </fieldset>';
+	$rows.='</form>';
+
+	$rows.='</div>';//div row
+	$rows.='</div>';//div col
+	$rows.='<div class="push"></div>';
+
+
+	if($params["taskAdmin"]=='bulkReplace'){
+		$rows.=($params["ws"]=='t') ? HTMLbulkReplaceResultsTerms($params) : HTMLbulkReplaceResultsNotes($params)  ;
+	}
+
+	return $rows;
+}
+
+
+function HTMLbulkReplaceResultsTerms($params){
+
+	$search_string=XSSprevent($params["search_string"]);
+	$replace_string=XSSprevent($params["replace_string"]);
+
+	if($params["replaceStep"]=='bulkReplaceTest'){				
+		$label=ucfirst(LABEL_bulkTermsWillReplace);
+		$sql=SQLbulkReplaceTermTest($search_string,$replace_string,$search_string);
+		$cantTermsAffected=SQLcount($sql);
+	}else{
+		$label=ucfirst(LABEL_bulkTermsReplaced);
+		$sql=SQLbulkReplaceTerm($search_string,$replace_string,$search_string,$params["blkmod_id"]);
+		$cantTermsAffected=$sql["cant"];
+	}
+
+	$rows='<h3><i>'.$search_string.'</i> X <i>'.$replace_string.'</i>: '.$cantTermsAffected.' '.$label.'</h3>';
+	
+	if(($cantTermsAffected>0) && ($params["replaceStep"]=='bulkReplaceTest')){
+
+		
+		$rows.='<form class="form-inline" role="form" name="confirmBulkReplace" action="admin.php?doAdmin=bulkReplace" method="post">';
+		$rows.='  <fieldset id="bulkReplaceDiv">';
+		$rows.= '<p class="alert alert-warning" role="alert">'.LABEL_warningBulkEditor.'</p>';
+
+		$rows.='<div class="table-responsive"> ';
+		$rows.='<table class="table table-striped table-bordered table-condensed table-hover"">';
+		$rows.='<thead><tr>';
+		$rows.='<th><input name="checktodos" type="checkbox" title="'.LABEL_selectAll.'"/></th>
+				<th>'.ucfirst(LABEL_termMOD).'</th><th>'.ucfirst(LABEL_Termino).'</th></tr>
+				</thead><tbody>';
+
+		while($result=$sql->FetchRow()){
+
+				$text = (strlen($replace_string)>0) ? preg_replace("|($replace_string)|", "<mark>".$replace_string."</mark>", $result["tema_mod"]) : $result["tema_mod"];
+				$css_class_MT=($result["isMetaTerm"]==1) ? ' class="metaTerm" ' : '';
+				$rows.= '<tr>';
+				$rows.=  '     <td align="center"><input type="checkbox" name="blkmod_id[]" id="blkmod_id'.$result["tema_id"].'"  title="'.LABEL_seleccionar.'" value="'.$result["tema_id"].'" checked/></td>';
+				$rows.=  '     <td><label for="blkmod_id'.$result["tema_id"].'" '.$css_class_MT.'>'.$text.'</label></td>';
+				$rows.=  '     <td><a href="index.php?tema='.$result["tema_id"].'" title="'.LABEL_Detalle.' '.$result["tema"].'">'.$result["tema"].'</a></td>';
+				$rows.=  '  </tr>';
+			}
+
+			$rows.='        </tbody>';
+			$rows.='<tfoot>	<tr><td colspan=3>';
+			$rows.= '</td></tr></tfoot></table></div>';
+
+		$rows.='<div class="submit_form"  align="center" role="group">';
+		$rows.='<button type="submit"   class="btn btn-danger" name="boton" value="'.ucfirst(LABEL_Enviar).'">'.ucfirst(LABEL_Enviar).'</button>';
+		$rows.=' <button type="button"  class="btn btn-default"  name="cancelar" onClick="\'index.php\')" value="'.ucfirst(LABEL_Cancelar).'">'.ucfirst(LABEL_Cancelar).'</button>';
+		$rows.='</div>';
+		$rows.='<input type="hidden"  name="replaceStep" id="replaceStep" value="bulkReplaceConfirm"/>';
+		$rows.='<input type="hidden"  name="search_string" id="search_string" value="'.$search_string.'"/>';
+		$rows.='<input type="hidden"  name="replace_string" id="replace_string" value="'.$replace_string.'"/>';
+		$rows.='<input type="hidden"  name="taskAdmin" id="taskAdmin" value="bulkReplace"/>';
+		$rows.='<input type="hidden"  name="ws" id="ws" value="'.$params["ws"].'"/>';
+		$rows.='<input type="hidden"  name="doAdmin" id="doAdmin" value="bulkReplace"/>';
+		$rows.='  </fieldset>';
+		$rows.='</form>';
+	}
+	return $rows;
+
+}
+
+function HTMLbulkReplaceResultsNotes($params){
+
+	$search_string=XSSprevent($params["search_string"]);
+	$replace_string=XSSprevent($params["replace_string"]);
+
+	if($params["replaceStep"]=='bulkReplaceTest'){
+		$label=ucfirst(LABEL_bulkNotesWillReplace);
+		$sql=SQLbulkReplaceNoteTest($search_string,$replace_string,$search_string);
+		$cantTermsAffected=SQLcount($sql);
+	}else{
+		$label=ucfirst(LABEL_bulkNotesReplaced);
+		$sql=SQLbulkReplaceNote($search_string,$replace_string,$search_string,$params["blkmod_id"]);
+		$cantTermsAffected=$sql["cant"];
+	}
+
+	$rows='<h3><i>'.$search_string.'</i> X <i>'.$replace_string.'</i>: '.$cantTermsAffected.' '.$label.'</h3>';
+	
+	if(($cantTermsAffected>0) && ($params["replaceStep"]=='bulkReplaceTest')){
+
+
+		$rows.='<form class="form-inline" role="form" name="confirmBulkReplace" action="admin.php?doAdmin=bulkReplace" method="post">';
+		$rows.='  <fieldset id="bulkReplaceDiv">';
+		$rows.= '<p class="alert alert-warning" role="alert">'.MSG__warningDeleteTerm2row.'</p>';
+
+		$rows.='<div class="table-responsive"> ';
+		$rows.='<table class="table table-striped table-bordered table-condensed table-hover"">';
+		$rows.='<thead><tr>';
+		$rows.='<th><input name="checktodos" type="checkbox" title="'.LABEL_selectAll.'"/></th>
+				<th>'.ucfirst(LABEL_noteMOD).'</th><th>'.ucfirst(LABEL_Termino).'</th></tr>
+				</thead><tbody>';
+
+		while($result=$sql->FetchRow()){
+				$text = (strlen($replace_string)>0) ? preg_replace("|($replace_string)|", "<mark>".$replace_string."</mark>", $result["nota_mod"]): $result["nota_mod"];
+				$rows.= '<tr>';
+				$rows.=  '     <td align="center"><input type="checkbox" name="blkmod_id[]" id="blkmod_id'.$result["nota_id"].'" title="'.LABEL_seleccionar.'" value="'.$result["nota_id"].'" checked/></td>';
+				$rows.=  '     <td><label for="blkmod_id'.$result["nota_id"].'">'.$text.'</label></td>';
+				$rows.=  '     <td> <a href="index.php?tema='.$result["tema_id"].'" title="'.LABEL_Detalle.' '.$result["tema"].'">'.$result["tema"].'</a></td>';
+				$rows.=  '  </tr>';
+			}
+
+			$rows.='        </tbody>';
+			$rows.='<tfoot>	<tr><td colspan=3>';
+			$rows.= '</td></tr></tfoot></table></div>';
+
+
+		$rows.='<div class="submit_form"  align="center" role="group">';
+		$rows.='<button type="submit"   class="btn btn-danger" name="boton" value="'.ucfirst(LABEL_Enviar).'">'.ucfirst(LABEL_Enviar).'</button>';
+		$rows.=' <button type="button"  class="btn btn-default"  name="cancelar" onClick="\'index.php\')" value="'.ucfirst(LABEL_Cancelar).'">'.ucfirst(LABEL_Cancelar).'</button>';
+		$rows.='</div>';
+		$rows.='<input type="hidden"  name="replaceStep" id="replaceStep" value="bulkReplaceConfirm"/>';
+		$rows.='<input type="hidden"  name="search_string" id="search_string" value="'.$search_string.'"/>';
+		$rows.='<input type="hidden"  name="replace_string" id="replace_string" value="'.$replace_string.'"/>';
+		$rows.='<input type="hidden"  name="taskAdmin" id="taskAdmin" value="bulkReplace"/>';
+		$rows.='<input type="hidden"  name="ws" id="ws" value="'.$params["ws"].'"/>';
+		$rows.='<input type="hidden"  name="doAdmin" id="doAdmin" value="bulkReplace"/>';
+		$rows.='  </fieldset>';
+		$rows.='</form>';
+	}
+	return $rows;
 
 }
 

@@ -471,4 +471,24 @@ define('LABEL_showNewsTerm','show recent changes');
 define('LABEL_newsTerm','recent changes');
 define('MSG_contactAdmin','contact to the administrator');
 define('LABEL_addTargetVocabulary','add external vocabularies (terminological web services)');
+#v.2.1
+define('LABEL_duplicatedTerm','duplicated term');
+define('LABEL_duplicatedTerms','duplicated terms');
+define('MSG_duplicatedTerms','The configuration of the vocabulary not allow duplicate terms.');
+define('LABEL_bulkReplace','bulk editor (search and replace)');
+define('LABEL_searchFor','string to search and replace');
+define('LABEL_replaceWith','replace with');
+define('LABEL_bulkNotesWillReplace','notes will be modified');
+define('LABEL_bulkNotesReplaced','notes were modified');
+define('LABEL_bulkTermsWillReplace','terms will be modified');
+define('LABEL_bulkTermsReplaced','terms were modified');
+define('LABEL_termMOD','terms changed');
+define('LABEL_noteMOD','notes changed');
+define('MENU_bulkEdition','bulk editor');
+define('MSG_searchFor','Input text you want to search for (case sensitive)');
+define('MSG_replaceWith','Input text you want to replace with (case sensitive)');
+define('LABEL_warningBulkEditor','You will modify data massively. These actions are irreversible!');
+define('LABEL_CFG_SUGGESTxWORD','suggest terms by words or phrases?');
+define('LABEL_ALLOW_DUPLICATED','avoid duplicate terms?');
+define('LABEL_CFG_PUBLISH','Is the vocabulary can be consulted by anyone?');
 ?>

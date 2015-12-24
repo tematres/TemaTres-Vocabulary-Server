@@ -69,7 +69,8 @@ function resultaBusca($texto,$tipo=""){
 
 			$leyendaTerminoLibre=($resulta_busca[esTerminoLibre]=='SI') ? ' ('.LABEL_terminoLibre.')' : '';
 
-			$styleClassLink= ($resulta_busca["estado_id"]!=='13') ? 'class="estado_termino'.$resulta_busca["estado_id"].'"' : '';
+			$styleClassLink= ($resulta_busca["estado_id"]!=='13') ? 'estado_termino'.$resulta_busca[estado_id] : '';
+			$styleClassLinkMetaTerm= ($resulta_busca["isMetaTerm"]=='1') ? 'metaTerm' : '';
 
 			//Si no es un término preferido
 			if($resulta_busca["termino_preferido"])
@@ -100,18 +101,15 @@ function resultaBusca($texto,$tipo=""){
 
 				if ((in_array($resulta_busca["rr_code"],$CFG["HIDDEN_EQ"])) && (!$_SESSION[$_SESSION["CFGURL"]][ssuser_id]))
 				{
-					$row_result.= '<li><a title="'.LABEL_verDetalle.$resulta_busca["tema"].'" href="index.php?tema='.$resulta_busca["id_definitivo"].'">'.$resulta_busca["termino_preferido"].'</a></li>'."\r\n" ;
-
-				}
-				else
-				{
-					$row_result.= '<li><em><a '.$styleClassLink.' title="'.LABEL_verDetalle.$resulta_busca["tema"].'" href="index.php?tema='.$resulta_busca["tema_id"].'&amp;/'.string2url($resulta_busca["tema"]).'">'.$resulta_busca["tema"].'</a></em> '.$leyendaConector.' <a title="'.LABEL_verDetalle.$resulta_busca["tema"].'" href="index.php?tema='.$resulta_busca["id_definitivo"].'">'.$resulta_busca["termino_preferido"].'</a> </li>'."\r\n" ;
+					$row_result.= '<li><a class="'.$styleClassLink.' '.$styleClassLinkMetaTerm.'" title="'.LABEL_verDetalle.$resulta_busca["tema"].'" href="index.php?tema='.$resulta_busca["id_definitivo"].'">'.$resulta_busca["termino_preferido"].'</a></li>'."\r\n" ;
+				}else{
+					$row_result.= '<li><em><a class="'.$styleClassLink.' '.$styleClassLinkMetaTerm.'" title="'.LABEL_verDetalle.$resulta_busca["tema"].'" href="index.php?tema='.$resulta_busca["tema_id"].'&amp;/'.string2url($resulta_busca["tema"]).'">'.$resulta_busca["tema"].'</a></em> '.$leyendaConector.' <a title="'.LABEL_verDetalle.$resulta_busca["tema"].'" href="index.php?tema='.$resulta_busca["id_definitivo"].'">'.$resulta_busca["termino_preferido"].'</a> </li>'."\r\n" ;
 				}
 
 			}
 			else // es un término preferido
 			{
-				$row_result.='<li><a '.$styleClassLink.' title="'.LABEL_verDetalle.$resulta_busca["tema"].'" href="index.php?tema='.$resulta_busca["id_definitivo"].'&amp;/'.string2url($resulta_busca["tema"]).'">'.$resulta_busca["tema"].'</a> '.$leyendaTerminoLibre.'</li>'."\r\n" ;
+				$row_result.='<li><a class="'.$styleClassLink.' '.$styleClassLinkMetaTerm.'"  title="'.LABEL_verDetalle.$resulta_busca["tema"].'" href="index.php?tema='.$resulta_busca["id_definitivo"].'&amp;/'.string2url($resulta_busca["tema"]).'">'.$resulta_busca["tema"].'</a> '.$leyendaTerminoLibre.'</li>'."\r\n" ;
 			}
 
 		};//fin del while
@@ -526,22 +524,18 @@ function HTMLmainMenu(){
 
 	$row.='<ul class="dropdown-menu">';
 	/*
-	Agregar térm
-	*/
-	//$row.='<li><a btn-second btn-xs" role="button" title="'.ucfirst(MENU_AgregarT).'" href="index.php?taskterm=addTerm&amp;tema=0">'.ucfirst(MENU_AgregarT).'</a></li>';
-
-	/*
 	* Admin menu
 	*/
 	if($_SESSION[$_SESSION["CFGURL"]][ssuser_nivel]=='1'){
 		$row.='<li class="dropdown dropdown-submenu"><a href="#" class="dropdown-toggle" data-toggle="dropdown">'.LABEL_Admin.'</a>';
 		$row.='<ul class="dropdown-menu">';
-		$row.='<li><a title="'.ucfirst(LABEL_lcConfig).'" href="admin.php?vocabulario_id=list">'.ucfirst(LABEL_lcConfig).'</a></li>';
+		$row.='<li><a title="'.ucfirst(LABEL_lcConfig).'" href="admin.php?vocabulario_id=list">'.ucfirst(LABEL_lcConfig).'</a></li>';		
+		$row.='<li><a title="'.ucfirst(MENU_bulkEdition).'" href="admin.php?doAdmin=bulkReplace">'.ucfirst(MENU_bulkEdition).'</a></li>';
 		$row.='<li><a title="'.ucfirst(MENU_Usuarios).'" href="admin.php?user_id=list">'.ucfirst(MENU_Usuarios).'</a></li>';
 		$row.='<li><a title="'.ucfirst(LABEL_export).'" href="admin.php?doAdmin=export">'.ucfirst(LABEL_export).'</a></li>';
 
 		$row.='<li class="dropdown dropdown-submenu"><a href="#" class="dropdown-toggle" data-toggle="dropdown">'.ucfirst(LABEL_dbMantenimiento).'</a>
-						<ul class="dropdown-menu">';
+		<ul class="dropdown-menu">';
 		$row.='<li><a href="admin.php?doAdmin=reindex">'.ucfirst(LABEL_reIndice).'</a></li>';
 
 		//Enable or not SPARQL endpoint
@@ -1447,9 +1441,10 @@ function HTMLterminosLetra($letra)
 			}
 			else
 			{
-				$styleClassLink= ($datosLetra[estado_id]!=='13') ? 'class="estado_termino'.$datosLetra[estado_id].'"' : '';
+				$styleClassLink= ($datosLetra[estado_id]!=='13') ? 'estado_termino'.$datosLetra[estado_id] : '';
+				$styleClassLinkMetaTerm= ($datosLetra["isMetaTerm"]=='1') ? 'metaTerm' : '';
 
-				$terminosLetra.='<li><a '.$styleClassLink.' title="'.LABEL_verDetalle.xmlentities($datosLetra[tema]).'" href="index.php?tema='.$datosLetra[id_definitivo].'&amp;/'.string2url($datosLetra[tema]).'">'.xmlentities($datosLetra[tema]).'</a></li>'."\r\n" ;
+				$terminosLetra.='<li><a class="'.$styleClassLink.' '.$styleClassLinkMetaTerm.'"  title="'.LABEL_verDetalle.xmlentities($datosLetra[tema]).'" href="index.php?tema='.$datosLetra[id_definitivo].'&amp;/'.string2url($datosLetra[tema]).'">'.xmlentities($datosLetra[tema]).'</a></li>'."\r\n" ;
 			}
 		};
 		$terminosLetra.='   </ol>';
@@ -1967,4 +1962,23 @@ function HTMLshowCode($arrayTerm){
 	return $rows;
 }
 
+
+
+function HTMLduplicatedTermsAlert($arrayDuplicatedTerms){
+
+	$cantDuplicated=count($arrayDuplicatedTerms);
+
+	$rows = '<div class="alert alert-danger" role="alert">';
+			$rows.= '<h4>'.ucfirst(LABEL_duplicatedTerms).': '.$cantDuplicated.'</h4>';
+			$rows.='<ul>';
+			foreach ($arrayDuplicatedTerms as $term_id => $term) {
+				$rows.= '<li><a href="index.php?tema='.$term_id.'" title="'.LABEL_Detalle.'">'.$term.'</a></li>';
+			}
+			$rows.='</ul>';			
+	$rows.= '<p>'.MSG_duplicatedTerms.'</p>';			
+	$rows.='</div>';	
+
+	return array("type_error"=>'duplicatedTerms',
+				 "html"=>$rows)	;
+}
 ?>

@@ -8,6 +8,9 @@ if ((stristr( $_SERVER['REQUEST_URI'], "session.php") ) || ( !defined('T3_ABSPAT
 ###############################################################################################################
 # Include para seleccionar include o función de visualizaicon de listas de términos #
 
+//Antes de desplegar cotenidos => Echo mensajes de error 
+	echo $MSG_PROC_ERROR["html"];
+
 //Mostrar alfabeto
 if($_GET[letra])
 {

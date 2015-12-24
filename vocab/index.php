@@ -91,9 +91,7 @@ $search_string = (doValue($_GET,FORM_LABEL_buscar)) ? XSSprevent(doValue($_GET,F
 <div id="wrap" class="container">
 
 <?php
-
 	require_once(T3_ABSPATH . 'common/include/inc.inicio.php');
-
 ?>
 
 </div><!-- /.container -->

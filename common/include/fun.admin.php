@@ -9,28 +9,28 @@ if ((stristr( $_SERVER['REQUEST_URI'], "session.php") ) || ( !defined('T3_ABSPAT
 # llamada de funciones de gestion de terminos
 #
 
-if($_SESSION[$_SESSION["CFGURL"]][ssuser_nivel]>0){
+if($_SESSION[$_SESSION["CFGURL"]]["ssuser_nivel"]>0){
 
 //prevent duplicate in create terms functions
-
-	if ($_GET["tcode"]){
-		do_target_temaXcode($_GET["tema_id"], $_GET["tcode"], $_GET["tvocab_id"]);
-	}
+if ($_GET["tcode"]){
+	do_target_temaXcode($_GET["tema_id"], $_GET["tcode"], $_GET["tvocab_id"]);
+}
 
 
 # Borrado y edición de término
 # no control if resend.
-if($_POST[task]=='remterm')
-	{
-		borra_t($_POST["tema_id"]);
-	};
+if($_POST[task]=='remterm'){
+	borra_t($_POST["tema_id"]);
+};
 
-# Modificaci�n de término
-if($_POST["edit_id_tema"])
-	{
-		$new_termino=abm_tema('mod',doValue($_POST,FORM_LABEL_termino),$_POST["edit_id_tema"]);
-		$tema=$new_termino;
-	};
+# Modificación de término
+if($_POST["edit_id_tema"]){
+		$proc=modTerm(doValue($_POST,FORM_LABEL_termino),$_POST["edit_id_tema"]);
+		$tema=$proc["tema_id"];
+		if($proc["log"]==false){		
+			$MSG_PROC_ERROR=HTMLduplicatedTermsAlert(array($proc["tema_id"] => $proc["term_original"]));
+		}
+};
 ### ### ### ### ### ###
 ###  resend control ###
 ### ### ### ### ### ###
@@ -44,6 +44,7 @@ if(isset($_SESSION['SEND_KEY'])) {
 	{
 
 		$ARRAYtema=ARRAYverTerminoBasico($_POST["tema"]);
+
 		$tema=$ARRAYtema["tema_id"];
 
 		if(($_POST["addNoteReference"]==1) || ($_POST["addLinkReference"]>0) || ($_POST["addMappReference"]==1))
@@ -99,7 +100,6 @@ if(isset($_SESSION['SEND_KEY'])) {
 					$arrayNewTerm=explode('|tterm_|', $selectedTerms[$i]);
 					$relative_term_id=abm_tema('alta',$arrayNewTerm[0]);
 
-
 					//associate terms
 					$new_relacion=do_r($relative_term_id,$ARRAYtema["tema_id"],"4");
 				}
@@ -112,72 +112,38 @@ if(isset($_SESSION['SEND_KEY'])) {
 
 
 	# Alta de término subordinado
-	#1. Alta de término
-	#2. Alta de relaci�n
 	if($_POST[id_termino_sub])
 	{
-
-		$ARRAYtema=ARRAYverTerminoBasico($_POST["id_termino_sub"]);
-		$tema=$ARRAYtema["tema_id"];
-
-		$arrayTerminos=explode("\n",doValue($_POST,FORM_LABEL_termino));
-
-		for($i=0; $i<sizeof($arrayTerminos);++$i){
-
-			//fetch already exist related term candidate
-			$relative_term_id=resolve2FreeTerms($arrayTerminos[$i],$ARRAYtema["tema_id"]);
-
-			//associate terms
-			$new_relacion=do_r($ARRAYtema["tema_id"],$relative_term_id,"3",$_POST[t_rel_rel_id]);
-			};
+		$proc=associateTerms($_POST["id_termino_sub"],doValue($_POST,FORM_LABEL_termino),"3",$_POST["t_rel_rel_id"]);
+		$tema=$proc["last_term_id"];
+		if(count($proc["arrayDupliTerms"])>0){
+			$MSG_PROC_ERROR=HTMLduplicatedTermsAlert($proc["arrayDupliTerms"]);
+		}
 	}
 
 	# Alta de término no preferido
-	#1. Alta de término
-	#2. Alta de relaci�n
-	if($_POST[id_termino_uf])	{
-		$ARRAYtema=ARRAYverTerminoBasico($_POST["id_termino_uf"]);
-		$tema=$ARRAYtema["tema_id"];
-
-		$arrayTerminos=explode("\n",doValue($_POST,FORM_LABEL_termino));
-
-		for($i=0; $i<sizeof($arrayTerminos);++$i){
-
-			//fetch already exist related term candidate
-			$relative_term_id=resolve2FreeTerms($arrayTerminos[$i],$ARRAYtema["tema_id"]);
-
-			//associate terms
-			$new_relacion=do_r($relative_term_id,$ARRAYtema["tema_id"],"4",$_POST["t_rel_rel_id"]);
-			}
+	if($_POST[id_termino_uf]){
+		$proc=associateTerms($_POST["id_termino_uf"],doValue($_POST,FORM_LABEL_termino),"4",$_POST["t_rel_rel_id"]);
+		$tema=$proc["last_term_id"];
+		if(count($proc["arrayDupliTerms"])>0){
+			$MSG_PROC_ERROR=HTMLduplicatedTermsAlert($proc["arrayDupliTerms"]);
+		}
 	}
 
 	# Alta de término relacionado
-	#1. Alta de término
-	#2. Alta de relaci�n
-	if($_POST[id_termino_rt])
-	{
-
-		$ARRAYtema=ARRAYverTerminoBasico($_POST["id_termino_rt"]);
-		$tema=$ARRAYtema["tema_id"];
-
-		$arrayTerminos=explode("\n",doValue($_POST,FORM_LABEL_termino));
-
-
-		for($i=0; $i<sizeof($arrayTerminos);++$i){
-			//search already exist related term candidate
-			$relative_term_id=resolve2FreeTerms($arrayTerminos[$i],$ARRAYtema["tema_id"]);
-
-			//associate terms
-			$new_relacion=do_terminos_relacionados($relative_term_id,$ARRAYtema["tema_id"],$_POST["t_rel_rel_id"]);
+	if($_POST[id_termino_rt]){
+		$proc=associateTerms($_POST["id_termino_rt"],doValue($_POST,FORM_LABEL_termino),"2",$_POST["t_rel_rel_id"]);
+		$tema=$proc["last_term_id"];
+		if(count($proc["arrayDupliTerms"])>0){
+			$MSG_PROC_ERROR=HTMLduplicatedTermsAlert($proc["arrayDupliTerms"]);
 		}
 	}
 
 
-	# Alta de equivalencia de término
+	# Alta de término equivalente
 	#1. Alta de término
 	#2. Alta de relaci�n
-	if($_POST["id_termino_eq"])
-	{
+	if($_POST["id_termino_eq"]){
 		$new_termino=abm_tema('alta',doValue($_POST,FORM_LABEL_termino));
 		$new_relacion=do_r($new_termino,$_POST["id_termino_eq"],$_POST["tipo_equivalencia"],$_POST["t_rel_rel_id"]);
 		$tema=$_POST["id_termino_eq"];
@@ -186,32 +152,25 @@ if(isset($_SESSION['SEND_KEY'])) {
 
 
 	# Alta de término
-	if($_POST["alta_t"]=='new')
-	{
-		$arrayTerminos=explode("\n",doValue($_POST,FORM_LABEL_termino));
+	if($_POST["alta_t"]=='new'){
+		$proc=createTerms(doValue($_POST,FORM_LABEL_termino),$_POST["isMetaTerm"]);	
 
-		for($i=0; $i<sizeof($arrayTerminos);++$i){
-			$new_termino=abm_tema('alta',$arrayTerminos[$i]);
-			$tema=$new_termino;
-			if($_POST["isMetaTerm"]==1)
-			{
-				setMetaTerm($tema,1);
-			}
-			}
+		$tema=$proc["last_term_id"];
+
+		if(count($proc["arrayDupliTerms"])>0){
+			$MSG_PROC_ERROR=HTMLduplicatedTermsAlert($proc["arrayDupliTerms"]);
+		}
 	};
 
 
 	# Alta de nota
-	if($_POST["taskNota"]=='alta')
-	{
+	if($_POST["taskNota"]=='alta'){
 		$tema=abmNota('A',$_POST["idTema"],doValue($_POST,FORM_LABEL_tipoNota),doValue($_POST,FORM_LABEL_Idioma),doValue($_POST,FORM_LABEL_nota));
 	};
 
 	#Alta URI
-	if($_POST["taskURI"]=='addURI')
-	{
+	if($_POST["taskURI"]=='addURI'){
 		$tema=abmURI('A',$_POST["tema_id"],$_POST);
-
 	};
 
 	//prevent duplicate
@@ -310,8 +269,6 @@ switch ($_GET["taskrelations"])
 	{
 		borra_r($_GET["ridelete"]);
 	};
-
-
 
 
 
@@ -506,10 +463,10 @@ if(($evalRecursividad_ida==TRUE)&&($evalRecursividad_vuelta==TRUE)){
 	$new_relacionVuelta=do_r($id_menor,$id_mayor,"2",$rel_rel_id);
 	$msg='';
 	$log=true;
-	}else{
+}else{
 	$msg='<p class="error">'.MSGL_relacionIlegal.'</p>';;
 	$log=false;
-	}
+}
 
 return array("id_tema"=>$id_menor,"msg_error"=>$msg,"log"=>$log);
 };
@@ -529,14 +486,9 @@ $userId=$_SESSION[$_SESSION["CFGURL"]][ssuser_id];
 $evalRecursividad=evalRelacionSuperior($id_mayor,'0',$id_menor);
 
 // Evaluar si son valores numericos
-if(	(is_numeric($id_menor) &&
-	is_numeric($id_mayor) &&
-	is_numeric($t_relacion) )
-	)
-	{
+if(	(is_numeric($id_menor) && 	is_numeric($id_mayor) && is_numeric($t_relacion) )	)	{
 	$okValues = TRUE;
 	};
-
 	//si es una relación consigo mismo
 	if($id_mayor==$id_menor) return array("id_tema"=>$id_mayor,"msg_error"=>'<p class="error">'.MSGL_relacionIlegal.'</p>',"log"=>"false");
 
@@ -544,20 +496,19 @@ if(	(is_numeric($id_menor) &&
 # NO es una relacion recursiva
 if(($evalRecursividad == TRUE) && ($okValues == TRUE)){
 
-	$rel_rel_id=(is_numeric($rel_rel_id)) ? $rel_rel_id : 'NULL';
+		$rel_rel_id=(is_numeric($rel_rel_id)) ? $rel_rel_id : 'NULL';
 
-	$sql=SQL("insert","into $DBCFG[DBprefix]tabla_rel (id_mayor,id_menor,t_relacion,rel_rel_id,uid,cuando)
-		values
-		('$id_mayor','$id_menor','$t_relacion','$rel_rel_id','$userId',now())");
-	//es TG y hay que actualizar el arbol
-	if($t_relacion=='3'){
-		actualizaListaArbolAbajo($id_menor);
-		}
-	$msg='';
-	$log=true;
+		$sql=SQL("insert","into $DBCFG[DBprefix]tabla_rel (id_mayor,id_menor,t_relacion,rel_rel_id,uid,cuando)
+			values
+			('$id_mayor','$id_menor','$t_relacion','$rel_rel_id','$userId',now())");
+		//es TG y hay que actualizar el arbol
+		if($t_relacion=='3'){		actualizaListaArbolAbajo($id_menor);		}
+
+		$msg='';
+		$log=true;
 	}else{
-	$msg='<p class="error">'.MSGL_relacionIlegal.'</p>';
-	$log=false;
+		$msg='<p class="error">'.MSGL_relacionIlegal.'</p>';
+		$log=false;
 	};
 
 return array("id_tema"=>$tema_id,
@@ -725,7 +676,7 @@ GLOBAL $DBCFG;
 
 GLOBAL $DB;
 
-$userId=$_SESSION[$_SESSION["CFGURL"]][ssuser_id];
+$userId=$_SESSION[$_SESSION["CFGURL"]]["ssuser_id"];
 
 //Es un término del vocabulario o una referencia a un término mapeado de otro vocabulario.
 $tesauro_id = (secure_data($_POST[ref_vocabulario_id],"int")) ? $_POST[ref_vocabulario_id] : $_SESSION[id_tesa];
@@ -1267,6 +1218,8 @@ switch($do){
 
 		//Update to 1.72=> check if CFG_SUGGESTxWORD is defined
 		$ctrl=ARRAYfetchValueXValue('config','CFG_SUGGESTxWORD');
+		$ctrl20a=ARRAYfetchValueXValue('config','CFG_PUBLISH');
+		$ctrl20b=ARRAYfetchValueXValue('config','CFG_ALLOW_DUPLICATED');
 
 		if(!$ctrl[value_id])
 			{
@@ -1274,6 +1227,23 @@ switch($do){
 
 				$sql1_6x1_7b=SQL("insert","into `".$DBCFG[DBprefix]."values` (`value_type`, `value`, `value_order`, `value_code`) VALUES
 					('config', 'CFG_SUGGESTxWORD', NULL, '$value_code')");
+			}
+
+		//Update to 2.1=> check if CFG_PUBLISH is defined
+		if(!$ctrl20a[value_id])
+			{
+				$value_code=($_POST["CFG_PUBLISH"]=='00') ? '0' : secure_data($_POST["CFG_PUBLISH"],"int");
+
+				$sql20x201a=SQL("insert","into `".$DBCFG[DBprefix]."values` (`value_type`, `value`, `value_order`, `value_code`) VALUES
+					('config', 'CFG_PUBLISH', NULL, '$value_code')");
+			}
+
+		if(!$ctrl20b[value_id])
+			{
+				$value_code=($_POST["CFG_ALLOW_DUPLICATED"]=='00') ? '0' : secure_data($_POST["CFG_ALLOW_DUPLICATED"],"int");
+
+				$sql20x201a=SQL("insert","into `".$DBCFG[DBprefix]."values` (`value_type`, `value`, `value_order`, `value_code`) VALUES
+					('config', 'CFG_ALLOW_DUPLICATED', NULL, '$value_code')");
 			}
 
 		//Update to 1.73=> check if CONTACT_MAIL is defined
@@ -3707,4 +3677,182 @@ function REMTerms($terms_id=array(),$onlyFreeTerms=1){
 
 	return array("terms"=>$i_term, "error"=>$i_term-$i_delete,"success"=>$i_delete);
 }
+
+
+//Create many terms
+function createTerms($arrayStrings,$isMetaTerm=0){
+
+	$arrayTerminos=explode("\n",$arrayStrings);
+
+	for($i=0; $i<sizeof($arrayTerminos);++$i){
+
+		//duplicate check policies
+		if($_SESSION[$_SESSION["CFGURL"]]["CFG_ALLOW_DUPLICATED"]==0){
+			$fetchTerm=checkDuplicateTerm($arrayTerminos[$i],$isMetaTerm);
+
+			if($fetchTerm["tema_id"]){
+					$arrayDuplicateTerms[$fetchTerm["tema_id"]].=$fetchTerm["tema"];
+			}else{
+				$new_termino=abm_tema('alta',$arrayTerminos[$i]);
+				$tema=$new_termino;
+				if($isMetaTerm==1)	setMetaTerm($tema,1);
+			}				
+		}else{
+
+			$new_termino=abm_tema('alta',$arrayTerminos[$i]);
+			$tema=$new_termino;
+			if($isMetaTerm==1)	setMetaTerm($tema,1);
+		}
+	}
+
+return array("last_term_id"=>$tema,
+			 "arrayDupliTerms"=>$arrayDuplicateTerms);
+}
+
+
+//mod term
+function modTerm($string,$term_id){
+
+	$arrayTerm=ARRAYverTerminoBasico($term_id);
+
+	//duplicate check policies
+	if($_SESSION[$_SESSION["CFGURL"]]["CFG_ALLOW_DUPLICATED"]==0){
+
+			$fetchTerm=checkDuplicateTerm($string,$arrayTerm["isMetaTerm"]);
+			//hay término y no es el mismo que el modificado => término duplicado
+			if(($fetchTerm["tema_id"]) && ($fetchTerm["tema_id"]!==$term_id)){
+				$log=false;
+			}else{
+				$task=abm_tema('mod',$string,$term_id);
+				$log=true;
+
+			}
+		//duplicate are allowed				
+		}else{
+			$task=abm_tema('mod',$string,$term_id);
+			$log=true;
+
+		}
+
+return array("tema_id"=>$term_id,
+			 "term_original"=>$arrayTerm["titTema"],
+			 "log"=>$log);
+}
+
+
+function associateTerms($term_id,$arrayStrings,$t_relacion,$t_rel_rel_id=0){
+
+	$ARRAYtema=ARRAYverTerminoBasico($term_id);
+	$tema=$ARRAYtema["tema_id"];
+
+
+	$arrayTerminos=explode("\n",$arrayStrings);
+
+	for($i=0; $i<sizeof($arrayTerminos);++$i){
+
+		//duplicate check policies => there are disable
+		if($_SESSION[$_SESSION["CFGURL"]]["CFG_ALLOW_DUPLICATED"]==0){
+			$fetchTerm=checkDuplicateTerm($arrayTerminos[$i]);
+
+			if($fetchTerm["tema_id"]){
+					$arrayDuplicateTerms[$fetchTerm["tema_id"]].=$fetchTerm["tema"];
+			}else{
+				//fetch already exist related term candidate
+				$relative_term_id=resolve2FreeTerms($arrayTerminos[$i],$ARRAYtema["tema_id"]);
+				//RT have different logical check
+				if($t_relacion=='2'){
+					$new_relacion=do_terminos_relacionados($ARRAYtema["tema_id"],$relative_term_id,$t_rel_rel_id);
+				}elseif($t_relacion=='3'){
+					$new_relacion=doHieraquicalRelation($ARRAYtema["tema_id"],$relative_term_id,$t_rel_rel_id);
+				}else{
+					$new_relacion=doAltRelation($ARRAYtema["tema_id"],$relative_term_id,$t_rel_rel_id);
+				}
+			}	
+		}else{//duplicate check policies => are enable
+				//fetch already exist related term candidate
+				$relative_term_id=resolve2FreeTerms($arrayTerminos[$i],$ARRAYtema["tema_id"]);
+				//RT have different logical check
+				if($t_relacion=='2'){
+					$new_relacion=do_terminos_relacionados($ARRAYtema["tema_id"],$relative_term_id,$t_rel_rel_id);
+				}elseif($t_relacion=='3'){
+					$new_relacion=doHieraquicalRelation($ARRAYtema["tema_id"],$relative_term_id,$t_rel_rel_id);
+				}else{
+					$new_relacion=doAltRelation($ARRAYtema["tema_id"],$relative_term_id,$t_rel_rel_id);
+				}
+		}
+	}
+
+return array("last_term_id"=>$ARRAYtema["tema_id"],
+			 "arrayDupliTerms"=>$arrayDuplicateTerms);
+}
+
+
+
+
+function doHieraquicalRelation($bt_id,$nt_id,$t_rel_rel_id){
+
+	return do_r($bt_id,$nt_id,3,$t_rel_rel_id);
+}
+
+
+function doAltRelation($pref_id,$alt_id,$t_rel_rel_id){
+
+	return do_r($alt_id,$pref_id,4,$t_rel_rel_id);		
+}
+
+
+
+//bulk term editor
+function SQLbulkReplaceTerm($from,$to,$where,$arrayTerms){
+
+	GLOBAL $DBCFG;	
+	$from_string=secure_data($from,"ADOsql");	
+	$to_string=secure_data($to,"ADOsql");	
+	$where_string=secure_data("%$where%","ADOsql");
+
+	$userId=$_SESSION[$_SESSION["CFGURL"]]["ssuser_id"];
+
+	//redact term group
+	if(count($arrayTerms)>0){
+		for($i=0; $i<count($arrayTerms);++$i){
+				$term_id=secure_data($arrayTerms[$i],"int");	
+				$where_in.=$term_id.',';
+			}
+		$where_in=substr("$where_in",0,-1);
+	}
+
+	return SQL("update","$DBCFG[DBprefix]tema  set tema=replace(tema, $from_string, $to_string),
+						cuando_final=now(),
+						uid_final=$userId
+						where tema like BINARY $where_string
+						and tema_id in ( $where_in )
+						and tesauro_id=1");
+}
+
+//bulk note editor
+function SQLbulkReplaceNote($from,$to,$where,$arrayNotes){
+
+	GLOBAL $DBCFG;	
+	$from_string=secure_data($from,"ADOsql");	
+	$to_string=secure_data($to,"ADOsql");	
+	$where_string=secure_data("%$where%","ADOsql");
+
+	$userId=$_SESSION[$_SESSION["CFGURL"]]["ssuser_id"];
+
+	//redact term group
+	if(count($arrayNotes)>0){
+		for($i=0; $i<count($arrayNotes);++$i){
+				$note_id=secure_data($arrayNotes[$i],"int");	
+				$where_in.=$note_id.',';
+			}
+		$where_in=substr("$where_in",0,-1);
+	}
+
+	return SQL("update","$DBCFG[DBprefix]notas  set nota=replace(nota, $from_string, $to_string),
+						cuando=now(),
+						uid=$userId
+						where nota like BINARY $where_string
+						and id in ( $where_in )");
+}
+
 ?>
