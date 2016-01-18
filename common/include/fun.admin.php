@@ -683,21 +683,21 @@ $tesauro_id = (secure_data($_POST[ref_vocabulario_id],"int")) ? $_POST[ref_vocab
 
 $titu_tema=trim($titu_tema);
 
-if(strlen($titu_tema)>0){
+//no string
+if(strlen($titu_tema)<1) return ;
 
 $titu_tema=$DB->qstr($titu_tema,get_magic_quotes_gpc());
 
-	switch($do)
-		{
+switch($do){
 		case 'alta':
-			$estado_id = (@$_POST[estado_id]) ? $_POST[estado_id] : '13';
+		$estado_id = (@$_POST[estado_id]) ? $_POST[estado_id] : '13';
 
-			$sql=SQLo("insert","into $DBCFG[DBprefix]tema (tema,tesauro_id,uid,cuando,estado_id,cuando_estado)
+		$sql=SQLo("insert","into $DBCFG[DBprefix]tema (tema,tesauro_id,uid,cuando,estado_id,cuando_estado)
 			values ($titu_tema,?,?,now(),?,now())",
 
-			array($tesauro_id,$userId,$estado_id));
+		array($tesauro_id,$userId,$estado_id));
 
-			$tema_id=$sql["cant"];
+		$tema_id=$sql["cant"];
 		break;
 
 		case 'mod':
@@ -708,7 +708,7 @@ $titu_tema=$DB->qstr($titu_tema,get_magic_quotes_gpc());
 		array($userId,$tema_id));
 		break;
 		};
-	};
+
 return $tema_id;
 };
 
@@ -3685,7 +3685,6 @@ function createTerms($arrayStrings,$isMetaTerm=0){
 	$arrayTerminos=explode("\n",$arrayStrings);
 
 	for($i=0; $i<sizeof($arrayTerminos);++$i){
-
 		//duplicate check policies
 		if($_SESSION[$_SESSION["CFGURL"]]["CFG_ALLOW_DUPLICATED"]==0){
 			$fetchTerm=checkDuplicateTerm($arrayTerminos[$i],$isMetaTerm);
