@@ -23,6 +23,11 @@ Changelog TemaTres 2.1:
 - Reemplazo global en términos y notas
 - Nuevas opciones de configuración de políticas de acceso: permitir/restringir consulta pública al vocabulario
 - Nuevas opciones de configuración de políticas de calidad: permitir/restringir términos duplicados
+- Nuevos verbos en la API: expone CODE en fetch
+X Nuevos verbos en la API: randomTerm
+X Revisar TRIM en alta y mod de términos
+X dejó pasar </archivística> <archivística>
+X Cambiar vista de top terms y script de despliegue jerárquico de términos
 - Mejoras de usabilidad (menús, mensajes, identificación gráfica de metatérminos)
 - Corrección de errores
 

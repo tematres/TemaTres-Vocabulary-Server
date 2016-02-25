@@ -207,6 +207,8 @@ function do_nodo_zthes($idTema){
 
 				case 'DF':
 				$meta_tag.='<termNote label="Definition">'.xmlentities($datosTermino["notas"][$iNota]["nota"],true).'</termNote>';
+				case 'DEF':
+				$meta_tag.='<termNote label="Definition">'.xmlentities($datosTermino["notas"][$iNota]["nota"],true).'</termNote>';
 				break;
 
 				default:

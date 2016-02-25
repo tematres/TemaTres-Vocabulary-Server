@@ -413,7 +413,10 @@ if(@$DBCFG["DBcharset"]){
 				(44,'4', 'Hidden', NULL, 'H'),
 				(45, 'config', 'CFG_SEARCH_METATERM', NULL, '0'),
 				(46, 'config', 'CFG_ENABLE_SPARQL', NULL, '0'),
-				(47, 'config', 'CFG_SUGGESTxWORD', NULL, '1')
+				(47, 'config', 'CFG_SUGGESTxWORD', NULL, '1'),
+				(48, 't_nota', 'Definition note', 5, 'DF'),
+				(49, 'config', 'CFG_PUBLISH', NULL, '1'),
+				(50, 'config', 'CFG_ALLOW_DUPLICATED', NULL, '0')
 				");
 
 		//If create table --> insert data
