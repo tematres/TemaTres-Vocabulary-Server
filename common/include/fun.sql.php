@@ -3535,4 +3535,43 @@ function SQLbulkReplaceNoteTest($from,$to,$where){
 						order by t.tema");
 
 }
-?>
+
+
+// select valid random term_id
+// must be a prefered terms
+// type of note can be required
+// retrieve only one term_id
+function SQLrandomTerms($note_type=""){
+
+	GLOBAL $DBCFG;	
+
+	//if there are value for note_type filter
+	if(strlen($note_type)>0){
+		  $sqlNoteType=SQLcantNotas();
+  			$arrayNoteType=array();
+  			while ($array=$sqlNoteType->FetchRow()){
+    	 	array_push($arrayNoteType, $array["value_code"]);
+  			};
+
+  		//if is a valid note_type
+  		if(in_array($note_type, $arrayNoteType)){
+  			$from="$DBCFG[DBprefix]notas n, " ;
+  			$where=" and tema.tema_id = n.id_tema and n.tipo_nota='$note_type'";
+  		}else{
+  			return false;
+  		}
+	}
+
+	return SQL("select","tema.tema_id as term_id,tema.code,tema.tema,tema.cuando,tema.uid,tema.cuando_final,tema.isMetaTerm,c.idioma
+			from $from $DBCFG[DBprefix]config c,$DBCFG[DBprefix]tema as tema
+			left join $DBCFG[DBprefix]tabla_rel as relaciones on tema.tema_id = relaciones.id_mayor
+			and relaciones.t_relacion='4'
+			where
+			relaciones.id is null
+			and tema.tesauro_id=c.id
+			and c.id=1
+			$where
+			group by tema.tema_id
+			order by rand()
+			limit 0,1");
+};

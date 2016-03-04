@@ -913,18 +913,22 @@ function doBrowseTermsFromDate($month,$year,$ord=""){
 
 	GLOBAL $MONTHS;
 	$sql=SQLlistTermsfromDate($month,$year,$ord);
+
 	$rows.='<div class="table-responsive"> ';
-	$rows.='<table class="table table-striped table-bordered table-condensed table-hover" summary="'.LABEL_auditoria.'" >';
+	$rows.='<table id="termaudit" class="table table-striped table-bordered table-condensed table-hover" summary="'.LABEL_auditoria.'" >';
 	$rows.='<tbody>';
 	while($array=$sql->FetchRow()){
 		$fecha_termino=do_fecha($array[cuando]);
 
 		$rows.='<tr>';
 		$rows.='<td class="izq"><a href="index.php?tema='.$array[id_tema].'" title="'.LABEL_verDetalle.LABEL_Termino.'">'.$array[tema].'</a></td>';
+
+
 		$rows.='<td>'.$fecha_termino[dia].' / '.$fecha_termino[descMes].' / '.$fecha_termino[ano].'</td>';
 		if($_SESSION[$_SESSION["CFGURL"]][ssuser_nivel]=='1'){
 			$rows.='<td><a href="admin.php?user_id='.$array[id_usuario].'" title="'.LABEL_DatosUser.'">'.$array[apellido].', '.$array[nombres].'</a></td>';
 		}else{
+
 			$rows.='<td>'.$array[apellido].', '.$array[nombres].'</td>';
 		}
 		$rows.='</tr>';
@@ -933,13 +937,13 @@ function doBrowseTermsFromDate($month,$year,$ord=""){
 
 	$rows.='<thead>';
 	$rows.='<tr>';
-	$rows.='<th class="izq" colspan="3"><a href="sobre.php" title="'.ucfirst(LABEL_auditoria).'">'.ucfirst(LABEL_auditoria).'.</a> &middot; '.$fecha_termino[descMes].' / '.$fecha_termino[ano].': '.SQLcount($sql).' '.LABEL_Terminos.'</th>';
+	$rows.='<th class="izq" colspan="3"><a href="sobre.php#termaudit" title="'.ucfirst(LABEL_auditoria).'">'.ucfirst(LABEL_auditoria).'</a> &middot; '.$fecha_termino[descMes].' / '.$fecha_termino[ano].': '.SQLcount($sql).' '.LABEL_Terminos.'</th>';
 	$rows.='</tr>';
 
 	$rows.='<tr>';
-	$rows.='<th><a href="sobre.php?m='.$month.'&y='.$year.'&ord=T" title="'.LABEL_ordenar.' '.LABEL_Termino.'">'.ucfirst(LABEL_Termino).'</a></th>';
-	$rows.='<th><a href="sobre.php?m='.$month.'&y='.$year.'&ord=F" title="'.LABEL_ordenar.' '.LABEL_Fecha.'">'.ucfirst(LABEL_Fecha).'</a></th>';
-	$rows.='<th><a href="sobre.php?m='.$month.'&y='.$year.'&ord=U" title="'.LABEL_ordenar.' '.MENU_Usuarios.'">'.ucfirst(MENU_Usuarios).'</a></th>';
+	$rows.='<th><a href="sobre.php?m='.$month.'&y='.$year.'&ord=T#termaudit" title="'.LABEL_ordenar.' '.LABEL_Termino.'">'.ucfirst(LABEL_Termino).'</a></th>';
+	$rows.='<th><a href="sobre.php?m='.$month.'&y='.$year.'&ord=F#termaudit" title="'.LABEL_ordenar.' '.LABEL_Fecha.'">'.ucfirst(LABEL_Fecha).'</a></th>';
+	$rows.='<th><a href="sobre.php?m='.$month.'&y='.$year.'&ord=U#termaudit" title="'.LABEL_ordenar.' '.MENU_Usuarios.'">'.ucfirst(MENU_Usuarios).'</a></th>';
 	$rows.='</tr>';
 	$rows.='</thead>';
 
@@ -964,7 +968,7 @@ function doBrowseTermsByDate(){
 	GLOBAL $MONTHS;
 	$sql=SQLtermsByDate();
 	$rows.='<div class="table-responsive"> ';
-	$rows.='<table class="table table-striped table-bordered table-condensed table-hover" summary="'.ucfirst(LABEL_auditoria).'">';
+	$rows.='<table id="termaudit" class="table table-striped table-bordered table-condensed table-hover" summary="'.ucfirst(LABEL_auditoria).'">';
 
 	$rows.='<thead>';
 
@@ -986,7 +990,7 @@ function doBrowseTermsByDate(){
 		$fecha_termino=do_fecha($array[cuando]);
 		$rows.='<tr>';
 		$rows.='<td class="centrado">'.$array[years].'</td>';
-		$rows.='<td class="centrado"><a href="sobre.php?m='.$array[months].'&y='.$array[years].'" title="'.LABEL_verDetalle.$fecha_termino[descMes].'">'.$fecha_termino[descMes].'</a></td>';
+		$rows.='<td class="centrado"><a href="sobre.php?m='.$array[months].'&y='.$array[years].'#termaudit" title="'.LABEL_verDetalle.$fecha_termino[descMes].'">'.$fecha_termino[descMes].'</a></td>';
 		$rows.='<td class="centrado">'.$array["cant"].'</td>';
 		$rows.='</tr>';
 		$TotalTerminos+=$array["cant"];

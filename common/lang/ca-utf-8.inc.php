@@ -580,4 +580,6 @@ define('LABEL_warningBulkEditor','Usted va a modificar masivamente datos ¡Estas
 define('LABEL_CFG_SUGGESTxWORD','¿se deben sugerir términos según palabras o frases?');
 define('LABEL_ALLOW_DUPLICATED','¿se permiten términos duplicados?');
 define('LABEL_CFG_PUBLISH','¿el vocabulario puede ser consultado por cualquiera?');
+define('LABEL_Replace','reemplazar');
+define('LABEL_Preview','vista previa');
 ?>

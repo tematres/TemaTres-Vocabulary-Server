@@ -566,4 +566,6 @@ define('LABEL_warningBulkEditor','You will modify data massively. These actions 
 define('LABEL_CFG_SUGGESTxWORD','suggest terms by words or phrases?');
 define('LABEL_ALLOW_DUPLICATED','enable duplicate terms?');
 define('LABEL_CFG_PUBLISH','Is the vocabulary can be consulted by anyone?');
+define('LABEL_Replace','replace');
+define('LABEL_Preview','preview');
 ?>

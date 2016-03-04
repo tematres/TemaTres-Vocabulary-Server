@@ -188,16 +188,17 @@ class XMLvocabularyServices {
 
 		$array=ARRAYverDatosTermino($tema_id);
 
-		$result["tema_id"]=$array[idTema];
-		$result["code"]=$array[code];
-		$result["lang"]=$array[idioma];
-		$result["string"]=$array[titTema];
-		$result["isMetaTerm"]=$array[isMetaTerm];
-		$result["hasMoreUp"]=$array[supraTema];
-		$result["term_type"]=$array[tipoTema];
-		$result["date_create"]=$array[cuando];
-		$result["date_mod"]=$array[cuando_final];
+		$result["tema_id"]=$array["idTema"];
+		$result["code"]=$array["code"];
+		$result["lang"]=$array["idioma"];
+		$result["string"]=$array["titTema"];
+		$result["isMetaTerm"]=$array["isMetaTerm"];
+		$result["hasMoreUp"]=$array["supraTema"];
+		$result["term_type"]=$array["tipoTema"];
+		$result["date_create"]=$array["cuando"];
+		if(($array["cuando_final"])>$array["cuando"]) $result["result"]["term"]["date_mod"] = ($array["cuando_final"]) ;
 		$result["numNotes"]=count($array["notas"]);
+
 		return $result;
 	}
 
@@ -215,8 +216,9 @@ class XMLvocabularyServices {
 			$result["result"]["term"]["lang"]=$array["idioma"];
 			$result["result"]["term"]["string"]=$array["titTema"];
 			$result["result"]["term"]["isMetaTerm"]=$array["isMetaTerm"];
-			$result["result"]["term"][date_create]=$array[cuando];
-			$result["result"]["term"][date_mod] = ($array[cuando_final]) ?  $array[cuando_final] : $array[cuando];
+			$result["result"]["term"]["date_create"]=$array["cuando"];
+
+			if(($array["cuando_final"])>$array["cuando"]) $result["result"]["term"]["date_mod"] = ($array["cuando_final"]) ;			
 		}
 		return $result;
 	}
@@ -237,8 +239,9 @@ class XMLvocabularyServices {
 			$result["result"]["term"]["lang"]=$array["idioma"];
 			$result["result"]["term"]["string"]=$array["titTema"];
 			$result["result"]["term"]["isMetaTerm"]=$array["isMetaTerm"];
-			$result["result"]["term"][date_create]=$array[cuando];
-			$result["result"]["term"][date_mod] = ($array[cuando_final]) ?  $array[cuando_final] : $array[cuando];
+			$result["result"]["term"]["date_create"]=$array["cuando"];
+			if(($array["cuando_final"])>$array["cuando"]) $result["result"]["term"]["date_mod"] = ($array["cuando_final"]) ;
+			
 		}
 		return $result;
 	}
@@ -504,6 +507,31 @@ class XMLvocabularyServices {
 
 
 
+	//Retrive random term data. You can filter terms with specific type of note
+	function randomTerm($note_type=""){
+
+			$sql=SQLrandomTerms($note_type);
+
+			if(is_object($sql)){
+
+			while($array=$sql->FetchRow()){
+				$result["result"]["term"]["term_id"]=$array["term_id"];
+				$result["result"]["term"]["code"]=$array["code"];
+				$result["result"]["term"]["lang"]=$array["idioma"];
+				$result["result"]["term"]["string"]=$array["tema"];
+				$result["result"]["term"]["isMetaTerm"]=$array["isMetaTerm"];
+				$result["result"]["term"]["date_create"]=$array["cuando"];
+				if(($array["cuando_final"])>$array["cuando"]) $result["result"]["term"]["date_mod"] = ($array["cuando_final"]) ;
+			}
+				return $result;
+			
+			}else{
+				$result["result"]= array();
+			}
+	}
+
+
+
 	// Devuelve lista de términos para una cadena inicial de busqueda = return terms beginning with string
 	// array(tema_id,string,no_term_string,relation_type_id,array(index),order)
 	function fetchSuggested($string){
@@ -570,9 +598,6 @@ class XMLvocabularyServices {
 				$listaCandidatos.= $arraySimilar[tema].'|';
 			}
 
-			$listaCandidatos=explode("|",$listaCandidatos);
-			$similar = new Qi_Util_Similar($listaCandidatos, $string);
-			$sugerencia= $similar->sugestao();
 		}
 
 		$evalSimilar=evalSimiliarResults($string, $sugerencia);
@@ -588,6 +613,9 @@ class XMLvocabularyServices {
 
 		return $result;
 	}
+
+
+
 
 
 	// Desvuelve un array describiendo los servicios
@@ -735,6 +763,11 @@ class XMLvocabularyServices {
 		$array['fetchLast']['task'] = 'fetchLast';
 		$array['fetchLast']['arg'] = 'none';
 		$array['fetchLast']['example'] = $_SESSION["CFGURL"].'services.php?task=fetchLast';
+
+		$array['randomTerm']['action'] = 'Retrieves last random term data. Optionally you can filter terms with specific type of notes (use tag note, ex: NA for scope note)';
+		$array['randomTerm']['task'] = 'randomTerm';
+		$array['randomTerm']['arg'] = 'type note tag (optionl)';
+		$array['randomTerm']['example'] = $_SESSION["CFGURL"].'services.php?task=randomTerm&arg=NA';
 
 
 		return $array;
@@ -927,6 +960,12 @@ function fetchVocabularyService($task,$arg,$output="xml")
 			$response = $service-> fetchVocabularyData("1");
 			break;
 
+			case 'randomTerm':
+			// Devuelve detalles del vocabularios
+			//array(vocabulario_id,titulo,autor,idioma,cobertura,keywords,tipo,cuando,url_base)
+			$response = $service-> randomTerm($arg);
+			break;
+
 			default:
 			$response = $service-> describeService();
 			break;
@@ -999,6 +1038,7 @@ function evalServiceParam($task,$arg)
 	"fetchTargetTerms"=>"int",
 	"fetchSourceTerms"=>"string",
 	"fetchRelatedTerms"=>"array_int",
+	"randomTerm"=>"string",
 	"letter"=>"string"
 );
 
@@ -1079,6 +1119,10 @@ switch($task){
 
 	case 'fetchLast':
 	$response = array("task"=>$task,"arg"=>$arg);
+	break;
+
+	case 'randomTerm':
+	$response = (is_string($arg)) ? array("task"=>$task,"arg"=>$arg) : array("error"=>"invalid input");
 	break;
 
 	case 'fetchTerms':

@@ -313,11 +313,8 @@ if (SQLcount($res)>0) {
 			$array[$i] = '"'.str_replace('"', '""', $array[$i]).'"';
 			$CSV.= $array[$i].";";
 			}
-/*
-		$CSV=substr($CSV,0,-1);
-*/
+
 		$CSV.="\n";
-		//$CSV .= "\n".implode(";", $array);
 	}
 }
 

@@ -3692,13 +3692,14 @@ function createTerms($arrayStrings,$isMetaTerm=0){
 			if($fetchTerm["tema_id"]){
 					$arrayDuplicateTerms[$fetchTerm["tema_id"]].=$fetchTerm["tema"];
 			}else{
-				$new_termino=abm_tema('alta',$arrayTerminos[$i]);
+
+				$new_termino=abm_tema('alta',XSSprevent($arrayTerminos[$i]));
 				$tema=$new_termino;
 				if($isMetaTerm==1)	setMetaTerm($tema,1);
 			}				
 		}else{
 
-			$new_termino=abm_tema('alta',$arrayTerminos[$i]);
+			$new_termino=abm_tema('alta',XSSprevent($arrayTerminos[$i]));
 			$tema=$new_termino;
 			if($isMetaTerm==1)	setMetaTerm($tema,1);
 		}
@@ -3722,13 +3723,13 @@ function modTerm($string,$term_id){
 			if(($fetchTerm["tema_id"]) && ($fetchTerm["tema_id"]!==$term_id)){
 				$log=false;
 			}else{
-				$task=abm_tema('mod',$string,$term_id);
+				$task=abm_tema('mod',XSSprevent($string),$term_id);
 				$log=true;
 
 			}
 		//duplicate are allowed				
 		}else{
-			$task=abm_tema('mod',$string,$term_id);
+			$task=abm_tema('mod',XSSprevent($string),$term_id);
 			$log=true;
 
 		}

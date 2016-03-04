@@ -2416,7 +2416,7 @@ function HTMLformBulkReplace($params=array()){
 
 
 	$rows.='<div class="text-center">';
-		$rows.='<input type="submit" class="btn btn-primary" role="button" name="boton" value="'.LABEL_Enviar.'"/>';
+		$rows.='<input type="submit" class="btn btn-primary" role="button" name="boton" value="'.ucfirst(LABEL_Preview).'"/>';
 		$rows.=' <input type="button" class="btn btn-default" role="button" name="cancelar" type="button" onClick="location.href=\'index.php\'" value="'.ucfirst(LABEL_Cancelar).'"/>';
 	$rows.='</div>';
 
@@ -2488,7 +2488,7 @@ function HTMLbulkReplaceResultsTerms($params){
 			$rows.= '</td></tr></tfoot></table></div>';
 
 		$rows.='<div class="submit_form"  align="center" role="group">';
-		$rows.='<button type="submit"   class="btn btn-danger" name="boton" value="'.ucfirst(LABEL_Enviar).'">'.ucfirst(LABEL_Enviar).'</button>';
+		$rows.='<button type="submit"   class="btn btn-danger" name="boton" value="'.ucfirst(LABEL_Replace).'">'.ucfirst(LABEL_Replace).'</button>';
 		$rows.=' <button type="button"  class="btn btn-default"  name="cancelar" onClick="\'index.php\')" value="'.ucfirst(LABEL_Cancelar).'">'.ucfirst(LABEL_Cancelar).'</button>';
 		$rows.='</div>';
 		$rows.='<input type="hidden"  name="replaceStep" id="replaceStep" value="bulkReplaceConfirm"/>';
@@ -2550,7 +2550,7 @@ function HTMLbulkReplaceResultsNotes($params){
 
 
 		$rows.='<div class="submit_form"  align="center" role="group">';
-		$rows.='<button type="submit"   class="btn btn-danger" name="boton" value="'.ucfirst(LABEL_Enviar).'">'.ucfirst(LABEL_Enviar).'</button>';
+		$rows.='<button type="submit"   class="btn btn-danger" name="boton" value="'.ucfirst(LABEL_Replace).'">'.ucfirst(LABEL_Replace).'</button>';
 		$rows.=' <button type="button"  class="btn btn-default"  name="cancelar" onClick="\'index.php\')" value="'.ucfirst(LABEL_Cancelar).'">'.ucfirst(LABEL_Cancelar).'</button>';
 		$rows.='</div>';
 		$rows.='<input type="hidden"  name="replaceStep" id="replaceStep" value="bulkReplaceConfirm"/>';
