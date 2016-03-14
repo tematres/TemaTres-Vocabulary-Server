@@ -19,17 +19,13 @@ For examples, please visit: http://www.vocabularyserver.com/vocabularies.php
 =============================================================================
 
 Changelog TemaTres 2.1:
+- Bulk editor (search and replace) form terms and notes (only admin user)
+- New configuration option for access policies: enable/disable public view of the vocabularyvocabulario
+- New configuration option for quality policies: enable or do not allow duplicate terms 
+- randomTerm. New API command to retrieve random terms. Supports  filtering of terms according to notes
+- Now the API command "fetch" expose the code term 
+- Improve some usability issues (menus, user messages, etc)
 
-- Reemplazo global en términos y notas
-- Nuevas opciones de configuración de políticas de acceso: permitir/restringir consulta pública al vocabulario
-- Nuevas opciones de configuración de políticas de calidad: permitir/restringir términos duplicados
-- Nuevos verbos en la API: expone CODE en fetch
-X Nuevos verbos en la API: randomTerm
-X Revisar TRIM en alta y mod de términos
-X dejó pasar </archivística> <archivística>
-X Cambiar vista de top terms y script de despliegue jerárquico de términos
-- Mejoras de usabilidad (menús, mensajes, identificación gráfica de metatérminos)
-- Corrección de errores
 
 Many thanks to the feedback provided by TemaTres community :)
 
