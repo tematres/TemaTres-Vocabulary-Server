@@ -4,11 +4,11 @@ if ((stristr( $_SERVER['REQUEST_URI'], "session.php") ) || ( !defined('T3_ABSPAT
 #                                                                        #
 #   Copyright (C) 2004-2008 Diego Ferreyra tematres@r020.com.ar
 #   Distribuido bajo Licencia GNU Public License, versión 2 (de junio de 1.991) Free Software Foundation
-#  
+#
 ###############################################################################################################
 # ARCHIVO DE CONFIGURACION == CONFIG FILE #
 
-$CFG["Version"]        = "TemaTres 2.1";
+$CFG["Version"]        = "TemaTres 2.2 beta";
 
 $CFG["VersionWebService"]        = "1.5";
 
@@ -122,8 +122,8 @@ $idiomas_disponibles = array(
      "nl"  => array("Vlaams","nl-$CFG[_CHAR_ENCODE].inc.php", "nl","nl-$CFG[_CHAR_ENCODE]"),
      "cn"  => array("汉语, 漢語","cn-$CFG[_CHAR_ENCODE].inc.php", "cn","cn-$CFG[_CHAR_ENCODE]"),
      "pl"  => array("polski","pl-$CFG[_CHAR_ENCODE].inc.php", "pl","pl-$CFG[_CHAR_ENCODE]"),
-     "pt"  => array("portugüés","pt-$CFG[_CHAR_ENCODE].inc.php", "pt","ptbr-$CFG[_CHAR_ENCODE]"),    
-     "ru"  => array("Pусский","ru-$CFG[_CHAR_ENCODE].inc.php", "ru","ru-$CFG[_CHAR_ENCODE]")    
+     "pt"  => array("portugüés","pt-$CFG[_CHAR_ENCODE].inc.php", "pt","ptbr-$CFG[_CHAR_ENCODE]"),
+     "ru"  => array("Pусский","ru-$CFG[_CHAR_ENCODE].inc.php", "ru","ru-$CFG[_CHAR_ENCODE]")
     );
 
 
@@ -226,6 +226,6 @@ $CFG["SEARCH_URL_SITES_SINTAX"] = Array(
 		'leyenda' => 'Revistas INTI',
 		'url' => 'http://www-biblio.inti.gob.ar/cgi-bin/wxis/wxis.exe?IsisScript=descri.xis&bool=STRING_BUSQUEDA&base=kardex&inf=1&sup=20',
 		'encode'=>TRUE
-	)	
+	)
 );
 ?>

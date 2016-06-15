@@ -905,23 +905,24 @@ function SQLcount($object)
 }
 
 
-function loadConfigValues($renew="0")
-{
+function loadConfigValues($renew="0"){
 
 	GLOBAL $arrayCFGs;
 
+  //Web URL BASE
+  define('URL_BASE',getURLbase());
+
+
 	//renovar valores
-	if($renew=='1')
-	{
+	if($renew=='1'){
 		GLOBAL $DBCFG;
 
 		$sql=SQL("select","v.value_id,v.value_type,v.value,v.value_code,v.value_order
-						from $DBCFG[DBprefix]values v
-						where v.value_type='config'");
+						from $DBCFG[DBprefix]values v	where v.value_type='config'");
 
 	 if(SQLcount($sql)>0){
 	    $NEWarrayCFGs=array();
-			
+
       while ($array=$sql->FetchRow()){
 
 				switch ($array[value]){
@@ -942,17 +943,15 @@ function loadConfigValues($renew="0")
 					}
 
 			   $NEWarrayCFGs[$array["value"]]= $array["value_code"];
-			   }
+			}
 	   }
-
-	 }
+    }// end renew
 
 	//define default values
 	foreach ($arrayCFGs as $key => $value) {
 			$value = (isset($NEWarrayCFGs["$key"])) ? $NEWarrayCFGs["$key"] : $value ;
     		$_SESSION[$_SESSION["CFGURL"]]["$key"]=$value;
-	}
-
+	   }
 }
 
 
@@ -1119,7 +1118,7 @@ function currentBasePage($url)
 
 function sendMail($to_address,$subject,$message,$extra=array())
 {
-	require_once("mailer/class.phpmailer.php");
+	require_once("mailer/PHPMailerAutoload.php");
 
 	$mail = new PHPMailer();
 
@@ -1391,10 +1390,10 @@ function loadPage($page){
   return header("Location:$page");
 }
 
-//Check if is allow to public view the vocabulary 
+//Check if is allow to public view the vocabulary
 function checkAllowPublication($file){
-  
-  if(($_SESSION[$_SESSION["CFGURL"]]["ssuser_nivel"]<1) && 
+
+  if(($_SESSION[$_SESSION["CFGURL"]]["ssuser_nivel"]<1) &&
       ($_SESSION[$_SESSION["CFGURL"]]["CFG_PUBLISH"]==0) &&
       ($file!=='login.php')
       ){

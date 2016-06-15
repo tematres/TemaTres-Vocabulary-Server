@@ -12,28 +12,12 @@ $metadata=do_meta_tag();
 <!DOCTYPE html>
 <html lang="<?php echo LANG;?>">
   <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-   <link href="<?php echo T3_WEBPATH;?>bootstrap/css/bootstrap.min.css" rel="stylesheet">
-   <link href="<?php echo T3_WEBPATH;?>bootstrap/submenu/css/bootstrap-submenu.min.css" rel="stylesheet">
-	 <link href="<?php echo T3_WEBPATH;?>css/t3style.css" rel="stylesheet">
-
-
-    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-    <![endif]-->
-  <?php echo $metadata["metadata"]; ?>
-  <link type="image/x-icon" href="<?php echo T3_WEBPATH;?>images/tematres.ico" rel="icon" />
-  <link type="image/x-icon" href="<?php echo T3_WEBPATH;?>images/tematres.ico" rel="shortcut icon" />
-</head>
+  <?php echo HTMLheader($metadata);?>
+  </head>
  <body>
    <div class="container">
      <div class="header">
-         <h1><a href="index.php" title="<?php echo $_SESSION[CFGTitulo].': '.MENU_ListaSis;?> "><?php echo $_SESSION[CFGTitulo];?></a></h1>
+         <h1><a href="<?php echo URL_BASE;?>index.php" title="<?php echo $_SESSION[CFGTitulo].': '.MENU_ListaSis;?> "><?php echo $_SESSION[CFGTitulo];?></a></h1>
     </div>
    </div>
    <nav class="navbar navbar-inverse" role="navigation">
@@ -45,13 +29,13 @@ $metadata=do_meta_tag();
            <span class="icon-bar"></span>
            <span class="icon-bar"></span>
          </button>
-         <a class="navbar-brand" title="<?php echo MENU_Inicio.' '.$_SESSION[CFGTitulo];?>" href="index.php"><?php echo MENU_Inicio;?></a>
+         <a class="navbar-brand" title="<?php echo MENU_Inicio.' '.$_SESSION[CFGTitulo];?>" href="<?php echo URL_BASE;?>index.php"><?php echo MENU_Inicio;?></a>
        </div>
        <div class="navbar-collapse collapse" id="navbar-collapsible">
          <ul class="nav navbar-nav navbar-right">
-           <li><a title="<?php echo LABEL_busqueda;?>" href="index.php?xsearch=1"><?php echo ucfirst(LABEL_BusquedaAvanzada);?></a></li>
+           <li><a title="<?php echo LABEL_busqueda;?>" href="<?php echo URL_BASE;?>index.php?xsearch=1"><?php echo ucfirst(LABEL_BusquedaAvanzada);?></a></li>
 
-           <li><a title="<?php echo MENU_Sobre;?>" href="sobre.php"><?php echo MENU_Sobre;?></a></li>
+           <li><a title="<?php echo MENU_Sobre;?>" href="<?php echo URL_BASE;?>sobre.php"><?php echo MENU_Sobre;?></a></li>
          </ul>
          <ul class="nav navbar-nav navbar-left">
            <?php
@@ -65,7 +49,7 @@ $metadata=do_meta_tag();
            };
            ?>
          </ul>
-         <form method="get" id="simple-search" name="simple-search" action="index.php" class="navbar-form">
+         <form method="get" id="simple-search" name="simple-search" action="<?php echo URL_BASE;?>index.php" class="navbar-form">
            <div class="form-group" style="display:inline;">
              <div class="fill col2">
                <input class="form-control" id="query" name="<?php echo FORM_LABEL_buscar;?>"  type="text">
@@ -99,7 +83,7 @@ $metadata=do_meta_tag();
         <dt><?php echo ucfirst(LABEL_Cobertura);?></dt><dd><?php echo $_SESSION[CFGCobertura];?></dd>
         <dt><?php echo ucfirst(LABEL_Terminos);?></dt><dd><?php echo $resumen[cant_total];?>
 
-        <?php  echo '  <a class="label label-info" href="'.$_SESSION["CFGURL"].'index.php?s=n" title="'.ucfirst(LABEL_showNewsTerm).'"><span class="glyphicon glyphicon-fire"></span> '.ucfirst(LABEL_showNewsTerm).'</a>'; ?>
+        <?php  echo '  <a class="label label-info" href="'.URL_BASE.'index.php?s=n" title="'.ucfirst(LABEL_showNewsTerm).'"><span class="glyphicon glyphicon-fire"></span> '.ucfirst(LABEL_showNewsTerm).'</a>'; ?>
 
         <ul>
 	<?php
@@ -107,11 +91,11 @@ $metadata=do_meta_tag();
 	if($_SESSION[$_SESSION["CFGURL"]]["CFG_VIEW_STATUS"]==1)
 	{
 		if($resumen[cant_candidato]>0){
-			echo '<li><a href="index.php?estado_id=12">'.ucfirst(LABEL_Candidato).': '.$resumen[cant_candidato].'</a></li>';
+			echo '<li><a href="'.URL_BASE.'index.php?estado_id=12">'.ucfirst(LABEL_Candidato).': '.$resumen[cant_candidato].'</a></li>';
 			}
 
 		if($resumen[cant_rechazado]>0){
-			echo '<li><a href="index.php?estado_id=14">'.ucfirst(LABEL_Rechazado).': '.$resumen[cant_rechazado].'</a></li>';
+			echo '<li><a href="'.URL_BASE.'index.php?estado_id=14">'.ucfirst(LABEL_Rechazado).': '.$resumen[cant_rechazado].'</a></li>';
 			}
 	}
 	?>
@@ -144,14 +128,13 @@ $metadata=do_meta_tag();
 		}
 
 		//are enable SPARQL
-		if(CFG_ENABLE_SPARQL==1)
-		{
-			echo '<dt>'.LABEL_SPARQLEndpoint.'</dt> <dd><a href="'.$_SESSION["CFGURL"].'sparql.php" title="'.LABEL_SPARQLEndpoint.'">'.$_SESSION["CFGURL"].'sparql.php</a></dd>';
+		if(CFG_ENABLE_SPARQL==1)	{
+			echo '<dt>'.LABEL_SPARQLEndpoint.'</dt> <dd><a href="'.URL_BASE.'sparql.php" title="'.LABEL_SPARQLEndpoint.'">'.$_SESSION["CFGURL"].'sparql.php</a></dd>';
 		}
 		//are enable SPARQL
 		if(CFG_SIMPLE_WEB_SERVICE ==1)
 		{
-			echo '<dt>API </dt> <dd><a href="'.$_SESSION["CFGURL"].'services.php" title="API">'.$_SESSION["CFGURL"].'services.php</a></dd>';
+			echo '<dt>API </dt> <dd><a href="'.URL_BASE.'services.php" title="API">'.$_SESSION["CFGURL"].'services.php</a></dd>';
 		}
 		?>
     <dt><?php echo LABEL_Version ?></dd><dd><a href="http://www.vocabularyserver.com/" title="TemaTres: vocabulary server"><?php echo $CFG["Version"];?></a></dd>
@@ -191,43 +174,27 @@ $metadata=do_meta_tag();
           <a href="http://www.vocabularyserver.com/" title="TemaTres: vocabulary server">
             <img src="<?php echo T3_WEBPATH;?>/images/tematres-logo.gif"  width="42" alt="TemaTres"/></a>
             <a href="http://www.vocabularyserver.com/" title="TemaTres: vocabulary server">TemaTres</a>
-    <p class="navbar-text pull-left">
-  				<?php
-  				if(CFG_ENABLE_SPARQL==1)
-  				{
-  					echo '<a class="label label-info" href="'.$_SESSION["CFGURL"].'sparql.php" title="'.LABEL_SPARQLEndpoint.'">'.LABEL_SPARQLEndpoint.'</a>';
-  				}
-  				if(CFG_SIMPLE_WEB_SERVICE==1)
-  				{
-  					echo '  <a class="label label-info" href="'.$_SESSION["CFGURL"].'services.php" title="API"><span class="glyphicon glyphicon-share"></span> API</a>';
-  				}
-  					echo '  <a class="label label-info" href="'.$_SESSION["CFGURL"].'xml.php?rss=true" title="RSS"><span class="icon icon-rss"></span> RSS</a>';
-          ?>
-  			</p>
+<p class="navbar-text pull-left">
+        <?php
+        //are enable SPARQL
+        if(CFG_ENABLE_SPARQL==1)        {
+          echo '<a class="label label-info" href="'.URL_BASE.'sparql.php" title="'.LABEL_SPARQLEndpoint.'">'.LABEL_SPARQLEndpoint.'</a>';
+        }
+
+        if(CFG_SIMPLE_WEB_SERVICE==1)       {
+          echo '  <a class="label label-info" href="'.URL_BASE.'services.php" title="API"><span class="glyphicon glyphicon-share"></span> API</a>';
+        }
+
+          echo '  <a class="label label-info" href="'.URL_BASE.'xml.php?rss=true" title="RSS"><span class="icon icon-rss"></span> RSS</a>';
+          echo '  <a class="label label-info" href="'.URL_BASE.'index.php?s=n" title="'.ucfirst(LABEL_showNewsTerm).'"><span class="glyphicon glyphicon-fire"></span> '.ucfirst(LABEL_showNewsTerm).'</a>';
+        ?>
+
+        <?php echo doMenuLang($metadata["arraydata"]["tema_id"]); ?>
+      </p>
     	</div>
 	</div>
 
 		  </div>
-
-  	<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-    <!-- Include all compiled plugins (below), or include individual files as needed -->
-    <script src="<?php echo T3_WEBPATH;?>bootstrap/js/bootstrap.min.js"></script>
-  <script type="text/javascript" src="<?php echo T3_WEBPATH;?>jq/jquery.autocomplete.js"></script>
-  <script type="text/javascript" src="<?php echo T3_WEBPATH;?>jq/jquery.mockjax.js"></script>
-  <script type="text/javascript" src="<?php echo T3_WEBPATH;?>jq/tree.jquery.js"></script>
-
-  <link rel="stylesheet" type="text/css" href="<?php echo T3_WEBPATH;?>css/jquery.autocomplete.css" />
-  <link rel="stylesheet" type="text/css" href="<?php echo T3_WEBPATH;?>css/jqtree.css" />
- <script type="text/javascript" src="<?php echo T3_WEBPATH;?>bootstrap/submenu/js/bootstrap-submenu.min.js"></script>
- <script type="text/javascript" src="<?php echo T3_WEBPATH;?>bootstrap/bootstrap-tabcollapse.js"></script>
-
-<script type="application/javascript" src="js.php" charset="utf-8"></script>
- <script type='text/javascript'>
-
-  $("#myTermTab").tabCollapse();
-  $('.dropdown-submenu > a').submenupicker();
-
-        </script>
+<?php echo HTMLjsInclude();?>
     </body>
 </html>

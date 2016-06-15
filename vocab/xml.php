@@ -7,63 +7,51 @@
 ###############################################################################################################
 #
 include("config.tematres.php");
-if($_GET[zthesTema])
-{
+if($_GET[zthesTema]){
 	header('Content-Type: text/xml');
 	echo do_zthes(do_nodo_zthes($_GET[zthesTema]));
 }
-elseif($_GET[skosTema])
-{
+elseif($_GET[skosTema]){
 	header('Content-Type: text/xml');
 	echo do_skos(do_nodo_skos($_GET[skosTema]));
 }
-elseif($_GET[skosMeta]==1)
-{
+elseif($_GET[skosMeta]==1){
 	header('Content-Type: text/xml');
 	echo do_skos("",true);
 }
-elseif($_GET[skosNode])
-{
+elseif($_GET[skosNode]){
 	header('Content-Type: text/xml');
 	echo do_skosNode(do_nodo_skos($_GET[skosNode]));
 }
-elseif($_GET[vdexTema])
-{
+elseif($_GET[vdexTema]){
 	header('Content-Type: text/xml');
 	echo do_VDEX($_GET[vdexTema]);
 }
-elseif($_GET[bs8723Tema])
-{
+elseif($_GET[bs8723Tema]){
 	header('Content-Type: text/xml');
 	echo do_BS8723s(do_nodo_BS8723($_GET[bs8723Tema]));
 }
-elseif($_GET[madsTema])
-{
+elseif($_GET[madsTema]){
 	header('Content-Type: text/xml');
 	echo do_mads($_GET[madsTema]);
 }
-elseif($_GET[xtmTema])
-{
+elseif($_GET[xtmTema]){
 	header('Content-Type: text/xml');
 	return do_topicMap($_GET[xtmTema]);
 }
-elseif($_GET[dcTema])
-{
+elseif($_GET[dcTema]){
 	header('Content-Type: text/xml');
 	return do_dublin_core($_GET[dcTema]);
 }
-elseif($_GET[jsonTema])
-{
-    header('Content-type: application/json');
+elseif($_GET[jsonTema]){
+  header('Content-type: application/json');
 	echo do_json($_GET[jsonTema]);
 }
-elseif($_GET[jsonldTema])
-{
+elseif($_GET[jsonldTema]){
     header('Content-type: application/json');
 	echo do_jsonld($_GET[jsonldTema]);
 }
-elseif($_GET[rss])
-{
+elseif($_GET[rss]){
 	header('Content-Type: application/rss+xml');
 	return do_rss();
 };
@@ -129,6 +117,18 @@ if(($_SESSION[$_SESSION["CFGURL"]][ssuser_nivel]=='1')&&($_GET["dis"])){
 		echo txtAlfabetico($params);
 		break;
 
+		case 'termAlpha':
+		header('Content-Type: text/plain');
+		echo TXTalphaList4term($_GET["term_id"],array("includeNote"=>array(),
+																									"includeCreatedDate"=>'0',
+																									"includeTopTerm"=>'0',
+																									"includeModDate"=>'0'));
+		break;
+
+		case 'termTree':
+		header('Content-Type: text/plain');
+		echo TXTtreeList4term($_GET["term_id"]);
+		break;
 
 		case 'jtxt':
 		header('Content-Type: text/plain');
@@ -139,7 +139,12 @@ if(($_SESSION[$_SESSION["CFGURL"]][ssuser_nivel]=='1')&&($_GET["dis"])){
 		echo do_mysql_dump();
 		break;
 
-
+		case 'jglossary':
+		header('Content-type: application/json');
+		$filname=string2url($_SESSION[CFGTitulo]).'.json';
+		//echo makeGlossary($_GET["note4gloss"],array("altTerms"=>$_GET["includeAltLabel"]));
+		return sendFile(makeGlossary($_GET["note4gloss"],array("altTerms"=>$_GET["includeAltLabel"])),"$filname");
+		break;
 	}
 };
 ?>

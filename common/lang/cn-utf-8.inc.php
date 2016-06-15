@@ -3,24 +3,20 @@ define("TR_acronimo","参 RT");
 define("TE_acronimo","分 NT");
 define("TG_acronimo","属 BT");
 define("UP_acronimo","代 UF");
-
 define("TR_termino","相关词");
 define("TE_termino","狭义词");
 define("TG_termino","广义词");
 define("UP_termino","代用");
 /* v 9.5 */
 define("USE_termino","用");
-
 define("MENU_ListaSis","等级列表");
 define("MENU_ListaAbc","字顺列表");
 define("MENU_Sobre","关于...");
 define("MENU_Inicio","主页");
-
 define("MENU_MiCuenta","我的帐户");
 define("MENU_Usuarios","用户");
 define("MENU_NuevoUsuario","新用户");
 define("MENU_DatosTesauro","关于词表");
-
 define("MENU_AgregarT","新增词条");
 define("MENU_EditT","词条编辑");
 define("MENU_BorrarT","删除词条");
@@ -28,12 +24,10 @@ define("MENU_AgregarTG","建立从属");
 define("MENU_AgregarTE","下位词");
 define("MENU_AgregarTR","相关词");
 define("MENU_AgregarUP","非选词");
-
 define("MENU_MisDatos","我的帐户");
 define("MENU_Caducar","停用");
 define("MENU_Habilitar","可用e");
 define("MENU_Salir","注销");
-
 define("LABEL_Menu","菜单");
 define("LABEL_Opciones","选项");
 define("LABEL_Admin","系统管理");
@@ -43,14 +37,12 @@ define("LABEL_EditorTermino","词条编辑");
 define("LABEL_Termino","词条");
 define("LABEL_NotaAlcance","范围注释");
 define("LABEL_EliminarTE","删除词条");
-
 define("LABEL_AgregarT","新增词条");
 define("LABEL_AgregarTG","增加%s的广义词");
 define("LABEL_AgregarTE","新增词从属于 ");
 define("LABEL_AgregarUP","新增异形词");
 define("LABEL_AgregarTR","新增相关词");
 define("LABEL_Detalle","详细");
-
 define("LABEL_Autor","作者");
 define("LABEL_URI","URI");
 define("LABEL_Version","版本");
@@ -62,7 +54,6 @@ define("LABEL_Cobertura","范围");
 define("LABEL_Terminos","词条");
 define("LABEL_RelTerminos","词间关系");
 define("LABEL_TerminosUP","非选用词");
-
 define("LABEL_BuscaTermino","查找词条");
 define("LABEL_Buscar","查找");
 define("LABEL_Enviar","提交");
@@ -99,7 +90,6 @@ define("LABEL_mail","邮件");
 define("LABEL_pass","密码");
 define("LABEL_repass","确认密码");
 define("LABEL_orga","机构");
-
 define("LABEL_lcConfig","词表配置");
 define("LABEL_lcDatos","词表元数据");
 define("LABEL_Titulo","名称");
@@ -119,13 +109,10 @@ define("FORM_LABEL_TerminosUP","非选用词");
 define("FORM_LABEL_Guardar","保存");
 define("LABEL_verDetalle","查看详细");
 define("LABEL_verTerminosLetra","开始查看");
-
 define("LABEL_NB","用法说明");
 define("LABEL_NH","沿革注释");
 define("LABEL_NA","范围注释");   /* version 0.9.1 */
 define("LABEL_NP","私人注释"); /* version 0.9.1 */
-
-
 define("LABEL_EditorNota","注释编辑");
 define("LABEL_EditorNotaTermino","注释");
 define("LABEL_tipoNota","注释类型");
@@ -134,18 +121,14 @@ define("LABEL_nota","注释");
 define("FORM_LABEL_nota","_注释");
 define("LABEL_EditarNota","编辑注释");
 define("LABEL_EliminarNota","删除注释");
-
 define("LABEL_OptimizarTablas","优化表结构");
 define("LABEL_TotalZthesLine","以Zthes导出");
-
 /* v 9.2 */
 define("LABEL_negrita","粗体");
 define("LABEL_italica","斜体");
 define("LABEL_subrayado","下划线");
 define("LABEL_textarea","主体注释");
 define("MSGL_relacionIlegal","<span class=\"error\">非法的词间关系</span>");
-
-
 /* v 9.3 */
 define("LABEL_fecha_modificacion","修改");
 define("LABEL_TotalUsuarios","用户总计");
@@ -159,7 +142,6 @@ define("LABEL_terminosRepetidos","词条查重");
 define("MSG_noTerminosLibres","没有自由词");
 define("MSG_noTerminosRepetidos","没有重复词条");
 define("LABEL_TotalSkosLine","以Skoscore导出");
-
 $MONTHS=array("01"=>"一月",
               "02"=>"二月",
               "03"=>"三月",
@@ -173,18 +155,14 @@ $MONTHS=array("01"=>"一月",
               "11"=>"十一月",
               "12"=>"十二月"
               );
-
 /* v 9.4 */
 define("LABEL_SI","是");
 define("LABEL_NO","否");
 define("FORM_LABEL_jeraquico","多层等级");
 define("LABEL_jeraquico","多层等级");
 define("LABEL_terminoLibre","自由词");
-
-
 /* v 9.5 */
 define("LABEL_URL_busqueda","在%s中检索");
-
 /* v 9.6 */
 define("LABEL_relacion_vocabulario","关联词表");
 define("FORM_LABEL_relacion_vocabulario","等价");
@@ -194,34 +172,27 @@ define("LABEL_NO_vocabulario_referencia","没有可建立术语关系的目标�
 define("FORM_LABEL_tipo_equivalencia","等价类型");
 define("LABEL_vocabulario_principal","词表");
 define("LABEL_tipo_vocabulario","类型");
-
 define("LABEL_termino_equivalente","等价");
 define("LABEL_termino_parcial_equivalente","部分等价");
 define("LABEL_termino_no_equivalente","不等价");
-
 define("EQ_acronimo","等价");
 define("EQP_acronimo","部分等价");
 define("NEQ_acronimo","不等价");
 define("LABEL_NC","编目员注释");
-
 define("LABEL_resultados_suplementarios","补充检索结果");
 define("LABEL_resultados_relacionados","相关检索结果");
-
 /* v 9.7 */
 define("LABEL_export","导出");
 define("FORM_LABEL_format_export","选择XML Schema");
-
 /* v 1.033 */
 define("MENU_AgregarTEexist","Subordinate An Existing Term");
 define("MENU_AgregarUPexist","Associate An Existing Non-Preferred Term");
 define("LABEL_existAgregarUP","Add UF term to %s");
 define("LABEL_existAgregarTE","Add narrow Term to %s ");
 define("MSG_minCharSerarch","The search expression <i>%s</i> has only <strong>%s </strong> characters. Must be greater than <strong>%s</strong> characters");
-
 /* v 1.04 */
 define("LABEL_terminoExistente","exist term");
 define("HELP_variosTerminos","To add multiple terms at once please put <strong>one a term per line</strong>.");
-
 /* v 1.05 */
 $idiomas_disponibles = array(
      "ca"  => array("català", "", "ca"),
@@ -238,8 +209,6 @@ $idiomas_disponibles = array(
      "pt"  => array("portugüés","", "pt"),
      "ru"  => array("Pусский","", "ru")
     );
-
-
 /* v 1.1 */
 define('MSG_ERROR_CODE',"invalid code");
 define('LABEL_CODE',"code");
@@ -255,7 +224,6 @@ define('LABEL_esNoPreferido',"non preferred term");
 define('LABEL_BusquedaAvanzada',"advanced search");
 define('LABEL_Todos',"all");
 define('LABEL_QueBuscar',"what search?");
-
 define("LABEL_import","import") ;
 define("IMPORT_form_legend","import thesaurus from file") ;
 define("IMPORT_form_label","file") ;
@@ -266,9 +234,6 @@ define("IMPORT_working","import task are working") ;
 define("IMPORT_finish","import task finished") ;
 define("LABEL_reIndice","recreate indexes") ;
 define("LABEL_dbMantenimiento","maintenance database");
-
-
-
 /*
 v 1.2
 */
@@ -303,8 +268,6 @@ define('LABEL_end','ending with');
 define('LABEL_equalThisWord','exact match to');
 define('LABEL_haveWords','include words');
 define('LABEL_encode','encoding');
-
-
 /*
 v1.21
 */
@@ -312,8 +275,6 @@ define('LABEL_import_skos','Skos-Core Import');
 define('IMPORT_skos_file_already_exists','The Skos-Core source are in the server');
 define('IMPORT_skos_form_legend','Import Skos-Core');
 define('IMPORT_skos_form_label','Skos-Core File');
-
-
 /*
 v1.4
 */
@@ -321,7 +282,6 @@ define('LABEL_termsxNTterms','Narrower terms x term');
 define('LABEL_termsNoBT','Terms without hierarchical relations');
 define('MSG_noTermsNoBT','There are no terms without hierarchical relations');
 define('LABEL_termsXcantWords','number of words x term');
-
 define('LABEL__USE_CODE','use term codes to sort the terms');
 define('LABEL__SHOW_CODE','Shown term codes in public view');
 define('LABEL_CFG_MAX_TREE_DEEP','Maximum level of depth in the tree of items for display on the same page');
@@ -331,7 +291,6 @@ define('LABEL_CFG_NUM_SHOW_TERMSxSTATUS','Number of terms display by status view
 define('LABEL_CFG_MIN_SEARCH_SIZE','Minimum characters for search operations');
 define('LABEL__SHOW_TREE','publish hierarchical view in home');
 define('LABEL__PUBLISH_SKOS','enable Skos-core format in web services. This could to expose entire your vocabulary.');
-
 define('LABEL_update1_3x1_4',"Update Tematres (1.3x -> 1.4)");
 define("FORM_LABEL_format_import","choose format");
 define("LABEL_importTab","tabulated text");
@@ -341,8 +300,6 @@ define("LABEL_configTypeNotes","configure types notes");
 define("LABEL_notes","notes");
 define("LABEL_saved","saved");
 define("FORM_JS_confirmDeleteTypeNote","eliminate this type of note?");
-
-
 /*
 v1.5
 */
@@ -353,7 +310,6 @@ define('LABEL_relationSubTypeCode',"relation sub-type alias");
 define('LABEL_relationSubTypeLabel',"relation sub-type label");
 define('LABEL_optative',"opcional");
 define('FORM_JS_confirmDeleteTypeRelation','delete this relation sub-type?');
-
 define("LABEL_URItypeEditor","link type editor");
 define("LABEL_URIEditor","manage links associated to the term");
 define("LABEL_URItypeDelete","delete link type");
@@ -392,7 +348,6 @@ define('LABEL_mail_recovery_pass1','Someone requested that the password be reset
 define('LABEL_mail_recovery_pass2','Username: %s');
 define('LABEL_mail_recovery_pass3','If this was a mistake, just ignore this email and nothing will happen.');
 define('LABEL_mail_recovery_pass4','To reset your password, visit the following address:');
-
 define('LABEL_mail_passTitle','New Password ');
 define('LABEL_mail_pass1','New password for ');
 define('LABEL_mail_pass2','Password: ');
@@ -401,8 +356,6 @@ define('MSG_check_mail_link','Check your e-mail for the confirmation link.');
 define('MSG_check_mail','Please check your e-mail.');
 define('MSG_no_mail','The e-mail could not be sent.');
 define('LABEL_user_lost_password',' Lost your password?');
-
-
 ## v1.7
 define('LABEL_includeMetaTerm','Include meta-terms');
 define('NOTE_isMetaTerm','Is a meta-term.');
@@ -413,7 +366,7 @@ define('LABEL_meta_term','meta-term');
 define('LABEL_meta_terms','meta-terms');
 define('LABEL_relatedTerms','related terms');
 define('LABEL_nonPreferedTerms','non preferred terms');
-define('LABEL_update1_6x1_7','Update TemaTres (1.6 -> 1.7)');
+define('LABEL_update1_6x1_7','Update TemaTres (1.6 -> 2.2)');
 define('LABEL_include_data','include');
 define('LABEL_updateEndpoint','update SPARQL endpoint');
 define('MSG__updateEndpoint','The data will be updated to be exposed in SPARQL endpoint. This operation may take several minutes.');
@@ -426,12 +379,9 @@ define('LABEL_SPARQLEndpoint','SPARQL endpoint');
 define('LABEL_AgregarRTexist','Select terms to link as related term with');
 define('MENU_selectExistTerm','select existing term');
 define("TT_terminos","top terms");
-
 ## v1.72
 define('MSG__warningDeleteTerm','The term <i>%s</i> will be <strong>DELETED</strong>.');
 define('MSG__warningDeleteTerm2row','Will be deleted <strong>all</strong> his notes and relations. These action are irreversible!');
-
-
 ## v1.8
 define('LABEL__getForRecomendation','get for recommendations');
 define('LABEL__getForRecomendationFor','get for recommendations to');
@@ -493,4 +443,17 @@ define('LABEL_ALLOW_DUPLICATED','enable duplicate terms?');
 define('LABEL_CFG_PUBLISH','Is the vocabulary can be consulted by anyone?');
 define('LABEL_Replace','replace');
 define('LABEL_Preview','preview');
+#v.2.2
+define('LABEL_selectRelation','select type relation');
+define('LABEL_withSelected','with selected terms:');
+define('LABEL_rejectTerms','reject terms');
+define('LABEL_doMetaTerm','turn to meta-terms');
+define('LABEL_associateFreeTerms','associate as UF,NTE or RT');
+define('MSG_associateFreeTerms','en el siguiente paso podrá seleccionar el tipo de relación.');
+define('MSG_termsSuccessTask','terms affected by the process');
+define('LABEL_TTTerms','top terms');
+define('MSG__GLOSSincludeAltLabel','include alternative terms');
+define('MSG__GLOSSdocumentationJSON','You can add Glossary to any HTML content using this JSON file with <a href="https://github.com/PebbleRoad/glossarizer" target="_blank" title="Glossarizer">Glossarizer</a>');
+define('LABEL_configGlossary','export source file for glossary');
+define('MSG_includeNotes','use note type:');
 ?>

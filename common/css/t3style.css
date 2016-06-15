@@ -353,7 +353,7 @@ fieldset[disabled] .btn-second.active {
 .dropdown-menu > li.kopie > a {
     padding-left:5px;
 }
- 
+
 .dropdown-submenu {
     position:relative;
 }
@@ -362,28 +362,28 @@ fieldset[disabled] .btn-second.active {
    margin-top:-6px;margin-left:-1px;
    -webkit-border-radius:0 6px 6px 6px;-moz-border-radius:0 6px 6px 6px;border-radius:0 6px 6px 6px;
  }
-  
+
 .dropdown-submenu > a:after {
   border-color: transparent transparent transparent #333;
   border-style: solid;
   border-width: 5px 0 5px 5px;
   content: " ";
   display: block;
-  float: right;  
-  height: 0;     
+  float: right;
+  height: 0;
   margin-right: -10px;
   margin-top: 5px;
   width: 0;
 }
- 
+
 .dropdown-submenu:hover>a:after {
     border-left-color:#555;
  }
 
 .dropdown-menu > li > a:hover, .dropdown-menu > .active > a:hover {
   text-decoration: underline;
-}  
-  
+}
+
 @media (max-width: 767px) {
 
   .navbar-nav  {
@@ -399,7 +399,7 @@ fieldset[disabled] .btn-second.active {
     color: red;
     background-color: #ccc;
     border-radius: 4px;
-    margin-top: 2px;   
+    margin-top: 2px;
   }
    .navbar-default .navbar-nav .open .dropdown-menu > li > a {
      color: #333;
@@ -410,7 +410,7 @@ fieldset[disabled] .btn-second.active {
    }
 
    .navbar-nav .open .dropdown-menu {
-     border-bottom: 1px solid white; 
+     border-bottom: 1px solid white;
      border-radius: 0;
    }
   .dropdown-menu {
@@ -426,7 +426,7 @@ fieldset[disabled] .btn-second.active {
     border: 0px solid red;
    }
 }
- 
+
 @media (min-width: 768px) {
   ul.nav li:hover > ul.dropdown-menu {
     display: block;
@@ -434,5 +434,30 @@ fieldset[disabled] .btn-second.active {
   #navbar {
     text-align: center;
   }
-} 
+}
 /* end on mouse hover menu */
+
+/*   PÁGINA DEL VOC: BOX PRINCIPAL: TREE  */
+
+#treeTerm {
+    padding-top: 20px;
+    padding-left: 20px;
+}
+
+#fetchterm #treeTerm {
+    padding: 0px;
+}
+
+.jqtree-element {
+    padding-bottom: 4px;
+    padding-top: 4px;
+}
+
+/* si buttonLeft = false */
+#treeTerm span[role="treeitem"] {
+    margin-left: 0px;
+}
+
+.TT{
+  font-size: 20px;
+}

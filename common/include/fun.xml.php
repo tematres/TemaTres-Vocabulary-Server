@@ -690,14 +690,14 @@ function do_dublin_core($idTema){
 	$xml.='<metadata xmlns:dc="http://purl.org/dc/elements/1.1/"  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:dcterms="http://purl.org/dc/terms/">';
 
 	$xml.='<dc:title xml:lang="'.$_SESSION[CFGIdioma].'">'.xmlentities($datosTermino[titTema]).'</dc:title>';
-	$xml.='<dc:identifier>'.$_SESSION[CFGURL].'?tema='.$idTema.'</dc:identifier>';
+	$xml.='<dc:identifier>'.URL_BASE.'?tema='.$idTema.'</dc:identifier>';
 	$xml.='<dc:language>'.$_SESSION[CFGIdioma].'</dc:language>';
 	$xml.='<dc:publisher xml:lang="'.$_SESSION[CFGIdioma].'">'.xmlentities($_SESSION[CFGAutor]).'</dc:publisher>';
 	$xml.='<dcterms:created>'.$datosTermino[cuando].'</dcterms:created>';
 	if($datosTermino[cuando_final]>$datosTermino[cuando])
 	{$xml.='<dcterms:modified>'.$datosTermino[cuando_final].'</dcterms:modified>';}
 
-	$xml.='<dcterms:isPartOf xsi:type="dcterms:URI">'.$_SESSION[CFGURL].'</dcterms:isPartOf>';
+	$xml.='<dcterms:isPartOf xsi:type="dcterms:URI">'.URL_BASE.'</dcterms:isPartOf>';
 	$xml.='<dcterms:isPartOf xml:lang="'.$_SESSION[CFGIdioma].'">'.xmlentities($_SESSION[CFGTitulo]).'</dcterms:isPartOf>';
 	$xml.='<dc:format>text/html</dc:format>';
 
@@ -952,11 +952,11 @@ function do_meta_tag($arrayTermino=""){
 
 		$sub_title='; '.xmlentities($ARRAYdatosTermino[titTema]);
 		$ver_sub_title=xmlentities($ARRAYdatosTermino[titTema]).' - ';
-		$relMeta='<link rel="Dublin Core metadata" type="application/xml" href="xml.php?dcTema='.$ARRAYdatosTermino[idTema].'" title="Dublin Core '.xmlentities($datosTermino[titTema]).'" />';
-		$relMeta.='<link rel="MADS metadata" type="application/xml" href="xml.php?madsTema='.$ARRAYdatosTermino[idTema].'" title="MADS '.xmlentities($datosTermino[titTema]).'" />';
-		$relMeta.='<link rel="Zthes metadata" type="application/xml" href="xml.php?zthesTema='.$ARRAYdatosTermino[idTema].'" title="Zthes '.xmlentities($datosTermino[titTema]).'" />';
-		$relMeta.='<link rel="Skos metadata" type="application/rdf+xml" href="xml.php?skosTema='.$ARRAYdatosTermino[idTema].'" title="Skos Core '.xmlentities($datosTermino[titTema]).'" />';
-		$relMeta.='<link rel="TopicMap metadata" type="application/xml" href="xml.php?xtmTema='.$ARRAYdatosTermino[idTema].'" title="TopicMap '.xmlentities($datosTermino[titTema]).'" />';
+		$relMeta='<link rel="Dublin Core metadata" type="application/xml" href="'.URL_BASE.'xml.php?dcTema='.$ARRAYdatosTermino[idTema].'" title="Dublin Core '.xmlentities($datosTermino[titTema]).'" />';
+		$relMeta.='<link rel="MADS metadata" type="application/xml" href="'.URL_BASE.'xml.php?madsTema='.$ARRAYdatosTermino[idTema].'" title="MADS '.xmlentities($datosTermino[titTema]).'" />';
+		$relMeta.='<link rel="Zthes metadata" type="application/xml" href="'.URL_BASE.'xml.php?zthesTema='.$ARRAYdatosTermino[idTema].'" title="Zthes '.xmlentities($datosTermino[titTema]).'" />';
+		$relMeta.='<link rel="Skos metadata" type="application/rdf+xml" href="'.URL_BASE.'xml.php?skosTema='.$ARRAYdatosTermino[idTema].'" title="Skos Core '.xmlentities($datosTermino[titTema]).'" />';
+		$relMeta.='<link rel="TopicMap metadata" type="application/xml" href="'.URL_BASE.'xml.php?xtmTema='.$ARRAYdatosTermino[idTema].'" title="TopicMap '.xmlentities($datosTermino[titTema]).'" />';
 	}
 
 	elseif(strlen($letra)>0)
@@ -995,16 +995,16 @@ function do_meta_tag($arrayTermino=""){
 	$meta_tag.='<meta name="DC.Date"         content="'.$_SESSION[CFGCreacion].'" />';
 	$meta_tag.='<meta name="DC.Language"     content="'.LANG.'" />';
 
-	$meta_tag.='<link rel="'.MENU_Inicio.'" href="'.$_SESSION[CFGURL].'index.php" title="'.MENU_Inicio.'" />';
-	$meta_tag.='<link rel="'.MENU_ListaSis.'" href="'.$_SESSION[CFGURL].'index.php" title="'.MENU_ListaSis.'" />';
-	$meta_tag.='<link rel="'.MENU_ListaAbc.'" href="'.$_SESSION[CFGURL].'index.php?letra=?" title="'.MENU_ListaAbc.'" />';
-	$meta_tag.='<link rel="'.MENU_Sobre.'" href="'.$_SESSION[CFGURL].'sobre.php" title="'.MENU_Sobre.'" />';
-	$meta_tag.='<link rel="help" href="'.$_SESSION[CFGURL].'sobre.php" title="'.MENU_Sobre.'" />';
-	$meta_tag.='<link rel="login" href="'.$_SESSION[CFGURL].'login.php" title="'.LABEL_login.'" />';
-	$meta_tag.='<link rel="service" href="'.$_SESSION[CFGURL].'services.php" title="terminogical web services" />';
-	$meta_tag.='<link rel="bookmark" href="'.$_SESSION[CFGURL].'"/>';
-	$meta_tag.='<link rel="rss" type="application/rss+xml" href="xml.php?rss=true" title="RSS '.xmlentities($_SESSION[CFGTitulo]).'" />';
-	$meta_tag.='<link rel="alternate" type="application/rss+xml" href="xml.php?rss=true" title="RSS '.xmlentities($_SESSION[CFGTitulo]).'" />';
+	$meta_tag.='<link rel="'.MENU_Inicio.'" href="'.URL_BASE.'index.php" title="'.MENU_Inicio.'" />';
+	$meta_tag.='<link rel="'.MENU_ListaSis.'" href="'.URL_BASE.'index.php" title="'.MENU_ListaSis.'" />';
+	$meta_tag.='<link rel="'.MENU_ListaAbc.'" href="'.URL_BASE.'index.php?letra=?" title="'.MENU_ListaAbc.'" />';
+	$meta_tag.='<link rel="'.MENU_Sobre.'" href="'.URL_BASE.'sobre.php" title="'.MENU_Sobre.'" />';
+	$meta_tag.='<link rel="help" href="'.URL_BASE.'sobre.php" title="'.MENU_Sobre.'" />';
+	$meta_tag.='<link rel="login" href="'.URL_BASE.'login.php" title="'.LABEL_login.'" />';
+	$meta_tag.='<link rel="service" href="'.URL_BASE.'services.php" title="terminogical web services" />';
+	$meta_tag.='<link rel="bookmark" href="'.URL_BASE.'"/>';
+	$meta_tag.='<link rel="rss" type="application/rss+xml" href="'.URL_BASE.'xml.php?rss=true" title="RSS '.xmlentities($_SESSION[CFGTitulo]).'" />';
+	$meta_tag.='<link rel="alternate" type="application/rss+xml" href="'.URL_BASE.'xml.php?rss=true" title="RSS '.xmlentities($_SESSION[CFGTitulo]).'" />';
 	$meta_tag.=$relMeta;
 
 	return array("metadata"=>$meta_tag,"arraydata"=>$ARRAYdatosTermino);
@@ -1062,7 +1062,7 @@ function doTerminosXTM($tema_id=""){
 			$row.='      <topicRef xlink:href="#scope-note"/>';
 			$row.='    </instanceOf>';
 			$row.='<baseName>';
-			$row.='<baseNameString>'.xmlentities($arrayNotas[nota],true).'</baseNameString>';
+			$row.='<baseNameString>'.xmlentities($arrayNotas["nota"],true).'</baseNameString>';
 			$row.='</baseName>';
 			$row.='  </occurrence>';
 		};

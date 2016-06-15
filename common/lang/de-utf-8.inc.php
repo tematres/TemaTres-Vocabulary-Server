@@ -7,29 +7,24 @@
 ###############################################################################################################
 #
 define("LANG","de");
-
 define("TR_acronimo","Verwandter Begriff: ");
 define("TE_acronimo","Unterbegriff: ");
 define("TG_acronimo","Oberbegriff: ");
 define("UP_acronimo","Synonymbegriff: ");
-
 define("TR_termino","Verwandter Begriff: ");
 define("TE_termino","Unterbegriff: ");
 define("TG_termino","Oberbegriff: ");
 define("UP_termino","Synonymbegriff: ");
 /* v 9.5 */
 define("USE_termino","siehe");
-
 define("MENU_ListaSis","Hierarchisch");
 define("MENU_ListaAbc","Alphabetisch");
 define("MENU_Sobre","Info & Statistik");
 define("MENU_Inicio","Hauptindex");
-
 define("MENU_MiCuenta","Mein Konto");
 define("MENU_Usuarios","Benutzer");
 define("MENU_NuevoUsuario","Benutzer anlegen");
 define("MENU_DatosTesauro","Thesaurus-Info");
-
 define("MENU_AgregarT","Neuer Begriff");
 define("MENU_EditT","Begriff bearbeiten");
 define("MENU_BorrarT","Begriff löschen");
@@ -37,12 +32,10 @@ define("MENU_AgregarTG","Mit existierenden Oberbegriffen");
 define("MENU_AgregarTE","Mit Unterbegriffen");
 define("MENU_AgregarTR","Mit sonstigen verwandten Begriffen");
 define("MENU_AgregarUP","Mit Synonymen");
-
 define("MENU_MisDatos","Mein Konto");
 define("MENU_Caducar","inaktiv");
 define("MENU_Habilitar","aktiv");
 define("MENU_Salir","Abmelden");
-
 define("LABEL_Menu","Hauptmenü");
 define("LABEL_Opciones","Aktionen");
 define("LABEL_Admin","System");
@@ -52,14 +45,12 @@ define("LABEL_EditorTermino","Begriffe bearbeiten");
 define("LABEL_Termino","Begriff(e)");
 define("LABEL_NotaAlcance","Definition");
 define("LABEL_EliminarTE","Begriff löschen");
-
 define("LABEL_AgregarT","Begriff(e) anlegen");
 define("LABEL_AgregarTG","Oberbegriff für %s wählen:");
 define("LABEL_AgregarTE","Begriff(e) anlegen und als Unterbegriff(e) verknüpfen mit: ");
 define("LABEL_AgregarUP","Begriff(e) anlegen und als Synonymbegriff(e) verknüpfen mit: ");
 define("LABEL_AgregarTR","Begriff(e) anlegen und als verwandte(n) Begriff(e) verknüpfen mit: ");
 define("LABEL_Detalle","Details");
-
 define("LABEL_Autor","Autor");
 define("LABEL_URI","URL");
 define("LABEL_Version","Version");
@@ -71,7 +62,6 @@ define("LABEL_Cobertura","Beschreibung");
 define("LABEL_Terminos","Angelegte Begriffe");
 define("LABEL_RelTerminos","Angelegte Begriffsrelationen");
 define("LABEL_TerminosUP","Angelegte Synonymbegriffe");
-
 define("LABEL_BuscaTermino","Suchbegriff");
 define("LABEL_Buscar","Suche");
 define("LABEL_Enviar","Start");
@@ -108,7 +98,6 @@ define("LABEL_mail","E-Mail (Kennung)");
 define("LABEL_pass","Passwort");
 define("LABEL_repass","Passwort wiederholen");
 define("LABEL_orga","Organisation");
-
 define("LABEL_lcConfig","Thesauri");
 define("LABEL_lcDatos","Metadaten");
 define("LABEL_Titulo","Bezeichnung");
@@ -128,13 +117,10 @@ define("FORM_LABEL_TerminosUP","Non preferred terms");
 define("FORM_LABEL_Guardar","Speichern");
 define("LABEL_verDetalle","Details für: ");
 define("LABEL_verTerminosLetra","Begriffe mit Anfangsbuchstabe ");
-
 define("LABEL_NB","Quelle");
 define("LABEL_NH","Entstehungsgeschichte");
 define("LABEL_NA","Definition");   /* version 0.9.1 */
 define("LABEL_NP","Allgemein"); /* version 0.9.1 */
-
-
 define("LABEL_EditorNota","Kommentar bearbeiten ");
 define("LABEL_EditorNotaTermino","Kommentarfeld für den Begriff ");
 define("LABEL_tipoNota","Kommentartyp");
@@ -143,18 +129,14 @@ define("LABEL_nota","Kommentartext");
 define("FORM_LABEL_nota","_note");
 define("LABEL_EditarNota","Kommentar bearbeiten");
 define("LABEL_EliminarNota","Kommentar löschen");
-
 define("LABEL_OptimizarTablas","Tabellenoptimierung");
 define("LABEL_TotalZthesLine","Export nach Zthes");
-
 /* v 9.2 */
 define("LABEL_negrita","fett");
 define("LABEL_italica","kursiv");
 define("LABEL_subrayado","unterstrichen");
 define("LABEL_textarea","Anmerkungen");
 define("MSGL_relacionIlegal","Relation nicht zulässig!");
-
-
 /* v 9.3 */
 define("LABEL_fecha_modificacion","<br>Aktualisiert");
 define("LABEL_TotalUsuarios","Benutzer gesamt");
@@ -168,7 +150,6 @@ define("LABEL_terminosRepetidos","Dubletten");
 define("MSG_noTerminosLibres","Keine Begriffe ohne Relationen gefunden.");
 define("MSG_noTerminosRepetidos","Keine Dubletten gefunden.");
 define("LABEL_TotalSkosLine","export on Skos-core");
-
 $MONTHS=array("01"=>"Januar",
               "02"=>"Februar",
               "03"=>"März",
@@ -182,18 +163,14 @@ $MONTHS=array("01"=>"Januar",
               "11"=>"November",
               "12"=>"Dezember"
               );
-
 /* v 9.4 */
 define("LABEL_SI","YES");
 define("LABEL_NO","NO");
 define("FORM_LABEL_jeraquico","Polihierarchical");
 define("LABEL_jeraquico","Polyhierarchische Strukturen aktivieren");
 define("LABEL_terminoLibre","free term");
-
-
 /* v 9.5 */
 define("LABEL_URL_busqueda","Search %s in:");
-
 /* v 9.6 */
 define("LABEL_relacion_vocabulario","Begriff aus einem anderen Thesaurus finden und verknüpfen mit ");
 define("FORM_LABEL_relacion_vocabulario","equivalence");
@@ -203,24 +180,18 @@ define("LABEL_NO_vocabulario_referencia","Kein Thesaurus gefunden");
 define("FORM_LABEL_tipo_equivalencia","Äquivalenztyp");
 define("LABEL_vocabulario_principal","Thesaurus");
 define("LABEL_tipo_vocabulario","Typ");
-
 define("LABEL_termino_equivalente","Volläquivalenz");
 define("LABEL_termino_parcial_equivalente","Teiläquivalenz");
 define("LABEL_termino_no_equivalente","Nichtäquivalenz");
-
 define("EQ_acronimo","Volläquivanlenz");
 define("EQP_acronimo","Teiläqivalenz");
 define("NEQ_acronimo","Nichtäquivalenz");
 define("LABEL_NC","Sonstiges");
-
 define("LABEL_resultados_suplementarios","Weitere Treffer");
 define("LABEL_resultados_relacionados","Verwandte Treffer");
-
 /* v 9.7 */
 define("LABEL_export","Datenexport");
 define("FORM_LABEL_format_export","Zielformat wählen");
-
-
 /* v 1.0 */
 define("LABEL_fecha_creacion","created");
 define("NB_acronimo","BN");
@@ -228,48 +199,35 @@ define("NH_acronimo","HN");
 define("NA_acronimo","SN");
 define("NP_acronimo","PN");
 define("NC_acronimo","CN");
-
 define("LABEL_Candidato","Ist Begriffskandidat?");
 define("LABEL_Aceptado","Freigegeben");
 define("LABEL_Rechazado","Abgelehnt");
 define("LABEL_Ultimos_aceptados","last accepted terms");
 define("MSG_ERROR_ESTADO","ilegal status");
-
 define("LABEL_Candidatos","Begriffskandidaten");
 define("LABEL_Aceptados","Freigegebene Begriffe");
 define("LABEL_Rechazados","Abgelehnte Begriffe");
-
 define("LABEL_User_NoHabilitado","deaktiviert");
 define("LABEL_User_Habilitado","aktiviert");
-
 // define("LABEL_CandidatearTermino","Candidatear término");
 define("LABEL_CandidatearTermino","Begriffskandidat");
 define("LABEL_AceptarTermino","Begriff freigeben");
 define("LABEL_RechazarTermino","Begriff ablehnen");
-
-
 /* v 1.01 */
 define("LABEL_TERMINO_SUGERIDO","Meinten Sie:");
-
-
 /* v 1.02 */
 define("LABEL_esSuperUsuario","Ist Systemadministrator?");
 define("LABEL_Cancelar","Abbrechen");
 define("LABEL_Guardar","Speichern");
-
-
 /* v 1.033 */
 define("MENU_AgregarTEexist","Existierender Begriff");
 define("MENU_AgregarUPexist","Existierender Begriff");
 define("LABEL_existAgregarUP","Existierenden Begriff finden und als Synonymbegriff verknüpfen mit: %s");
 define("LABEL_existAgregarTE","Existierenden Begriff finden und als Unterbegriff verknüpfen mit: %s ");
 define("MSG_minCharSerarch","Ihr Suchbegriff <i>%s</i> ist <strong>%s </strong> Zeichen lang. Eine Suche ist erst ab <strong>%s</strong> Zeichen möglich");
-
 /* v 1.04 */
 define("LABEL_terminoExistente","existierender Begriff");
 define("HELP_variosTerminos","HINWEIS: Um mehrere Begriffe anzulegen, geben Sie <strong>einen Begriff pro Zeile</strong> ein.");
-
-
 /* v 1.05 */
 $idiomas_disponibles = array(
      "de"  => array("Deutsch","", "de"),
@@ -278,36 +236,27 @@ $idiomas_disponibles = array(
      "es"  => array("Spanisch", "", "es"),
      "ru"  => array("Pусский","", "ru")
     );
-
 /* Install messages */
-
 define("FORM","Form") ;
 define("ERROR","Error") ;
 define("LABEL_bienvenida","Welcome to TemaTres Vocabulary Server") ;
-
 // COMMON SQL
 define("PARAM_SERVER","Server address") ;
 define("PARAM_DBName","Database name") ;
 define("PARAM_DBLogin","Database User") ;
 define("PARAM_DBPass","Database Password") ;
 define("PARAM_DBprefix","Prefix tables") ;
-
-
 $install_message[101] = "TemaTres Setup" ;
-
 $install_message[201] = "Can not found the file configuration for the database connection (%s)." ;
 $install_message[202] = "File configuration for the database connection found." ;
 $install_message[203] = "Unable to connect to database server <em>%s</em> with the user <em>%s</em>. Please check your file configuration for the database connection (%s)." ;
 $install_message[204] = "Connect to Server <em>%s</em> success" ;
 $install_message[205] = "Unable to connect to database <em>%s</em> in server <em>%s</em>. Please check your file configuration for the database connection (%s)." ;
 $install_message[206] = "Connect to database <em>%s</em> in server <em>%s</em> success." ;
-
 $install_message[301] = 'Woppsss... There is already an Tematres instance for the configuration. Please check your file configuration for the database connection (%s) or <a href="index.php">Enjoy your Vocabulary Server</a>' ;
 $install_message[305] = " Checking Security password." ;
 $install_message[306] = 'Setup is completed, <a href="index.php">Enjoy your Vocabulary Server</a>' ;
 /* end Install messages */
-
-
 /* v 1.1 */
 define('MSG_ERROR_CODE',"invalid code");
 define('LABEL_CODE',"Code");
@@ -323,7 +272,6 @@ define('LABEL_esNoPreferido',"Synonyme");
 define('LABEL_BusquedaAvanzada',"Erweiterte Suche");
 define('LABEL_Todos',"Alle");
 define('LABEL_QueBuscar',"Suchen im Feld");
-
 define("LABEL_import","Datenimport") ;
 define("IMPORT_form_legend","Datenimport") ;
 define("IMPORT_form_label","Datei") ;
@@ -334,8 +282,6 @@ define("IMPORT_working","import task are working") ;
 define("IMPORT_finish","import task finished") ;
 define("LABEL_reIndice","Reindizierung") ;
 define("LABEL_dbMantenimiento","Datenbank");
-
-
 /*
 v 1.2
 */
@@ -370,8 +316,6 @@ define('LABEL_end','endet mit');
 define('LABEL_equalThisWord','gleich');
 define('LABEL_haveWords','enthält');
 define('LABEL_encode','Kodierung');
-
-
 /*
 v1.21
 */
@@ -379,7 +323,6 @@ define('LABEL_import_skos','Skos-Core Import');
 define('IMPORT_skos_file_already_exists','The Skos-Core source are in the server');
 define('IMPORT_skos_form_legend','Import Skos-Core');
 define('IMPORT_skos_form_label','Skos-Core File');
-
 /*
 v1.4
 */
@@ -387,7 +330,6 @@ define('LABEL_termsxNTterms','Narrower terms x term');
 define('LABEL_termsNoBT','Begriffe ohne hierarchische Relationen');
 define('MSG_noTermsNoBT','There are no terms without hierarchical relations');
 define('LABEL_termsXcantWords','number of words x term');
-
 define('LABEL__USE_CODE','Codes für Sortierung verwenden');
 define('LABEL__SHOW_CODE','Codes auch für Nur-Leser anzeigen');
 define('LABEL_CFG_MAX_TREE_DEEP','Maximale Anzahl Unterebenen für die Anzeige');
@@ -397,7 +339,6 @@ define('LABEL_CFG_NUM_SHOW_TERMSxSTATUS','Anzahl Begriffe in der Statusansicht')
 define('LABEL_CFG_MIN_SEARCH_SIZE','Minimale Anzahl Zeichen für Suchoperationen');
 define('LABEL__SHOW_TREE','Hierarchische Ansicht aktivieren');
 define('LABEL__PUBLISH_SKOS','Skos-core Format für Webservices aktivieren');
-
 define('LABEL_update1_3x1_4',"Update (1.3x -> 1.4)");
 define("FORM_LABEL_format_import","Dateiformat");
 define("LABEL_importTab","TXT, tab-delimitiert");
@@ -407,7 +348,6 @@ define("LABEL_configTypeNotes","Konfiguration der Kommentarfelder");
 define("LABEL_notes","Kommentarfeld(er)");
 define("LABEL_saved","Speichern erfolgreich");
 define("FORM_JS_confirmDeleteTypeNote","Möchten Sie diesen Typ wirklich löschen?");
-
 /*
 v1.5
 */
@@ -418,7 +358,6 @@ define('LABEL_relationSubTypeCode',"Kürzel");
 define('LABEL_relationSubTypeLabel',"Bezeichnung");
 define('LABEL_optative',"optional");
 define('FORM_JS_confirmDeleteTypeRelation','Möchten Sie diesen Relationstyp wirklich löschen?');
-
 define("LABEL_URItypeEditor","Konfiguration der Verknüpfungen zwischen Thesauri");
 define("LABEL_URIEditor","Relation zu einer URL hinzufügen");
 define("LABEL_URItypeDelete","Löschen");
@@ -432,7 +371,6 @@ define('LABEL_update1_4x1_5','Update (1.4 -> 1.5)');
 define('LABEL_Contributor','Weitere Autoren');
 define('LABEL_Rights','Rechte');
 define('LABEL_Publisher','Verlag');
-
 /*
 v1.6
 */
@@ -458,7 +396,6 @@ define('LABEL_mail_recovery_pass1','Someone requested that the password be reset
 define('LABEL_mail_recovery_pass2','Username: %s');
 define('LABEL_mail_recovery_pass3','If this was a mistake, just ignore this email and nothing will happen.');
 define('LABEL_mail_recovery_pass4','To reset your password, visit the following address:');
-
 define('LABEL_mail_passTitle','Neues Passwort ');
 define('LABEL_mail_pass1','Neues Passwort für ');
 define('LABEL_mail_pass2','Passwort: ');
@@ -467,7 +404,6 @@ define('MSG_check_mail_link','prüfen Sie den Link aus der E-Mail.');
 define('MSG_check_mail','Bitte prüfen Sie Ihre E-Mails.');
 define('MSG_no_mail','Е-Мail konnte nicht versendet werden.');
 define('LABEL_user_lost_password',' Passwort vergessen? - ACHTUNG: FUNKTIONIERT NICHT IM BSPRA!');
-
 ## v1.7
 define('LABEL_includeMetaTerm','Include meta-terms');
 define('NOTE_isMetaTerm','Is a meta-term.');
@@ -478,7 +414,7 @@ define('LABEL_meta_term','meta-term');
 define('LABEL_meta_terms','meta-terms');
 define('LABEL_relatedTerms','related terms');
 define('LABEL_nonPreferedTerms','non preferred terms');
-define('LABEL_update1_6x1_7','Update TemaTres (1.6 -> 1.7)');
+define('LABEL_update1_6x1_7','Update TemaTres (1.6 -> 2.2)');
 define('LABEL_include_data','include');
 define('LABEL_updateEndpoint','update SPARQL endpoint');
 define('MSG__updateEndpoint','The data will be updated to be exposed in SPARQL endpoint. This operation may take several minutes.');
@@ -491,12 +427,9 @@ define('LABEL_SPARQLEndpoint','SPARQL endpoint');
 define('LABEL_AgregarRTexist','Select terms to link as related term with');
 define('MENU_selectExistTerm','select existing term');
 define("TT_terminos","top terms");
-
 ## v1.72
 define('MSG__warningDeleteTerm','The term <i>%s</i> will be <strong>DELETED</strong>.');
 define('MSG__warningDeleteTerm2row','Will be deleted <strong>all</strong> his notes and relations. These action are irreversible!');
-
-
 ## v1.8
 define('LABEL__getForRecomendation','get for recommendations');
 define('LABEL__getForRecomendationFor','get for recommendations to');
@@ -558,4 +491,17 @@ define('LABEL_ALLOW_DUPLICATED','enable duplicate terms?');
 define('LABEL_CFG_PUBLISH','Is the vocabulary can be consulted by anyone?');
 define('LABEL_Replace','replace');
 define('LABEL_Preview','preview');
+#v.2.2
+define('LABEL_selectRelation','select type relation');
+define('LABEL_withSelected','with selected terms:');
+define('LABEL_rejectTerms','reject terms');
+define('LABEL_doMetaTerm','turn to meta-terms');
+define('LABEL_associateFreeTerms','associate as UF,NTE or RT');
+define('MSG_associateFreeTerms','en el siguiente paso podrá seleccionar el tipo de relación.');
+define('MSG_termsSuccessTask','terms affected by the process');
+define('LABEL_TTTerms','top terms');
+define('MSG__GLOSSincludeAltLabel','include alternative terms');
+define('MSG__GLOSSdocumentationJSON','You can add Glossary to any HTML content using this JSON file with <a href="https://github.com/PebbleRoad/glossarizer" target="_blank" title="Glossarizer">Glossarizer</a>');
+define('LABEL_configGlossary','export source file for glossary');
+define('MSG_includeNotes','use note type:');
 ?>

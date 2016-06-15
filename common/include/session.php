@@ -12,10 +12,9 @@ if ((stristr( $_SERVER['REQUEST_URI'], "session.php") ) || ( !defined('T3_ABSPAT
 
   $SQL_CFG_LC=SQL("select","id,titulo,autor,idioma,cobertura,keywords,tipo,cuando,url_base,polijerarquia from $DBCFG[DBprefix]config where id=1");
 
-  if(!is_object($SQL_CFG_LC))
-	{
+  if(!is_object($SQL_CFG_LC)){
 		header("Location:install.php");
-	}
+	}	
   
     $CFG_LC=$SQL_CFG_LC->FetchRow();
 
@@ -33,6 +32,7 @@ if ((stristr( $_SERVER['REQUEST_URI'], "session.php") ) || ( !defined('T3_ABSPAT
     
     //Load config values
 	loadConfigValues(1);
+	
     if($_GET[setLang]){
    		$_SESSION[$_SESSION["CFGURL"]][lang]=$idiomas_disponibles[$_GET[setLang]];
    	}	
@@ -40,18 +40,14 @@ if ((stristr( $_SERVER['REQUEST_URI'], "session.php") ) || ( !defined('T3_ABSPAT
    $_SESSION["CFGIdioma"] = ($_SESSION["CFGIdioma"]) ? $_SESSION["CFGIdioma"] : $idiomas_disponibles[0][2];
    
    //NO hay idioma, idioma por default ES
-   if(!$_SESSION[$_SESSION["CFGURL"]][lang])
-   {
+   if(!$_SESSION[$_SESSION["CFGURL"]][lang])   {
    		$_SESSION[$_SESSION["CFGURL"]][lang]=$idiomas_disponibles[$_SESSION["CFGIdioma"]];
    }
 
 	//prevent missing language file
-   if(in_array($_SESSION[$_SESSION["CFGURL"]][lang],$idiomas_disponibles))
-	{
+   if(in_array($_SESSION[$_SESSION["CFGURL"]][lang],$idiomas_disponibles))	{
 		require_once(T3_ABSPATH . 'common/lang/'.$_SESSION[$_SESSION["CFGURL"]][lang][1]);
-	}
-	else
-	{
+	}	else	{
 		require_once(T3_ABSPATH . 'common/lang/'.$idiomas_disponibles[en][1]);
 	}
 	

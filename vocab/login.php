@@ -22,25 +22,7 @@ $metadata=do_meta_tag();
 <!DOCTYPE html>
 <html lang="<?php echo LANG;?>">
   <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-   <link href="<?php echo T3_WEBPATH;?>bootstrap/css/bootstrap.min.css" rel="stylesheet">
-   <link href="<?php echo T3_WEBPATH;?>bootstrap/submenu/css/bootstrap-submenu.min.css" rel="stylesheet">
-	 <link href="<?php echo T3_WEBPATH;?>css/t3style.css" rel="stylesheet">
-
-
-    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-    <![endif]-->
-  <?php echo $metadata["metadata"]; ?>
-  <link type="image/x-icon" href="<?php echo T3_WEBPATH;?>images/tematres.ico" rel="icon" />
-  <link type="image/x-icon" href="<?php echo T3_WEBPATH;?>images/tematres.ico" rel="shortcut icon" />
-
-
+  <?php echo HTMLheader($metadata);?>
 <style type="text/css">
 
 .navbar-form {
@@ -157,30 +139,25 @@ $metadata=do_meta_tag();
 <div class="container">
 
 <?php
-            if($_SESSION[$_SESSION["CFGURL"]]["ssuser_id"]){
+ if($_SESSION[$_SESSION["CFGURL"]]["ssuser_id"]){
             require_once(T3_ABSPATH . 'common/include/inc.misTerminos.php');
-            }else{
+    }else{
 
-	if($_POST["task"]=='user_recovery')
-	{
+	if($_POST["task"]=='user_recovery')	{
 		$task_result=recovery($_POST["id_correo_electronico_recovery"]);
 	}
 
 
-	if ($_GET["task"]=='recovery')
-	{
+	if ($_GET["task"]=='recovery')	{
 		echo HTMLformRecoveryPassword();
-	}
-	else
-	{
+	}	else	{
 
-		if(($_POST["task"]=='login') && (!$_SESSION[$_SESSION["CFGURL"]]["ssuser_id"]))
-		{
+		if(($_POST["task"]=='login') && (!$_SESSION[$_SESSION["CFGURL"]]["ssuser_id"]))		{
 			$task_result=array("msg"=>t3_messages('no_user'));
 		}
 		echo HTMLformLogin($task_result);
 	};
-    }// if session
+ }// if session
 ?>
 </div><!-- /.container -->
 
@@ -189,70 +166,32 @@ $metadata=do_meta_tag();
 <div id="footer" class="footer">
 		  <div class="container">
 		    	<?php
-					 if(!$_GET["letra"])
-					 {
+					 if(!$_GET["letra"]) {
 						 echo HTMLlistaAlfabeticaUnica();
 					 }
 					 ?>
 
-				<p class="navbar-text pull-left">
+			<p class="navbar-text pull-left">
 				<?php
 				//are enable SPARQL
-				if(CFG_ENABLE_SPARQL==1)
-				{
-					echo '<a class="label label-info" href="'.$_SESSION["CFGURL"].'sparql.php" title="'.LABEL_SPARQLEndpoint.'">'.LABEL_SPARQLEndpoint.'</a>';
+				if(CFG_ENABLE_SPARQL==1)				{
+					echo '<a class="label label-info" href="'.URL_BASE.'sparql.php" title="'.LABEL_SPARQLEndpoint.'">'.LABEL_SPARQLEndpoint.'</a>';
 				}
 
-				if(CFG_SIMPLE_WEB_SERVICE==1)
-				{
-					echo '  <a class="label label-info" href="'.$_SESSION["CFGURL"].'services.php" title="API">API</a>';
+				if(CFG_SIMPLE_WEB_SERVICE==1)				{
+					echo '  <a class="label label-info" href="'.URL_BASE.'services.php" title="API"><span class="glyphicon glyphicon-share"></span> API</a>';
 				}
-				echo '  <a class="label label-info" href="'.$_SESSION["CFGURL"].'xml.php?rss=true" title="RSS"><span class="icon icon-rss"></span> RSS</a>';
-				echo '  <a class="label label-info" href="'.$_SESSION["CFGURL"].'index.php?s=n" title="'.ucfirst(LABEL_showNewsTerm).'"><span class="glyphicon glyphicon-fire"></span> '.ucfirst(LABEL_showNewsTerm).'</a>';				
+
+					echo '  <a class="label label-info" href="'.URL_BASE.'xml.php?rss=true" title="RSS"><span class="icon icon-rss"></span> RSS</a>';
+					echo '  <a class="label label-info" href="'.URL_BASE.'index.php?s=n" title="'.ucfirst(LABEL_showNewsTerm).'"><span class="glyphicon glyphicon-fire"></span> '.ucfirst(LABEL_showNewsTerm).'</a>';
 				?>
+
 				<?php echo doMenuLang($metadata["arraydata"]["tema_id"]); ?>
 			</p>
 		  </div>
 
 </div>
-  	<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-    <!-- Include all compiled plugins (below), or include individual files as needed -->
-    <script src="<?php echo T3_WEBPATH;?>bootstrap/js/bootstrap.min.js"></script>
-  <script type="text/javascript" src="<?php echo T3_WEBPATH;?>jq/jquery.autocomplete.js"></script>
-  <script type="text/javascript" src="<?php echo T3_WEBPATH;?>jq/jquery.mockjax.js"></script>
-  <script type="text/javascript" src="<?php echo T3_WEBPATH;?>jq/tree.jquery.js"></script>
-
-  <link rel="stylesheet" type="text/css" href="<?php echo T3_WEBPATH;?>css/jquery.autocomplete.css" />
-  <link rel="stylesheet" type="text/css" href="<?php echo T3_WEBPATH;?>css/jqtree.css" />
- <script type="text/javascript" src="<?php echo T3_WEBPATH;?>bootstrap/submenu/js/bootstrap-submenu.min.js"></script>
- <script type="text/javascript" src="<?php echo T3_WEBPATH;?>bootstrap/bootstrap-tabcollapse.js"></script>
-
-<?php
-if ($_SESSION[$_SESSION["CFGURL"]][ssuser_nivel]>0)
-{
-	?>
-<!-- Load TinyMCE -->
-<script type="text/javascript" src="<?php echo T3_WEBPATH;?>tiny_mce/jquery.tinymce.js"></script>
-<!-- /TinyMCE -->
-
-	<link type="text/css" href="<?php echo T3_WEBPATH;?>jq/theme/ui.all.css" media="screen" rel="stylesheet" />
-	<script type="text/javascript" src="<?php echo T3_WEBPATH;?>jq/jquery.jeditable.mini.js" charset="utf-8"></script>
-<?php
-}
-?>
-<script type="application/javascript" src="js.php" charset="utf-8"></script>
-<script type="text/javascript" src="<?php echo T3_WEBPATH;?>forms/jquery.validate.min.js"></script>
-<?php
- if($_SESSION[$_SESSION["CFGURL"]]["lang"][2]!=='en')
-		echo '<script src="'.T3_WEBPATH.'forms/localization/messages_'.$_SESSION[$_SESSION["CFGURL"]]["lang"][2].'.js" type="text/javascript"></script>';
-?>
- <script type='text/javascript'>
-
-  $("#myTermTab").tabCollapse();
-  $('.dropdown-submenu > a').submenupicker();
-
-        </script>
+<?php echo HTMLjsInclude();?>
     </body>
 </html>
 <?php

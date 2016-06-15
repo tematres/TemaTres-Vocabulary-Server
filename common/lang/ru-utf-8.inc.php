@@ -3,11 +3,9 @@
 #                                                                        #
 #   Distribuido bajo Licencia GNU Public License, versión 2 (de junio de 1.991) Free Software Foundation
 #   Maribel Cuadrado
-
 # 2014-03-06 jsau arreglant i completant catala
 ###############################################################################################################
 #
-
 define("LANG","ru");
 define("TR_acronimo","RT");
 define("TE_acronimo","NT");
@@ -352,7 +350,7 @@ define('LABEL_meta_term','мета-термин');
 define('LABEL_meta_terms','мета-термины');
 define('LABEL_relatedTerms','взаимосвязанные термины');
 define('LABEL_nonPreferedTerms','нежелательные термины');
-define('LABEL_update1_6x1_7','Обновить TemaTres (1.6 -> 1.7)');
+define('LABEL_update1_6x1_7','Обновить TemaTres (1.6 -> 2.2)');
 define('LABEL_include_data','включить');
 define('LABEL_updateEndpoint','обновить конечную точку SPARQL');
 define('MSG__updateEndpoint','Данные будут обновлены в указанной конечной точке SPARQL. Эта операция может занять несколько минут.');
@@ -367,7 +365,6 @@ define('MENU_selectExistTerm','выберите существующий тер�
 define('TT_terminos','популярные термины');
 define('MSG__warningDeleteTerm','Термин <i>%s</i> будет <strong>УДАЛЕН</strong>.');
 define('MSG__warningDeleteTerm2row','Его примечания и взаимосвязи <strong>all</strong> будут удалены. Это действие не подлежит отмене!');
-
 $MONTHS=array("01"=>"Янв",
               "02"=>"Фев",
               "03"=>"Март",
@@ -381,7 +378,6 @@ $MONTHS=array("01"=>"Янв",
               "11"=>"Ноя",
               "12"=>"Дек"
               );
-
 define('install_message[101]','Настройка TemaTres ');
 define('install_message[201]','Не удалось найти конфигурацию файла для связи с базой данных (%s). ');
 define('install_message[202]','Конфигурация файла для связи с базой данных найдена. ');
@@ -392,7 +388,6 @@ define('install_message[206]','Связь с базой данных <em>%s</em>
 define('install_message[301]','Увы... Пример конфигурации Tematres уже существует. Проверьте конфигурацию файла для связи с базой данных (%s). <a href="index.php">Enjoy your Vocabulary Server</a>');
 define('install_message[305]',' Проверка пароля безопасности. ');
 define('install_message[306]','Настройка выполнена, <a href="index.php">Можете пользоваться сервером словаря</a>' );
-
 /* v 1.05 */
 $idiomas_disponibles = array(
      "ca"  => array("català", "", "ca"),
@@ -409,7 +404,6 @@ $idiomas_disponibles = array(
      "pt"  => array("portugués","", "pt"),
      "ru"  => array("Pусский","", "ru")
     );
-
 define("MSG_ERROR_CODE","неверный код");
 define("LABEL_CODE","код");
 define("LABEL_Ver","Показать");
@@ -442,8 +436,6 @@ define("LABEL_update1_1x1_2","Обновить (1.1 -> 1.3)");
 define("LABEL_update1x1_2","Обновить (1.0x -> 1.3)");
 define("LABEL_TargetTerm","терминологическое картирование");
 define("LABEL_TargetTerms","термины (терминологическое картирование)");
-
-
 ## v1.8
 define('LABEL__getForRecomendation','get for recommendations');
 define('LABEL__getForRecomendationFor','get for recommendations to');
@@ -505,4 +497,17 @@ define('LABEL_ALLOW_DUPLICATED','enable duplicate terms?');
 define('LABEL_CFG_PUBLISH','Is the vocabulary can be consulted by anyone?');
 define('LABEL_Replace','replace');
 define('LABEL_Preview','preview');
+#v.2.2
+define('LABEL_selectRelation','select type relation');
+define('LABEL_withSelected','with selected terms:');
+define('LABEL_rejectTerms','reject terms');
+define('LABEL_doMetaTerm','turn to meta-terms');
+define('LABEL_associateFreeTerms','associate as UF,NTE or RT');
+define('MSG_associateFreeTerms','en el siguiente paso podrá seleccionar el tipo de relación.');
+define('MSG_termsSuccessTask','terms affected by the process');
+define('LABEL_TTTerms','top terms');
+define('MSG__GLOSSincludeAltLabel','include alternative terms');
+define('MSG__GLOSSdocumentationJSON','You can add Glossary to any HTML content using this JSON file with <a href="https://github.com/PebbleRoad/glossarizer" target="_blank" title="Glossarizer">Glossarizer</a>');
+define('LABEL_configGlossary','export source file for glossary');
+define('MSG_includeNotes','use note type:');
 ?>

@@ -433,15 +433,11 @@ function SQLdatosTerminoNotas($tema_id,$array_tipo_nota=array()){
 
 	$tema_id=secure_data($tema_id,"int");
 
-	if(count($array_tipo_nota)>0)
-	{
+	if(count($array_tipo_nota)>0)	{
 		//es una array de tipos de notas
-		for($i=0; $i<count($array_tipo_nota);++$i)
-		{
-			if(in_array($array_tipo_nota[$i],array('NA','NH','NC','NB','NP')))
-			{
+		for($i=0; $i<count($array_tipo_nota);++$i)		{
+//			if(in_array($array_tipo_nota[$i],array('NA','NH','NC','NB','NP'))){
 				$where_in.="'".$array_tipo_nota[$i]."',";
-			}
 		};
 		$where_in=substr("$where_in",0,-1);
 
@@ -738,8 +734,7 @@ function ARRAYverDatosTermino($tema_id){
 
 		$top_term_id=secure_data($top_term_id,"int");
 
-		if($top_term_id>0)
-		{
+		if($top_term_id>0){
 			$size_i=strlen($top_term_id)+2;
 			$from="$DBCFG[DBprefix]indice tti,";
 			$where="	and tema.tema_id=tti.tema_id";
@@ -753,6 +748,29 @@ function ARRAYverDatosTermino($tema_id){
 		left join $DBCFG[DBprefix]tabla_rel as r on tema.tema_id = r.id_mayor
 		and r.t_relacion in (4,5,6,7,8)
 		where tema.estado_id='13'
+		$where
+		group by tema.tema_id
+		order by lower(tema.tema)");
+		return $sql;
+	};
+
+
+	#
+	# prefered descendant terms for given term_id
+	function SQLterm2down($term_id){
+
+		GLOBAL $DBCFG;
+
+		$term_id=secure_data($term_id,"int");
+
+		$where=' and tti.indice like "%|'.$term_id.'|%" ';
+
+		$sql=SQL("select","tema.tema_id as id,tema.tema,tema.code,tema.cuando,tema.uid,tema.cuando_final,tema.isMetaTerm,r.t_relacion,r.id_menor as tema_id_referido
+		from $DBCFG[DBprefix]indice tti, $DBCFG[DBprefix]tema as tema
+		left join $DBCFG[DBprefix]tabla_rel as r on tema.tema_id = r.id_mayor
+		and r.t_relacion in (4,5,6,7,8)
+		where tema.estado_id='13'
+		and tema.tema_id=tti.tema_id
 		$where
 		group by tema.tema_id
 		order by lower(tema.tema)");
@@ -1440,7 +1458,7 @@ function ARRAYresumen($id_tesa,$tipo,$idUser=""){
 	$sqlCantNotas=SQLcantNotas();
 	while ($arrayCantNotas=$sqlCantNotas->FetchRow())
 	{
-		$cant_notas[$arrayCantNotas[tipo_nota]] = $arrayCantNotas[cant];
+		$cant_notas[$arrayCantNotas[tipo_nota]] = $arrayCantNotas["cant"];
 	}
 
 
@@ -1777,6 +1795,44 @@ function SQLsearchFreeTerms($search_term,$tema_id=""){
 	and TT.tema like $search_term
 	$where
 	order by TT.tema");
+};
+
+
+
+/*
+* Search are:
+ - not free terms
+ - not under the same top term
+ - not related to the term
+ for associate as  NT.
+
+*/
+function SQLsearchTerms4NT($search_term,$term_id){
+
+	GLOBAL $DBCFG;
+
+	$term_id=secure_data($term_id,"int");
+
+	$ARRAYtopTerm=ARRAYmyTopTerm($term_id);
+
+	$TTterm_exclude='%|'.$ARRAYtopTerm["tema_id"].'|%';
+
+	$_SESSION[id_tesa]=secure_data($_SESSION[id_tesa],"int");
+
+	$search_term=secure_data("%$search_term%","ADOsql");
+
+	return SQL("select","t.tema_id as id,t.code,t.tema,t.isMetaTerm,t.cuando,t.tema_id as tema_id
+	from $DBCFG[DBprefix]tema t
+	left join $DBCFG[DBprefix]indice i on (i.indice like '$TTterm_exclude' or i.indice like '|$term_id|%') and t.tema_id=i.tema_id
+	left join $DBCFG[DBprefix]tabla_rel uf on uf.id_mayor=t.tema_id and uf.t_relacion = 4
+	left join $DBCFG[DBprefix]tabla_rel r on r.id_mayor='$term_id' and r.t_relacion = 2
+	where t.tema like $search_term
+	and i.tema_id is null
+	and r.id is null
+	and uf.id is null
+	and t.tesauro_id='$_SESSION[id_tesa]'
+	order by t.tema");
+
 };
 
 
@@ -3476,38 +3532,38 @@ function ARRAYuserData4term($term_id,$user_id=0){
 # Search for duplicated term
 #
 function SQLcheckDuplicateTerm($string,$isMetaTerm,$tesauro_id){
-	
+
 	GLOBAL $DBCFG;
 
 	$tesauro_id=secure_data($tesauro_id,"int");
 	$isMetaTerm=secure_data($isMetaTerm,"int");
-	$string=secure_data($string,"ADOsql");		
+	$string=secure_data($string,"ADOsql");
 
 	return SQL("select","t.tema_id,t.tema
 		from $DBCFG[DBprefix]tema as t
-		where 
+		where
 		t.tesauro_id='$tesauro_id'
 		and t.tema=$string
 		and t.isMetaTerm='$isMetaTerm'
-		");		
+		");
 };
 #
 # Search for duplicated term
 #
 function checkDuplicateTerm($string,$isMetaTerm=0,$tesauro_id=1){
-	
+
 	$sql=SQLcheckDuplicateTerm($string,$isMetaTerm,$tesauro_id);
 
-	return (is_object($sql)) ? $sql->FetchRow() : array();	
+	return (is_object($sql)) ? $sql->FetchRow() : array();
 };
 
 
-//test bulk replace term 
+//test bulk replace term
 function SQLbulkReplaceTermTest($from,$to,$where){
 
-	GLOBAL $DBCFG;	
-	$from_string=secure_data($from,"ADOsql");	
-	$to_string=secure_data($to,"ADOsql");	
+	GLOBAL $DBCFG;
+	$from_string=secure_data($from,"ADOsql");
+	$to_string=secure_data($to,"ADOsql");
 	$where_string=secure_data("%$where%","ADOsql");
 
 	return SQL("select","t.tema_id,t.tema,replace(t.tema, $from_string, $to_string) tema_mod
@@ -3522,9 +3578,9 @@ function SQLbulkReplaceTermTest($from,$to,$where){
 //test bulk replace notes
 function SQLbulkReplaceNoteTest($from,$to,$where){
 
-	GLOBAL $DBCFG;	
-	$from_string=secure_data($from,"ADOsql");	
-	$to_string=secure_data($to,"ADOsql");	
+	GLOBAL $DBCFG;
+	$from_string=secure_data($from,"ADOsql");
+	$to_string=secure_data($to,"ADOsql");
 	$where_string=secure_data("%$where%","ADOsql");
 
 	return SQL("select","t.tema_id,t.tema,n.id nota_id,n.nota,replace(n.nota, $from_string, $to_string) nota_mod
@@ -3536,6 +3592,34 @@ function SQLbulkReplaceNoteTest($from,$to,$where){
 
 }
 
+#
+# search prefered terms for string and exclude specific term_ids
+#
+function SQLsearchPrefTermsNotInList($list_id,$string){
+	GLOBAL $DBCFG;
+
+	$tesauro_id= $_SESSION["id_tesa"];
+
+	$string=secure_data("%$string%","ADOsql");
+
+	$list_id=string2array4ID($list_id);
+
+	$sql=SQL("select","tema.tema_id ,tema.tema,tema.cuando,tema.uid,tema.cuando_final,tema.isMetaTerm
+	from $DBCFG[DBprefix]tema as tema
+	left join $DBCFG[DBprefix]tabla_rel as relaciones on tema.tema_id = relaciones.id_mayor
+	and relaciones.t_relacion='4'
+	where
+	relaciones.id is null
+	and tema.tesauro_id='$tesauro_id'
+ 	and tema.estado_id='13'
+	and tema.tema like $string
+	and tema.tema_id not in ($list_id)
+ 	group by tema.tema_id
+	order by lower(tema.tema)");
+
+
+	return $sql;
+};
 
 // select valid random term_id
 // must be a prefered terms
@@ -3543,7 +3627,7 @@ function SQLbulkReplaceNoteTest($from,$to,$where){
 // retrieve only one term_id
 function SQLrandomTerms($note_type=""){
 
-	GLOBAL $DBCFG;	
+	GLOBAL $DBCFG;
 
 	//if there are value for note_type filter
 	if(strlen($note_type)>0){
@@ -3570,8 +3654,10 @@ function SQLrandomTerms($note_type=""){
 			relaciones.id is null
 			and tema.tesauro_id=c.id
 			and c.id=1
+			and tema.estado_id='13' 
 			$where
 			group by tema.tema_id
 			order by rand()
 			limit 0,1");
 };
+?>

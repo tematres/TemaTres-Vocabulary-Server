@@ -11,8 +11,7 @@ include("config.tematres.php");
 /*
  * Load tinyMCE only if there are login
 */
-if ($_SESSION[$_SESSION["CFGURL"]][ssuser_nivel]>0)
-{
+if ($_SESSION[$_SESSION["CFGURL"]][ssuser_nivel]>0){
 	?>
 	<!-- Load TinyMCE -->
 	$().ready(function() {
@@ -214,9 +213,11 @@ function askData() {
 $(function() {
          var $tree = $('#treeTerm');
 	     $tree.tree({
-           dragAndDrop: false,
-           autoEscape: false,
-           useContextMenu: false
+            buttonLeft: false,
+            dragAndDrop: false,
+            autoEscape: false,
+            selectable: false,
+            useContextMenu: false
            });
 });
 
@@ -351,7 +352,6 @@ function preparaborradoURI(a){
 	document.getElementById("moreURI").submit();
 	}
 }
-
 
 
 //Checkbox
