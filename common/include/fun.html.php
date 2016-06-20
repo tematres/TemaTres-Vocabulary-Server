@@ -406,14 +406,11 @@ function HTMLbodyTermino($array){
 	//MENSAJE DE ERROR
 	$body.=$MSG_ERROR_RELACION;
 
-	if($array["isMetaTerm"]==1)
-	{
+	if($array["isMetaTerm"]==1)	{
 		$body.=' <h1 class="metaTerm" title="'.$array["titTema"].' - '.NOTE_isMetaTermNote.'" id="T'.$array["tema_id"].'">'.$array["titTema"].'</h1>';
 		$body.=' <p class="metaTerm alert" title="'.NOTE_isMetaTermNote.'" id="noteT'.$array[tema_id].'">'.NOTE_isMetaTerm.'</p>';
-	}
-	else
-	{
-		$body.=' <h1 class="estado_termino'.$array["estado_id"].'" id="T'.$array["tema_id"].'">'.$array["titTema"].'</h1>';
+	}	else	{
+		$body.=' <h1 class="estado_termino'.$array["estado_id"].'">'.$array["titTema"].'</h1>';
 	}
 	//div oculto para eliminar término
 	if($_SESSION[$_SESSION["CFGURL"]]["ssuser_id"])	{
@@ -428,8 +425,12 @@ function HTMLbodyTermino($array){
 	# fin Div miga de pan
 	$cantNotas=count($array["notas"]);
 	$body.='<ul id="myTermTab" class="nav nav-tabs" style="margin-bottom: 15px;">
-							<li><a class="active" href="#theTerm" data-toggle="tab">'.ucfirst(LABEL_Termino).'</a></li>';
-	if($cantNotas>0) $body.='<li><a href="#notesTerm" data-toggle="tab">'.ucfirst(LABEL_notes).' <span class="badge">'.$cantNotas.'</span></a></li>';
+							<li ><a class="active" href="#theTerm" data-toggle="tab">'.ucfirst(LABEL_Termino).'</a></li>';
+
+	if($cantNotas>0) {
+		$body.='<li id="termDefinition" data-content="'.TXTtermDefinition($array).'" rel="popover" data-placement="right" data-trigger="hover"><a href="#notesTerm" id="labelNotes" data-toggle="tab">'.ucfirst(LABEL_notes).' <span class="badge">'.$cantNotas.'</span></a></li>';
+
+	}
 
 	//term menu
 	if($_SESSION[$_SESSION["CFGURL"]][ssuser_id])	{
@@ -443,7 +444,7 @@ function HTMLbodyTermino($array){
 	$body.='<div id="tabContent" class="tab-content">';
 
 	$body.='<div class="tab-pane fade" id="notesTerm">';
-		$body.=HTMLNotasTermino($array);
+	$body.=HTMLNotasTermino($array);
 	$body.='</div>';
 	#Div relaciones del terminos
 	$body.='<div class="tab-pane fade in active" id="theTerm">';
@@ -2094,7 +2095,32 @@ $rows.='<script type="text/javascript">
 	  $(".dropdown-submenu > a").submenupicker();
 	  </script>';
 
+	  $rows.='<script type="text/javascript">
+	
+
+		$("#termDefinition").popover();
+		$("#popoverOption").popover({ trigger: "hover" ,html: true});
+ 
+	  </script>';
+
 return $rows;
 }
+
+// specific note types for contextual term definition
+function TXTtermDefinition($array,$noteType=array("DEF","NA","SN")){
+	
+if(count($array["notas"])==0) return;
+
+for($iNota=0; $iNota<(count($array["notas"])); ++$iNota){
+
+	if($array["notas"][$iNota]["id"]){
+		if((in_array($array["notas"][$iNota]["tipoNota"], $noteType)) && ($array["notas"][$iNota]["lang_nota"]==$_SESSION["CFGIdioma"])){
+			$body.=html2txt($array["notas"][$iNota]["nota"]).' ';
+
+			}
+		};// fin del for
+	};
+return $body;
+};
 
 ?>

@@ -461,3 +461,9 @@ fieldset[disabled] .btn-second.active {
 .TT{
   font-size: 20px;
 }
+
+
+.popover{
+    max-width: 60%; // Max Width of the popover (depending on the container!)
+
+}
