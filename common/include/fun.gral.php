@@ -258,12 +258,8 @@ function do_color_row($i,$selec_color1,$selec_color2){
 #
 function doListaTag($i,$tag,$contenidoTag,$id=""){
          if($i>0){
-                if($id){
-                	$idTag=' id="'.$id.'"';
-                };
-                $rows='<'.$tag.$idTag.'>'."\n\r";
-                $rows.=$contenidoTag;
-                $rows.='</'.$tag.'>'."\n\r";
+                if(@$id){$idTag=' id="'.$id.'"';};
+                $rows='<'.$tag.$idTag.'>'.$contenidoTag.'</'.$tag.'>';
          }
 
         return $rows;
@@ -441,25 +437,9 @@ function prepare2sqlregexp($string)
 
 
 // string 2 URL legible
-// based on source from http://code.google.com/p/pan-fr/
-function string2url ( $string )
-{
-		$string = strtr($string,
-		"�������������������������������������������������������",
-		"AAAAAAaaaaaaCcOOOOOOooooooEEEEeeeeIIIIiiiiUUUUuuuuYYyyNn");
-
-		$string = str_replace('�','AE',$string);
-		$string = str_replace('�','ae',$string);
-		$string = str_replace('�','OE',$string);
-		$string = str_replace('�','oe',$string);
-
-		$string = preg_replace('/[^a-z0-9_\s\'\:\/\[\]-]/','',strtolower($string));
-
-		$string = preg_replace('/[\s\'\:\/\[\]-]+/',' ',trim($string));
-
-		$res = str_replace(' ','-',$string);
-
-		return $res;
+function string2url ( $string ){
+	include_once('URLify.php');
+    return URLify::filter ($string);
 }
 
 //This function is a part of DAlbum.  Copyright (c) 2003 Alexei Shamov, DeltaX Inc.
@@ -512,6 +492,54 @@ function wiki2html($wikitext)
 	return $inter_text;
 }
 
+/* Convert wiki text to html for output */
+//This function is a part of http://svn.studentrobotics.org/ ide2/
+function wiki2link($wikitext)
+{
+	if(!isset($wikitext) || $wikitext == "")
+		return FALSE;
+
+	$inter_text	= $wikitext;
+	while(strpos($inter_text,"[[") && strpos($inter_text,"]]"))
+	{
+		$link	= str_replace(array("[[", "]]"), "", substr($inter_text, strpos($inter_text, "[["), (strpos($inter_text, "]]")-strpos($inter_text, "[["))));
+		if(strpos($link, "|"))
+			list($href, $title)	= explode("|", $link);
+		else
+			$inter_text	= str_replace('[['.$link.']]', string2gloss($link,array($_SESSION[$_SESSION["CFGURL"]]["_GLOSS_NOTES"])), $inter_text);
+			
+	}
+
+
+	return $inter_text;
+}
+
+
+
+
+//Create link and tooltip for given string
+function string2gloss($string,$noteTypes=array("NA")){
+
+	$sqlTerm=SQLbuscaExacta(html2txt($string));
+	$arrayTerm=$sqlTerm->FetchRow();
+	
+	$sqlNotes=SQLdatosTerminoNotas($arrayTerm["tema_id"],$noteTypes);
+	if(SQLcount($sqlNotes)>0){
+		while($arrayNote=$sqlNotes->FetchRow()){			
+			$description.=$arrayNote["nota"].' ';
+			}
+
+		$text=html2txt($description);	
+	}else{
+			$text=ucfirst(LABEL_Detalle).' '.$arrayTerm["tema"];
+	}	
+		
+	if($arrayTerm["tema_id"]){
+		return '<a href="'.URL_BASE.'index.php?tema='.$arrayTerm["tema_id"].'" class="autoGloss" data-toggle="tooltip" data-placement="right" title="'.$text.'">'.$string.'</a>';
+	}else{
+		return '<a href="'.URL_BASE.'index.php?'.FORM_LABEL_buscar.'='.$string.'&amp;sgs=off" title="'.ucfirst(LABEL_Detalle).' '.$string.'">'.$string.'</a>';
+	}
+}
 
 /*
 * Apartir de uma lista de palavras e uma palavra,
@@ -912,35 +940,41 @@ function loadConfigValues($renew="0"){
   //Web URL BASE
   define('URL_BASE',getURLbase());
 
-
 	//renovar valores
 	if($renew=='1'){
 		GLOBAL $DBCFG;
 
 		$sql=SQL("select","v.value_id,v.value_type,v.value,v.value_code,v.value_order
-						from $DBCFG[DBprefix]values v	where v.value_type='config'");
+						from $DBCFG[DBprefix]values v where v.value_type='config'");
 
 	 if(SQLcount($sql)>0){
-	    $NEWarrayCFGs=array();
+    $NEWarrayCFGs=array();
 
-      while ($array=$sql->FetchRow()){
+     while ($array=$sql->FetchRow()){
 
-				switch ($array[value]){
-						case 'CFG_MAX_TREE_DEEP':
+		switch ($array[value]){
+			case 'CFG_MAX_TREE_DEEP':
 						$array[value_code] = (in_array($array[value_code],array(1,2,3,4,5,6))) ? $array[value_code] : $arrayCFGs[$array[value]];
 						break;
 
-						case 'CFG_MIN_SEARCH_SIZE':
+			case 'CFG_MIN_SEARCH_SIZE':
 						$array[value_code] = (in_array($array[value_code],array(1,2,3,4,5,6))) ? $array[value_code] : $arrayCFGs[$array[value]];
 						break;
 
-						case 'CFG_NUM_SHOW_TERMSxSTATUS':
+			case 'CFG_NUM_SHOW_TERMSxSTATUS':
 						$array[value_code] = (in_array($array[value_code],array(50,100,150,200,250))) ? $array[value_code] : $arrayCFGs[$array[value]];
-						break;
+				break;
+			case '_GLOSS_NOTES':
+						$array[value_code] = (!$array["value_code"]) ? $arrayCFGs[$array["value"]] : $array["value_code"] ;
+				break;
 
-						default:
-						$array[value_code] = (in_array($array[value_code],array(1,0))) ? $array[value_code] : $arrayCFGs[$array[value]];
-					}
+			case '_SHOW_RANDOM_TERM':
+						$array[value_code] = (!$array["value_code"]) ? $arrayCFGs[$array["value"]] : $array["value_code"] ;
+				break;
+
+				default:
+				$array[value_code] = (in_array($array[value_code],array(1,0))) ? $array[value_code] : $arrayCFGs[$array[value]];
+			}
 
 			   $NEWarrayCFGs[$array["value"]]= $array["value_code"];
 			}
@@ -1403,5 +1437,11 @@ function checkAllowPublication($file){
 }
 
     ;
+}
+
+function toASCII( $str )
+{
+	include_once('URLify.php');
+    return URLify::downcode ($str);
 }
 ?>

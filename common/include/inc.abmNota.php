@@ -88,7 +88,9 @@ $arrayNota[lang_nota] = (!$arrayNota[lang_nota]) ? $_SESSION["CFGIdioma"] : $arr
             </div>
                 <div class="form-group">
                     <label for=""<?php echo LABEL_nota;?>" class="col-sm-3 control-label"><?php echo ucfirst(LABEL_nota);?></label>
+
                     <div class="col-sm-9">
+                    <span class="help-block"><?php echo MSG_helpNoteEditor;?></span>
                       <textarea style="width:100%" cols="60" name="<?php echo FORM_LABEL_nota;?>" rows="15" id="<?php echo LABEL_nota;?>"><?php echo $arrayNota["nota"];?></textarea>
                     </div>
                 </div>

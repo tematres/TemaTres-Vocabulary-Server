@@ -598,6 +598,9 @@ class XMLvocabularyServices {
 				$listaCandidatos.= $arraySimilar[tema].'|';
 			}
 
+			$listaCandidatos=explode("|",$listaCandidatos);
+			$similar = new Qi_Util_Similar($listaCandidatos, $string);
+			$sugerencia= $similar->sugestao();
 		}
 
 		$evalSimilar=evalSimiliarResults($string, $sugerencia);

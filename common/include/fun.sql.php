@@ -331,15 +331,9 @@ function SQLSimpleSearchTrueTerms($texto,$limit="20"){
 function SQLbuscaExacta($texto){
 
 	GLOBAL $DBCFG;
-
 	GLOBAL $DB;
-
-
 	$texto=trim($texto);
-
 	$texto=$DB->qstr($texto,get_magic_quotes_gpc());
-
-
 	$codUP=UP_acronimo;
 
 	//Control de estados
@@ -455,6 +449,7 @@ function SQLdatosTerminoNotas($tema_id,$array_tipo_nota=array()){
 	where
 	notas.id_tema=tema.tema_id
 	and notas.tipo_nota=v.value_code
+	and v.value_type='t_nota'
 	and tema.tema_id='$tema_id'
 	$where
 	order by v.value_order,notas.tipo_nota,notas.cuando");
@@ -3660,4 +3655,24 @@ function SQLrandomTerms($note_type=""){
 			order by rand()
 			limit 0,1");
 };
+
+
+//provide ARRAY with type of notes enable
+function ARRAYnoteTypes($excludeTypeNotes=array()){
+
+  	$sqlNoteType=SQLcantNotas();
+	$arrayNoteType=array();
+	while ($array=$sqlNoteType->FetchRow()){
+		if(!in_array($array["value_code"],$excludeTypeNotes)){
+			$arrayNoteType["$array[value_code]"]["value_code"].=$array["value_code"];
+			$arrayNoteType["$array[value_code]"]["value"].=$array["value"];
+			$arrayNoteType["$array[value_code]"]["value_id"].=$array["value_id"];
+			$arrayNoteType["$array[value_code]"]["value_order"].=$array["value_order"];
+			$arrayNoteType["$array[value_code]"]["tipo_nota"].=$array["tipo_nota"];
+			$arrayNoteType["$array[value_code]"]["cant"].=$array["cant"];
+		    }
+  		};		
+  	return $arrayNoteType;
+}
+
 ?>

@@ -93,13 +93,11 @@ elseif(($_SESSION[$_SESSION["CFGURL"]][ssuser_id])&&($_GET["verT"])){
 		break;
 		};
 	echo '</div>';
-}
-//Mostrar terminos topes
-elseif($_SESSION[$_SESSION["CFGURL"]]["_SHOW_TREE"]=='1'){
-	echo HTMLtopTerms($letra);
-} elseif($_SESSION[$_SESSION["CFGURL"]]["_SHOW_TREE"]=='0'){
+}else{
 	echo '<div class="container" id="bodyText">';
 	echo HTMLlistaAlfabeticaUnica($letra);
+	if($_SESSION[$_SESSION["CFGURL"]]["_SHOW_RANDOM_TERM"]!=='0') echo HTMLdisplayRandomTerm($_SESSION[$_SESSION["CFGURL"]]["_SHOW_RANDOM_TERM"]);
+	if($_SESSION[$_SESSION["CFGURL"]]["_SHOW_TREE"]=='1') echo HTMLtopTerms($letra);
 	echo '</div>';
 }
 ?>

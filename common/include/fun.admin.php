@@ -1,5 +1,5 @@
 <?php
-if ((stristr( $_SERVER['REQUEST_URI'], "session.php") ) || ( !defined('T3_ABSPATH') )) die("no access");
+if ((stristr( $_SsRVER['REQUEST_URI'], "session.php") ) || ( !defined('T3_ABSPATH') )) die("no access");
 #   TemaTres : aplicación para la gestión de lenguajes documentales #       #
 #                                                                        #
 #   Copyright (C) 2004-2008 Diego Ferreyra tematres@r020.com.ar
@@ -1194,8 +1194,17 @@ switch($do){
 				where id= '$vocabulario_id'");
 
 	//It is the main vocabulary => change config values
-	if($vocabulario_id=='1')
-	{
+	if($vocabulario_id=='1'){
+
+
+		//enable note types
+		$ARRAYnoteTypes=ARRAYnoteTypes(array('NP'));
+
+		foreach ($ARRAYnoteType as $noteType => $noteData) {
+				$enableTypeNotes[].=$noteData["value_code"];
+			}
+
+
 
 		$sql=SQL("select","v.value_id,v.value_type,v.value,v.value_code,v.value_order
 						from $DBCFG[DBprefix]values v
@@ -1203,19 +1212,22 @@ switch($do){
 
 		while ($array=$sql->FetchRow()){
 
-			$value_code=($_POST[$array["value"]]=='00') ? '0' : secure_data($_POST[$array[value]],"int");
+			$value_code=($_POST[$array["value"]]=='00') ? '0' : secure_data($_POST[$array["value"]],"alnum");
 
 			$sql_update=SQL("update","$DBCFG[DBprefix]values set value_code='$value_code' where value_type='config' and value='$array[value]'");
 
 		}
 
-		//Update to 1.72=> check if CFG_SUGGESTxWORD is defined
+		//Update from 1.72=> check if CFG_SUGGESTxWORD is defined
 		$ctrl=ARRAYfetchValueXValue('config','CFG_SUGGESTxWORD');
 		$ctrl20a=ARRAYfetchValueXValue('config','CFG_PUBLISH');
 		$ctrl20b=ARRAYfetchValueXValue('config','CFG_ALLOW_DUPLICATED');
+		$ctrl202a=ARRAYfetchValueXValue('config','_SHOW_RANDOM_TERM');
+		$ctrl202b=ARRAYfetchValueXValue('config','_GLOSS_NOTES');
 
-		if(!$ctrl[value_id])
-			{
+
+
+		if(!$ctrl["value_id"])			{
 				$value_code=($_POST["CFG_SUGGESTxWORD"]=='00') ? '0' : secure_data($_POST["CFG_SUGGESTxWORD"],"int");
 
 				$sql1_6x1_7b=SQL("insert","into `".$DBCFG[DBprefix]."values` (`value_type`, `value`, `value_order`, `value_code`) VALUES
@@ -1223,29 +1235,36 @@ switch($do){
 			}
 
 		//Update to 2.1=> check if CFG_PUBLISH is defined
-		if(!$ctrl20a[value_id])
-			{
+		if(!$ctrl20a["value_id"])			{
 				$value_code=($_POST["CFG_PUBLISH"]=='00') ? '0' : secure_data($_POST["CFG_PUBLISH"],"int");
 
 				$sql20x201a=SQL("insert","into `".$DBCFG[DBprefix]."values` (`value_type`, `value`, `value_order`, `value_code`) VALUES
 					('config', 'CFG_PUBLISH', NULL, '$value_code')");
 			}
 
-		if(!$ctrl20b[value_id])
-			{
+		if(!$ctrl20b["value_id"])			{
 				$value_code=($_POST["CFG_ALLOW_DUPLICATED"]=='00') ? '0' : secure_data($_POST["CFG_ALLOW_DUPLICATED"],"int");
 
 				$sql20x201a=SQL("insert","into `".$DBCFG[DBprefix]."values` (`value_type`, `value`, `value_order`, `value_code`) VALUES
 					('config', 'CFG_ALLOW_DUPLICATED', NULL, '$value_code')");
 			}
 
+		if(!$ctrl202a["value_id"])			{
+				$value_code=($_POST["_SHOW_RANDOM_TERM"]=='00') ? '0' : secure_data($_POST["_SHOW_RANDOM_TERM"],"alpha");
+
+				$sql20x202=SQL("insert","into `".$DBCFG["DBprefix"]."values` (`value_type`, `value`, `value_order`, `value_code`) VALUES
+					('config', '_SHOW_RANDOM_TERM', NULL, '$value_code')");
+			}
+
+		if(!$ctrl202b["value_id"])			{
+				$sql20x202=SQL("insert","into `".$DBCFG["DBprefix"]."values` (`value_type`, `value`, `value_order`, `value_code`) VALUES
+					('config', '_GLOSS_NOTES', NULL, '$_GLOSS_NOTES')");
+			}
+
 		//Update to 1.73=> check if CONTACT_MAIL is defined
-		if(ARRAYfetchValue('CONTACT_MAIL'))
-		{
+		if(ARRAYfetchValue('CONTACT_MAIL'))		{
 			$ADDcontactMail=ABM_value("MOD_SINGLE_VALUE",array("value_type"=>'CONTACT_MAIL',"value_code"=>'NULL',"value"=>$arrayTesa["contact_mail"]));
-		}
-		else
-		{
+		}		else		{
 			$ADDcontactMail=ABM_value("ADD_VALUE",array("value_type"=>'CONTACT_MAIL',"value_code"=>'NULL',"value"=>$arrayTesa["contact_mail"]));
 		}
 

@@ -456,4 +456,8 @@ define('MSG__GLOSSincludeAltLabel','include alternative terms');
 define('MSG__GLOSSdocumentationJSON','You can add Glossary to any HTML content using this JSON file with <a href="https://github.com/PebbleRoad/glossarizer" target="_blank" title="Glossarizer">Glossarizer</a>');
 define('LABEL_configGlossary','export source file for glossary');
 define('MSG_includeNotes','use note type:');
+define('LABEL_SHOW_RANDOM_TERM','presentar en la página de inicio un término seleccionado al azar. Se debe seleccionar un tipo de nota.');
+define('LABEL_opt_show_rando_term','show terms with type note::');
+define('MSG_helpNoteEditor','You can link terms using double brackets. Ex: Only [[love]] will save the world');
+define('LABEL_GLOSS_NOTES','Select which note type will be used to enrich (glossary) the terms who are marked with double brackets : [[glossary]]');
 ?>

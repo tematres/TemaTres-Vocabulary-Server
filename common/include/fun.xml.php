@@ -937,7 +937,7 @@ function do_meta_tag($arrayTermino=""){
 	if(secure_data($tema,"digit")){
 
 		//Si hay tema_id desde GET o POST
-		$tema_id = ($_POST[tema]) ? secure_data($_POST[tema],"digit") : secure_data($_GET[tema],"digit");
+		$tema_id = ($_POST["tema"]) ? secure_data($_POST["tema"],"digit") : secure_data($_GET["tema"],"digit");
 
 
 		//Si hay tema_id desde algún proceso
@@ -946,9 +946,8 @@ function do_meta_tag($arrayTermino=""){
 
 	$letra=isValidLetter($_GET[letra]);
 
-	if(secure_data($tema_id,"digit"))
-	{
-		$ARRAYdatosTermino=ARRAYverDatosTermino(secure_data($tema_id,"digit"));
+	if(secure_data($tema_id,"digit")){
+		$ARRAYdatosTermino=ARRAYverDatosTermino($tema_id);
 
 		$sub_title='; '.xmlentities($ARRAYdatosTermino[titTema]);
 		$ver_sub_title=xmlentities($ARRAYdatosTermino[titTema]).' - ';

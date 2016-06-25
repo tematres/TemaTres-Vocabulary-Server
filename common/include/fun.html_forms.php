@@ -1449,9 +1449,9 @@ function HTMLformAltaEquivalenciaTermino($ARRAYTermino){
 
 //View and edit config options
 function HTMLformConfigValues($array_vocabulario){
-	$si=LABEL_SI;
-	$no=LABEL_NO;
+
 	GLOBAL $arrayCFGs;
+ 
 	$sql=SQLconfigValues();
 	$NEWarrayCFGs=array();
 	while ($array=$sql->FetchRow()){
@@ -1461,7 +1461,7 @@ function HTMLformConfigValues($array_vocabulario){
 	$rows.='<div class="form-group">';
 	$rows.='<label class="col-sm-3 control-label" for="'.FORM_LABEL_jeraquico.'">'.ucfirst(FORM_LABEL_jeraquico).'</label>';
 	$rows.='<div class="col-sm-9">    <select id="'.FORM_LABEL_jeraquico.'" name="'.FORM_LABEL_jeraquico.'">';
-	$rows.=	doSelectForm(array("1#$si","2#$no"),$array_vocabulario["polijerarquia"]);
+	$rows.=	doSelectForm(array('1#'.LABEL_SI,'2#'.LABEL_NO),$array_vocabulario["polijerarquia"]);
 	$rows.='</select><span class="help-block">'.ucfirst(LABEL_jeraquico).'</span></div>';
 	$rows.='</div>';
 
@@ -1471,7 +1471,7 @@ function HTMLformConfigValues($array_vocabulario){
 			$rows.='<div class="form-group">';
 			$rows.='<label class="col-sm-5 control-label" for="'.$key.'">'.$key.'</label>';
 			$rows.='<div class="col-sm-5">     <select id="'.$key.'" name="'.$key.'">';
-			$rows.=	doSelectForm(array("1#$si","00#$no"),$NEWarrayCFGs[$key]);
+			$rows.=	doSelectForm(array('1#'.LABEL_SI,'00#'.LABEL_NO),$NEWarrayCFGs[$key]);
 			$rows.='</select>';
 			$rows.='<span class="help-block">'.ucfirst(LABEL_CFG_PUBLISH).'</span></div>';
 			$rows.='</div>';
@@ -1480,9 +1480,51 @@ function HTMLformConfigValues($array_vocabulario){
 			$rows.='<div class="form-group">';
 			$rows.='<label class="col-sm-5 control-label" for="'.$key.'">'.$key.'</label>';
 			$rows.='<div class="col-sm-5">     <select id="'.$key.'" name="'.$key.'">';
-			$rows.=	doSelectForm(array("1#$si","00#$no"),$NEWarrayCFGs[$key]);
+			$rows.=	doSelectForm(array('1#'.LABEL_SI,'00#'.LABEL_NO),$NEWarrayCFGs[$key]);
 			$rows.='</select>';
 			$rows.='<span class="help-block">'.ucfirst(LABEL_ALLOW_DUPLICATED).'</span></div>';
+			$rows.='</div>';
+			break;
+
+
+			case '_SHOW_RANDOM_TERM':
+			$ARRAYnoteType=ARRAYnoteTypes(array('NP'));
+
+			foreach ($ARRAYnoteType as $noteType => $noteData) {
+				//exclude private notes
+				$flagSelected=($NEWarrayCFGs[$key]==$noteData["value_code"]) ? 'SELECTED':"";	
+				$noteOption.='<option value="'.$noteData["value_code"].'" '.$flagSelected.'>'.$noteData["value"].' ('.$noteData["cant"].')</option>';
+				};
+
+			$noteSelect.='<option value="00">'.LABEL_NO.'</option>';
+			$noteSelect.=' <optgroup label="'.ucfirst(LABEL_opt_show_rando_term).'">'.$noteOption.'</optgroup>';
+
+			$rows.='<div class="form-group">';
+			$rows.='<label class="col-sm-5 control-label" for="'.$key.'">'.$key.'</label>';
+			$rows.='<div class="col-sm-5">     <select id="'.$key.'" name="'.$key.'">';
+			$rows.=	$noteSelect;
+			$rows.='</select>';
+			$rows.='<span class="help-block">'.ucfirst(LABEL_SHOW_RANDOM_TERM).'</span></div>';
+			$rows.='</div>';
+
+			empty($noteData);
+			empty($noteType);
+			break;
+
+			case '_GLOSS_NOTES':
+
+			foreach ($ARRAYnoteType as $noteType => $noteData) {
+				//exclude private notes
+				$flagSelected=($NEWarrayCFGs[$key]==$noteData["value_code"]) ? 'SELECTED':"";	
+				$_GLOSS_NOTESOptions.='<option value="'.$noteData["value_code"].'" '.$flagSelected.'>'.$noteData["value"].' ('.$noteData["cant"].')</option>';
+				};
+
+			$rows.='<div class="form-group">';
+			$rows.='<label class="col-sm-5 control-label" for="'.$key.'">'.$key.'</label>';
+			$rows.='<div class="col-sm-5">     <select id="'.$key.'" name="'.$key.'">';
+			$rows.=	$_GLOSS_NOTESOptions;
+			$rows.='</select>';			
+			$rows.='<span class="help-block">'.ucfirst(LABEL_GLOSS_NOTES).'</span></div>';
 			$rows.='</div>';
 			break;
 
@@ -1517,7 +1559,7 @@ function HTMLformConfigValues($array_vocabulario){
 			$rows.='<div class="form-group">';
 			$rows.='<label class="col-sm-5 control-label" for="'.$key.'">'.$key.'</label>';
 			$rows.='<div class="col-sm-5">     <select id="'.$key.'" name="'.$key.'">';
-			$rows.=	doSelectForm(array("1#$si","00#$no"),$NEWarrayCFGs[$key]);
+			$rows.=	doSelectForm(array('1#'.LABEL_SI,'00#'.LABEL_NO),$NEWarrayCFGs[$key]);
 			$rows.='</select>';
 			$rows.='<span class="help-block">'.ucfirst(NOTE_isMetaTermNote).'</span></div>';
 			$rows.='</div>';
@@ -1526,7 +1568,7 @@ function HTMLformConfigValues($array_vocabulario){
 			$rows.='<div class="form-group">';
 			$rows.='<label class="col-sm-5 control-label" for="'.$key.'">'.$key.'</label>';
 			$rows.='<div class="col-sm-5">     <select id="'.$key.'" name="'.$key.'">';
-			$rows.=	doSelectForm(array("1#$si","00#$no"),$NEWarrayCFGs[$key]);
+			$rows.=	doSelectForm(array('1#'.LABEL_SI,'00#'.LABEL_NO),$NEWarrayCFGs[$key]);
 			$rows.='</select>';
 			$rows.='<span class="help-block">'.ucfirst(LABEL_CFG_SUGGESTxWORD).'</span></div>';
 			$rows.='</div>';
@@ -1535,7 +1577,7 @@ function HTMLformConfigValues($array_vocabulario){
 			$rows.='<div class="form-group">';
 			$rows.='<label class="col-sm-5 control-label" for="'.$key.'">'.$key.'</label>';
 			$rows.='<div class="col-sm-5">     <select id="'.$key.'" name="'.$key.'">';
-			$rows.=	doSelectForm(array("1#$si","00#$no"),$NEWarrayCFGs[$key]);
+			$rows.=	doSelectForm(array('1#'.LABEL_SI,'00#'.LABEL_NO),$NEWarrayCFGs[$key]);
 			$rows.='</select>';
 			$rows.='<span class="help-block">'.ucfirst(arrayReplace(array('_USE_CODE','_SHOW_CODE','CFG_VIEW_STATUS','CFG_SIMPLE_WEB_SERVICE','_SHOW_TREE','_PUBLISH_SKOS','CFG_ENABLE_SPARQL'),array(LABEL__USE_CODE,LABEL__SHOW_CODE,LABEL_CFG_VIEW_STATUS,LABEL_CFG_SIMPLE_WEB_SERVICE,LABEL__SHOW_TREE,LABEL__PUBLISH_SKOS,LABEL__ENABLE_SPARQL),$key)).'</span></div>';
 			$rows.='</div>';
@@ -2165,11 +2207,10 @@ function HTMLformExportGlossary(){
 	$sqlNoteType=SQLcantNotas();
 	while($ARRAYnoteType=$sqlNoteType->FetchRow()){
 		$i_note=++$i_note;
-		$varNoteType=(in_array($ARRAYnoteType["value_id"],array(8,9,10,11,15))) ? arrayReplace(array(8,9,10,11,15),array(LABEL_NA,LABEL_NH,LABEL_NB,LABEL_NC),$ARRAYnoteType["value_id"]) : $ARRAYnoteType["value"];
 		if($ARRAYnoteType["cant"]>0){
 			$rows.='<div class="form-group">
 			<div class="col-sm-4">
-			<label for="note4gloss'.$ARRAYnoteType["value_id"].'">'.$varNoteType.' ('.$ARRAYnoteType["cant"].')</label>
+			<label for="note4gloss'.$ARRAYnoteType["value_id"].'">'.$ARRAYnoteType["value"].' ('.$ARRAYnoteType["cant"].')</label>
 			</div>
 			<div class="col-sm-2">
 			<input name="note4gloss[]" type="checkbox" id="note4gloss'.$ARRAYnoteType["value_id"].'" value="'.$ARRAYnoteType["tipo_nota"].'" />
@@ -2186,13 +2227,14 @@ function HTMLformExportGlossary(){
 		</div>
 	</div>';
 
-	$rows.='<div class="col-sm-12 panel panel-default"><div class="panel-body">'.ucfirst(MSG__GLOSSdocumentationJSON).'</div></div>';
+
 
 	$rows.='<div class="form-group">
 							<div class="col-sm-12 text-center">
 							<input type="submit" class="btn btn-primary" id="boton" name="boton" value="'.ucfirst(LABEL_Guardar).'"/>
 							</div>
 					</div>';
+	$rows.='<div class="col-sm-12 panel panel-default"><div class="panel-body">'.ucfirst(MSG__GLOSSdocumentationJSON).'</div></div>';					
 	$rows.='				</div>
 					</div>
 			</div>

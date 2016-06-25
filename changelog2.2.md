@@ -19,8 +19,9 @@ Changelog TemaTres 2.2:
 - Export vocabularies in JSON format to glossaries. 
 - Massive task for free terms (change status, delete, associate with terms and more)
 - Utilities to export specific terms, facet or taxon in alphabetical or hierarchical format (for admins)
-- New facilities to reuse terms or change the structure of the vocabulary
-- Fix minor bugs
+- Facilities to reuse terms or change the structure of the vocabulary
+- New capabilities to use notes as glossaries and as tools to semantically enrich the vocabulary (auto-gloss)
+- New export format in JSON to integrate glossaries and vocabularies in distributed content- Fix minor bugs
 
 
 Many thanks to the feedback provided by TemaTres community :)

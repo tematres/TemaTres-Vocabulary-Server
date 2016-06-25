@@ -39,20 +39,23 @@ Define specific excluded characters from the alphabetic menu
  */
 $CFG["_EXCLUDED_CHARS"]=array("<",">","[","]","(",")",'"',"'","|");
 
-$arrayCFGs =array('CFG_MAX_TREE_DEEP'=>'3',
-				  'CFG_MIN_SEARCH_SIZE'=>'2',
-				  'CFG_NUM_SHOW_TERMSxSTATUS'=>'200',
-				  '_USE_CODE'=>'0',
-				  '_SHOW_CODE'=>'0',
-				  'CFG_VIEW_STATUS'=>'0',
-				  'CFG_SIMPLE_WEB_SERVICE'=>'1',
-				  '_SHOW_TREE'=>'1',
-				  '_PUBLISH_SKOS'=>'2',
-				  'CFG_SEARCH_METATERM'=>'0',
-				  'CFG_ENABLE_SPARQL'=>'0',
-				  'CFG_SUGGESTxWORD'=>'1',
-				  'CFG_ALLOW_DUPLICATED'=>'0',
-				  'CFG_PUBLISH'=>'1');
+$arrayCFGs =array(	'CFG_PUBLISH'=>'1',
+					'CFG_ALLOW_DUPLICATED'=>'0',
+				 	'CFG_MAX_TREE_DEEP'=>'3',
+				 	'_SHOW_TREE'=>'1',
+					'_SHOW_RANDOM_TERM'=>'0',
+					'_GLOSS_NOTES'=>'NA',
+					'_USE_CODE'=>'0',
+					'_SHOW_CODE'=>'0',
+					'CFG_NUM_SHOW_TERMSxSTATUS'=>'200',
+					'CFG_VIEW_STATUS'=>'0',
+					'CFG_MIN_SEARCH_SIZE'=>'2',
+					'CFG_SEARCH_METATERM'=>'0',
+					'CFG_SUGGESTxWORD'=>'1',
+					'CFG_SIMPLE_WEB_SERVICE'=>'1',
+					'_PUBLISH_SKOS'=>'2',
+					'CFG_ENABLE_SPARQL'=>'0',
+				  );
 
 $CFG["CONFIG_VAR"]=array('2','3','4','config','DATESTAMP','t_estado','t_nota','t_relacion','t_usuario','URI_TYPE','METADATA','CONTACT_MAIL');
 

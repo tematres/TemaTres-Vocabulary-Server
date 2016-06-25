@@ -511,4 +511,8 @@ define('MSG__GLOSSincludeAltLabel','incluir términos alternativos');
 define('MSG__GLOSSdocumentationJSON','La fuente JSON del glosario puede ser integrada con cualquier contenido HTML utilizando la librería <a href="https://github.com/PebbleRoad/glossarizer" target="_blank" title="Glossarizer">Glossarizer</a>');
 define('LABEL_configGlossary','exportar fuente de datos para glosario');
 define('MSG_includeNotes','utilizar notas de tipo:');
+define('LABEL_SHOW_RANDOM_TERM','presentar en la página de inicio un término seleccionado al azar. Se debe seleccionar un tipo de nota.');
+define('LABEL_opt_show_rando_term','presentar términos con nota:');
+define('MSG_helpNoteEditor','Puede vincular términos utilizando corchetes dobles. Ej: Sólo el [[amor]] salvará el mundo');
+define('LABEL_GLOSS_NOTES','Seleccionar tipo de nota para glosar términos marcados con corchetes dobles: [[glosario]]');
 ?>
