@@ -21,7 +21,12 @@ Changelog TemaTres 2.2:
 - Utilities to export specific terms, facet or taxon in alphabetical or hierarchical format (for admins)
 - Facilities to reuse terms or change the structure of the vocabulary
 - New capabilities to use notes as glossaries and as tools to semantically enrich the vocabulary (auto-gloss)
-- New export format in JSON to integrate glossaries and vocabularies in distributed content- Fix minor bugs
+- New export format in JSON to integrate glossaries and vocabularies in distributed content
+- Fix minor bugs
+
+Revisar qué pasa si tiene más de una nota del tipo seleccionado
+- armar glosador: buscar y reemplaza térmnos por [[términos]]: 
+		excluye: el término mismo, reemplaza palabras completas, excluye [[término]]
 
 
 Many thanks to the feedback provided by TemaTres community :)

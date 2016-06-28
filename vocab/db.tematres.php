@@ -31,7 +31,7 @@ $DBCFG["DBdriver"] ="";
 $DBCFG["Server"]      = "localhost";
 
 //  Nombre de la base de datos Database name
-$DBCFG["DBName"]     = "tematres";
+$DBCFG["DBName"]     = "tematres_caicyt";
 
 //  Nombre de usuario - login
 $DBCFG["DBLogin"]    = "root";
@@ -40,7 +40,7 @@ $DBCFG["DBLogin"]    = "root";
 $DBCFG["DBPass"] = "";
 
 //  Prefijo para tablas # Prefix for tables
-$DBCFG["DBprefix"] = "ciafic__es_";                
+$DBCFG["DBprefix"] = "oecd__es_";                
 
 
 $DBCFG["DBcharset"] ="utf8";

@@ -448,7 +448,7 @@ function HTMLbodyTermino($array){
 	if($_SESSION[$_SESSION["CFGURL"]]["ssuser_id"]>0){
 		$body.='<h3 class="term "id="term"><span id="edit_tema'.$array["tema_id"].'" class="edit_area_term">'.$array["titTema"].'</span></h3> ' ;
 	} else{
-		$body.='<h3  class="termDefinition" data-content="'.TXTtermDefinition($array).'" rel="popover" data-placement="top" data-trigger="hover">'.$array["titTema"].'</h3>';
+		$body.='<h3  class="termDefinition" data-content="'.TXTtermDefinition($array,array($_SESSION[$_SESSION["CFGURL"]]["_GLOSS_NOTES"])).'" rel="popover" data-placement="top" data-trigger="hover">'.$array["titTema"].'</h3>';
 	}
 
 
@@ -2088,23 +2088,11 @@ $rows.='<script type="text/javascript">
 		$(".autoGloss").tooltip(options);
 	  </script>';
 
-/*
-$rows.=' <script src="'.T3_WEBPATH.'jq/jquery.glossarize.js"></script>';
-$rows.=' <script>
-  $(function(){
-    $(".NA").glossarizer({
-      sourceURL: "source.json",
-      lookupTagName :"p",
-      replaceOnce :"true"
-    });
-  });
-  </script>';
-  */
 return $rows;
 }
 
 // specific note types for contextual term definition
-function TXTtermDefinition($array,$noteType=array("DEF","NA","SN")){
+function TXTtermDefinition($array,$noteType=array("DF","NA","SN")){
 	
 if(count($array["notas"])==0) return;
 
