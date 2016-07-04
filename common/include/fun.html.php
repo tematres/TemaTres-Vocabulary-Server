@@ -520,6 +520,7 @@ function HTMLmainMenu(){
 		$row.='<ul class="dropdown-menu">';
 		$row.='<li><a title="'.ucfirst(LABEL_lcConfig).'" href="admin.php?vocabulario_id=list">'.ucfirst(LABEL_lcConfig).'</a></li>';
 		$row.='<li><a title="'.ucfirst(MENU_bulkEdition).'" href="admin.php?doAdmin=bulkReplace">'.ucfirst(MENU_bulkEdition).'</a></li>';
+		$row.='<li><a title="'.ucfirst(MENU_glossConfig).'" href="admin.php?doAdmin=glossConfig">'.ucfirst(MENU_glossConfig).'</a></li>';
 		$row.='<li><a title="'.ucfirst(MENU_Usuarios).'" href="admin.php?user_id=list">'.ucfirst(MENU_Usuarios).'</a></li>';
 		$row.='<li><a title="'.ucfirst(LABEL_export).'" href="admin.php?doAdmin=export">'.ucfirst(LABEL_export).'</a></li>';
 
@@ -2117,7 +2118,6 @@ $sql=SQLrandomTerms($noteType);
 if(is_object($sql)){
 	$arrayTerm=$sql->FetchRow();
 	$ARRAYdatosTermino=ARRAYverDatosTermino($arrayTerm["term_id"]);
-
 	for($iNota=0; $iNota<(count($ARRAYdatosTermino["notas"])); ++$iNota){
 
 		if(($ARRAYdatosTermino["notas"][$iNota]["tipoNota"]==$noteType) && ($ARRAYdatosTermino["notas"][$iNota]["lang_nota"]==$_SESSION["CFGIdioma"])){
@@ -2132,6 +2132,6 @@ $rows.='  <p><a class="btn btn-primary btn-lg" href="'.URL_BASE.'index.php?tema=
 $rows.='</div>';
 }
 
-return $rows;
+if($iNota>0) return $rows;
 }
 ?>

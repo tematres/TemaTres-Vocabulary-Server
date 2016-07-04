@@ -7,7 +7,6 @@ if ((stristr( $_SERVER['REQUEST_URI'], "session.php") ) || ( !defined('T3_ABSPAT
 #
 ###############################################################################################################
 # funciones de consulta SQL #
-
 #
 # Cantidad de términos relacionados generales y por usuarios
 #
@@ -2365,7 +2364,15 @@ function SQLreCreateTermIndex()
 	$sql=SQL("update"," $DBCFG[DBprefix]tema set cuando_final=null where cuando_final='0000-00-00' ");
 	$sql=SQL("update"," $DBCFG[DBprefix]tema set cuando=now() where cuando='0000-00-00' ");
 
-	return array("cant_terms_index"=>$i);
+	$sqlNotes=SQL("select","n.id,n.nota from $DBCFG[DBprefix]notas n ");
+	
+
+	while($arrayNotes=$sqlNotes->FetchRow()){
+		$noteNormal=html_entity_decode($arrayNotes["nota"]);
+		$sqlUpdateNote=SQL("update","$DBCFG[DBprefix]notas set nota='$noteNormal' where id=$arrayNotes[id]");
+	}
+
+return array("cant_terms_index"=>$i);
 }
 
 

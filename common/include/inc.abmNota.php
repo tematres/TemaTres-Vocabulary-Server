@@ -18,7 +18,7 @@ if ((stristr( $_SERVER['REQUEST_URI'], "session.php") ) || ( !defined('T3_ABSPAT
   if($editNota){
     $arrayNota=ARRAYdatosNota($editNota);
 
-    if($arrayNota[idNota]){//Edicion
+    if($arrayNota["idNota"]){//Edicion
 		$hidden.='<input type="hidden" name="idNota" value="'.$arrayNota["idNota"].'" />';
 		$hidden.='<input type="hidden" name="taskNota" value="edit" />';
 
@@ -54,10 +54,10 @@ foreach ($CFG["ISO639-1"] as $langs) {
 	array_push($arrayLang,"$langs[0]#$langs[1]");
 	};
 //idioma de la nota
-$arrayNota[lang_nota] = (!$arrayNota[lang_nota]) ? $_SESSION["CFGIdioma"] : $arrayNota[lang_nota];
+$arrayNota["lang_nota"] = (!$arrayNota["lang_nota"]) ? $_SESSION["CFGIdioma"] : $arrayNota["lang_nota"];
 ?>
 <div class="container" id="bodyText">
-<a class="topOfPage" href="index.php?tema=<?php echo $metadata["arraydata"]["tema_id"];?>" title="<?php echo LABEL_Anterior;?>"><?php echo LABEL_Anterior;?></a>
+<a class="topOfPage" href="<?php echo URL_BASE;?>index.php?tema=<?php echo $metadata["arraydata"]["tema_id"];?>" title="<?php echo LABEL_Anterior;?>"><?php echo LABEL_Anterior;?></a>
 <h3><?php echo LABEL_EditorNota ;?></h3>
 <form class="" role="form" name="altaNota" id="altaNota" action="index.php" method="post">
 	<div class="row">

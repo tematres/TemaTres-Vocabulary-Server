@@ -451,8 +451,7 @@ function br2nl($text)
 
 //This function is a part of DAlbum.  Copyright (c) 2003 Alexei Shamov, DeltaX Inc.
 // convert html to text
-function html2txt($html)
-{
+function html2txt($html){
     //$ret = strtr($html, array_flip(get_html_translation_table(HTML_ENTITIES)));
     $ret = strtr($html, array_flip(get_html_translation_table()));
     $ret = strip_tags(br2nl($ret));
@@ -826,8 +825,7 @@ $rs = $DB->Execute($sql);
 
 if (!$rs) return array("error"=>$DB->ErrorMsg());
 
-	switch($todo)
-		{
+	switch($todo){
 		case 'insert':
 		return array("cant"=>$DB->Insert_ID());
 		break;
@@ -1285,19 +1283,14 @@ function setPassword($user_id,$user_pass,$to_hash=0)
  *
  * Sanitice unidimensional arrays
  */
-function XSSpreventArray($array)
-{
+function XSSpreventArray($array){
 
-	if( is_array($array) )
-	{
-		while( list($k, $v) = each($array) )
-		{
-						$array[$k] = XSSprevent($v);
-		}
+	if( is_array($array) )	{
+		while( list($k, $v) = each($array) )		{
+						$array[$k] = XSSprevent($v);		}
 		@reset($array);
 	}
-	else
-	{
+	else	{
 			$array=array();
 	};
 
@@ -1311,8 +1304,7 @@ return $array;
 * Function from http://www.bin-co.com/php/scripts/array2json/
 *
 */
-function array2json(array $arr)
-{
+function array2json(array $arr){
 if(function_exists('json_encode')) return json_encode($arr); //Lastest versions of PHP already has this functionality.
 $parts = array();
 $is_list = false;

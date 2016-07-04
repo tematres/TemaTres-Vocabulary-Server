@@ -651,8 +651,7 @@ function actualizaArbolxTema($tema_id){
 
 	$sql=SQL("insert","into $DBCFG[DBprefix]indice values ('$tema_id','$esteindice')");
 
-	if(@$sql[error])
-		{
+	if(@$sql[error])		{
 		$sql=SQL("update","$DBCFG[DBprefix]indice set indice='$esteindice' where tema_id='$tema_id'");
 		}
 
@@ -843,29 +842,20 @@ GLOBAL $DB;
 
 $userId=$_SESSION[$_SESSION["CFGURL"]][ssuser_id];
 
-/*
-$nota=secure_data($nota,"sqlhtml");
-*/
+$tipoNota=$DB->qstr(trim($tipoNota),get_magic_quotes_gpc());
+$langNota=$DB->qstr(trim($langNota),get_magic_quotes_gpc());
+$nota=$DB->qstr(trim($nota),get_magic_quotes_gpc());
+$nota = html_entity_decode($nota);
 
-$tipoNota=trim($tipoNota);
-$langNota=trim($langNota);
-$nota=trim($nota);
 
 switch($do){
 	case 'A':
-	$tipoNota=$DB->qstr($tipoNota,get_magic_quotes_gpc());
-	$langNota=$DB->qstr($langNota,get_magic_quotes_gpc());
-	$nota=$DB->qstr($nota,get_magic_quotes_gpc());
-
 	$sql=SQL("insert","into $DBCFG[DBprefix]notas
 	(id_tema,tipo_nota,lang_nota,nota,cuando,uid)
 	values ($idTema,$tipoNota,$langNota,$nota,now(),$userId)");
 	break;
 
 	case 'M':
-	$tipoNota=$DB->qstr($tipoNota,get_magic_quotes_gpc());
-	$langNota=$DB->qstr($langNota,get_magic_quotes_gpc());
-	$nota=$DB->qstr($nota,get_magic_quotes_gpc());
 
 	$sql=SQL("update","$DBCFG[DBprefix]notas
 	set tipo_nota=$tipoNota,
@@ -3766,6 +3756,55 @@ function SQLbulkReplaceNote($from,$to,$where,$arrayNotes){
 						uid=$userId
 						where nota like BINARY $where_string
 						and id in ( $where_in )");
+}
+
+//bulk note editor
+function SQLbulkGlossNote($from,$to,$where,$notesType,$term_id,$replaceType=1){
+
+	GLOBAL $DBCFG;
+	$from_string=secure_data($from,"ADOsql");
+	$to_string=secure_data($to,"ADOsql");
+	$where_string=secure_data("%$where%","ADOsql");
+
+	$replaceType =($replaceType!==0) ? ' BINARY ' : '';
+
+	$userId=$_SESSION[$_SESSION["CFGURL"]]["ssuser_id"];
+
+
+	return SQL("update","$DBCFG[DBprefix]notas set nota=replace(nota, $from_string, $to_string),
+						cuando=now(),
+						uid=$userId
+						where nota like $replaceType $where_string
+						and tipo_nota='$notesType'
+						and id_tema!='$term_id'");
+}
+
+
+//replace double char in notes
+function SQLfixDobleChar4Notes($notesType,$char,$charX2){
+
+	return SQL("update","$DBCFG[DBprefix]notas set nota=replace(nota, $charX2, $char)
+						where nota like BINARY $charX2
+						and tipo_nota='$notesType'");
+
+}
+
+
+//replace HTML entities 2 chars in notes 
+function SQLnoteshtml2chars(){
+
+	GLOBAL $DBCFG;
+
+	$sql=SQL("select","n.id,n.nota from $DBCFG[DBprefix]notas n");
+
+	while($array=$sql->FetchRow()){
+
+		$nota=html_entity_decode($array["nota"]);
+
+		$SQLupdate=SQL("update","$DBCFG[DBprefix]notas set nota='$nota'
+						where id=$array[id]");
+	};
+
 }
 
 

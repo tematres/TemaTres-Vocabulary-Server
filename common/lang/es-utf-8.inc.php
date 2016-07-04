@@ -518,4 +518,12 @@ define('LABEL_SHOW_RANDOM_TERM','presentar en la página de inicio un término s
 define('LABEL_opt_show_rando_term','presentar términos con nota:');
 define('MSG_helpNoteEditor','Puede vincular términos utilizando corchetes dobles. Ej: Sólo el [[amor]] salvará el mundo');
 define('LABEL_GLOSS_NOTES','Seleccionar tipo de nota para glosar términos marcados con corchetes dobles: [[glosario]]');
+define('LABEL_bulkGlossNotes','glosar la nota de tipo');
+define('MSG__autoGlossInfo','Este proceso vincula términos existentes en el vocabulario con sus menciones en notas utilizando la notación Wiki (Ej: <i>Sólo el [[amor]] salvará el mundo</i>). Es una operación de búsqueda y reemplazo de texto <strong>sensible a mayúsculas</strong>.');
+define('MSG__autoGlossDanger','Esta operación modifica datos de manera IRREVERSIBLE. Antes de proceder, realice un respaldo de seguridad');
+define('LABEL_replaceBinary','Sensible mayúsculas y acentos');
+define('MSG_notesAffected','notas afectadas');
+define('MSG_cantTermsFound','términos encontrados');
+define('MENU_glossConfig','configurar autoglosario');
+define('LABEL_generateAutoGlossary','generación de auto-glosario');
 ?>

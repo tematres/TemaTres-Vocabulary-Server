@@ -159,11 +159,15 @@ if($_SESSION[$_SESSION["CFGURL"]]["ssuser_id"]){
 	//Formulario de exportación
 	if($_GET["doAdmin"]=='export'){
 		echo HTMLformExport();
-		echo HTMLformExportGlossary();
 		}
 
 	if($_GET["doAdmin"]=='bulkReplace'){
 		echo HTMLformBulkReplace($_POST);
+		}
+
+	if($_GET["doAdmin"]=='glossConfig'){
+		echo HTMLbulkGlossTerms($_GET);
+		echo HTMLformExportGlossary($_POST);
 		}
 
 	//Regenerate indice table

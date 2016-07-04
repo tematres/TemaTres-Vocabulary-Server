@@ -2140,6 +2140,8 @@ function HTMLbulkReplaceResultsTerms($params){
 	}
 	return $rows;
 }
+
+
 function HTMLbulkReplaceResultsNotes($params){
 	$search_string=XSSprevent($params["search_string"]);
 	$replace_string=XSSprevent($params["replace_string"]);
@@ -2361,4 +2363,113 @@ $rows.='<script type=\'text/javascript\'>//<![CDATA[
 			</script>';
 return $rows;
 };
+
+
+#Form for config bulk replace to auto-gloss
+function HTMLbulkGlossTerms($params){
+
+GLOBAL $CFG;
+
+$params["replaceType"]=($params["replaceType"]!==0) ? 1 : $params["replaceType"];
+
+$params["note4gloss"]=($params["note4gloss"]) ? $params["note4gloss"] : $_SESSION[$_SESSION["CFGURL"]]["_GLOSS_NOTES"];
+
+if($params["makeAutoGloss"]==1){
+
+	SQLnoteshtml2chars();
+
+	$sql=SQLreportTerminosPreferidos();
+	
+	$i_replace=0;
+	
+	while($result=$sql->FetchRow()){
+		$search_string=' '.$result["tema"].' ';
+		$replace_string=' [['.$result["tema"].']] ';
+		
+			$sql2=SQLbulkGlossNote($search_string,$replace_string,$search_string,$params["note4gloss"],$result["id"]);	
+
+			if($sql2["cant"]>0){
+				$i_replace=++$i_replace;
+				$arrayLog[$result["id"]]=$sql2["cant"];
+				$rowsLog.='<tr><td><a href="'.URL_BASE.'index.php?tema='.$result["id"].'" title="'.$result["id"].'">'.$result["tema"].'</a></td><td>'.$sql2["cant"].'</td></tr>';
+			}
+	}
+
+	SQLfixDobleChar4Notes($params["note4gloss"],"[[","[[[[");
+	SQLfixDobleChar4Notes($params["note4gloss"],"]]","]]]]");
+
+
+	$rowsResult='<div class="panel-body"><h4>'.ucfirst(MSG_cantTermsFound).': '.$i_replace.'</h4>';
+	if($i_replace>0){
+		$rowsResult.='<div class="table-responsive"> ';
+		$rowsResult.='<table class="table table-striped table-bordered table-condensed table-hover"">';
+		$rowsResult.='<thead><tr>';
+		$rowsResult.='<th>'.ucfirst(LABEL_Termino).'</th><th>'.ucfirst(MSG_notesAffected).'</th></tr></thead><tbody>';
+		$rowsResult.=$rowsLog;
+		$rowsResult.='</tbody></table></div></div>';	
+	}
+}
+
+	$ARRAYnoteType=ARRAYnoteTypes(array('NP'));
+
+	foreach ($ARRAYnoteType as $noteType => $noteData) {
+				//exclude private notes
+		$flagSelected=($params["note4gloss"]==$noteData["value_code"]) ? 'SELECTED':"";	
+		$_GLOSS_NOTESOptions.='<option value="'.$noteData["value_code"].'" '.$flagSelected.'>'.$noteData["value"].' ('.$noteData["cant"].')</option>';
+		};
+
+
+	$rows.='<form class="" role="form" name="configGlossary" id="configGlossary" action="admin.php" method="get">';
+	$rows.='	<div class="row">
+	    <div class="col-sm-12">
+	        <legend>'.ucfirst(LABEL_generateAutoGlossary).'</legend>
+	    </div>
+	    <!-- panel  -->';
+
+	$rows.=$rowsResult;
+
+	$rows.=' <div class="col-lg-7">
+<div class="col-sm-12  alert alert-info"><div class="panel-body">'.ucfirst(MSG__autoGlossInfo).'</div></div>	
+	        <div class="panel panel-default">
+	            <div class="panel-body form-horizontal">';
+	$rows.='          <div class="form-group">';
+
+	$rows.='<label for="simpleReport" class="col-sm-3 control-label">'.ucfirst(LABEL_bulkGlossNotes).'</label>
+
+	                <div class="col-sm-9">
+	                    <select class="form-control" id="note4gloss" name="note4gloss">
+	                    '.$_GLOSS_NOTESOptions.'
+	                    </select>
+	                </div>
+	            </div>';
+	/*$rows.='<div class="form-group">
+				<input type="checkbox" name="replaceType" id="replaceType" value="1" alt="'.ucfirst(LABEL_esFraseExacta).'" '.do_check(1,$params["replaceType"],'checked').'  /> 
+					<div class="col-sm-4">
+					<label for="replaceType">'.ucfirst(LABEL_esFraseExacta).'</label>
+					<span class="help-block">'.ucfirst(LABEL_replaceBinary).'</span>
+					</div>
+			</div>';
+	*/		
+	$rows.='<div class="col-sm-12  alert alert-danger"><div class="panel-body">'.ucfirst(MSG__autoGlossDanger).'</div></div>';	
+
+
+
+	$rows.='<div class="form-group">
+							<div class="col-sm-12 text-center">
+							<input type="submit" class="btn btn-primary" id="boton" name="boton" value="'.ucfirst(LABEL_Enviar).'"/>
+							<input type="hidden" id="makeAutoGloss" name="makeAutoGloss" value="1"/>
+							<input type="hidden" id="doAdmin" name="doAdmin" value="glossConfig"/>
+							</div>
+					</div>';
+				
+	$rows.='				</div>
+					</div>
+			</div>
+		</div> <!-- / panel  -->';
+		$rows.='<input type="hidden"  name="dis" id="dis" value="jglossary"/>';
+		$rows.='<input type="hidden"  name="task" id="task" value="exportGlossary"/>';
+		$rows.='</form>';
+
+	return $rows;	
+}
 ?>
