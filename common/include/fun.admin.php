@@ -685,9 +685,7 @@ switch($do){
 		$estado_id = (@$_POST[estado_id]) ? $_POST[estado_id] : '13';
 
 		$sql=SQLo("insert","into $DBCFG[DBprefix]tema (tema,tesauro_id,uid,cuando,estado_id,cuando_estado)
-			values ($titu_tema,?,?,now(),?,now())",
-
-		array($tesauro_id,$userId,$estado_id));
+			values ($titu_tema,?,?,now(),?,now())",array($tesauro_id,$userId,$estado_id));
 
 		$tema_id=$sql["cant"];
 		break;
@@ -844,8 +842,9 @@ $userId=$_SESSION[$_SESSION["CFGURL"]][ssuser_id];
 
 $tipoNota=$DB->qstr(trim($tipoNota),get_magic_quotes_gpc());
 $langNota=$DB->qstr(trim($langNota),get_magic_quotes_gpc());
-$nota=$DB->qstr(trim($nota),get_magic_quotes_gpc());
-$nota = html_entity_decode($nota);
+$nota=$DB->qstr(trim(html_entity_decode($nota)),get_magic_quotes_gpc());
+//$nota=$DB->qstr(trim($nota)),get_magic_quotes_gpc());
+
 
 
 switch($do){
