@@ -31,6 +31,7 @@ if ($_SESSION[$_SESSION["CFGURL"]][ssuser_nivel]>0){
 			theme_advanced_statusbar_location : "bottom",
 			theme_advanced_resizing : true,
 			content_css : "<?php echo T3_WEBPATH;?>css/style.css",
+			entity_encoding : "raw",
 
 			// Drop lists for link/image/media/template dialogs
 			external_link_list_url : "lists/link_list.js",

@@ -842,9 +842,10 @@ $userId=$_SESSION[$_SESSION["CFGURL"]][ssuser_id];
 
 $tipoNota=$DB->qstr(trim($tipoNota),get_magic_quotes_gpc());
 $langNota=$DB->qstr(trim($langNota),get_magic_quotes_gpc());
-$nota=$DB->qstr(trim(html_entity_decode($nota)),get_magic_quotes_gpc());
+$nota=$DB->qstr(trim($nota),get_magic_quotes_gpc());
+//prevent encoding proble
+//$nota=utf8_encode($nota);
 //$nota=$DB->qstr(trim($nota)),get_magic_quotes_gpc());
-
 
 
 switch($do){
