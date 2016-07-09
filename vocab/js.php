@@ -14,30 +14,25 @@ include("config.tematres.php");
 if ($_SESSION[$_SESSION["CFGURL"]][ssuser_nivel]>0){
 	?>
 	<!-- Load TinyMCE -->
-	$().ready(function() {
-		$('#<?php echo LABEL_nota;?>').tinymce({
-			// Location of TinyMCE script
-			script_url : '<?php echo T3_WEBPATH;?>tiny_mce/tiny_mce.js',
-
-			// General options
-			language : "<?php echo LANG;?>",
-			theme : "advanced",
-			plugins : "autolink,lists,pagebreak,style,layer,table,save,advhr,advimage,advlink,emotions,iespell,inlinepopups,insertdatetime,preview,media,searchreplace,print,contextmenu,paste,directionality,fullscreen,noneditable,visualchars,nonbreaking,xhtmlxtras,template,advlist",
-			// Theme options
-			theme_advanced_buttons1 : "bold,italic,underline,|,bullist,numlist,|,undo,redo,|,link,unlink,image,|,removeformat,cleanup,code",
-			theme_advanced_buttons2 : "cut,copy,paste,pastetext,pasteword,cleanup,help,code,|",
-			theme_advanced_toolbar_location : "top",
-			theme_advanced_toolbar_align : "left",
-			theme_advanced_statusbar_location : "bottom",
-			theme_advanced_resizing : true,
-			content_css : "<?php echo T3_WEBPATH;?>css/style.css",
-			entity_encoding : "raw",
-
-			// Drop lists for link/image/media/template dialogs
-			external_link_list_url : "lists/link_list.js",
-			external_image_list_url : "lists/image_list.js",
-			media_external_list_url : "lists/media_list.js",
-		});
+	tinymce.init({
+		selector: "textarea#<?php echo LABEL_nota;?>",
+		theme: "modern",
+		language : "<?php echo LANG;?>",
+		plugins: [
+			"advlist autolink autosave link image lists charmap preview hr anchor",
+			"searchreplace wordcount autolink visualchars code insertdatetime media nonbreaking",
+			"table contextmenu directionality textcolor paste  textcolor colorpicker autoresize preview save"
+		],
+		toolbar1: " bold italic underline strikethrough |  cut copy paste pastetext removeformat | searchreplace| undo redo ",
+		toolbar2: " bullist numlist | link unlink image media | preview code save ",
+  		code_dialog_width: 400,
+		menubar: false,
+		toolbar_items_size: 'small',
+		entity_encoding : "raw",
+		 fix_list_elements : true,
+		 height: 200,
+		 extended_valid_elements: 'img[class=myclass|!src|border:0|alt|width|height]',
+		 invalid_elements: 'style,script,html,body',
 	});
 	<!-- /TinyMCE -->
 
@@ -171,34 +166,6 @@ function expandLink( id ) {
 
 }
 
-
-function checkrequired(which) {
-    var pass=true;
-    if (document.images) {
-    for (i=0;i < which.length;i++) {
-    var tempobj=which.elements[i];
-    if (tempobj.name.substring(0,1)=="_") {
-    if (((tempobj.type=="text"||tempobj.type=="textarea"||tempobj.type=="password")&&
-    tempobj.value=='')||((tempobj.name=="<?php echo FORM_JS_confirmPass; ?>") && (document.login.<?php echo FORM_JS_pass; ?>.value!==tempobj.value))
-    )
-    {
-    pass=false;
-    break;
-        }
-    }
-    }
-    }
-    if (!pass) {
-
-    shortFieldName=tempobj.name.substring(1,25).toUpperCase();
-
-    alert("<?php echo FORM_JS_check; ?>"+shortFieldName+".");
-
-    return false;
-
-}else
- return true;
-}
 
 
 function askData() {

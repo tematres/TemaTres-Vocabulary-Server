@@ -23,6 +23,7 @@ Changelog TemaTres 2.2:
 - New capabilities to use notes as glossaries and as tools to semantically enrich the vocabulary (auto-gloss)
 - Can bulk create auto-gloss: search and replace terms found in notes and use wiki links to semantically enrich the vocabulary (auto-gloss)
 - New export format in JSON to integrate glossaries and vocabularies in distributed content
+- Update TiniMCE editor
 - Fix minor bugs
 
 Many thanks to the feedback provided by TemaTres community :)

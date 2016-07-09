@@ -814,12 +814,9 @@ switch($estado_id)
 	default :// '12' Candidato / Candidate o '14'://Rechazado / rejected
 	// s�lo términos libres / only free terms
 	$sqlCtrl=SQLcheckFreeTerm($tema_id);
-	if(SQLcount($sqlCtrl)=='1')
-		{
+	if(SQLcount($sqlCtrl)=='1')		{
 		$sql=SQL("update","$DBCFG[DBprefix]tema set estado_id='$estado_id' ,uid_final='$userId',cuando_estado=now() where tema_id='$tema_id'");
-		}
-		else
-		{
+		}		else		{
 		$msg_error = 	$msg='<p class="error">'.MSG_ERROR_ESTADO.'</p>';
 		}
 	break;
@@ -894,8 +891,7 @@ switch($do){
 	case 'A':
 	$parse_uri=parse_url($array["uri"]);
 	//check if is a valid URI
-	if(strlen($parse_uri["scheme"])>1)
-	{
+	if(strlen($parse_uri["scheme"])>1)	{
 		$uri=$DB->qstr($array["uri"],get_magic_quotes_gpc());
 		$sql=SQL("insert","into $DBCFG[DBprefix]uri
 			(tema_id,uri_type_id,uri,uid,cuando)
@@ -928,34 +924,21 @@ function edit_single_code($tema_id,$code)
 	$ARRAYCode=ARRAYCode($code);
 
 	//No cambi� nada
-	if($ARRAYCode[tema_id]==$tema_id)
-	{
+	if($ARRAYCode[tema_id]==$tema_id)	{
 		//sin cambios
 		$ARRAYCode["log"]='0';
 		return $ARRAYCode;
 
-	}
-	elseif($ARRAYCode[tema_id])
-	{
+	}	elseif($ARRAYCode[tema_id])	{
 		//error
 		$ARRAYCode["log"]='-1';
 		return $ARRAYCode;
-	}
-	else
-	{
+	}	else	{
 		//cambios
-/* deprecated in version 1.21 > problemswtih set null
-		$code=(strlen($code)<1) ? 'NULL' : $code.strlen($code);
-		$sql=SQL("update","$DBCFG[DBprefix]tema set code='$code' where tema_id='$tema_id'");
-		$ARRAYCode=ARRAYCode($code);
-*/
 
-		if(strlen($code)<1)
-		{
+		if(strlen($code)<1)		{
 			$sql=SQL("update","$DBCFG[DBprefix]tema set code=NULL where tema_id=$tema_id");
-		}
-		else
-		{
+		}		else		{
 			$code=$DB->qstr($code,get_magic_quotes_gpc());
 			$sql=SQL("update","$DBCFG[DBprefix]tema set code=$code where tema_id=$tema_id");
 
@@ -979,8 +962,7 @@ function admin_users($do,$user_id=""){
 
 	$userId=$_SESSION[$_SESSION["CFGURL"]][ssuser_id];
 
-	if (is_numeric($user_id))
-	{
+	if (is_numeric($user_id))	{
 		$arrayUserData=ARRAYdatosUser($user_id);
 
 		if($arrayUserData[nivel]=='1'){
@@ -1003,8 +985,7 @@ function admin_users($do,$user_id=""){
 		if (
 			($arrayUserData["nivel"]=='1') &&
 			($arrayCheckAdmin["cant"]=='1')
-			)
-		{
+			)		{
 			$nivel='1';
 		}
 
@@ -1027,8 +1008,7 @@ function admin_users($do,$user_id=""){
 		if (($POSTarrayUser["status"]=='BAJA') &&
 			($arrayUserData["nivel"]=='1') &&
 			($arrayCheckAdmin["cant"]=='1')
-			)
-		{
+			)		{
 			$POSTarrayUser["status"]='ACTIVO';
 		}
 
@@ -1042,14 +1022,12 @@ function admin_users($do,$user_id=""){
 			WHERE id= '$arrayUserData[user_id]'");
 
 			//set password
-			if(strlen($POSTarrayUser[pass])>0)
-				{
+			if(strlen($POSTarrayUser[pass])>0)				{
 					setPassword($arrayUserData["user_id"],$POSTarrayUser[pass],CFG_HASH_PASS);
 				}
 
 		//only admin
-		if($_SESSION[$_SESSION["CFGURL"]]["ssuser_nivel"]=='1')
-			{
+		if($_SESSION[$_SESSION["CFGURL"]]["ssuser_nivel"]=='1')			{
 				$sql=SQL("update","$DBCFG[DBprefix]usuario
 				SET estado='$POSTarrayUser[status]',
 				nivel='$nivel',
@@ -1067,8 +1045,7 @@ function admin_users($do,$user_id=""){
 		if (($new_estado=='BAJA') &&
 			($arrayUserData["nivel"]=='1') &&
 			($arrayCheckAdmin["cant"]=='1')
-			)
-		{
+			)		{
 			$new_estado='ACTIVO';
 		}
 
