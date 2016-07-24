@@ -16,13 +16,13 @@ For instruction, please visit: http://vocabularyserver.com/wiki/ and (in spanish
 For examples, please visit: http://www.vocabularyserver.com/vocabularies.php
 
 Changelog TemaTres 2.2:
-- Export vocabularies in JSON format to glossaries. 
+- New export format in JSON to integrate glossaries and vocabularies in distributed content
+- Can bulk create auto-gloss: search and replace terms found in notes and use wiki links to semantically enrich the vocabulary (auto-gloss)
+- Export vocabularies in PDF format. 
 - Massive task for free terms (change status, delete, associate with terms and more)
 - Utilities to export specific terms, facet or taxon in alphabetical or hierarchical format (for admins)
 - Facilities to reuse terms or change the structure of the vocabulary
 - New capabilities to use notes as glossaries and as tools to semantically enrich the vocabulary (auto-gloss)
-- Can bulk create auto-gloss: search and replace terms found in notes and use wiki links to semantically enrich the vocabulary (auto-gloss)
-- New export format in JSON to integrate glossaries and vocabularies in distributed content
 - Update TiniMCE editor
 - Fix minor bugs
 
