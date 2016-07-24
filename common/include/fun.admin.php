@@ -3918,13 +3918,12 @@ $pdf->SetSubject(latin1($_SESSION["CFGCobertura"]));
 $pdf->SetKeywords(latin1($_SESSION["CFGKeywords"]));
 $pdf->SetCreator($_SESSION["CFGVersion"]);
 
-$pdf->PrintCover(array());
+$pdf->PrintCover($params);
 
 $sqlMenuAlfabetico=SQLlistaABC();
 
 while ($datosAlfabetico = $sqlMenuAlfabetico->FetchRow())	{
 	$datosAlfabetico[0]=isValidLetter($datosAlfabetico[0]);
-
 	if(ctype_digit($datosAlfabetico[0])){
 		$ARRAYletras["0-9"].=$datosAlfabetico[0];
 		}else{
@@ -3932,7 +3931,7 @@ while ($datosAlfabetico = $sqlMenuAlfabetico->FetchRow())	{
 		} 
 	}
 	foreach ($ARRAYletras as $key => $value) {
-		if(strlen($value)>0) $pdf->PrintChapter(ucwords($key),$value);
+		if(strlen($value)>0) $pdf->PrintChapter(ucwords($key),$value,$params);
 	}
 
 $filname=string2url($_SESSION[CFGTitulo].' '.MENU_ListaAbc).'.pdf';

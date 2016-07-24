@@ -164,22 +164,23 @@ function ChapterTitle($label){
 }
 
 
-function PrintChapter($title, $letter){
+function PrintChapter($title, $letter,$params=array()){
     // Add chapter
 
+    $sql=SQLterms4char($letter,$params["hasTopTerm"]);
+
+    if(SQLcount($sql)==0) return;
+
     $this->AddPage();
-        $this->header = 1;
-
+    $this->header = 1;
     $this->footer = 1;
-
     $this->SetFont('helvetica','B',14);
-
     $this->ChapterTitle($title);
-    $this->ChapterBody($letter);
+    $this->ChapterBody($sql,$params);
 }
 
 
-function PrintCover(){
+function PrintCover($params=array()){
 
     GLOBAL $CFG;
     //turn off
@@ -240,7 +241,7 @@ function PrintCover(){
     $this->SetFont('helvetica','',8);
 
     //Relations
-    $this->MultiCell(0,4,latin1('TT: '.TT_terminos),0,'L');
+    if($params["includeTopTerm"]) $this->MultiCell(0,4,latin1('TT: '.TT_terminos),0,'L');
     $this->MultiCell(0,4,latin1(TG_acronimo.': '.TG_termino),0,'L');
     $this->MultiCell(0,4,latin1(TE_acronimo.': '.TE_termino),0,'L');
 
@@ -279,7 +280,9 @@ function PrintCover(){
     //Notes
     $sqlNoteType=SQLcantNotas();
     while ($arrayNoteType=$sqlNoteType->FetchRow()){
-    if(($arrayNoteType["cant"]>0) && ($arrayNoteType["value_code"]!=='NP')){
+
+
+    if(($arrayNoteType["cant"]>0) && (in_array($arrayNoteType["tipo_nota"],$params["includeNote"]))){
         $this->MultiCell(0,4,latin1($arrayNoteType["value_code"].': '.$arrayNoteType["value"]),0,'L');
         }
     }
@@ -304,15 +307,22 @@ function PrintCover(){
 }
 
 
-function ChapterBody($letter){
+function ChapterBody($sql_data,$params=array()){
 
 GLOBAL $CFG;    
 
-$sql=SQLterms4char($letter);
+while($arrayTerm=$sql_data->FetchRow()){    
 
-while($arrayTerm=$sql->FetchRow()){    
+    #Mantener vivo el navegador
+    $time_now = time();
+    if ($time_start >= $time_now + 10) {
+        $time_start = $time_now;
+        header('X-pmaPing: Pong');
+    };
     // Diferenciar entre términos preferidos y términos no preferidos o referencias
     // Si es no preferido o refencia: mostrar preferido y referido
+
+
 if($arrayTerm["t_relacion"]){    //is altTerm
         //Remisiones de equivalencias y no preferidos
         $sqlNoPreferidos=SQLterminosValidosUF($arrayTerm["tema_id"]);
@@ -328,6 +338,10 @@ if($arrayTerm["t_relacion"]){    //is altTerm
 
             $this->SetFont('Arial','',8);      
             $this->MultiCell(80,5,latin1($acronimo.$arrayNoPreferidos["rr_code"].': '.$arrayNoPreferidos["tema_pref"]),0,L);
+
+            if($params["includeCreatedDate"]==1) $this->MultiCell(80,5,latin1(ucfirst(LABEL_fecha_creacion).': '.$arrayTerm[cuando]),0,L); 
+            if(($arrayTerm[cuando_final]>$arrayTerm[cuando]) && ($params["includeModDate"]==1)) $this->MultiCell(80,5,latin1(ucfirst(LABEL_fecha_modificacion).': '.$arrayTerm[cuando_final]),0,L); 
+
             }//end if hidden
         };
         // Line break
@@ -347,26 +361,32 @@ if($arrayTerm["t_relacion"]){    //is altTerm
         $this->MultiCell(80,5,latin1(ucfirst(LABEL_CODE).': '.$arrayTerm["code"]),0,L);
     };
 
+    $this->SetFont('Arial','',6);
 
+    if($params["includeCreatedDate"]==1) $this->MultiCell(80,5,latin1(ucfirst(LABEL_fecha_creacion).': '.$arrayTerm["cuando"]),0,L); 
+    if(($arrayTerm[cuando_final]>$arrayTerm["cuando"]) && ($params["includeModDate"]==1)) $this->MultiCell(80,5,latin1(ucfirst(LABEL_fecha_modificacion).': '.$arrayTerm["cuando_final"]),0,L); 
 
     /*  Notas  */
-    $this->SetFont('Arial','',6);
-    $sqlNotas=SQLdatosTerminoNotas($arrayTerm["id_definitivo"]);
-    while($arrayNotas=$sqlNotas->FetchRow()){
-    $arrayNotas["label_tipo_nota"]=(in_array($arrayNotas["ntype_id"],array(8,9,10,11,15))) ? arrayReplace(array(8,9,10,11,15),array(LABEL_NA,LABEL_NH,LABEL_NB,LABEL_NP,LABEL_NC),$arrayNotas["ntype_id"]) : $arrayNotas["ntype_code"];
-        
-        if (in_array($arrayNotas["tipo_nota"],array("SN","NB","NA"))){
-        $this->MultiCell(80,5,$arrayNotas["tipo_nota"].': '.utf8_decode(html2txt($arrayNotas["nota"])),0,L);
-        }
-    };
+    //include or not notes
+    if(is_array($params["includeNote"])) {    
+        $sqlNotas=SQLdatosTerminoNotas($arrayTerm["id_definitivo"]);
+        while($arrayNotas=$sqlNotas->FetchRow()){
+        $arrayNotas["label_tipo_nota"]=(in_array($arrayNotas["ntype_id"],array(8,9,10,11,15))) ? arrayReplace(array(8,9,10,11,15),array(LABEL_NA,LABEL_NH,LABEL_NB,LABEL_NP,LABEL_NC),$arrayNotas["ntype_id"]) : $arrayNotas["ntype_code"];
+            
+            if (in_array($arrayNotas["tipo_nota"],$params["includeNote"])){
+            $this->MultiCell(80,5,$arrayNotas["tipo_nota"].': '.utf8_decode(html2txt($arrayNotas["nota"])),0,L);
+            }
+        };
+    }
 
     #direct terms
     $this->SetFont('Arial','',8);   
 
+    if($params["includeTopTerm"]){
     //Top term
     $arrayMyTT=ARRAYmyTopTerm($arrayTerm["id_definitivo"]);
         if (($arrayMyTT["tema_id"]!==$arrayTerm["id_definitivo"]) && ($arrayMyTT["tema_id"]>0)) $this->MultiCell(80,5,latin1('TT: '.$arrayMyTT["tema"]),0,L);
-
+    }
     #Fetch data about associated terms (BT,RT,UF)    
     //Relaciones
     $sqlRelaciones=SQLverTerminoRelaciones($arrayTerm["id_definitivo"]);

@@ -922,8 +922,6 @@ function ARRAYverDatosTermino($tema_id){
 
 		GLOBAL $DBCFG;
 		GLOBAL $CFG;
-
-
 		$where="";
 
 		if(!$_SESSION[$_SESSION["CFGURL"]][ssuser_id])		{
@@ -939,9 +937,7 @@ function ARRAYverDatosTermino($tema_id){
 			}
 		}
 
-
 		$letra=secure_data($letra,"ADOsql");
-
 
 		return SQL("select","ucase(LEFT(tema.tema,1)) as letra_orden,
 		if(LEFT(tema.tema,1)=$letra, 1,0) as letra
@@ -956,23 +952,28 @@ function ARRAYverDatosTermino($tema_id){
 
 
 	#
-	# Lista de términos de un caracter (no paginada)
+	# Lista de términos de un caracter (no paginada), sólo términos aceptados
 	#
-	function SQLterms4char($letra,$args = ''){
+	function SQLterms4char($letra,$top_term_id = 0){
 
 		GLOBAL $DBCFG;
 		GLOBAL $CFG;
 
 		$letra=(ctype_digit($letra)) ? $letra : secure_data($letra,"ADOsql");
 
-	$where_letter=(ctype_digit($letra)) ?  " LEFT(tema.tema,1) REGEXP '[[:digit:]]' " : " LEFT(tema.tema,1)=$letra ";
+		$where_letter=(ctype_digit($letra)) ?  " LEFT(tema.tema,1) REGEXP '[[:digit:]]' " : " LEFT(tema.tema,1)=$letra ";
 
-	$where="";
+		$where="";
 
-	if(!$_SESSION[$_SESSION["CFGURL"]][ssuser_id])
-	{
-		//Control de estados
-		$where=" and tema.estado_id='13' ";
+		$top_term_id=secure_data($top_term_id,"int");
+
+
+		if($top_term_id>0){
+			$size_i=strlen($top_term_id)+2;
+			$from="$DBCFG[DBprefix]indice tti,";
+			$where="	and tema.tema_id=tti.tema_id";
+			$where.="	and left(tti.indice,$size_i)='|$top_term_id|'";
+		}
 
 		//hide hidden equivalent terms
 		if(count($CFG["HIDDEN_EQ"])>0)
@@ -982,16 +983,17 @@ function ARRAYverDatosTermino($tema_id){
 			$leftJoin="left join $DBCFG[DBprefix]values trr on trr.value_id=relaciones.rel_rel_id and trr.value_code in ($hidden_labels) ";
 			$where.=" and trr.value_id is null ";
 		}
-	}
 
 	$sql=SQL("select","if(relaciones.id is not null,relaciones.id_menor,tema.tema_id) id_definitivo,
 	tema.tema_id,
 	tema.tema,
+	tema.cuando,
+	tema.cuando_final,
 	tema.estado_id,
 	tema.isMetaTerm,
 	relaciones.t_relacion,
 	temasPreferidos.tema as termino_preferido
-	from $DBCFG[DBprefix]tema as tema
+	from $from $DBCFG[DBprefix]tema as tema
 	left join $DBCFG[DBprefix]tabla_rel as relaciones on relaciones.id_mayor=tema.tema_id and relaciones.t_relacion in (4,5,6,7,8)
 	left join $DBCFG[DBprefix]tema as temasPreferidos on temasPreferidos.tema_id=relaciones.id_menor
 	and tema.tema_id=relaciones.id_mayor
@@ -999,6 +1001,7 @@ function ARRAYverDatosTermino($tema_id){
 	where
 	$where_letter
 	$where
+	and tema.estado_id='13'
 	group by tema.tema_id
 	order by lower(tema.tema)");
 

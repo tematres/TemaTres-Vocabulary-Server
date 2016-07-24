@@ -2095,7 +2095,7 @@ $rows.='<script type=\'text/javascript\'>//<![CDATA[
 					$(window).load(function(){
 					$(\'#dis\').bind(\'change\', function(event) {
 					    var x = $(\'#dis\').val();
-					    if (x == "txt") {
+					    if ((x == "txt") || (x == "rpdf")) {
 					        $(\'#txt_config\').show();
 					    }else{
 					        $(\'#txt_config\').hide();

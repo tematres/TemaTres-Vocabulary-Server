@@ -2265,7 +2265,7 @@ $rows.='	<div class="row">
 		$rows.='<div class="form-group"><label class="col-sm-3 control-label" for="report_tvocab_id" accesskey="t">'.ucfirst(FORM_LABEL_format_export).'</label>';
 		$rows.='<div class="col-sm-9">';
 		$rows.='<select class="form-control" id="dis" name="dis">';
-		$rows.=doSelectForm(array('rpdf#'.LABEL_AlphaPDF,"jtxt#$LABEL_jtxt","txt#$LABEL_abctxt","moodfile#Moodle","zline#Zthes","rfile#Skos-Core","rxtm#TopicMap","BSfile#BS8723","madsFile#Metadata Authority Description Schema (MADS)","vfile#IMS Vocabulary Definition Exchange (VDEX)","wxr#WXR (Wordpress XML)","siteMap#SiteMap","rsql#SQL (Backup)"),"$_GET[dis]");
+		$rows.=doSelectForm(array("jtxt#$LABEL_jtxt","txt#$LABEL_abctxt",'rpdf#'.LABEL_AlphaPDF,"moodfile#Moodle","zline#Zthes","rfile#Skos-Core","rxtm#TopicMap","BSfile#BS8723","madsFile#Metadata Authority Description Schema (MADS)","vfile#IMS Vocabulary Definition Exchange (VDEX)","wxr#WXR (Wordpress XML)","siteMap#SiteMap","rsql#SQL (Backup)"),"$_GET[dis]");
 		$rows.='</select>';
 		$rows.='</div>';
 		$rows.='</div>';

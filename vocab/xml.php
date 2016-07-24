@@ -140,7 +140,12 @@ if(($_SESSION[$_SESSION["CFGURL"]][ssuser_nivel]=='1')&&($_GET["dis"])){
 		break;
 
 		case 'rpdf':
-		echo do_pdfAlpha();
+		$params=array("hasTopTerm"=>$_GET["hasTopTerm"],
+					  "includeNote"=>$_GET["includeNote"],
+					  "includeCreatedDate"=>$_GET["includeCreatedDate"],
+					  "includeTopTerm"=>$_GET["includeTopTerm"],
+					  "includeModDate"=>$_GET["includeModDate"]);		
+		echo do_pdfAlpha($params);
 		break;
 
 		case 'jglossary':
