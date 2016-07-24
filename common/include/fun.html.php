@@ -454,7 +454,7 @@ function HTMLbodyTermino($array){
 
 
 
-		$body.=HTMLshowCode($array);
+	$body.=HTMLshowCode($array);
 
 	if($HTMLterminos["cantRelaciones"]["cantUF"]>0) {
 		$body.='<h4>'.ucfirst(LABEL_nonPreferedTerms).'</h4>';
@@ -1538,7 +1538,7 @@ function HTMLtargetTerms($tema_id)
 
 
 
-			$rows.='<li>'.$ttermManageLink.' '.FixEncoding(ucfirst($array[tvocab_label])).' <a href="'.$array["tterm_url"].'" target="_blank" title="'.FixEncoding($array[tterm_string]).'">'.FixEncoding($array["tterm_string"]).'</a>';
+			$rows.='<li>'.$ttermManageLink.' '.FixEncoding(ucfirst($array["tvocab_label"])).' <a href="'.$array["tterm_url"].'" target="_blank" title="'.FixEncoding($array[tterm_string]).'">'.FixEncoding($array["tterm_string"]).'</a>';
 			$rows.=(($_GET["taskEdit"]=='checkDateTermsTargetVocabulary') && ($_GET["tterm_id"]==$array["tterm_id"]) && ($_SESSION[$_SESSION["CFGURL"]]["ssuser_nivel"])) ? HTMLcheckTargetTerm($array) : '';
 			$rows.='</li>';
 
@@ -2089,6 +2089,26 @@ $rows.='<script type="text/javascript">
 		$(".autoGloss").tooltip(options);
 	  </script>';
 
+//scritp to export form
+if (($_SESSION[$_SESSION["CFGURL"]][ssuser_nivel]==1) && ($_GET["doAdmin"]=='export')){	  
+$rows.='<script type=\'text/javascript\'>//<![CDATA[
+					$(window).load(function(){
+					$(\'#dis\').bind(\'change\', function(event) {
+					    var x = $(\'#dis\').val();
+					    if (x == "txt") {
+					        $(\'#txt_config\').show();
+					    }else{
+					        $(\'#txt_config\').hide();
+					    };
+					    if (x == "rfile") {
+					        $(\'#skos_config\').show();
+					    } else{
+					        $(\'#skos_config\').hide();
+					    }
+					});
+					});//]]>
+			</script>';
+};			
 return $rows;
 }
 

@@ -139,6 +139,10 @@ if(($_SESSION[$_SESSION["CFGURL"]][ssuser_nivel]=='1')&&($_GET["dis"])){
 		echo do_mysql_dump();
 		break;
 
+		case 'rpdf':
+		echo do_pdfAlpha();
+		break;
+
 		case 'jglossary':
 		header('Content-type: application/json');
 		$filname=string2url($_SESSION[CFGTitulo]).'.json';

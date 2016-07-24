@@ -965,7 +965,7 @@ function do_meta_tag($arrayTermino=""){
 	}
 
 
-	$meta_tag='<title>'.xmlentities($ver_sub_title.' '.$_SESSION[CFGTitulo].$labelChangeLang).'</title>';
+	$meta_tag='<title>'.xmlentities($ver_sub_title.' '.$_SESSION["CFGTitulo"].$labelChangeLang).'</title>';
 	/*
 	* Error en verificación
 	$meta_tag.='<meta http-equiv="content-language" content="'.LANG.'" />';

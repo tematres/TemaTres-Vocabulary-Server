@@ -916,53 +916,6 @@ function ARRAYverDatosTermino($tema_id){
 
 
 	#
-	# Lista de términos de una letra
-	#
-	function SQLmenuABC($letra){
-		GLOBAL $DBCFG;
-		GLOBAL $CFG;
-
-		$letra=(!ctype_digit($letra)) ? $letra : secure_data($letra,"ADOsql");
-
-
-
-		$where_letter=(!ctype_digit($letra)) ? " LEFT(tema.tema,1)=? " : " LEFT(tema.tema,1) REGEXP '[[:digit:]]' ";
-
-		//Control de estados
-		(!$_SESSION[$_SESSION["CFGURL"]][ssuser_id]) ? $where=" and tema.estado_id='13' " : $where="";
-
-		//hide hidden equivalent terms
-		if((!$_SESSION[$_SESSION["CFGURL"]][ssuser_id]) && (count($CFG["HIDDEN_EQ"])>0))
-		{
-			$hidden_labels=implode("','", $CFG["HIDDEN_EQ"]);
-			$hidden_labels='\''.$hidden_labels.'\'';
-			$leftJoin="left join $DBCFG[DBprefix]values trr on trr.value_id=relaciones.rel_rel_id and trr.value_code in ($hidden_labels) ";
-			$where.=" and trr.value_id is null ";
-		}
-
-		$sql=SQLo("select","if(relaciones.id is not null,relaciones.id_menor,tema.tema_id) id_definitivo,
-		tema.tema_id,
-		tema.tema,
-		tema.estado_id,
-		tema.isMetaTerm,
-		relaciones.t_relacion,
-		temasPreferidos.tema as termino_preferido
-		from $DBCFG[DBprefix]tema as tema
-		left join $DBCFG[DBprefix]tabla_rel as relaciones on relaciones.id_mayor=tema.tema_id and relaciones.t_relacion in (4,5,6,7,8)
-		left join $DBCFG[DBprefix]tema as temasPreferidos on temasPreferidos.tema_id=relaciones.id_menor
-		and tema.tema_id=relaciones.id_mayor
-		$leftJoin
-		where
-		$where_letter
-		$where
-		group by tema.tema_id
-		order by lower(tema.tema)",(!ctype_digit($letra)) ? array($letra) : array());
-
-		return $sql;
-	};
-
-
-	#
 	# Lista  de letras
 	#
 	function SQLlistaABC($letra=""){
@@ -973,14 +926,12 @@ function ARRAYverDatosTermino($tema_id){
 
 		$where="";
 
-		if(!$_SESSION[$_SESSION["CFGURL"]][ssuser_id])
-		{
+		if(!$_SESSION[$_SESSION["CFGURL"]][ssuser_id])		{
 			//Control de estados
 			$where=" where tema.estado_id='13' ";
 
 			//hide hidden equivalent terms
-			if(count($CFG["HIDDEN_EQ"])>0)
-			{
+			if(count($CFG["HIDDEN_EQ"])>0)			{
 				$hidden_labels=implode("','", $CFG["HIDDEN_EQ"]);
 				$hidden_labels='\''.$hidden_labels.'\'';
 				$leftJoin="left join $DBCFG[DBprefix]values trr on trr.value_id=relaciones.rel_rel_id and trr.value_code in ($hidden_labels) ";
@@ -1003,6 +954,56 @@ function ARRAYverDatosTermino($tema_id){
 		;
 	};
 
+
+	#
+	# Lista de términos de un caracter (no paginada)
+	#
+	function SQLterms4char($letra,$args = ''){
+
+		GLOBAL $DBCFG;
+		GLOBAL $CFG;
+
+		$letra=(ctype_digit($letra)) ? $letra : secure_data($letra,"ADOsql");
+
+	$where_letter=(ctype_digit($letra)) ?  " LEFT(tema.tema,1) REGEXP '[[:digit:]]' " : " LEFT(tema.tema,1)=$letra ";
+
+	$where="";
+
+	if(!$_SESSION[$_SESSION["CFGURL"]][ssuser_id])
+	{
+		//Control de estados
+		$where=" and tema.estado_id='13' ";
+
+		//hide hidden equivalent terms
+		if(count($CFG["HIDDEN_EQ"])>0)
+		{
+			$hidden_labels=implode("','", $CFG["HIDDEN_EQ"]);
+			$hidden_labels='\''.$hidden_labels.'\'';
+			$leftJoin="left join $DBCFG[DBprefix]values trr on trr.value_id=relaciones.rel_rel_id and trr.value_code in ($hidden_labels) ";
+			$where.=" and trr.value_id is null ";
+		}
+	}
+
+	$sql=SQL("select","if(relaciones.id is not null,relaciones.id_menor,tema.tema_id) id_definitivo,
+	tema.tema_id,
+	tema.tema,
+	tema.estado_id,
+	tema.isMetaTerm,
+	relaciones.t_relacion,
+	temasPreferidos.tema as termino_preferido
+	from $DBCFG[DBprefix]tema as tema
+	left join $DBCFG[DBprefix]tabla_rel as relaciones on relaciones.id_mayor=tema.tema_id and relaciones.t_relacion in (4,5,6,7,8)
+	left join $DBCFG[DBprefix]tema as temasPreferidos on temasPreferidos.tema_id=relaciones.id_menor
+	and tema.tema_id=relaciones.id_mayor
+	$leftJoin
+	where
+	$where_letter
+	$where
+	group by tema.tema_id
+	order by lower(tema.tema)");
+
+	return $sql;
+};
 
 	#
 	# Lista PAGINADA de términos de una letra

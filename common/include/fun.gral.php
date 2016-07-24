@@ -161,7 +161,7 @@ function do_fecha($fecha){
    		hora=>date("G",strtotime($fecha)),
                 dia=>date("d",strtotime($fecha)),
                 mes=>date("m",strtotime($fecha)),
-		descMes=>$MONTHS[date("m",strtotime($fecha))],
+				descMes=>$MONTHS[date("m",strtotime($fecha))],
                 ano=>date("Y",strtotime($fecha))
                );
    return $array;

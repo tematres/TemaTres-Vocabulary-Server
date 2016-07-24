@@ -523,4 +523,8 @@ define('LABEL_replaceBinary','case sensitive');
 define('MSG_notesAffected','affected notes');
 define('MSG_cantTermsFound','terms found');
 define('MENU_glossConfig','config auto-gloss');
-define('LABEL_generateAutoGlossary','auto-gloss generation');?>
+define('LABEL_generateAutoGlossary','auto-gloss generation');
+define('LABEL_AlphaPDF','alphabetic (PDF)');
+define('LABEL_references','references');
+define('LABEL_printData','date of print');
+?>

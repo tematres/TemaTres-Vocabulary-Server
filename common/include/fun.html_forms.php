@@ -2251,6 +2251,7 @@ function HTMLformExportGlossary(){
 function HTMLformExport(){
 $LABEL_jtxt=MENU_ListaSis.' (txt)';
 $LABEL_abctxt=MENU_ListaAbc.' (txt)';
+
 $rows.='<form class="" role="form"  name="export" action="xml.php" method="get">';
 $rows.='	<div class="row">
     <div class="col-sm-12">
@@ -2264,7 +2265,7 @@ $rows.='	<div class="row">
 		$rows.='<div class="form-group"><label class="col-sm-3 control-label" for="report_tvocab_id" accesskey="t">'.ucfirst(FORM_LABEL_format_export).'</label>';
 		$rows.='<div class="col-sm-9">';
 		$rows.='<select class="form-control" id="dis" name="dis">';
-		$rows.=doSelectForm(array("jtxt#$LABEL_jtxt","txt#$LABEL_abctxt","moodfile#Moodle","zline#Zthes","rfile#Skos-Core","rxtm#TopicMap","BSfile#BS8723","madsFile#Metadata Authority Description Schema (MADS)","vfile#IMS Vocabulary Definition Exchange (VDEX)","wxr#WXR (Wordpress XML)","siteMap#SiteMap","rsql#SQL (Backup)"),"$_GET[dis]");
+		$rows.=doSelectForm(array('rpdf#'.LABEL_AlphaPDF,"jtxt#$LABEL_jtxt","txt#$LABEL_abctxt","moodfile#Moodle","zline#Zthes","rfile#Skos-Core","rxtm#TopicMap","BSfile#BS8723","madsFile#Metadata Authority Description Schema (MADS)","vfile#IMS Vocabulary Definition Exchange (VDEX)","wxr#WXR (Wordpress XML)","siteMap#SiteMap","rsql#SQL (Backup)"),"$_GET[dis]");
 		$rows.='</select>';
 		$rows.='</div>';
 		$rows.='</div>';
@@ -2344,23 +2345,7 @@ $rows.='				</div>';
 	</div> <!-- / panel  -->';
 $rows.='</form>';
 
-$rows.='<script type=\'text/javascript\'>//<![CDATA[
-					$(window).load(function(){
-					$(\'#dis\').bind(\'change\', function(event) {
-					    var x = $(\'#dis\').val();
-					    if (x == "txt") {
-					        $(\'#txt_config\').show();
-					    }else{
-					        $(\'#txt_config\').hide();
-					    };
-					    if (x == "rfile") {
-					        $(\'#skos_config\').show();
-					    } else{
-					        $(\'#skos_config\').hide();
-					    }
-					});
-					});//]]>
-			</script>';
+
 return $rows;
 };
 

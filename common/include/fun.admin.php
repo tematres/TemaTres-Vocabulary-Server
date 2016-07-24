@@ -2326,19 +2326,18 @@ while($arrayTema=$sql->FetchRow())
 	};
 
 	// Diferenciar entre términos preferidos y términos no preferidos o referencias
-	if($arrayTema[t_relacion])// Si es no preferido o refencia: mostrar preferido y referido
+	if($arrayTema["t_relacion"])// Si es no preferido o refencia: mostrar preferido y referido
 	{
 		//Remisiones de equivalencias y no preferidos
 		$sqlNoPreferidos=SQLterminosValidosUF($arrayTema[id]);
-		while($arrayNoPreferidos=$sqlNoPreferidos->FetchRow())
-		{
+		while($arrayNoPreferidos=$sqlNoPreferidos->FetchRow()){
 
-		$acronimo=arrayReplace ( array("4","5","6","7"),array(USE_termino,EQP_acronimo,EQ_acronimo,NEQ_acronimo),$arrayNoPreferidos[t_relacion]);
+		$acronimo=arrayReplace ( array("4","5","6","7"),array(USE_termino,EQP_acronimo,EQ_acronimo,NEQ_acronimo),$arrayNoPreferidos["t_relacion"]);
 
-		$referencia_mapeo = ($arrayNoPreferidos[vocabulario_id]!=='1') ? ' ('.$arrayNoPreferidos[titulo].')' : ''."\r\n";
+		$referencia_mapeo = ($arrayNoPreferidos["vocabulario_id"]!=='1') ? ' ('.$arrayNoPreferidos["titulo"].')' : ''."\r\n";
 
-		$txt.="\n".$arrayTema[tema] . $referencia_mapeo ;
-		$txt.='	'.$acronimo.$arrayNoPreferidos[rr_code].': '.$arrayNoPreferidos[tema_pref]."\r\n";
+		$txt.="\n".$arrayTema["tema"] . $referencia_mapeo ;
+		$txt.='	'.$acronimo.$arrayNoPreferidos["rr_code"].': '.$arrayNoPreferidos["tema_pref"]."\r\n";
 		};
 
 
@@ -2346,7 +2345,7 @@ while($arrayTema=$sql->FetchRow())
 	else
 	{
 	// Si es preferido: mostar notas y relaciones
-	$txt.="\n".$arrayTema[tema]."\r\n";
+	$txt.="\n".$arrayTema["tema"]."\r\n";
 
 	//show code
 	$txt.=(($CFG["_SHOW_CODE"]=='1') && (strlen($arrayTema["code"]>0))) ? '	'.ucfirst(LABEL_CODE).': '.$arrayTema["code"]."\r\n" : "";
@@ -3904,4 +3903,42 @@ $filname=string2url($_SESSION[CFGTitulo].' '.MENU_ListaSis).'.txt';
 
 return sendFile("$txt","$filname");
 };
+
+
+//print alphabetic version on PDF 
+function do_pdfAlpha($params=array()){
+	
+require_once(T3_ABSPATH . 'common/fpdf/fpdf.php');
+require_once(T3_ABSPATH . 'common/include/fun.pdf.php');
+
+$pdf = new PDF();
+$pdf->SetTitle(latin1($_SESSION["CFGTitulo"]));
+$pdf->SetAuthor(latin1($_SESSION["CFGAutor"]));
+$pdf->SetSubject(latin1($_SESSION["CFGCobertura"]));
+$pdf->SetKeywords(latin1($_SESSION["CFGKeywords"]));
+$pdf->SetCreator($_SESSION["CFGVersion"]);
+
+$pdf->PrintCover(array());
+
+$sqlMenuAlfabetico=SQLlistaABC();
+
+while ($datosAlfabetico = $sqlMenuAlfabetico->FetchRow())	{
+	$datosAlfabetico[0]=isValidLetter($datosAlfabetico[0]);
+
+	if(ctype_digit($datosAlfabetico[0])){
+		$ARRAYletras["0-9"].=$datosAlfabetico[0];
+		}else{
+		$ARRAYletras[$datosAlfabetico[0]].=$datosAlfabetico[0];	
+		} 
+	}
+	foreach ($ARRAYletras as $key => $value) {
+		if(strlen($value)>0) $pdf->PrintChapter(ucwords($key),$value);
+	}
+
+$filname=string2url($_SESSION[CFGTitulo].' '.MENU_ListaAbc).'.pdf';
+	
+$pdf->Output('D',$filname);
+
+
+}
 ?>
