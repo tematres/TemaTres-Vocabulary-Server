@@ -31,7 +31,7 @@ $DBCFG["DBdriver"] ="";
 $DBCFG["Server"]      = "localhost";
 
 //  Nombre de la base de datos Database name
-$DBCFG["DBName"]     = "tematres";
+$DBCFG["DBName"]     = "tematres_bnm";
 
 //  Nombre de usuario - login
 $DBCFG["DBLogin"]    = "root";
@@ -40,16 +40,16 @@ $DBCFG["DBLogin"]    = "root";
 $DBCFG["DBPass"] = "";
 
 //  Prefijo para tablas # Prefix for tables
-$DBCFG["DBprefix"] = "lc_";                
+$DBCFG["DBprefix"] = "bnm__tes_";                
 
 
 $DBCFG["DBcharset"] ="utf8";
 
 //  modo debug = 1 // debug mode = 1
-$DBCFG["debugMode"] = "0"; 
+$DBCFG["debugMode"] = "1"; 
                
 // Define if storage hashed passwords or not  (1 = Yes, 0 = No: default: 0)
-define('CFG_HASH_PASS','0');
+define('CFG_HASH_PASS','1');
 
 /*  In almost cases, you don't need to touch nothing here!!
  *  Absolute path to the directory where are located /common/include. 

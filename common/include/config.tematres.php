@@ -8,7 +8,7 @@ if ((stristr( $_SERVER['REQUEST_URI'], "session.php") ) || ( !defined('T3_ABSPAT
 ###############################################################################################################
 # ARCHIVO DE CONFIGURACION == CONFIG FILE #
 
-$CFG["Version"]        = "TemaTres 2.2 beta";
+$CFG["Version"]        = "TemaTres 2.2";
 
 $CFG["VersionWebService"]        = "1.5";
 
