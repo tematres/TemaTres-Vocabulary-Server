@@ -278,12 +278,14 @@ function PrintCover($params=array()){
 
 
     //Notes
+    if(is_array($params["includeNote"])){    
+    
     $sqlNoteType=SQLcantNotas();
     while ($arrayNoteType=$sqlNoteType->FetchRow()){
 
-
-    if(($arrayNoteType["cant"]>0) && (in_array($arrayNoteType["tipo_nota"],$params["includeNote"]))){
-        $this->MultiCell(0,4,latin1($arrayNoteType["value_code"].': '.$arrayNoteType["value"]),0,'L');
+        if(($arrayNoteType["cant"]>0) && (in_array($arrayNoteType["tipo_nota"],$params["includeNote"]))){
+            $this->MultiCell(0,4,latin1($arrayNoteType["value_code"].': '.$arrayNoteType["value"]),0,'L');
+            }
         }
     }
 
@@ -307,7 +309,7 @@ function PrintCover($params=array()){
 }
 
 
-function ChapterBody($sql_data,$params=array()){
+function ChapterBodyOld($sql_data,$params=array()){
 
 GLOBAL $CFG;    
 
@@ -454,6 +456,161 @@ if($arrayTerm["t_relacion"]){    //is altTerm
 
     $this->Ln(3);
 
+}//end while term
+    $this->SetCol(0);
+}
+
+
+
+
+function ChapterBody($sql_data,$params=array()){
+
+GLOBAL $CFG;    
+
+while($arrayTerm=$sql_data->FetchRow()){    
+
+    #Mantener vivo el navegador
+    $time_now = time();
+    if ($time_start >= $time_now + 10) {
+        $time_start = $time_now;
+        header('X-pmaPing: Pong');
+    };
+    // Diferenciar entre términos preferidos y términos no preferidos o referencias
+    // Si es no preferido o refencia: mostrar preferido y referido
+
+
+if($arrayTerm["t_relacion"]){    //is altTerm
+        //Remisiones de equivalencias y no preferidos
+        $sqlNoPreferidos=SQLterminosValidosUF($arrayTerm["tema_id"]);
+        while($arrayNoPreferidos=$sqlNoPreferidos->FetchRow()){
+
+        if (!in_array($arrayNoPreferidos["rr_code"],$CFG["HIDDEN_EQ"])){
+            $acronimo=arrayReplace ( array("4","5","6","7"),array(USE_termino,EQP_acronimo,EQ_acronimo,NEQ_acronimo),$arrayNoPreferidos["t_relacion"]);
+
+            $referencia_mapeo = ($arrayNoPreferidos["vocabulario_id"]!=='1') ? ' ('.$arrayNoPreferidos["titulo"].')' : '';
+
+            $this->SetFont('Arial','I',10);      
+            $this->MultiCell(80,5,latin1($arrayTerm["tema"].$referencia_mapeo),0,L); 
+
+            $this->SetFont('Arial','',8);      
+            $this->MultiCell(80,5,latin1($acronimo.$arrayNoPreferidos["rr_code"].': '.$arrayNoPreferidos["tema_pref"]),0,L);
+
+            $this->SetFont('Arial','',6);
+            if($params["includeCreatedDate"]==1) $this->MultiCell(80,5,latin1(ucfirst(LABEL_fecha_creacion).': '.$arrayTerm[cuando]),0,L); 
+            if(($arrayTerm[cuando_final]>$arrayTerm[cuando]) && ($params["includeModDate"]==1)) $this->MultiCell(80,5,latin1(ucfirst(LABEL_fecha_modificacion).': '.$arrayTerm[cuando_final]),0,L); 
+
+            }//end if hidden
+        };
+        // Line break
+        $this->Ln(2);
+
+    } else { //prefered term
+    //the term
+    $this->SetFont('Arial','B',10);
+    $this->SetTextColor(0,0,0);
+    // Output justified text
+    if ($arrayTerm["isMetaTerm"]) $this->SetTextColor(108,101,101);
+
+    $this->MultiCell(80,5,latin1($arrayTerm["tema"]),0,L); 
+    $this->SetTextColor(0,0,0);    
+    //Show code
+    if(($CFG["_SHOW_CODE"]=='1') && (strlen($arrayTerm["code"]>0))){
+        $this->MultiCell(80,5,latin1(ucfirst(LABEL_CODE).': '.$arrayTerm["code"]),0,L);
+    };
+
+    $this->SetFont('Arial','',6);
+
+    if($params["includeCreatedDate"]==1) $this->MultiCell(80,5,latin1(ucfirst(LABEL_fecha_creacion).': '.$arrayTerm["cuando"]),0,L); 
+    if(($arrayTerm[cuando_final]>$arrayTerm["cuando"]) && ($params["includeModDate"]==1)) $this->MultiCell(80,5,latin1(ucfirst(LABEL_fecha_modificacion).': '.$arrayTerm["cuando_final"]),0,L); 
+
+    /*  Notas  */
+    //include or not notes
+    if(is_array($params["includeNote"])) {    
+        $sqlNotas=SQLdatosTerminoNotas($arrayTerm["id_definitivo"]);
+        while($arrayNotas=$sqlNotas->FetchRow()){
+        $arrayNotas["label_tipo_nota"]=(in_array($arrayNotas["ntype_id"],array(8,9,10,11,15))) ? arrayReplace(array(8,9,10,11,15),array(LABEL_NA,LABEL_NH,LABEL_NB,LABEL_NP,LABEL_NC),$arrayNotas["ntype_id"]) : $arrayNotas["ntype_code"];
+            
+            if (in_array($arrayNotas["tipo_nota"],$params["includeNote"])){
+            $this->MultiCell(80,5,$arrayNotas["tipo_nota"].': '.utf8_decode(html2txt($arrayNotas["nota"])),0,L);
+            }
+        };
+    }
+
+    #direct terms
+    $this->SetFont('Arial','',8);   
+
+    if($params["includeTopTerm"]){
+    //Top term
+    $arrayMyTT=ARRAYmyTopTerm($arrayTerm["id_definitivo"]);
+        if (($arrayMyTT["tema_id"]!==$arrayTerm["id_definitivo"]) && ($arrayMyTT["tema_id"]>0)) $this->MultiCell(80,5,latin1('TT: '.$arrayMyTT["tema"]),0,L);
+    }
+    #Fetch data about associated terms (BT,RT,UF)    
+    //Relaciones
+    $sqlRelaciones=SQLdirectTerms($arrayTerm["id_definitivo"]);
+
+    $arrayRelacionesVisibles=array(2,3,4,5,6,7); // TG/TE/UP/TR
+
+    while($arrayRelaciones=$sqlRelaciones->FetchRow()){
+        $this->SetTextColor(0,0,0);
+        
+        $acronimo=arrayReplace ( $arrayRelacionesVisibles,array(TR_acronimo,TG_acronimo,UP_acronimo,EQP_acronimo,EQ_acronimo,NEQ_acronimo),$arrayRelaciones["t_relacion"]);
+        
+        if($arrayRelaciones["t_relacion"]==4){
+            # is UF and not hidden UF                
+            if (!in_array($arrayRelaciones["rr_code"],$CFG["HIDDEN_EQ"])){              
+                $this->Write(5,$acronimo.$arrayRelaciones["rr_code"].': ');
+                $this->SetFont('','I');
+                $this->MultiCell(80,5,latin1($arrayRelaciones["uf_tema"]),0,L);
+                $this->SetFont('','');
+            }
+        }
+
+        if($arrayRelaciones["t_relacion"]==3){
+            if($arrayRelaciones["bt_tema"]){
+                if ($arrayRelaciones["bt_isMetaTerm"]) $this->SetTextColor(108,101,101);
+                $this->SetFont('','');                    
+                $this->MultiCell(80,5,latin1(TG_acronimo.$arrayRelaciones["rr_code"].': '.$arrayRelaciones["bt_tema"]),0,L);
+                }
+            }
+            if($arrayRelaciones["nt_tema"]){
+                if ($arrayRelaciones["nt_isMetaTerm"]) $this->SetTextColor(108,101,101);
+                $this->SetFont('','');                    
+                $this->MultiCell(80,5,latin1(TE_acronimo.$arrayRelaciones["rr_code"].': '.$arrayRelaciones["nt_tema"]),0,L);
+                }
+            if($arrayRelaciones["t_relacion"]==2){
+            if($arrayRelaciones["rt_tema"]){
+                if ($arrayRelaciones["rt_isMetaTerm"]) $this->SetTextColor(108,101,101);
+                $this->SetFont('','');                    
+                $this->MultiCell(80,5,latin1(TR_acronimo.$arrayRelaciones["rr_code"].': '.$arrayRelaciones["rt_tema"]),0,L);
+                }
+            }
+    }
+
+
+    //internal target terms
+    $SQLiTargetTerms=SQLtermsInternalMapped($arrayTerm["id_definitivo"]);
+
+    while($ARRAYiTargetTerms=$SQLiTargetTerms->FetchRow()){
+
+        $acronimo=arrayReplace (array(5,6,7),array(EQP_acronimo,EQ_acronimo,NEQ_acronimo),$ARRAYiTargetTerms["t_relacion"]);
+        $this->MultiCell(80,5,latin1(' '.$acronimo.': '.$ARRAYiTargetTerms["tema"].' ('.$ARRAYiTargetTerms["titulo"].')'),0,L);
+    };
+
+    //mapped target terms
+    $SQLtargetTerms=SQLtargetTerms($arrayTerm["id_definitivo"]);
+    while($arrayTargetT=$SQLtargetTerms->FetchRow()){
+        $this->MultiCell(80,5,latin1(ucfirst($arrayTargetT["tvocab_label"].': '.$arrayTargetT["tterm_string"])),0,L);
+    };
+
+    //mapped URLs terms
+    $SQLURI4term=SQLURIxterm($arrayTerm["id_definitivo"]);
+    while($arrayURI4term=$SQLURI4term->FetchRow()){
+        $this->MultiCell(80,5,latin1(ucfirst($arrayURI4term["uri_value"].': '.$arrayURI4term["uri"])),0,L);
+    };
+
+    $this->Ln(3);
+
+}//end while t_relation (is prefered or alt)
 }//end while term
     $this->SetCol(0);
 }

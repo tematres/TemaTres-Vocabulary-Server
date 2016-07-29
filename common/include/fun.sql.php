@@ -191,7 +191,7 @@ function SQLbuscaSimple($texto){
 	left join $DBCFG[DBprefix]tabla_rel as relaciones on relaciones.id_mayor=tema.tema_id
 	left join $DBCFG[DBprefix]tema as temasPreferidos on temasPreferidos.tema_id=relaciones.id_menor
 	and tema.tema_id=relaciones.id_mayor
-	and relaciones.t_relacion in (4,5,6,7,8)
+	and relaciones.t_relacion in (4,5,6,7)
 	left join $DBCFG[DBprefix]indice i on i.tema_id=tema.tema_id
 	left join $DBCFG[DBprefix]values v on v.value_id = relaciones.rel_rel_id
 	where
@@ -235,7 +235,7 @@ function SQLsearchInNotes($texto,$params=array()){
 	left join $DBCFG[DBprefix]tabla_rel as relaciones on relaciones.id_mayor=tema.tema_id
 	left join $DBCFG[DBprefix]tema as temasPreferidos on temasPreferidos.tema_id=relaciones.id_menor
 	and tema.tema_id=relaciones.id_mayor
-	and relaciones.t_relacion in (4,5,6,7,8)
+	and relaciones.t_relacion in (4,5,6,7)
 	left join $DBCFG[DBprefix]indice i on i.tema_id=tema.tema_id
 	left join $DBCFG[DBprefix]values v on v.value_id = relaciones.rel_rel_id
 	where
@@ -285,7 +285,7 @@ function SQLstartWith($texto){
 	left join $DBCFG[DBprefix]tabla_rel as relaciones on relaciones.id_mayor=tema.tema_id
 	left join $DBCFG[DBprefix]tema as temasPreferidos on temasPreferidos.tema_id=relaciones.id_menor
 	and tema.tema_id=relaciones.id_mayor
-	and relaciones.t_relacion in (4,5,6,7,8)
+	and relaciones.t_relacion in (4,5,6,7)
 	left join $DBCFG[DBprefix]indice i on i.tema_id=tema.tema_id
 	left join $DBCFG[DBprefix]values v on v.value_id = relaciones.rel_rel_id
 	where
@@ -635,6 +635,35 @@ function ARRAYverDatosTermino($tema_id){
 	};
 
 
+	/*
+	BUSCADOR DE DATOS DE UN TERMINO Y SUS TERMINOS RELACIONADOS
+	* Retrieve BT,NT,UF,RT
+	*/
+
+function SQLdirectTerms($tema_id){
+
+GLOBAL $DBCFG;
+
+$tema_id=secure_data($tema_id,"int");
+
+return SQL("select","if(uf.tema_id is not null,0,if(bt.tema_id is not null,1,if(nt.tema_id is not null,2,3))) as rel_order,
+	uf.tema_id as uf_tema_id,uf.code as uf_code,uf.tema as uf_tema,uf.isMetaTerm as uf_isMetaTerm,
+nt.tema_id as nt_tema_id,nt.code as nt_code,nt.tema as nt_tema,nt.isMetaTerm as nt_isMetaTerm,
+bt.tema_id as bt_tema_id,bt.code as bt_code,bt.tema as bt_tema,bt.isMetaTerm as bt_isMetaTerm,
+rt.tema_id as rt_tema_id,rt.code as rt_code,rt.tema as rt_tema,rt.isMetaTerm as rt_isMetaTerm,
+r.* 
+from $DBCFG[DBprefix]tabla_rel as r
+left join $DBCFG[DBprefix]tema as uf on uf.tema_id=r.id_mayor and r.t_relacion=4 and r.id_menor=$tema_id
+left join $DBCFG[DBprefix]tema as nt on nt.tema_id=r.id_menor and r.t_relacion=3 and r.id_mayor=$tema_id
+left join $DBCFG[DBprefix]tema as bt on bt.tema_id=r.id_mayor and r.t_relacion=3 and r.id_menor=$tema_id
+left join $DBCFG[DBprefix]tema as rt on rt.tema_id=r.id_mayor and r.t_relacion=2 and r.id_menor=$tema_id
+left join $DBCFG[DBprefix]values trr on trr.value_id=r.rel_rel_id
+where $tema_id in (r.id_mayor,r.id_menor)
+and r.t_relacion in (2,3,4)
+order by rel_order,trr.value_order,lower(uf_tema),lower(bt_tema) ,lower(nt_tema),lower(rt_tema)");
+};
+
+
 	#
 	# DATOS DE UN TERMINO (id y string) Y SUS TERMINOS RELACIONADOS (id) y tipo de relacion
 	#
@@ -740,7 +769,7 @@ function ARRAYverDatosTermino($tema_id){
 		$sql=SQL("select","tema.tema_id as id,tema.tema,tema.code,tema.cuando,tema.uid,tema.cuando_final,tema.isMetaTerm,r.t_relacion,r.id_menor as tema_id_referido
 		from $from $DBCFG[DBprefix]tema as tema
 		left join $DBCFG[DBprefix]tabla_rel as r on tema.tema_id = r.id_mayor
-		and r.t_relacion in (4,5,6,7,8)
+		and r.t_relacion in (4,5,6,7)
 		where tema.estado_id='13'
 		$where
 		group by tema.tema_id
@@ -762,7 +791,7 @@ function ARRAYverDatosTermino($tema_id){
 		$sql=SQL("select","tema.tema_id as id,tema.tema,tema.code,tema.cuando,tema.uid,tema.cuando_final,tema.isMetaTerm,r.t_relacion,r.id_menor as tema_id_referido
 		from $DBCFG[DBprefix]indice tti, $DBCFG[DBprefix]tema as tema
 		left join $DBCFG[DBprefix]tabla_rel as r on tema.tema_id = r.id_mayor
-		and r.t_relacion in (4,5,6,7,8)
+		and r.t_relacion in (4,5,6,7)
 		where tema.estado_id='13'
 		and tema.tema_id=tti.tema_id
 		$where
@@ -994,7 +1023,7 @@ function ARRAYverDatosTermino($tema_id){
 	relaciones.t_relacion,
 	temasPreferidos.tema as termino_preferido
 	from $from $DBCFG[DBprefix]tema as tema
-	left join $DBCFG[DBprefix]tabla_rel as relaciones on relaciones.id_mayor=tema.tema_id and relaciones.t_relacion in (4,5,6,7,8)
+	left join $DBCFG[DBprefix]tabla_rel as relaciones on relaciones.id_mayor=tema.tema_id and relaciones.t_relacion in (4,5,6,7)
 	left join $DBCFG[DBprefix]tema as temasPreferidos on temasPreferidos.tema_id=relaciones.id_menor
 	and tema.tema_id=relaciones.id_mayor
 	$leftJoin
@@ -1056,7 +1085,7 @@ function ARRAYverDatosTermino($tema_id){
 	relaciones.t_relacion,
 	temasPreferidos.tema as termino_preferido
 	from $DBCFG[DBprefix]tema as tema
-	left join $DBCFG[DBprefix]tabla_rel as relaciones on relaciones.id_mayor=tema.tema_id and relaciones.t_relacion in (4,5,6,7,8)
+	left join $DBCFG[DBprefix]tabla_rel as relaciones on relaciones.id_mayor=tema.tema_id and relaciones.t_relacion in (4,5,6,7)
 	left join $DBCFG[DBprefix]tema as temasPreferidos on temasPreferidos.tema_id=relaciones.id_menor
 	and tema.tema_id=relaciones.id_mayor
 	$leftJoin
@@ -3684,6 +3713,29 @@ function ARRAYnoteTypes($excludeTypeNotes=array()){
 		    }
   		};		
   	return $arrayNoteType;
+}
+
+/*
+terms who arent mapped to specific external target vocabulary
+*/
+function SQLtermsInternalMapped($tema_id,$tesauro_id="")
+{
+	GLOBAL $DBCFG;
+	$tesauro_id=secure_data($tvocab_id,"int");
+	$tema_id=secure_data($tema_id,"int");
+
+	//term mapped for EQ
+	return SQL("select","c.titulo,c.idioma,t.tema_id,t.tema,t.cuando,t.cuando_final,t.isMetaTerm,
+		r.t_relacion,
+		v.value_code
+	from $DBCFG[DBprefix]config c, $DBCFG[DBprefix]values v,$DBCFG[DBprefix]tema as t,$DBCFG[DBprefix]tabla_rel r	
+	where
+	r.t_relacion in (5,6,7)
+	and t.tema_id=r.id_mayor
+	and t.tesauro_id=c.id
+	and v.value_id=r.t_relacion	
+	and r.id_menor=$tema_id
+	order by c.titulo,lower(t.tema)");
 }
 
 ?>
