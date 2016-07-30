@@ -3907,7 +3907,12 @@ return sendFile("$txt","$filname");
 
 //print alphabetic version on PDF 
 function do_pdfAlpha($params=array()){
-	
+
+//update stats	
+doLastModified(); 
+//Load config values
+loadConfigValues(1);
+
 require_once(T3_ABSPATH . 'common/fpdf/fpdf.php');
 require_once(T3_ABSPATH . 'common/include/fun.pdf.php');
 
