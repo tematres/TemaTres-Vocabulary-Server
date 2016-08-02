@@ -10,6 +10,7 @@ h1.metaTerm:before,a.metaTerm:before{content:'<'}
 h1.metaTerm:after,a.metaTerm:after{content:'>'}
 h2{	font-size: 20px;}
 .listTE{font-size: 14px;padding-top:2px;}
+
 .check_label {
   width: 90%;
   float: right;
