@@ -8,7 +8,7 @@ p.metaTerm {background:#fff8bf 13px 50% no-repeat;border:2px solid #ffd324;color
 h1.metaTerm,a.metaTerm{color:#616161;}
 h1.metaTerm:before,a.metaTerm:before{content:'<'}
 h1.metaTerm:after,a.metaTerm:after{content:'>'}
-h2{	font-size: 20px;}
+h2.TThtml{	font-size: 20px;}
 .listTE{font-size: 14px;padding-top:4px;}
 
 .check_label {
