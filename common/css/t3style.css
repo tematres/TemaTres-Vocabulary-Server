@@ -9,7 +9,7 @@ h1.metaTerm,a.metaTerm{color:#616161;}
 h1.metaTerm:before,a.metaTerm:before{content:'<'}
 h1.metaTerm:after,a.metaTerm:after{content:'>'}
 h2{	font-size: 20px;}
-.listTE{font-size: 15px;padding:4px;}
+.listTE{font-size: 15px;padding: inherit;}
 .check_label {
   width: 90%;
   float: right;
