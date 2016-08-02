@@ -1115,7 +1115,7 @@ function HTMLverTE($tema_id,$i_profundidad,$i=""){
 
 	GLOBAL $CFG;
 	$sql=SQLverTerminosE($tema_id);
-	$rows='<ul id="masTE'.$tema_id.'" style="list-style:none; display: none">';
+	$rows='<ul id="masTE'.$tema_id.'"  style="list-style:none; display: none">';
 	//Contador de profundidad de TE desde la raíz
 	$i_profundidad=($i_profundidad==0) ? 1 : $i_profundidad;
 	$i_profundidad=++$i_profundidad;
@@ -1139,7 +1139,7 @@ function HTMLverTE($tema_id,$i_profundidad,$i=""){
 
 		$label_MT=($array["isMetaTerm"]==1) ? NOTE_isMetaTerm : '';
 
-		$rows.='<li><acronym class="thesacronym" title="'.TE_termino.'" lang="'.LANG.'">'.TE_acronimo.$i_profundidad.'</acronym> ' ;
+		$rows.='<li class="listTE"><acronym class="thesacronym" title="'.TE_termino.'" lang="'.LANG.'">'.TE_acronimo.$i_profundidad.'</acronym> ' ;
 		$rows.=HTMLshowCode($array);
 		$rows.=' <a '.$css_class_MT.' title="'.LABEL_verDetalle.' '.$array["tema"].' ('.TE_termino.') '.$label_MT.'"  href="'.URL_BASE.'index.php?tema='.$array["id_tema"].'&amp;/'.string2url($array["tema"]).'">'.$array["tema"].'</a>'.$link_next.'</li>';
 	};
