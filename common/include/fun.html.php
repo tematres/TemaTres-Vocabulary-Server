@@ -2053,6 +2053,12 @@ function HTMLheader($metadata){
 function HTMLnavHeader(){
 
 
+$rows.='<div class="container">
+  <div class="header">
+      <h1><a href="'.URL_BASE.'index.php" title="'.$_SESSION[CFGTitulo].': '.MENU_ListaSis.'">'.$_SESSION[CFGTitulo].'</a></h1>
+ </div>
+</div>';
+
 
 $rows.='<nav class="navbar navbar-inverse" role="navigation">
   <div class="container">

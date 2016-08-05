@@ -87,11 +87,6 @@ $metadata=do_meta_tag();
     <!-- HTML code from Bootply.com editor -->
 
  <body>
-<div class="container">
-  <div class="header">
-      <h1><a href="index.php" title="<?php echo $_SESSION[CFGTitulo].': '.MENU_ListaSis;?> "><?php echo $_SESSION[CFGTitulo];?></a></h1>
- </div>
-</div>
 
   <?php echo HTMLnavHeader(); ?>
 

@@ -71,11 +71,6 @@ if(($_POST["doAdmin"]=='updateEndpointNow')){
   <?php echo HTMLheader($metadata);?>
   </head>
  <body>
-<div class="container">
-  <div class="header">
-      <h1><a href="<?php echo URL_BASE;?>index.php" title="<?php echo $_SESSION[CFGTitulo].': '.MENU_ListaSis;?> "><?php echo $_SESSION[CFGTitulo];?></a></h1>
- </div>
-</div>
 
   <?php echo HTMLnavHeader(); ?>
 

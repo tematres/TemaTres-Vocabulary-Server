@@ -11,12 +11,7 @@ h1.metaTerm:after,a.metaTerm:after{content:'>'}
 h2.TThtml{	font-size: 20px;}
 .listTE{font-size: 14px;padding-top:4px;}
 
-.check_label {
-  width: 90%;
-  float: right;
-  text-align: left;
-  margin-top: 4px;
-}
+.check_label {  width: 90%;  float: right;  text-align: left;  margin-top: 4px;}
 
 .thesacronym{padding-right:2px;}
 #TE{margin-left:5mm;padding:4px;}
@@ -486,3 +481,8 @@ cursor: help;
 display: inline;
 }
 
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
