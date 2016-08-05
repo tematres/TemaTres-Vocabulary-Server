@@ -517,5 +517,5 @@ define('MSG_helpNoteEditor','Puede vincular términos utilizando corchetes doble
 define('LABEL_GLOSS_NOTES','Seleccionar tipo de nota para glosar términos marcados con corchetes dobles: [[glosario]]');
 define('LABEL_AlphaPDF','Alfabético (PDF)');
 define('LABEL_references','referencias');
-define('LABEL_printData','fecha de impresión');
+define('LABEL_printData','data de impressão');
 ?>

@@ -2049,6 +2049,57 @@ function HTMLheader($metadata){
 }
 
 
+
+function HTMLnavHeader(){
+
+
+
+$rows.='<nav class="navbar navbar-inverse" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapsible">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" title="'.MENU_Inicio.' '.$_SESSION["CFGTitulo"].'" href="'.URL_BASE.'index.php">'.MENU_Inicio.'</a>
+    </div>
+    <div class="navbar-collapse collapse" id="navbar-collapsible">
+      <ul class="nav navbar-nav navbar-right">
+        <li><a title="'.LABEL_busqueda.'" href="'.URL_BASE.'index.php?xsearch=1">'.ucfirst(LABEL_BusquedaAvanzada).'</a></li>
+
+        <li><a title="'.MENU_Sobre.'" href="'.URL_BASE.'sobre.php">'.MENU_Sobre.'</a></li>
+      </ul>
+      <ul class="nav navbar-nav navbar-left">';
+
+				//hay sesion de usuario
+        if($_SESSION[$_SESSION["CFGURL"]][ssuser_nivel]){
+  			$rows.=HTMLmainMenu();
+        }else{//no hay session de usuario
+
+ 			$rows.='<li><a href="login.php" title="'.MENU_MiCuenta.'">'.MENU_MiCuenta.'</a></li>';
+        };
+
+  $rows.='</ul>
+      <form method="get" id="simple-search" name="simple-search" action="'.URL_BASE.'index.php" class="navbar-form">
+        <div class="form-group" style="display:inline;">
+          <div class="fill col2">
+            <input class="form-control" id="query" name="'.FORM_LABEL_buscar.'"  type="search">
+            <input class="btn btn-default" type="submit" value="'.LABEL_Buscar.'" />
+          </div>
+        </div>
+      </form>
+    </div>
+
+  </div>
+</nav>';
+
+return $rows;
+}
+
+
+
 function HTMLjsInclude(){
 
   #	<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->

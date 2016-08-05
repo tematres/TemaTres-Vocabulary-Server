@@ -22,7 +22,10 @@ if (stristr( $_SERVER['REQUEST_URI'], "config.tematres.php") ) die("no access");
  */
 # ARCHIVO DE CONFIGURACION == CONFIG FILE #
 include('db.tematres.php');
-if($DBCFG["debugMode"]=='0'){
+if($DBCFG["debugMode"]=='1'){
+	ini_set('display_errors', 'On');
+	error_reporting(E_ALL);	
+}else{
 	ini_set('display_errors',false);
 }
 require_once(T3_ABSPATH . 'common/include/fun.gral.php');
@@ -93,6 +96,8 @@ define('CFG_ENABLE_SPARQL',$_SESSION[$_SESSION["CFGURL"]]["CFG_ENABLE_SPARQL"]);
 //	method to predict search or suggest search terms: by the beginning each word or by the begining of the complete term (concept). Default is by word == 1.
 define('CFG_SUGGESTxWORD',$_SESSION[$_SESSION["CFGURL"]]["CFG_SUGGESTxWORD"]);
 
+// Define way to display top terms, 0=AJAX, 1=HTML div, default = 0
+$CFG["_TOP_TERMS_BROWSER"] ='1';
 
 /*  In almost cases, you don't need to touch nothing here!!
  *  Web path to the directory where are located  

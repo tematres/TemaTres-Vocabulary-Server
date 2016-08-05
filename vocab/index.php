@@ -27,48 +27,9 @@ $search_string = (doValue($_GET,FORM_LABEL_buscar)) ? XSSprevent(doValue($_GET,F
       <h1><a href="<?php echo URL_BASE;?>index.php" title="<?php echo $_SESSION[CFGTitulo].': '.MENU_ListaSis;?> "><?php echo $_SESSION[CFGTitulo];?></a></h1>
  </div>
 </div>
-<nav class="navbar navbar-inverse" role="navigation">
-  <div class="container">
-    <div class="navbar-header">
-      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapsible">
-        <span class="sr-only">Toggle navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
-      <a class="navbar-brand" title="<?php echo MENU_Inicio.' '.$_SESSION[CFGTitulo];?>" href="<?php echo URL_BASE;?>index.php"><?php echo MENU_Inicio;?></a>
-    </div>
-    <div class="navbar-collapse collapse" id="navbar-collapsible">
-      <ul class="nav navbar-nav navbar-right">
-        <li><a title="<?php echo LABEL_busqueda;?>" href="<?php echo URL_BASE;?>index.php?xsearch=1"><?php echo ucfirst(LABEL_BusquedaAvanzada);?></a></li>
 
-        <li><a title="<?php echo MENU_Sobre;?>" href="<?php echo URL_BASE;?>sobre.php"><?php echo MENU_Sobre;?></a></li>
-      </ul>
-      <ul class="nav navbar-nav navbar-left">
-        <?php
-				//hay sesion de usuario
-        if($_SESSION[$_SESSION["CFGURL"]][ssuser_nivel]){
-          echo HTMLmainMenu();
-        }else{//no hay session de usuario
-        ?>
-           <li><a href="login.php" title="<?php echo MENU_MiCuenta;?>"><?php echo MENU_MiCuenta;?></a></li>
-        <?php
-        };
-        ?>
-      </ul>
-      <form method="get" id="simple-search" name="simple-search" action="<?php echo URL_BASE;?>index.php" class="navbar-form">
-        <div class="form-group" style="display:inline;">
-          <div class="fill col2">
-            <input class="form-control" id="query" name="<?php echo FORM_LABEL_buscar;?>"  type="search">
-            <input class="btn btn-default" type="submit" value="<?php echo LABEL_Buscar ?>" />
-          </div>
-        </div>
-      </form>
+  <?php echo HTMLnavHeader(); ?>
 
-    </div>
-
-  </div>
-</nav>
 
 
 <div id="wrap" class="container">
