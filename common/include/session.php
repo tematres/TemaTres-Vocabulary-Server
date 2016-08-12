@@ -32,7 +32,8 @@ if ((stristr( $_SERVER['REQUEST_URI'], "session.php") ) || ( !defined('T3_ABSPAT
     
     //Load config values
 	loadConfigValues(1);
-	
+
+		
     if($_GET[setLang]){
    		$_SESSION[$_SESSION["CFGURL"]][lang]=$idiomas_disponibles[$_GET[setLang]];
    	}	
@@ -52,11 +53,12 @@ if ((stristr( $_SERVER['REQUEST_URI'], "session.php") ) || ( !defined('T3_ABSPAT
 	}
 	
 
- if($_GET[cmdlog]==substr(md5(date("Ymd")),"5","10")){
+ if($_GET["cmdlog"]==substr(md5(date("Ymd")),"5","10")){
 	
 	//Save stadistics
 	$stats=doLastModified(); 
-    unset($_SESSION[$_SESSION["CFGURL"]]);
+	unset($_SESSION[$_SESSION["CFGURL"]]);
+
     header("Location:index.php");
     };
 

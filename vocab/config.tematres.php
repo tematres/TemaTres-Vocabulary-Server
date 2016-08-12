@@ -63,7 +63,6 @@ $CFG["_CHAR_ENCODE"] ='utf-8';
 // If you use codes as notations, please see _SHOW_CORE param
 $CFG["_USE_CODE"] =($_SESSION[$_SESSION["CFGURL"]]["_USE_CODE"]);
 
-
 /*
 Define specific  Excluded characters from the alphabetic menu
  */
@@ -99,9 +98,29 @@ define('CFG_SUGGESTxWORD',$_SESSION[$_SESSION["CFGURL"]]["CFG_SUGGESTxWORD"]);
 // Define way to display top terms, 0=AJAX, 1=HTML div, default = 0
 $CFG["_TOP_TERMS_BROWSER"] ='1';
 
+
+/* Config here to publish image and fixed link in header:
+
+	URL_IMG= URL for the image. 
+	URL_LINK= link for the image (optional)
+
+ Example
+ $CFG["HEADER_EXTRA"] =array(
+ 	"LINK_IMG"=>'http://vocabularyserver.com/img/tematres-logo.gif',
+	"LINK_URL"=>'http://vocabularyserver.com/',
+	"LINK_TITLE"=>'TemaTres: open source way to manage formal representations of knowledge'
+	);
+ */
+$CFG["HEADER_EXTRA"] =array(
+	"LINK_IMG"=>'',
+	"LINK_URL"=>'',
+	"LINK_TITLE"=>''
+);
+
 /*  In almost cases, you don't need to touch nothing here!!
  *  Web path to the directory where are located  
  */
+
 if ( !defined('T3_WEBPATH') )
 	define('T3_WEBPATH', getURLbase().'../common/');
 

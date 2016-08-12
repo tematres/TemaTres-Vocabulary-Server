@@ -1430,4 +1430,11 @@ function toASCII( $str )
 	include_once('URLify.php');
     return URLify::downcode ($str);
 }
+
+//Check if URL is alive
+function URL_exists($url){
+   $headers=get_headers($url);
+   return stripos($headers[0],"200 OK")?true:false;
+}
+
 ?>

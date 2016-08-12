@@ -1964,7 +1964,7 @@ function HTMLlinkTerm($arrayTerm,$arg=array()){
 
 	$url_parts=parse_url($_SESSION["CFGURL"]);
 
-	$urlTerm=$url_parts['scheme'] . '://' . $url_parts['host'] . $url_parts['path'].'index.php?tema='.$arrayTerm["tema_id"].'&amp;/'.string2url($arrayTerm["tema"]);
+	$urlTerm=$url_parts['scheme'] . '://' . $url_parts['host'] .  $url_parts['port'] . $url_parts['path'].'index.php?tema='.$arrayTerm["tema_id"].'&amp;/'.string2url($arrayTerm["tema"]);
 
 	return '<a class="'.$class.'" href="'.$urlTerm.'" title="'.LABEL_verDetalle.$arrayTerm["tema"].'" lang="'.$arrayTerm["lang"].'">'.$arrayTerm["tema"].'</a>';
 }
@@ -2052,10 +2052,15 @@ function HTMLheader($metadata){
 
 function HTMLnavHeader(){
 
+GLOBAL $CFG;
 
+if((!@$_SESSION[$_SESSION["CFGURL"]]["HTMLextraHeader"])) $_SESSION[$_SESSION["CFGURL"]]["HTMLextraHeader"]=HTMLextraDataHeader($CFG);
+
+// here img
 $rows.='<div class="container">
   <div class="header">
       <h1><a href="'.URL_BASE.'index.php" title="'.$_SESSION[CFGTitulo].': '.MENU_ListaSis.'">'.$_SESSION[CFGTitulo].'</a></h1>
+      '.$_SESSION[$_SESSION["CFGURL"]]["HTMLextraHeader"].'
  </div>
 </div>';
 
@@ -2210,5 +2215,23 @@ $rows.='</div>';
 }
 
 if($iNota>0) return $rows;
+}
+
+
+//redact extra link and image for header
+function HTMLextraDataHeader($CFG){
+
+//Check if there are data
+if(strlen($CFG["HEADER_EXTRA"]["LINK_IMG"])>0){
+	if(URL_exists($CFG["HEADER_EXTRA"]["LINK_IMG"])){
+		$url_logo='<img src="'.$CFG["HEADER_EXTRA"]["LINK_IMG"].'" alt="'.$CFG["HEADER_EXTRA"]["LINK_TITLE"].'" height="50px">';
+	}
+
+	///make link 
+	if(strlen($CFG["HEADER_EXTRA"]["LINK_URL"])>0){
+		$url_logo='<a href="'.$CFG["HEADER_EXTRA"]["LINK_URL"].'" title="'.$CFG["HEADER_EXTRA"]["LINK_TITLE"].'">'.$url_logo.'</a>';
+	}
+}
+return $url_logo;
 }
 ?>
