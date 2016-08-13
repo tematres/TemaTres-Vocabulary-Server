@@ -96,7 +96,7 @@ define('CFG_ENABLE_SPARQL',$_SESSION[$_SESSION["CFGURL"]]["CFG_ENABLE_SPARQL"]);
 define('CFG_SUGGESTxWORD',$_SESSION[$_SESSION["CFGURL"]]["CFG_SUGGESTxWORD"]);
 
 // Define way to display top terms, 0=AJAX, 1=HTML div, default = 0
-$CFG["_TOP_TERMS_BROWSER"] ='1';
+$CFG["_TOP_TERMS_BROWSER"] ='0';
 
 
 /* Config here to publish image and fixed link in header:
