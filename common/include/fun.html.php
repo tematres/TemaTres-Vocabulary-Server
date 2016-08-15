@@ -1289,9 +1289,10 @@ function HTMLtopTerms($letra=""){
 				$rows.=HTMLshowCode($array);
 				$rows.=HTMLlinkTerm($array);
 				$rows.='  <a href="javascript:expand(\''.$array["id"].'\')" title="'.LABEL_verDetalle.' '.$array["tema"].' ('.TE_termino.')" ><span id ="expandTE'.$array[id_tema].'">&#x25ba;</span><span id ="contraeTE'.$array["id"].'" style="display: none">&#x25bc;</span></a> ';
+				$rows.='</h2>' ;
 				$rows.=HTMLverTE($array["id"],1,0);
 			};
-			$rows.='</h2>' ;
+			
 	}else{
 		$rows.='<div id="treeTerm" data-url="suggest.php?node=TT"></div>';
 	}
