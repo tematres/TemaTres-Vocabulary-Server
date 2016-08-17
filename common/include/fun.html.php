@@ -321,12 +321,12 @@ function doContextoTermino($idTema,$i_profundidad){
 		};
 	}
 
-	$rows=array("UP"=>doListaTag($iuf,'ul class="list-unstyled"',$row_UP,"UP"),
-	"USE"=>doListaTag($iuse,'ul class="list-unstyled"',$row_USE,"EQ"),
-	"TR"=>doListaTag($irt,'ul class="list-unstyled"',$row_TR,"TR"),
-	"TG"=>doListaTag($itg,'ul class="list-unstyled"',$row_TG,"TG"),
-	"TE"=>doListaTag($int,'ul class="list-unstyled"',$row_NT,"TE"),
-	"EQ"=>doListaTag($ieq,'ul class="list-unstyled"',$row_EQ,"EQ")
+	$rows=array("UP"=>doListaTag($iuf,'ul',$row_UP,"UP","list-unstyled"),
+	"USE"=>doListaTag($iuse,'ul',$row_USE,"EQ","list-unstyled"),
+	"TR"=>doListaTag($irt,'ul',$row_TR,"TR","list-unstyled"),
+	"TG"=>doListaTag($itg,'ul',$row_TG,"TG","list-unstyled"),
+	"TE"=>doListaTag($int,'ul',$row_NT,"TE","list-unstyled"),
+	"EQ"=>doListaTag($ieq,'ul',$row_EQ,"EQ","list-unstyled")
 );
 
 $cant_relaciones=array(
@@ -1018,7 +1018,7 @@ function HTML_URLsearch($display=Array(),$arrayTema=Array()) {
 			$url = str_replace('STRING_BUSQUEDA', $string_busqueda, $url);
 		}
 
-		$html .= '<a  target="_blank" href="'.$url.'" title="'.LABEL_Buscar.' '.$arrayTema[titTema].'  ('.$site[leyenda].')">';
+		$html .= '<a href="'.$url.'" target="_blank" title="'.LABEL_Buscar.' '.$arrayTema[titTema].'  ('.$site[leyenda].')">';
 		$html .= '<img src="'.T3_WEBPATH.'/images/'.$site[favicon].'" alt="'.LABEL_Buscar.' '.$arrayTema[titTema].'  ('.$site[leyenda].')"/>';
 		$html .= '</a>';
 		$html .= "</li>";
@@ -1125,7 +1125,7 @@ function HTMLverTE($tema_id,$i_profundidad,$i=""){
 	while($array=$sql->FetchRow()){
 		if($array["id_te"]){
 			if($i<CFG_MAX_TREE_DEEP){
-				$link_next='  <a href="javascript:expand(\''.$array[id_tema].'\')" title="'.LABEL_verDetalle.' '.$array["tema"].' ('.TE_termino.')" ><span id ="expandTE'.$array[id_tema].'">&#x25ba;</span><span id ="contraeTE'.$array[id_tema].'" style="display: none">&#x25bc;</span></a> ';
+				$link_next='  <a href="javascript:expand(\''.$array[id_tema].'\')" title="'.LABEL_verDetalle.' '.$array["tema"].' ('.TE_termino.')" ><span id ="expandTE'.$array["id_tema"].'">&#x25ba;</span><span id ="contraeTE'.$array["id_tema"].'" style="display: none">&#x25bc;</span></a> ';
 				$link_next.=HTMLverTE($array["id_tema"],$i_profundidad,$i);
 			}		else {
 				$link_next='&nbsp; <a title="'.LABEL_verDetalle.TE_termino.' '.$array["tema"].'" href="'.URL_BASE.'index.php?tema='.$array["id_tema"].'">&#x25ba;</a>';
@@ -1288,7 +1288,7 @@ function HTMLtopTerms($letra=""){
 			$rows.='<h2 class="TThtml">';
 				$rows.=HTMLshowCode($array);
 				$rows.=HTMLlinkTerm($array);
-				$rows.='  <a href="javascript:expand(\''.$array["id"].'\')" title="'.LABEL_verDetalle.' '.$array["tema"].' ('.TE_termino.')" ><span id ="expandTE'.$array[id_tema].'">&#x25ba;</span><span id ="contraeTE'.$array["id"].'" style="display: none">&#x25bc;</span></a> ';
+				$rows.='  <a href="javascript:expand(\''.$array["id"].'\')" title="'.LABEL_verDetalle.' '.$array["tema"].' ('.TE_termino.')" ><span id ="expandTE'.$array["id"].'">&#x25ba;</span><span id ="contraeTE'.$array["id"].'" style="display: none">&#x25bc;</span></a> ';
 				$rows.='</h2>' ;
 				$rows.=HTMLverTE($array["id"],1,0);
 			};
@@ -2225,7 +2225,7 @@ function HTMLextraDataHeader($CFG){
 //Check if there are data
 if(strlen($CFG["HEADER_EXTRA"]["LINK_IMG"])>0){
 	if(URL_exists($CFG["HEADER_EXTRA"]["LINK_IMG"])){
-		$url_logo='<img src="'.$CFG["HEADER_EXTRA"]["LINK_IMG"].'" alt="'.$CFG["HEADER_EXTRA"]["LINK_TITLE"].'" height="50px">';
+		$url_logo='<img src="'.$CFG["HEADER_EXTRA"]["LINK_IMG"].'" height="50px" alt="'.$CFG["HEADER_EXTRA"]["LINK_TITLE"].'">';
 	}
 
 	///make link 

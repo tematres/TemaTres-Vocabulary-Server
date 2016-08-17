@@ -250,13 +250,15 @@ function do_color_row($i,$selec_color1,$selec_color2){
 #
 # Abre y cierra un c�digo html
 #
-function doListaTag($i,$tag,$contenidoTag,$id=""){
-         if($i>0){
-                if(@$id){$idTag=' id="'.$id.'"';};
-                $rows='<'.$tag.$idTag.'>'.$contenidoTag.'</'.$tag.'>';
-         }
+function doListaTag($i,$tag,$contenidoTag,$id="", $class=""){
 
-        return $rows;
+$class=(strlen($class)>0) ? ' class="'.$class.'" ' : '';
+if($i>0){
+        if(@$id){$idTag=' id="'.$id.'"';};
+        $rows='<'.$tag.$idTag.$class.'>'.$contenidoTag.'</'.$tag.'>';
+ }
+
+return $rows;
 };
 
 #

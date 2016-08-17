@@ -222,9 +222,8 @@ if($_SESSION[$_SESSION["CFGURL"]]["ssuser_id"]){
 					echo '  <a class="label label-info" href="'.URL_BASE.'xml.php?rss=true" title="RSS"><span class="icon icon-rss"></span> RSS</a>';
 					echo '  <a class="label label-info" href="'.URL_BASE.'index.php?s=n" title="'.ucfirst(LABEL_showNewsTerm).'"><span class="glyphicon glyphicon-fire"></span> '.ucfirst(LABEL_showNewsTerm).'</a>';
 				?>
-
-				<?php echo doMenuLang($metadata["arraydata"]["tema_id"]); ?>
 			</p>
+				<?php echo doMenuLang($metadata["arraydata"]["tema_id"]); ?>
 		  </div>
 
 </div>
