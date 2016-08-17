@@ -1965,7 +1965,7 @@ function HTMLlinkTerm($arrayTerm,$arg=array()){
 
 	$url_parts=parse_url($_SESSION["CFGURL"]);
 
-	$urlTerm=$url_parts['scheme'] . '://' . $url_parts['host'] .  $url_parts['port'] . $url_parts['path'].'index.php?tema='.$arrayTerm["tema_id"].'&amp;/'.string2url($arrayTerm["tema"]);
+	$urlTerm=$url_parts['scheme'] . '://' . $url_parts['host'] . ':' . $url_parts['port'] . $url_parts['path'].'index.php?tema='.$arrayTerm["tema_id"].'&amp;/'.string2url($arrayTerm["tema"]);
 
 	return '<a class="'.$class.'" href="'.$urlTerm.'" title="'.LABEL_verDetalle.$arrayTerm["tema"].'" lang="'.$arrayTerm["lang"].'">'.$arrayTerm["tema"].'</a>';
 }
