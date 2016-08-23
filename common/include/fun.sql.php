@@ -1308,7 +1308,7 @@ function SQLlistTermsfromDate($month,$year,$ord=""){
 	}
 	$codUP=UP_acronimo;
 
-	$sql=SQLo("select","if(relaciones.t_relacion=4,relaciones.id_menor,tema.tema_id) as id_tema,tema.isMetaTerm,
+	$sql=SQLo("select","if(relaciones.t_relacion=4,relaciones.id_menor,tema.tema_id) as tema_id,tema.isMetaTerm,
 	if(relaciones.t_relacion=4,concat(tema.tema,' ($codUP)'),tema.tema) as tema,
 	tema.cuando,
 	usuario.id as id_usuario,usuario.apellido,usuario.nombres,usuario.orga
