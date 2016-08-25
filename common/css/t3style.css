@@ -486,3 +486,48 @@ display: inline;
     justify-content: space-between;
     align-items: center;
 }
+
+
+/*aporte de BNM */
+.sobre {
+    border-bottom: 1px solid ;
+    padding: 10px 0px 10px 0px;
+    align-items: stretch;
+}
+
+.sobre dt,
+.sobre dd {
+    padding: 0px 10px;
+}
+
+.sobre dt {
+    width: 30%;
+    background-color: white;
+    text-align: right;
+}
+
+.sobre dd {
+    width: 70%;
+    flex-grow: 1;
+    text-align: left;
+}
+
+.sobre {
+    font-size: 14px;
+    font-weight: lighter;
+}
+
+@media (max-width: 425px) {
+    .sobre .flex {
+        display: block;
+    }
+    .sobre dt,
+    .sobre .flex dd {
+        width: 100%;
+    }
+    .sobre dt {
+        text-align: left;
+        margin-bottom: 10px;
+    }
+
+}

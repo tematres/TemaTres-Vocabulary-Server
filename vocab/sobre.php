@@ -25,7 +25,7 @@ $metadata=do_meta_tag();
     $fecha_mod=do_fecha($_SESSION["CFGlastMod"]);
     $ARRAYmailContact=ARRAYfetchValue('CONTACT_MAIL');
     ?>
-<div class="container" id="bodyText">
+<div class="container sobre " id="bodyText">
 
      <h1><?php echo $_SESSION[CFGTitulo];?> / <?php echo $_SESSION[CFGAutor];?></h1>
         <dl class="dl-horizontal" id="sumario">
