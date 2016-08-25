@@ -12,8 +12,6 @@ if ((stristr( $_SERVER['REQUEST_URI'], "session.php") ) || ( !defined('T3_ABSPAT
 ############################### FUNCIONES GENERALES ###############################
 ###################################################################################
 ###################################################################################
-
-
 // Funcion tomada de PHPBB: http://www.phpbb.com/
 // addslashes to vars if magic_quotes_gpc is off
 // this is a security precaution to prevent someone
