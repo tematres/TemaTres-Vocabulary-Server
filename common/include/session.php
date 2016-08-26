@@ -20,7 +20,7 @@ ini_set('session.cookie_httponly', 1);
 ini_set('session.use_only_cookies', 1);
 
 // Uses a secure connection (HTTPS) if possible
-ini_set('session.cookie_secure', 1);
+//ini_set('session.cookie_secure', 1);
 session_start();
 
 $SQL_CFG_LC=SQL("select","id,titulo,autor,idioma,cobertura,keywords,tipo,cuando,url_base,polijerarquia from $DBCFG[DBprefix]config where id=1");
