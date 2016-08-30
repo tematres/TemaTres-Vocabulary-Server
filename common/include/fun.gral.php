@@ -496,11 +496,12 @@ function wiki2link($wikitext)
 	while(strpos($inter_text,"[[") && strpos($inter_text,"]]"))
 	{
 		$link	= str_replace(array("[[", "]]"), "", substr($inter_text, strpos($inter_text, "[["), (strpos($inter_text, "]]")-strpos($inter_text, "[["))));
-		if(strpos($link, "|"))
-			list($href, $title)	= explode("|", $link);
-		else
-			$inter_text	= str_replace('[['.$link.']]', string2gloss($link,array($_SESSION[$_SESSION["CFGURL"]]["_GLOSS_NOTES"])), $inter_text);
-			
+        if(strpos($link, "|")) {
+            list($toSee,$string) = explode("|", $link);
+            $inter_text = str_replace('[['.$toSee."|".$string.']]', string2gloss($string,$toSee,array($_SESSION[$_SESSION["CFGURL"]]["_GLOSS_NOTES"])), $inter_text);
+        } else {
+            $inter_text = str_replace('[['.$link.']]', string2gloss($link,$link,array($_SESSION[$_SESSION["CFGURL"]]["_GLOSS_NOTES"])), $inter_text);
+        }
 	}
 
 
@@ -511,27 +512,27 @@ function wiki2link($wikitext)
 
 
 //Create link and tooltip for given string
-function string2gloss($string,$noteTypes=array("NA")){
+function string2gloss($string,$toSee,$noteTypes=array("NA")){
 
 	$sqlTerm=SQLbuscaExacta(html2txt($string));
 	$arrayTerm=$sqlTerm->FetchRow();
-	
+
 	$sqlNotes=SQLdatosTerminoNotas($arrayTerm["tema_id"],$noteTypes);
 	if(SQLcount($sqlNotes)>0){
-		while($arrayNote=$sqlNotes->FetchRow()){			
+		while($arrayNote=$sqlNotes->FetchRow()){
 			$description.=$arrayNote["nota"].' ';
 			}
 
-		$text=html2txt($description);	
+		$text=html2txt($description);
 	}else{
 			$text=ucfirst(LABEL_Detalle).' '.$arrayTerm["tema"];
-	}	
-		
-	if($arrayTerm["tema_id"]){
-		return '<a href="'.URL_BASE.'index.php?tema='.$arrayTerm["tema_id"].'" class="autoGloss" data-toggle="tooltip" data-placement="right" title="'.$text.'">'.$string.'</a>';
-	}else{
-		return '<a href="'.URL_BASE.'index.php?'.FORM_LABEL_buscar.'='.$string.'&amp;sgs=off" title="'.ucfirst(LABEL_Detalle).' '.$string.'">'.$string.'</a>';
 	}
+
+    if($arrayTerm["tema_id"]){
+        return '<a href="'.URL_BASE.'index.php?tema='.$arrayTerm["tema_id"].'" class="autoGloss" data-toggle="tooltip" data-placement="right" title="'.$text.'">'.$toSee.'</a>';
+    }else{
+        return '<a href="'.URL_BASE.'index.php?'.FORM_LABEL_buscar.'='.$string.'&amp;sgs=off" title="'.ucfirst(LABEL_Detalle).' '.$string.'">'.$toSee.'</a>';
+    }
 }
 
 /*
