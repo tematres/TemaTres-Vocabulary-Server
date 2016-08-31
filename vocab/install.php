@@ -440,7 +440,7 @@ if(@$DBCFG["DBcharset"]){
 		 $result8=$DB->Execute("INSERT INTO
 			`".$prefix."usuario` (`APELLIDO`, `NOMBRES`, `uid`, `cuando`, `id`, `mail`, `pass`, `orga`, `nivel`, `estado`, `hasta`)
 			VALUES
-			($admin_name,$admin_surname, 1, now(), 1, $admin_mail,$admin_pass_hash, 'TemaTres', 1, 'ACTIVO', now())") ;
+			($admin_surname,$admin_name, 1, now(), 1, $admin_mail,$admin_pass_hash, 'TemaTres', 1, 'ACTIVO', now())") ;
 
 		//echo $DB->ErrorMsg();
 
