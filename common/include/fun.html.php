@@ -15,7 +15,8 @@ function resultaBusca($texto,$tipo=""){
 
 	GLOBAL $CFG;
 	
-	$texto=trim($texto);
+	$texto=XSSprevent(html2txt($texto));
+
 
 	//Anulación de sugerencia de términos
 	$sgs=$_GET["sgs"];
