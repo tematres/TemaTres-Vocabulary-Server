@@ -3826,7 +3826,7 @@ while($arrayTema=$sql->FetchRow()){
 
 		$txt.="\n".$arrayTema[tema]."\r\n";
 		//show code
-		$txt.=(($CFG["_SHOW_CODE"]=='1') && (strlen($arrayTema["code"]>0))) ? '	'.ucfirst(LABEL_CODE).': '.$arrayTema["code"]."\r\n" : "";
+		$txt.=(($CFG["_SHOW_CODE"]=='1') && (strlen($arrayTema["code"])>0)) ? '	'.ucfirst(LABEL_CODE).': '.$arrayTema["code"]."\r\n" : "";
 
 		$label_target_vocabulary='';
 
