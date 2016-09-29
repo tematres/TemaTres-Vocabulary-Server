@@ -760,7 +760,7 @@ class XMLvocabularyServices {
 		$array['fetchSimilar']['action'] = 'Search and retrieve similar term for string search expresion ($arg)';
 		$array['fetchSimilar']['task'] = 'fetchSimilar';
 		$array['fetchSimilar']['arg'] = 'string (for example: arg=trrends)';
-		$array['fetchSimilar']['example'] = $_SESSION["CFGURL"].'services.php?task=letter&arg=a';
+		$array['fetchSimilar']['example'] = $_SESSION["CFGURL"].'services.php?task=fetchSimilar&arg=a';
 
 		$array['fetchLast']['action'] = 'Retrieves last terms created';
 		$array['fetchLast']['task'] = 'fetchLast';
