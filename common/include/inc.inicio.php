@@ -38,7 +38,7 @@ elseif(
 	require_once(T3_ABSPATH . 'common/include/inc.vistaTermino.php');
 }
 //Vista de términos según estados
-elseif(is_numeric($_GET[estado_id])){
+elseif(is_numeric($_GET[estado_id]) && ($_SESSION[$_SESSION["CFGURL"]][ssuser_id])){
 	echo '<div class="container" id="bodyText">';
 	echo HTMLlistaTerminosEstado($_GET[estado_id],CFG_NUM_SHOW_TERMSxSTATUS);
 	echo '</div>';
