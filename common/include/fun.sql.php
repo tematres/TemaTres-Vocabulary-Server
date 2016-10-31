@@ -660,7 +660,7 @@ left join $DBCFG[DBprefix]tema as rt on rt.tema_id=r.id_mayor and r.t_relacion=2
 left join $DBCFG[DBprefix]values trr on trr.value_id=r.rel_rel_id
 where $tema_id in (r.id_mayor,r.id_menor)
 and r.t_relacion in (2,3,4)
-order by rel_order,trr.value_order,lower(uf_tema),lower(bt_tema) ,lower(nt_tema),lower(rt_tema)");
+order by rel_order,trr.value_order,lower(uf_tema),lower(bt_tema),lower(nt_tema),lower(rt_tema)");
 };
 
 

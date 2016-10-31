@@ -2308,15 +2308,156 @@ $txt.="_________________________________________________________________________
 $sql=SQLlistaTemas($params["hasTopTerm"]);
 
 
-if($params["hasTopTerm"]>0)
-{
+if($params["hasTopTerm"]>0){
 	$txt.=txt4term($params["hasTopTerm"],$params);
-
 }
 
 
-while($arrayTema=$sql->FetchRow())
-{
+while($arrayTema=$sql->FetchRow()){
+
+	#Mantener vivo el navegador
+	$time_now = time();
+	if ($time_start >= $time_now + 10) {
+		$time_start = $time_now;
+		header('X-pmaPing: Pong');
+	};
+
+	// Diferenciar entre términos preferidos y términos no preferidos o referencias
+	if($arrayTema["t_relacion"])// Si es no preferido o refencia: mostrar preferido y referido
+	{
+		//Remisiones de equivalencias y no preferidos
+		$sqlNoPreferidos=SQLterminosValidosUF($arrayTema[id]);
+		while($arrayNoPreferidos=$sqlNoPreferidos->FetchRow()){
+
+		$acronimo=arrayReplace ( array("4","5","6","7"),array(USE_termino,EQP_acronimo,EQ_acronimo,NEQ_acronimo),$arrayNoPreferidos["t_relacion"]);
+
+		$referencia_mapeo = ($arrayNoPreferidos["vocabulario_id"]!=='1') ? ' ('.$arrayNoPreferidos["titulo"].')' : ''."\r\n";
+
+		$txt.="\n".$arrayTema["tema"] . $referencia_mapeo."\n";
+		$txt.='	'.$acronimo.$arrayNoPreferidos["rr_code"].': '.$arrayNoPreferidos["tema_pref"]."\r\n";
+		};
+
+
+	}	else	{
+	// Si es preferido: mostar notas y relaciones
+	$txt.="\n".$arrayTema["tema"]."\r\n";
+
+	//show code
+	$txt.=(($CFG["_SHOW_CODE"]==1) && (strlen($arrayTema["code"])>0)) ? '	'.ucfirst(LABEL_CODE).': '.$arrayTema["code"]."\r\n" : "";
+
+
+	$label_target_vocabulary='';
+
+
+	$txt.=($params["includeCreatedDate"]==1) ? LABEL_fecha_creacion.': '.$arrayTema[cuando]."\r\n" : '';
+
+	if(($arrayTema[cuando_final]>$arrayTema[cuando]) && ($params["includeModDate"]==1))	{$txt.=LABEL_fecha_modificacion.': '.$arrayTema[cuando_final]."\r\n";};
+
+
+	if($params["includeTopTerm"]==1){
+		$arrayMyTT=ARRAYmyTopTerm($arrayTema[id]);
+		$txt.=($arrayMyTT["tema_id"]!==$arrayTema[id]) ? '	TT: '.$arrayMyTT["tema"]."\r\n" : '';
+	}
+
+
+	//include or not notes
+	if(is_array($params["includeNote"])){
+		//Notas
+		$sqlNotas=SQLdatosTerminoNotas($arrayTema[id]);
+
+			while($arrayNotas=$sqlNotas->FetchRow()){
+
+				$arrayNotas[label_tipo_nota]=(in_array($arrayNotas[ntype_id],array(8,9,10,11,15))) ? arrayReplace(array(8,9,10,11,15),array(LABEL_NA,LABEL_NH,LABEL_NB,LABEL_NP,LABEL_NC),$arrayNotas[ntype_id]) : $arrayNotas[ntype_code];
+
+				if(($arrayNotas[tipo_nota]!=='NP') && (in_array($arrayNotas[tipo_nota], $params["includeNote"]))){
+					$txt.='	'.$arrayNotas[label_tipo_nota].': '.html2txt($arrayNotas[nota])."\r\n";
+				}
+			};
+	}
+	
+
+	//Relaciones
+    #Fetch data about associated terms (BT,RT,UF)    
+    //Relaciones
+    $sqlRelaciones=SQLdirectTerms($arrayTema["id"]);
+
+    $arrayRelacionesVisibles=array(2,3,4,5,6,7); // TG/TE/UP/TR
+
+    while($arrayRelaciones=$sqlRelaciones->FetchRow()){
+        
+        $acronimo=arrayReplace ( $arrayRelacionesVisibles,array(TR_acronimo,TG_acronimo,UP_acronimo,EQP_acronimo,EQ_acronimo,NEQ_acronimo),$arrayRelaciones["t_relacion"]);
+        
+        if($arrayRelaciones["t_relacion"]==4){
+            # is UF and not hidden UF                
+            if (!in_array($arrayRelaciones["rr_code"],$CFG["HIDDEN_EQ"])){     
+				$txt.='	'.UP_acronimo.$arrayRelaciones["rr_code"].': '.$arrayRelaciones["uf_tema"]."\r\n";
+            }
+        }
+
+        if($arrayRelaciones["t_relacion"]==3){
+            if($arrayRelaciones["bt_tema"]){
+				$txt.='	'.TG_acronimo.$arrayRelaciones["rr_code"].': '.$arrayRelaciones["bt_tema"]."\r\n";
+            }
+            if($arrayRelaciones["nt_tema"]){
+				$txt.='	'.TE_acronimo.$arrayRelaciones["rr_code"].': '.$arrayRelaciones["nt_tema"]."\r\n";
+                }
+         }
+
+            if($arrayRelaciones["t_relacion"]==2){
+            if($arrayRelaciones["rt_tema"]){
+				$txt.='	'.TR_acronimo.$arrayRelaciones["rr_code"].': '.$arrayRelaciones["rt_tema"]."\r\n";
+                }
+            }
+    }
+
+
+    //internal target terms
+    $SQLiTargetTerms=SQLtermsInternalMapped($arrayTema["id"]);
+
+    while($ARRAYiTargetTerms=$SQLiTargetTerms->FetchRow()){
+        $acronimoTterm=arrayReplace (array(5,6,7),array(EQP_acronimo,EQ_acronimo,NEQ_acronimo),$ARRAYiTargetTerms["t_relacion"]);
+		$txt.='	'.$acronimoTterm.': '.$ARRAYiTargetTerms["tema"].' ('.$ARRAYiTargetTerms["titulo"].') '."\r\n";
+    };
+
+	$txt.=$label_target_vocabulary;
+	//Terminos equivalentes web services
+	$SQLtargetTerms=SQLtargetTerms($arrayTema["id"]);
+	while($arrayTT=$SQLtargetTerms->FetchRow()){
+			$txt.='	'.FixEncoding(ucfirst($arrayTT[tvocab_label])).': '.FixEncoding($arrayTT[tterm_string])."\r\n";
+		};
+
+
+	}
+}
+
+$filname=string2url($_SESSION[CFGTitulo].' '.MENU_ListaAbc).'.txt';
+
+return sendFile("$txt","$filname");
+};
+
+
+function txtAlfabeticoBKP($params=array()){
+
+GLOBAL $CFG;
+
+$txt=ucfirst(LABEL_Titulo).': '.$_SESSION["CFGTitulo"]."\r\n";
+$txt.=ucfirst(LABEL_Autor).': '.$_SESSION["CFGAutor"]."\r\n";
+$txt.=ucfirst(LABEL_Keywords).': '.$_SESSION["CFGKeywords"]."\r\n";
+$txt.=ucfirst(LABEL_Cobertura).': '.$_SESSION["CFGCobertura"]."\r\n";
+$txt.=LABEL_URI.': '.$_SESSION["CFGURL"]."\r\n";
+$txt.=ucfirst(LABEL_Version).': '.$_SESSION["CFGVersion"]."\r\n";
+$txt.="__________________________________________________________________________\r\n";
+
+//Lista de todos los términos
+$sql=SQLlistaTemas($params["hasTopTerm"]);
+
+
+if($params["hasTopTerm"]>0){
+	$txt.=txt4term($params["hasTopTerm"],$params);
+}
+
+
+while($arrayTema=$sql->FetchRow()){
 
 	#Mantener vivo el navegador
 	$time_now = time();
@@ -2341,9 +2482,7 @@ while($arrayTema=$sql->FetchRow())
 		};
 
 
-	}
-	else
-	{
+	}	else	{
 	// Si es preferido: mostar notas y relaciones
 	$txt.="\n".$arrayTema["tema"]."\r\n";
 
@@ -2359,81 +2498,65 @@ while($arrayTema=$sql->FetchRow())
 	if(($arrayTema[cuando_final]>$arrayTema[cuando]) && ($params["includeModDate"]==1))	{$txt.=LABEL_fecha_modificacion.': '.$arrayTema[cuando_final]."\r\n";};
 
 
-	if($params["includeTopTerm"]==1)
-	{
+	if($params["includeTopTerm"]==1){
 		$arrayMyTT=ARRAYmyTopTerm($arrayTema[id]);
 		$txt.=($arrayMyTT["tema_id"]!==$arrayTema[id]) ? '	TT: '.$arrayMyTT["tema"]."\r\n" : '';
 	}
 
 
 	//include or not notes
-	if(is_array($params["includeNote"]))
-	{
+	if(is_array($params["includeNote"])){
 		//Notas
 		$sqlNotas=SQLdatosTerminoNotas($arrayTema[id]);
 
-			while($arrayNotas=$sqlNotas->FetchRow())
-			{
+			while($arrayNotas=$sqlNotas->FetchRow()){
 
 				$arrayNotas[label_tipo_nota]=(in_array($arrayNotas[ntype_id],array(8,9,10,11,15))) ? arrayReplace(array(8,9,10,11,15),array(LABEL_NA,LABEL_NH,LABEL_NB,LABEL_NP,LABEL_NC),$arrayNotas[ntype_id]) : $arrayNotas[ntype_code];
 
-				if(($arrayNotas[tipo_nota]!=='NP') && (in_array($arrayNotas[tipo_nota], $params["includeNote"])))
-				{
+				if(($arrayNotas[tipo_nota]!=='NP') && (in_array($arrayNotas[tipo_nota], $params["includeNote"]))){
 					$txt.='	'.$arrayNotas[label_tipo_nota].': '.html2txt($arrayNotas[nota])."\r\n";
 				}
 			};
 	}
+	
+
+
 	//Relaciones
 	$sqlRelaciones=SQLverTerminoRelaciones($arrayTema[id]);
-
 	$arrayRelacionesVisibles=array(2,3,4,5,6,7); // TG/TE/UP/TR
-	while($arrayRelaciones=$sqlRelaciones->FetchRow())
-	{
+	while($arrayRelaciones=$sqlRelaciones->FetchRow()){
 
 		if(in_array($arrayRelaciones[t_relacion],$arrayRelacionesVisibles)){
 
 			$acronimo=arrayReplace ( $arrayRelacionesVisibles,array(TR_acronimo,TG_acronimo,UP_acronimo,EQP_acronimo,EQ_acronimo,NEQ_acronimo),$arrayRelaciones[t_relacion]);
 
-			if(in_array($arrayRelaciones[t_relacion],array(5,6,7)))
-			{
+			if(in_array($arrayRelaciones[t_relacion],array(5,6,7)))	{
 				//términos equivalentes .. se concatenan después de los TE/NT
 				$label_target_vocabulary.='	'.$acronimo.': '.$arrayRelaciones[tema].' ('.$arrayRelaciones[titulo].')'."\r\n";
-			}
-			else
-			{
+			}			else			{
 
-			if ($arrayRelaciones[t_relacion]==4)
-				{
+			if ($arrayRelaciones[t_relacion]==4)				{
 				# is UF and not hidden UF
 				$txt.=(in_array($arrayRelaciones[rr_code],$CFG["HIDDEN_EQ"])) ? false :'	'.$acronimo.$arrayRelaciones[rr_code].': '.$arrayRelaciones[tema]."\r\n";
-				}
-				else
-				{
+				}				else				{
 					$txt.='	'.$acronimo.$arrayRelaciones[rr_code].': '.$arrayRelaciones[tema]."\r\n";
 				}
 
-
-
 			}
+		}
 
-
-			}
-
-		};
+	};
 
 	//Terminos especificos
 	$SQLTerminosE=SQLverTerminosE($arrayTema[id]);
-	while($arrayTE=$SQLTerminosE->FetchRow())
-		{
+	while($arrayTE=$SQLTerminosE->FetchRow()){
 		$txt.='	'.TE_acronimo.$arrayTE[rr_code].': '.$arrayTE[tema]."\r\n";
 		};
 
 	$txt.=$label_target_vocabulary;
-
 	//Terminos equivalentes web services
 	$SQLtargetTerms=SQLtargetTerms($arrayTema[id]);
-	while($arrayTT=$SQLtargetTerms->FetchRow())
-		{
+	while($arrayTT=$SQLtargetTerms->FetchRow()){
 			$txt.='	'.FixEncoding(ucfirst($arrayTT[tvocab_label])).': '.FixEncoding($arrayTT[tterm_string])."\r\n";
 		};
 
@@ -2475,44 +2598,49 @@ function txt4term($tema_id,$params=array())
 			}
 		};
 
-	//Relaciones
-	$sqlRelaciones=SQLverTerminoRelaciones($arrayTema[tema_id]);
+    #Fetch data about associated terms (BT,RT,UF)    
+    //Relaciones
+    $sqlRelaciones=SQLdirectTerms($arrayTema["tema_id"]);
 
-	$arrayRelacionesVisibles=array(2,3,4,5,6,7); // TG/TE/UP/TR
-	while($arrayRelaciones=$sqlRelaciones->FetchRow())
-	{
+    $arrayRelacionesVisibles=array(2,3,4,5,6,7); // TG/TE/UP/TR
 
-		if(in_array($arrayRelaciones[t_relacion],$arrayRelacionesVisibles)){
+    while($arrayRelaciones=$sqlRelaciones->FetchRow()){
+        
+        if($arrayRelaciones["t_relacion"]==4){
+            # is UF and not hidden UF                
+            if (!in_array($arrayRelaciones["rr_code"],$CFG["HIDDEN_EQ"])){     
+				$txt.='	'.UP_acronimo.$arrayRelaciones["rr_code"].': '.$arrayRelaciones["uf_tema"]."\r\n";
+            }
+        }
 
-			$acronimo=arrayReplace ( $arrayRelacionesVisibles,array(TR_acronimo,TG_acronimo,UP_acronimo,EQP_acronimo,EQ_acronimo,NEQ_acronimo),$arrayRelaciones[t_relacion]);
+        if($arrayRelaciones["t_relacion"]==3){
+            if($arrayRelaciones["bt_tema"]){
+				$txt.='	'.TG_acronimo.$arrayRelaciones["rr_code"].': '.$arrayRelaciones["bt_tema"]."\r\n";
+            }
 
-			if(in_array($arrayRelaciones[t_relacion],array(5,6,7)))
-			{
-				//términos equivalentes .. se concatenan después de los TE/NT
-				$label_target_vocabulary.='	'.$acronimo.': '.$arrayRelaciones[tema].' ('.$arrayRelaciones[titulo].')'."\r\n";
-			}
-			else
-			{
-				$txt.='	'.$acronimo.$arrayRelaciones[rr_code].': '.$arrayRelaciones[tema]."\r\n";
+            if($arrayRelaciones["nt_tema"]){
+				$txt.='	'.TE_acronimo.$arrayRelaciones["rr_code"].': '.$arrayRelaciones["nt_tema"]."\r\n";
+                }
+         }
+            if($arrayRelaciones["t_relacion"]==2){
+            if($arrayRelaciones["rt_tema"]){
+				$txt.='	'.TR_acronimo.$arrayRelaciones["rr_code"].': '.$arrayRelaciones["rt_tema"]."\r\n";
+                }
+            }
+    }
 
-			}
+    //internal target terms
+    $SQLiTargetTerms=SQLtermsInternalMapped($arrayTema["tema_id"]);
 
-
-			}
-
-		};
-
-	//Terminos especificos
-	$SQLTerminosE=SQLverTerminosE($arrayTema[tema_id]);
-	while($arrayTE=$SQLTerminosE->FetchRow())
-		{
-		$txt.='	'.TE_acronimo.$arrayTE[rr_code].': '.$arrayTE[tema]."\r\n";
-		};
+    while($ARRAYiTargetTerms=$SQLiTargetTerms->FetchRow()){
+        $acronimoTterm=arrayReplace (array(5,6,7),array(EQP_acronimo,EQ_acronimo,NEQ_acronimo),$ARRAYiTargetTerms["t_relacion"]);
+		$txt.='	'.$acronimoTterm.': '.$ARRAYiTargetTerms["tema"].' ('.$ARRAYiTargetTerms["titulo"].') '."\r\n";
+    };
 
 	$txt.=$label_target_vocabulary;
 
 	//Terminos equivalentes web services
-	$SQLtargetTerms=SQLtargetTerms($arrayTema[tema_id]);
+	$SQLtargetTerms=SQLtargetTerms($arrayTema["tema_id"]);
 	while($arrayTT=$SQLtargetTerms->FetchRow())
 		{
 			$txt.='	'.FixEncoding(ucfirst($arrayTT[tvocab_label])).': '.FixEncoding($arrayTT[tterm_string])."\r\n";
@@ -3800,10 +3928,7 @@ $txt.="_________________________________________________________________________
 //Lista de todos los términos
 $sql=SQLterm2down($term_id);
 
-/*if($params["hasTopTerm"]>0){
-	$txt.=txt4term($params["hasTopTerm"],$params);
-}
-*/
+
 while($arrayTema=$sql->FetchRow()){
 	#Mantener vivo el navegador
 	$time_now = time();
@@ -3813,65 +3938,81 @@ while($arrayTema=$sql->FetchRow()){
 	};
 	// Diferenciar entre términos preferidos y términos no preferidos o referencias
 	// Si es no preferido o refencia: mostrar preferido y referido
-	if($arrayTema[t_relacion]){
+	if($arrayTema["t_relacion"]){
 		//Remisiones de equivalencias y no preferidos
-		$sqlNoPreferidos=SQLterminosValidosUF($arrayTema[id]);
+		$sqlNoPreferidos=SQLterminosValidosUF($arrayTema["id"]);
 		while($arrayNoPreferidos=$sqlNoPreferidos->FetchRow()){
 		$acronimo=arrayReplace ( array("4","5","6","7"),array(USE_termino,EQP_acronimo,EQ_acronimo,NEQ_acronimo),$arrayNoPreferidos[t_relacion]);
-		$referencia_mapeo = ($arrayNoPreferidos[vocabulario_id]!=='1') ? ' ('.$arrayNoPreferidos[titulo].')' : ''."\r\n";
-		$txt.="\n".$arrayTema[tema] . $referencia_mapeo ;
-		$txt.='	'.$acronimo.$arrayNoPreferidos[rr_code].': '.$arrayNoPreferidos[tema_pref]."\r\n";
+		$referencia_mapeo = ($arrayNoPreferidos["vocabulario_id"]!=='1') ? ' ('.$arrayNoPreferidos["titulo"].')' : ''."\r\n";
+		$txt.="\n".$arrayTema["tema"] . $referencia_mapeo ;
+		$txt.='	'.$acronimo.$arrayNoPreferidos["rr_code"].': '.$arrayNoPreferidos["tema_pref"]."\r\n";
 		};
 	}	else{	// Si es preferido: mostar notas y relaciones
 
-		$txt.="\n".$arrayTema[tema]."\r\n";
+		$txt.="\n".$arrayTema["tema"]."\r\n";
 		//show code
 		$txt.=(($CFG["_SHOW_CODE"]=='1') && (strlen($arrayTema["code"])>0)) ? '	'.ucfirst(LABEL_CODE).': '.$arrayTema["code"]."\r\n" : "";
 
 		$label_target_vocabulary='';
 
-		$txt.=($params["includeCreatedDate"]==1) ? LABEL_fecha_creacion.': '.$arrayTema[cuando]."\r\n" : '';
-		if(($arrayTema[cuando_final]>$arrayTema[cuando]) && ($params["includeModDate"]==1))	{$txt.=LABEL_fecha_modificacion.': '.$arrayTema[cuando_final]."\r\n";};
+		$txt.=($params["includeCreatedDate"]==1) ? LABEL_fecha_creacion.': '.$arrayTema["cuando"]."\r\n" : '';
+		if(($arrayTema["cuando_final"]>$arrayTema["cuando"]) && ($params["includeModDate"]==1))	{$txt.=LABEL_fecha_modificacion.': '.$arrayTema["cuando_final"]."\r\n";};
 
 		//Notas
 		$sqlNotas=SQLdatosTerminoNotas($arrayTema[id]);
 			while($arrayNotas=$sqlNotas->FetchRow()){
-				$arrayNotas[label_tipo_nota]=(in_array($arrayNotas[ntype_id],array(8,9,10,11,15))) ? arrayReplace(array(8,9,10,11,15),array(LABEL_NA,LABEL_NH,LABEL_NB,LABEL_NP,LABEL_NC),$arrayNotas[ntype_id]) : $arrayNotas[ntype_code];
-				if(($arrayNotas[tipo_nota]!=='NP') && (in_array($arrayNotas[tipo_nota], $params["includeNote"])))				{
-					$txt.='	'.$arrayNotas[label_tipo_nota].': '.html2txt($arrayNotas[nota])."\r\n";
+				$arrayNotas["label_tipo_nota"]=(in_array($arrayNotas[ntype_id],array(8,9,10,11,15))) ? arrayReplace(array(8,9,10,11,15),array(LABEL_NA,LABEL_NH,LABEL_NB,LABEL_NP,LABEL_NC),$arrayNotas["ntype_id"]) : $arrayNotas["ntype_code"];
+				if(($arrayNotas["tipo_nota"]!=='NP') && (in_array($arrayNotas["tipo_nota"], $params["includeNote"])))				{
+					$txt.='	'.$arrayNotas["label_tipo_nota"].': '.html2txt($arrayNotas["nota"])."\r\n";
 				}
 			};
-	//Relaciones
-	$sqlRelaciones=SQLverTerminoRelaciones($arrayTema[id]);
-	$arrayRelacionesVisibles=array(2,3,4,5,6,7); // TG/TE/UP/TR
 
-			while($arrayRelaciones=$sqlRelaciones->FetchRow())	{
-				if(in_array($arrayRelaciones[t_relacion],$arrayRelacionesVisibles)){
-					$acronimo=arrayReplace ( $arrayRelacionesVisibles,array(TR_acronimo,TG_acronimo,UP_acronimo,EQP_acronimo,EQ_acronimo,NEQ_acronimo),$arrayRelaciones[t_relacion]);
-					if(in_array($arrayRelaciones[t_relacion],array(5,6,7)))		{
-						//términos equivalentes .. se concatenan después de los TE/NT
-						$label_target_vocabulary.='	'.$acronimo.': '.$arrayRelaciones[tema].' ('.$arrayRelaciones[titulo].')'."\r\n";
-					}			else			{
-					if ($arrayRelaciones[t_relacion]==4)				{
-						# is UF and not hidden UF
-						$txt.=(in_array($arrayRelaciones[rr_code],$CFG["HIDDEN_EQ"])) ? false :'	'.$acronimo.$arrayRelaciones[rr_code].': '.$arrayRelaciones[tema]."\r\n";
-						}				else				{
-							$txt.='	'.$acronimo.$arrayRelaciones[rr_code].': '.$arrayRelaciones[tema]."\r\n";
-						}
-					}
-				}
-			};
-			//Terminos especificos
-			$SQLTerminosE=SQLverTerminosE($arrayTema[id]);
-			while($arrayTE=$SQLTerminosE->FetchRow()){
-				$txt.='	'.TE_acronimo.$arrayTE[rr_code].': '.$arrayTE[tema]."\r\n";
-				};
+
+    #Fetch data about associated terms (BT,RT,UF)    
+    //Relaciones
+    $sqlRelaciones=SQLdirectTerms($arrayTema["id"]);
+
+    $arrayRelacionesVisibles=array(2,3,4,5,6,7); // TG/TE/UP/TR
+
+    while($arrayRelaciones=$sqlRelaciones->FetchRow()){
+        
+        if($arrayRelaciones["t_relacion"]==4){
+            # is UF and not hidden UF                
+            if (!in_array($arrayRelaciones["rr_code"],$CFG["HIDDEN_EQ"])){     
+				$txt.='	'.UP_acronimo.$arrayRelaciones["rr_code"].': '.$arrayRelaciones["uf_tema"]."\r\n";
+            }
+        }
+
+        if($arrayRelaciones["t_relacion"]==3){
+            if($arrayRelaciones["bt_tema"]){
+				$txt.='	'.TG_acronimo.$arrayRelaciones["rr_code"].': '.$arrayRelaciones["bt_tema"]."\r\n";
+            }
+
+            if($arrayRelaciones["nt_tema"]){
+				$txt.='	'.TE_acronimo.$arrayRelaciones["rr_code"].': '.$arrayRelaciones["nt_tema"]."\r\n";
+                }
+         }
+            if($arrayRelaciones["t_relacion"]==2){
+            if($arrayRelaciones["rt_tema"]){
+				$txt.='	'.TR_acronimo.$arrayRelaciones["rr_code"].': '.$arrayRelaciones["rt_tema"]."\r\n";
+                }
+            }
+    }
+
+    //internal target terms
+    $SQLiTargetTerms=SQLtermsInternalMapped($arrayTema["id"]);
+
+    while($ARRAYiTargetTerms=$SQLiTargetTerms->FetchRow()){
+        $acronimoTterm=arrayReplace (array(5,6,7),array(EQP_acronimo,EQ_acronimo,NEQ_acronimo),$ARRAYiTargetTerms["t_relacion"]);
+		$txt.='	'.$acronimoTterm.': '.$ARRAYiTargetTerms["tema"].' ('.$ARRAYiTargetTerms["titulo"].') '."\r\n";
+    };
+
 			$txt.=$label_target_vocabulary;
 			//Terminos equivalentes web services
-			$SQLtargetTerms=SQLtargetTerms($arrayTema[id]);
+			$SQLtargetTerms=SQLtargetTerms($arrayTema["id"]);
 			while($arrayTT=$SQLtargetTerms->FetchRow()){
 					$txt.='	'.FixEncoding(ucfirst($arrayTT[tvocab_label])).': '.FixEncoding($arrayTT[tterm_string])."\r\n";
-				};
+			};
 	} //end Si es preferido: mostar notas y relaciones
 }
 

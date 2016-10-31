@@ -245,14 +245,6 @@ function PrintCover($params=array()){
     $this->MultiCell(0,4,latin1(TG_acronimo.': '.TG_termino),0,'L');
     $this->MultiCell(0,4,latin1(TE_acronimo.': '.TE_termino),0,'L');
 
-    $sqlTypeRelations=SQLtypeRelations(3,0,true);
-    while ($arrayTypeRelations=$sqlTypeRelations->FetchRow()){
-        if($arrayTypeRelations["cant"]>0){
-        
-        $this->MultiCell(0,4,latin1($arrayTypeRelations["r_code"].$arrayTypeRelations["rr_code"].': '.$arrayTypeRelations["r_value"]. ' ('.$arrayTypeRelations["rr_value"].')'),0,'L');
-
-        }
-    }
 
     $this->MultiCell(0,4,latin1(UP_acronimo.': '.UP_termino),0,'L');
     $this->MultiCell(0,4,latin1(USE_termino.': '.USE_termino),0,'L');
@@ -265,6 +257,16 @@ function PrintCover($params=array()){
 
         }
     }
+
+    $sqlTypeRelations=SQLtypeRelations(3,0,true);
+    while ($arrayTypeRelations=$sqlTypeRelations->FetchRow()){
+        if($arrayTypeRelations["cant"]>0){
+        
+        $this->MultiCell(0,4,latin1($arrayTypeRelations["r_code"].$arrayTypeRelations["rr_code"].': '.$arrayTypeRelations["r_value"]. ' ('.$arrayTypeRelations["rr_value"].')'),0,'L');
+
+        }
+    }
+
 
     $this->MultiCell(0,4,latin1(TR_acronimo.': '.TR_termino),0,'L');
     $sqlTypeRelations=SQLtypeRelations(2,0,true);
@@ -309,156 +311,6 @@ function PrintCover($params=array()){
 }
 
 
-function ChapterBodyOld($sql_data,$params=array()){
-
-GLOBAL $CFG;    
-
-while($arrayTerm=$sql_data->FetchRow()){    
-
-    #Mantener vivo el navegador
-    $time_now = time();
-    if ($time_start >= $time_now + 10) {
-        $time_start = $time_now;
-        header('X-pmaPing: Pong');
-    };
-    // Diferenciar entre términos preferidos y términos no preferidos o referencias
-    // Si es no preferido o refencia: mostrar preferido y referido
-
-
-if($arrayTerm["t_relacion"]){    //is altTerm
-        //Remisiones de equivalencias y no preferidos
-        $sqlNoPreferidos=SQLterminosValidosUF($arrayTerm["tema_id"]);
-        while($arrayNoPreferidos=$sqlNoPreferidos->FetchRow()){
-
-        if (!in_array($arrayNoPreferidos["rr_code"],$CFG["HIDDEN_EQ"])){
-            $acronimo=arrayReplace ( array("4","5","6","7"),array(USE_termino,EQP_acronimo,EQ_acronimo,NEQ_acronimo),$arrayNoPreferidos["t_relacion"]);
-
-            $referencia_mapeo = ($arrayNoPreferidos["vocabulario_id"]!=='1') ? ' ('.$arrayNoPreferidos["titulo"].')' : '';
-
-            $this->SetFont('Arial','I',10);      
-            $this->MultiCell(80,5,latin1($arrayTerm["tema"].$referencia_mapeo),0,L); 
-
-            $this->SetFont('Arial','',8);      
-            $this->MultiCell(80,5,latin1($acronimo.$arrayNoPreferidos["rr_code"].': '.$arrayNoPreferidos["tema_pref"]),0,L);
-
-            if($params["includeCreatedDate"]==1) $this->MultiCell(80,5,latin1(ucfirst(LABEL_fecha_creacion).': '.$arrayTerm[cuando]),0,L); 
-            if(($arrayTerm[cuando_final]>$arrayTerm[cuando]) && ($params["includeModDate"]==1)) $this->MultiCell(80,5,latin1(ucfirst(LABEL_fecha_modificacion).': '.$arrayTerm[cuando_final]),0,L); 
-
-            }//end if hidden
-        };
-        // Line break
-        $this->Ln(2);
-
-    } else { //prefered term
-    //the term
-    $this->SetFont('Arial','B',10);
-    $this->SetTextColor(0,0,0);
-    // Output justified text
-    if ($arrayTerm["isMetaTerm"]) $this->SetTextColor(108,101,101);
-
-    $this->MultiCell(80,5,latin1($arrayTerm["tema"]),0,L); 
-    $this->SetTextColor(0,0,0);    
-    //Show code
-    if(($CFG["_SHOW_CODE"]=='1') && (strlen($arrayTerm["code"]>0))){
-        $this->MultiCell(80,5,latin1(ucfirst(LABEL_CODE).': '.$arrayTerm["code"]),0,L);
-    };
-
-    $this->SetFont('Arial','',6);
-
-    if($params["includeCreatedDate"]==1) $this->MultiCell(80,5,latin1(ucfirst(LABEL_fecha_creacion).': '.$arrayTerm["cuando"]),0,L); 
-    if(($arrayTerm[cuando_final]>$arrayTerm["cuando"]) && ($params["includeModDate"]==1)) $this->MultiCell(80,5,latin1(ucfirst(LABEL_fecha_modificacion).': '.$arrayTerm["cuando_final"]),0,L); 
-
-    /*  Notas  */
-    //include or not notes
-    if(is_array($params["includeNote"])) {    
-        $sqlNotas=SQLdatosTerminoNotas($arrayTerm["id_definitivo"]);
-        while($arrayNotas=$sqlNotas->FetchRow()){
-        $arrayNotas["label_tipo_nota"]=(in_array($arrayNotas["ntype_id"],array(8,9,10,11,15))) ? arrayReplace(array(8,9,10,11,15),array(LABEL_NA,LABEL_NH,LABEL_NB,LABEL_NP,LABEL_NC),$arrayNotas["ntype_id"]) : $arrayNotas["ntype_code"];
-            
-            if (in_array($arrayNotas["tipo_nota"],$params["includeNote"])){
-            $this->MultiCell(80,5,$arrayNotas["tipo_nota"].': '.utf8_decode(html2txt($arrayNotas["nota"])),0,L);
-            }
-        };
-    }
-
-    #direct terms
-    $this->SetFont('Arial','',8);   
-
-    if($params["includeTopTerm"]){
-    //Top term
-    $arrayMyTT=ARRAYmyTopTerm($arrayTerm["id_definitivo"]);
-        if (($arrayMyTT["tema_id"]!==$arrayTerm["id_definitivo"]) && ($arrayMyTT["tema_id"]>0)) $this->MultiCell(80,5,latin1('TT: '.$arrayMyTT["tema"]),0,L);
-    }
-    #Fetch data about associated terms (BT,RT,UF)    
-    //Relaciones
-    $sqlRelaciones=SQLverTerminoRelaciones($arrayTerm["id_definitivo"]);
-
-    $arrayRelacionesVisibles=array(2,3,4,5,6,7); // TG/TE/UP/TR
-    $i_target=0;
-    while($arrayRelaciones=$sqlRelaciones->FetchRow()){
-        $this->SetTextColor(0,0,0);
-        
-        if(in_array($arrayRelaciones["t_relacion"],$arrayRelacionesVisibles)){
-
-            $acronimo=arrayReplace ( $arrayRelacionesVisibles,array(TR_acronimo,TG_acronimo,UP_acronimo,EQP_acronimo,EQ_acronimo,NEQ_acronimo),$arrayRelaciones["t_relacion"]);
-
-            if(in_array($arrayRelaciones["t_relacion"],array(5,6,7))){
-                //términos equivalentes .. se concatenan después de los TE/NT
-                $label_target_vocabulary[].=' '.$acronimo.': '.$arrayRelaciones["tema"].' ('.$arrayRelaciones["titulo"].')';
-
-            }elseif($arrayRelaciones["t_relacion"]==4){
-                # is UF and not hidden UF                
-                if (!in_array($arrayRelaciones["rr_code"],$CFG["HIDDEN_EQ"])){              
-                        $this->Write(5,$acronimo.$arrayRelaciones["rr_code"].': ');
-                        $this->SetFont('','I');
-                        $this->MultiCell(80,5,latin1($arrayRelaciones["tema"]),0,L);
-                        $this->SetFont('','');
-                    }
-            }else{//the RT and BT relations
-                    $this->SetTextColor(0,0,0);
-                    if ($arrayRelaciones["isMetaTerm"]) $this->SetTextColor(108,101,101);
-                    $this->SetFont('','');                    
-                    $this->MultiCell(80,5,latin1($acronimo.$arrayRelaciones["rr_code"].': '.$arrayRelaciones["tema"]),0,L);
-                    
-            }
-        }
-    }
-
-    #narrower terms
-    $SQLTerminosE=SQLverTerminosE($arrayTerm["tema_id"]);
-    while($arrayTE=$SQLTerminosE->FetchRow()){
-        
-        $this->SetTextColor(0,0,0);
-
-        if ($arrayTE["isMetaTerm"]) $this->SetTextColor(108,101,101);
-        $this->MultiCell(80,5,TE_acronimo.$arrayTE[rr_code].': '.latin1($arrayTE["tema"]),0,L);
-        };
-    }   
-
-    //internal target terms
-    if(count($label_target_vocabulary)>0){
-        foreach($label_target_vocabulary as $each_target_term){
-        $this->MultiCell(80,5,latin1($each_target_term),0,L);  
-        }
-    } 
-
-    //mapped target terms
-    $SQLtargetTerms=SQLtargetTerms($arrayTerm["id_definitivo"]);
-    while($arrayTargetT=$SQLtargetTerms->FetchRow()){
-        $this->MultiCell(80,5,latin1(ucfirst($arrayTargetT["tvocab_label"].': '.$arrayTargetT["tterm_string"])),0,L);
-    };
-
-    //mapped URLs terms
-    $SQLURI4term=SQLURIxterm($arrayTerm["id_definitivo"]);
-    while($arrayURI4term=$SQLURI4term->FetchRow()){
-        $this->MultiCell(80,5,latin1(ucfirst($arrayURI4term["uri_value"].': '.$arrayURI4term["uri"])),0,L);
-    };
-
-    $this->Ln(3);
-
-}//end while term
-    $this->SetCol(0);
-}
 
 
 

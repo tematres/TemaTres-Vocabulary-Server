@@ -1388,7 +1388,7 @@ function HTMLformAltaEquivalenciaTermino($ARRAYTermino){
 			$rows.='<form class="" role="form"  name="alta_eqt" id="alta_eqt" action="index.php" method="post">';
 			$rows.='	<div class="row">
 			    <div class="col-sm-12">
-			        <legend>'.ucfirst(LABEL_relacion_vocabulario).' '.HTMLlinkTerm(array("tema_id"=>$ARRAYtermino["idTema"],"tema"=>$ARRAYtermino["titTema"])).'</legend>
+			        <legend>'.ucfirst(LABEL_relacion_vocabulario).' '.HTMLlinkTerm(array("tema_id"=>$ARRAYTermino["idTema"],"tema"=>$ARRAYTermino["titTema"])).'</legend>
 			    </div>
 			    <!-- panel  -->
 			    <div class="col-lg-7">
