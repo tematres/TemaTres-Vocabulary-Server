@@ -813,12 +813,15 @@ return $DB;
 function SQL($todo,$sql){
 
 GLOBAL $DB;
+GLOBAL $DBCFG;
+
 
 $sql=$todo.' '.$sql;
 
 $rs = $DB->Execute($sql);
 
-echo $DB->ErrorMsg();
+ //Si debug
+if($DBCFG["debugMode"]=='1')     echo $DB->ErrorMsg();
 
 if (!$rs) return array("error"=>$DB->ErrorMsg());
 
