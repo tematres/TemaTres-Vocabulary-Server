@@ -23,9 +23,9 @@
 // Configuarcion de base de datos - Database Configuration
 
 // Select driver to use
-// Default: mysql , can be mysqli,postgres, oci8, mssql, and more: http://phplens.com/adodb/supported.databases.html
+// Default: MySQLi , can be mysqli,postgres, oci8, mssql, and more: http://phplens.com/adodb/supported.databases.html
 // To default value, leave empty eg: $DBCFG["DBdriver"] ="";
-$DBCFG["DBdriver"] ="mysqli";
+$DBCFG["DBdriver"] ="";
 
 //  Dirección IP o nombre del servidor - IP Address of the database server
 $DBCFG["Server"]      = "localhost";
@@ -40,13 +40,13 @@ $DBCFG["DBLogin"]    = "root";
 $DBCFG["DBPass"] = "pass";
 
 //  Prefijo para tablas # Prefix for tables
-$DBCFG["DBprefix"] = "tematres__demo_";                
+$DBCFG["DBprefix"] = "lc_";                
 
 
 $DBCFG["DBcharset"] ="utf8";
 
 //  modo debug = 1 // debug mode = 1
-$DBCFG["debugMode"] = "1"; 
+$DBCFG["debugMode"] = "0"; 
                
 // Define if storage hashed passwords or not  (1 = Yes, 0 = No: default: 0)
 define('CFG_HASH_PASS','0');

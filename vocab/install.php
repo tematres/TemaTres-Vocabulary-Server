@@ -211,12 +211,12 @@ if(@$DBCFG["DBcharset"]){
 		  `keywords` varchar(255) default NULL,
 		  `tipo` varchar(100) default NULL,
 		  `polijerarquia` tinyint(1) NOT NULL default '1',
-		  `cuando` date NOT NULL default '0000-00-00',
+		  `cuando` date NOT NULL ,
 		  `observa` text,
 		  `url_base` varchar(255) default NULL,
 		  PRIMARY KEY  (`id`)
 		) DEFAULT CHARSET=utf8 ENGINE=MyISAM ;") ;
-
+ 
 		//If create table --> insert data
 		if($result1)
 		{
@@ -246,11 +246,11 @@ if(@$DBCFG["DBcharset"]){
 
 		$result4 = $DB->Execute("CREATE TABLE `".$prefix."notas` (
 				  `id` int(11) NOT NULL auto_increment,
-				  `id_tema` int(11) NOT NULL default '0',
+				  `id_tema` int(11) NOT NULL ,
 				  `tipo_nota` char(3) NOT NULL default 'NA',
 				  `lang_nota` varchar(7) default NULL,
 				  `nota` mediumtext NOT NULL,
-				  `cuando` datetime NOT NULL default '0000-00-00 00:00:00',
+				  `cuando` datetime NOT NULL ,
 				  `uid` int(5) NOT NULL default '0',
 				  PRIMARY KEY  (`id`),
 				  KEY `id_tema` (`id_tema`),
@@ -261,11 +261,11 @@ if(@$DBCFG["DBcharset"]){
 		$result5 = $DB->Execute("CREATE TABLE `".$prefix."tabla_rel` (
 				  `id_mayor` int(5) NOT NULL default '0',
 				  `id_menor` int(5) NOT NULL default '0',
-				  `t_relacion` tinyint(1) unsigned NOT NULL default '0',
+				  `t_relacion` tinyint(1) unsigned NOT NULL ,
 				  `rel_rel_id` int(22) NULL,
 				  `id` int(9) unsigned NOT NULL auto_increment,
 				  `uid` int(10) unsigned NOT NULL default '0',
-				  `cuando` datetime NOT NULL default '0000-00-00 00:00:00',
+				  `cuando` datetime NOT NULL ,
 				  PRIMARY KEY  (`id`),
 				  UNIQUE KEY `NewIndex` (`id_mayor`,`id_menor`),
 				  KEY `unico` (`t_relacion`),
@@ -278,13 +278,13 @@ if(@$DBCFG["DBcharset"]){
 				  `tema_id` int(10) NOT NULL auto_increment,
 				  `code` VARCHAR( 150 ) NULL COMMENT 'code_term' ,
 				  `tema` varchar(250) default NULL,
-				  `tesauro_id` int(5) NOT NULL default '0',
-				  `uid` tinyint(3) unsigned NOT NULL default '0',
-				  `cuando` datetime NOT NULL default '0000-00-00 00:00:00',
+				  `tesauro_id` int(5) NOT NULL ,
+				  `uid` tinyint(3) unsigned NOT NULL ,
+				  `cuando` datetime NOT NULL ,
 				  `uid_final` int(5) unsigned default NULL,
 				  `cuando_final` datetime default NULL,
-				  `estado_id` int(5) NOT NULL default '13',
-				  `cuando_estado` datetime NOT NULL default '0000-00-00 00:00:00',
+				  `estado_id` int(5) NOT NULL default 13,
+				  `cuando_estado` datetime NOT NULL ,
 			      `isMetaTerm` BOOLEAN NOT NULL DEFAULT FALSE,
 				  PRIMARY KEY  (`tema_id`),
 				  KEY ( `code` ),
@@ -335,11 +335,11 @@ if(@$DBCFG["DBcharset"]){
 				  `cuando` date default NULL,
 				  `id` int(11) unsigned NOT NULL auto_increment,
 				  `mail` varchar(255) default NULL,
-				  `pass` varchar(60) NOT NULL default '',
+				  `pass` varchar(60) NOT NULL ,
 				  `orga` varchar(255) default NULL,
-				  `nivel` tinyint(1) unsigned NOT NULL default '2',
+				  `nivel` tinyint(1) unsigned NOT NULL default 2,
 				  `estado` set('ACTIVO','BAJA') NOT NULL default 'BAJA',
-				  `hasta` datetime NOT NULL default '0000-00-00 00:00:00',
+				  `hasta` datetime NOT NULL  ,
 				  `user_activation_key` varchar(60) DEFAULT NULL,
 				  PRIMARY KEY  (`id`),
 				  UNIQUE KEY `mail` (`mail`),
