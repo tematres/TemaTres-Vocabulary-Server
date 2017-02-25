@@ -489,7 +489,7 @@ if(	(is_numeric($id_menor) && 	is_numeric($id_mayor) && is_numeric($t_relacion) 
 # NO es una relacion recursiva
 if(($evalRecursividad == TRUE) && ($okValues == TRUE)){
 
-		$rel_rel_id=(is_numeric($rel_rel_id)) ? $rel_rel_id : 'NULL';
+		$rel_rel_id=(is_numeric($rel_rel_id)) ? $rel_rel_id : 0;
 
 		$sql=SQL("insert","into $DBCFG[DBprefix]tabla_rel (id_mayor,id_menor,t_relacion,rel_rel_id,uid,cuando)
 			values

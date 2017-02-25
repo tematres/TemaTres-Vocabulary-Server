@@ -788,14 +788,15 @@ function DBconnect(){
 	GLOBAL $DBCFG;
 
 	//default driver
-	$DBCFG["DBdriver"] = (!$DBCFG["DBdriver"]) ? 'mysqli' : $DBCFG["DBdriver"];
+	$DBCFG["DBdriver"] = (!$DBCFG["DBdriver"]) ? 'MySQLi' : $DBCFG["DBdriver"];
 
 	$DB = NewADOConnection($DBCFG["DBdriver"]);
 
 	$DB->Connect($DBCFG["Server"], $DBCFG["DBLogin"], $DBCFG["DBPass"], $DBCFG["DBName"]);
 
 
-
+	$DB->Execute("SET SESSION sql_mode = 'TRADITIONAL'");
+	
 	// Si se establecio un charset para la conexion
 	if(@$DBCFG["DBcharset"]){
 		$DB->Execute("set names $DBCFG[DBcharset]");
