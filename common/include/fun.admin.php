@@ -1293,7 +1293,7 @@ switch($do){
 				$array["tvocab_title"]=$DB->qstr(trim($dataVocab->result->title),get_magic_quotes_gpc());
 				$array["tvocab_uri"]=$DB->qstr(trim($dataVocab->result->uri),get_magic_quotes_gpc());
 				$array["tvocab_uri_service"]=$DB->qstr(trim($_POST["tvocab_uri_service"]),get_magic_quotes_gpc());
-				$array["tvocab_status"]=$DB->qstr(trim($_POST["tvocab_status"]),get_magic_quotes_gpc());
+				$array["tvocab_status"]= ($_POST["tvocab_status"]==1) ? 1 : 0;
 
 
 				$sql=SQL("insert","into $DBCFG[DBprefix]tvocab (tvocab_label, tvocab_tag,tvocab_lang, tvocab_title, tvocab_url, tvocab_uri_service, tvocab_status, cuando, uid)
@@ -1333,7 +1333,7 @@ switch($do){
 		$array["tvocab_title"]=$DB->qstr(trim($dataVocab->result->title),get_magic_quotes_gpc());
 		$array["tvocab_uri"]=$DB->qstr(trim($dataVocab->result->uri),get_magic_quotes_gpc());
 		$array["tvocab_uri_service"]=$DB->qstr(trim($_POST["tvocab_uri_service"]),get_magic_quotes_gpc());
-		$array["tvocab_status"]=$DB->qstr(trim($_POST["tvocab_status"]),get_magic_quotes_gpc());
+		$array["tvocab_status"]= ($_POST["tvocab_status"]==1) ? 1 : 0;
 
 
 		$sql=SQL("update","$DBCFG[DBprefix]tvocab set
