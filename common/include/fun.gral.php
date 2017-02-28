@@ -796,7 +796,7 @@ function DBconnect(){
 
 
 	$DB->Execute("SET SESSION sql_mode = 'TRADITIONAL'");
-	
+
 	// Si se establecio un charset para la conexion
 	if(@$DBCFG["DBcharset"]){
 		$DB->Execute("set names $DBCFG[DBcharset]");
@@ -1265,18 +1265,15 @@ function check_password($password,$hash)
 	};
 
 }
+
 /*
  *
  * Update password for user
  */
-function setPassword($user_id,$user_pass,$to_hash=0)
-{
+function setPassword($user_id,$user_pass,$to_hash=0){
 	GLOBAL $DBCFG;
-
 	$user_pass=($to_hash==1) ? t3_hash_password($user_pass) : $user_pass;
-
 	$sql_update_pass=SQLo("update","$DBCFG[DBprefix]usuario set pass= ? where id= ?",array($user_pass,$user_id));
-
 	return;
 };
 

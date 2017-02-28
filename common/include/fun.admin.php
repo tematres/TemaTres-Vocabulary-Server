@@ -965,7 +965,7 @@ function admin_users($do,$user_id=""){
 	if (is_numeric($user_id))	{
 		$arrayUserData=ARRAYdatosUser($user_id);
 
-		if($arrayUserData[nivel]=='1'){
+		if($arrayUserData["nivel"]=='1'){
 			//Cehcquear que sea ADMIN
 			$sqlCheckAdmin=SQL("select","count(*) as cant from $DBCFG[DBprefix]usuario where nivel='1' and estado='ACTIVO'");
 			$arrayCheckAdmin=$sqlCheckAdmin->FetchRow();
@@ -976,10 +976,8 @@ function admin_users($do,$user_id=""){
 	switch($do){
 		case 'actua':
 		$POSTarrayUser=doArrayDatosUser($_POST);
-
 		//Normalice admin
 		$nivel=($POSTarrayUser["isAdmin"]=='1') ? '1' : '2';
-
 
 		//Check have one admin user
 		if (
@@ -990,17 +988,17 @@ function admin_users($do,$user_id=""){
 		}
 
 
-		$POSTarrayUser[apellido]=trim($POSTarrayUser[apellido]);
-		$POSTarrayUser[nombres]=trim($POSTarrayUser[nombres]);
-		$POSTarrayUser[mail]=trim($POSTarrayUser[mail]);
-		$POSTarrayUser[pass]=trim($POSTarrayUser[pass]);
-		$POSTarrayUser[orga]=trim($POSTarrayUser[orga]);
+		$POSTarrayUser["apellido"]=trim($POSTarrayUser[apellido]);
+		$POSTarrayUser["nombres"]=trim($POSTarrayUser[nombres]);
+		$POSTarrayUser["mail"]=trim($POSTarrayUser[mail]);
+		$POSTarrayUser["pass"]=trim($POSTarrayUser[pass]);
+		$POSTarrayUser["orga"]=trim($POSTarrayUser[orga]);
 
-		$POSTarrayUser[apellido]=$DB->qstr($POSTarrayUser[apellido],get_magic_quotes_gpc());
-		$POSTarrayUser[nombres]=$DB->qstr($POSTarrayUser[nombres],get_magic_quotes_gpc());
-		$POSTarrayUser[mail]=$DB->qstr($POSTarrayUser[mail],get_magic_quotes_gpc());
-		$POSTarrayUser[orga]=$DB->qstr($POSTarrayUser[orga],get_magic_quotes_gpc());
-		$POSTarrayUser[pass]=trim($POSTarrayUser[pass]);
+		$POSTarrayUser["apellido"]=$DB->qstr($POSTarrayUser[apellido],get_magic_quotes_gpc());
+		$POSTarrayUser["nombres"]=$DB->qstr($POSTarrayUser[nombres],get_magic_quotes_gpc());
+		$POSTarrayUser["mail"]=$DB->qstr($POSTarrayUser[mail],get_magic_quotes_gpc());
+		$POSTarrayUser["orga"]=$DB->qstr($POSTarrayUser[orga],get_magic_quotes_gpc());
+		$POSTarrayUser["pass"]=trim($POSTarrayUser[pass]);
 
 		$POSTarrayUser["status"]=($POSTarrayUser["isAlive"]=='ACTIVO') ? 'ACTIVO' : 'BAJA';
 
@@ -1074,18 +1072,14 @@ function admin_users($do,$user_id=""){
 		$POSTarrayUser["nombres"]=$DB->qstr($POSTarrayUser[nombres],get_magic_quotes_gpc());
 		$POSTarrayUser["mail"]=$DB->qstr($POSTarrayUser[mail],get_magic_quotes_gpc());
 		$POSTarrayUser["orga"]=$DB->qstr($POSTarrayUser[orga],get_magic_quotes_gpc());
+		$user_pass=(CFG_HASH_PASS==1) ? t3_hash_password($user_pass) : $user_pass;
 
 		$sql=SQLo("insert","into $DBCFG[DBprefix]usuario
-			(apellido, nombres, uid, cuando, mail,  orga, nivel, estado, hasta)
+			(apellido, nombres, uid, cuando, mail,  orga, nivel,pass, estado, hasta)
 			VALUES
-			($POSTarrayUser[apellido], $POSTarrayUser[nombres], ?, now(), $POSTarrayUser[mail], $POSTarrayUser[orga], ?, 'ACTIVO', now())",
+			($POSTarrayUser[apellido], $POSTarrayUser[nombres], ?, now(), $POSTarrayUser[mail], $POSTarrayUser[orga], ?,'$user_pass', 'ACTIVO', now())",
 			array( $userId,  $nivel));
-
 		$user_id=$sql[cant];
-
-		//set password
-		setPassword($user_id,$POSTarrayUser[pass],CFG_HASH_PASS);
-
 
 		break;
 		};
@@ -2374,22 +2368,22 @@ while($arrayTema=$sql->FetchRow()){
 				}
 			};
 	}
-	
+
 
 	//Relaciones
-    #Fetch data about associated terms (BT,RT,UF)    
+    #Fetch data about associated terms (BT,RT,UF)
     //Relaciones
     $sqlRelaciones=SQLdirectTerms($arrayTema["id"]);
 
     $arrayRelacionesVisibles=array(2,3,4,5,6,7); // TG/TE/UP/TR
 
     while($arrayRelaciones=$sqlRelaciones->FetchRow()){
-        
+
         $acronimo=arrayReplace ( $arrayRelacionesVisibles,array(TR_acronimo,TG_acronimo,UP_acronimo,EQP_acronimo,EQ_acronimo,NEQ_acronimo),$arrayRelaciones["t_relacion"]);
-        
+
         if($arrayRelaciones["t_relacion"]==4){
-            # is UF and not hidden UF                
-            if (!in_array($arrayRelaciones["rr_code"],$CFG["HIDDEN_EQ"])){     
+            # is UF and not hidden UF
+            if (!in_array($arrayRelaciones["rr_code"],$CFG["HIDDEN_EQ"])){
 				$txt.='	'.UP_acronimo.$arrayRelaciones["rr_code"].': '.$arrayRelaciones["uf_tema"]."\r\n";
             }
         }
@@ -2466,17 +2460,17 @@ function txt4term($tema_id,$params=array())
 			}
 		};
 
-    #Fetch data about associated terms (BT,RT,UF)    
+    #Fetch data about associated terms (BT,RT,UF)
     //Relaciones
     $sqlRelaciones=SQLdirectTerms($arrayTema["tema_id"]);
 
     $arrayRelacionesVisibles=array(2,3,4,5,6,7); // TG/TE/UP/TR
 
     while($arrayRelaciones=$sqlRelaciones->FetchRow()){
-        
+
         if($arrayRelaciones["t_relacion"]==4){
-            # is UF and not hidden UF                
-            if (!in_array($arrayRelaciones["rr_code"],$CFG["HIDDEN_EQ"])){     
+            # is UF and not hidden UF
+            if (!in_array($arrayRelaciones["rr_code"],$CFG["HIDDEN_EQ"])){
 				$txt.='	'.UP_acronimo.$arrayRelaciones["rr_code"].': '.$arrayRelaciones["uf_tema"]."\r\n";
             }
         }
@@ -3762,7 +3756,7 @@ function SQLfixDobleChar4Notes($notesType,$char,$charX2){
 }
 
 
-//replace HTML entities 2 chars in notes 
+//replace HTML entities 2 chars in notes
 function SQLnoteshtml2chars(){
 
 	GLOBAL $DBCFG;
@@ -3836,17 +3830,17 @@ while($arrayTema=$sql->FetchRow()){
 			};
 
 
-    #Fetch data about associated terms (BT,RT,UF)    
+    #Fetch data about associated terms (BT,RT,UF)
     //Relaciones
     $sqlRelaciones=SQLdirectTerms($arrayTema["id"]);
 
     $arrayRelacionesVisibles=array(2,3,4,5,6,7); // TG/TE/UP/TR
 
     while($arrayRelaciones=$sqlRelaciones->FetchRow()){
-        
+
         if($arrayRelaciones["t_relacion"]==4){
-            # is UF and not hidden UF                
-            if (!in_array($arrayRelaciones["rr_code"],$CFG["HIDDEN_EQ"])){     
+            # is UF and not hidden UF
+            if (!in_array($arrayRelaciones["rr_code"],$CFG["HIDDEN_EQ"])){
 				$txt.='	'.UP_acronimo.$arrayRelaciones["rr_code"].': '.$arrayRelaciones["uf_tema"]."\r\n";
             }
         }
@@ -3914,11 +3908,11 @@ return sendFile("$txt","$filname");
 };
 
 
-//print alphabetic version on PDF 
+//print alphabetic version on PDF
 function do_pdfAlpha($params=array()){
 
-//update stats	
-doLastModified(); 
+//update stats
+doLastModified();
 //Load config values
 loadConfigValues(1);
 
@@ -3941,15 +3935,15 @@ while ($datosAlfabetico = $sqlMenuAlfabetico->FetchRow())	{
 	if(ctype_digit($datosAlfabetico[0])){
 		$ARRAYletras["0-9"].=$datosAlfabetico[0];
 		}else{
-		$ARRAYletras[$datosAlfabetico[0]].=$datosAlfabetico[0];	
-		} 
+		$ARRAYletras[$datosAlfabetico[0]].=$datosAlfabetico[0];
+		}
 	}
 	foreach ($ARRAYletras as $key => $value) {
 		if(strlen($value)>0) $pdf->PrintChapter(ucwords($key),$value,$params);
 	}
 
 $filname=string2url($_SESSION[CFGTitulo].' '.MENU_ListaAbc).'.pdf';
-	
+
 $pdf->Output('D',$filname);
 
 
