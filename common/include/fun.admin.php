@@ -1060,6 +1060,7 @@ function admin_users($do,$user_id=""){
 		case 'alta':
 		$POSTarrayUser=doArrayDatosUser($_POST);
 
+
 		$nivel=($POSTarrayUser[isAdmin]=='1') ? '1' : '2';
 
 		$POSTarrayUser["apellido"]=trim($POSTarrayUser[apellido]);
@@ -1068,11 +1069,14 @@ function admin_users($do,$user_id=""){
 		$POSTarrayUser["pass"]=trim($POSTarrayUser[pass]);
 		$POSTarrayUser["orga"]=trim($POSTarrayUser[orga]);
 
+		//prevent empty password 
+		if(strlen($POSTarrayUser["pass"])<5) return;
+
 		$POSTarrayUser["apellido"]=$DB->qstr($POSTarrayUser[apellido],get_magic_quotes_gpc());
 		$POSTarrayUser["nombres"]=$DB->qstr($POSTarrayUser[nombres],get_magic_quotes_gpc());
 		$POSTarrayUser["mail"]=$DB->qstr($POSTarrayUser[mail],get_magic_quotes_gpc());
 		$POSTarrayUser["orga"]=$DB->qstr($POSTarrayUser[orga],get_magic_quotes_gpc());
-		$user_pass=(CFG_HASH_PASS==1) ? t3_hash_password($user_pass) : $user_pass;
+		$user_pass=(CFG_HASH_PASS==1) ? t3_hash_password($POSTarrayUser["pass"]) : $POSTarrayUser["pass"];
 
 		$sql=SQLo("insert","into $DBCFG[DBprefix]usuario
 			(apellido, nombres, uid, cuando, mail,  orga, nivel,pass, estado, hasta)
