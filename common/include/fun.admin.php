@@ -473,7 +473,7 @@ GLOBAL $DBCFG;
 
 $tema_id=secure_data($_POST["id_tema"],"int");
 
-$userId=$_SESSION[$_SESSION["CFGURL"]][ssuser_id];
+$userId=$_SESSION[$_SESSION["CFGURL"]]["ssuser_id"];
 
 // Evaluar recursividad
 $evalRecursividad=evalRelacionSuperior($id_mayor,'0',$id_menor);
@@ -804,8 +804,9 @@ $tema_id=secure_data($tema_id,"int");
 
 $estado_id=secure_data($estado_id,"int");
 
-switch($estado_id)
-	{
+$userId=$_SESSION[$_SESSION["CFGURL"]]["ssuser_id"];
+
+switch($estado_id)	{
 	case '13'://Aceptado / Aceptado
 	//todos pueden ser aceptados
 	$sql=SQL("update","$DBCFG[DBprefix]tema set estado_id='13' ,uid_final='$userId',cuando_estado=now() where tema_id='$tema_id' ");
@@ -1083,7 +1084,7 @@ function admin_users($do,$user_id=""){
 			VALUES
 			($POSTarrayUser[apellido], $POSTarrayUser[nombres], ?, now(), $POSTarrayUser[mail], $POSTarrayUser[orga], ?,'$user_pass', 'ACTIVO', now())",
 			array( $userId,  $nivel));
-		$user_id=$sql[cant];
+		$user_id=$sql["cant"];
 
 		break;
 		};
@@ -1098,6 +1099,37 @@ return $user_id;
 #
 
 if($_SESSION[$_SESSION["CFGURL"]][ssuser_nivel]=='1'){
+
+
+#ABM source notes for terms and notes
+function abm_srcnotes($do,$srcnote_id="0",$data=array()){
+
+
+$userId=$_SESSION[$_SESSION["CFGURL"]]["ssuser_id"];
+
+
+switch ($do) {
+	case 'A':
+		$sql=SQL("insert","into $DBCFG[DBprefix]sourcenote (srcnote_tag, srcnote_note, srcnote_url, srcnote_time,srcnote_uid) value ('$data[srcnote_tag]', '$data[srcnote_note]', '$data[srcnote_url]',now(),$userId)");
+		$srcnote_id=sql["cant"];
+		break;
+	case 'M':
+		# code...
+		break;
+	case 'B':
+		# code...
+		break;
+	
+	default:
+		# code...
+		break;
+}
+
+return array("task"=>$do,
+			 "flag"=>$flag,
+			 "srcnote_id"=>$srcnote_id);
+}
+
 
 # cambios de configuracion y registro de vocabularios de referencia
 function abm_vocabulario($do,$vocabulario_id=""){
