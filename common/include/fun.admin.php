@@ -1172,9 +1172,9 @@ $arrayTesa=doArrayDatosTesauro($_POST);
 switch($do){
 	case 'A':
 	//Alta de vocabulario de referencia
-	$sql=SQL("insert","into $DBCFG[DBprefix]config (titulo,autor,idioma,cobertura,keywords,tipo,polijerarquia,url_base,cuando)
+	$sql=SQL("insert","into $DBCFG[DBprefix]config (titulo,autor,idioma,cobertura,url_base,cuando)
 	values
-	($arrayTesa[titulo],$arrayTesa[autor],$arrayTesa[idioma],$arrayTesa[cobertura],$arrayTesa[keywords],$arrayTesa[tipo], $arrayTesa[polijerarquia], $arrayTesa[url_base],$arrayTesa[cuando])");
+	($arrayTesa[titulo],$arrayTesa[autor],$arrayTesa[idioma],$arrayTesa[cobertura], $arrayTesa[url_base],now())");
 	break;
 
 	case 'M':
