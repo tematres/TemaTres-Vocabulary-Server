@@ -148,6 +148,11 @@ if(($_SESSION[$_SESSION["CFGURL"]][ssuser_nivel]=='1')&&($_GET["dis"])){
 		echo do_pdfAlpha($params);
 		break;
 
+		case 'spdf':
+			$params =array("hasTopTerm"=>$_GET["hasTopTerm"]);
+			echo do_pdfSist($params);
+		break;
+
 		case 'jglossary':
 		header('Content-type: application/json');
 		$filname=string2url($_SESSION[CFGTitulo]).'.json';

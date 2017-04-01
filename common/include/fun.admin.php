@@ -3984,4 +3984,59 @@ $pdf->Output('D',$filname);
 
 
 }
-?>
+
+//print systematic version on PDF
+function do_pdfSist($params=array()) {
+	global $CFG;
+	require_once(T3_ABSPATH . 'common/fpdf/fpdf.php');
+	require_once(T3_ABSPATH . 'common/include/fun.pdf.php');
+
+	$pdf = new PDF();
+	$pdf->SetTitle(latin1($_SESSION["CFGTitulo"]));
+	$pdf->SetAuthor(latin1($_SESSION["CFGAutor"]));
+	$pdf->SetSubject(latin1($_SESSION["CFGCobertura"]));
+	$pdf->SetKeywords(latin1($_SESSION["CFGKeywords"]));
+	$pdf->SetCreator($_SESSION["CFGVersion"]);
+	$pdf->PrintCover($params);
+
+	if ($params['hasTopTerm'] == '') {
+		$sql=SQLverTopTerm();
+		while ($arrayTema=$sql->FetchRow()) {
+			#Mantener vivo el navegador
+			$time_now = time();
+			if ($time_start >= $time_now + 10) {
+				$time_start = $time_now;
+				header('X-pmaPing: Pong');
+			}
+			$txt.=$arrayTema[tema]."\r\n";
+			$txt.=TXTverTE($arrayTema[id],"0");
+		}
+	} else {
+		$txt=TXTverTE($params['hasTopTerm'],"0");
+	}
+
+	$txt = str_replace(".\t", "     ", $txt);
+	$txt = utf8_decode($txt);
+
+	$pdf->SetMargins(20,20);
+	$pdf->AddPage();
+	$pdf->SetAutoPageBreak(0,10);
+	$pdf->footer = 1;
+	$pdf->SetFont('helvetica','',11);
+	$lines = explode("\r\n", $txt);
+	$i = 1;
+	foreach ($lines as $line) {
+		if ($i == 33) {
+			$pdf->AddPage();
+			$i = 1;
+		}
+		$pdf->Cell(0,8,$line);
+		$pdf->Ln();
+		$i++;
+	}
+
+	$filname=string2url($_SESSION[CFGTitulo].'-Sistematico').'.pdf';
+	$pdf->Output('D',$filname);
+}
+
+
