@@ -803,6 +803,8 @@ GLOBAL $DBCFG;
 $tema_id=secure_data($tema_id,"int");
 
 $estado_id=secure_data($estado_id,"int");
+	
+$userId=$_SESSION[$_SESSION["CFGURL"]]["ssuser_id"];
 
 switch($estado_id)
 	{
