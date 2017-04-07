@@ -518,6 +518,7 @@ define('LABEL_opt_show_rando_term','presentar términos con nota:');
 define('MSG_helpNoteEditor','Puede vincular términos utilizando corchetes dobles. Ej: Sólo el [[amor]] salvará el mundo');
 define('LABEL_GLOSS_NOTES','Seleccionar tipo de nota para glosar términos marcados con corchetes dobles: [[glosario]]');
 define('LABEL_AlphaPDF','Alfabético (PDF)');
+define('LABEL_SystPDF','Sistemático (PDF)');
 define('LABEL_references','referencias');
 define('LABEL_printData','fecha de impresión');
 ?>
