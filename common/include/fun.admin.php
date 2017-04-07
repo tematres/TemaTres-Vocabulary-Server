@@ -803,6 +803,8 @@ GLOBAL $DBCFG;
 $tema_id=secure_data($tema_id,"int");
 
 $estado_id=secure_data($estado_id,"int");
+	
+$userId=$_SESSION[$_SESSION["CFGURL"]]["ssuser_id"];
 
 $userId=$_SESSION[$_SESSION["CFGURL"]]["ssuser_id"];
 
@@ -3985,6 +3987,7 @@ $pdf->Output('D',$filname);
 
 }
 
+
 //print systematic version on PDF
 function do_pdfSist($params=array()) {
 	global $CFG;
@@ -4038,5 +4041,4 @@ function do_pdfSist($params=array()) {
 	$filname=string2url($_SESSION[CFGTitulo].'-Sistematico').'.pdf';
 	$pdf->Output('D',$filname);
 }
-
-
+?>
