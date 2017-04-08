@@ -461,6 +461,7 @@ define('LABEL_opt_show_rando_term','show terms with type note::');
 define('MSG_helpNoteEditor','You can link terms using double brackets. Ex: Only [[love]] will save the world');
 define('LABEL_GLOSS_NOTES','Select which note type will be used to enrich (glossary) the terms who are marked with double brackets : [[glossary]]');
 define('LABEL_AlphaPDF','alphabetic (PDF)');
+define('LABEL_SystPDF','systematic (PDF)');
 define('LABEL_references','references');
 define('LABEL_printData','date of print');
 ?>
