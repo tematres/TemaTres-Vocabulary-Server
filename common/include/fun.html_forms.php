@@ -2162,7 +2162,7 @@ function HTMLbulkReplaceResultsNotes($params){
 
 		$rows.='<form class="form-inline" role="form" name="confirmBulkReplace" action="admin.php?doAdmin=bulkReplace" method="post">';
 		$rows.='  <fieldset id="bulkReplaceDiv">';
-		$rows.= '<p class="alert alert-warning" role="alert">'.MSG__warningDeleteTerm2row.'</p>';
+		$rows.= '<p class="alert alert-warning" role="alert">'.LABEL_warningBulkEditor.'</p>';
 		$rows.='<div class="table-responsive"> ';
 		$rows.='<table class="table table-striped table-bordered table-condensed table-hover"">';
 		$rows.='<thead><tr>';
