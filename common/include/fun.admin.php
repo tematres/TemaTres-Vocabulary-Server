@@ -3786,9 +3786,9 @@ function SQLbulkGlossNote($from,$to,$where,$notesType,$term_id,$replaceType=1){
 
 //replace double char in notes
 function SQLfixDobleChar4Notes($notesType,$char,$charX2){
-
-	return SQL("update","$DBCFG[DBprefix]notas set nota=replace(nota, $charX2, $char)
-						where nota like BINARY $charX2
+        GLOBAL $DBCFG;
+	return SQL("update","$DBCFG[DBprefix]notas set nota=replace(nota, '$charX2', '$char')
+						where nota like BINARY '$charX2'
 						and tipo_nota='$notesType'");
 
 }
