@@ -754,7 +754,8 @@ function HTMLNotasTermino($array){
 					$body.='</dt>';
 					//$body.='<dd> '.wiki2html($array["notas"][$iNota]["nota"]);
 					$body.='<dd> '.wiki2link($array["notas"][$iNota]["nota"]);
-					$body.='<div class="footnote">'.$array["notas"][$iNota]["cuando_nota"].'</div>';
+					$body.='<div class="footnote">'.$array["notas"][$iNota]["cuando_nota"].' <a href="'.URL_BASE.'sobre.php?user_id='.$array["notas"][$iNota]["user_id"].'#termaudit" title="'.LABEL_DatosUser.'">'.$array["notas"][$iNota]["user"].'</a></div>';
+					$body.='<div class="footnote"></div>';
 					$body.='</dd>';
 				}else{
 					$body.='<dt>'.$tipoNota.$label_lang_nota.'</dt><dd> '.wiki2html($array["notas"][$iNota]["nota"]).'</dd>';
@@ -1174,7 +1175,7 @@ function HTMLlistaTerminosEstado($estado_id,$limite="")
 
 		if(SQLcount($sql)>0){
 			$rows.='<div class="table-responsive"> ';
-			$rows.='<table class="table table-striped table-bordered table-condensed table-hover">
+			$rows.='<table id="termaudit" class="table table-striped table-bordered table-condensed table-hover">
 			<thead>
 			<tr>
 				<th>'.ucfirst(LABEL_Termino).'</th>
@@ -1215,7 +1216,7 @@ function HTMLlistaTerminosFecha($limite="")
 
 		if(SQLcount($sql)>0){
 			$rows.='<div class="table-responsive"> ';
-			$rows.='<table class="table table-striped table-bordered table-condensed table-hover">
+			$rows.='<table id="termaudit" class="table table-striped table-bordered table-condensed table-hover">
 			<thead>
 			<tr>
 				<th>'.ucfirst(LABEL_Termino).'</th>
