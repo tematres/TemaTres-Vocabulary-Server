@@ -2256,50 +2256,58 @@ $LABEL_jtxt=MENU_ListaSis.' (txt)';
 $LABEL_abctxt=MENU_ListaAbc.' (txt)';
 
 $rows.='<form class="" role="form"  name="export" action="xml.php" method="get">';
-$rows.='	<div class="row">
-    <div class="col-sm-12">
-        <legend>'.ucfirst(LABEL_Admin).'</legend>
-    </div>
-    <!-- panel  -->
-    <div class="col-lg-7">
-        <h4>'.ucfirst(LABEL_export).'</h4>
-        <div class="panel panel-default">
-            <div class="panel-body form-horizontal">';
+$rows.='<div class="row">
+		    <div class="col-sm-12">
+		        <legend>'.ucfirst(LABEL_Admin).'</legend>
+		    </div>
+		    <!-- panel  -->
+		    <div class="col-lg-7">
+		        <h4>'.ucfirst(LABEL_export).'</h4>
+		        <div class="panel panel-default">
+		            <div class="panel-body form-horizontal">';
+
 		$rows.='<div class="form-group"><label class="col-sm-3 control-label" for="report_tvocab_id" accesskey="t">'.ucfirst(FORM_LABEL_format_export).'</label>';
-		$rows.='<div class="col-sm-9">';
+		$rows.='   <div class="col-sm-9">';
 		$rows.='<select class="form-control" id="dis" name="dis">';
 		$rows.=doSelectForm(array("jtxt#$LABEL_jtxt","txt#$LABEL_abctxt",'spdf#'.LABEL_SystPDF,'rpdf#'.LABEL_AlphaPDF,"moodfile#Moodle","zline#Zthes","rfile#Skos-Core","rxtm#TopicMap","BSfile#BS8723","madsFile#Metadata Authority Description Schema (MADS)","vfile#IMS Vocabulary Definition Exchange (VDEX)","wxr#WXR (Wordpress XML)","siteMap#SiteMap","rsql#SQL (Backup)"),"$_GET[dis]");
 		$rows.='</select>';
-		$rows.='</div>';
-		$rows.='</div>';
-	$rows.='<div style="display:none;" id="skos_config">';
+		$rows.='   </div>'; # col-sm
+		$rows.='</div>'; #form group
+
+		$rows.='<div style="display:none;" id="skos_config">';
+		
 		$sqlTopTerm=SQLverTopTerm();
 		if(SQLcount($sqlTopTerm)>0)	{
 			while ($arrayTopTerms=$sqlTopTerm->FetchRow()){
 				$formSelectTopTerms[]=$arrayTopTerms[tema_id].'#'.$arrayTopTerms[tema];
 			}
-			$rows.='<div class="form-group"><label class="col-sm-3 control-label" for="hasTopTermSKOS" accesskey="t">'.ucfirst(LABEL_TopTerm).'</label>';
-			$rows.='<div class="col-sm-9">';
+			$rows.='<div class="form-group">
+						<label class="col-sm-3 control-label" for="hasTopTermSKOS" accesskey="t">'.ucfirst(LABEL_TopTerm).'</label>';
+			$rows.='	<div class="col-sm-9">';
 			$rows.='<select class="form-control" id="hasTopTermSKOS" name="hasTopTermSKOS">';
 			$rows.='<option value="">'.ucfirst(LABEL_Todos).'</option>';
 			$rows.=doSelectForm($formSelectTopTerms,"$_GET[hasTopTermSKOS]");
 			$rows.='</select>';
-			$rows.='</div>';
-			$rows.='</div>';
+			$rows.='   	</div>'; # col-sm
+			$rows.='</div>'; #form group
 		}
-	$rows.='</div>';
-	$rows.='<div style="display:none;" id="txt_config">';
+		$rows.='</div>';
+
+		$rows.='<div style="display:none;" id="txt_config">';
 		$arrayVocabStats=ARRAYresumen($_SESSION[id_tesa],"G","");
 		if(SQLcount($sqlTopTerm)>0){
-			$rows.='<div class="form-group"><label class="col-sm-3 control-label" for="hasTopTerm" accesskey="t">'.ucfirst(LABEL_TopTerm).'</label>';
+			$rows.='<div class="form-group">
+						<label class="col-sm-3 control-label" for="hasTopTerm" accesskey="t">'.ucfirst(LABEL_TopTerm).'</label>';
 			$rows.='<div class="col-sm-9">';
 			$rows.='<select class="form-control" id="hasTopTerm" name="hasTopTerm">';
 			$rows.='<option value="">'.ucfirst(LABEL_Todos).'</option>';
 			$rows.=doSelectForm($formSelectTopTerms,"$_GET[hasTopTerm]");
 			$rows.='</select>';
-			$rows.='</div>';
-			$rows.='</div>';
+			$rows.='   </div>'; # col-sm
+			$rows.='</div>'; #form group
 		}
+		$rows.='</div>';#invisible
+
 		$rows.='<div style="display:none;" id="txt_config2"> <fieldset>    <legend>'.ucfirst(LABEL_include_data).'</legend>';
 		//Evaluar si hay notas
 		if (is_array($arrayVocabStats["cant_notas"])){
@@ -2316,36 +2324,46 @@ $rows.='	<div class="row">
 				if($arrayNotes["value_id"]!=='11'){
 					$varNoteType=(in_array($arrayNotes["value_id"],array(8,9,10,11,15))) ? arrayReplace(array(8,9,10,11,15),array($LabelNA[1],$LabelNH[1],$LabelNB[1],$LabelNP[1],$LabelNC[1]),$arrayNotes["value_id"]) : $arrayNotes["value"];
 					$varNoteTypeCode=(in_array($arrayNotes["value_id"],array(8,9,10,11,15))) ? arrayReplace(array(8,9,10,11,15),array($LabelNA[0],$LabelNH[0],$LabelNB[0],$LabelNP[0],$LabelNC[0]),$arrayNotes["value_id"]) : $arrayNotes["value_code"];
-					$rows_notes.='<div class="form-group"><div class="col-sm-4"><label for="includeNote'.$arrayNotes["value_id"].'" accesskey="d">'.ucfirst($varNoteType).'</label>';
-					$rows_notes.='</div>';
+					$rows_notes.='<div class="form-group">
+										<div class="col-sm-4"><label for="includeNote'.$arrayNotes["value_id"].'" accesskey="d">'.ucfirst($varNoteType).'</label></div>';
 					$rows_notes.='<input name="includeNote[]" type="checkbox" id="includeNote'.$arrayNotes["value_id"].'" value="'.$varNoteTypeCode.'" />';
 					$rows_notes.='</div>';
 					}
 				}
 			};
-			$rows.='<div class="form-group">					<div class="col-sm-4"><label for="includeTopTerm" accesskey="t">'.ucfirst(TT_terminos).'</label></div>';
+			$rows.='<div class="form-group">					
+					<div class="col-sm-4"><label for="includeTopTerm" accesskey="t">'.ucfirst(TT_terminos).'</label></div>';
 			$rows.='<input name="includeTopTerm" type="checkbox" id="includeTopTerm" value="1" />';
 			$rows.='</div>';
+
 			/* Si hay m�s de un tipo de nota			 */
 			if(count($arrayVocabStats["cant_notas"])>0)	{
 				$rows.=$rows_notes;
 			}
 		}
-	$rows.='<div class="form-group"><div class="col-sm-4"><label for="includeCreatedDate" accesskey="d">'.ucfirst(LABEL_Fecha).'</label></div>';
-	$rows.='<input name="includeCreatedDate" type="checkbox" id="includeCreatedDate" value="1" />';
-	$rows.='</div>';
-	$rows.='<div class="form-group"><div class="col-sm-4"><label for="includeModDate" accesskey="m">'.ucfirst(LABEL_lastChangeDate).'</label></div>';
-	$rows.='<input name="includeModDate" type="checkbox" id="includeModDate" value="1" />';
-	$rows.='</div>';
-$rows.='				</div>';
-	$rows.='<div class="form-group">
-							<div class="text-center">
+		$rows.='<div class="form-group">
+					<div class="col-sm-4"><label for="includeCreatedDate" accesskey="d">'.ucfirst(LABEL_Fecha).'</label></div>';
+		$rows.='<input name="includeCreatedDate" type="checkbox" id="includeCreatedDate" value="1" />';
+		$rows.='</div>';
+
+		$rows.='<div class="form-group">
+					<div class="col-sm-4"><label for="includeModDate" accesskey="m">'.ucfirst(LABEL_lastChangeDate).'</label></div>';
+		$rows.='<input name="includeModDate" type="checkbox" id="includeModDate" value="1" />';
+		$rows.='	</div>';
+		
+
+		$rows.='</div>';#invisible
+
+	
+		$rows.='<div class="form-group">
+					<div class="text-center">
 							<input type="submit" class="btn btn-primary" id="boton" name="boton" value="'.ucfirst(LABEL_Guardar).'"/>
 							</div>
-					</div>';
-					$rows.='				</div>
-		</div>
-		</div>
+				</div>';
+
+	$rows.='            </div> <!--panel-body form-horizontal-->
+		</div> <!--panel panel-default -->
+		</div> <!--class="col-lg-7" -->
 	</div> <!-- / panel  -->';
 $rows.='</form>';
 
