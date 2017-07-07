@@ -520,4 +520,10 @@ define('LABEL_AlphaPDF','alphabetic (PDF)');
 define('LABEL_SystPDF','systematic (PDF)');
 define('LABEL_references','references');
 define('LABEL_printData','date of print');
+##v.3
+define('MENU_bulkTranslate','multilingual editor');
+define('LABEL_bulkTranslate','mapping and multilingual editor');
+define('LABEL_termsEQ','with mapping');
+define('LABEL_termsNoEQ','without mapping');
+define('LABEL_close','close');
 ?>

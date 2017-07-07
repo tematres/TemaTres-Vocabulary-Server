@@ -527,4 +527,10 @@ define('LABEL_generateAutoGlossary','Ajouter des liens dans les notes');
 define('LABEL_AlphaPDF','alphabétique (PDF)');
 define('LABEL_references','références');
 define('LABEL_printData','date d\impression');
+##v.3
+define('MENU_bulkTranslate','multilingual editor');
+define('LABEL_bulkTranslate','mapping and multilingual editor');
+define('LABEL_termsEQ','with mapping');
+define('LABEL_termsNoEQ','without mapping');
+define('LABEL_close','close');
 ?>
