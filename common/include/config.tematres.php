@@ -143,6 +143,10 @@ define("id_EQ_INEXACTA","8");//Tipo relacion término equivalente inexacta
 define("SI","1");
 define("NO","2");
 
+//term x page in translator bulk editor
+define('CFG_NUM_SHOW_TERMSxTRAD',30);
+
+
 
  ##
  # Reporte de errores pero no de noticias (variables no inicializadas);

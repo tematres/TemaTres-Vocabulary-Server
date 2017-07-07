@@ -2449,14 +2449,8 @@ if($params["makeAutoGloss"]==1){
 	                    </select>
 	                </div>
 	            </div>';
-	/*$rows.='<div class="form-group">
-				<input type="checkbox" name="replaceType" id="replaceType" value="1" alt="'.ucfirst(LABEL_esFraseExacta).'" '.do_check(1,$params["replaceType"],'checked').'  />
-					<div class="col-sm-4">
-					<label for="replaceType">'.ucfirst(LABEL_esFraseExacta).'</label>
-					<span class="help-block">'.ucfirst(LABEL_replaceBinary).'</span>
-					</div>
-			</div>';
-	*/
+
+
 	$rows.='<div class="col-sm-12  alert alert-danger"><div class="panel-body">'.ucfirst(MSG__autoGlossDanger).'</div></div>';
 
 
@@ -2479,4 +2473,148 @@ if($params["makeAutoGloss"]==1){
 
 	return $rows;
 }
+
+
+
+/*
+terms form one char to translate
+*/
+function FORMtransterm4char4map($tvocab_id,$filterEQ,$letra){
+
+	$ARRAYvocabulario=ARRAYvocabulario($tvocab_id);
+
+	$LabelEE=id_EQ.'#'.LABEL_termino_equivalente;
+	$LabelIE=id_EQ_PARCIAL.'#'.LABEL_termino_parcial_equivalente;
+	$LabelNE=id_EQ_NO.'#'.LABEL_termino_no_equivalente;
+
+	$cantLetra=numPrefTerms2Letter($tvocab_id,$letra);
+
+	$cantLetra["cant_no_eq"]=$cantLetra["cant"]-$cantLetra["cant_eq"];
+
+	$letra_label= (!ctype_digit($letra)) ?  $letra : '0-9';
+
+	//panel data
+	$rows.='<div class="panel panel-default">
+			  <div class="panel-heading">
+			    <h4><a title="'.LABEL_bulkTranslate.'" href="'.URL_BASE.'index.php?mod=trad">'.ucfirst(LABEL_bulkTranslate).'</a> &middot; '.$ARRAYvocabulario["titulo"].'</h4>';
+	$rows.='  </div>';
+
+	if($letra){
+		$rows.='<div class="panel-body">';
+		$rows.='<p><em>'.MSG_ResultLetra.' '.$letra_label.': </em><a href="'.URL_BASE.'index.php?letra2trad='.$letra.'&amp;filterEQ=0&amp;tvocab_id='.$ARRAYvocabulario["vocabulario_id"].'&mod=trad">'.$cantLetra["cant"].' '.LABEL_Terminos.'</a>';
+
+		if(($cantLetra["cant_no_eq"]!=$cantLetra["cant"]) && ($cantLetra["cant_no_eq"]>0)){
+
+	 	$rows.='<ul>';
+		$rows.='<li class="active">'.ucfirst(LABEL_termsEQ).': <a href="'.URL_BASE.'index.php?letra2trad='.$letra.'&amp;filterEQ=2&amp;tvocab_id='.$ARRAYvocabulario["vocabulario_id"].'&mod=trad">'.$cantLetra["cant_eq"].'  '.LABEL_Terminos.'</a></li>';
+		
+			$rows.='<li class="active">'.ucfirst(LABEL_termsNoEQ).':  <a href="'.URL_BASE.'index.php?letra2trad='.$letra.'&amp;filterEQ=1&amp;tvocab_id='.$ARRAYvocabulario["vocabulario_id"].'&mod=trad">'.$cantLetra["cant_no_eq"].' '.LABEL_Terminos.'</a></li>';
+		$rows.='</ul>';
+		}
+		
+		$rows.=' </p></div>';
+	}// if $letra
+	$rows.=' <div class="panel-footer">'.HTMLalphaListTerms4map($ARRAYvocabulario["vocabulario_id"],$filterEQ,$letra).'</div>';
+	$rows.=' 	</div>';
+
+	$paginado_letras='';
+
+	$pag= secure_data($_GET["p"]);
+
+
+	$cantLetra2Paginador=$cantLetra["cant"];
+	
+
+	if($filterEQ>0){
+		$cantLetra2Paginador=($filterEQ==2) ? $cantLetra["cant_eq"] : $cantLetra["cant_no_eq"];
+	}
+
+	
+	if($cantLetra2Paginador>0){
+
+		if($cantLetra2Paginador>CFG_NUM_SHOW_TERMSxTRAD){
+			$paginado_letras=paginate_links( array(
+				'type' => 'list',
+				'show_all' => (($cantLetra2Paginador/CFG_NUM_SHOW_TERMSxTRAD)<15) ? true : false,
+				'base' => 'index.php?letra2trad='.$letra.'&amp;filterEQ='.$filterEQ.'&amp;tvocab_id='.$ARRAYvocabulario["vocabulario_id"].'%_%',
+				'format' => '&amp;mod=trad&amp;p=%#%',
+				'current' => max(1, $pag),
+				'total' => $cantLetra2Paginador/CFG_NUM_SHOW_TERMSxTRAD
+				)
+			);
+		};
+
+		$limit=CFG_NUM_SHOW_TERMSxTRAD;
+
+		$min= ($pag-1)*$limit;
+		//modificar => sólo debe traer términos preferidos. Los términos alternativos no se traducen
+		$sqlDatosLetra=SQLterms2map4char($letra,array("min"=>$min,"limit"=>$limit,"filterEQ"=>$filterEQ));
+
+		$num_terms=($min>0) ? $min+1 :0;
+
+
+		$rows.='<div id="listaLetras">';
+
+		$rows.='<form role="form" class="form-inline" role="form" name="form2map" id="form2map" action="'.URL_BASE.'index.php?mod=trad&amp;tvocab_id='.$ARRAYvocabulario["vocabulario_id"].'&amp;letra2trad='.$letra.'&amp;p='.$pag.'" method="post" >';
+
+		$rows.=' <table id="myTable" class=" table order-list">
+						    <thead>
+						        <tr>
+						            <th>#</th>
+						            <td>'.ucfirst(FORM_LABEL_tipo_equivalencia).'</td>
+						            <td>'.ucfirst(LABEL_OpcionesTermino).'</td>
+						            <td>'.ucfirst($ARRAYvocabulario["titulo"]).' ('.strtoupper($ARRAYvocabulario["idioma"]).')</td>
+						        </tr>
+						    </thead>
+						    <tbody>';
+		while ($datosLetra= $sqlDatosLetra->FetchRow()){
+		  $i=++$i;
+		  $num_terms=++$num_terms;
+		  //edit term
+		  if($datosLetra["tterm_id"]){
+		  	$rows.='<tr>
+				            <td class="col-sm-2">'.$num_terms.'</td>';
+		  	$rows.='        <td class="col-sm-2">'.arrayReplace(array(id_EQ,id_EQ_PARCIAL,id_EQ_NO),array(LABEL_termino_equivalente,LABEL_termino_parcial_equivalente,LABEL_termino_no_equivalente),$datosLetra["t_relacion"]).'</td>';
+
+			$rows.='        <td class="col-sm-4"><a href="modal.php?tema='.$datosLetra["tema_id"].'" class="modalTrigger">'.$datosLetra["tema"].'</a></td>';
+			$rows.='        <td class="col-sm-4">
+				            <input type="hidden" name="tterm_id[]" value="'.$datosLetra["tterm_id"].'" />
+				            <span id="edit_tema'.$datosLetra["tterm_id"].'" class="edit_area_term">'.$datosLetra["tterm"].'</span></td>
+				            <td class="col-sm-2"><input tabindex="'.$i.'" type="checkbox" name="remove_tterm_rel[]" value="'.$datosLetra["r_id"].'" id="remove_tterm_id'.$datosLetra["tterm_id"].'"> <label for="remove_tterm_id'.$datosLetra["tterm_id"].'" class="deleteRow">'.LABEL_borraRelacion.'</label></td>';
+			$rows.='</tr>';
+
+			//create term
+			}else{
+		  	$rows.='<tr><td class="col-sm-2">'.$num_terms.'</td>';
+
+		  	$rows.='<td class="col-sm-2">   
+					       <select class="form-control" id="tipo_equivalencia" name="tipo_equivalencia[]">'.doSelectForm(array("$LabelEE","$LabelIE","$LabelNE"),$datosLetra["t_relacion"]).'</select></td>';
+			$rows.='<td class="col-sm-4"><a href="modal.php?tema='.$datosLetra["tema_id"].'" class="modalTrigger">'.$datosLetra["tema"].'</a></td>';
+			$rows.='<td class="col-sm-4"><input type="text"  tabindex="'.$i.'" name="tterm_string[]"  value="" class="form-control"/><input type="hidden" name="term_id[]" value="'.$datosLetra["tema_id"].'" /></td>
+				<td class="col-sm-2"></td>';
+			$rows.='</tr>';
+			}	            
+
+		}
+		$rows.='    </tbody>
+						    <tfoot>
+						        <tr>
+						            <td colspan="5" style="text-align: left;">';
+		$rows.='<input type="hidden" name="tvocab_id" value="'.$ARRAYvocabulario["vocabulario_id"].'">';
+		$rows.='<input type="hidden" name="task" value="map4localTargetVocab">';
+
+		$rows.='						<button type="submit" class="btn btn-primary">'.LABEL_Enviar.'</button>';
+		$rows.='		            </td>
+						        </tr>
+						    </tfoot></table>';
+		$rows.='</form>';
+		$rows.='</div>';
+	};
+
+
+	$rows.='<div class="row">'.$paginado_letras.'</div>';
+
+	return $rows;
+}
+
 ?>

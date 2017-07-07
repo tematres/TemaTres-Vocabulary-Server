@@ -12,8 +12,8 @@ if ((stristr( $_SERVER['REQUEST_URI'], "session.php") ) || ( !defined('T3_ABSPAT
 	echo $MSG_PROC_ERROR["html"];
 
 //Mostrar alfabeto
-if($_GET[letra]){	// sanitice $letra
-	$letra=isValidLetter($_GET[letra]);
+if($_GET["letra"]){	// sanitice $letra
+	$letra=isValidLetter($_GET["letra"]);
 }
 
 if((strlen($letra)>0) && (strlen($letra)<5)){
@@ -67,9 +67,34 @@ elseif(($_GET[mod]=='csv') && ($_SESSION[$_SESSION["CFGURL"]][ssuser_id])){
 	echo HTMLformMappedTermReport($_GET);
 
 	echo '</div>';
+}//esta login y mod traductor
+elseif(($_SESSION[$_SESSION["CFGURL"]]["ssuser_id"])&&($_GET["mod"]=='trad')){
+
+
+
+	if($_POST["task"]=='map4localTargetVocab'){
+
+		$tasks=addLocalTargetTerms($_POST["tvocab_id"],$_POST);
+	}
+
+	$tvocab_id=($_GET["tvocab_id"]>1) ? $tvocab_id : 0;
+	
+	if($tvocab_id>0){
+		//Mostrar alfabeto
+		if($_GET["letra2trad"]){	// sanitice $letra
+			$letra=isValidLetter($_GET["letra2trad"]);
+		}
+
+
+		echo FORMtransterm4char4map($tvocab_id,$_GET["filterEQ"],$letra);
+	}else{
+		echo HTMLselectTargetVocabulary();
+
+	}
+
 }
 //Esta login y mostrar terminios libres o repetidos
-elseif(($_SESSION[$_SESSION["CFGURL"]][ssuser_id])&&($_GET["verT"])){
+elseif(($_SESSION[$_SESSION["CFGURL"]]["ssuser_id"])&&($_GET["verT"])){
 	echo '<div class="container" id="bodyText">';
 	switch($_GET[verT]){
 		case 'L':
