@@ -1286,6 +1286,91 @@ function SQLreportTerminosPreferidos(){
 
 
 #
+# CSV for all terms for vocabulary
+#
+function SQLreportAllTerms($vocab_id){
+	GLOBAL $DBCFG;
+
+	//only for admin
+	if(!checkValidRol($_SESSION[$_SESSION["CFGURL"]]["user_data"],"adminReports")) return;
+
+	$vocab_id= secure_data($vocab_id,"int");
+
+	$sql=SQL("select","tema.tema_id as term_id,tema.tema as term,tema.cuando as created,tema.uid as user_id,tema.cuando_final as modified,tema.isMetaTerm
+	from $DBCFG[DBprefix]tema as tema
+	where
+	tema.tesauro_id='$vocab_id'
+ 	and tema.estado_id='13'
+	order by lower(tema.tema)");
+	return $sql;
+};
+
+
+#
+# CSV for all relations for acceptd terms from the vocabulary
+#
+function SQLreportAllRelations($vocab_id){
+	GLOBAL $DBCFG;
+	//only for admin
+	if(!checkValidRol($_SESSION[$_SESSION["CFGURL"]]["user_data"],"adminReports")) return;
+
+	$vocab_id= secure_data($vocab_id,"int");
+
+	$r2=TR_acronimo;
+	$r3=TG_acronimo.'/'.TE_acronimo;
+	$r4=UP_acronimo.'/'.USE_termino;
+
+	$sql=SQL("select","t.tema_id as term_id,t2.tema_id term_id, 
+if(r.t_relacion=2,'$r2',if(r.t_relacion=3,'$r3','$r4')) as relType,
+v.value_code as relSubType,
+r.uid as user_id,r.cuando as created
+	from $DBCFG[DBprefix]tema as t,
+	$DBCFG[DBprefix]tema as t2,
+	$DBCFG[DBprefix]tabla_rel as r
+	left join $DBCFG[DBprefix]values v on v.value_id=r.rel_rel_id
+	where
+	t.tesauro_id='$vocab_id'
+ 	and t.estado_id='13'
+ 	and t.tema_id=r.id_mayor
+ 	and t2.tema_id=r.id_menor
+ 	and r.t_relacion in (2,3,4)
+ 	order by r.id desc");
+
+	return $sql;
+};
+
+
+
+#
+# CSV for all notes for acceptd terms from the vocabulary
+#
+function SQLreportAllNotes($vocab_id){
+	GLOBAL $DBCFG;
+	//only for admin
+	if(!checkValidRol($_SESSION[$_SESSION["CFGURL"]]["user_data"],"adminReports")) return;
+
+	$vocab_id= secure_data($vocab_id,"int");
+
+	$sql=SQL("select","t.tema_id as term_id,
+n.id as note_id,n.tipo_nota as note_type,n.lang_nota as note_lang,n.nota as note,
+n.cuando as modified,u.id as user_id, concat(u.apellido,', ',u.nombres) as user					
+	from $DBCFG[DBprefix]tema as t,					
+	$DBCFG[DBprefix]notas n,					
+	$DBCFG[DBprefix]usuario u				
+	where					
+	t.tesauro_id='$vocab_id'					
+ 	and t.estado_id='13'					
+ 	and t.tema_id=n.id_tema
+ 	and n.uid=u.id
+ 	and tipo_nota!='NP'
+ 	order by t.tema_id");
+
+	return $sql;
+};
+
+
+
+#
 # lista de términos según fechas
 #
 function SQLlistTermsfromDate($month,$year,$ord=""){
@@ -1703,9 +1788,12 @@ function SQLterminosValidosUF($tema_id="0"){
 
 function ARRAYdatosUser($user_id){
 	GLOBAL $DBCFG;
-	$sql=SQL("select","u.id,u.id as user_id,u.apellido,u.nombres,u.orga,u.mail,u.cuando,u.hasta,u.estado,u.pass, if(u.estado=1,'caducar','habilitar') as enlace,u.nivel from $DBCFG[DBprefix]usuario u where u.id='$user_id'");
+	$sql=SQL("select","u.id,u.id as user_id,u.apellido,u.nombres,u.orga,u.mail,u.cuando,u.hasta,u.estado,u.pass, if(u.estado=1,'caducar','habilitar') as enlace,u.nivel 
+		from $DBCFG[DBprefix]usuario u where u.id='$user_id'");
 	return $sql->FetchRow();
 };
+
+
 
 
 function ARRAYdatosUserXmail($user_login){

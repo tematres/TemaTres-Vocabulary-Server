@@ -518,4 +518,7 @@ define('LABEL_bulkTranslate','mapping and multilingual editor');
 define('LABEL_termsEQ','with mapping');
 define('LABEL_termsNoEQ','without mapping');
 define('LABEL_close','close');
+define('LABEL_allTerms','all terms');
+define('LABEL_allNotes','all notes');
+define('LABEL_allRelations','all terms relations');
 ?>

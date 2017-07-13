@@ -48,14 +48,14 @@ loadConfigValues(1);
 
 	
 if($_GET[setLang]){
-		$_SESSION[$_SESSION["CFGURL"]][lang]=$idiomas_disponibles[$_GET[setLang]];
+		$_SESSION[$_SESSION["CFGURL"]]["lang"]=$idiomas_disponibles[$_GET["setLang"]];
 	}	
 
 $_SESSION["CFGIdioma"] = ($_SESSION["CFGIdioma"]) ? $_SESSION["CFGIdioma"] : $idiomas_disponibles[0][2];
 
 //NO hay idioma, idioma por default ES
-if(!$_SESSION[$_SESSION["CFGURL"]][lang])   {
-		$_SESSION[$_SESSION["CFGURL"]][lang]=$idiomas_disponibles[$_SESSION["CFGIdioma"]];
+if(!$_SESSION[$_SESSION["CFGURL"]]["lang"])   {
+		$_SESSION[$_SESSION["CFGURL"]]["lang"]=$idiomas_disponibles[$_SESSION["CFGIdioma"]];
 }
 
 //prevent missing language file
@@ -75,14 +75,13 @@ unset($_SESSION[$_SESSION["CFGURL"]]);
 header("Location:index.php");
 };
 
-if($_POST[id_correo_electronico]){
+if($_POST["id_correo_electronico"]){
 
 $chk_user='';
 
-$chk_user=ARRAYcheckLogin($_POST[id_correo_electronico]);
+$chk_user=ARRAYcheckLogin($_POST["id_correo_electronico"]);
  
- if($chk_user["user_id"])
- {		 
+ if($chk_user["user_id"]) {		 
 	//if the hash not hashed because the admin of tematres change the CFG_HASH_PASS config in db.tematres.php
 	if (( strlen($chk_user["pass"]) < 34 ) && (CFG_HASH_PASS)){
 
@@ -92,12 +91,12 @@ $chk_user=ARRAYcheckLogin($_POST[id_correo_electronico]);
 	}
 	 
 	 
-	if(check_password($_POST["id_password"],$chk_user["pass"]))
-	{
-		$_SESSION[$_SESSION["CFGURL"]][ssuser_id]=$chk_user["user_id"];
-		$_SESSION[$_SESSION["CFGURL"]][ssuser_nivel]=$chk_user["nivel"];
-		$_SESSION[$_SESSION["CFGURL"]][ssuser_nombre]=$chk_user["name"];
+	if(check_password($_POST["id_password"],$chk_user["pass"])){
+		$_SESSION[$_SESSION["CFGURL"]]["ssuser_id"]=$chk_user["user_id"];
+		$_SESSION[$_SESSION["CFGURL"]]["ssuser_nivel"]=$chk_user["nivel"];
+		$_SESSION[$_SESSION["CFGURL"]]["ssuser_nombre"]=$chk_user["name"];
 		//redirigir
+		$_SESSION[$_SESSION["CFGURL"]]["user_data"]=ARRAYUserData($chk_user["user_id"]);
 		header("Location:index.php");
 	}
  }

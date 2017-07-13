@@ -1441,4 +1441,55 @@ function URL_exists($url){
    return stripos($headers[0],"200 OK")?true:false;
 }
 
+
+
+
+//only for active users. retrive simple data about user
+function ARRAYUserData($user_id){
+  GLOBAL $DBCFG;
+  $sql=SQL("select","u.id as user_id,u.apellido,u.nombres,u.orga,u.mail,u.nivel 
+    from 
+    $DBCFG[DBprefix]usuario u 
+    where u.id='$user_id'
+    and u.estado=1");
+
+  return $sql->FetchRow();
+};
+
+
+
+//check specific task for specifi roles
+function checkValidRol($arrayUser,$task){
+
+  if(!$arrayUser["nivel"]){
+    $arrayUser=ARRAYdatosUser($arrayUser["user_id"]);
+  }    
+  
+  if(!$arrayUser["nivel"]) return false;
+
+  $adminTask=array("adminReports","adminUsers","config","reports","terms","notes","termStatus");
+  $editorTask=array("reports","terms","notes","termStatus");
+
+  //check if it is a valid task
+  if(!in_array($task, $adminTask)) return false;
+  
+
+  switch ($arrayUser["nivel"]) {
+    case '1'://admin
+
+    $result=in_array($task, $adminTask);
+    break;
+
+    case '2'://editor
+      
+    break;
+    
+    default:
+      $result=false;
+    break;
+  }
+
+  return $result;
+
+}
 ?>

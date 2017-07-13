@@ -902,6 +902,24 @@ Simple Term report by
 */
 function HTMLformSimpleTermReport($array){
 	GLOBAL $CFG;
+
+	$arraySimpleReports=array('csv2#'.ucfirst(LABEL_terminosLibres),
+														'csv3#'.ucfirst(LABEL_terminosRepetidos),
+														'csv4#'.ucfirst(LABEL_poliBT),
+														'csv7#'.ucfirst(LABEL_termsxNTterms),
+														'csv8#'.ucfirst(LABEL_termsXcantWords),
+														'csv9#'.ucfirst(LABEL_meta_terms),
+														'csv13#'.ucfirst(LABEL_preferedTerms),
+														'csv10#'.ucfirst(LABEL_relatedTerms),
+														'csv11#'.ucfirst(LABEL_nonPreferedTerms),			
+														'csv5#'.ucfirst(LABEL_Candidato),
+														'csv6#'.ucfirst(LABEL_Rechazado));
+
+	//admin reports
+	if(checkValidRol($_SESSION[$_SESSION["CFGURL"]]["user_data"],"adminReports")){
+		array_push($arraySimpleReports, 'csv15#'.ucfirst(LABEL_allTerms),'csv16#'.ucfirst(LABEL_allRelations),'csv17#'.ucfirst(LABEL_allNotes));	
+	} 	
+
 	$rows.='<form role="form" name="simprereport" id="simprereport" action="index.php" method="get">';
 	$rows.='	<div class="row">
 	    <div class="col-sm-12">
@@ -916,17 +934,7 @@ function HTMLformSimpleTermReport($array){
 	$rows.='	<div class="col-sm-9"><select class="form-control" id="task" name="task">';
 
 	$rows.='	<option value="">'.ucfirst(LABEL_seleccionar).'</option>';
-	$rows.=doSelectForm(array('csv2#'.ucfirst(LABEL_terminosLibres),
-														'csv3#'.ucfirst(LABEL_terminosRepetidos),
-														'csv4#'.ucfirst(LABEL_poliBT),
-														'csv7#'.ucfirst(LABEL_termsxNTterms),
-														'csv8#'.ucfirst(LABEL_termsXcantWords),
-														'csv9#'.ucfirst(LABEL_meta_terms),
-														'csv13#'.ucfirst(LABEL_preferedTerms),
-														'csv10#'.ucfirst(LABEL_relatedTerms),
-														'csv11#'.ucfirst(LABEL_nonPreferedTerms),
-														'csv5#'.ucfirst(LABEL_Candidato),
-														'csv6#'.ucfirst(LABEL_Rechazado)),"$_GET[task]");
+	$rows.=doSelectForm($arraySimpleReports,"$_GET[task]");
 	$rows.='	</select></div>';
 	$rows.='</div>';
 
