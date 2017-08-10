@@ -414,7 +414,7 @@ function HTMLformSuggestTerms($ARRAYtargetVocabulary=array()){
 		require_once(T3_ABSPATH . 'common/include/vocabularyservices.php')	;
 		$arrayVocab=ARRAYtargetVocabulary($_GET["tvocab_id"]);
 		$task=($_GET["searchType"]==1) ? 'fetch' : 'search';
-		$dataTterm=getURLdata($arrayVocab[tvocab_uri_service].'?task='.$task.'&arg='.urlencode($string2search));
+		$dataTterm=getURLdata($arrayVocab["tvocab_uri_service"].'?task='.$task.'&arg='.urlencode($string2search));
 		if($dataTterm->resume->cant_result > "0")	{
 			$arrayTtermData = array();
 			foreach ($dataTterm->result->term as $value){
@@ -527,7 +527,7 @@ function HTMLformSuggestTermsXRelations($ARRAYtermino,$ARRAYtargetVocabulary=arr
 		require_once(T3_ABSPATH . 'common/include/vocabularyservices.php')	;
 		$arrayVocab=ARRAYtargetVocabulary($_GET["tvocab_id"]);
 		$task=($_GET["searchType"]==1) ? 'fetch' : 'search';
-		$dataTterm=getURLdata($arrayVocab[tvocab_uri_service].'?task='.$task.'&arg='.urlencode($string2search));
+		$dataTterm=getURLdata($arrayVocab["tvocab_uri_service"].'?task='.$task.'&arg='.urlencode($string2search));
 		if($dataTterm->resume->cant_result > "0")	{
 			$array_terms=array();
 			foreach ($dataTterm->result->term as $value){
@@ -538,14 +538,14 @@ function HTMLformSuggestTermsXRelations($ARRAYtermino,$ARRAYtargetVocabulary=arr
 		}
 		switch ($t_relation) {
 			case '2'://RT
-			$arrayTterm=getForeingStrings($arrayVocab[tvocab_uri_service],'fetchRelated',$array_terms);
+			$arrayTterm=getForeingStrings($arrayVocab["tvocab_uri_service"],'fetchRelated',$array_terms);
 			break;
 			case '3'://BT/NT
-			$arrayTterm=getForeingStrings($arrayVocab[tvocab_uri_service],'fetchDown',$array_terms);
+			$arrayTterm=getForeingStrings($arrayVocab["tvocab_uri_service"],'fetchDown',$array_terms);
 			break;
 
 			case '4'://UF
-			$arrayTterm=getForeingStrings($arrayVocab[tvocab_uri_service],'fetchAlt',$array_terms);
+			$arrayTterm=getForeingStrings($arrayVocab["tvocab_uri_service"],'fetchAlt',$array_terms);
 			break;
 			default :
 			break;
@@ -1243,16 +1243,16 @@ function HTMLformAssociateTargetTerms($ARRAYtermino,$term_id="0"){
 		$arrayVocab=ARRAYtargetVocabulary($_GET["tvocab_id"]);
 		switch ($_GET["search_by"]) {
 			case 'string':
-			$dataTerm=getURLdata($arrayVocab[tvocab_uri_service].'?task=search&arg='.urlencode($string2search));
+			$dataTerm=getURLdata($arrayVocab["tvocab_uri_service"].'?task=search&arg='.urlencode($string2search));
 			break;
 			case 'code':
-			$dataTerm=getURLdata($arrayVocab[tvocab_uri_service].'?task=fetchCode&arg='.urlencode($ARRAYtermino["code"]));
+			$dataTerm=getURLdata($arrayVocab["tvocab_uri_service"].'?task=fetchCode&arg='.urlencode($ARRAYtermino["code"]));
 			break;
 			case 'reverse':
-			$dataTerm=getURLdata($arrayVocab[tvocab_uri_service].'?task=fetchSourceTerms&arg='.rawurlencode($ARRAYtermino["titTema"]));
+			$dataTerm=getURLdata($arrayVocab["tvocab_uri_service"].'?task=fetchSourceTerms&arg='.rawurlencode($ARRAYtermino["titTema"]));
 			break;
 			default :
-			$dataTerm=getURLdata($arrayVocab[tvocab_uri_service].'?task=search&arg='.urlencode($string2search));
+			$dataTerm=getURLdata($arrayVocab["tvocab_uri_service"].'?task=search&arg='.urlencode($string2search));
 			break;
 		}
 
@@ -1909,7 +1909,7 @@ switch ($taskterm) {
 			$alert_MT=($resulta_busca["isMetaTerm"]==1) ? ' ('.LABEL_meta_term.') ' : '';
 			$rows.= '<tr>';
 			$rows.=  '     	<td align="center"><input type="checkbox" name="deleteFreeTerms_id[]" id="freeTerm_'.$array["tema_id"].'" title="'.ucfirst(MENU_BorrarT).' '.$array["tema"].' " value="'.$array["tema_id"].'" /></td>';
-			$rows.=  '     	<td><label class="check_label" value="'.$value["tema_id"].'  title="'.$value["tema"].' " for="freeTerm_'.$array["tema_id"].'">'.HTMLlinkTerm($array).'</label> '.$alert_MT.' </td>';
+			$rows.=  '     	<td><label class="check_label" value="'.$value["tema_id"].'  title="'.$value["tema"].' " for="freeTerm_'.$array["tema_id"].'">'.HTMLlinkTerm($array,array("modal"=>1)).'</label> '.$alert_MT.' </td>';
 			$rows.=  '      <td>'.$array["cuando"].'</td>';
 			$rows.=  '  </tr>';
 		};
@@ -1952,7 +1952,7 @@ function HTMLformVerTerminosRepetidos(){
 				$rows.='<li>'.$array["string_term"].' ('.$array["cant"].')<ul>';
 			}
 			$alert_MT=($resulta_busca["isMetaTerm"]==1) ? ' ('.LABEL_meta_term.') ' : '';
-			$rows.='<li>'.HTMLlinkTerm($array).'  '.$alert_MT.' </li>';
+			$rows.='<li>'.HTMLlinkTerm($array,array("modal"=>1)).'  '.$alert_MT.' </li>';
 			$string_term=$array["string_term"];
 		}
 		$rows.='</ul></li>';
@@ -2003,7 +2003,7 @@ function HTMLformVerTerminosSinBT($taskterm='null',$terms_id=array()){
 			$alert_MT=($array["isMetaTerm"]==1) ? ' ('.LABEL_meta_term.') ' : '';
 			$rows.= '<tr>';
 			$rows.=  '     <td align="center"><input type="checkbox" name="deleteTerms_id[]" id="term_'.$array["tema_id"].'" title="'.ucfirst(MENU_BorrarT).' '.$array["tema"].' " value="'.$array["tema_id"].'" /></td>';
-			$rows.=  '     <td><label class="check_label" title="'.$value["tema"].' " for="term_'.$array["tema_id"].'">'.HTMLlinkTerm($array).'</label> '.$alert_MT.' </td>';
+			$rows.=  '     <td><label class="check_label" title="'.$value["tema"].' " for="term_'.$array["tema_id"].'">'.HTMLlinkTerm($array,array("modal"=>1)).'</label> '.$alert_MT.' </td>';
 			$rows.=  '      <td>'.$array["cant_UF"].'</td>';
 			$rows.=  '      <td>'.$array["cant_RT"].'</td>';
 			$rows.=  '  </tr>';
@@ -2080,8 +2080,8 @@ function HTMLformBulkReplace($params=array()){
 	$rows.='</div>';
 
 	$rows.='<div class="text-center">';
-		$rows.='<input type="submit" class="btn btn-primary" role="button" name="boton" value="'.ucfirst(LABEL_Preview).'"/>';
-		$rows.=' <input type="button" class="btn btn-default" role="button" name="cancelar" type="button" onClick="location.href=\'index.php\'" value="'.ucfirst(LABEL_Cancelar).'"/>';
+	$rows.='<input type="submit" class="btn btn-primary" role="button" name="boton" value="'.ucfirst(LABEL_Preview).'"/>';
+	$rows.=' <input type="button" class="btn btn-default" role="button" name="cancelar" type="button" onClick="location.href=\'index.php\'" value="'.ucfirst(LABEL_Cancelar).'"/>';
 	$rows.='</div>';
 	$rows.='<input type="hidden"  name="taskAdmin" id="taskAdmin" value="bulkReplace"/>';
 	$rows.='<input type="hidden"  name="replaceStep" id="replaceStep" value="bulkReplaceTest"/>';
@@ -2130,7 +2130,7 @@ function HTMLbulkReplaceResultsTerms($params){
 				$rows.= '<tr>';
 				$rows.=  '     <td align="center"><input type="checkbox" name="blkmod_id[]" id="blkmod_id'.$result["tema_id"].'"  title="'.LABEL_seleccionar.'" value="'.$result["tema_id"].'" checked/></td>';
 				$rows.=  '     <td><label for="blkmod_id'.$result["tema_id"].'" '.$css_class_MT.'>'.$text.'</label> </td>';
-				$rows.=  '     <td>'.HTMLlinkTerm($result).' '.$alert_MT.' </td>';
+				$rows.=  '     <td>'.HTMLlinkTerm($result,array("modal"=>1)).' '.$alert_MT.' </td>';
 				$rows.=  '  </tr>';
 			}
 			$rows.='        </tbody>';
@@ -2138,7 +2138,8 @@ function HTMLbulkReplaceResultsTerms($params){
 			$rows.= '</td></tr></tfoot></table></div>';
 		$rows.='<div class="submit_form"  align="center" role="group">';
 		$rows.='<button type="submit"   class="btn btn-danger" name="boton" value="'.ucfirst(LABEL_Enviar).'">'.ucfirst(LABEL_Enviar).'</button>';
-		$rows.=' <button type="button"  class="btn btn-default"  name="cancelar" onClick="\'index.php\')" value="'.ucfirst(LABEL_Cancelar).'">'.ucfirst(LABEL_Cancelar).'</button>';
+		$rows.=' <input type="button" class="btn btn-default" role="button" name="cancelar" type="button" onClick="location.href=\'index.php\'" value="'.ucfirst(LABEL_Cancelar).'"/>';
+	
 		$rows.='</div>';
 		$rows.='<input type="hidden"  name="replaceStep" id="replaceStep" value="bulkReplaceConfirm"/>';
 		$rows.='<input type="hidden"  name="search_string" id="search_string" value="'.$search_string.'"/>';
@@ -2182,7 +2183,7 @@ function HTMLbulkReplaceResultsNotes($params){
 				$rows.= '<tr>';
 				$rows.=  '     <td align="center"><input type="checkbox" name="blkmod_id[]" id="blkmod_id'.$result["nota_id"].'" title="'.LABEL_seleccionar.'" value="'.$result["nota_id"].'" checked/></td>';
 				$rows.=  '     <td><label for="blkmod_id'.$result["nota_id"].'">'.$text.'</label></td>';
-				$rows.=  '     <td>'.HTMLlinkTerm($result).'</td>';
+				$rows.=  '     <td>'.HTMLlinkTerm($result,array("modal"=>1)).'</td>';
 				$rows.=  '  </tr>';
 			}
 			$rows.='        </tbody>';
