@@ -2165,7 +2165,8 @@ if ($_SESSION[$_SESSION["CFGURL"]][ssuser_nivel]>0){
 }
 
  $rows.='<script type="application/javascript" src="'.URL_BASE.'js.php" charset="utf-8"></script>
-		<script type="text/javascript" src="'.T3_WEBPATH.'forms/jquery.validate.min.js"></script>';
+		<script type="text/javascript" src="'.T3_WEBPATH.'forms/jquery.validate.min.js"></script>
+		<script type="text/javascript" src="'.T3_WEBPATH.'bootstrap/js/validator.min.js"></script>';
 
  if($_SESSION[$_SESSION["CFGURL"]]["lang"][2]!=='en')
  	$rows.='<script src="'.T3_WEBPATH.'forms/localization/messages_'.$_SESSION[$_SESSION["CFGURL"]]["lang"][2].'.js" type="text/javascript"></script>';
