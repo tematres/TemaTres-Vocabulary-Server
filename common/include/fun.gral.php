@@ -467,22 +467,31 @@ function html2txt($html){
 //This function is a part of http://svn.studentrobotics.org/ ide2/
 function wiki2html($wikitext)
 {
+  if(!isset($wikitext) || $wikitext == "")
+    return FALSE;
+
+  $inter_text = $wikitext;
+  while(strpos($inter_text,"[[") && strpos($inter_text,"]]"))
+  {
+    $link = str_replace(array("[[", "]]"), "", substr($inter_text, strpos($inter_text, "[["), (strpos($inter_text, "]]")-strpos($inter_text, "[["))));
+    if(strpos($link, "|"))
+      list($href, $title) = explode("|", $link);
+    else
+      $href = 'index.php?'.FORM_LABEL_buscar.'='.$link.'&amp;sgs=off';
+      $inter_text = str_replace('[['.$link.']]', '<a href="'.$href.'" title="'.LABEL_verDetalle.$link.'">'.$link.'</a>', $inter_text);
+  }
+return $inter_text;
+}
+
+
+/* Convert wiki text to XML for output */
+function wiki2xml($wikitext)
+{
 	if(!isset($wikitext) || $wikitext == "")
 		return FALSE;
 
-	$inter_text	= $wikitext;
-	while(strpos($inter_text,"[[") && strpos($inter_text,"]]"))
-	{
-		$link	= str_replace(array("[[", "]]"), "", substr($inter_text, strpos($inter_text, "[["), (strpos($inter_text, "]]")-strpos($inter_text, "[["))));
-		if(strpos($link, "|"))
-			list($href, $title)	= explode("|", $link);
-		else
-			$href	= 'index.php?'.FORM_LABEL_buscar.'='.$link.'&amp;sgs=off';
-			$inter_text	= str_replace('[['.$link.']]', '<a href="'.$href.'" title="'.LABEL_verDetalle.$link.'">'.$link.'</a>', $inter_text);
-	}
+  return str_replace ( array ('[[',']]' ), array ('',''), $wikitext );
 
-
-	return $inter_text;
 }
 
 /* Convert wiki text to html for output */

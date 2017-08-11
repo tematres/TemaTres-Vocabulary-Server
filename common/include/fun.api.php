@@ -252,18 +252,23 @@ class XMLvocabularyServices {
 	// array(tema_id,string,note_id,note_type,note_lang,note_text)
 	function fetchTermNotes($tema_id){
 
+		GLOBAL $CFG;
+
 		$sql=SQLdatosTerminoNotas($tema_id);
 
 		while($array=$sql->FetchRow())
 		{
 			$i=++$i;
+
+			$note_text=($CFG["_HTMLinDATA"]==0) ? html2txt($array[nota]) : wiki2xml($array[nota]);
+
 			$result["result"][$array[nota_id]]= array(
 				"term_id"=>$array[tema_id],
-				"string"=>$array[tema],
+				"string"=>$array[tema], 
 				"note_id"=>$array[nota_id],
 				"note_type"=>($array[ntype_code]) ? $array[ntype_code] : $array[tipo_nota],
 				"note_lang"=>$array[lang_nota],
-				"note_text"=>$array[nota]
+				"note_text"=>$note_text
 			);
 		};
 		return $result;

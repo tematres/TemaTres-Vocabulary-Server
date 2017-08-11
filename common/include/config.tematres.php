@@ -146,6 +146,9 @@ define("NO","2");
 //term x page in translator bulk editor
 define('CFG_NUM_SHOW_TERMSxTRAD',30);
 
+//enable HTML tags in web services and metadata data
+$CFG["_HTMLinDATA"]=1;
+
 
 
  ##
