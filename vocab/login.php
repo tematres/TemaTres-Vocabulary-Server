@@ -9,8 +9,7 @@
 include("config.tematres.php");
 $metadata=do_meta_tag();
 
-	if(($_GET["action"]=='rp') && ($_GET["key"]))
-	{
+	if(($_GET["action"]=='rp') && ($_GET["key"]))	{
 			$chek_key=check_password_reset_key($_GET["key"], urldecode($_GET["login"]));
 
 			if($chek_key["user_id"]>0)
@@ -102,7 +101,7 @@ $metadata=do_meta_tag();
 	}
 
 
-	if ($_GET["task"]=='recovery')	{
+	if ((@$_GET["task"])&&($_GET["task"]=='recovery'))	{
 		echo HTMLformRecoveryPassword();
 	}	else	{
 
@@ -120,7 +119,7 @@ $metadata=do_meta_tag();
 <div id="footer" class="footer">
 		  <div class="container">
 		    	<?php
-					 if(!$_GET["letra"]) {
+					 if(!@$_GET["letra"]) {
 						 echo HTMLlistaAlfabeticaUnica();
 					 }
 					 ?>
@@ -178,8 +177,7 @@ function check_password_reset_key($key, $login) {
 }
 
 
-function recovery($user_login)
-{
+function recovery($user_login){
 
 	GLOBAL $DBCFG;
 
@@ -208,15 +206,11 @@ function recovery($user_login)
 
 	$title = sprintf('[%s] '.LABEL_mail_recoveryTitle, $_SESSION[CFGTitulo] );
 
+	$sendMail=sendMail($ARRAYuser["mail"], $title, $message);
 
-	$sendMail=sendMail($ARRAYuser[mail], $title, $message);
-
-	if ($sendMail)
-	{
+	if ($sendMail){
 		return array("result"=>true, "msg"=>t3_messages("mailOK"));
-	}
-	else
-	{
+	}	else {
 		array("result"=>false, "msg"=>t3_messages("mailFail"));
 	};
 

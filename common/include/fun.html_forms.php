@@ -130,7 +130,7 @@ function HTMLformAssociateExistTerms($taskterm,$ARRAYtermino,$term_id="0"){
 
 		$expresBusca=doValue($_POST,FORM_LABEL_buscarTermino);
 		$expresBusca=trim($expresBusca);
-		
+
 		if(($taskterm=='addFreeNT') || ($taskterm=='addFreeUF')){
 			//if enable polijerarquia
 			$sql_busca = ($array_vocabulario["polijerarquia"]==1) ? SQLsearchTerms4NT($expresBusca,$ARRAYtermino["idTema"]) : SQLsearchFreeTerms($expresBusca,$ARRAYtermino["idTema"]);
@@ -911,14 +911,14 @@ function HTMLformSimpleTermReport($array){
 														'csv9#'.ucfirst(LABEL_meta_terms),
 														'csv13#'.ucfirst(LABEL_preferedTerms),
 														'csv10#'.ucfirst(LABEL_relatedTerms),
-														'csv11#'.ucfirst(LABEL_nonPreferedTerms),			
+														'csv11#'.ucfirst(LABEL_nonPreferedTerms),
 														'csv5#'.ucfirst(LABEL_Candidato),
 														'csv6#'.ucfirst(LABEL_Rechazado));
 
 	//admin reports
 	if(checkValidRol($_SESSION[$_SESSION["CFGURL"]]["user_data"],"adminReports")){
-		array_push($arraySimpleReports, 'csv15#'.ucfirst(LABEL_allTerms),'csv16#'.ucfirst(LABEL_allRelations),'csv17#'.ucfirst(LABEL_allNotes));	
-	} 	
+		array_push($arraySimpleReports, 'csv15#'.ucfirst(LABEL_allTerms),'csv16#'.ucfirst(LABEL_allRelations),'csv17#'.ucfirst(LABEL_allNotes));
+	}
 
 	$rows.='<form role="form" name="simprereport" id="simprereport" action="index.php" method="get">';
 	$rows.='	<div class="row">
@@ -1809,9 +1809,8 @@ function HTMLformUpdateEndpoit(){
 }
 
 function HTMLformLogin($task_result){
-	if(is_array($task_result))
-	{
-		$rows.='<div>'.$task_result["msg"].'</div>';
+	if(is_array($task_result)){
+		$rows='<div>'.$task_result["msg"].'</div>';
 	}
 
 	$rows.='  <form class="form-horizontal form-signin" role="form" id="mylogin" name="mylogin" action="login.php" method="post">';
@@ -2139,7 +2138,7 @@ function HTMLbulkReplaceResultsTerms($params){
 		$rows.='<div class="submit_form"  align="center" role="group">';
 		$rows.='<button type="submit"   class="btn btn-danger" name="boton" value="'.ucfirst(LABEL_Enviar).'">'.ucfirst(LABEL_Enviar).'</button>';
 		$rows.=' <input type="button" class="btn btn-default" role="button" name="cancelar" type="button" onClick="location.href=\'index.php\'" value="'.ucfirst(LABEL_Cancelar).'"/>';
-	
+
 		$rows.='</div>';
 		$rows.='<input type="hidden"  name="replaceStep" id="replaceStep" value="bulkReplaceConfirm"/>';
 		$rows.='<input type="hidden"  name="search_string" id="search_string" value="'.$search_string.'"/>';
@@ -2284,7 +2283,7 @@ $rows.='<div class="row">
 		$rows.='</div>'; #form group
 
 		$rows.='<div style="display:none;" id="skos_config">';
-		
+
 		$sqlTopTerm=SQLverTopTerm();
 		if(SQLcount($sqlTopTerm)>0)	{
 			while ($arrayTopTerms=$sqlTopTerm->FetchRow()){
@@ -2340,7 +2339,7 @@ $rows.='<div class="row">
 					}
 				}
 			};
-			$rows.='<div class="form-group">					
+			$rows.='<div class="form-group">
 					<div class="col-sm-4"><label for="includeTopTerm" accesskey="t">'.ucfirst(TT_terminos).'</label></div>';
 			$rows.='<input name="includeTopTerm" type="checkbox" id="includeTopTerm" value="1" />';
 			$rows.='</div>';
@@ -2359,11 +2358,11 @@ $rows.='<div class="row">
 					<div class="col-sm-4"><label for="includeModDate" accesskey="m">'.ucfirst(LABEL_lastChangeDate).'</label></div>';
 		$rows.='<input name="includeModDate" type="checkbox" id="includeModDate" value="1" />';
 		$rows.='	</div>';
-		
+
 
 		$rows.='</div>';#invisible
 
-	
+
 		$rows.='<div class="form-group">
 					<div class="text-center">
 							<input type="submit" class="btn btn-primary" id="boton" name="boton" value="'.ucfirst(LABEL_Guardar).'"/>
@@ -2516,11 +2515,11 @@ function FORMtransterm4char4map($tvocab_id,$filterEQ,$letra){
 
 	 	$rows.='<ul>';
 		$rows.='<li class="active">'.ucfirst(LABEL_termsEQ).': <a href="'.URL_BASE.'index.php?letra2trad='.$letra.'&amp;filterEQ=2&amp;tvocab_id='.$ARRAYvocabulario["vocabulario_id"].'&mod=trad">'.$cantLetra["cant_eq"].'  '.LABEL_Terminos.'</a></li>';
-		
+
 			$rows.='<li class="active">'.ucfirst(LABEL_termsNoEQ).':  <a href="'.URL_BASE.'index.php?letra2trad='.$letra.'&amp;filterEQ=1&amp;tvocab_id='.$ARRAYvocabulario["vocabulario_id"].'&mod=trad">'.$cantLetra["cant_no_eq"].' '.LABEL_Terminos.'</a></li>';
 		$rows.='</ul>';
 		}
-		
+
 		$rows.=' </p></div>';
 	}// if $letra
 	$rows.=' <div class="panel-footer">'.HTMLalphaListTerms4map($ARRAYvocabulario["vocabulario_id"],$filterEQ,$letra).'</div>';
@@ -2532,13 +2531,13 @@ function FORMtransterm4char4map($tvocab_id,$filterEQ,$letra){
 
 
 	$cantLetra2Paginador=$cantLetra["cant"];
-	
+
 
 	if($filterEQ>0){
 		$cantLetra2Paginador=($filterEQ==2) ? $cantLetra["cant_eq"] : $cantLetra["cant_no_eq"];
 	}
 
-	
+
 	if($cantLetra2Paginador>0){
 
 		if($cantLetra2Paginador>CFG_NUM_SHOW_TERMSxTRAD){
@@ -2596,13 +2595,13 @@ function FORMtransterm4char4map($tvocab_id,$filterEQ,$letra){
 			}else{
 		  	$rows.='<tr><td class="col-sm-2">'.$num_terms.'</td>';
 
-		  	$rows.='<td class="col-sm-2">   
+		  	$rows.='<td class="col-sm-2">
 					       <select class="form-control" id="tipo_equivalencia" name="tipo_equivalencia[]">'.doSelectForm(array("$LabelEE","$LabelIE","$LabelNE"),$datosLetra["t_relacion"]).'</select></td>';
 			$rows.='<td class="col-sm-4"><a href="modal.php?tema='.$datosLetra["tema_id"].'" class="modalTrigger">'.$datosLetra["tema"].'</a></td>';
 			$rows.='<td class="col-sm-4"><input type="text"  tabindex="'.$i.'" name="tterm_string[]"  value="" class="form-control"/><input type="hidden" name="term_id[]" value="'.$datosLetra["tema_id"].'" /></td>
 				<td class="col-sm-2"></td>';
 			$rows.='</tr>';
-			}	            
+			}
 
 		}
 		$rows.='    </tbody>

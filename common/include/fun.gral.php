@@ -602,7 +602,6 @@ class Qi_Util_Similar
 		$pa = $pb = 0;
 		$pa = levenshtein($a, $this->palavra);
 		$pb = levenshtein($b, $this->palavra);//123
-		//echo $pa.' < '.$pb.'<br>';
 		if ($pa == $pb) return 0;
 		return $pa < $pb ? -1 : 1;
 	}
@@ -1157,45 +1156,56 @@ function currentBasePage($url)
 }
 
 
-
-function sendMail($to_address,$subject,$message,$extra=array())
-{
-	require_once("mailer/PHPMailerAutoload.php");
-
+function sendMail($to_address,$subject,$message,$extra=array()){
+  GLOBAL $DBCFG;
+  require_once("mailer/PHPMailerAutoload.php");
 	$mail = new PHPMailer();
 
-/*
- * Exmple with SMTP from gmail
- *
-	$mail->IsSMTP();                                      // set mailer to use SMTP
-	$mail->Host = 'ssl://smtp.gmail.com';
-	$mail->Port = 465;
-	$mail->SMTPAuth = true;
-	$mail->Username = 'username@gmail.com';
-	$mail->Password = 'password';
+/* Exmple with SMTP from gmail **/
+ //Set the hostname of the mail server
+ /*
+ $mail->isSMTP();
+ $mail->Host = 'smtp.gmail.com';
+ $mail->Port = 587;
+ $mail->SMTPSecure = 'tls';
+ $mail->SMTPAuth = true;
+ $mail->Username = "username";
+ $mail->Password = "Password";
 */
 
-	$mail->From = 'tematres@'.string2url($_SESSION["CFGTitulo"]);
-	$mail->CharSet = "UTF-8";
-	$mail->AddAddress($to_address);
-	$mail->WordWrap = 50;                                 // set word wrap to 50 characters
-	$mail->IsHTML(false);                                  // set email format to HTML
-	$mail->Subject = $subject;
-	$mail->Body    = $message;
+//OR  Set PHPMailer to use the sendmail transport
+//$mail->isSendmail();
 
-/*
- * Debug
- *
- $mail->SMTPDebug  = 2;                     // enables SMTP debug information (for testing)
- // 1 = errors and messages
- // 2 = messages only
+//OR SMTP
+//$mail->IsSMTP();
+//$mail->Host = "localhost";
 
-	error_reporting(E_ALL);
-	ini_set("display_errors", 1);
-	echo $mail->ErrorInfo;
-*/
- return ($mail->Send()) ? true  : false;
+  $mail->SetFrom("noreplay@noreplay.com",$_SESSION["CFGTitulo"]);
+  $mail->CharSet = "UTF-8";
+  $mail->AddAddress($to_address);
+  $mail->WordWrap = 50;                                 // set word wrap to 50 characters
+  $mail->IsHTML(false);                                  // set email format to HTML
+  $mail->Subject = $subject;
+  $mail->Body    = $message;
+  $mail->Send();
 
+
+
+if($DBCFG["debugMode"] == "1") {
+  //Enable SMTP debugging
+  // 0 = off (for production use)
+  // 1 = client messages
+  // 2 = client and server messages
+  $mail->SMTPDebug = 2;
+  //Ask for HTML-friendly debug output
+  $mail->Debugoutput = 'html';
+
+  error_reporting(E_ALL);
+  ini_set("display_errors", 1);
+  echo "DEBUG DATA:". $mail->ErrorInfo;
+}
+
+return ($mail->Send()) ? true  : false;
 }
 
 
@@ -1456,9 +1466,9 @@ function URL_exists($url){
 //only for active users. retrive simple data about user
 function ARRAYUserData($user_id){
   GLOBAL $DBCFG;
-  $sql=SQL("select","u.id as user_id,u.apellido,u.nombres,u.orga,u.mail,u.nivel 
-    from 
-    $DBCFG[DBprefix]usuario u 
+  $sql=SQL("select","u.id as user_id,u.apellido,u.nombres,u.orga,u.mail,u.nivel
+    from
+    $DBCFG[DBprefix]usuario u
     where u.id='$user_id'
     and u.estado=1");
 
@@ -1472,8 +1482,8 @@ function checkValidRol($arrayUser,$task){
 
   if(!$arrayUser["nivel"]){
     $arrayUser=ARRAYdatosUser($arrayUser["user_id"]);
-  }    
-  
+  }
+
   if(!$arrayUser["nivel"]) return false;
 
   $adminTask=array("adminReports","adminUsers","config","reports","terms","notes","termStatus");
@@ -1481,7 +1491,7 @@ function checkValidRol($arrayUser,$task){
 
   //check if it is a valid task
   if(!in_array($task, $adminTask)) return false;
-  
+
 
   switch ($arrayUser["nivel"]) {
     case '1'://admin
@@ -1490,15 +1500,14 @@ function checkValidRol($arrayUser,$task){
     break;
 
     case '2'://editor
-      
+
     break;
-    
+
     default:
       $result=false;
     break;
   }
 
   return $result;
-
 }
 ?>
