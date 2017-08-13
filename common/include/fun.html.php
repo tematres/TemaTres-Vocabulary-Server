@@ -1325,7 +1325,7 @@ function HTMLlistaAlfabeticaUnica($letra=""){
 					$menuAlfabetico.='    <a title="'.LABEL_verTerminosLetra.' '.$datosAlfabetico[0].'" href="'.URL_BASE.'index.php?letra='.$datosAlfabetico[0].'">'.$datosAlfabetico[0].'</a>';
 					$menuAlfabetico.='</li>';
 				}				else				{
-					$menuNoAlfabetico.='<li class="'.$class.'">';
+					$menuNoAlfabetico='<li class="'.$class.'">';
 					$menuNoAlfabetico.='    <a title="'.LABEL_verTerminosLetra.' '.$datosAlfabetico[0].'" href="'.URL_BASE.'index.php?letra='.$datosAlfabetico[0].'">0-9</a>';
 					$menuNoAlfabetico.='</li>';
 				}
