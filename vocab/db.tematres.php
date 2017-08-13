@@ -38,7 +38,7 @@ $DBCFG["DBLogin"]    = "root";
 $DBCFG["DBPass"] = "pass";
 
 //  Prefijo para tablas # Prefix for tables
-$DBCFG["DBprefix"] = "eric__";
+$DBCFG["DBprefix"] = "lc_";
 
 
 $DBCFG["DBcharset"] ="utf8";
