@@ -1483,7 +1483,6 @@ function checkValidRol($arrayUser,$task){
   if(!$arrayUser["nivel"]){
     $arrayUser=ARRAYdatosUser($arrayUser["user_id"]);
   }
-
   if(!$arrayUser["nivel"]) return false;
 
   $adminTask=array("adminReports","adminUsers","config","reports","terms","notes","termStatus");
@@ -1491,11 +1490,8 @@ function checkValidRol($arrayUser,$task){
 
   //check if it is a valid task
   if(!in_array($task, $adminTask)) return false;
-
-
   switch ($arrayUser["nivel"]) {
     case '1'://admin
-
     $result=in_array($task, $adminTask);
     break;
 
@@ -1507,7 +1503,22 @@ function checkValidRol($arrayUser,$task){
       $result=false;
     break;
   }
-
   return $result;
 }
+
+
+//retrive array about URL usefuls in the URI= URL base of service, URL of the vocabulary, URL of the term
+function URIterm2array($URI_term){
+  $ARRAY_URL_BASE=explode("services.php",$URI_term);
+
+  if(count($ARRAY_URL_BASE)>0){
+        return array( "tterm_url"=>str_replace ('services.php?task=fetchTerm&arg=', 'index.php?tema=', $URI_term),
+                  "tterm_id"=>(int)substr(strrchr($URI_term,"="),1),
+                  "URL_service"=>$ARRAY_URL_BASE[0].'services.php',
+                  "URL_vocab"=>$ARRAY_URL_BASE[0]);
+  } else {
+    return array();
+  }
+}
+
 ?>

@@ -2977,8 +2977,7 @@ function SQLtargetVocabulary($tvocab_status="1",$tvocab_id="0")
 }
 
 
-function SQLtargetTerms($tema_id,$tterm_id="0")
-{
+function SQLtargetTerms($tema_id,$tterm_id="0"){
 	GLOBAL $DBCFG;
 
 	$tema_id=secure_data($tema_id,"int");

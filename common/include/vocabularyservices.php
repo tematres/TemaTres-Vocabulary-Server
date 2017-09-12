@@ -184,7 +184,6 @@ function getForeingStringsObject($dataTterm){
   if((int) $dataTterm->resume->cant_result < 1) return array();
 
   foreach ($dataTterm->result->term as $value){
-
     $i=++$i;
     $term_id=(int) $value->term_id;
     $string=(string) $value->string;
@@ -194,6 +193,71 @@ function getForeingStringsObject($dataTterm){
 };
 
 return $arrayTtermData;
+}
+
+//object data about term to array
+function ARRAYttermData($dataTterm){
+  $arrayTtermData = array();
+  if((int) $dataTterm->resume->cant_result < 1) return array();
+  foreach ($dataTterm->result->term as $value){
+  $arrayTtermData=array("term_id"=>(int) $value->term_id,
+                                    "string"=>(string) $value->string,
+                                    "code"=>(string) $value->code,
+                                    "lang"=>(string) $value->lang,
+                                    "isMetaTerm"=>(int) $value->isMetaTerm,
+                                    "date_create"=> date((string) $value->date_create)
+                                  );
+                                };
+return $arrayTtermData;
+}
+
+
+
+function ttermFullMetadata($tterm_url){
+//parse URL
+$URL_ttermData=URIterm2array($tterm_url);
+
+//check if there are tterm_id
+if($URL_ttermData["tterm_id"]<1) return false;
+
+//fetch Matadata about vocab
+$tvocab_metadata=getURLdata($URL_ttermData["URL_service"].'?task=fetchVocabularyData');
+if($tvocab_metadata->result->vocabulary_id=='1'){
+  $arrayTvocab["tvocab_title"]=(string) $tvocab_metadata->result->title;
+  $arrayTvocab["tvocab_uri"]=(string) $tvocab_metadata->result->uri;
+}else {return false;}
+
+$tterm_NarrowerTerms = getURLdata($URL_ttermData["URL_service"].'?task=fetchDown&arg='.$URL_ttermData["tterm_id"]);
+
+if ($tterm_NarrowerTerms->resume->cant_result > 0) {
+    foreach ($tterm_NarrowerTerms->result->term as $value) {
+      $arrayTtermNT[]=array("term_id"=>(int)$value->term_id,"string"=>(string)$value->string,"rtype"=>(string)$value->relation_code);
+    }
+ }
+
+$tterm_DirectTerms = getURLdata($URL_ttermData["URL_service"].'?task=fetchDirectTerms&arg='.$URL_ttermData["tterm_id"]);
+if ($tterm_DirectTerms->resume->cant_result > 0) {
+    foreach ($tterm_DirectTerms->result->term as $value) {
+      switch ((int) $value->relation_type_id) {
+          case '2':
+          $arrayTtermRT[]=array("term_id"=>(int)$value->term_id,"string"=>(string)$value->string,"rtype"=>(string)$value->relation_code);
+          break;
+          case '3':
+          $arrayTtermBT[]=array("term_id"=>(int)$value->term_id,"string"=>(string)$value->string,"rtype"=>(string)$value->relation_code);
+          break;
+          case '4':
+          $arrayTtermUF[]=array("term_id"=>(int)$value->term_id,"string"=>(string)$value->string,"rtype"=>(string)$value->relation_code);
+          break;
+      }
+    }
+ }
+
+ return array("tvocab"=>$arrayTvocab,
+              "tterm"=>ARRAYttermData(getURLdata($tterm_url)),
+              "ttermNT"=>$arrayTtermNT,
+              "ttermBT"=>$arrayTtermBT,
+              "ttermRT"=>$arrayTtermRT
+            );
 }
 
 ?>
