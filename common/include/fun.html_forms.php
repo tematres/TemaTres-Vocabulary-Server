@@ -1280,9 +1280,10 @@ function HTMLtargetVocabularySearchResult($dataTerm,$string_search,$arrayVocab,$
 	if($dataTerm->resume->cant_result > "0")	{
 		$rows.='<'.$tag_type.'>';
 		foreach ($dataTerm->result->term as $value){
-			$rows.='<li>';
-			$rows.='<a title="" href="'.URL_BASE.'index.php?tema='.$tema_id.'&amp;tvocab_id='.$arrayVocab["tvocab_id"].'&amp;tgetTerm_id='.(int) $value->term_id.'&amp;taskrelations=addTgetTerm&amp;ks='.$_SESSION["SEND_KEY"].'">'.FixEncoding((string) $value->string).'</a>';
-			$rows.='</li>';
+			$rows.='<li class="btn-block">';
+			$rows.='<a class="btn btn-primary btn-sm" role="button" title="'.FixEncoding((string) $value->string).'" href="'.URL_BASE.'index.php?tema='.$tema_id.'&amp;tvocab_id='.$arrayVocab["tvocab_id"].'&amp;tgetTerm_id='.(int) $value->term_id.'&amp;taskrelations=addTgetTerm&amp;ks='.$_SESSION["SEND_KEY"].'">'.ucfirst(LABEL_seleccionar).'</a> ';
+			$rows.='<a class="modalTrigger" title="'.LABEL_Detalle.' '.FixEncoding((string) $value->string).'" href="'.URL_BASE.'modal.php?tvocab_id='.$arrayVocab["tvocab_id"].'&term_id='.(int) $value->term_id.'">'.FixEncoding((string) $value->string).'</a>';
+ 			$rows.='</li>';
 		};
 		$rows.='</'.$tag_type.'>';
 	}
@@ -1320,7 +1321,7 @@ function HTMLformTargetVocabularySuggested($arrayTterm,$t_relation,$string_searc
 		foreach ($arrayTterm as $value){
 			$rows.= '<tr>';
 			$rows.=  '     	<td align="center"><input type="checkbox" name="selectedTerms[]" id="tterm_'.$value["term_id"].'" title="'.$value["source_string"].' ('.$label_relation.')" value="'.$value["string"].'|tterm_|'.$value["term_id"].'" /> </td>';
-			$rows.=  '      <td><label class="check_label" title="'.$value["source_string"].' ('.$label_relation.')" for="tterm_'.$value["term_id"].'">'.$value["string"].' <span style="font-weight:normal;">[<a href="'.$arrayVocab["tvocab_url"].'?tema='.$value["source_term_id"].'" title="'.$value["source_string"].' ('.$label_relation.')" target="_blank">'.LABEL_Detalle.'</a>]</span></label></td>';
+			$rows.=  '      <td><label class="check_label" title="'.$value["source_string"].' ('.$label_relation.')" for="tterm_'.$value["term_id"].'">'.$value["string"].' <span style="font-weight:normal;">[<a href="modal.php?tvocab_id='.$arrayVocab["tvocab_id"].'&term_id='.$value["source_term_id"].'" class="modalTrigger" title="'.$value["source_string"].' ('.$label_relation.')" target="_blank">'.LABEL_Detalle.'</a>]</span></label></td>';
 			$rows.=  '</tr>';
 		};
 		$rows.='        </tbody>		</table>';

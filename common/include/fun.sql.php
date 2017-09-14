@@ -2996,8 +2996,7 @@ function SQLtargetTerms($tema_id,$tterm_id="0"){
 }
 
 
-function ARRAYtargetTerm($tema_id,$tterm_id)
-{
+function ARRAYtargetTerm($tema_id,$tterm_id){
 	GLOBAL $DBCFG;
 
 	$sql=SQLtargetTerms($tema_id,$tterm_id);
@@ -3005,8 +3004,8 @@ function ARRAYtargetTerm($tema_id,$tterm_id)
 	return $sql->FetchRow();
 }
 
-function SQLtargetTermsVocabulary($tvocab_id,$from="0",$limit="20")
-{
+
+function SQLtargetTermsVocabulary($tvocab_id,$from="0",$limit="20"){
 	GLOBAL $DBCFG;
 
 	$tvocab_id=secure_data($tvocab_id,"int");

@@ -212,7 +212,6 @@ return $arrayTtermData;
 }
 
 
-
 function ttermFullMetadata($tterm_url){
 //parse URL
 $URL_ttermData=URIterm2array($tterm_url);
@@ -256,8 +255,19 @@ if ($tterm_DirectTerms->resume->cant_result > 0) {
               "tterm"=>ARRAYttermData(getURLdata($tterm_url)),
               "ttermNT"=>$arrayTtermNT,
               "ttermBT"=>$arrayTtermBT,
-              "ttermRT"=>$arrayTtermRT
+              "ttermRT"=>$arrayTtermRT,
+              "URL_ttermData"=>$URL_ttermData
             );
+}
+
+
+
+function vars2tterm_uri($tvocab_id,$tterm_id){
+ $ARRAYtargetVocabulary=ARRAYtargetVocabulary($tvocab_id);
+
+ if(($ARRAYtargetVocabulary["tvocab_id"]>0) && (is_numeric($tterm_id))){
+   return $ARRAYtargetVocabulary["tvocab_uri_service"].'?task=fetchTerm&arg='.$tterm_id;
+ } else { return false;}
 }
 
 ?>

@@ -1537,9 +1537,6 @@ function HTMLtargetTerms($tema_id)
 
 			}
 
-
-
-			//$rows.='<li>'.$ttermManageLink.' '.FixEncoding(ucfirst($array["tvocab_label"])).' <a href="'.$array["tterm_url"].'" target="_blank" title="'.FixEncoding($array[tterm_string]).'">'.FixEncoding($array["tterm_string"]).'</a>';
 			$rows.='<li>'.$ttermManageLink.' '.FixEncoding(ucfirst($array["tvocab_label"])).' <a href="modal.php?tema='.$tema_id.'&tterm_id='.$array["tterm_id"].'"  class="modalTrigger" title="'.FixEncoding($array[tterm_string]).'">'.FixEncoding($array["tterm_string"]).'</a>';
 			$rows.=(($_GET["taskEdit"]=='checkDateTermsTargetVocabulary') && ($_GET["tterm_id"]==$array["tterm_id"]) && ($_SESSION[$_SESSION["CFGURL"]]["ssuser_nivel"])) ? HTMLcheckTargetTerm($array) : '';
 			$rows.='</li>';
@@ -2332,4 +2329,116 @@ function HTMLalphaListTerms4map($tvocab_id,$filterEQ,$char=""){
 };
 
 
+#
+#  ARMADOR DE HTML CON DATOS DEL TERMINO
+#
+function HTMLsimpleTerm($arrayTerm){
+
+	GLOBAL $CFG;
+	$iNT=0;
+	$iBT=0;
+	$iRT=0;
+	$iUF=0;
+
+	//Terminos específicos
+	$sqlNT=SQLverTerminosE($arrayTerm["arraydata"]["tema_id"]);
+
+	while ($datosNT=$sqlNT->FetchRow()){
+		$iNT=++$iNT;
+			$css_class_MT=($datosNT["isMetaTerm"]==1) ? ' class="metaTerm" ' : '';
+
+			$row_NT.=' <li '.$css_class_MT.' id="t'.$datosNT["id_tema"].'"><abbr class="thesacronym" id="r'.$datosNT["rel_id"].'" title="'.TE_termino.' '.$datosNT["rr_value"].'" lang="'.LANG.'">'.TE_acronimo.$datosNT["rr_code"].'</abbr> ';
+			//ver  código
+			$row_NT.=($CFG["_SHOW_CODE"]=='1') ? ' '.$datosNT["code"].' ' : '';
+
+			$row_NT.=$datosNT["tema"].'</li>';
+			};
+	// Terminos TG, UF y TR
+	$sqlTotalRelacionados=SQLverTerminoRelaciones($arrayTerm["arraydata"]["tema_id"]);
+
+	while($datosTotalRelacionados= $sqlTotalRelacionados->FetchRow()){
+		$classAcrnoyn='thesacronym';
+		#Change to metaTerm attributes
+		if(($datosTotalRelacionados["BT_isMetaTerm"]==1)){
+			$css_class_MT= ' class="metaTerm" ';
+			$label_MT=NOTE_isMetaTerm;
+		}		else		{
+			$css_class_MT= '';
+			$label_MT='';
+		}
+
+
+		switch($datosTotalRelacionados["t_relacion"]){
+			case '3':// TG
+			$iBT=++$iBT;
+			$row_BT.='<li><abbr class="'.$classAcrnoyn.'" id="edit_rel_id'.$datosTotalRelacionados["rel_id"].'" style="display: inline" title="'.TG_termino.' '.$datosTotalRelacionados[rr_value].'" lang="'.LANG.'">'.TG_acronimo.$datosTotalRelacionados["rr_code"].'</abbr>  '.$datosTotalRelacionados["tema"].'</li>';
+			break;
+
+			case '4':// UF
+			//hide hidden equivalent terms
+			$iUF=++$iUF;
+				$row_UF.='<li><abbr class="'.$classAcrnoyn.'" id="edit_rel_id'.$datosTotalRelacionados["rel_id"].'" style="display: inline" title="'.UP_termino.' '.$datosTotalRelacionados["rr_value"].'" lang="'.LANG.'">'.UP_acronimo.$datosTotalRelacionados["rr_code"].'</abbr>   '.$datosTotalRelacionados["tema"].'</li>';
+			break;
+
+			case '2':// TR
+			$iRT=++$iRT;
+			$row_RT.='<li><abbr class="'.$classAcrnoyn.'" id="edit_rel_id'.$datosTotalRelacionados["rel_id"].'" style="display: inline" title="'.TR_termino.' '.$datosTotalRelacionados["rr_value"].'" lang="'.LANG.'">'.TR_acronimo.$datosTotalRelacionados["rr_code"].'</abbr>  '.$datosTotalRelacionados["tema"].'</li>';
+			break;
+		}
+	};
+
+
+	$BTrows=($iBT>0) ? '<h4>'.ucfirst(LABEL_broatherTerms).'</h4><ul class="list-unstyled" id="bt_data">'.$row_BT.'</ul>' :'';
+	$NTrows=($iNT>0) ? '<h4>'.ucfirst(LABEL_narrowerTerms).'</h4><ul class="list-unstyled" id="nt_data">'.$row_NT.'</ul>':'';
+	$RTrows=($iRT>0) ? '<h4>'.ucfirst(LABEL_relatedTerms).'</h4><ul class="list-unstyled" id="rt_data">'.$row_RT.'</ul>':'';
+	$UFrows=($iUF>0) ? '<h4>'.ucfirst(LABEL_nonPreferedTerms).'</h4><ul class="list-unstyled" id="uf_data">'.$row_UF.'</ul>':'';
+
+	return array("BTrows"=>$BTrows,
+               "NTrows"=>$NTrows,
+               "RTrows"=>$RTrows,
+               "UFrows"=>$UFrows
+             );
+}
+
+
+
+#
+#  ARMADOR DE HTML CON DATOS DEL TERMINO
+#
+function HTMLsimpleForeignTerm($arrayTerm,$URL_ttermData){
+  $NTrows='';
+  $BTrows='';
+  $RTrows='';
+  $UFrows='';
+
+  if(count($arrayTerm["ttermNT"])>0){
+    foreach ($arrayTerm["ttermNT"] as $eachTerm) {
+          			$row_NT.=' <li '.$css_class_MT.' id="t'.$eachTerm["term_id"].'"><abbr class="thesacronym"  title="'.TE_termino.' '.$eachTerm["rtype"].'">'.TE_acronimo.$eachTerm["rtype"].'</abbr> '.$eachTerm["string"].'</li>';
+    }
+  $NTrows='<h4>'.ucfirst(LABEL_narrowerTerms).'</h4><ul class="list-unstyled" id="nt_data">'.$row_NT.'</ul>';
+  }
+
+  if(count($arrayTerm["ttermBT"])>0){
+    foreach ($arrayTerm["ttermBT"] as $eachTerm) {
+          			$row_BT.=' <li '.$css_class_MT.' id="t'.$eachTerm[term_id].'"><abbr class="thesacronym"  title="'.TG_acronimo.' '.$eachTerm[rtype].'">'.TG_acronimo.$eachTerm[rtype].'</abbr> '.$eachTerm[string].'</li>';
+    }
+    $BTrows='<h4>'.ucfirst(LABEL_broatherTerms).'</h4><ul class="list-unstyled" id="bt_data">'.$row_BT.'</ul>';
+  }
+
+  if(count($arrayTerm["ttermRT"])>0){
+    foreach ($arrayTerm["ttermRT"] as $eachTerm) {
+          			$row_RT.=' <li '.$css_class_MT.' id="t'.$eachTerm[term_id].'"><abbr class="thesacronym"  title="'.TR_acronimo.' '.$eachTerm[rtype].'">'.TR_acronimo.$eachTerm[rtype].'</abbr> '.$eachTerm[string].'</li>';
+    }
+  $RTrows='<h4>'.ucfirst(LABEL_relatedTerms).'</h4><ul class="list-unstyled" id="rt_data">'.$row_RT.'</ul>';
+  }
+
+  if(count($arrayTerm["ttermUF"])>0){
+    foreach ($arrayTerm["ttermUF"] as $eachTerm) {
+          			$row_UF.=' <li  id="t'.$eachTerm[term_id].'"><abbr class="thesacronym"  title="'.UP_acronimo.' '.$eachTerm[rtype].'">'.UP_acronimo.$eachTerm[rtype].'</abbr> '.$eachTerm[string].'</li>';
+    }
+  $UFrows='<h4>'.ucfirst(LABEL_nonPreferedTerms).'</h4><ul class="list-unstyled" id="uf_data">'.$row_UF.'</ul>';
+  }
+
+return array("BTrows"=>$BTrows,"NTrows"=>$NTrows,"RTrows"=>$RTrows,"UFrows"=>$UFrows);
+}
 ?>
