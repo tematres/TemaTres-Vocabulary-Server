@@ -3028,7 +3028,7 @@ function abm_rel_rel($do,$rel_id,$rel_type_id)
 
 		case 'BAJA':
 
-			$sql=SQL("update"," $DBCFG[DBprefix]tabla_rel set rel_rel_id='NULL', cuando=now(),uid='$userId' where id='$rel_id'");
+			$sql=SQL("update"," $DBCFG[DBprefix]tabla_rel set rel_rel_id=NULL, cuando=now(),uid='$userId' where id='$rel_id'");
 		break;
 
 		default:
