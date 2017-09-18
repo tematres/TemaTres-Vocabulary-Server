@@ -218,7 +218,7 @@ class XMLvocabularyServices {
 			$result["result"]["term"]["isMetaTerm"]=$array["isMetaTerm"];
 			$result["result"]["term"]["date_create"]=$array["cuando"];
 
-			if(($array["cuando_final"])>$array["cuando"]) $result["result"]["term"]["date_mod"] = ($array["cuando_final"]) ;			
+			if(($array["cuando_final"])>$array["cuando"]) $result["result"]["term"]["date_mod"] = ($array["cuando_final"]) ;
 		}
 		return $result;
 	}
@@ -241,7 +241,7 @@ class XMLvocabularyServices {
 			$result["result"]["term"]["isMetaTerm"]=$array["isMetaTerm"];
 			$result["result"]["term"]["date_create"]=$array["cuando"];
 			if(($array["cuando_final"])>$array["cuando"]) $result["result"]["term"]["date_mod"] = ($array["cuando_final"]) ;
-			
+
 		}
 		return $result;
 	}
@@ -264,7 +264,7 @@ class XMLvocabularyServices {
 
 			$result["result"][$array[nota_id]]= array(
 				"term_id"=>$array[tema_id],
-				"string"=>$array[tema], 
+				"string"=>$array[tema],
 				"note_id"=>$array[nota_id],
 				"note_type"=>($array[ntype_code]) ? $array[ntype_code] : $array[tipo_nota],
 				"note_lang"=>$array[lang_nota],
@@ -529,7 +529,55 @@ class XMLvocabularyServices {
 				if(($array["cuando_final"])>$array["cuando"]) $result["result"]["term"]["date_mod"] = ($array["cuando_final"]) ;
 			}
 				return $result;
-			
+
+			}else{
+				$result["result"]= array();
+			}
+	}
+
+
+	//Retrive term data about terms created or mod since date
+	function termsSinceDate($sinceDate){
+
+			$sql=SQLtermsSinceDate($sinceDate,CFG_NUM_SHOW_TERMSxSTATUS);
+
+			if(is_object($sql)){
+				while($array=$sql->FetchRow()){
+					$result["result"][$array[tema_id]]= array(
+						"term_id"=>$array["tema_id"],
+						"code"=>$array["code"],
+						"lang"=>$array["idioma"],
+						"string"=>$array["tema"],
+						"isMetaTerm"=>$array["isMetaTerm"],
+						"date_create"=>$array["cuando"],
+						"date_mod"=> ($array["cuando_final"]) ?  $array["cuando_final"] : $array["cuando"]
+					);
+				};
+				return $result;
+
+			}else{
+				$result["result"]= array();
+			}
+	}
+
+	//Retrive term relations data about relations created or mod since date
+	function relationsSinceDate($sinceDate){
+
+			$sql=SQLrelationsSinceDate($sinceDate,CFG_NUM_SHOW_TERMSxSTATUS);
+			if(is_object($sql)){
+
+				while($array=$sql->FetchRow()){
+					$i=++$i;
+					$result["result"][]= array(
+						"lterm_id"=>$array["lterm_id"],
+						"rterm_id"=>$array["rterm_id"],
+						"relType"=>$array["relType"],
+						"relSubType"=>$array["relSubType"],
+						"created"=>$array["created"]
+					);
+				};
+				return $result;
+
 			}else{
 				$result["result"]= array();
 			}
@@ -774,9 +822,18 @@ class XMLvocabularyServices {
 
 		$array['randomTerm']['action'] = 'Retrieves last random term data. Optionally you can filter terms with specific type of notes (use tag note, ex: NA for scope note)';
 		$array['randomTerm']['task'] = 'randomTerm';
-		$array['randomTerm']['arg'] = 'type note tag (optionl)';
+		$array['randomTerm']['arg'] = 'type note tag (optional)';
 		$array['randomTerm']['example'] = $_SESSION["CFGURL"].'services.php?task=randomTerm&arg=NA';
 
+		$array['termsSince']['action'] = 'Retrieve data about terms who was created or modified since given date';
+		$array['termsSince']['task'] = 'termsSince';
+		$array['termsSince']['arg'] = 'date from do you want to obtain data';
+		$array['termsSince']['example'] = $_SESSION["CFGURL"].'services.php?task=termsSince&arg=2017-04-05';
+
+		$array['relationsSince']['action'] = 'Retrieve data about terminological relations who was created or modified since given date';
+		$array['relationsSince']['task'] = 'relationsSince';
+		$array['relationsSince']['arg'] = 'date from do you want to obtain data';
+		$array['relationsSince']['example'] = $_SESSION["CFGURL"].'services.php?task=relationsSince&arg=2017-04-05';
 
 		return $array;
 	}
@@ -790,11 +847,9 @@ class XMLvocabularyServices {
 
 
 
-function fetchVocabularyService($task,$arg,$output="xml")
-{
+function fetchVocabularyService($task,$arg,$output="xml"){
 
 	$evalParam=evalServiceParam($task,$arg);
-
 	//Verificar servicio habilitado
 	if((CFG_SIMPLE_WEB_SERVICE !== "1") || (!$task)){
 		$service=new XMLvocabularyServices();
@@ -952,7 +1007,6 @@ function fetchVocabularyService($task,$arg,$output="xml")
 			case 'letter':
 			// Array de términos que comienzan con una letra
 			// array(tema_id,string,no_term_string,relation_type_id)
-
 			// sanitice $letter
 			$arg=trim(urldecode($arg));
 			// comment this line for russian chars
@@ -963,15 +1017,21 @@ function fetchVocabularyService($task,$arg,$output="xml")
 
 
 			case 'fetchVocabularyData':
-			// Devuelve detalles del vocabularios
-			//array(vocabulario_id,titulo,autor,idioma,cobertura,keywords,tipo,cuando,url_base)
 			$response = $service-> fetchVocabularyData("1");
 			break;
 
 			case 'randomTerm':
-			// Devuelve detalles del vocabularios
-			//array(vocabulario_id,titulo,autor,idioma,cobertura,keywords,tipo,cuando,url_base)
 			$response = $service-> randomTerm($arg);
+			break;
+
+
+			case 'termsSince':
+			$response = $service-> termsSinceDate($arg);
+			break;
+
+
+			case 'relationsSince':
+			$response = $service-> relationsSinceDate($arg);
 			break;
 
 			default:
@@ -1047,7 +1107,9 @@ function evalServiceParam($task,$arg)
 	"fetchSourceTerms"=>"string",
 	"fetchRelatedTerms"=>"array_int",
 	"randomTerm"=>"string",
-	"letter"=>"string"
+	"letter"=>"string",
+	"termsSince"=>"date",
+	"relationsSince"=>"date"
 );
 
 //eval task
@@ -1145,6 +1207,16 @@ switch($task){
 	$response = ((is_string($arg))&&(strlen($arg)==1)) ? array("task"=>$task,"arg"=>$arg) : array("error"=>"invalid input");
 	break;
 
+
+	case 'termsSince':
+	$response = (is_string($arg)) ? array("task"=>$task,"arg"=>$arg) : array("error"=>"invalid input");
+	break;
+
+
+	case 'relationsSince':
+	$response = (is_string($arg)) ? array("task"=>$task,"arg"=>$arg) : array("error"=>"invalid input");
+	break;
+
 	default:
 	$response =  array("task"=>$task,"arg"=>$arg) ;
 	break;
@@ -1229,6 +1301,9 @@ function evalArg($type,$arg)
 
 		case 'int':
 		$arg=secure_data($arg,"int");
+		break;
+		case 'date':
+		$arg=check2Date($arg,"-");
 		break;
 
 		case 'array_int':

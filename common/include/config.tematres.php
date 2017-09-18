@@ -8,9 +8,9 @@ if ((stristr( $_SERVER['REQUEST_URI'], "session.php") ) || ( !defined('T3_ABSPAT
 ###############################################################################################################
 # ARCHIVO DE CONFIGURACION == CONFIG FILE #
 
-$CFG["Version"]        = "TemaTres 3.0 beta";
+$CFG["Version"]        = "TemaTres 3.0";
 
-$CFG["VersionWebService"]        = "1.5";
+$CFG["VersionWebService"]        = "1.6";
 
 // ID del Tesauro por DEFAULT
 $CFG["DFT_TESA"] ='1';
@@ -149,13 +149,10 @@ define('CFG_NUM_SHOW_TERMSxTRAD',30);
 //enable HTML tags in web services and metadata data
 $CFG["_HTMLinDATA"]=1;
 
-
-
- ##
- # Reporte de errores pero no de noticias (variables no inicializadas);
-  error_reporting(E_ALL ^ E_NOTICE);
-
- ##
+##
+# Reporte de errores pero no de noticias (variables no inicializadas);
+error_reporting(E_ALL ^ E_NOTICE);
+##
 
 $CFG["SEARCH_URL_SITES_SINTAX"] = Array(
 	'del.icio.us' => Array(
