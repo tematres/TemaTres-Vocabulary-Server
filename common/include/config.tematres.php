@@ -33,6 +33,12 @@ $CFG["_MIN_DISTANCE_"] ='6';
 // Define way to display top terms, 0=AJAX, 1=HTML div, default = 0
 $CFG["_TOP_TERMS_BROWSER"] ='0';
 
+// Define char to recognice tag separator in txt import procedure. default = ":"
+$CFG["IMP_TAG_SEPARATOR"]  =':';
+
+// Define char to recognice as tabulator, tabulator is char used in txt import procedure to asig to the term the same relation as previous relation. default = "==="
+$CFG["IMP_TAG_TABULATOR"]  ='===';
+
 
 /*
 Define specific excluded characters from the alphabetic menu
