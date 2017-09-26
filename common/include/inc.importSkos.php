@@ -15,36 +15,36 @@ if($_SESSION[$_SESSION["CFGURL"]][ssuser_nivel]=='1'){
 
 
 //parser node 2 term
-function addTerm($skos,$node)
+function addSkosTerm($skos,$node)
 {
-	
+
 /*
 	fectch hidden label ID
 */
 	$ARRAYhiddenLabelCode=ARRAYfetchValue("4","H");
-	
-	
+
+
    // Preferred label
     $prefLabels = $skos->xpath->query('./skos:prefLabel', $node);
 
     foreach ($prefLabels as $prefLabel)
     {
- 
+
       $value = setI18nValue($skos,$prefLabel);
 
       if (isset($value))
       {
-		  
+
 
 	   // find URI
 		$uri = $node->getAttributeNodeNS('http://www.w3.org/1999/02/22-rdf-syntax-ns#', 'about');
 		if ($uri instanceof DOMAttr)
 		{
-		  $source_uri = $uri->nodeValue;			  
-		};  
-			
-	 
-			
+		  $source_uri = $uri->nodeValue;
+		};
+
+
+
         $node_stringPreferedTerm = $value["value"];
 
         $node_stringPreferedTermLang = $value["lang"];
@@ -59,7 +59,7 @@ function addTerm($skos,$node)
 			}
 			else
 			{
-				$term_id=ALTAtema($node_stringPreferedTerm,"1","13");   	
+				$term_id=ALTAtema($node_stringPreferedTerm,"1","13");
 			}
 		}
 		elseif(!$node_stringPreferedTermLang)
@@ -74,24 +74,24 @@ function addTerm($skos,$node)
 			}
 			else
 			{
-				$term_id=ALTAtema($node_stringPreferedTerm,"1","13");   	
+				$term_id=ALTAtema($node_stringPreferedTerm,"1","13");
 			}
 
 		}
-		
+
       }
     }
 
 //This is a new term
 if(!$ARRAYterm[tema_id])
 {
-	edit_single_code($term_id,$source_uri); 	
+	edit_single_code($term_id,$source_uri);
 
     // Alternate labels
     foreach ($skos->xpath->query('./skos:altLabel', $node) as $altLabel)
     {
       $value = setI18nValue($skos, $altLabel);
-	
+
 		//the same language
       if ((isset($value) && ($_SESSION["CFGIdioma"]==$value["lang"])))
       {
@@ -111,8 +111,8 @@ if(!$ARRAYterm[tema_id])
       {
         $node_alt_term[] = $value;
         $alt_term_id=ALTAtema($value["value"],"1","13");
-        
-       
+
+
         ALTArelacionXId($alt_term_id,$term_id,"4",$ARRAYhiddenLabelCode[value_id]);
       }
     }
@@ -128,7 +128,7 @@ if(!$ARRAYterm[tema_id])
 
         $lang_nota=($value["lang"]) ? $value["lang"]: $node_stringPreferedTermLang;
 
-        ALTAnota($term_id,"NA",$lang_nota,$value["value"]); 
+        ALTAnota($term_id,"NA",$lang_nota,$value["value"]);
       }
     }
 
@@ -143,11 +143,11 @@ if(!$ARRAYterm[tema_id])
 
         $lang_nota=($value["lang"]) ? $value["lang"]: $node_stringPreferedTermLang;
 
-        ALTAnota($term_id,"NA",$lang_nota,$value["value"]); 
+        ALTAnota($term_id,"NA",$lang_nota,$value["value"]);
       }
     }
 
-    // changeNote 
+    // changeNote
     foreach ($skos->xpath->query('./skos:changeNote', $node) as $defNote)
     {
       $value = setI18nValue($skos, $defNote);
@@ -158,7 +158,7 @@ if(!$ARRAYterm[tema_id])
 
         $lang_nota=($value["lang"]) ? $value["lang"]: $node_stringPreferedTermLang;
 
-        ALTAnota($term_id,"NH",$lang_nota,$value["value"]); 
+        ALTAnota($term_id,"NH",$lang_nota,$value["value"]);
       }
     }
 
@@ -168,19 +168,19 @@ if(!$ARRAYterm[tema_id])
     $sqlMatchTypes=SQLfetchValue('URI_TYPE');
     while($arrayMatchTypes=$sqlMatchTypes->FetchRow())
     {
-			
+
 		foreach ($skos->xpath->query("./skos:$arrayMatchTypes[value]", $node) as $matchNode)
 		{
 		// find URI
 			$uri_match = $matchNode->getAttributeNodeNS('http://www.w3.org/1999/02/22-rdf-syntax-ns#', 'resource');
 			if ($uri_match instanceof DOMAttr)
 			{
-			  abmURI("A",$term_id,array("uri"=>$uri_match->nodeValue,"uri_type_id"=>$arrayMatchTypes[value_id]));  
-			};  
-				  
+			  abmURI("A",$term_id,array("uri"=>$uri_match->nodeValue,"uri_type_id"=>$arrayMatchTypes[value_id]));
+			};
+
 		}
 	}
-	
+
     // Find and add narrow terms
     // TODO: Merge broader/narrower relations for this term, as defining
     // inverse of relationship is not required by SKOS
@@ -195,12 +195,12 @@ if(!$ARRAYterm[tema_id])
           continue;
         }
 
-        $NT_term_id=addTerm($skos,$narrower);
+        $NT_term_id=addSkosTerm($skos,$narrower);
         if($NT_term_id)
         {
 			ALTArelacionXId($term_id,$NT_term_id,"3");
 		}
-      }    
+      }
     }
 
 //end if new term
@@ -210,7 +210,7 @@ if(!$ARRAYterm[tema_id])
 }
 
 
-function addTermAssociations($skos)
+function addSkosTermAssociations($skos)
 {
 
 foreach ($skos->xpath->query('skos:Concept[skos:related]') as $concept)
@@ -230,7 +230,7 @@ foreach ($skos->xpath->query('skos:Concept[skos:related]') as $concept)
 */
 	$ARRAYterm = ARRAYCode($objectUri->nodeValue);
 	$RT_term_id = $ARRAYterm[tema_id];
-	
+
 	if(($term_id) && ($RT_term_id))
 			{
 				//echo $subjectUri->nodeValue.':'.$uri->nodeValue.'<br>';
@@ -284,7 +284,7 @@ return array("value"=>$message,
 
 //create term
  function ALTAtema($string,$tesauro_id,$estado_id="13"){
-	return abm_tema('alta',$string); 		
+	return abm_tema('alta',$string);
  	}
 
 
@@ -295,20 +295,20 @@ function ALTArelacionXId($id_mayor,$id_menor,$t_relacion,$t_rel_rel_id="0")
 	$t_rel_rel_id=($t_rel_rel_id>0) ? $t_rel_rel_id : 'NULL';
 	return do_r($id_mayor,$id_menor,$t_relacion,$t_rel_rel_id);
 }
- 	
+
 
 
 
 
 
 //create notes
-function ALTAnota($tema_id,$tipo_nota,$lang_nota,$nota) 
+function ALTAnota($tema_id,$tipo_nota,$lang_nota,$nota)
 {
  	return abmNota('A',$tema_id,$tipo_nota,$lang_nota,$nota);
 }
 
 /*
-	FILE Process 
+	FILE Process
 */
 	$error=array();
 
@@ -316,12 +316,12 @@ function ALTAnota($tema_id,$tipo_nota,$lang_nota,$nota)
 
 		$src_txt= $_FILES["file"]["tmp_name"];
 
-		libxml_use_internal_errors(true); 
+		libxml_use_internal_errors(true);
 
 		$ok = '1';
 
 		$dom = new DOMDocument;
-		
+
 		$dom->loadXML(file_get_contents($src_txt));
 
 		$errors = libxml_get_errors();
@@ -336,16 +336,16 @@ function ALTAnota($tema_id,$tipo_nota,$lang_nota,$nota)
 			$ok = '0' ;
 			$error[] = "ERROR : No file to import :(" ;
 		}
-				
+
 	}
-	
+
 	// start the procedure
 	if ( $ok=='1' ) {
 
 		$skos->xpath = new DOMXPath($dom);
 
 		$iTerm=0;
-		
+
 		// Create Xpath object, register namespaces
 		$skos->xpath->registerNamespace('rdf', 'http://www.w3.org/1999/02/22-rdf-syntax-ns#');
 		$skos->xpath->registerNamespace('skos', 'http://www.w3.org/2004/02/skos/core#');
@@ -357,25 +357,25 @@ function ALTAnota($tema_id,$tipo_nota,$lang_nota,$nota)
 			  {
 				continue;
 			  }
-			  
+
 
 				$time_now = time();
 				if ($time_start >= $time_now + 10) {
 					$time_start = $time_now;
 					header('X-pmaPing: Pong');
-				};			  
-			  
-				addTerm($skos,$concept);
+				};
+
+				addSkosTerm($skos,$concept);
 				$iTerm=++$iTerm;
 		}
 
 			//add Related terms
-			addTermAssociations($skos);
+			addSkosTermAssociations($skos);
 
 
 			//recreate index
 			$sql=SQLreCreateTermIndex();
-			echo '<p class="true">'.ucfirst(IMPORT_finish).'</p>' ;			
+			echo '<p class="true">'.ucfirst(IMPORT_finish).'</p>' ;
 
 	}
 
