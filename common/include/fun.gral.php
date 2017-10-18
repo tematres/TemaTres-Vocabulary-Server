@@ -1511,7 +1511,8 @@ function URIterm2array($URI_term){
 function check2Date($stringDate,$char="-"){
 $arrayDate  = explode('-', $stringDate);
 if(count($arrayDate)!==3) return false;
-if (checkdate($arrayDate[1], $arrayDate[2], $arrayDate[0])) {
+
+if (checkdate((int) $arrayDate[1],(int) $arrayDate[2],(int) $arrayDate[0])) {
     return $stringDate;
   } else {return false;};
 }

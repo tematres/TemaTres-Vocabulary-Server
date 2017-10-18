@@ -35,6 +35,11 @@ if(($_POST["task_config"]=='configvocab')&&(is_numeric($_POST["vocabulario_id"])
 	header("Location:admin.php?vocabulario_id=list");
 	};
 
+if($_POST["task_config"]=='rem_tvocab'){
+	abm_vocabulario("B",$_POST["internal_tvocab_id"]);
+	header("Location:admin.php?vocabulario_id=list");
+	};
+
 if(($_POST["task_config"]=='configvocab')&&($_POST["vocabulario_id"]=='NEW')){
 	abm_vocabulario("A");
 	header("Location:admin.php?vocabulario_id=list");
@@ -104,6 +109,7 @@ if($_SESSION[$_SESSION["CFGURL"]]["ssuser_id"]){
 
 	if(($_GET["vocabulario_id"]=='list')||(count($_GET)<1)){
 		echo HTMLlistaVocabularios();
+		echo HTMLlistaInternalTargetVocabularios();
 		echo HTMLlistaTargetVocabularios();
 		echo HTMLformUserNotes();
 		echo HTMLformUserRelations();

@@ -97,9 +97,7 @@ $rows.='	<div class="row">
 
 		//is main vocab
 		if($array_vocabulario[vocabulario_id]==1){
-
 			$ARRAYcontactMail=ARRAYfetchValue('CONTACT_MAIL');
-
 			$rows.='<div class="form-group">
 			           <label for="dia" class="col-sm-3 control-label">'.ucfirst(LABEL_Fecha).'</label>
 			                    <div class="col-sm-9">
@@ -209,18 +207,18 @@ $rows.='	<div class="row">
 																		<div class="col-sm-12 text-right">
 																		<input type="submit" class="btn btn-primary" id="boton" name="boton" value="'.ucfirst(LABEL_Guardar).'"/>
 																		<a href="admin.php" class="btn btn-default" id="boton_cancelar" title="'.ucfirst(LABEL_Cancelar).'">'.ucfirst(LABEL_Cancelar).'</a>
+																		<input type="button" class="btn btn-danger" id="boton" name="boton" onclick="document.getElementById(\'delete-tvocab\').submit();" value="'.ucfirst(LABEL_eliminar).'"/>
 																		</div>
 																</div>';
-
-
 												$rows.='				</div>
 																</div>
 														</div>';
 
-											$rows.='</div> <!-- / panel  -->';
+												$rows.='</div> <!-- / panel  -->';
 												$rows.='<input type="hidden" name="vocabulario_id" id="vocabulario_id" value="'.$array_vocabulario["vocabulario_id"].'"/>';
 												$rows.='<input type="hidden" name="task_config" id="task_config" value="configvocab"/>';
 												$rows.='</form>';
-
-													echo $rows;
+												//remove form
+												$rows.='<form id="delete-tvocab" name="delete-tvocab" action="admin.php?vocabulario_id=3" method="post"><input type="hidden" name="internal_tvocab_id" id="internal_tvocab_id" value="'.$array_vocabulario["vocabulario_id"].'"/><input type="hidden" name="task_config" id="task_config" value="rem_tvocab"/></form>';
+echo $rows;
 ?>

@@ -35,7 +35,7 @@ $DBCFG["DBName"]     = "tematres";
 $DBCFG["DBLogin"]    = "root";
 
 //  Passwords
-$DBCFG["DBPass"] = "pass";
+$DBCFG["DBPass"] = "";
 
 //  Prefijo para tablas # Prefix for tables
 $DBCFG["DBprefix"] = "lc_";

@@ -380,12 +380,12 @@ function wichReport($task){
 	$sql=SQLreportAllTerms($_SESSION["id_tesa"]);
 	break;
 
-	//All relations for all accepted terms 
+	//All relations for all accepted terms
 	case 'csv16':
 	$sql=SQLreportAllRelations($_SESSION["id_tesa"]);
 	break;
 
-	//All notes for all accepted terms 
+	//All notes for all accepted terms
 	case 'csv17':
 	$sql=SQLreportAllNotes($_SESSION["id_tesa"]);
 	break;
@@ -413,7 +413,7 @@ return sql2csv($sql,string2url($_SESSION["CFGTitulo"]).'.csv',$_GET["csv_encode"
 
 //create and delete target terms
 function addLocalTargetTerms($tvocab_id,$data=array()){
-	
+
 	$ARRAYvocabulario=ARRAYvocabulario($tvocab_id);
 	$userId=$_SESSION[$_SESSION["CFGURL"]]["ssuser_id"];
 
@@ -866,7 +866,7 @@ GLOBAL $DBCFG;
 $tema_id=secure_data($tema_id,"int");
 
 $estado_id=secure_data($estado_id,"int");
-	
+
 $userId=$_SESSION[$_SESSION["CFGURL"]]["ssuser_id"];
 
 $userId=$_SESSION[$_SESSION["CFGURL"]]["ssuser_id"];
@@ -1135,7 +1135,7 @@ function admin_users($do,$user_id=""){
 		$POSTarrayUser["pass"]=trim($POSTarrayUser[pass]);
 		$POSTarrayUser["orga"]=trim($POSTarrayUser[orga]);
 
-		//prevent empty password 
+		//prevent empty password
 		if(strlen($POSTarrayUser["pass"])<5) return;
 
 		$POSTarrayUser["apellido"]=$DB->qstr($POSTarrayUser[apellido],get_magic_quotes_gpc());
@@ -1166,43 +1166,11 @@ return $user_id;
 if($_SESSION[$_SESSION["CFGURL"]][ssuser_nivel]=='1'){
 
 
-#ABM source notes for terms and notes
-function abm_srcnotes($do,$srcnote_id="0",$data=array()){
-
-
-$userId=$_SESSION[$_SESSION["CFGURL"]]["ssuser_id"];
-
-
-switch ($do) {
-	case 'A':
-		$sql=SQL("insert","into $DBCFG[DBprefix]sourcenote (srcnote_tag, srcnote_note, srcnote_url, srcnote_time,srcnote_uid) value ('$data[srcnote_tag]', '$data[srcnote_note]', '$data[srcnote_url]',now(),$userId)");
-		$srcnote_id=$sql["cant"];
-		break;
-	case 'M':
-		# code...
-		break;
-	case 'B':
-		# code...
-		break;
-	
-	default:
-		# code...
-		break;
-}
-
-return array("task"=>$do,
-			 "flag"=>$flag,
-			 "srcnote_id"=>$srcnote_id);
-}
-
-
 # cambios de configuracion y registro de vocabularios de referencia
 function abm_vocabulario($do,$vocabulario_id=""){
 
 GLOBAL $DBCFG;
-
 GLOBAL $DB;
-
 
 $arrayTesa=doArrayDatosTesauro($_POST);
 
@@ -1217,17 +1185,16 @@ $arrayTesa=doArrayDatosTesauro($_POST);
 	$arrayTesa[url_base]=trim($arrayTesa[url_base]);
 	$arrayTesa[cuando]=trim($arrayTesa[cuando]);
 
-	$POSTarrayUser[orga]=$DB->qstr($POSTarrayUser[orga],get_magic_quotes_gpc());
-	$arrayTesa[titulo]=$DB->qstr($arrayTesa[titulo],get_magic_quotes_gpc());
-	$arrayTesa[autor]=$DB->qstr($arrayTesa[autor],get_magic_quotes_gpc());
-	$arrayTesa[idioma]=$DB->qstr($arrayTesa[idioma],get_magic_quotes_gpc());
-	$arrayTesa[cobertura]=$DB->qstr($arrayTesa[cobertura],get_magic_quotes_gpc());
-	$arrayTesa[keywords]=$DB->qstr($arrayTesa[keywords],get_magic_quotes_gpc());
-	$arrayTesa[tipo]=$DB->qstr($arrayTesa[tipo],get_magic_quotes_gpc());
-	$arrayTesa[polijerarquia]=$DB->qstr($arrayTesa[polijerarquia],get_magic_quotes_gpc());
-	$arrayTesa[url_base]=$DB->qstr($arrayTesa[url_base],get_magic_quotes_gpc());
-	$arrayTesa[cuando]=$DB->qstr($arrayTesa[cuando],get_magic_quotes_gpc());
-
+	$POSTarrayUser["orga"]=$DB->qstr($POSTarrayUser[orga],get_magic_quotes_gpc());
+	$arrayTesa["titulo"]=$DB->qstr($arrayTesa[titulo],get_magic_quotes_gpc());
+	$arrayTesa["autor"]=$DB->qstr($arrayTesa[autor],get_magic_quotes_gpc());
+	$arrayTesa["idioma"]=$DB->qstr($arrayTesa[idioma],get_magic_quotes_gpc());
+	$arrayTesa["cobertura"]=$DB->qstr($arrayTesa[cobertura],get_magic_quotes_gpc());
+	$arrayTesa["keywords"]=$DB->qstr($arrayTesa[keywords],get_magic_quotes_gpc());
+	$arrayTesa["tipo"]=$DB->qstr($arrayTesa[tipo],get_magic_quotes_gpc());
+	$arrayTesa["polijerarquia"]= (in_array($arrayTesa["polijerarquia"],array("1","0"))) ? $arrayTesa["polijerarquia"] : 0;
+	$arrayTesa["url_base"]=(isset($arrayTesa["url_base"])) ? $DB->qstr($arrayTesa["url_base"],get_magic_quotes_gpc()) : $_SESSION["CFGURL"];
+	$arrayTesa["cuando"]=(check2Date($arrayTesa["cuando"])) ? $arrayTesa["cuando"] : date("Y-m-d");
 	$arrayTesa["contact_mail"]=$_POST["contact_mail"];
 
 
@@ -1250,34 +1217,20 @@ switch($do){
 				cobertura=$arrayTesa[cobertura],
 				keywords= $arrayTesa[keywords],
 				tipo= $arrayTesa[tipo],
-				polijerarquia=  $arrayTesa[polijerarquia],
+				polijerarquia=  '$arrayTesa[polijerarquia]',
 				url_base= $arrayTesa[url_base],
-				cuando=$arrayTesa[cuando]
+				cuando='$arrayTesa[cuando]'
 				where id= '$vocabulario_id'");
 
 	//It is the main vocabulary => change config values
 	if($vocabulario_id=='1'){
-
-
-		//enable note types
-		$ARRAYnoteTypes=ARRAYnoteTypes(array('NP'));
-
-		foreach ($ARRAYnoteType as $noteType => $noteData) {
-				$enableTypeNotes[].=$noteData["value_code"];
-			}
-
-
-
 		$sql=SQL("select","v.value_id,v.value_type,v.value,v.value_code,v.value_order
 						from $DBCFG[DBprefix]values v
 						where v.value_type='config'");
 
 		while ($array=$sql->FetchRow()){
-
 			$value_code=($_POST[$array["value"]]=='00') ? '0' : secure_data($_POST[$array["value"]],"alnum");
-
 			$sql_update=SQL("update","$DBCFG[DBprefix]values set value_code='$value_code' where value_type='config' and value='$array[value]'");
-
 		}
 
 		//Update from 1.72=> check if CFG_SUGGESTxWORD is defined
@@ -1291,7 +1244,6 @@ switch($do){
 
 		if(!$ctrl["value_id"])			{
 				$value_code=($_POST["CFG_SUGGESTxWORD"]=='00') ? '0' : secure_data($_POST["CFG_SUGGESTxWORD"],"int");
-
 				$sql1_6x1_7b=SQL("insert","into `".$DBCFG[DBprefix]."values` (`value_type`, `value`, `value_order`, `value_code`) VALUES
 					('config', 'CFG_SUGGESTxWORD', NULL, '$value_code')");
 			}
@@ -1299,21 +1251,18 @@ switch($do){
 		//Update to 2.1=> check if CFG_PUBLISH is defined
 		if(!$ctrl20a["value_id"])			{
 				$value_code=($_POST["CFG_PUBLISH"]=='00') ? '0' : secure_data($_POST["CFG_PUBLISH"],"int");
-
 				$sql20x201a=SQL("insert","into `".$DBCFG[DBprefix]."values` (`value_type`, `value`, `value_order`, `value_code`) VALUES
 					('config', 'CFG_PUBLISH', NULL, '$value_code')");
 			}
 
 		if(!$ctrl20b["value_id"])			{
 				$value_code=($_POST["CFG_ALLOW_DUPLICATED"]=='00') ? '0' : secure_data($_POST["CFG_ALLOW_DUPLICATED"],"int");
-
 				$sql20x201a=SQL("insert","into `".$DBCFG[DBprefix]."values` (`value_type`, `value`, `value_order`, `value_code`) VALUES
 					('config', 'CFG_ALLOW_DUPLICATED', NULL, '$value_code')");
 			}
 
 		if(!$ctrl202a["value_id"])			{
 				$value_code=($_POST["_SHOW_RANDOM_TERM"]=='00') ? '0' : secure_data($_POST["_SHOW_RANDOM_TERM"],"alpha");
-
 				$sql20x202=SQL("insert","into `".$DBCFG["DBprefix"]."values` (`value_type`, `value`, `value_order`, `value_code`) VALUES
 					('config', '_SHOW_RANDOM_TERM', NULL, '$value_code')");
 			}
@@ -1340,10 +1289,13 @@ switch($do){
 
 	case 'B':
 	//Eliminacion de un vocabulario de REFERENCIA
-
 	//no es el vocabulario por defecto
-	if($vocabulario_id>1)
-	{
+	if($vocabulario_id>1){
+		$SQLlistTerms=SQLreportAllTerms($vocabulario_id);
+		while($listTerms=$SQLlistTerms->FetchRow()){
+				$remRelations=SQL("delete","from $DBCFG[DBprefix]tabla_rel where id_menor=$listTerms[term_id]");
+				$remNotes=SQL("delete","from $DBCFG[DBprefix]notas where id_tema=$listTerms[term_id]");
+		}
 		$sql=SQLo("delete","from $DBCFG[DBprefix]tema where tesauro_id=?",array($vocabulario_id));
 		$sql=SQLo("delete","from $DBCFG[DBprefix]config where id=?",array($vocabulario_id));
 	}
@@ -1667,10 +1619,10 @@ return $rows;
 #
 function HTMLlistaVocabularios(){
 
-$sql=SQLdatosVocabulario();
+$sql=SQLdatosVocabulario(1);
 
 $rows.='<div class="table-responsive"> ';
-$rows.='<h3>'.ucfirst(LABEL_lcConfig).' &middot; <a class="btn btn-primary btn-xs" href="admin.php?vocabulario_id=0" title="'.MENU_NuevoVocabularioReferencia.'">'.ucfirst(LABEL_Agregar.' '.LABEL_vocabulario_referencia).'</a></h3>';
+$rows.='<h3>'.ucfirst(LABEL_lcConfig).' </h3>';
 
 $rows.='<table class="table table-striped table-bordered table-condensed table-hover"  summary="'.LABEL_lcConfig.'">';
 $rows.='<thead>';
@@ -1692,18 +1644,48 @@ while($array=$sql->FetchRow()){
 		}else{
 		$rows.='<td>'.LABEL_vocabulario_referencia.'</td>';
 		}
-
 	$rows.='</tr>';
 	};
 
 $rows.='</tbody>';
-
-$rows.='<tfoot>';
-$rows.='<tr>';
-$rows.='<td colspan="3">'.SQLcount($sql).'</td>';
-$rows.='</tr>';
-$rows.='</tfoot>';
 $rows.='</table>  </div>      ';
+
+return $rows;
+};
+
+#
+# lista de vocabularios
+#
+function HTMLlistaInternalTargetVocabularios(){
+
+$sql=SQLinternalTargetVocabs();
+
+$rows.='<div class="table-responsive"> ';
+$rows.='<h3>'.ucfirst(LABEL_vocabulario_referencia).' ('.SQLcount($sql).') <a class="btn btn-primary btn-xs" href="admin.php?vocabulario_id=0" title="'.MENU_NuevoVocabularioReferencia.'">'.ucfirst(LABEL_Agregar.' '.LABEL_vocabulario_referencia).'</a></h3>';
+
+if(SQLcount($sql)>0)	{
+
+$rows.='<table class="table table-striped table-bordered table-condensed table-hover"  summary="'.LABEL_lcConfig.'">';
+$rows.='<thead>';
+$rows.='<tr>';
+$rows.='<th>'.ucfirst(LABEL_Titulo).'</th>';
+$rows.='<th>'.ucfirst(LABEL_Autor).'</th>';
+$rows.='<th>'.ucfirst(LABEL_Terminos).'</th>';
+$rows.='</tr>';
+$rows.='</thead>';
+$rows.='<tbody>';
+
+while($array=$sql->FetchRow()){
+	$rows.='<tr>';
+	$rows.='<td class="izq"><a href="admin.php?vocabulario_id='.$array["tvocab_id"].'" title="'.MENU_DatosTesauro.' '.$array["titulo"].'">'.$array["titulo"].'</a> / '.$array["idioma"].'</td>';
+	$rows.='<td class="izq">'.$array["autor"].'</td>';
+	$rows.='<td>'.$array["cant"].'</td>';
+	$rows.='</tr>';
+	};
+$rows.='</tbody>';
+$rows.='</table>';
+}//fin if count
+$rows.='  </div>      ';
 
 return $rows;
 };
@@ -1718,9 +1700,10 @@ $sql=SQLtargetVocabulary("0");
 
 
 $rows.='<div class="table-responsive"> ';
-$rows.='<h3>'.ucfirst(LABEL_lcConfig).' &middot; <a class="btn btn-primary btn-xs" href="admin.php?tvocabulario_id=0&doAdmin=seeformTargetVocabulary" title="'.ucfirst(LABEL_addTargetVocabulary).'">'.ucfirst(LABEL_addTargetVocabulary).'</a></h3>';
-$rows.='<table class="table table-striped table-bordered table-condensed table-hover"  summary="'.LABEL_lcConfig.'">';
+$rows.='<h3>'.ucfirst(LABEL_vocabulario_referenciaWS).' ('.SQLcount($sql).') <a class="btn btn-primary btn-xs" href="admin.php?tvocabulario_id=0&doAdmin=seeformTargetVocabulary" title="'.ucfirst(LABEL_addTargetVocabulary).'">'.ucfirst(LABEL_addTargetVocabulary).'</a></h3>';
 
+if(SQLcount($sql)>0){
+$rows.='<table class="table table-striped table-bordered table-condensed table-hover"  summary="'.LABEL_lcConfig.'">';
 $rows.='<thead>';
 $rows.='<tr>';
 $rows.='<th>'.ucfirst(LABEL_tvocab_label).'</th>';
@@ -1740,21 +1723,16 @@ while($array=$sql->FetchRow()){
 	$rows.='<td class="izq"><a href="'.$array[tvocab_url].'" title="'.LABEL_vocabulario_referenciaWS.' '.FixEncoding($array[tvocab_title]).'">'.FixEncoding($array[tvocab_title]).'</a></td>';
 
 	//hay términos y esta habilitado
-	if ($array[cant]>0)
-	{
+	if ($array[cant]>0)	{
 		$rows.='<td><a href="admin.php?doAdmin=seeTermsTargetVocabulary&amp;tvocab_id='.$array[tvocab_id].'">'.$label_tvocab_status.': '.$array[cant].'</a></td>';
 	}
 	$rows.='</tr>';
 	};
 
 $rows.='</tbody>';
-
-$rows.='<tfoot>';
-$rows.='<tr>';
-$rows.='<td colspan="3">'.SQLcount($sql).'</td>';
-$rows.='</tr>';
-$rows.='</tfoot>';
-$rows.='</table> </table>       ';
+$rows.='</table>        ';
+}; //fin if count
+$rows.='</div>        ';
 
 return $rows;
 };
@@ -2905,15 +2883,13 @@ function abm_URIdefinition($do,$array,$value_id="0")
 
 
 	//If MOD or DEL => get relation data
-	if($value_id>0)
-	{
+	if($value_id>0)	{
 		$value_id=secure_data($value_id,"int");
 		$sqlURIdefinition=SQLURIdefinition($value_id);
 		$arrayURIdefinition=$sqlURIdefinition->FetchRow();
 	}
 
-	switch ($do)
-	{
+	switch ($do)	{
 		case 'A':
 			$sql=SQL("insert","into $DBCFG[DBprefix]values
 				(value_type, value, value_code)
