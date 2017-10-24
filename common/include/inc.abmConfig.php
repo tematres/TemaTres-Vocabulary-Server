@@ -38,193 +38,193 @@ $array_mes=do_intervalDate("1","12",FORM_LABEL_FechaMes);
 
 $rows.='<form role="form" id="config-vocab" name="abm_config"  data-toggle="validator" action="admin.php" method="post">';
 $rows.='	<div class="row">
-		<div class="col-sm-12">
-				<legend><a href="admin.php" title="'.ucfirst(LABEL_lcConfig).' '.$titulo_formulario.'">'.ucfirst(LABEL_lcConfig).'</a> &middot;  '.ucfirst($titulo_formulario).'</legend>
-		</div>
-		<!-- panel  -->
-			    <div class="col-lg-7">
-					<h4>'.ucfirst(LABEL_lcConfig).'</h4>
-			        <div class="panel panel-default">
-			            <div class="panel-body form-horizontal">';
+	<div class="col-sm-12">
+	<legend><a href="admin.php" title="'.ucfirst(LABEL_lcConfig).' '.$titulo_formulario.'">'.ucfirst(LABEL_lcConfig).'</a> &middot;  '.ucfirst($titulo_formulario).'</legend>
+	</div>
+	<!-- panel  -->
+	    <div class="col-lg-7">
+	<h4>'.ucfirst(LABEL_lcConfig).'</h4>
+	        <div class="panel panel-default">
+	            <div class="panel-body form-horizontal">';
 
-			$rows.='<div class="form-group">
-			           <label for="'.FORM_LABEL_Titulo.'" class="col-sm-3 control-label">'.ucfirst(LABEL_Titulo).'</label>
-			                    <div class="col-sm-9">
-			                        <input type="text"
-															 class="form-control" required
-															id="'.FORM_LABEL_Titulo.'"
-															placeholder="'.LABEL_Titulo.'"
-															name="'.FORM_LABEL_Titulo.'"
-															value="'.$array_vocabulario["titulo"].'">
-			                    </div>
-			         </div>';
-
-
-			$rows.='<div class="form-group">
-				           <label for="'.FORM_LABEL_Autor.'" class="col-sm-3 control-label">'.ucfirst(LABEL_Autor).'</label>
-			                    <div class="col-sm-9">
-			                       <input type="text"
-														 class="form-control" required
-														id="'.FORM_LABEL_Autor.'"
-														placeholder="'.LABEL_Autor.'"
-														name="'.FORM_LABEL_Autor.'"
-														value="'.$array_vocabulario["autor"].'">
-				                    </div>
-			         </div>';
-
-			$rows.='<div class="form-group">
-			           <label for="'.FORM_LABEL_Idioma.'" class="col-sm-3 control-label">'.ucfirst(LABEL_Idioma).'</label>
-			                    <div class="col-sm-9">
-													<select id="'.FORM_LABEL_Idioma.'" name="'.FORM_LABEL_Idioma.'">
-														<optgroup label="'.LABEL_Idioma.'">
-													'.doSelectForm($arrayLang,$array_vocabulario["idioma"]).'
-															</optgroup>
-															</select>
-			                    </div>
-			         </div>';
-
-							$rows.='<div class="form-group">
-							           <label for="cobertura" class="col-sm-3 control-label">'.ucfirst(LABEL_Cobertura).'</label>
-							                    <div class="col-sm-9">
-																	<textarea class="form-control"
-																	type="text"
-																	rows="3"
-																	name="'.FORM_LABEL_Cobertura.'"
-																	id="cobertura">'.$array_vocabulario["cobertura"].'</textarea>
-							                    </div>
-							         </div>';
+	$rows.='<div class="form-group">
+	           <label for="'.FORM_LABEL_Titulo.'" class="col-sm-3 control-label">'.ucfirst(LABEL_Titulo).'</label>
+	                    <div class="col-sm-9">
+	                        <input type="text"
+		 class="form-control" required
+		id="'.FORM_LABEL_Titulo.'"
+		placeholder="'.LABEL_Titulo.'"
+		name="'.FORM_LABEL_Titulo.'"
+		value="'.$array_vocabulario["titulo"].'">
+	                    </div>
+	         </div>';
 
 
-		//is main vocab
-		if($array_vocabulario["vocabulario_id"]==1){
-			$ARRAYcontactMail=ARRAYfetchValue('CONTACT_MAIL');
-			$rows.='<div class="form-group">
-			           <label for="dia" class="col-sm-3 control-label">'.ucfirst(LABEL_Fecha).'</label>
-			                    <div class="col-sm-9">
-													<select id="'.FORM_LABEL_FechaDia.'" name="'.FORM_LABEL_FechaDia.'">
-														<optgroup label="'.LABEL_dia.'">
-													'.doSelectForm($array_dia,$fecha_crea["dia"]).'
-															</optgroup>
-															</select>
-													<select id="'.FORM_LABEL_FechaMes.'" name="'.FORM_LABEL_FechaMes.'">
-														<optgroup label="'.LABEL_mes.'">
-													'.doSelectForm($array_mes,$fecha_crea["mes"]).'
-															</optgroup>
-															</select>
-													<select id="'.FORM_LABEL_FechaAno.'" name="'.FORM_LABEL_FechaAno.'">
-														<optgroup label="'.LABEL_ano.'">
-													'.doSelectForm($array_ano,$fecha_crea["ano"]).'
-															</optgroup>
-															</select>
-			                    </div>
-			         </div>';
+	$rows.='<div class="form-group">
+	           <label for="'.FORM_LABEL_Autor.'" class="col-sm-3 control-label">'.ucfirst(LABEL_Autor).'</label>
+	                    <div class="col-sm-9">
+	                       <input type="text"
+		 class="form-control" required
+		id="'.FORM_LABEL_Autor.'"
+		placeholder="'.LABEL_Autor.'"
+		name="'.FORM_LABEL_Autor.'"
+		value="'.$array_vocabulario["autor"].'">
+	                    </div>
+	         </div>';
+
+	$rows.='<div class="form-group">
+	           <label for="'.FORM_LABEL_Idioma.'" class="col-sm-3 control-label">'.ucfirst(LABEL_Idioma).'</label>
+	                    <div class="col-sm-9">
+		<select id="'.FORM_LABEL_Idioma.'" name="'.FORM_LABEL_Idioma.'">
+		<optgroup label="'.LABEL_Idioma.'">
+		'.doSelectForm($arrayLang,$array_vocabulario["idioma"]).'
+		</optgroup>
+		</select>
+	                    </div>
+	         </div>';
+
+	$rows.='<div class="form-group">
+	           <label for="cobertura" class="col-sm-3 control-label">'.ucfirst(LABEL_Cobertura).'</label>
+	                    <div class="col-sm-9">
+			<textarea class="form-control"
+			type="text"
+			rows="3"
+			name="'.FORM_LABEL_Cobertura.'"
+			id="cobertura">'.$array_vocabulario["cobertura"].'</textarea>
+	                    </div>
+	         </div>';
 
 
-			$rows.='<div class="form-group">
-			           <label for="dccontributor" class="col-sm-3 control-label">'.ucfirst(LABEL_Contributor).'</label>
-			                    <div class="col-sm-9">
-			                        <input type="text"
-															class="form-control"
-															id="dccontributor"
-															placeholder="'.LABEL_Contributor.'"
-															name="dccontributor"
-															value="'.$ARRAYfetchValues["dc:contributor"]["value"].'">
-			                    </div>
-			         </div>';
+	//is main vocab
+	if($array_vocabulario["vocabulario_id"]==1){
+	$ARRAYcontactMail=ARRAYfetchValue('CONTACT_MAIL');
+	$rows.='<div class="form-group">
+	           <label for="dia" class="col-sm-3 control-label">'.ucfirst(LABEL_Fecha).'</label>
+	                    <div class="col-sm-9">
+		<select id="'.FORM_LABEL_FechaDia.'" name="'.FORM_LABEL_FechaDia.'">
+		<optgroup label="'.LABEL_dia.'">
+		'.doSelectForm($array_dia,$fecha_crea["dia"]).'
+		</optgroup>
+		</select>
+		<select id="'.FORM_LABEL_FechaMes.'" name="'.FORM_LABEL_FechaMes.'">
+		<optgroup label="'.LABEL_mes.'">
+		'.doSelectForm($array_mes,$fecha_crea["mes"]).'
+		</optgroup>
+		</select>
+		<select id="'.FORM_LABEL_FechaAno.'" name="'.FORM_LABEL_FechaAno.'">
+		<optgroup label="'.LABEL_ano.'">
+		'.doSelectForm($array_ano,$fecha_crea["ano"]).'
+		</optgroup>
+		</select>
+	                    </div>
+	         </div>';
+
+
+	$rows.='<div class="form-group">
+	           <label for="dccontributor" class="col-sm-3 control-label">'.ucfirst(LABEL_Contributor).'</label>
+	                    <div class="col-sm-9">
+	                        <input type="text"
+		class="form-control"
+		id="dccontributor"
+		placeholder="'.LABEL_Contributor.'"
+		name="dccontributor"
+		value="'.$ARRAYfetchValues["dc:contributor"]["value"].'">
+	                    </div>
+	         </div>';
 
 
 
-							$rows.='<div class="form-group">
-							           <label for="dcrights" class="col-sm-3 control-label">'.ucfirst(LABEL_Publisher).'</label>
-							                    <div class="col-sm-9">
-							                        <input type="text" class="form-control"
-																			 id="dcpublisher"
-																			placeholder="'.LABEL_Publisher.'"
-																			name="dcpublisher"
-																			value="'.$ARRAYfetchValues["dc:publisher"]["value"].'">
-							                    </div>
-							         </div>';
+	$rows.='<div class="form-group">
+	           <label for="dcrights" class="col-sm-3 control-label">'.ucfirst(LABEL_Publisher).'</label>
+	                    <div class="col-sm-9">
+	                        <input type="text" class="form-control"
+			 id="dcpublisher"
+			placeholder="'.LABEL_Publisher.'"
+			name="dcpublisher"
+			value="'.$ARRAYfetchValues["dc:publisher"]["value"].'">
+	                    </div>
+	         </div>';
 
-			$rows.='<div class="form-group">
-			           <label for="dcrights" class="col-sm-3 control-label">'.ucfirst(LABEL_Rights).'</label>
-			                    <div class="col-sm-9">
-			                        <input type="text" class="form-control"
-															 id="dcrights"
-															placeholder="'.LABEL_Rights.'"
-															name="dcrights"
-															value="'.$ARRAYfetchValues["dc:rights"]["value"].'">
-			                    </div>
-			         </div>';
+	$rows.='<div class="form-group">
+	           <label for="dcrights" class="col-sm-3 control-label">'.ucfirst(LABEL_Rights).'</label>
+	                    <div class="col-sm-9">
+	                        <input type="text" class="form-control"
+		 id="dcrights"
+		placeholder="'.LABEL_Rights.'"
+		name="dcrights"
+		value="'.$ARRAYfetchValues["dc:rights"]["value"].'">
+	                    </div>
+	         </div>';
 
 
-							$rows.='<div class="form-group">
-							           <label for="contact_mail" class="col-sm-3 control-label">'.ucfirst(FORM_LABEL__contactMail).'</label>
-							                    <div class="col-sm-9">
-							                        <input type="text"
-																			class="form-control"
-																			id="contact_mail"
-																			placeholder="'.FORM_LABEL__contactMail.'"
-																			name="contact_mail"
-																			value="'.$ARRAYcontactMail["value"].'" type="email">
-							                    </div>
-							         </div>';
+	$rows.='<div class="form-group">
+	           <label for="contact_mail" class="col-sm-3 control-label">'.ucfirst(FORM_LABEL__contactMail).'</label>
+	                    <div class="col-sm-9">
+	                        <input type="text"
+			class="form-control"
+			id="contact_mail"
+			placeholder="'.FORM_LABEL__contactMail.'"
+			name="contact_mail"
+			value="'.$ARRAYcontactMail["value"].'" type="email">
+	                    </div>
+	         </div>';
 
-			$rows.='<div class="form-group">
-			           <label for="keywords" class="col-sm-3 control-label">'.ucfirst(LABEL_Keywords).'</label>
-			                    <div class="col-sm-9">
-			                        <input type="text" class="form-control"
-															 id="keywords"
-															placeholder="'.LABEL_Keywords.'"
-															name="'.FORM_LABEL_Keywords.'"
-															value="'.$array_vocabulario["keywords"].'">
-			                    </div>
-			         </div>';
-			$rows.='<div class="form-group">
-			           <label for="tipo_lang" class="col-sm-3 control-label">'.ucfirst(LABEL_TipoLenguaje).'</label>
-			                    <div class="col-sm-9">
-			                        <input type="text" class="form-control"
-															 id="tipo_lang"
-															placeholder="'.LABEL_TipoLenguaje.'"
-															name="'.FORM_LABEL_TipoLenguaje.'"
-															value="'.$array_vocabulario["tipo"].'">
-			                    </div>
-			         </div>';
+	$rows.='<div class="form-group">
+	           <label for="keywords" class="col-sm-3 control-label">'.ucfirst(LABEL_Keywords).'</label>
+	                    <div class="col-sm-9">
+	                        <input type="text" class="form-control"
+		 id="keywords"
+		placeholder="'.LABEL_Keywords.'"
+		name="'.FORM_LABEL_Keywords.'"
+		value="'.$array_vocabulario["keywords"].'">
+	                    </div>
+	         </div>';
+	$rows.='<div class="form-group">
+	           <label for="tipo_lang" class="col-sm-3 control-label">'.ucfirst(LABEL_TipoLenguaje).'</label>
+	                    <div class="col-sm-9">
+	                        <input type="text" class="form-control"
+		 id="tipo_lang"
+		placeholder="'.LABEL_TipoLenguaje.'"
+		name="'.FORM_LABEL_TipoLenguaje.'"
+		value="'.$array_vocabulario["tipo"].'">
+	                    </div>
+	         </div>';
 
-			$rows.='<div class="form-group">
-			           <label for="URIt" class="col-sm-3 control-label">'.ucfirst(LABEL_URI).'</label>
-			                    <div class="col-sm-9">
-			                        <input type="url" class="form-control" required
-															 id="URIt"
-															placeholder="'.LABEL_URI.'"
-															name="'.FORM_LABEL_URI.'"
-															value="'.$array_vocabulario["url_base"].'">
-			                    </div>
-			         </div>';
+	$rows.='<div class="form-group">
+	           <label for="URIt" class="col-sm-3 control-label">'.ucfirst(LABEL_URI).'</label>
+	                    <div class="col-sm-9">
+	                        <input type="url" class="form-control" required
+		 id="URIt"
+		placeholder="'.LABEL_URI.'"
+		name="'.FORM_LABEL_URI.'"
+		value="'.$array_vocabulario["url_base"].'">
+	                    </div>
+	         </div>';
 
-			$rows.=HTMLformConfigValues($array_vocabulario);
-		};//end if main vocab
+	$rows.=HTMLformConfigValues($array_vocabulario);
+	};//end if main vocab
 
-			$rows.='<div class="form-group">
-						<div class="col-sm-12 text-right">
-						<input type="submit" class="btn btn-primary" id="boton" name="boton" value="'.ucfirst(LABEL_Guardar).'"/>
-						<a href="admin.php" class="btn btn-default" id="boton_cancelar" title="'.ucfirst(LABEL_Cancelar).'">'.ucfirst(LABEL_Cancelar).'</a>';
-			//editor for target vocabularies
-			if($array_vocabulario["vocabulario_id"]!=='1'){
-			$rows.='		<input type="button" class="btn btn-danger" id="boton" name="boton" onclick="document.getElementById(\'delete-tvocab\').submit();" value="'.ucfirst(LABEL_eliminar).'"/>';
-			}
-			$rows.='</div>
-						</div>';
-			$rows.='				</div>
-							</div>
-							</div>';
+	$rows.='<div class="form-group">
+	<div class="col-sm-12 text-right">
+	<input type="submit" class="btn btn-primary" id="boton" name="boton" value="'.ucfirst(LABEL_Guardar).'"/>
+	<a href="admin.php" class="btn btn-default" id="boton_cancelar" title="'.ucfirst(LABEL_Cancelar).'">'.ucfirst(LABEL_Cancelar).'</a>';
+	//editor for target vocabularies
+	if($array_vocabulario["vocabulario_id"]!=='1'){
+	$rows.='	<input type="button" class="btn btn-danger" id="boton" name="boton" onclick="document.getElementById(\'delete-tvocab\').submit();" value="'.ucfirst(LABEL_eliminar).'"/>';
+	}
+	$rows.='</div>
+	</div>';
+	$rows.='	</div>
+	</div>
+	</div>';
 
-			$rows.='</div> <!-- / panel  -->';
-			$rows.='<input type="hidden" name="vocabulario_id" id="vocabulario_id" value="'.$array_vocabulario["vocabulario_id"].'"/>';
-			$rows.='<input type="hidden" name="task_config" id="task_config" value="configvocab"/>';
-			$rows.='</form>';
-			//remove form
-		if($array_vocabulario["vocabulario_id"]!=='1'){
-			$rows.='<form id="delete-tvocab" name="delete-tvocab" action="admin.php?vocabulario_id=3" method="post"><input type="hidden" name="internal_tvocab_id" id="internal_tvocab_id" value="'.$array_vocabulario["vocabulario_id"].'"/><input type="hidden" name="task_config" id="task_config" value="rem_tvocab"/></form>';
-			}	
+	$rows.='</div> <!-- / panel  -->';
+	$rows.='<input type="hidden" name="vocabulario_id" id="vocabulario_id" value="'.$array_vocabulario["vocabulario_id"].'"/>';
+	$rows.='<input type="hidden" name="task_config" id="task_config" value="configvocab"/>';
+	$rows.='</form>';
+	//remove form
+	if($array_vocabulario["vocabulario_id"]!=='1'){
+	$rows.='<form id="delete-tvocab" name="delete-tvocab" action="admin.php?vocabulario_id=3" method="post"><input type="hidden" name="internal_tvocab_id" id="internal_tvocab_id" value="'.$array_vocabulario["vocabulario_id"].'"/><input type="hidden" name="task_config" id="task_config" value="rem_tvocab"/></form>';
+	}	
 echo $rows;
 ?>
