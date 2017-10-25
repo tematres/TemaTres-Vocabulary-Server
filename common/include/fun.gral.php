@@ -1279,27 +1279,26 @@ function setPassword($user_id,$user_pass,$to_hash=0){
 	$user_pass=($to_hash==1) ? t3_hash_password($user_pass) : $user_pass;
 	$sql_update_pass=SQLo("update","$DBCFG[DBprefix]usuario set pass= ? where id= ?",array($user_pass,$user_id));
 	return;
-};
-
-/*
- *
- * Sanitice unidimensional arrays
- */
-function XSSpreventArray($array){
-
-	if( is_array($array) )	{
-		while( list($k, $v) = each($array) )		{
-						$array[$k] = XSSprevent($v);		}
-		@reset($array);
-	}
-	else	{
-			$array=array();
-	};
-
-return $array;
 }
 
 
+/*
+ *
+ * Sanitice arrays
+ */
+function XSSpreventArray($array)
+{
+    if (is_array($array)) {
+        while (list($k, $v) = each($array) ) {
+            $array[$k] = is_array($v) ? XSSpreventArray($v) : XSSprevent($v);
+        }
+        @reset($array);
+    } else  {
+        $array = array();
+    }
+
+    return $array;
+}
 
 
 /*
