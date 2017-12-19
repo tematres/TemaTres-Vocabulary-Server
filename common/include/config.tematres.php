@@ -39,6 +39,9 @@ $CFG["IMP_TAG_SEPARATOR"]  =':';
 // Define char to recognice as tabulator, tabulator is char used in txt import procedure to asig to the term the same relation as previous relation. default = "==="
 $CFG["IMP_TAG_TABULATOR"]  ='===';
 
+// Define symbols to type of relations
+$CFG["REL_SYMBOLS"]=array("BT"=>'↑',"NT"=>'↓',"UF"=>'↸',"RT"=>'⇆');
+
 
 /*
 Define specific excluded characters from the alphabetic menu

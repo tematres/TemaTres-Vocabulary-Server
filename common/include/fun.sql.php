@@ -2441,7 +2441,7 @@ function SQLreportNullNotes($t_note)
 
 	GLOBAL $DBCFG;
 
-	if($t_note==0){
+	if($t_note=='0'){
 		$sql=SQL("select","t.tema_id, t.tema as term, t.cuando as date_created, t.cuando_final as date_modicated,t.isMetaTerm,
 						e.value as status_term
 						from $DBCFG[DBprefix]values e,$DBCFG[DBprefix]tema t
@@ -2450,17 +2450,13 @@ function SQLreportNullNotes($t_note)
 						e.value_id=t.estado_id
 						and n.id is null
 						order by t.tema");
-
 	}else {
 		//check if is valid note type
 		$sqlNoteType=SQLcantNotas();
 		$arrayNoteType=array();
 
 		while ($array=$sqlNoteType->FetchRow()){
-			if($array[cant]>0)
-			{
-				array_push($arrayNoteType, $array["tipo_nota"]);
-			}
+				array_push($arrayNoteType, $array["value_code"]);
 		};
 
 		if(in_array($t_note, $arrayNoteType)){
@@ -2478,7 +2474,6 @@ function SQLreportNullNotes($t_note)
 			$sql=SQL("select","'no_data'");
 		}
 	}
-
 return $sql;
 }
 /*

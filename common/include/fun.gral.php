@@ -293,7 +293,7 @@ if (SQLcount($res)>0) {
 header('Expires: Mon, 1 Jan 1990 00:00:00 GMT');
 header('Last-Modified: '.gmdate("D,d M Y H:i:s").' GMT');
 header('Pragma: no-cache');
-header('Content-type: text/csv;charset=latin1');
+//header('Content-type: text/csv;charset=latin1');
 header('Content-Disposition: attachment; filename='.$filename);
 
 // print the final contents of .csv file

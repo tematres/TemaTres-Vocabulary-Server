@@ -1040,7 +1040,7 @@ function HTMLformNullNotesTermReport($array){
 		<label for="note_type'.$ARRAYnoteType["value_id"].'">'.$varNoteType.'</label>
 		</div>
 		<div class="col-sm-2">
-		<input name="note_type_null" type="radio" id="note_type'.$ARRAYnoteType["value_id"].'" value="'.$ARRAYnoteType["tipo_nota"].'" />
+		<input name="note_type_null" type="radio" id="note_type'.$ARRAYnoteType["value_id"].'" value="'.$ARRAYnoteType["value_code"].'" />
 			</div>
 		</div>';
 	}
