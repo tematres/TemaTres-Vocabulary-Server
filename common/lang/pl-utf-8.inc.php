@@ -228,22 +228,6 @@ define("MSG_minCharSerarch","Wyszukiwane wyrażenie <i>%s</i> ma tylko <strong>%
 /* v 1.04 */
 define("LABEL_terminoExistente","istniejący termin");
 define("HELP_variosTerminos","Aby dodać jednocześnie wiele terminów należy je umieścić <strong>jako jedno słowo na linię</strong>.");
-/* v 1.05 */
-$idiomas_disponibles = array(
-     "ca"  => array("català", "", "ca"),
-     "cn"  => array("中文","", "cn"),
-     "de"  => array("deutsch","", "de"),
-     "en"  => array("english", "", "en"),
-     "es"  => array("español", "", "es"),
-     "eu"  => array("euskera", "", "eu"),
-     "fr"  => array("français","", "fr"),
-     "gl"  => array("galego","", "gl"),
-     "it"  => array("italiano","", "it"),
-     "nl"  => array("nederlands","", "nl"),
-     "pl"  => array("polski","", "pl"),
-     "pt"  => array("portugüés","", "pt"),
-     "ru"  => array("Pусский","", "ru")
-    );
 /* Install messages */
 define("FORM","Formularz") ;
 define("ERROR","Błąd") ;

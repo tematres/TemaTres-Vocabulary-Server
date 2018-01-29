@@ -227,22 +227,6 @@ define("MSG_minCharSerarch","A expressão de busca <i>%s</i> tem somente <strong
 /* v 1.04 */
 define("LABEL_terminoExistente","termo existente");
 define("HELP_variosTerminos","Para adicionar vários termos de uma vez encarna uma palavra por linha</strong>.");
-/* v 1.05 */
-$idiomas_disponibles = array(
-     "ca"  => array("català", "", "ca"),
-     "cn"  => array("中文","", "cn"),
-     "de"  => array("deutsch","", "de"),
-     "en"  => array("english", "", "en"),
-     "es"  => array("español", "", "es"),
-     "eu"  => array("euskera", "", "eu"),
-     "fr"  => array("français","", "fr"),
-     "gl"  => array("galego","", "gl"),
-     "it"  => array("italiano","", "it"),
-     "nl"  => array("nederlands","", "nl"),
-     "pl"  => array("polski","", "pl"),
-     "pt"  => array("português","", "pt"),
-     "ru"  => array("Pусский","", "ru")
-    );
 /* Install messages */
 define("FORM","Formulário") ;
 define("ERROR","Erro") ;

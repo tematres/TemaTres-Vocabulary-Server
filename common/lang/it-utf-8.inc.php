@@ -235,22 +235,6 @@ define("MSG_minCharSerarch","L'espressione di ricerca <i>%s</i> ha solo <strong>
 /* v 1.04 */
 define("LABEL_terminoExistente","termine esistente");
 define("HELP_variosTerminos","Per aggiungere termini contemporaneamente incarna <strong>una parola per linea</strong>.");
-/* v 1.05 */
-$idiomas_disponibles = array(
-     "ca"  => array("català", "", "ca"),
-     "cn"  => array("中文","", "cn"),
-     "de"  => array("deutsch","", "de"),
-     "en"  => array("english", "", "en"),
-     "es"  => array("español", "", "es"),
-     "eu"  => array("euskera", "", "eu"),
-     "fr"  => array("français","", "fr"),
-     "gl"  => array("galego","", "gl"),
-     "it"  => array("italiano","", "it"),
-     "nl"  => array("nederlands","", "nl"),
-     "pl"  => array("polski","", "pl"),
-     "pt"  => array("portugüés","", "pt"),
-     "ru"  => array("Pусский","", "ru")
-    );
 /* v 1.1 */
 define('MSG_ERROR_CODE',"codice non valido");
 define('LABEL_CODE',"codice");

@@ -228,14 +228,7 @@ define("MSG_minCharSerarch","Ihr Suchbegriff <i>%s</i> ist <strong>%s </strong> 
 /* v 1.04 */
 define("LABEL_terminoExistente","existierender Begriff");
 define("HELP_variosTerminos","HINWEIS: Um mehrere Begriffe anzulegen, geben Sie <strong>einen Begriff pro Zeile</strong> ein.");
-/* v 1.05 */
-$idiomas_disponibles = array(
-     "de"  => array("Deutsch","", "de"),
-     "en"  => array("English", "", "en"),
-     "fr"  => array("Französisch","", "fr"),
-     "es"  => array("Spanisch", "", "es"),
-     "ru"  => array("Pусский","", "ru")
-    );
+
 /* Install messages */
 define("FORM","Form") ;
 define("ERROR","Error") ;

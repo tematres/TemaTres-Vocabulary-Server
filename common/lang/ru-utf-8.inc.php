@@ -388,22 +388,6 @@ define('install_message[206]','Связь с базой данных <em>%s</em>
 define('install_message[301]','Увы... Пример конфигурации Tematres уже существует. Проверьте конфигурацию файла для связи с базой данных (%s). <a href="index.php">Enjoy your Vocabulary Server</a>');
 define('install_message[305]',' Проверка пароля безопасности. ');
 define('install_message[306]','Настройка выполнена, <a href="index.php">Можете пользоваться сервером словаря</a>' );
-/* v 1.05 */
-$idiomas_disponibles = array(
-     "ca"  => array("català", "", "ca"),
-     "cn"  => array("中文","", "cn"),
-     "de"  => array("deutsch","", "de"),
-     "en"  => array("english", "", "en"),
-     "es"  => array("español", "", "es"),
-     "eu"  => array("euskera", "", "eu"),
-     "fr"  => array("français","", "fr"),
-     "gl"  => array("galego","", "gl"),
-     "it"  => array("italiano","", "it"),
-     "nl"  => array("nederlands","", "nl"),
-     "pl"  => array("polski","", "pl"),
-     "pt"  => array("portugués","", "pt"),
-     "ru"  => array("Pусский","", "ru")
-    );
 define("MSG_ERROR_CODE","неверный код");
 define("LABEL_CODE","код");
 define("LABEL_Ver","Показать");
