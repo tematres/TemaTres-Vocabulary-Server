@@ -682,6 +682,18 @@ function do_dublin_core($idTema){
 
 	GLOBAL $CFG;
 
+
+	$_URI_BASE_ID = ($CFG["_URI_BASE_ID"]) ? $CFG["_URI_BASE_ID"] : $_SESSION["CFGURL"];
+
+	/*
+	Tomar URL por default
+	*  Para que utilice URLs navegables:
+	*  $_URI_SEPARATOR_ID = ($CFG["_URI_SEPARATOR_ID"]) ? $CFG["_URI_SEPARATOR_ID"] : '?tema=';
+	* Para que utilice URLs Skos core
+	*/
+	$_URI_SEPARATOR_ID = ($CFG["_URI_SEPARATOR_ID"]) ? $CFG["_URI_SEPARATOR_ID"] : 'index.php?tema=';
+
+
 	$datosTermino=ARRAYverDatosTermino($idTema);
 	$SQLTerminosRelacionados=SQLverTerminoRelacionesTipo($idTema);
 
@@ -689,36 +701,36 @@ function do_dublin_core($idTema){
 	$xml.='<?xml version="1.0" encoding="'.$CFG["_CHAR_ENCODE"].'"?>';
 	$xml.='<metadata xmlns:dc="http://purl.org/dc/elements/1.1/"  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:dcterms="http://purl.org/dc/terms/">';
 
-	$xml.='<dc:title xml:lang="'.$_SESSION[CFGIdioma].'">'.xmlentities($datosTermino[titTema]).'</dc:title>';
-	$xml.='<dc:identifier>'.URL_BASE.'?tema='.$idTema.'</dc:identifier>';
-	$xml.='<dc:language>'.$_SESSION[CFGIdioma].'</dc:language>';
-	$xml.='<dc:publisher xml:lang="'.$_SESSION[CFGIdioma].'">'.xmlentities($_SESSION[CFGAutor]).'</dc:publisher>';
-	$xml.='<dcterms:created>'.$datosTermino[cuando].'</dcterms:created>';
-	if($datosTermino[cuando_final]>$datosTermino[cuando])
-	{$xml.='<dcterms:modified>'.$datosTermino[cuando_final].'</dcterms:modified>';}
+	$xml.='<dc:title xml:lang="'.$_SESSION["CFGIdioma"].'">'.xmlentities($datosTermino["titTema"]).'</dc:title>';
+	$xml.='<dc:identifier>'.$_URI_BASE_ID.$_URI_SEPARATOR_ID.$idTema.'</dc:identifier>';
+	$xml.='<dc:language>'.$_SESSION["CFGIdioma"].'</dc:language>';
+	$xml.='<dc:publisher xml:lang="'.$_SESSION["CFGIdioma"].'">'.xmlentities($_SESSION["CFGAutor"]).'</dc:publisher>';
+	$xml.='<dcterms:created>'.$datosTermino["cuando"].'</dcterms:created>';
+	if($datosTermino["cuando_final"]>$datosTermino["cuando"])
+	{$xml.='<dcterms:modified>'.$datosTermino["cuando_final"].'</dcterms:modified>';}
 
 	$xml.='<dcterms:isPartOf xsi:type="dcterms:URI">'.URL_BASE.'</dcterms:isPartOf>';
-	$xml.='<dcterms:isPartOf xml:lang="'.$_SESSION[CFGIdioma].'">'.xmlentities($_SESSION[CFGTitulo]).'</dcterms:isPartOf>';
+	$xml.='<dcterms:isPartOf xml:lang="'.$_SESSION["CFGIdioma"].'">'.xmlentities($_SESSION["CFGTitulo"]).'</dcterms:isPartOf>';
 	$xml.='<dc:format>text/html</dc:format>';
 
 	while ($datosTerminosRelacionados= $SQLTerminosRelacionados->FetchRow()){
-		if($datosTerminosRelacionados[t_relacion]=='4'){// UF
-			$xml.=' <dcterms:alternative xml:lang="'.$_SESSION[CFGIdioma].'">'.xmlentities($datosTerminosRelacionados[tema]).'</dcterms:alternative>';
+		if($datosTerminosRelacionados["t_relacion"]=='4'){// UF
+			$xml.=' <dcterms:alternative xml:lang="'.$_SESSION["CFGIdioma"].'">'.xmlentities($datosTerminosRelacionados["tema"]).'</dcterms:alternative>';
 		};
 	};
 
 
-	for($iNota=0; $iNota<(count($datosTermino[notas])); ++$iNota){
-		if($datosTermino[notas][$iNota][id]){
+	for($iNota=0; $iNota<(count($datosTermino["notas"])); ++$iNota){
+		if($datosTermino["notas"][$iNota]["id"]){
 			//idioma de la nota
-			$label_lang_nota = (!$datosTermino[notas][$iNota][lang_nota]) ? $_SESSION["CFGIdioma"] : $datosTermino[notas][$iNota][lang_nota];
-			switch($datosTermino[notas][$iNota][tipoNota]){
+			$label_lang_nota = (!$datosTermino["notas"][$iNota]["lang_nota"]) ? $_SESSION["CFGIdioma"] : $datosTermino["notas"][$iNota]["lang_nota"];
+			switch($datosTermino["notas"][$iNota]["tipoNota"]){
 				case 'NA':
-				$xml.=' <dc:description xml:lang="'.$label_lang_nota.'">'.xmlentities($datosTermino[notas][$iNota][nota],true).'</dc:description>';
+				$xml.=' <dc:description xml:lang="'.$label_lang_nota.'">'.xmlentities($datosTermino["notas"][$iNota]["nota"],true).'</dc:description>';
 				break;
 
 				case 'NB':
-				$xml.=' <dc:source xml:lang="'.$label_lang_nota.'">'.xmlentities($datosTermino[notas][$iNota][nota],true).'</dc:source>';
+				$xml.=' <dc:source xml:lang="'.$label_lang_nota.'">'.xmlentities($datosTermino["notas"][$iNota]["nota"],true).'</dc:source>';
 				break;
 			}
 		};
