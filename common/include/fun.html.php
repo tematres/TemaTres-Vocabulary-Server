@@ -686,20 +686,21 @@ function HTMLtermMenuX2($array_tema,$relacionesTermino){
 		//link agregar un TR
 		$row.='     <li><a title="'.MENU_AgregarTR.'" href="'.URL_BASE.'index.php?taskterm=addRTnw&amp;tema='.$array_tema["idTema"].'">  '.$CFG["REL_SYMBOLS"]["RT"].' '.ucfirst(MENU_AgregarTR).'</a></li>';
 
-		$row.='     <li><a title="'.LABEL__getForRecomendation.'" href="'.URL_BASE.'index.php?taskterm=findSuggestionTargetTerm&amp;tema='.$array_tema["idTema"].'">'.ucfirst(LABEL__getForRecomendation).'</a></li>';
-
 		$row.='<li role="separator" class="divider"></li>';
 
-		$row.='     <li><a title="'.LABEL_URI2term.'" href="'.URL_BASE.'index.php?taskterm=addURI&amp;tema='.$array_tema["idTema"].'">'.ucfirst(LABEL_URI2term).'</a></li>';
+		$row.='     <li><a title="'.LABEL__getForRecomendation.'" href="'.URL_BASE.'index.php?taskterm=findSuggestionTargetTerm&amp;tema='.$array_tema["idTema"].'">'.ucfirst(LABEL__getForRecomendation).'</a></li>';
+		$row.='</ul>';
 
-		$row.='<li class="dropdown-submenu">
-		<a tabindex="0" data-toggle="dropdown">'.ucfirst(LABEL_relbetweenVocabularies).'</a>
-		<ul class="dropdown-menu" role="menu" id="menu_agregar_relaciones">';
+	$row.='<li><a href="#" class="dropdown-toggle" data-toggle="dropdown">'.ucfirst(LABEL_relbetweenVocabularies).'<b class="caret"></b></a>';
+
+	$row.='<ul class="dropdown-menu" role="menu">';
+
+		$row.='<li><a title="'.LABEL_URI2term.'" href="'.URL_BASE.'index.php?taskterm=addURI&amp;tema='.$array_tema["idTema"].'">'.ucfirst(LABEL_URI2term).'</a></li>';
+
 		//link agregar un EQ
 		$row.='     <li><a title="'.LABEL_vocabulario_referencia.'" href="'.URL_BASE.'index.php?taskterm=addEQ&amp;tema='.$array_tema["idTema"].'">'.ucfirst(LABEL_vocabulario_referencia).'</a></li>';
 		//link agregar un término externo vía web services
 		$row.='     <li><a title="'.LABEL_relacion_vocabularioWebService.'" href="'.URL_BASE.'index.php?taskterm=findTargetTerm&amp;tema='.$array_tema["idTema"].'">'.ucfirst(LABEL_vocabulario_referenciaWS).'</a></li>';
-		$row.='    </ul>';
 		$row.='</li>';
 		}//fin control de estado y validez
 
