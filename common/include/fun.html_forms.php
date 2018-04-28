@@ -1238,6 +1238,9 @@ function HTMLformAssociateTargetTerms($ARRAYtermino,$term_id="0"){
 		$rows.='</form>';
 	}
 	$rows.='</div>';
+
+	$string2search = toASCII($string2search);
+
 	if(($string2search) && ($_GET["tvocab_id"])){
 		require_once(T3_ABSPATH . 'common/include/vocabularyservices.php')	;
 		$arrayVocab=ARRAYtargetVocabulary($_GET["tvocab_id"]);
