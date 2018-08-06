@@ -100,7 +100,8 @@ $CFG["ISO639-1"]=array(
 	"lt"=>array("lt","Lithuanian"),
 	"mi"=>array("mi","Maori"),
 	"pl"=>array("pl","Polish"),
-	"pt"=>array("pt","Portuguese"),
+	"pt-BR"=>array("pt-BR","Portuguese (Brasil)"),
+	"pt-PT"=>array("pt-PT","Portuguese (Portugal)"),
 	"qu"=>array("qu","Quechua"),
 	"ro"=>array("ro","Romanian"),
 	"ru"=>array("ru","Russian"),
@@ -134,7 +135,8 @@ $idiomas_disponibles = array(
      "nl"  => array("Vlaams","nl-$CFG[_CHAR_ENCODE].inc.php", "nl","nl-$CFG[_CHAR_ENCODE]"),
      "zh"  => array("简体中文","zh-$CFG[_CHAR_ENCODE].inc.php", "zh","zh-$CFG[_CHAR_ENCODE]"),
      "pl"  => array("polski","pl-$CFG[_CHAR_ENCODE].inc.php", "pl","pl-$CFG[_CHAR_ENCODE]"),
-     "pt"  => array("português","pt-$CFG[_CHAR_ENCODE].inc.php", "pt","ptbr-$CFG[_CHAR_ENCODE]"),
+     "pt-BR"  => array("português (Brasil)","pt-BR-$CFG[_CHAR_ENCODE].inc.php", "pt-BR","ptBR-$CFG[_CHAR_ENCODE]"),
+     "pt-PT"  => array("português (Portugal)","pt-PT-$CFG[_CHAR_ENCODE].inc.php", "pt-PT","ptPT-$CFG[_CHAR_ENCODE]"),
      "ru"  => array("Pусский","ru-$CFG[_CHAR_ENCODE].inc.php", "ru","ru-$CFG[_CHAR_ENCODE]")
     );
 

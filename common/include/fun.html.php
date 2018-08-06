@@ -2147,7 +2147,7 @@ function HTMLjsInclude(){
 
 if (isset($_SESSION[$_SESSION["CFGURL"]]["ssuser_nivel"]) && ($_SESSION[$_SESSION["CFGURL"]]["ssuser_nivel"]>0)){
 //<!-- Load TinyMCE -->
- $rows.='<script type="text/javascript" src="'.T3_WEBPATH.'tiny_mce4/tinymce.min.js"></script>';
+ $rows.='<script type="text/javascript" src="'.T3_WEBPATH.'tinymce/tinymce.min.js"></script>';
 //<!-- /TinyMCE -->
 
  $rows.='	<link type="text/css" href="'.T3_WEBPATH.'jq/theme/ui.all.css" media="screen" rel="stylesheet" />
