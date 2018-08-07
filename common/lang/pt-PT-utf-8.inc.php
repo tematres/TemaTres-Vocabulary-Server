@@ -41,7 +41,7 @@ define("LABEL_Opciones","Opcões");
 define("LABEL_Admin","Administracão");
 define("LABEL_Agregar","Adicionar");
 define("LABEL_editT","Editar termo ");
-define("LABEL_EditorTermino","Editor de termo");
+define("LABEL_EditorTermino","Editor de termos");
 define("LABEL_Termino","Termo");
 define("LABEL_NotaAlcance","Nota explicativa");
 define("LABEL_AgregarT","Novo termo subordinado");
