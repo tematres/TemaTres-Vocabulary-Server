@@ -173,7 +173,7 @@ define("LABEL_terminoLibre","free term");
 /* v 9.5 */
 define("LABEL_URL_busqueda","Search %s in: ");
 /* v 9.6 */
-define("LABEL_relacion_vocabulario","Begriff aus einem anderen Thesaurus finden und verknüpfen mit");
+define("LABEL_relacion_vocabulario","Begriff aus einem anderen Thesaurus finden und verknüpfen mit ");
 define("FORM_LABEL_relacion_vocabulario","equivalence");
 define("FORM_LABEL_nombre_vocabulario","Interner Thesaurus");
 define("LABEL_vocabulario_referencia","Interner Thesaurus");
