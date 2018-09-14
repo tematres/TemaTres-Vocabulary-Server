@@ -4,7 +4,7 @@
 
 *TemaTres : aplicación para la gestión de vocabularios controlados*
 
-Copyright (C) 2004-2013 Diego Ferreyra tematres@r020.com.ar
+Copyright (C) 2004-2018 Diego Ferreyra tematres@r020.com.ar
 released under the licence GNU General Public License, Version 2 (GPLv2), June 1991. Free Software Foundation
 This is the file LEAME.TXT
 
