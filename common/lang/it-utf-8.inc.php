@@ -1,20 +1,23 @@
 <?php
-#   TemaTres : applicazione per la gestione di linguaggi documentali #       #
-#   Author for this i18n: Andrea Garelli - revisione 2013: Paolo Plini
+#   TemaTres: open source thesaurus management #       #
+#                                                                        #
+#   Copyright (C) 2004-2018 Diego Ferreyra <tematres@r020.com.ar>
 #   Distribuido bajo Licencia GNU Public License, versión 2 (de junio de 1.991) Free Software Foundation
-#
+#   Translation: Community collaborative translation https://crowdin.com/project/tematres
 #
 ###############################################################################################################
 #
 define("LANG","it");
-define("TR_acronimo","RT");   // conforme iso 2788
-define("TE_acronimo","NT");   // conforme iso 2788
-define("TG_acronimo","BT");   // conforme iso 2788
-define("UP_acronimo","UF");   // conforme iso 2788
+define("TR_acronimo","RT"); /* Related Term */
+define("TE_acronimo","NT"); /* Narrower term > Specific term */
+define("TG_acronimo","BT"); /* Broader term > Generic term */
+define("UP_acronimo","UF"); /* Used for > instead */
 define("TR_termino","Termine associato ");
 define("TE_termino","Termine pi&ugrave; specifico ");
 define("TG_termino","Termine pi&ugrave; generico ");
-define("UP_termino","Usa per ");
+define("UP_termino","Usa per "); /* A term with this symbol is followed by non preferred terms (non descriptors) */
+/* v 9.5 */
+define("USE_termino","USE"); /* A term with this symbol is followed by a preferred term (descriptor) */
 define("MENU_ListaSis","Elenco sistematico");
 define("MENU_ListaAbc","Elenco alfabetico");
 define("MENU_Sobre","Info...");
@@ -27,9 +30,9 @@ define("MENU_AgregarT","Aggiungi termine");
 define("MENU_EditT","Modifica termine");
 define("MENU_BorrarT","Cancella termine");
 define("MENU_AgregarTG","Termine pi&ugrave; generico (BT)");
-define("MENU_AgregarTE","Termine pi&ugrave; specifico (NT)");
+define("MENU_AgregarTE","Termine piú specifico (NT)");
 define("MENU_AgregarTR","Termine associato (RT)");
-define("MENU_AgregarUP","Termine non preferito (UF)");
+define("MENU_AgregarUP","Termine non preferito (UF)");  /* Non-descriptor */
 define("MENU_MisDatos","Il mio accesso");
 define("MENU_Caducar","Disabilita");
 define("MENU_Habilitar","Abilita");
@@ -42,12 +45,12 @@ define("LABEL_editT","Modifica termine");
 define("LABEL_EditorTermino","Editor termini");
 define("LABEL_Termino","Termine");
 define("LABEL_NotaAlcance","Nota");
+define("LABEL_EliminarTE","Cancella termine");
 define("LABEL_AgregarT","Aggiungi termine");
 define("LABEL_AgregarTG","Aggiungi termine pi&ugrave; generico a %s ");
 define("LABEL_AgregarTE","Nuovo termine pi&ugrave; specifico di ");
 define("LABEL_AgregarUP","Nuovo termine non preferito di ");
 define("LABEL_AgregarTR","Collega termine associato a ");
-define("LABEL_EliminarTE","Cancella termine");
 define("LABEL_Detalle","Dettagli");
 define("LABEL_Autor","Autore");
 define("LABEL_URI","URI");
@@ -67,10 +70,10 @@ define("LABEL_Cambiar","Modifica");
 define("LABEL_Anterior","Indietro");
 define("LABEL_AdminUser","Gestione utenti");
 define("LABEL_DatosUser","Dati utenti");
-define("LABEL_Acciones","Attivit&agrave;");
+define("LABEL_Acciones","Attivitá");
 define("LABEL_verEsquema","Mostra schema");
 define("LABEL_actualizar","Aggiorna");
-define("LABEL_terminosLibres","termini liberi");
+define("LABEL_terminosLibres","termini liberi"); /* 'Free term' usually refers to a term from the natural language, and thus not controlled. This is not exactly what 'termino libre' means in TemaTres. Note: 'orphan' is not good either as it means 'not preferred' */
 define("LABEL_busqueda","Cerca");
 define("LABEL_borraRelacion","Cancella relazione");
 define("MSG_ResultBusca","termini trovati per la ricerca ");
@@ -165,12 +168,10 @@ $MONTHS=array("01"=>"Gen",
 define("LABEL_SI","SI");
 define("LABEL_NO","NO");
 define("FORM_LABEL_jeraquico","poligerarchico");
-define("LABEL_jeraquico","Poligerarchico");
+define("LABEL_jeraquico","Poligerarchico"); /* Polyhierarchical relationship */
 define("LABEL_terminoLibre","Termine libero");
 /* v 9.5 */
 define("LABEL_URL_busqueda","Cerca %s in: ");
-/* v 9.5 */
-define("USE_termino","USE");
 /* v 9.6 */
 define("LABEL_relacion_vocabulario","Relazione con altro vocabolario");
 define("FORM_LABEL_relacion_vocabulario","equivalenza");
@@ -183,30 +184,22 @@ define("LABEL_tipo_vocabulario","tipo");
 define("LABEL_termino_equivalente","Equivale");
 define("LABEL_termino_parcial_equivalente","Equivale parzialmente");
 define("LABEL_termino_no_equivalente","Non equivale");
-define("EQ_acronimo","EQ");
-define("EQP_acronimo","EQP");
-define("NEQ_acronimo","NEQ");
+define("EQ_acronimo","EQ"); /* Exact equivalence > inter-language synonymy */
+define("EQP_acronimo","EQP"); /* Partial equivalence > inter-language quasi-synonymy with a difference in specificity*/
+define("NEQ_acronimo","NEQ"); /*  Non-equivalence */
 define("LABEL_NC","Nota del compilatore");
 define("LABEL_resultados_suplementarios","Risultati supplementari");
 define("LABEL_resultados_relacionados","Risultati associati");
-// define("MENU_NuevoVocabularioReferencia","Nuovo vocabolario di supporto");
 /* v 9.7 */
 define("LABEL_export","esporta");
 define("FORM_LABEL_format_export","seleziona formato");
-define("LABEL_siteMap","Mappa del sito");
-define("LABEL_TotalTopicMap","Thesaurus completo in TopicMaps");
 /* v 1.0 */
 define("LABEL_fecha_creacion","creato il");
-// define("NB_acronimo","BN");
-// define("NH_acronimo","HN");
-// define("NA_acronimo","SN");
-// define("NP_acronimo","PN");
-// define("NC_acronimo","CN");
-define("NB_acronimo","NB");  // nota bibliografica
-define("NH_acronimo","NS");  // nota storica
-define("NA_acronimo","SN");  // nota d'ambito - scope note
-define("NP_acronimo","NP");  // nota privata
-define("NC_acronimo","NC");  // nota compilatore
+define("NB_acronimo","NB"); /* Bibliographic note */
+define("NH_acronimo","NS"); /* Historical note */
+define("NA_acronimo","SN"); /* Scope or Explanatory note */
+define("NP_acronimo","NP"); /* Private note */
+define("NC_acronimo","NC"); /* Cataloger's note */
 define("LABEL_Candidato","termine proposto");
 define("LABEL_Aceptado","termine accettato");
 define("LABEL_Rechazado","termine rifiutato");
@@ -217,6 +210,7 @@ define("LABEL_Aceptados","termini accettati");
 define("LABEL_Rechazados","termini rifiutati");
 define("LABEL_User_NoHabilitado","non abilitato");
 define("LABEL_User_Habilitado","abilitato");
+
 define("LABEL_CandidatearTermino","proporre il termine");
 define("LABEL_AceptarTermino","accetta termine");
 define("LABEL_RechazarTermino","rifiuta termine");
@@ -235,6 +229,27 @@ define("MSG_minCharSerarch","L'espressione di ricerca <i>%s</i> ha solo <strong>
 /* v 1.04 */
 define("LABEL_terminoExistente","termine esistente");
 define("HELP_variosTerminos","Per aggiungere termini contemporaneamente incarna <strong>una parola per linea</strong>.");
+/* Install messages */
+define("FORM","Form") ;
+define("ERROR","Error") ;
+define("LABEL_bienvenida","Welcome to TemaTres Vocabulary Server") ;
+// COMMON SQL
+define("PARAM_SERVER","Server address") ;
+define("PARAM_DBName","Database name") ;
+define("PARAM_DBLogin","Database User") ;
+define("PARAM_DBPass","Database Password") ;
+define("PARAM_DBprefix","Prefix tables") ;
+$install_message[101] = 'TemaTres Setup' ;
+$install_message[201] = 'Can not find the file configuration for the database connection (%s).';
+$install_message[202] = 'File configuration for the database connection found.';
+$install_message[203] = 'Unable to connect to database server <em>%s</em> with the user <em>%s</em>. Please check your file configuration for the database connection (%s).';
+$install_message[204] = 'Connection to Server <em>%s</em> successful ';
+$install_message[205] = 'Unable to connect to database <em>%s</em> in server <em>%s</em>. Please check your file configuration for the database connection (%s).';
+$install_message[206] = 'Connection to database <em>%s</em> in server <em>%s</em> successful.' ;
+$install_message[301] = 'Whoops... There is already a TemaTres instance for the configuration. Please check your file configuration for the database connection (%s) or <a href="index.php">Enjoy your Vocabulary Server</a>' ;
+$install_message[305] = 'Checking Security password.' ;
+$install_message[306] = 'Setup is completed, <a href="index.php">Enjoy your Vocabulary Server</a>' ;
+/* end Install messages */
 /* v 1.1 */
 define('MSG_ERROR_CODE',"codice non valido");
 define('LABEL_CODE',"codice");
@@ -259,7 +274,7 @@ define("IMPORT_do_it","&Egrave; possibile iniziare l'importazione") ;
 define("IMPORT_working","importazione in corso") ;
 define("IMPORT_finish","importazione completata") ;
 define("LABEL_reIndice","ricreare gli indici") ;
-define("LABEL_dbMantenimiento","manutenzione database");
+define("LABEL_dbMantenimiento","manutenzione database");  /* Used as menu entry. Keep it short */ 
 /*
 v 1.2
 */
@@ -277,9 +292,9 @@ define('LABEL_notFound',"termine non trovato");
 define('LABEL_termUpdated',"termine aggiornato");
 define('LABEL_ShowTargetTermforUpdate',"aggiorna");
 define('LABEL_relbetweenVocabularies',"relazione tra vocabolari");
-define('LABEL_update1_1x1_2',"Aggiorna Tematres (1.1 -> 1.3)");
+define('LABEL_update1_1x1_2',"Aggiorna (1.1 -> 1.3)");
 define('LABEL_update1x1_2',"Aggiorna Tematres (1.0x -> 1.3)");
-define('LABEL_TargetTerm',"mapping terminologico)");
+define('LABEL_TargetTerm',"mapping terminologico");
 define('LABEL_TargetTerms',"termini (mapping terminologico)");
 define('LABEL_seleccionar','seleziona');
 define('LABEL_poliBT','pi&ugrave; di un broader term');
@@ -304,7 +319,7 @@ define('IMPORT_skos_form_label','File Skos-Core');
 /*
 v1.4
 */
-define('LABEL_termsxNTterms','Narrower terms x termine');
+define('LABEL_termsxNTterms','Narrower terms x term');
 define('LABEL_termsNoBT','Termini senza relazioni gerarchiche');
 define('MSG_noTermsNoBT','Non ci sono termini senza relazioni gerarchiche');
 define('LABEL_termsXcantWords','numero di parole x termine');
@@ -385,24 +400,24 @@ define('LABEL_user_lost_password',' Password smarrita?');
 ## v1.7
 define('LABEL_includeMetaTerm','Include meta-terms');
 define('NOTE_isMetaTerm','Is a meta-term.');
-define('NOTE_isMetaTermNote','A Meta-term is a term that can\'t be use in indexing process. Is a term to describe others terms. Ej: Guide terms, Facets, Categories, etc.');
+define('NOTE_isMetaTermNote','A Meta-term is a term that can\'t be used in the indexing process. It is a term to describe others terms. For example: Guide terms, Facets, Categories, etc.');
 define('LABEL_turnOffMetaTerm','Is not a meta-term');
 define('LABEL_turnOnMetaTerm','Is a meta-term');
 define('LABEL_meta_term','meta-term');
 define('LABEL_meta_terms','meta-terms');
 define('LABEL_relatedTerms','related terms');
-define('LABEL_nonPreferedTerms','non preferred terms');
-define('LABEL_update1_6x1_7','Update TemaTres (1.6 -> 2.2)');
+define('LABEL_nonPreferedTerms','termini non preferiti');
+define('LABEL_update1_6x1_7','Update (1.6 -> 2.2)');
 define('LABEL_include_data','include');
 define('LABEL_updateEndpoint','update SPARQL endpoint');
 define('MSG__updateEndpoint','The data will be updated to be exposed in SPARQL endpoint. This operation may take several minutes.');
 define('MSG__updatedEndpoint','The SPARQL endpoint is updated.');
 define('MSG__dateUpdatedEndpoint','Last updated of SPARQL endpoint');
 define('LABEL__ENABLE_SPARQL','You must update the SPARQL endpoint: Menu -> Administration -> Database maintance -> Update SPARQL endpoint.');
-define('MSG__disable_endpoint','The SPARQL endpoint is disable.');
-define('MSG__need2setup_endpoint','The SPARQL endpoint need to be updated. Please contact to the administrator.');
+define('MSG__disable_endpoint','The SPARQL endpoint is disabled.');
+define('MSG__need2setup_endpoint','The SPARQL endpoint needs to be updated. Please contact the administrator.');
 define('LABEL_SPARQLEndpoint','SPARQL endpoint');
-define('LABEL_AgregarRTexist','Select terms to link as related term with');
+define('LABEL_AgregarRTexist','Select terms to link as related term with ');
 define('MENU_selectExistTerm','select existing term');
 define("TT_terminos","top terms");
 ## v1.72
@@ -410,7 +425,7 @@ define('MSG__warningDeleteTerm','Il termine <i>%s</i> sarà <strong>cancellato</
 define('MSG__warningDeleteTerm2row','Saranno cancellate <strong>tutte</strong> le sue note e le relazioni terminologiche.');
 ## v1.8
 define('LABEL__getForRecomendation','get for recommendations');
-define('LABEL__getForRecomendationFor','get for recommendations to');
+define('LABEL__getForRecomendationFor','get for recommendations to ');
 define('FORM_LABEL__contactMail','contact mail');
 define('LABEL_addMapLink','add mapping between vocabularies');
 define('LABEL_addExactLink','add reference link');
@@ -419,7 +434,7 @@ define('LABEL_addSourceNote','add source note');
 define('LABEL_FORM_mappedTermReport','Relationships between vocabularies');
 define('LABEL_eliminar','Delete');
 ##v.2
-define('MSG_termsNoDeleted','the terms was deleted');
+define('MSG_termsNoDeleted','the terms were not deleted');
 define('MSG_termsDeleted','deleted terms');
 define('LABEL_selectAll','select all');
 define('LABEL_metadatos','metadata');
@@ -432,10 +447,10 @@ define('LABEL_helpSearchFreeTerms','Only free terms.');
 define('LABEL_broatherTerms','broader Terms');
 define('LABEL_type2filter','type to filter the terms');
 define('LABEL_defaultEQmap','Type "eq" to define equivalence relationship');
-define("MSG_repass_error","the passwords are not matched");
-define("MSG_lengh_error","please type at least %d caracteres");
-define("MSG_errorPostData","A mistake was detected, Please review the data to the field");
-define('LABEL_preferedTerms','preferred terms');
+define("MSG_repass_error","the passwords do not match");
+define("MSG_lengh_error","please type at least %d characters");
+define("MSG_errorPostData","A mistake was detected, Please review the data to the field ");
+define('LABEL_preferedTerms','preferred terms');   /* Descriptor */
 define('LABEL_FORM_NULLnotesTermReport','terms WITHOUT notes');
 define('MSG_FORM_NULLnotesTermReport','terms without note type');
 define('LABELnoNotes','terms that have no note');
@@ -445,12 +460,12 @@ define('LABEL_cantTerms','# of terms');
 define('LINK_publicKnownVocabularies','<a href="http://www.vocabularyserver.com/vocabularies/" title="List of enabled vocabularies" target="_blank">List of enabled vocabularies</a>');
 define('LABEL_showNewsTerm','show recent changes');
 define('LABEL_newsTerm','recent changes');
-define('MSG_contactAdmin','contact to the administrator');
+define('MSG_contactAdmin','contact the administrator');
 define('LABEL_addTargetVocabulary','add external vocabularies (terminological web services)');
 #v.2.1
 define('LABEL_duplicatedTerm','duplicated term');
 define('LABEL_duplicatedTerms','duplicated terms');
-define('MSG_duplicatedTerms','The configuration of the vocabulary not allow duplicate terms.');
+define('MSG_duplicatedTerms','The configuration of the vocabulary does not allow duplicate terms.');
 define('LABEL_bulkReplace','bulk editor (search and replace)');
 define('LABEL_searchFor','string to search and replace');
 define('LABEL_replaceWith','replace with');
@@ -466,7 +481,7 @@ define('MSG_replaceWith','Input text you want to replace with (case sensitive)')
 define('LABEL_warningBulkEditor','You will modify data massively. These actions are irreversible!');
 define('LABEL_CFG_SUGGESTxWORD','suggest terms by words or phrases?');
 define('LABEL_ALLOW_DUPLICATED','enable duplicate terms?');
-define('LABEL_CFG_PUBLISH','Is the vocabulary can be consulted by anyone?');
+define('LABEL_CFG_PUBLISH','Publish the vocabulary so anyone can view it?');
 define('LABEL_Replace','replace');
 define('LABEL_Preview','preview');
 #v.2.2
@@ -475,17 +490,25 @@ define('LABEL_withSelected','with selected terms:');
 define('LABEL_rejectTerms','reject terms');
 define('LABEL_doMetaTerm','turn to meta-terms');
 define('LABEL_associateFreeTerms','associate as UF,NTE or RT');
-define('MSG_associateFreeTerms','en el siguiente paso podrá seleccionar el tipo de relación.');
+define('MSG_associateFreeTerms','in the next step you can select the type of relationship.');
 define('MSG_termsSuccessTask','terms affected by the process');
 define('LABEL_TTTerms','top terms');
 define('MSG__GLOSSincludeAltLabel','include alternative terms');
 define('MSG__GLOSSdocumentationJSON','You can add Glossary to any HTML content using this JSON file with <a href="https://github.com/PebbleRoad/glossarizer" target="_blank" title="Glossarizer">Glossarizer</a>');
 define('LABEL_configGlossary','export source file for glossary');
-define('MSG_includeNotes','use note type:');
-define('LABEL_SHOW_RANDOM_TERM','presentar en la página de inicio un término seleccionado al azar. Se debe seleccionar un tipo de nota.');
-define('LABEL_opt_show_rando_term','show terms with type note::');
+define('MSG_includeNotes','use type note:');
+define('LABEL_SHOW_RANDOM_TERM','Show a randomly selected term on the home page.  You must select the type of term to show.');
+define('LABEL_opt_show_rando_term','show terms with type note:');
 define('MSG_helpNoteEditor','You can link terms using double brackets. Ex: Only [[love]] will save the world');
-define('LABEL_GLOSS_NOTES','Select which note type will be used to enrich (glossary) the terms who are marked with double brackets : [[glossary]]');
+define('LABEL_GLOSS_NOTES','Select which type note will be used to enrich (glossary) the terms who are marked with double brackets : [[glossary]]');
+define('LABEL_bulkGlossNotes','type note to gloss');
+define('MSG__autoGlossInfo','This process will create wiki links between terms from the vocabulary with the terms found in notes (Ex: Only [[love]] will save the world). Is <strong>case sensitive</strong> search and replace operation.');
+define('MSG__autoGlossDanger','This process is IRREVERSIBLE. Please create a backup before proceeding.');
+define('LABEL_replaceBinary','case sensitive');
+define('MSG_notesAffected','affected notes');
+define('MSG_cantTermsFound','terms found');
+define('MENU_glossConfig','config auto-gloss'); /* Used as menu entry. Keep it short */ 
+define('LABEL_generateAutoGlossary','auto-gloss generation');
 define('LABEL_AlphaPDF','alphabetic (PDF)');
 define('LABEL_SystPDF','systematic (PDF)');
 define('LABEL_references','references');
@@ -499,4 +522,10 @@ define('LABEL_close','close');
 define('LABEL_allTerms','all terms');
 define('LABEL_allNotes','all notes');
 define('LABEL_allRelations','all terms relations');
+// Translation versioning
+define('LABEL_i18n_MasterDate','2018-09-12'); /* Master language file creation date (YYYY-MM-DD). Do not translate */
+define('LABEL_i18n_MasterVersion','3.0.03'); /* Master language file version. Do not translate */
+define('LABEL_i18n_TranslationVersion','01'); /* Translation language file version. Will be used after the master version number. Can be changed to track minor changes to your translation file */
+define('LABEL_i18n_TranslationAuthor','Community translation for TemaTres.'); /* Do not include emails or personal details */
+
 ?>

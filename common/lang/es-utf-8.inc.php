@@ -1,21 +1,23 @@
 <?php
-#   TemaTres : aplicación para la gestión de lenguajes documentales #       #
+#   TemaTres: open source thesaurus management #       #
 #                                                                        #
+#   Copyright (C) 2004-2018 Diego Ferreyra <tematres@r020.com.ar>
 #   Distribuido bajo Licencia GNU Public License, versión 2 (de junio de 1.991) Free Software Foundation
-#   #
+#   Translation: Community collaborative translation https://crowdin.com/project/tematres
+#
 ###############################################################################################################
 #
 define("LANG","es");
-define("TR_acronimo","TR");
-define("TE_acronimo","TE");
-define("TG_acronimo","TG");
-define("UP_acronimo","UP");
+define("TR_acronimo","TR"); /* Related Term */
+define("TE_acronimo","TE"); /* Narrower term > Specific term */
+define("TG_acronimo","TG"); /* Broader term > Generic term */
+define("UP_acronimo","UP"); /* Used for > instead */
 define("TR_termino","Término relacionado");
 define("TE_termino","Término específico");
 define("TG_termino","Término general");
-define("UP_termino","Usados por");
+define("UP_termino","Usados por"); /* A term with this symbol is followed by non preferred terms (non descriptors) */
 /* v 9.5 */
-define("USE_termino","USE");
+define("USE_termino","USE"); /* A term with this symbol is followed by a preferred term (descriptor) */
 define("MENU_ListaSis","Lista sistemática");
 define("MENU_ListaAbc","Lista alfabética");
 define("MENU_Sobre","Sobre...");
@@ -30,7 +32,7 @@ define("MENU_BorrarT","eliminar término");
 define("MENU_AgregarTG","subordinar a un término");
 define("MENU_AgregarTE","término subordinado");
 define("MENU_AgregarTR","término relacionado");
-define("MENU_AgregarUP","término equivalente");
+define("MENU_AgregarUP","término equivalente");  /* Non-descriptor */
 define("MENU_MisDatos","Mis datos");
 define("MENU_Caducar","Caducar");
 define("MENU_Habilitar","Habilitar");
@@ -43,14 +45,13 @@ define("LABEL_editT","Modificar término ");
 define("LABEL_EditorTermino","Editor de término");
 define("LABEL_Termino","Término");
 define("LABEL_NotaAlcance","Nota de alcance");
+define("LABEL_EliminarTE","Eliminar término");
 define("LABEL_AgregarT","Alta de término");
-define("LABEL_AgregarTG","Subordinar %s a término superior");
+define("LABEL_AgregarTG","Subordinar %s a término superior ");
 define("LABEL_AgregarTE","Alta de un término subordinado a ");
 define("LABEL_AgregarUP","Alta de un término equivalente para ");
 define("LABEL_AgregarTR","Alta de término relacionado con ");
-define("LABEL_EliminarTE","Eliminar término");
 define("LABEL_Detalle","detalles");
-define("LABEL_EditarNota","editar nota");
 define("LABEL_Autor","Autor");
 define("LABEL_URI","URI");
 define("LABEL_Version","Generado por");
@@ -72,7 +73,7 @@ define("LABEL_DatosUser","Datos del usuario");
 define("LABEL_Acciones","Acciones realizadas");
 define("LABEL_verEsquema","ver esquema");
 define("LABEL_actualizar","Actualizar");
-define("LABEL_terminosLibres","Términos libres");
+define("LABEL_terminosLibres","Términos libres"); /* 'Free term' usually refers to a term from the natural language, and thus not controlled. This is not exactly what 'termino libre' means in TemaTres. Note: 'orphan' is not good either as it means 'not preferred' */
 define("LABEL_busqueda","Búsqueda");
 define("LABEL_borraRelacion","eliminar relación");
 define("MSG_ResultBusca","término/s encontrados para la búsqueda");
@@ -119,14 +120,15 @@ define("LABEL_verDetalle","ver detalles de ");
 define("LABEL_verTerminosLetra","ver términos iniciados con ");
 define("LABEL_NB","Nota bibliográfica");
 define("LABEL_NH","Nota histórica");
-define("LABEL_NA","Nota de alcance"); /* version 0.9.1 */
-define("LABEL_NP","Nota privada");    /* version 0.9.1 */
-define("LABEL_EditorNota","Editor de notas");
+define("LABEL_NA","Nota de alcance");   /* version 0.9.1 */
+define("LABEL_NP","Nota privada"); /* version 0.9.1 */
+define("LABEL_EditorNota","Editor de notas ");
 define("LABEL_EditorNotaTermino","Notas del término ");
 define("LABEL_tipoNota","tipo de nota");
 define("FORM_LABEL_tipoNota","tipo_nota");
 define("LABEL_nota","nota");
 define("FORM_LABEL_nota","_nota");
+define("LABEL_EditarNota","editar nota");
 define("LABEL_EliminarNota","Eliminar nota");
 define("LABEL_OptimizarTablas","Optimizar tablas");
 define("LABEL_TotalZthesLine","exportar en Zthes");
@@ -166,7 +168,7 @@ $MONTHS=array("01"=>"Ene",
 define("LABEL_SI","SI");
 define("LABEL_NO","NO");
 define("FORM_LABEL_jeraquico","polijerarquia");
-define("LABEL_jeraquico","Polijerarquía");
+define("LABEL_jeraquico","Polijerarquía"); /* Polyhierarchical relationship */
 define("LABEL_terminoLibre","término libre");
 /* v 9.5 */
 define("LABEL_URL_busqueda","Buscar %s en: ");
@@ -182,24 +184,22 @@ define("LABEL_tipo_vocabulario","tipo");
 define("LABEL_termino_equivalente","equivale");
 define("LABEL_termino_parcial_equivalente","equivale parcialmente");
 define("LABEL_termino_no_equivalente","no equivale");
-define("EQ_acronimo","EQ");
-define("EQP_acronimo","EQP");
-define("NEQ_acronimo","NEQ");
+define("EQ_acronimo","EQ"); /* Exact equivalence > inter-language synonymy */
+define("EQP_acronimo","EQP"); /* Partial equivalence > inter-language quasi-synonymy with a difference in specificity*/
+define("NEQ_acronimo","NEQ"); /*  Non-equivalence */
 define("LABEL_NC","Nota de catalogación");
 define("LABEL_resultados_suplementarios","resultados suplementarios");
 define("LABEL_resultados_relacionados","resultados relacionados");
 /* v 9.7 */
 define("LABEL_export","exportar");
 define("FORM_LABEL_format_export","seleccionar formato");
-define("LABEL_siteMap","SiteMap");
-define("LABEL_TotalTopicMap","exportar en TopicMap");
 /* v 1.0 */
 define("LABEL_fecha_creacion","creado");
-define("NB_acronimo","NB");
-define("NH_acronimo","NH");
-define("NA_acronimo","NA");
-define("NP_acronimo","NP");
-define("NC_acronimo","NC");
+define("NB_acronimo","NB"); /* Bibliographic note */
+define("NH_acronimo","NH"); /* Historical note */
+define("NA_acronimo","NA"); /* Scope or Explanatory note */
+define("NP_acronimo","NP"); /* Private note */
+define("NC_acronimo","NC"); /* Cataloger's note */
 define("LABEL_Candidato","término candidato");
 define("LABEL_Aceptado","término aceptado");
 define("LABEL_Rechazado","término rechazado");
@@ -210,6 +210,7 @@ define("LABEL_Aceptados","términos aceptados");
 define("LABEL_Rechazados","términos rechazados");
 define("LABEL_User_NoHabilitado","no habilitado");
 define("LABEL_User_Habilitado","habilitado");
+
 define("LABEL_CandidatearTermino","Pasar a estado candidato");
 define("LABEL_AceptarTermino","Aceptar término");
 define("LABEL_RechazarTermino","Rechazar término");
@@ -231,22 +232,22 @@ define("HELP_variosTerminos","Para agregar varios términos a la vez consigne <s
 /* Install messages */
 define("FORM","Form") ;
 define("ERROR","Error") ;
-define("LABEL_bienvenida","Bienvenido a TemaTres...") ;
+define("LABEL_bienvenida","Bienvenido a TemaTres") ;
 // COMMON SQL
 define("PARAM_SERVER","Server address") ;
 define("PARAM_DBName","Database name") ;
 define("PARAM_DBLogin","Database User") ;
 define("PARAM_DBPass","Database Password") ;
 define("PARAM_DBprefix","Prefix tables") ;
-$install_message[101] = "Instalación de TemaTres" ;
-$install_message[201] = "No se encuentra el archivo de configuración de la base de datos (%s)." ;
-$install_message[202] = "Archivo de configuración de la base de datos encontrado." ;
-$install_message[203] = "No es posible conectar con el servidor <em>%s</em> utilizando el usuario <em>%s</em>. Por favor revise los datos del archivo de configuración de la base de datos (%s)" ;
-$install_message[204] = "Conexión con el servidor <em>%s</em> exitosa" ;
-$install_message[205] = "No es posible conectar con la base de datos <em>%s</em> en <em>%s</em>. Por favor revise los datos del archivo de configuración de la base de datos (%s)." ;
-$install_message[206] = "Conexión con la base de datos <em>%s</em> en <em>%s</em> verificada." ;
-$install_message[301] = 'Parece que las tablas ya han sido creadas para la configuración establecida. <a href="index.php">Comience a utilizar su vocabulario</a>' ;
-$install_message[305] = "Indiación acerca del grado de seguridad de la clave." ;
+$install_message[101] = 'Instalación de TemaTres' ;
+$install_message[201] = 'No se encuentra el archivo de configuración de la base de datos (%s).';
+$install_message[202] = 'Archivo de configuración de la base de datos encontrado.';
+$install_message[203] = 'No es posible conectar con el servidor <em>%s</em> utilizando el usuario <em>%s</em>. Por favor revise los datos del archivo de configuración de la base de datos (%s).';
+$install_message[204] = 'Conexión con el servidor <em>%s</em> exitosa ';
+$install_message[205] = 'No es posible conectar con la base de datos <em>%s</em> en <em>%s</em>. Por favor revise los datos del archivo de configuración de la base de datos (%s).';
+$install_message[206] = 'Conexión con la base de datos <em>%s</em> en <em>%s</em> verificada.' ;
+$install_message[301] = 'Parece que las tablas ya han sido creadas para la configuración establecida. Por favor, compruebe su configuración de archivo para la conexión de base de datos (%s) o <a href="index.php">Comience a utilizar su vocabulario</a>' ;
+$install_message[305] = 'Indiación acerca del grado de seguridad de la clave.' ;
 $install_message[306] = 'Instalación completa, <a href="index.php">comience a utilizar su vocabulario</a>' ;
 /* end Install messages */
 /* v 1.1 */
@@ -273,7 +274,7 @@ define("IMPORT_do_it","Puede iniciar la importación") ;
 define("IMPORT_working","proceso de importanción en marcha") ;
 define("IMPORT_finish","importación finalizada") ;
 define("LABEL_reIndice","Recrear índices de términos") ;
-define("LABEL_dbMantenimiento","Mantenimiento de la base de datos") ;
+define("LABEL_dbMantenimiento","Mantenimiento de la base de datos");  /* Used as menu entry. Keep it short */ 
 /*
 v 1.2
 */
@@ -285,11 +286,11 @@ define('LABEL_tvocab_tag',"etiqueta de la referencia");
 define('LABEL_tvocab_uri_service',"URL del servicio web de referencia");
 define('LABEL_targetTermsforUpdate',"términos con actualizaciones pendientes");
 define('LABEL_ShowTargetTermsforUpdate',"actualizar términos");
-define('LABEL_ShowTargetTermforUpdate',"actualizar");
 define('LABEL_enable',"habilitado");
 define('LABEL_disable',"deshabilitado");
 define('LABEL_notFound',"término no encontrado");
 define('LABEL_termUpdated',"término actualizado");
+define('LABEL_ShowTargetTermforUpdate',"actualizar");
 define('LABEL_relbetweenVocabularies',"relaciones entre vocabularios");
 define('LABEL_update1_1x1_2',"Actualizar (1.1 -> 1.3)");
 define('LABEL_update1x1_2',"Actualizar (1.0x -> 1.3)");
@@ -414,7 +415,7 @@ define('MSG__updatedEndpoint','El punto de consulta SPARQL se encuentra actualiz
 define('MSG__dateUpdatedEndpoint','Fecha de última actualización del punto de consulta SPARQL');
 define('LABEL__ENABLE_SPARQL','Deberá actualizar el punto de consulta: Menú Administración -> Mantenimiento de la base de datos -> Actualizar punto de consulta SPARQL.');
 define('MSG__disable_endpoint','El punto de consulta SPARQL se encuentra deshabilitado.');
-define('MSG__need2setup_endpoint','El punto de consulta SPARQL se necesita ser actualizado. Contacte al administrador');
+define('MSG__need2setup_endpoint','El punto de consulta SPARQL se necesita ser actualizado. Contacte al administrador.');
 define('LABEL_SPARQLEndpoint','SPARQL endpoint');
 define('LABEL_AgregarRTexist','asociar un término asociado existente con ');
 define('MENU_selectExistTerm','seleccionar término existente');
@@ -449,7 +450,7 @@ define('LABEL_defaultEQmap','Utilice "eq" para indicar relación de equivalencia
 define("MSG_repass_error","las claves no coinciden");
 define("MSG_lengh_error","mínimo de %d caracteres");
 define("MSG_errorPostData","Ha ocurrido un error, por favor revise los datos correspondiente al campo ");
-define('LABEL_preferedTerms','términos preferidos');
+define('LABEL_preferedTerms','términos preferidos');   /* Descriptor */
 define('LABEL_FORM_NULLnotesTermReport','términos SIN notas');
 define('MSG_FORM_NULLnotesTermReport','términos que no tienen notas de tipo');
 define('LABELnoNotes','términos sin ninguna nota');
@@ -483,8 +484,6 @@ define('LABEL_ALLOW_DUPLICATED','¿se permiten términos duplicados?');
 define('LABEL_CFG_PUBLISH','¿el vocabulario puede ser consultado por cualquiera?');
 define('LABEL_Replace','reemplazar');
 define('LABEL_Preview','vista previa');
-define('LABEL_Replace','reemplazar');
-define('LABEL_Preview','vista previa');
 #v.2.2
 define('LABEL_selectRelation','seleccionar relación');
 define('LABEL_withSelected','con los seleccionados:');
@@ -503,18 +502,17 @@ define('LABEL_opt_show_rando_term','presentar términos con nota:');
 define('MSG_helpNoteEditor','Puede vincular términos utilizando corchetes dobles. Ej: Sólo el [[amor]] salvará el mundo');
 define('LABEL_GLOSS_NOTES','Seleccionar tipo de nota para glosar términos marcados con corchetes dobles: [[glosario]]');
 define('LABEL_bulkGlossNotes','glosar la nota de tipo');
-define('MSG__autoGlossInfo','Este proceso vincula términos existentes en el vocabulario con sus menciones en notas utilizando la notación Wiki (Ej: <i>Sólo el [[amor]] salvará el mundo</i>). Es una operación de búsqueda y reemplazo de texto <strong>sensible a mayúsculas</strong>.');
-define('MSG__autoGlossDanger','Esta operación modifica datos de manera IRREVERSIBLE. Antes de proceder, realice un respaldo de seguridad');
+define('MSG__autoGlossInfo','Este proceso vincula términos existentes en el vocabulario con sus menciones en notas utilizando la notación Wiki (Ej: Sólo el [[amor]] salvará el mundo). Es una operación de búsqueda y reemplazo de texto <strong>sensible a mayúsculas</strong>.');
+define('MSG__autoGlossDanger','Esta operación modifica datos de manera IRREVERSIBLE. Antes de proceder, realice un respaldo de seguridad.');
 define('LABEL_replaceBinary','Sensible mayúsculas y acentos');
 define('MSG_notesAffected','notas afectadas');
 define('MSG_cantTermsFound','términos encontrados');
-define('MENU_glossConfig','configurar autoglosario');
+define('MENU_glossConfig','configurar autoglosario'); /* Used as menu entry. Keep it short */ 
 define('LABEL_generateAutoGlossary','generación de auto-glosario');
 define('LABEL_AlphaPDF','Alfabético (PDF)');
 define('LABEL_SystPDF','Sistemático (PDF)');
 define('LABEL_references','referencias');
 define('LABEL_printData','fecha de impresión');
-
 ##v.3
 define('MENU_bulkTranslate','editor multilingüe');
 define('LABEL_bulkTranslate','editor de traducciones y equivalencias');
@@ -524,4 +522,10 @@ define('LABEL_close','cerrar');
 define('LABEL_allTerms','todos los términos');
 define('LABEL_allNotes','todas las notas');
 define('LABEL_allRelations','todas las relaciones entre términos');
+// Translation versioning
+define('LABEL_i18n_MasterDate','2018-09-12'); /* Master language file creation date (YYYY-MM-DD). Do not translate */
+define('LABEL_i18n_MasterVersion','3.0.03'); /* Master language file version. Do not translate */
+define('LABEL_i18n_TranslationVersion','01'); /* Translation language file version. Will be used after the master version number. Can be changed to track minor changes to your translation file */
+define('LABEL_i18n_TranslationAuthor','Community translation for TemaTres.'); /* Do not include emails or personal details */
+
 ?>

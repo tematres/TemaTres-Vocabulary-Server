@@ -224,7 +224,7 @@ define("LABEL_Guardar","save");
 define("MENU_AgregarTEexist","Subordinate An Existing Term");
 define("MENU_AgregarUPexist","Associate An Existing Non-Preferred Term");
 define("LABEL_existAgregarUP","Add UF term to %s");
-define("LABEL_existAgregarTE","Add narrow Term to %s ");
+define("LABEL_existAgregarTE","Add narrower term to %s ");
 define("MSG_minCharSerarch","The search expression <i>%s</i> has only <strong>%s </strong> characters. Must be greater than <strong>%s</strong> characters");
 /* v 1.04 */
 define("LABEL_terminoExistente","exist term");
@@ -264,7 +264,7 @@ define('LABEL_ProfundidadTermino',"is located in deep level");
 define('LABEL_esNoPreferido',"non preferred term");
 define('LABEL_BusquedaAvanzada',"advanced search");
 define('LABEL_Todos',"all");
-define('LABEL_QueBuscar',"what search?");
+define('LABEL_QueBuscar',"what to search?");
 define("LABEL_import","import") ;
 define("IMPORT_form_legend","import thesaurus from file") ;
 define("IMPORT_form_label","file") ;
