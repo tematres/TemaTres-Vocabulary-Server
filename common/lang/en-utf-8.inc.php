@@ -1,8 +1,8 @@
 <?php
-#   TemaTres: open source thesaurus management #       #
-#                                                                        #
+#   TemaTres: open source thesaurus management
+#   Website http://www.vocabularyserver.com
 #   Copyright (C) 2004-2018 Diego Ferreyra <tematres@r020.com.ar>
-#   Distribuido bajo Licencia GNU Public License, versión 2 (de junio de 1.991) Free Software Foundation
+#   License: distributed under the GNU General Public License Version 2 (June 1991) Free Software Foundation
 #   Translation: Community collaborative translation https://crowdin.com/project/tematres
 #
 ###############################################################################################################
@@ -80,7 +80,7 @@ define("MSG_ResultBusca","term/s found for search expression");
 define("MSG_ResultLetra","Letter");
 define("MSG_ResultCambios","The changes have been made successfully.");
 define("MSG_noUser","Not a Registered User");
-define("FORM_JS_check","Pelease check the data of ");
+define("FORM_JS_check","Please check the data of ");
 define("FORM_JS_confirm","eliminate this relationship?");
 define("FORM_JS_pass","_pass");
 define("FORM_JS_confirmPass","_confirm_pass");
@@ -119,7 +119,7 @@ define("FORM_LABEL_Guardar","Save");
 define("LABEL_verDetalle","see details from ");
 define("LABEL_verTerminosLetra","see terms beginning with ");
 define("LABEL_NB","Bibliographic note");
-define("LABEL_NH","Historic note");
+define("LABEL_NH","Historical note");
 define("LABEL_NA","Scope note");   /* version 0.9.1 */
 define("LABEL_NP","Private note"); /* version 0.9.1 */
 define("LABEL_EditorNota","Notes Editor ");
@@ -137,7 +137,7 @@ define("LABEL_negrita","bold");
 define("LABEL_italica","italic");
 define("LABEL_subrayado","underline");
 define("LABEL_textarea","body notes");
-define("MSGL_relacionIlegal","Ilegal relation between terms");
+define("MSGL_relacionIlegal","Illegal relation between terms");
 /* v 9.3 */
 define("LABEL_fecha_modificacion","modified");
 define("LABEL_TotalUsuarios","total users");
@@ -204,7 +204,7 @@ define("LABEL_Candidato","candidate term");
 define("LABEL_Aceptado","accepted term");
 define("LABEL_Rechazado","rejected term");
 define("LABEL_Ultimos_aceptados","last accepted terms");
-define("MSG_ERROR_ESTADO","ilegal status");
+define("MSG_ERROR_ESTADO","illegal status");
 define("LABEL_Candidatos","candidate terms");
 define("LABEL_Aceptados","accepted terms");
 define("LABEL_Rechazados","rejected terms");
@@ -228,7 +228,7 @@ define("LABEL_existAgregarTE","Add narrower term to %s ");
 define("MSG_minCharSerarch","The search expression <i>%s</i> has only <strong>%s </strong> characters. Must be greater than <strong>%s</strong> characters");
 /* v 1.04 */
 define("LABEL_terminoExistente","exist term");
-define("HELP_variosTerminos","To add multiple terms at once please put <strong>one a term per line</strong>.");
+define("HELP_variosTerminos","To add multiple terms at once please put <strong>one term per line</strong>.");
 /* Install messages */
 define("FORM","Form") ;
 define("ERROR","Error") ;
@@ -246,8 +246,8 @@ $install_message[203] = 'Unable to connect to database server <em>%s</em> with t
 $install_message[204] = 'Connection to Server <em>%s</em> successful ';
 $install_message[205] = 'Unable to connect to database <em>%s</em> in server <em>%s</em>. Please check your file configuration for the database connection (%s).';
 $install_message[206] = 'Connection to database <em>%s</em> in server <em>%s</em> successful.' ;
-$install_message[301] = 'Whoops... There is already a TemaTres instance for the configuration. Please check your file configuration for the database connection (%s) or <a href="index.php">Enjoy your Vocabulary Server</a>' ;
-$install_message[305] = 'Checking Security password.' ;
+$install_message[301] = 'Whoops... There is already a TemaTres instance for that configuration. Please check your file configuration for the database connection (%s) or <a href="index.php">Enjoy your Vocabulary Server</a>' ;
+$install_message[305] = 'Checking security password.' ;
 $install_message[306] = 'Setup is completed, <a href="index.php">Enjoy your Vocabulary Server</a>' ;
 /* end Install messages */
 /* v 1.1 */
@@ -413,7 +413,7 @@ define('LABEL_updateEndpoint','update SPARQL endpoint');
 define('MSG__updateEndpoint','The data will be updated to be exposed in SPARQL endpoint. This operation may take several minutes.');
 define('MSG__updatedEndpoint','The SPARQL endpoint is updated.');
 define('MSG__dateUpdatedEndpoint','Last updated of SPARQL endpoint');
-define('LABEL__ENABLE_SPARQL','You must update the SPARQL endpoint: Menu -> Administration -> Database maintance -> Update SPARQL endpoint.');
+define('LABEL__ENABLE_SPARQL','You must update the SPARQL endpoint: Menu -> Administration -> Database maintenance -> Update SPARQL endpoint.');
 define('MSG__disable_endpoint','The SPARQL endpoint is disabled.');
 define('MSG__need2setup_endpoint','The SPARQL endpoint needs to be updated. Please contact the administrator.');
 define('LABEL_SPARQLEndpoint','SPARQL endpoint');
@@ -443,7 +443,7 @@ define('LABEL_altTerms','alternative terms');
 define('LABEL_narrowerTerms','more specific terms');
 define('LABEL_results','results');
 define('LABEL_showFreeTerms','free terms list');
-define('LABEL_helpSearchFreeTerms','Only free terms.');
+define('LABEL_helpSearchFreeTerms','Only free terms will be searched.');
 define('LABEL_broatherTerms','broader Terms');
 define('LABEL_type2filter','type to filter the terms');
 define('LABEL_defaultEQmap','Type "eq" to define equivalence relationship');
@@ -524,7 +524,7 @@ define('LABEL_allNotes','all notes');
 define('LABEL_allRelations','all terms relations');
 // Translation versioning
 define('LABEL_i18n_MasterDate','2018-09-12'); /* Master language file creation date (YYYY-MM-DD). Do not translate */
-define('LABEL_i18n_MasterVersion','3.0.03'); /* Master language file version. Do not translate */
+define('LABEL_i18n_MasterVersion','3.0.04'); /* Master language file version. Do not translate */
 define('LABEL_i18n_TranslationVersion','01'); /* Translation language file version. Will be used after the master version number. Can be changed to track minor changes to your translation file */
-define('LABEL_i18n_TranslationAuthor','Community translation for TemaTres.'); /* Do not include emails or personal details */
+define('LABEL_i18n_TranslationAuthor','Community translation for TemaTres'); /* Do not include emails or personal details */
 ?>
