@@ -911,6 +911,22 @@ order by rel_order,trr.value_order,lower(uf_tema),lower(bt_tema),lower(nt_tema),
 	};
 
 
+
+	#
+	# Buscador de términos iguales menos descriptivo pero más rápido
+	#
+	function SQLverTerminosRepetidosSimple($tesauro_id=1){
+		GLOBAL $DBCFG;
+		return SQL("select","tema.tema as string_term,count(*) as occurrences
+		from $DBCFG[DBprefix]tema as tema
+		where tema.tesauro_id='$tesauro_id'
+#		and tema.isMetaTerm=0
+		group by tema.tema
+		having cant_occur >1
+		order by cant_occur desc,lower(tema.tema)");	
+	};
+
+
 	#
 	# BUSCADOR DE TERMINOS especÃ­ficos de un término general
 	#
@@ -2363,17 +2379,18 @@ function SQLadvancedTermReport($array)
 		$array_where="1";
 	}
 
-	return SQLo("select","t.tema_id, $show_code t.tema,t.isMetaTerm,t.cuando as created_date,
+	return SQLo("select","c.titulo as vocab,c.idioma as lang,t.tema_id, $show_code t.tema,t.isMetaTerm,t.cuando as created_date,
 		concat(u.APELLIDO,', ',u.NOMBRES) as user_data,
 		if(t.cuando_final is null,t.cuando,t.cuando_final) last_change,
 		concat(umod.APELLIDO,', ',umod.NOMBRES) as user_data,
 	elt(field(t.estado_id,'12','13','14'),'$LABEL_Candidato','$LABEL_Aceptado','$LABEL_Rechazado') as status
 	$select
-	from $from $DBCFG[DBprefix]values v,$DBCFG[DBprefix]usuario u, $DBCFG[DBprefix]tema t
+	from $from $DBCFG[DBprefix]config c, $DBCFG[DBprefix]values v,$DBCFG[DBprefix]usuario u, $DBCFG[DBprefix]tema t
 	left join $DBCFG[DBprefix]usuario umod on t.uid_final=umod.id
 	$leftJoin
 	where t.uid=u.id
 	and t.estado_id=v.value_id
+	and t.tesauro_id=c.id
 	and v.value_type='t_estado'
 	$initial_where
 	$where
@@ -2442,12 +2459,13 @@ function SQLreportNullNotes($t_note)
 	GLOBAL $DBCFG;
 
 	if($t_note=='0'){
-		$sql=SQL("select","t.tema_id, t.tema as term, t.cuando as date_created, t.cuando_final as date_modicated,t.isMetaTerm,
+		$sql=SQL("select","c.titulo as vocab,c.idioma as lang,t.tema_id, t.tema as term, t.cuando as date_created, t.cuando_final as date_modicated,t.isMetaTerm,
 						e.value as status_term
-						from $DBCFG[DBprefix]values e,$DBCFG[DBprefix]tema t
+						from $DBCFG[DBprefix]config c,$DBCFG[DBprefix]values e,$DBCFG[DBprefix]tema t
 						left join $DBCFG[DBprefix]notas n on n.id_tema=t.tema_id
 						where
 						e.value_id=t.estado_id
+						and c.id=t.tesauro_id
 						and n.id is null
 						order by t.tema");
 	}else {
@@ -2460,13 +2478,14 @@ function SQLreportNullNotes($t_note)
 		};
 
 		if(in_array($t_note, $arrayNoteType)){
-			$sql=SQL("select","t.tema_id, t.tema as term, t.cuando as date_created, t.cuando_final as date_modicated,t.isMetaTerm,
+			$sql=SQL("select","c.titulo as vocab,c.idioma as lang,t.tema_id, t.tema as term, t.cuando as date_created, t.cuando_final as date_modicated,t.isMetaTerm,
 							e.value as status_term
-							from $DBCFG[DBprefix]values e,$DBCFG[DBprefix]tema t
+							from $DBCFG[DBprefix]config c,$DBCFG[DBprefix]values e,$DBCFG[DBprefix]tema t
 							left join $DBCFG[DBprefix]notas n on n.id_tema=t.tema_id
 							and n.tipo_nota='$t_note'
 							where
 							e.value_id=t.estado_id
+							and c.id=t.tesauro_id
 							and n.id is null
 							order by t.tema");
 		}else {
