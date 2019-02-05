@@ -451,10 +451,13 @@ function HTMLbodyTermino($array){
 	if($_SESSION[$_SESSION["CFGURL"]]["ssuser_id"]>0){
 		$body.='<h3 class="term "id="term"><span id="edit_tema'.$array["tema_id"].'" class="edit_area_term">'.$array["titTema"].'</span></h3> ' ;
 	} else{
-		$body.='<h3  class="termDefinition" data-content="'.TXTtermDefinition($array,array($_SESSION[$_SESSION["CFGURL"]]["_GLOSS_NOTES"])).'" rel="popover" data-placement="top" data-trigger="hover">'.$array["titTema"].'</h3>';
+		// Replaced by HTMLnotaPpal();
+		//$body.='<h3  class="termDefinition" data-content="'.TXTtermDefinition($array,array($_SESSION[$_SESSION["CFGURL"]]["_GLOSS_NOTES"])).'" rel="popover" data-placement="top" data-trigger="hover">'.$array["titTema"].'</h3>';
+		$body.='<h3  class="term">'.$array["titTema"].'</h3>';
 	}
 
 
+	$body.=HTMLNotaPpal($array,$editFlag);
 
 
 	$body.=HTMLshowCode($array);
@@ -776,6 +779,30 @@ function HTMLNotasTermino($array,$editFlag=0){
 		};// fin del for
 
 	};
+	return $body;
+};
+#
+# Nota principal del término
+#
+function HTMLNotaPpal($array,$editFlag=0){
+
+		foreach ($array["notas"] as $note) {
+			if($note["tipoNota"]==$_SESSION[$_SESSION["CFGURL"]]["_GLOSS_NOTES"]){
+				$body='<div class="panel card-outline-secondary" id="'.$note["tipoNota"].$note["id"].'">';
+				$tipoNota=(in_array($note["tipoNota_id"],array(8,9,10,11,15))) ? arrayReplace(array(8,9,10,11,15),array(LABEL_NA,LABEL_NH,LABEL_NB,LABEL_NP,LABEL_NC),$array[notas][tipoNota_id]) : $array[notas][tipoNotaLabel];
+				//idioma de la nota
+				//Rellenar si esta vacio
+				$note["lang_nota"]=(!$note["lang_nota"]) ? $_SESSION["CFGIdioma"] : $note["lang_nota"];
+
+				//no mostrar si es igual al idioma del vocabulario
+				$label_lang_nota=($note["lang_nota"]==$_SESSION["CFGIdioma"]) ? '' : ' ('.$note["lang_nota"].')';
+
+					$body.='<p class="panel-body"> '.wiki2link($note["nota"]).'</p>';
+					//					$body.='<dt>'.$tipoNota.$label_lang_nota.'</dt><dd> '.wiki2html($note["nota"]).'</dd>';
+				$body.='</div>';					
+				}			
+			}// fin del foreac		
+
 	return $body;
 };
 
@@ -2446,4 +2473,90 @@ function HTMLsimpleForeignTerm($arrayTerm,$URL_ttermData){
 
 return array("BTrows"=>$BTrows,"NTrows"=>$NTrows,"RTrows"=>$RTrows,"UFrows"=>$UFrows);
 }
+
+
+#Summary about vocabulary
+function HTMLsummary(){
+
+	GLOBAL $CFG;
+
+	$resumen=ARRAYresumen($_SESSION["id_tesa"],"G","");
+    $fecha_crea=do_fecha($_SESSION["CFGCreacion"]);
+    $fecha_mod=do_fecha($_SESSION["CFGlastMod"]);
+    $ARRAYmailContact=ARRAYfetchValue('CONTACT_MAIL');
+/*
+   	$_SESSION["CFGContributor"]
+	$_SESSION["CFGRights"]
+	$_SESSION["CFGPublisher"]
+*/
+
+
+    $rows='<h1>'.$_SESSION["CFGTitulo"].' / '.$_SESSION["CFGAutor"].'</h1>';
+
+    $rows.=' <div class="table-responsive">';
+  	$rows.='<table class="table"><tbody>';
+  	$rows.='<tr><th>'.ucfirst(LABEL_URI).'</th><td>'.$_SESSION["CFGURL"].'</td></tr>';
+  	if($_SESSION["CFGContributor"])	$rows.='<tr><th>'.ucfirst(LABEL_Contributor).'</th><td>'.$_SESSION["CFGContributor"].'</td></tr>';
+	
+  	$rows.='<tr><th>'.ucfirst(LABEL_Idioma).'</th><td>'.$_SESSION["CFGIdioma"].'</td></tr>';
+  	$rows.='<tr><th>'.ucfirst(LABEL_lastChangeDate).'</th><td>'.$fecha_crea["dia"].'/'.$fecha_crea["mes"].'/'.$fecha_crea["ano"].'</td></tr>';
+  	$rows.='<tr><th>'.ucfirst(LABEL_Fecha).'</th><td>'.$fecha_mod["dia"].'/'.$fecha_mod["mes"].'/'.$fecha_mod["ano"].'</td></tr>';
+
+  	if($ARRAYmailContact["value"])	$rows.='<tr><th>'.ucfirst(FORM_LABEL__contactMail).'</th><td>'.$ARRAYmailContact["value"].'</td></tr>';
+
+  	$rows.='<tr><th>'.ucfirst(LABEL_Keywords).'</th><td>'.$_SESSION["CFGKeywords"].'</td></tr>';
+  	$rows.='<tr><th>'.ucfirst(LABEL_Cobertura).'</th><td>'.$_SESSION["CFGCobertura"].'</td></tr>';
+
+  	if($_SESSION["CFGPublisher"])	$rows.='<tr><th>'.ucfirst(LABEL_Publisher).'</th><td>'.$_SESSION["CFGPublisher"].'</td></tr>';
+  	if($_SESSION["CFGRights"])	$rows.='<tr><th>'.ucfirst(LABEL_Rights).'</th><td>'.$_SESSION["CFGRights"].'</td></tr>';
+  	
+
+
+  	//terms stats
+  	$rows.='<tr><th>'.ucfirst(LABEL_Terminos).'</th><td>'.$resumen["cant_total"];
+
+  	$rows.=' <a class="label label-info" href="'.URL_BASE.'index.php?s=n" title="'.ucfirst(LABEL_showNewsTerm).'"><span class="glyphicon glyphicon-fire"></span> '.ucfirst(LABEL_showNewsTerm).'</a>';
+  	$rows.='<ul>';
+	if($_SESSION[$_SESSION["CFGURL"]]["CFG_VIEW_STATUS"]==1){
+		if($resumen[cant_candidato]>0){
+			$rows.='<li><a href="'.URL_BASE.'index.php?estado_id=12">'.ucfirst(LABEL_Candidato).': '.$resumen[cant_candidato].'</a></li>';
+			}
+
+		if($resumen[cant_rechazado]>0){
+			$rows.= '<li><a href="'.URL_BASE.'index.php?estado_id=14">'.ucfirst(LABEL_Rechazado).': '.$resumen[cant_rechazado].'</a></li>';
+			}
+	}
+	
+	$rows.='</ul>';
+	$rows.='</td></tr>';
+
+	  //show tree
+	  if(($_SESSION[$_SESSION["CFGURL"]]["ssuser_id"]) && ($_SESSION[$_SESSION["CFGURL"]]["_SHOW_TREE"]==1)){
+	  	$rows.='<tr><th>'.ucfirst(LABEL_termsXdeepLevel).'</th><td>'.HTMLdeepStats().'</td></tr>';
+	  }
+
+  	$rows.='<tr><th>'.ucfirst(LABEL_RelTerminos).'</th><td>'.$resumen["cant_rel"].'</td></tr>';
+  	$rows.='<tr><th>'.ucfirst(LABEL_TerminosUP).'</th><td>'.$resumen["cant_up"].'</td></tr>';
+
+	//Evaluar si hay notas
+	if (is_array($resumen["cant_notas"])){
+	  $sqlNoteType=SQLcantNotas();
+	  while ($arraySummaryNotes=$sqlNoteType->FetchRow()){
+	  		 if($arraySummaryNotes["cant"]>0){
+	  		 	$note_type=(in_array($arraySummaryNotes["value_id"],array(8,9,10,11,15))) ? arrayReplace(array(8,9,10,11,15),array(LABEL_NA,LABEL_NH,LABEL_NB,LABEL_NP,LABEL_NC),$arraySummaryNotes["value_id"]) : $arraySummaryNotes["value"];
+		 	  	$rows.='<tr><th>'.$note_type.'</th><td>'.$arraySummaryNotes["cant"].'</td></tr>';
+			  		 }
+			  };
+		}
+
+	if(CFG_ENABLE_SPARQL==1)	$rows.='<tr><th>'.ucfirst(LABEL_SPARQLEndpoint).'</th><td><a href="'.$_SESSION["CFGURL"].'sparql.php" title="'.LABEL_SPARQLEndpoint.'">'.$_SESSION["CFGURL"].'sparql.php</a></td></tr>';
+	if(CFG_SIMPLE_WEB_SERVICE==1)	$rows.='<tr><th>API</th><td><a href="'.$_SESSION["CFGURL"].'services.php" title="API">'.$_SESSION["CFGURL"].'services.php</a></td></tr>';
+
+  	$rows.='<tr><th>'.ucfirst(LABEL_Version).'</th><td><a href="http://www.vocabularyserver.com/" title="TemaTres: vocabulary server">'.$CFG["Version"].'</a></td></tr>';
+	$rows.='</tbody></table>';
+	$rows.='</div> ';
+
+return $rows;
+};
+
 ?>

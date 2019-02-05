@@ -531,3 +531,9 @@ display: inline;
     }
 
 }
+
+.breadcrumb > li + li::before {
+    padding: 0 5px;
+    color: #000;
+    content: "\2192";
+}

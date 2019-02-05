@@ -1571,12 +1571,9 @@ function ARRAYresumen($id_tesa,$tipo,$idUser=""){
 	$sql_cant_rel=SQLcantTR($tipo,$idUser);
 
 	while($cant_rel=$sql_cant_rel->FetchRow()){
-		if($cant_rel[0]=='2')
-		{
+		if($cant_rel[0]=='2'){
 			$cant_terminos_relacionados=$cant_rel[1];
-		}
-		elseif($cant_rel[0]=='4')
-		{
+		}elseif($cant_rel[0]=='4'){
 			$cant_terminos_up=$cant_rel[1];
 		};
 	};
@@ -1586,22 +1583,21 @@ function ARRAYresumen($id_tesa,$tipo,$idUser=""){
 
 
 	$sqlCantNotas=SQLcantNotas();
-	while ($arrayCantNotas=$sqlCantNotas->FetchRow())
-	{
-		$cant_notas[$arrayCantNotas[tipo_nota]] = $arrayCantNotas["cant"];
+	while ($arrayCantNotas=$sqlCantNotas->FetchRow()){
+		$cant_notas[$arrayCantNotas["tipo_nota"]] = $arrayCantNotas["cant"];
 	}
 
 
 	$ARRAYcant_term2tterm=ARRAYcant_term2tterm();
 
 	$resumen=array("cant_rel"=>$cant_terminos_relacionados,
-	"cant_up"=>$cant_terminos_up,
-	"cant_total"=>$cant_term["cant"],
-	"cant_candidato"=>$cant_term["cant_candidato"],
-	"cant_rechazado"=>$cant_term["cant_rechazado"],
-	"cant_notas"=>$cant_notas,
-	"cant_term2tterm"=>$ARRAYcant_term2tterm["cant"]
-);
+			"cant_up"=>$cant_terminos_up,
+			"cant_total"=>$cant_term["cant"],
+			"cant_candidato"=>$cant_term["cant_candidato"],
+			"cant_rechazado"=>$cant_term["cant_rechazado"],
+			"cant_notas"=>$cant_notas,
+			"cant_term2tterm"=>$ARRAYcant_term2tterm["cant"]);
+	
 return $resumen;
 };
 
