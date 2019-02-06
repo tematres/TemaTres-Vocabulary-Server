@@ -33,6 +33,7 @@ if ($_SESSION[$_SESSION["CFGURL"]][ssuser_nivel]>0){
 		height: 200,
 		extended_valid_elements: 'img[class=myclass|!src|border:0|alt|width|height]',
 		invalid_elements: 'style,script,html,body',
+		branding: false
 	});
 	<!-- /TinyMCE -->
 

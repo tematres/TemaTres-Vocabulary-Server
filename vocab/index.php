@@ -9,27 +9,18 @@
 include("config.tematres.php");
 $metadata=do_meta_tag();
  /*term reporter*/
-if(($_GET[mod]=='csv') && (substr($_GET[task],0,3)=='csv') && ($_SESSION[$_SESSION["CFGURL"]][ssuser_id]))
-{
+if(($_GET[mod]=='csv') && (substr($_GET[task],0,3)=='csv') && ($_SESSION[$_SESSION["CFGURL"]]["ssuser_id"])){
 	return wichReport($_GET[task]);
 }
 $search_string ='';
 $search_string = (doValue($_GET,FORM_LABEL_buscar)) ? XSSprevent(doValue($_GET,FORM_LABEL_buscar)) : '';
+
+echo HEADdocType($metadata);
 ?>
-<!DOCTYPE html>
-<html lang="<?php echo LANG;?>">
-  <head>
-  <?php echo HTMLheader($metadata);?>
- </head>
- <body>
-
-  <?php echo HTMLnavHeader(); ?>
-
+<body>
+  <?php echo HTMLnavHeader();   ?>
 <div id="wrap" class="container">
-
-<?php
-	require_once(T3_ABSPATH . 'common/include/inc.inicio.php');
-?>
+<?php	require_once(T3_ABSPATH . 'common/include/inc.inicio.php'); ?>
 
 </div><!-- /.container -->
 <div class="push"></div>
@@ -37,8 +28,7 @@ $search_string = (doValue($_GET,FORM_LABEL_buscar)) ? XSSprevent(doValue($_GET,F
 <div id="footer" class="footer">
 		  <div class="container">
 		    	<?php
-					 if(!$_GET["letra"])
-					 {
+					 if(!$_GET["letra"]){
 						 echo HTMLlistaAlfabeticaUnica();
 					 }
 					 ?>
@@ -47,11 +37,11 @@ $search_string = (doValue($_GET,FORM_LABEL_buscar)) ? XSSprevent(doValue($_GET,F
 				<p class="navbar-text pull-left">
 				<?php
 				//are enable SPARQL
-				if(CFG_ENABLE_SPARQL==1)				{
+				if(CFG_ENABLE_SPARQL==1){
 					echo '<a class="label label-info" href="'.URL_BASE.'sparql.php" title="'.LABEL_SPARQLEndpoint.'">'.LABEL_SPARQLEndpoint.'</a>';
 				}
 
-				if(CFG_SIMPLE_WEB_SERVICE==1)				{
+				if(CFG_SIMPLE_WEB_SERVICE==1){
 					echo '  <a class="label label-info" href="'.URL_BASE.'services.php" title="API"><span class="glyphicon glyphicon-share"></span> API</a>';
 				}
 
@@ -61,7 +51,6 @@ $search_string = (doValue($_GET,FORM_LABEL_buscar)) ? XSSprevent(doValue($_GET,F
 				</p>
 				<?php echo doMenuLang($metadata["arraydata"]["tema_id"]); ?>
 		  </div>
-
 </div>
 <?php echo HTMLjsInclude();?>
     </body>

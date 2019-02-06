@@ -784,24 +784,11 @@ function HTMLNotasTermino($array,$editFlag=0){
 #
 # Nota principal del término
 #
-function HTMLNotaPpal($array,$editFlag=0){
+function HTMLNotaPpal($array,$tema_id){
 
-		foreach ($array["notas"] as $note) {
-			if($note["tipoNota"]==$_SESSION[$_SESSION["CFGURL"]]["_GLOSS_NOTES"]){
-				$body='<div class="panel card-outline-secondary" id="'.$note["tipoNota"].$note["id"].'">';
-				$tipoNota=(in_array($note["tipoNota_id"],array(8,9,10,11,15))) ? arrayReplace(array(8,9,10,11,15),array(LABEL_NA,LABEL_NH,LABEL_NB,LABEL_NP,LABEL_NC),$array[notas][tipoNota_id]) : $array[notas][tipoNotaLabel];
-				//idioma de la nota
-				//Rellenar si esta vacio
-				$note["lang_nota"]=(!$note["lang_nota"]) ? $_SESSION["CFGIdioma"] : $note["lang_nota"];
-
-				//no mostrar si es igual al idioma del vocabulario
-				$label_lang_nota=($note["lang_nota"]==$_SESSION["CFGIdioma"]) ? '' : ' ('.$note["lang_nota"].')';
-
-					$body.='<p class="panel-body"> '.wiki2link($note["nota"]).'</p>';
-					//					$body.='<dt>'.$tipoNota.$label_lang_nota.'</dt><dd> '.wiki2html($note["nota"]).'</dd>';
-				$body.='</div>';					
-				}			
-			}// fin del foreac		
+	$body='<div class="panel card-outline-secondary"">';
+	$body.='<p class="panel-body"> '.wiki2link(extractNoteTypeConent($array,$_SESSION[$_SESSION["CFGURL"]]["_GLOSS_NOTES"],"html")).'</p>';
+	$body.='</div>';					
 
 	return $body;
 };
@@ -2072,7 +2059,7 @@ function makeGlossary($notesType=array("NA"),$params=array()){
 
 function HTMLheader($metadata){
 
- $rows='   <meta charset="utf-8">
+ $rows='<meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="'.T3_WEBPATH.'bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -2558,5 +2545,20 @@ function HTMLsummary(){
 
 return $rows;
 };
+
+
+#
+# extract note content about one type of notes for given array term metadata
+#
+function extractNoteTypeConent($metadata,$note_type,$format="txt"){
+
+	foreach ($metadata["notas"] as $notes) {
+	
+		if($notes["tipoNota"]==$note_type){
+			$note_text.=($format=='txt') ? html2txt($notes["nota"]) : $notes["nota"];	
+		} 
+	}
+	return $note_text;
+}
 
 ?>

@@ -457,6 +457,7 @@ function SQLdatosTerminoNotas($tema_id,$array_tipo_nota=array()){
 };
 
 
+
 #
 # Búsqueda de términos relacionados candidatos para un término según un string
 #
@@ -4055,6 +4056,5 @@ function SQLtermsSinceDate($sinceDate,$limit="50"){
 
 	return $sql;
 };
-
 
 ?>
