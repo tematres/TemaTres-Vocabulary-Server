@@ -459,11 +459,10 @@ function HTMLformSuggestTermsXRelations($ARRAYtermino,$ARRAYtargetVocabulary=arr
 		$rows.=HTMLalertNoTargetVocabulary();
 	} else {
 		//Hay vobularios de referencia
-		$array_vocabularios=array();
 		while($array=$sql->FetchRow()){
 			if($array[vocabulario_id]!=='1'){
 				//vocabularios que no sean el vocabulario principal
-				array_push($array_vocabularios,$array[tvocab_id].'#'.FixEncoding($array[tvocab_label]));
+				$array_vocabularios[]=$array[tvocab_id].'#'.FixEncoding($array[tvocab_label]);
 			}
 		};
 		//Configurar opcion búsqueda por código
@@ -529,10 +528,8 @@ function HTMLformSuggestTermsXRelations($ARRAYtermino,$ARRAYtargetVocabulary=arr
 		$task=($_GET["searchType"]==1) ? 'fetch' : 'search';
 		$dataTterm=getURLdata($arrayVocab["tvocab_uri_service"].'?task='.$task.'&arg='.urlencode($string2search));
 		if($dataTterm->resume->cant_result > "0")	{
-			$array_terms=array();
 			foreach ($dataTterm->result->term as $value){
-				array_push($array_terms, array("term_id"=>(int) $value->term_id,
-				"string"=>(string) $value->string));
+				$array_terms[]=array("term_id"=>(int) $value->term_id,"string"=>(string) $value->string);
 				$tterms_id.=(int) $value->term_id.',';
 			};
 		}
@@ -622,14 +619,14 @@ function HTMLformAdvancedSearch($array){
 		$LabelNP='NP#'.LABEL_NP;
 		$LabelNC='NC#'.LABEL_NC;
 		$sqlNoteType=SQLcantNotas();
-		$arrayNoteType=array();
+
 		while ($arrayNotes=$sqlNoteType->FetchRow()){
 			if($arrayNotes[cant]>0)	{
 				//nota privada no
 				if(($_SESSION[$_SESSION["CFGURL"]][ssuser_nivel]) || ($arrayNotes["value_id"]!=='11')){
 					$varNoteType=(in_array($arrayNotes["value_id"],array(8,9,10,11,15))) ? arrayReplace(array(8,9,10,11,15),array($LabelNA,$LabelNH,$LabelNB,$LabelNP,$LabelNC),$arrayNotes["value_id"]) : $arrayNotes["value_code"].'#'.$arrayNotes["value"];
 					$varNoteType.=' ('.$arrayNotes[cant].')';
-					array_push($arrayNoteType, $varNoteType);
+					$arrayNoteType[]=$varNoteType;
 				}
 			}
 		};
@@ -1086,9 +1083,8 @@ function HTMLformTargetVocabulary($tvocab_id="0"){
 	$array[tvocab_status] = (is_numeric($array[tvocab_status])) ? $array[tvocab_status] : '1';
 	$doAdmin= ($array[tvocab_id]>0) ? 'saveTargetVocabulary' : 'addTargetVocabulary';
 	// Preparado de datos para el formulario ///
-	$arrayLang=array();
 	foreach ($CFG["ISO639-1"] as $langs) {
-		array_push($arrayLang,"$langs[0]#$langs[1]");
+		$arrayLang[]=$langs[0].'#'.$langs[1];
 	};
 	//SEND_KEY to prevent duplicated
 	session_start();
@@ -1180,13 +1176,10 @@ function HTMLformAssociateTargetTerms($ARRAYtermino,$term_id="0"){
 		$rows.=HTMLalertNoTargetVocabulary();
 	} else {
 		//Hay vobularios de referencia
-		$array_vocabularios=array();
-		while($array=$sql->FetchRow())
-		{
-			if($array[vocabulario_id]!=='1')
-			{
+		while($array=$sql->FetchRow()){
+			if($array[vocabulario_id]!=='1'){
 				//vocabularios que no sean el vocabulario principal
-				array_push($array_vocabularios,$array[tvocab_id].'#'.FixEncoding($array["tvocab_label"].' - '.$CFG["ISO639-1"][$array["tvocab_lang"]][1]));
+				$array_vocabularios[]=$array[tvocab_id].'#'.FixEncoding($array["tvocab_label"].' - '.$CFG["ISO639-1"][$array["tvocab_lang"]][1]);
 			}
 		};
 		$arrayOptions=(strlen($ARRAYtermino["code"])>0) ? array('string#'.ucfirst(LABEL_string2search),'reverse#'.ucfirst(LABEL_reverseMappign),'code#'.LABEL_CODE) : array('string#'.ucfirst(LABEL_string2search),'reverse#'.ucfirst(LABEL_reverseMappign));
