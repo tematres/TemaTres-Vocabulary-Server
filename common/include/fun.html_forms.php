@@ -449,11 +449,15 @@ return $rows;
 function HTMLformSuggestTermsXRelations($ARRAYtermino,$ARRAYtargetVocabulary=array()){
 	//SEND_KEY to prevent duplicated
 	session_start();
+	
 	$_SESSION['SEND_KEY']=md5(uniqid(rand(), true));
-	$sql=SQLtargetVocabulary("1");
+	
+
 	$rows='<div class="container" id="bodyText">';
 	$rows.='<a class="topOfPage" href="'.URL_BASE.'index.php?tema='.$ARRAYtermino["idTema"].'" title="'.LABEL_Anterior.'">'.LABEL_Anterior.'</a>';
 	$rows.='<h3>'.HTMLlinkTerm(array("tema_id"=>$ARRAYtermino["idTema"],"tema"=>$ARRAYtermino["titTema"])).'</h3>';
+
+	$sql=SQLtargetVocabulary("1");
 	if(SQLcount($sql)=='0'){
 		//No hay vocabularios de referencia, solo vocabulario principal
 		$rows.=HTMLalertNoTargetVocabulary();

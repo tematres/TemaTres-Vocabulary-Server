@@ -16,7 +16,6 @@ if ($_SESSION[$_SESSION["CFGURL"]][ssuser_nivel]>0){
 	<!-- Load TinyMCE -->
 	tinymce.init({
 		selector: "textarea#<?php echo LABEL_nota;?>",
-		theme: "modern",
 		language : "<?php echo LANG;?>",
 		plugins: [
 			"advlist autolink autosave link image lists charmap preview hr anchor",
