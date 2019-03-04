@@ -453,7 +453,7 @@ function HTMLbodyTermino($array){
 	} else{
 		// Replaced by HTMLnotaPpal();
 		//$body.='<h3  class="termDefinition" data-content="'.TXTtermDefinition($array,array($_SESSION[$_SESSION["CFGURL"]]["_GLOSS_NOTES"])).'" rel="popover" data-placement="top" data-trigger="hover">'.$array["titTema"].'</h3>';
-		$body.='<h3  class="term">'.$array["titTema"].'</h3>';
+		$body.='<dfn class="term">'.$array["titTema"].'</dfn>';
 	}
 
 
