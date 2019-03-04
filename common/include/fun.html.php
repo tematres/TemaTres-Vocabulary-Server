@@ -2547,11 +2547,14 @@ return $rows;
 };
 
 
+
 #
 # extract note content about one type of notes for given array term metadata
 #
 function extractNoteTypeConent($metadata,$note_type,$format="txt"){
 
+	if(!is_array($metadata["notas"])) return;
+	
 	foreach ($metadata["notas"] as $notes) {
 	
 		if($notes["tipoNota"]==$note_type){
@@ -2560,5 +2563,4 @@ function extractNoteTypeConent($metadata,$note_type,$format="txt"){
 	}
 	return $note_text;
 }
-
 ?>
