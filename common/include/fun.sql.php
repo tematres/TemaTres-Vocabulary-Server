@@ -274,6 +274,7 @@ function SQLstartWith($texto){
 	$sql=SQL("select","if(temasPreferidos.tema_id is not null,relaciones.id_menor,tema.tema_id) id_definitivo,
 	tema.tema_id,
 	tema.tema,
+	tema.code,
 	tema.estado_id,
 	relaciones.t_relacion,
 	temasPreferidos.tema as termino_preferido,

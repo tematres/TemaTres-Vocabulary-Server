@@ -530,7 +530,7 @@ function HTMLmainMenu(){
 		$row.='<li><a title="'.ucfirst(MENU_Usuarios).'" href="admin.php?user_id=list">'.ucfirst(MENU_Usuarios).'</a></li>';
 		$row.='<li><a title="'.ucfirst(LABEL_export).'" href="admin.php?doAdmin=export">'.ucfirst(LABEL_export).'</a></li>';
 		$row.='<li><a href="admin.php?doAdmin=import" title="'.ucfirst(LABEL_import).'">'.ucfirst(LABEL_import).'</a></li>';
-		
+
 		$row.='<li class="dropdown dropdown-submenu"><a href="#" class="dropdown-toggle" data-toggle="dropdown">'.ucfirst(LABEL_dbMantenimiento).'</a>
 		<ul class="dropdown-menu">';
 		$row.='<li><a href="admin.php?doAdmin=reindex">'.ucfirst(LABEL_reIndice).'</a></li>';
@@ -1777,18 +1777,17 @@ function paginate_links( $args = '' ) {
 		/**
 		* Retorna los datos, acorde al formato de autocompleter
 		*/
-		function getData4Autocompleter($searchq,$type=1)
-		{
+		function getData4Autocompleter($searchq,$type=1){
+			
+			GLOBAL $CFG;
+			
 			$sql=($type==1) ? SQLstartWith($searchq) : SQLbuscaTerminosSimple($searchq,"15");
 
-			$arrayResponse=array("query"=>$searchq,
-			"suggestions"=>array(),
-			"data"=>array());
+			$arrayResponse=array("query"=>$searchq);
 
-			while($array=$sql->FetchRow())
-			{
-				array_push($arrayResponse["suggestions"], $array["tema"]);
-				array_push($arrayResponse["data"], $array["tema_id"]);
+			while($array=$sql->FetchRow()){
+				$string_term= (($CFG["_SHOW_CODE"]=='1') && (isset($array["code"]))) ? $array["code"].': '.$array["tema"] : $array["tema"];
+				$arrayResponse["suggestions"][]=array("value"=>$array["tema"],"data"=>$string_term);
 			}
 
 			return json_encode($arrayResponse);
@@ -2148,7 +2147,7 @@ $rows='<script type="text/javascript" src="'.T3_WEBPATH.'jq/lib/jquery-3.3.1.min
 $rows.='<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>';
 $rows.='<!-- Include all compiled plugins (below), or include individual files as needed -->
 		 
-		 <script type="text/javascript" src="'.T3_WEBPATH.'jq/jquery.autocomplete.js"></script>
+		 <script type="text/javascript" src="'.T3_WEBPATH.'jq/jquery.autocomplete.min.js"></script>
 		 <script type="text/javascript" src="'.T3_WEBPATH.'jq/jquery.mockjax.js"></script>
 		 <script type="text/javascript" src="'.T3_WEBPATH.'jq/tree.jquery.js"></script>
 

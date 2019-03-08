@@ -196,45 +196,45 @@ $(function() {
 
 var options, a;
 var onSelect = function(val, data) { $('#simple-search #id').val(data); $('#simple-search').submit(); };
+
 jQuery(function(){
 
 	function formatItem(row) {
 		return row["value"] + " (<?php echo '<strong>'.LABEL_terminoExistente.'</strong>';?>)";
 	}
 
+	function term_code(row) {
+		return row["data"];
+	}
+
 	    options = {
 		    serviceUrl:'suggest.php' ,
 		    minChars:2,
-		    delimiter: /(,|;)\s*/, // regex or character
+		    delimiter: /(,|;)\s*/, 
 		    maxHeight:400,
 		    width:600,
 		    zIndex: 9999,
-		    deferRequestBy: 0, //miliseconds
-		    noCache: false, //default is false, set to true to disable caching
-		    // callback function:
+		    deferRequestBy: 0, 
+		    formatResult: term_code,		    
+		    noCache: false, 
 		    onSelect: onSelect,
 	    	};
+
 	    a = $('#query').autocomplete(options);
 
 	    var ac = $('#addTerms').autocomplete({
 		    minChars:2,
 		    serviceUrl:'suggest.php?t=0&amp;',
-		    delimiter: /(,|;)\s*/, // regex or character
+		    delimiter: /(,|;)\s*/, 
 		    maxHeight:400,
 		    width:600,
 		    zIndex: 9999,
 		    formatResult: formatItem,
 		    delimiter: "\n",
-		    deferRequestBy: 0, //miliseconds
-		    noCache: false, //default is false, set to true to disable caching
+		    deferRequestBy: 0, 
+		    noCache: false, 
   			});
 	});
-
-
-
-/* ---------------------------- */
-/* OBSERVATORIO					*/
-/* ---------------------------- */
 
 function recargaedit(a,b,c,d){
 	document.getElementById("value").value=a;
@@ -279,8 +279,6 @@ function recargaeditRel(a,b,c,d,e){
 	document.getElementById("doAdminR").value='modUserRelations';
 	document.getElementById("alias").disabled=1;
 }
-
-
 
 
 
@@ -339,21 +337,16 @@ $(document).ready(function(){
 
 //filter table http://jsfiddle.net/giorgitbs/52ak9/1/
 $(document).ready(function () {
-
     (function ($) {
-
         $('#filter').keyup(function () {
-
             var rex = new RegExp($(this).val(), 'i');
             $('.searchable tr').hide();
             $('.searchable tr').filter(function () {
                 return rex.test($(this).text());
             }).show();
-
         })
 
     }(jQuery));
-
 });
 
 
