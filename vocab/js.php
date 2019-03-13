@@ -218,6 +218,10 @@ jQuery(function(){
 		    formatResult: term_code,		    
 		    noCache: false, 
 		    onSelect: onSelect,
+	        showNoSuggestionNotice: true,
+	        noSuggestionNotice: '<i><?php echo ucfirst(LABEL_noResults);?></i>',
+	        autoSelectFirst:true	
+
 	    	};
 
 	    a = $('#query').autocomplete(options);
