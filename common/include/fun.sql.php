@@ -933,12 +933,15 @@ order by rel_order,trr.value_order,lower(uf_tema),lower(bt_tema),lower(nt_tema),
 	# BUSCADOR DE TERMINOS especÃ­ficos de un término general
 	#
 	function SQLverTerminosE($tema_id){
-		GLOBAL $DBCFG;
+		GLOBAL $DBCFG, $CFG;
 
 		$tema_id=secure_data($tema_id,"int");
 
+		//first order by code
+		$orderBy=(["_USE_CODE"]=='1') ? "lower(tema.code)," : "" ;
+
 		//Control de estados
-		(!$_SESSION[$_SESSION["CFGURL"]]["ssuser_id"]) ? $where=" and tema.estado_id='13' " : $where="";
+		$where= (!$_SESSION[$_SESSION["CFGURL"]]["ssuser_id"]) ? " and tema.estado_id='13' " : "";
 
 		$sql=SQL("select","tema.tema_id,tema.tema_id as id_tema,
 		tema.code,
@@ -960,7 +963,7 @@ order by rel_order,trr.value_order,lower(uf_tema),lower(bt_tema),lower(nt_tema),
 		and relaciones.id_menor=tema.tema_id
 		$where
 		group by tema.tema_id
-		order by lower(tema.code),trr.value_order,lower(tema.tema)");
+		order by $orderBy trr.value_order,lower(tema.tema)");
 		return $sql;
 	};
 
@@ -1210,11 +1213,14 @@ function SQLIdTerminosValidos(){
 # Lista de términos válidos (sin UF ni términos libres)
 #
 function SQLTerminosValidos($tema_id=""){
-	GLOBAL $DBCFG;
+	GLOBAL $DBCFG, $CFG;
 
 	$tema_id=secure_data($tema_id,"int");
 
-	(@$tema_id) ? $where=" and tema.tema_id='$tema_id' " : $where="";
+	//first order by code
+	$orderBy=(["_USE_CODE"]=='1') ? "lower(tema.code),":"";
+
+	$where=(@$tema_id) ? " and tema.tema_id='$tema_id' " : "";
 
 	//Control de estados
 	(!$_SESSION[$_SESSION["CFGURL"]]["ssuser_id"]) ? $where.=" and tema.estado_id='13' " : $where=$where;
@@ -1226,7 +1232,7 @@ function SQLTerminosValidos($tema_id=""){
 	and relaciones.t_relacion!='4'
 	$where
 	group by tema.tema_id
-	order by tema.code,lower(tema.tema)");
+	order by $orderBy lower(tema.tema)");
 	return $sql;
 };
 
