@@ -229,13 +229,14 @@ jQuery(function(){
 	    var ac = $('#addTerms').autocomplete({
 		    minChars:2,
 		    serviceUrl:'suggest.php?t=0&amp;',
-		    delimiter: /(,|;)\s*/, 
 		    maxHeight:400,
 		    width:600,
 		    zIndex: 9999,
 		    formatResult: formatItem,
 		    delimiter: "\n",
 		    deferRequestBy: 0, 
+		    triggerSelectOnValidInput:false,
+		    tabDisabled: true, 
 		    noCache: false, 
   			});
 	});
