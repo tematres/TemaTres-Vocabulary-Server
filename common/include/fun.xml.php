@@ -956,6 +956,9 @@ function do_meta_tag($arrayTermino=""){
 
 	GLOBAL $CFG;
 
+
+	$titleParts[]=$_SESSION["CFGTitulo"];
+
 	//Si hay algún tema de proveniente de algún proceso
 	GLOBAL $tema;
 
@@ -969,8 +972,6 @@ function do_meta_tag($arrayTermino=""){
 	$_SESSION["CFGRights"]=$ARRAYfetchValues["dc:rights"]["value"];
 	$_SESSION["CFGPublisher"]=$ARRAYfetchValues["dc:publisher"]["value"];
 	$_SESSION["CFGlastMod"]=fetchlastMod();
-
-	$titleParts[]=$_SESSION["CFGTitulo"];
 
 	if(secure_data($tema,"digit")){
 		//Si hay tema_id desde GET o POST
@@ -1019,8 +1020,8 @@ function do_meta_tag($arrayTermino=""){
 	header ('Content-type: text/html; charset='.$page_encode.'');
 
 	$titleParts[]=$labelChangeLang;
-	arsort($titleParts);
-	$title_page=implode('. ', $titleParts);
+	
+	$title_page=substr(implode('. ', array_reverse($titleParts,true)),1);
 	
 
 	$meta_tag='<title>'.xmlentities($title_page).'</title>';
