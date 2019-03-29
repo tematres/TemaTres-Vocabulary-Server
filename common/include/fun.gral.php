@@ -944,28 +944,28 @@ function loadConfigValues($renew="0"){
 
      while ($array=$sql->FetchRow()){
 
-		switch ($array[value]){
+		switch ($array["value"]){
 			case 'CFG_MAX_TREE_DEEP':
-						$array[value_code] = (in_array($array[value_code],array(1,2,3,4,5,6))) ? $array[value_code] : $arrayCFGs[$array[value]];
+						$array["value_code"] = (in_array($array["value_code"],array(1,2,3,4,5,6))) ? $array["value_code"] : $arrayCFGs[$array["value"]];
 						break;
 
 			case 'CFG_MIN_SEARCH_SIZE':
-						$array[value_code] = (in_array($array[value_code],array(1,2,3,4,5,6))) ? $array[value_code] : $arrayCFGs[$array[value]];
+						$array["value_code"] = (in_array($array["value_code"],array(1,2,3,4,5,6))) ? $array["value_code"] : $arrayCFGs[$array["value"]];
 						break;
 
 			case 'CFG_NUM_SHOW_TERMSxSTATUS':
-						$array[value_code] = (in_array($array[value_code],array(50,100,150,200,250))) ? $array[value_code] : $arrayCFGs[$array[value]];
+						$array["value_code"] = (in_array($array["value_code"],array(50,100,150,200,250))) ? $array["value_code"] : $arrayCFGs[$array["value"]];
 				break;
 			case '_GLOSS_NOTES':
-						$array[value_code] = (!$array["value_code"]) ? $arrayCFGs[$array["value"]] : $array["value_code"] ;
+						$array["value_code"] = (!$array["value_code"]) ? $arrayCFGs[$array["value"]] : $array["value_code"] ;
 				break;
 
 			case '_SHOW_RANDOM_TERM':
-						$array[value_code] = (!$array["value_code"]) ? $arrayCFGs[$array["value"]] : $array["value_code"] ;
+						$array["value_code"] = (!$array["value_code"]) ? $arrayCFGs[$array["value"]] : $array["value_code"] ;
 				break;
 
 				default:
-				$array[value_code] = (in_array($array[value_code],array(1,0))) ? $array[value_code] : $arrayCFGs[$array[value]];
+				$array["value_code"] = (in_array($array["value_code"],array(1,0))) ? $array["value_code"] : $arrayCFGs[$array["value"]];
 			}
 
 			   $NEWarrayCFGs[$array["value"]]= $array["value_code"];

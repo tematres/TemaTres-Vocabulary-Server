@@ -15,9 +15,6 @@ $CFG["VersionWebService"]        = "1.6";
 // ID del Tesauro por DEFAULT
 $CFG["DFT_TESA"] ='1';
 
-//Config Sites availables for URL search
-$CFG["SEARCH_URL_SITES"] =array("wikipedia","Google exacto","Google scholar","Google images","Google books");
-
 // Config URI base for XML URI as identifiers. If null, use URI vocabulary
 $CFG["_URI_BASE_ID"] = '';
 
@@ -43,11 +40,10 @@ $CFG["IMP_TAG_TABULATOR"]  ='===';
 $CFG["REL_SYMBOLS"]=array("BT"=>'↑',"NT"=>'↓',"UF"=>'↸',"RT"=>'⇆');
 
 
-/*
-Define specific excluded characters from the alphabetic menu
- */
+//Define specific excluded characters from the alphabetic menu
 $CFG["_EXCLUDED_CHARS"]=array("<",">","[","]","(",")",'"',"'","|");
 
+//default values for config
 $arrayCFGs =array(	'CFG_PUBLISH'=>'1',
 					'CFG_ALLOW_DUPLICATED'=>'0',
 				 	'CFG_MAX_TREE_DEEP'=>'3',
@@ -65,7 +61,7 @@ $arrayCFGs =array(	'CFG_PUBLISH'=>'1',
 					'_PUBLISH_SKOS'=>'2',
 					'CFG_ENABLE_SPARQL'=>'0',
 				  );
-
+//list of config values registred in __values table
 $CFG["CONFIG_VAR"]=array('2','3','4','config','DATESTAMP','t_estado','t_nota','t_relacion','t_usuario','URI_TYPE','METADATA','CONTACT_MAIL');
 
 $CFG["ISO639-1"]=array(
@@ -160,10 +156,9 @@ define('CFG_NUM_SHOW_TERMSxTRAD',30);
 //enable HTML tags in web services and metadata data
 $CFG["_HTMLinDATA"]=1;
 
-##
-# Reporte de errores pero no de noticias (variables no inicializadas);
-error_reporting(E_ALL ^ E_NOTICE);
-##
+//Config Sites availables for URL search
+$CFG["SEARCH_URL_SITES"] =array("wikipedia","Google exacto","Google scholar","Google images","Google books");
+
 
 $CFG["SEARCH_URL_SITES_SINTAX"] = Array(
 	'del.icio.us' => Array(
@@ -246,4 +241,9 @@ $CFG["SEARCH_URL_SITES_SINTAX"] = Array(
 		'encode'=>TRUE
 	)
 );
+
+##
+# Reporte de errores pero no de noticias (variables no inicializadas);
+error_reporting(E_ALL ^ E_NOTICE);
+##
 ?>

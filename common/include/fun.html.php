@@ -785,8 +785,7 @@ function HTMLNotasTermino($array,$editFlag=0){
 # Nota principal del término
 #
 function HTMLNotaPpal($array,$tema_id){
-
-	$body='<div class="panel card-outline-secondary"">';
+	$body='<div class="panel card-outline-secondary">';
 	$body.='<p class="panel-body"> '.wiki2link(extractNoteTypeConent($array,$_SESSION[$_SESSION["CFGURL"]]["_GLOSS_NOTES"],"html")).'</p>';
 	$body.='</div>';					
 
