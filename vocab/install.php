@@ -20,7 +20,7 @@ $lang='';
 $tematres_lang='';
 $lang_install=(isset($_GET["lang_install"])) ? $_GET["lang_install"] : 'es';
 
-$lang = $tematres_lang=(in_array($lang_install,array('ca','de','en','es','fr','it','nl','pt'))) ? $lang_install : 'es';
+$lang = $tematres_lang=(in_array($lang_install,array('ca','de','en','es','fr','it','nl','pt-PT','pt-BR'))) ? $lang_install : 'es';
 
 	//1. check if config file exist
 	if ( !file_exists('db.tematres.php'))
