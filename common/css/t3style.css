@@ -26,7 +26,16 @@ h2.TThtml{	font-size: 20px;}
 #notas > dd{padding-top:6px;padding-bottom:6px;border-top:1px dotted #d85d5d;visibility:inherit;text-align:justify;margin:1%;}
 #notas > dt{font-weight:700;}
 
-#term{font-size:100%;margin-bottom:1px;margin-top:1px;margin-left:6mm;padding:2px;display: block;}
+
+dfn{
+font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+font-style: normal;
+font-size: 24px;
+font-weight: 500;
+line-height: 26.4px;
+margin-bottom: 10px;
+margin-top: 20px;}
+
 .clear{clear:both;}
 
 .error{background:#ffe1da url('../images/icon_error.png') 13px 50% no-repeat;border:2px solid #f34f4f;border-bottom:2px solid #f34f4f;color:#be0b0b;font-size:120%;padding:10px 11px 8px 36px;}
@@ -530,4 +539,10 @@ display: inline;
         margin-bottom: 10px;
     }
 
+}
+
+.breadcrumb > li + li::before {
+    padding: 0 5px;
+    color: #000;
+    content: "\2192";
 }

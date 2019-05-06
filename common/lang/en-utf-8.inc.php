@@ -522,9 +522,14 @@ define('LABEL_close','close');
 define('LABEL_allTerms','all terms');
 define('LABEL_allNotes','all notes');
 define('LABEL_allRelations','all terms relations');
+
 // Translation versioning
 define('LABEL_i18n_MasterDate','2018-09-12'); /* Master language file creation date (YYYY-MM-DD). Do not translate */
 define('LABEL_i18n_MasterVersion','3.0.04'); /* Master language file version. Do not translate */
 define('LABEL_i18n_TranslationVersion','01'); /* Translation language file version. Will be used after the master version number. Can be changed to track minor changes to your translation file */
 define('LABEL_i18n_TranslationAuthor','Community translation for TemaTres'); /* Do not include emails or personal details */
+
+#v.3.1
+define('LABEL_noResults','Sorry, no results');
+
 ?>

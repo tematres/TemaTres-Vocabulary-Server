@@ -147,6 +147,22 @@ if(!$ARRAYterm[tema_id])
       }
     }
 
+
+   // exampleNote
+    foreach ($skos->xpath->query('./skos:example', $node) as $defNote)
+    {
+      $value = setI18nValue($skos, $defNote);
+
+      if (isset($value["value"]))
+      {
+        $node_defnotes[] = $value;
+
+        $lang_nota=($value["lang"]) ? $value["lang"]: $node_stringPreferedTermLang;
+
+        ALTAnota($term_id,"EX",$lang_nota,$value["value"]);
+      }
+    }
+
     // changeNote
     foreach ($skos->xpath->query('./skos:changeNote', $node) as $defNote)
     {

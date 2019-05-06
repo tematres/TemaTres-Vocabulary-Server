@@ -274,6 +274,7 @@ function SQLstartWith($texto){
 	$sql=SQL("select","if(temasPreferidos.tema_id is not null,relaciones.id_menor,tema.tema_id) id_definitivo,
 	tema.tema_id,
 	tema.tema,
+	tema.code,
 	tema.estado_id,
 	relaciones.t_relacion,
 	temasPreferidos.tema as termino_preferido,
@@ -455,6 +456,7 @@ function SQLdatosTerminoNotas($tema_id,$array_tipo_nota=array()){
 	$where
 	order by v.value_order,notas.tipo_nota,notas.cuando");
 };
+
 
 
 #
@@ -911,16 +913,35 @@ order by rel_order,trr.value_order,lower(uf_tema),lower(bt_tema),lower(nt_tema),
 	};
 
 
+
+	#
+	# Buscador de términos iguales menos descriptivo pero más rápido
+	#
+	function SQLverTerminosRepetidosSimple($tesauro_id=1){
+		GLOBAL $DBCFG;
+		return SQL("select","tema.tema as string_term,count(*) as occurrences
+		from $DBCFG[DBprefix]tema as tema
+		where tema.tesauro_id='$tesauro_id'
+#		and tema.isMetaTerm=0
+		group by tema.tema
+		having cant_occur >1
+		order by cant_occur desc,lower(tema.tema)");	
+	};
+
+
 	#
 	# BUSCADOR DE TERMINOS especÃ­ficos de un término general
 	#
 	function SQLverTerminosE($tema_id){
-		GLOBAL $DBCFG;
+		GLOBAL $DBCFG, $CFG;
 
 		$tema_id=secure_data($tema_id,"int");
 
+		//first order by code
+		$orderBy=(["_USE_CODE"]=='1') ? "lower(tema.code)," : "" ;
+
 		//Control de estados
-		(!$_SESSION[$_SESSION["CFGURL"]]["ssuser_id"]) ? $where=" and tema.estado_id='13' " : $where="";
+		$where= (!$_SESSION[$_SESSION["CFGURL"]]["ssuser_id"]) ? " and tema.estado_id='13' " : "";
 
 		$sql=SQL("select","tema.tema_id,tema.tema_id as id_tema,
 		tema.code,
@@ -942,7 +963,7 @@ order by rel_order,trr.value_order,lower(uf_tema),lower(bt_tema),lower(nt_tema),
 		and relaciones.id_menor=tema.tema_id
 		$where
 		group by tema.tema_id
-		order by lower(tema.code),trr.value_order,lower(tema.tema)");
+		order by $orderBy trr.value_order,lower(tema.tema)");
 		return $sql;
 	};
 
@@ -1192,11 +1213,14 @@ function SQLIdTerminosValidos(){
 # Lista de términos válidos (sin UF ni términos libres)
 #
 function SQLTerminosValidos($tema_id=""){
-	GLOBAL $DBCFG;
+	GLOBAL $DBCFG, $CFG;
 
 	$tema_id=secure_data($tema_id,"int");
 
-	(@$tema_id) ? $where=" and tema.tema_id='$tema_id' " : $where="";
+	//first order by code
+	$orderBy=(["_USE_CODE"]=='1') ? "lower(tema.code),":"";
+
+	$where=(@$tema_id) ? " and tema.tema_id='$tema_id' " : "";
 
 	//Control de estados
 	(!$_SESSION[$_SESSION["CFGURL"]]["ssuser_id"]) ? $where.=" and tema.estado_id='13' " : $where=$where;
@@ -1208,7 +1232,7 @@ function SQLTerminosValidos($tema_id=""){
 	and relaciones.t_relacion!='4'
 	$where
 	group by tema.tema_id
-	order by tema.code,lower(tema.tema)");
+	order by $orderBy lower(tema.tema)");
 	return $sql;
 };
 
@@ -1555,12 +1579,9 @@ function ARRAYresumen($id_tesa,$tipo,$idUser=""){
 	$sql_cant_rel=SQLcantTR($tipo,$idUser);
 
 	while($cant_rel=$sql_cant_rel->FetchRow()){
-		if($cant_rel[0]=='2')
-		{
+		if($cant_rel[0]=='2'){
 			$cant_terminos_relacionados=$cant_rel[1];
-		}
-		elseif($cant_rel[0]=='4')
-		{
+		}elseif($cant_rel[0]=='4'){
 			$cant_terminos_up=$cant_rel[1];
 		};
 	};
@@ -1570,22 +1591,21 @@ function ARRAYresumen($id_tesa,$tipo,$idUser=""){
 
 
 	$sqlCantNotas=SQLcantNotas();
-	while ($arrayCantNotas=$sqlCantNotas->FetchRow())
-	{
-		$cant_notas[$arrayCantNotas[tipo_nota]] = $arrayCantNotas["cant"];
+	while ($arrayCantNotas=$sqlCantNotas->FetchRow()){
+		$cant_notas[$arrayCantNotas["tipo_nota"]] = $arrayCantNotas["cant"];
 	}
 
 
 	$ARRAYcant_term2tterm=ARRAYcant_term2tterm();
 
 	$resumen=array("cant_rel"=>$cant_terminos_relacionados,
-	"cant_up"=>$cant_terminos_up,
-	"cant_total"=>$cant_term["cant"],
-	"cant_candidato"=>$cant_term["cant_candidato"],
-	"cant_rechazado"=>$cant_term["cant_rechazado"],
-	"cant_notas"=>$cant_notas,
-	"cant_term2tterm"=>$ARRAYcant_term2tterm["cant"]
-);
+			"cant_up"=>$cant_terminos_up,
+			"cant_total"=>$cant_term["cant"],
+			"cant_candidato"=>$cant_term["cant_candidato"],
+			"cant_rechazado"=>$cant_term["cant_rechazado"],
+			"cant_notas"=>$cant_notas,
+			"cant_term2tterm"=>$ARRAYcant_term2tterm["cant"]);
+	
 return $resumen;
 };
 
@@ -2363,17 +2383,18 @@ function SQLadvancedTermReport($array)
 		$array_where="1";
 	}
 
-	return SQLo("select","t.tema_id, $show_code t.tema,t.isMetaTerm,t.cuando as created_date,
+	return SQLo("select","c.titulo as vocab,c.idioma as lang,t.tema_id, $show_code t.tema,t.isMetaTerm,t.cuando as created_date,
 		concat(u.APELLIDO,', ',u.NOMBRES) as user_data,
 		if(t.cuando_final is null,t.cuando,t.cuando_final) last_change,
 		concat(umod.APELLIDO,', ',umod.NOMBRES) as user_data,
 	elt(field(t.estado_id,'12','13','14'),'$LABEL_Candidato','$LABEL_Aceptado','$LABEL_Rechazado') as status
 	$select
-	from $from $DBCFG[DBprefix]values v,$DBCFG[DBprefix]usuario u, $DBCFG[DBprefix]tema t
+	from $from $DBCFG[DBprefix]config c, $DBCFG[DBprefix]values v,$DBCFG[DBprefix]usuario u, $DBCFG[DBprefix]tema t
 	left join $DBCFG[DBprefix]usuario umod on t.uid_final=umod.id
 	$leftJoin
 	where t.uid=u.id
 	and t.estado_id=v.value_id
+	and t.tesauro_id=c.id
 	and v.value_type='t_estado'
 	$initial_where
 	$where
@@ -2442,12 +2463,13 @@ function SQLreportNullNotes($t_note)
 	GLOBAL $DBCFG;
 
 	if($t_note=='0'){
-		$sql=SQL("select","t.tema_id, t.tema as term, t.cuando as date_created, t.cuando_final as date_modicated,t.isMetaTerm,
+		$sql=SQL("select","c.titulo as vocab,c.idioma as lang,t.tema_id, t.tema as term, t.cuando as date_created, t.cuando_final as date_modicated,t.isMetaTerm,
 						e.value as status_term
-						from $DBCFG[DBprefix]values e,$DBCFG[DBprefix]tema t
+						from $DBCFG[DBprefix]config c,$DBCFG[DBprefix]values e,$DBCFG[DBprefix]tema t
 						left join $DBCFG[DBprefix]notas n on n.id_tema=t.tema_id
 						where
 						e.value_id=t.estado_id
+						and c.id=t.tesauro_id
 						and n.id is null
 						order by t.tema");
 	}else {
@@ -2460,13 +2482,14 @@ function SQLreportNullNotes($t_note)
 		};
 
 		if(in_array($t_note, $arrayNoteType)){
-			$sql=SQL("select","t.tema_id, t.tema as term, t.cuando as date_created, t.cuando_final as date_modicated,t.isMetaTerm,
+			$sql=SQL("select","c.titulo as vocab,c.idioma as lang,t.tema_id, t.tema as term, t.cuando as date_created, t.cuando_final as date_modicated,t.isMetaTerm,
 							e.value as status_term
-							from $DBCFG[DBprefix]values e,$DBCFG[DBprefix]tema t
+							from $DBCFG[DBprefix]config c,$DBCFG[DBprefix]values e,$DBCFG[DBprefix]tema t
 							left join $DBCFG[DBprefix]notas n on n.id_tema=t.tema_id
 							and n.tipo_nota='$t_note'
 							where
 							e.value_id=t.estado_id
+							and c.id=t.tesauro_id
 							and n.id is null
 							order by t.tema");
 		}else {
@@ -4040,6 +4063,5 @@ function SQLtermsSinceDate($sinceDate,$limit="50"){
 
 	return $sql;
 };
-
 
 ?>

@@ -528,4 +528,7 @@ define('LABEL_i18n_MasterVersion','3.0.03'); /* Master language file version. Do
 define('LABEL_i18n_TranslationVersion','01'); /* Translation language file version. Will be used after the master version number. Can be changed to track minor changes to your translation file */
 define('LABEL_i18n_TranslationAuthor','Community translation for TemaTres.'); /* Do not include emails or personal details */
 
+#v.3.1
+define('LABEL_noResults','Aucun résultat trouvé');
+
 ?>

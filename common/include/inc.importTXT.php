@@ -37,13 +37,13 @@ if($_SESSION[$_SESSION["CFGURL"]][ssuser_nivel]=='1'){
 		$t_relacion='';
 		//get for notes tag
 		$sqlNotesTag=SQLcantNotas();
-		$arrayTiposNotas=array();
 		while ($arrayNotesTag=$sqlNotesTag->FetchRow()){
-			array_push($arrayTiposNotas, $arrayNotesTag["value_code"]);
+			$arrayTiposNotas[]=$arrayNotesTag["value_code"];
 		}
 
 		//admited tags
-		$arrayTiposTermino =  array("BT","NT","RT","UF","Use","CODE",$tabulador);
+		$arrayTiposTermino =  array("BT","NT","RT","UF","USE","CODE",$tabulador);
+
 
 		//lang
 		$thes_lang=$_SESSION["CFGIdioma"];
@@ -59,8 +59,7 @@ if($_SESSION[$_SESSION["CFGURL"]][ssuser_nivel]=='1'){
 			$rwTerms=explode($separador,$rw);
 
 			//Ver si es un array
-			if(is_array($rwTerms))
-			{
+			if(is_array($rwTerms)){
 
 				$rwTerms[0]=trim($rwTerms[0]);
 				$rwTerms[1]=trim($rwTerms[1]);

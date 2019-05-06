@@ -874,13 +874,13 @@ function do_BS8723s($xmlnodos){
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://schemas.bs8723.org/XmlSchema/DD8723-5.xsd">';
 	$xml.='	 <dc:identifier>'.$_URI_BASE_ID.'</dc:identifier>';
-	$xml.='  <dc:title>'.xmlentities($_SESSION[CFGTitulo]).'</dc:title>';
-	$xml.='  <dc:creator>'.xmlentities($_SESSION[CFGAutor]).'</dc:creator>';
-	$xml.='  <dc:subject>'.xmlentities($_SESSION[CFGKeywords]).'</dc:subject>';
-	$xml.='  <dc:description>'.xmlentities($_SESSION[CFGCobertura],true).'</dc:description>';
-	$xml.='  <dc:publisher>'.xmlentities($_SESSION[CFGAutor]).'</dc:publisher>';
-	$xml.='  <dc:date>'.xmlentities($_SESSION[CFGCreacion]).'</dc:date>';
-	$xml.='  <dc:language>'.LANG.'</dc:language>';
+	$xml.='  <dc:title>'.xmlentities($_SESSION["CFGTitulo"]).'</dc:title>';
+	$xml.='  <dc:creator>'.xmlentities($_SESSION["CFGAutor"]).'</dc:creator>';
+	$xml.='  <dc:subject>'.xmlentities($_SESSION["CFGKeywords"]).'</dc:subject>';
+	$xml.='  <dc:description>'.xmlentities($_SESSION["CFGCobertura"],true).'</dc:description>';
+	$xml.='  <dc:publisher>'.xmlentities($_SESSION["CFGAutor"]).'</dc:publisher>';
+	$xml.='  <dc:date>'.xmlentities($_SESSION["CFGCreacion"]).'</dc:date>';
+	$xml.='  <dc:language>'.$_SESSION["CFGIdioma"].'</dc:language>';
 	$xml.=$xmlnodos;
 	$xml.='</Thesaurus>';
 
@@ -899,10 +899,10 @@ function do_rss($limit="30"){
 	$sql=SQLlastTerms($limit);
 
 	while ($array=$sql->FetchRow()){
-		$xml_seq.='<li xmlns:dc="http://purl.org/dc/elements/1.1/" rdf:resource="index.php?tema='.$array[tema_id].'"/>';
-		$xml_item.='<item xmlns:dc="http://purl.org/dc/elements/1.1/" rdf:about="'.$_SESSION["CFGURL"].'?tema='.$arrayTT[tema_id].'">';
-		$xml_item.='<title>'.$array[tema].'</title>';
-		$xml_item.='<link>'.$_SESSION["CFGURL"].'?tema='.$array[tema_id].'</link>';
+		$xml_seq.='<li xmlns:dc="http://purl.org/dc/elements/1.1/" rdf:resource="index.php?tema='.$array["tema_id"].'"/>';
+		$xml_item.='<item xmlns:dc="http://purl.org/dc/elements/1.1/" rdf:about="'.$_SESSION["CFGURL"].'?tema='.$arrayTT["tema_id"].'">';
+		$xml_item.='<title>'.$array["tema"].'</title>';
+		$xml_item.='<link>'.$_SESSION["CFGURL"].'?tema='.$array["tema_id"].'</link>';
 		$xml_item.='</item>';
 	};
 
@@ -925,12 +925,39 @@ function do_rss($limit="30"){
 };
 
 #######################################################################
+
+
+
+function HEADdocType($metadata){
+
+//Si hay tema_id 
+$itemtype=(isset($metadata["arraydata"]["tema_id"])) ? 'DefinedTerm' : 'DefinedTermSet';
+
+$html='<!DOCTYPE html>';
+
+$html.='<html lang="'.$_SESSION["CFGIdioma"].'" xmlns="http://www.w3.org/1999/xhtml" xml:lang="'.$_SESSION["CFGIdioma"].'" xmlns:fb="http://ogp.me/ns/fb#" itemscope itemtype="http://schema.org/'.$itemtype.'" >';
+
+$html.='<head  profile="http://dublincore.org/documents/2008/08/04/dc-html/">';
+
+$html.=HTMLheader($metadata);
+
+$html.='</head>';
+  //itemtype="http://schema.org/DefinedTermSet"
+
+
+return $html;
+};
+
+
 #
 # GENERADOR DE META TAGS Y DC
 #
 function do_meta_tag($arrayTermino=""){
 
 	GLOBAL $CFG;
+
+
+	$titleParts[]=$_SESSION["CFGTitulo"];
 
 	//Si hay algún tema de proveniente de algún proceso
 	GLOBAL $tema;
@@ -947,64 +974,112 @@ function do_meta_tag($arrayTermino=""){
 	$_SESSION["CFGlastMod"]=fetchlastMod();
 
 	if(secure_data($tema,"digit")){
-
 		//Si hay tema_id desde GET o POST
 		$tema_id = ($_POST["tema"]) ? secure_data($_POST["tema"],"digit") : secure_data($_GET["tema"],"digit");
-
 
 		//Si hay tema_id desde algún proceso
 		$tema_id = ($tema) ? $tema : $tema_id;
 	}
 
-	$letra=isValidLetter($_GET[letra]);
+		$letra=isValidLetter($_GET[letra]);
+		$meta_url=$_SESSION["CFGURL"];
 
+	//Si hay tema_id 
 	if(secure_data($tema_id,"digit")){
 		$ARRAYdatosTermino=ARRAYverDatosTermino($tema_id);
 
-		$sub_title='; '.xmlentities($ARRAYdatosTermino[titTema]);
-		$ver_sub_title=xmlentities($ARRAYdatosTermino[titTema]).' - ';
-		$relMeta='<link rel="Dublin Core metadata" type="application/xml" href="'.URL_BASE.'xml.php?dcTema='.$ARRAYdatosTermino[idTema].'" title="Dublin Core '.xmlentities($datosTermino[titTema]).'" />';
-		$relMeta.='<link rel="MADS metadata" type="application/xml" href="'.URL_BASE.'xml.php?madsTema='.$ARRAYdatosTermino[idTema].'" title="MADS '.xmlentities($datosTermino[titTema]).'" />';
-		$relMeta.='<link rel="Zthes metadata" type="application/xml" href="'.URL_BASE.'xml.php?zthesTema='.$ARRAYdatosTermino[idTema].'" title="Zthes '.xmlentities($datosTermino[titTema]).'" />';
-		$relMeta.='<link rel="Skos metadata" type="application/rdf+xml" href="'.URL_BASE.'xml.php?skosTema='.$ARRAYdatosTermino[idTema].'" title="Skos Core '.xmlentities($datosTermino[titTema]).'" />';
-		$relMeta.='<link rel="TopicMap metadata" type="application/xml" href="'.URL_BASE.'xml.php?xtmTema='.$ARRAYdatosTermino[idTema].'" title="TopicMap '.xmlentities($datosTermino[titTema]).'" />';
+		$aboutness=ARRAYaboutness($ARRAYdatosTermino["idTema"]);	
+		$term_note=extractNoteTypeConent($ARRAYdatosTermino,$_SESSION[$_SESSION["CFGURL"]]["_GLOSS_NOTES"]);			
+
+		$meta_url=$_SESSION["CFGURL"].'?tema='.$ARRAYdatosTermino["idTema"];
+		$titleParts[]=xmlentities($ARRAYdatosTermino["titTema"]);
+
+		$relMeta='<link rel="Dublin Core metadata" type="application/xml" href="'.$_SESSION["CFGURL"].'xml.php?dcTema='.$ARRAYdatosTermino["idTema"].'" title="Dublin Core '.xmlentities($datosTermino["titTema"]).'" />';
+		$relMeta.='<link rel="MADS metadata" type="application/xml" href="'.$_SESSION["CFGURL"].'xml.php?madsTema='.$ARRAYdatosTermino["idTema"].'" title="MADS '.xmlentities($datosTermino["titTema"]).'" />';
+		$relMeta.='<link rel="Zthes metadata" type="application/xml" href="'.$_SESSION["CFGURL"].'xml.php?zthesTema='.$ARRAYdatosTermino["idTema"].'" title="Zthes '.xmlentities($datosTermino["titTema"]).'" />';
+		$relMeta.='<link rel="Skos metadata" type="application/rdf+xml" href="'.$_SESSION["CFGURL"].'xml.php?skosTema='.$ARRAYdatosTermino["idTema"].'" title="Skos Core '.xmlentities($datosTermino["titTema"]).'" />';
+		$relMeta.='<link rel="TopicMap metadata" type="application/xml" href="'.$_SESSION["CFGURL"].'xml.php?xtmTema='.$ARRAYdatosTermino["idTema"].'" title="TopicMap '.xmlentities($datosTermino["titTema"]).'" />';
+		$itempropMeta= '<meta itemprop="inDefinedTermSet" content="'.$_SESSION["CFGURL"].'">';
+	
+	}elseif(strlen($letra)>0){
+		$titleParts[]=MSG_ResultLetra.' '.xmlentities($letra);
+		$titleParts[]=MENU_ListaAbc.': '.xmlentities($letra);		
 	}
 
-	elseif(strlen($letra)>0)
-	{
-		$sub_title='; '.MSG_ResultLetra.' '.xmlentities($letra);
-		$ver_sub_title=' :: '.MENU_ListaAbc.': '.xmlentities($letra);
-	}
+	//if there are no term data
+	if(!isset($aboutness)) $aboutness=ARRAYaboutness();
 
-
-	$meta_tag='<title>'.xmlentities($ver_sub_title.' '.$_SESSION["CFGTitulo"].$labelChangeLang).'</title>';
-	/*
-	* Error en verificación
-	$meta_tag.='<meta http-equiv="content-language" content="'.LANG.'" />';
-	*/
+	//keywords filled with aboutness of the vocabualry or term
+	$aboutness=substr(implode(", ",$aboutness),0,325);
+	
+	//descripction filled with aboutness of the vocabualry or term at 
+	$meta_description= (isset($term_note)) ? $term_note : (strlen($_SESSION["CFGCobertura"])>5) ? $_SESSION["CFGCobertura"] : $aboutness;
+	
 	$page_encode = (in_array($CFG["_CHAR_ENCODE"],array('utf-8','iso-8859-1'))) ? $CFG["_CHAR_ENCODE"] : 'utf-8';
 
 	header ('Content-type: text/html; charset='.$page_encode.'');
+
+	$titleParts[]=$labelChangeLang;
+	
+	$title_page=substr(implode('. ', array_reverse($titleParts,true)),1);
+	
+
+	$meta_tag='<title>'.xmlentities($title_page).'</title>';
 	$meta_tag.='<meta http-equiv="content-type" content="application/xhtml+xml; charset='.$page_encode.'" />';
-	$meta_tag.='<meta name="generator" content="'.xmlentities($_SESSION[CFGVersion]).'" />';
-	$meta_tag.='<meta name="description" content="'.html2txt($ver_sub_title.$_SESSION[CFGCobertura].$labelChangeLang).'" />';
-	$meta_tag.='<meta name="keywords" content="'.xmlentities($_SESSION[CFGKeywords].$sub_title.$labelChangeLang).'" />';
-	$meta_tag.='<meta name="author" content="'.xmlentities($_SESSION[CFGAutor]).'" />';
-	$meta_tag.='<meta name="Creation_Date" content="'.$_SESSION[CFGCreacion].'" />';
+	$meta_tag.='<meta name="generator" content="'.xmlentities($_SESSION["CFGVersion"]).'" />';
+	$meta_tag.='<meta name="description" content="'.html2txt($meta_description).'" />';
+	$meta_tag.='<meta name="keywords" content="'.xmlentities($aboutness).'" />';
+	$meta_tag.='<meta name="author" content="'.xmlentities($_SESSION["CFGAutor"]).'" />';
+	$meta_tag.='<meta name="Creation_Date" content="'.$_SESSION["CFGCreacion"].'" />';
 	$meta_tag.='<meta http-equiv="last-modified" content="'.$_SESSION["CFGlastMod"].'" />';
-	$meta_tag.='<meta name="robots" content="index, follow" />';
-	$meta_tag.='<meta name="revisit-after" content="15 days" />';
+	$meta_tag.='<meta name="robots" content="all">';
+
+
 
 	//$meta_tag.='<!-- Dublin Core -->';
-	$meta_tag.='<meta name="DC.Title"        content="'.xmlentities($ver_sub_title.' '.$_SESSION[CFGTitulo]).'" />';
-	$meta_tag.='<meta name="DC.Creator"      content="'.xmlentities($_SESSION[CFGAutor]).'" />';
-	$meta_tag.='<meta name="DC.Subject"      content="'.xmlentities($_SESSION[CFGKeywords].$sub_title).'" />';
-	$meta_tag.='<meta name="DC.Description"  content="'.html2txt($ver_sub_title.$_SESSION[CFGCobertura],true).'" />';
-	$meta_tag.='<meta name="DC.Publisher"    content="'.xmlentities($_SESSION[CFGPublisher]).'" />';
-	$meta_tag.='<meta name="DC.Contributor"    content="'.xmlentities($_SESSION[CFGContributor]).'" />';
-	$meta_tag.='<meta name="DC.Rights"    content="'.xmlentities($_SESSION[CFGRights]).'" />';
-	$meta_tag.='<meta name="DC.Date"         content="'.$_SESSION[CFGCreacion].'" />';
-	$meta_tag.='<meta name="DC.Language"     content="'.LANG.'" />';
+	$meta_tag.='<meta name="DC.Title"        content="'.xmlentities($title_page).'" />';
+	$meta_tag.='<meta name="DC.Creator"      content="'.xmlentities($_SESSION["CFGAutor"]).'" />';
+	$meta_tag.='<meta name="DC.Subject"      content="'.xmlentities($aboutness).'" />';
+	$meta_tag.='<meta name="DC.Description"  content="'.html2txt($meta_description,true).'" />';
+	$meta_tag.='<meta name="DC.Publisher"    content="'.xmlentities($_SESSION["CFGPublisher"]).'" />';
+	$meta_tag.='<meta name="DC.Contributor"    content="'.xmlentities($_SESSION["CFGContributor"]).'" />';
+	$meta_tag.='<meta name="DC.Rights"    content="'.xmlentities($_SESSION["CFGRights"]).'" />';
+	$meta_tag.='<meta name="DC.Date"         content="'.$_SESSION["CFGCreacion"].'" />';
+	$meta_tag.='<meta name="DC.Language"     content="'.$_SESSION["CFGIdioma"].'" />';
+
+	//Dublinc Core schema
+	$meta_tag.='	<link rel="schema.DC" href="http://purl.org/dc/elements/1.1/">
+	<meta name="DC.Title" content="'.xmlentities($title_page).'">
+	<meta name="DC.Creator" content="'.xmlentities($_SESSION["CFGAutor"]).'">
+	<meta name="DC.Subject" content="'.xmlentities($aboutness).'">
+	<meta name="DC.Description" content="'.html2txt($meta_description,true).'">
+	<meta name="DC.Publisher" content="'.xmlentities($_SESSION["CFGVersion"]).'">
+	<meta name="DC.Contributor" content="'.xmlentities($_SESSION["CFGContributor"]).'">
+	<meta name="DC.Date" content="'.$_SESSION["CFGCreacion"].'">
+	<meta name="DC.Type" content="Text">
+	<meta name="DC.Format" content="text/html">
+	<meta name="DC.Identifier" content="'.$meta_url.'">
+	<meta name="DC.Source" content="'.$_SESSION["CFGURL"].'">
+	<meta name="DC.Language" content="'.$_SESSION["CFGIdioma"].'">
+	<meta name="DC.Relation" content="Thesaurus">
+	<meta name="DC.Coverage" content="'.$_SESSION["CFGIdioma"].'">
+	<meta name="DC.Rights" content="'.$_SESSION["CFGRights"].'">';
+
+	// Open Graph protocol 
+	$meta_tag.='	<meta property="og:title" content="'.xmlentities($title_page).'">
+	<meta property="og:type" content="dictionary:term">
+	<meta property="og:url" content="'.$meta_url.'">
+	<meta property="og:site_name" content="'.xmlentities($_SESSION["CFGTitulo"]).'">
+	<meta property="og:description" content="'.html2txt($meta_description,true).'">';
+
+	//Schema.org
+	$meta_tag.='	<meta itemprop="name" content="'.xmlentities($title_page).'">
+	<meta itemprop="description" content="'.html2txt($meta_description,true).'">
+	<meta itemprop="url" content="'.$meta_url.'">';
+	//property only for vocabularies ... not for terms
+	if(!isset($ARRAYdatosTermino["idTema"])) $meta_tag.='<meta itemprop="keywords" content="'.xmlentities($aboutness).'">';
+	$meta_tag.='<meta itemprop="identifier" content="'.$meta_url.'">';
+
 
 	$meta_tag.='<link rel="'.MENU_Inicio.'" href="'.URL_BASE.'index.php" title="'.MENU_Inicio.'" />';
 	$meta_tag.='<link rel="'.MENU_ListaSis.'" href="'.URL_BASE.'index.php" title="'.MENU_ListaSis.'" />';
@@ -1014,8 +1089,8 @@ function do_meta_tag($arrayTermino=""){
 	$meta_tag.='<link rel="login" href="'.URL_BASE.'login.php" title="'.LABEL_login.'" />';
 	$meta_tag.='<link rel="service" href="'.URL_BASE.'services.php" title="terminogical web services" />';
 	$meta_tag.='<link rel="bookmark" href="'.URL_BASE.'"/>';
-	$meta_tag.='<link rel="rss" type="application/rss+xml" href="'.URL_BASE.'xml.php?rss=true" title="RSS '.xmlentities($_SESSION[CFGTitulo]).'" />';
-	$meta_tag.='<link rel="alternate" type="application/rss+xml" href="'.URL_BASE.'xml.php?rss=true" title="RSS '.xmlentities($_SESSION[CFGTitulo]).'" />';
+	$meta_tag.='<link rel="rss" type="application/rss+xml" href="'.URL_BASE.'xml.php?rss=true" title="RSS '.xmlentities($_SESSION["CFGTitulo"]).'" />';
+	$meta_tag.='<link rel="alternate" type="application/rss+xml" href="'.URL_BASE.'xml.php?rss=true" title="RSS '.xmlentities($_SESSION["CFGTitulo"]).'" />';
 	$meta_tag.=$relMeta;
 
 	return array("metadata"=>$meta_tag,"arraydata"=>$ARRAYdatosTermino);
@@ -1573,4 +1648,19 @@ function do_json($tema_id){
 
 	return json_encode($ARRAYterm);
 };
+
+
+function ARRAYaboutness($term_id=0){
+
+	$sql=($term_id!=0) ? SQLverTerminosE($term_id) : SQLverTopTerm();
+
+	if(!is_object($sql)) return array();
+
+	
+	while ($array= $sql->FetchRow()){
+		$ARRAYaboutness[]=$array["tema"];		
+	}
+
+	return $ARRAYaboutness;
+}
 ?>

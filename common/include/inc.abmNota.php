@@ -41,17 +41,14 @@ if ((stristr( $_SERVER['REQUEST_URI'], "session.php") ) || ( !defined('T3_ABSPAT
   $LabelNC='NC#'.LABEL_NC;
 
   $sqlNoteType=SQLcantNotas();
-  $arrayNoteType=array();
-
   while ($array=$sqlNoteType->FetchRow()){
   		 $varNoteType=(in_array($array["value_id"],array(8,9,10,11,15))) ? arrayReplace(array(8,9,10,11,15),array($LabelNA,$LabelNH,$LabelNB,$LabelNP,$LabelNC),$array["value_id"]) : $array["value_code"].'#'.$array["value"];
-    	 array_push($arrayNoteType, $varNoteType);
+    	 $arrayNoteType[]=$varNoteType;
   };
 
 // Preparado de datos para el formulario ///
-$arrayLang=array();
 foreach ($CFG["ISO639-1"] as $langs) {
-	array_push($arrayLang,"$langs[0]#$langs[1]");
+	$arrayLang[]=$langs[0].'#'.$langs[1];
 	};
 //idioma de la nota
 $arrayNota["lang_nota"] = (!$arrayNota["lang_nota"]) ? $_SESSION["CFGIdioma"] : $arrayNota["lang_nota"];

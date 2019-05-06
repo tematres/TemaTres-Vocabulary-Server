@@ -192,7 +192,7 @@ function doContextoTermino($idTema,$i_profundidad){
 
 		//editor de relaciones
 		if($_SESSION[$_SESSION["CFGURL"]]["ssuser_id"]){
-			$td_delete='<a type="button" class="btn btn-danger btn-xs" id="elimina_'.$datosNT["id_tema"].'" title="'.LABEL_borraRelacion.'"  class="eliminar" href="'.URL_BASE.'index.php?ridelete='.$datosNT["id_relacion"].'&amp;tema='.$idTema.'" onclick="return askData();"><span class="glyphicon  icon-remove"></span></a> ';
+			$td_delete='<a type="button" class="btn btn-danger btn-xs" id="elimina_'.$datosNT["id_tema"].'" title="'.LABEL_borraRelacion.'"  class="eliminar" href="'.URL_BASE.'index.php?ridelete='.$datosNT["id_relacion"].'&amp;tema='.$idTema.'" onclick="return askData();"><span class="glyphicon glyphicon-remove"></span></a> ';
 			$row_NT.=' <li  id="t'.$datosNT[id_tema].'">'.$td_delete.'<abbr class="thesacronym" title="'.TE_termino.' '.$datosNT["rr_value"].'" lang="'.LANG.'" id="r'.$datosNT["rel_id"].'"><span class="editable_selectTE" id="edit_rel_id'.$datosNT["rel_id"].'" style="display: inline">'.TE_acronimo.$datosNT["rr_code"].'</span>'.$i_profundidad.'</abbr> ';
 
 			//Editor de código
@@ -218,7 +218,7 @@ function doContextoTermino($idTema,$i_profundidad){
 	while($datosTotalRelacionados= $sqlTotalRelacionados->FetchRow()){
 
 		if($_SESSION[$_SESSION["CFGURL"]]["ssuser_id"]){
-			$td_delete='<a type="button" class="btn btn-danger btn-xs" title="'.LABEL_borraRelacion.'" href="'.URL_BASE.'index.php?ridelete='.$datosTotalRelacionados["id_relacion"].'&amp;tema='.$idTema.'" onclick="return askData();"><span class="glyphicon  icon-remove"></span></a> ';
+			$td_delete='<a type="button" class="btn btn-danger btn-xs" title="'.LABEL_borraRelacion.'" href="'.URL_BASE.'index.php?ridelete='.$datosTotalRelacionados["id_relacion"].'&amp;tema='.$idTema.'" onclick="return askData();"><span class="glyphicon glyphicon-remove"></span></a> ';
 			$classAcrnoyn='editable_select'.$datosTotalRelacionados["t_relacion"];
 		}else{
 			$td_delete='';
@@ -449,12 +449,15 @@ function HTMLbodyTermino($array){
 
 		//el termino //span editable
 	if($_SESSION[$_SESSION["CFGURL"]]["ssuser_id"]>0){
-		$body.='<h3 class="term "id="term"><span id="edit_tema'.$array["tema_id"].'" class="edit_area_term">'.$array["titTema"].'</span></h3> ' ;
+		$body.='<dfn class="term "id="term"><span id="edit_tema'.$array["tema_id"].'" class="edit_area_term">'.$array["titTema"].'</span></dfn> ' ;
 	} else{
-		$body.='<h3  class="termDefinition" data-content="'.TXTtermDefinition($array,array($_SESSION[$_SESSION["CFGURL"]]["_GLOSS_NOTES"])).'" rel="popover" data-placement="top" data-trigger="hover">'.$array["titTema"].'</h3>';
+		// Replaced by HTMLnotaPpal();
+		//$body.='<h3  class="termDefinition" data-content="'.TXTtermDefinition($array,array($_SESSION[$_SESSION["CFGURL"]]["_GLOSS_NOTES"])).'" rel="popover" data-placement="top" data-trigger="hover">'.$array["titTema"].'</h3>';
+		$body.='<dfn class="term">'.$array["titTema"].'</dfn>';
 	}
 
 
+	$body.=HTMLNotaPpal($array,$editFlag);
 
 
 	$body.=HTMLshowCode($array);
@@ -526,6 +529,7 @@ function HTMLmainMenu(){
 		$row.='<li><a title="'.ucfirst(MENU_glossConfig).'" href="admin.php?doAdmin=glossConfig">'.ucfirst(MENU_glossConfig).'</a></li>';
 		$row.='<li><a title="'.ucfirst(MENU_Usuarios).'" href="admin.php?user_id=list">'.ucfirst(MENU_Usuarios).'</a></li>';
 		$row.='<li><a title="'.ucfirst(LABEL_export).'" href="admin.php?doAdmin=export">'.ucfirst(LABEL_export).'</a></li>';
+		$row.='<li><a href="admin.php?doAdmin=import" title="'.ucfirst(LABEL_import).'">'.ucfirst(LABEL_import).'</a></li>';
 
 		$row.='<li class="dropdown dropdown-submenu"><a href="#" class="dropdown-toggle" data-toggle="dropdown">'.ucfirst(LABEL_dbMantenimiento).'</a>
 		<ul class="dropdown-menu">';
@@ -534,7 +538,6 @@ function HTMLmainMenu(){
 		//Enable or not SPARQL endpoint
 		$row.=(CFG_ENABLE_SPARQL==1) ? '<li><a href="admin.php?doAdmin=updateEndpoint">'.ucfirst(LABEL_updateEndpoint).'</a></li>' :'';
 
-		$row.='<li><a href="admin.php?doAdmin=import" title="'.ucfirst(LABEL_import).'">'.ucfirst(LABEL_import).'</a></li>';
 		$row.='<li><a href="admin.php?doAdmin=massiverem" title="'.ucfirst(MENU_massiverem).'">'.ucfirst(MENU_massiverem).'</a></li>';
 		$row.='<li><a title="'.ucfirst(MENU_DatosTesauro).'" href="admin.php?opTbl=TRUE">'.ucfirst(LABEL_OptimizarTablas).'</a></li>';
 		$row.='<li><a title="'.ucfirst(LABEL_update1_6x1_7).'" href="admin.php?doAdmin=updte1_6x1_7">'.ucfirst(LABEL_update1_6x1_7).'</a></li>';
@@ -776,6 +779,16 @@ function HTMLNotasTermino($array,$editFlag=0){
 		};// fin del for
 
 	};
+	return $body;
+};
+#
+# Nota principal del término
+#
+function HTMLNotaPpal($array,$tema_id){
+	$body='<div class="panel card-outline-secondary">';
+	$body.='<p class="panel-body"> '.wiki2link(extractNoteTypeConent($array,$_SESSION[$_SESSION["CFGURL"]]["_GLOSS_NOTES"],"html")).'</p>';
+	$body.='</div>';					
+
 	return $body;
 };
 
@@ -1532,7 +1545,7 @@ function HTMLtargetTerms($tema_id)
 
 		while ($array=$sql->FetchRow())		{
 			if ($_SESSION[$_SESSION["CFGURL"]]["ssuser_id"])			{
-				$delLink= '<a type="button" class="btn btn-danger btn-xs" id="elimina_'.$array["tterm_id"].'" title="'.LABEL_borraRelacion.'"  href="'.URL_BASE.'index.php?tterm_id='.$array["tterm_id"].'&amp;tema='.$tema_id.'&amp;tvocab_id='.$array[tvocab_id].'&amp;taskrelations=delTgetTerm" onclick="return askData();"><span class="glyphicon  icon-remove"></span></a> ';
+				$delLink= '<a type="button" class="btn btn-danger btn-xs" id="elimina_'.$array["tterm_id"].'" title="'.LABEL_borraRelacion.'"  href="'.URL_BASE.'index.php?tterm_id='.$array["tterm_id"].'&amp;tema='.$tema_id.'&amp;tvocab_id='.$array[tvocab_id].'&amp;taskrelations=delTgetTerm" onclick="return askData();"><span class="glyphicon glyphicon-remove"></span></a> ';
 				$checkLink= '<a id="actua_'.$array["tterm_id"].'" title="'.LABEL_ShowTargetTermforUpdate.'"  class="btn btn-warning btn-xs" href="'.URL_BASE.'index.php?tterm_id='.$array["tterm_id"].'&amp;tema='.$tema_id.'&amp;tvocab_id='.$array[tvocab_id].'&amp;tterm_id='.$array["tterm_id"].'&amp;taskEdit=checkDateTermsTargetVocabulary">'.LABEL_ShowTargetTermforUpdate.'</a>';
 
 				$ttermManageLink=' '.$delLink.' '.$checkLink.'  ';
@@ -1562,7 +1575,7 @@ function HTMLURI4term($tema_id)
 
 		while ($array=$sql->FetchRow())		{
 			if ($_SESSION[$_SESSION["CFGURL"]]["ssuser_id"]){
-				$delLink= '<a type="button" class="btn btn-danger btn-xs" id="elimina_'.$array["uri_id"].'" title="'.LABEL_borraRelacion.'"  href="'.URL_BASE.'index.php?uri_id='.$array[uri_id].'&amp;tema='.$tema_id.'&amp;taskrelations=delURIterm" onclick="return askData();"><span class="glyphicon  icon-remove"></span></a> ';
+				$delLink= '<a type="button" class="btn btn-danger btn-xs" id="elimina_'.$array["uri_id"].'" title="'.LABEL_borraRelacion.'"  href="'.URL_BASE.'index.php?uri_id='.$array[uri_id].'&amp;tema='.$tema_id.'&amp;taskrelations=delURIterm" onclick="return askData();"><span class="glyphicon glyphicon-remove"></span></a> ';
 				}
 
 
@@ -1763,18 +1776,17 @@ function paginate_links( $args = '' ) {
 		/**
 		* Retorna los datos, acorde al formato de autocompleter
 		*/
-		function getData4Autocompleter($searchq,$type=1)
-		{
+		function getData4Autocompleter($searchq,$type=1){
+			
+			GLOBAL $CFG;
+			
 			$sql=($type==1) ? SQLstartWith($searchq) : SQLbuscaTerminosSimple($searchq,"15");
 
-			$arrayResponse=array("query"=>$searchq,
-			"suggestions"=>array(),
-			"data"=>array());
+			$arrayResponse=array("query"=>$searchq,"suggestions"=>"");
 
-			while($array=$sql->FetchRow())
-			{
-				array_push($arrayResponse["suggestions"], $array["tema"]);
-				array_push($arrayResponse["data"], $array["tema_id"]);
+			while($array=$sql->FetchRow()){
+				$string_term= (($CFG["_SHOW_CODE"]=='1') && (isset($array["code"]))) ? $array["code"].': '.$array["tema"] : $array["tema"];
+				$arrayResponse["suggestions"][]=array("value"=>$array["tema"],"data"=>$string_term);
 			}
 
 			return json_encode($arrayResponse);
@@ -2045,18 +2057,16 @@ function makeGlossary($notesType=array("NA"),$params=array()){
 
 function HTMLheader($metadata){
 
- $rows='   <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href="'.T3_WEBPATH.'bootstrap/css/bootstrap.min.css" rel="stylesheet">
-    <link href="'.T3_WEBPATH.'bootstrap/submenu/css/bootstrap-submenu.min.css" rel="stylesheet">
-    <link href="//netdna.bootstrapcdn.com/font-awesome/3.0.2/css/font-awesome.css" rel="stylesheet" />
-    <link href="'.T3_WEBPATH.'css/t3style.css" rel="stylesheet">
-    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-    <!--[if lt IE 9]>
-    <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-    <![endif]-->';
+ 	$rows='<meta charset="utf-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1">';
+    $rows.='<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">';
+	$rows.='<!-- Optional theme -->';
+	$rows.='<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap-theme.min.css">';
+    //$rows.='<link href="'.T3_WEBPATH.'bootstrap/submenu/css/bootstrap-submenu.min.css" rel="stylesheet">';
+    $rows.='<link href="'.T3_WEBPATH.'css/t3style.css" rel="stylesheet">';
+    //<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    //<!--[if lt IE 9]>
+    $rows.='<script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script><script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>';
+    //<![endif]-->
     $rows.=$metadata["metadata"];
  $rows.=' <link type="image/x-icon" href="'.T3_WEBPATH.'images/tematres.ico" rel="icon" />
   <link type="image/x-icon" href="'.T3_WEBPATH.'images/tematres.ico" rel="shortcut icon" />';
@@ -2132,10 +2142,11 @@ return $rows;
 function HTMLjsInclude(){
 
   #	<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
- $rows='<script src="https://code.jquery.com/jquery-1.12.4.min.js" integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
-		 <!-- Include all compiled plugins (below), or include individual files as needed -->
-		 <script src="'.T3_WEBPATH.'bootstrap/js/bootstrap.min.js"></script>
-		 <script type="text/javascript" src="'.T3_WEBPATH.'jq/jquery.autocomplete.js"></script>
+$rows='<script type="text/javascript" src="'.T3_WEBPATH.'jq/lib/jquery-3.3.1.min.js"></script>';	
+$rows.='<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>';
+$rows.='<!-- Include all compiled plugins (below), or include individual files as needed -->
+		 
+		 <script type="text/javascript" src="'.T3_WEBPATH.'jq/jquery.autocomplete.min.js"></script>
 		 <script type="text/javascript" src="'.T3_WEBPATH.'jq/jquery.mockjax.js"></script>
 		 <script type="text/javascript" src="'.T3_WEBPATH.'jq/tree.jquery.js"></script>
 
@@ -2445,5 +2456,108 @@ function HTMLsimpleForeignTerm($arrayTerm,$URL_ttermData){
   }
 
 return array("BTrows"=>$BTrows,"NTrows"=>$NTrows,"RTrows"=>$RTrows,"UFrows"=>$UFrows);
+}
+
+
+#Summary about vocabulary
+function HTMLsummary(){
+
+	GLOBAL $CFG;
+
+	$resumen=ARRAYresumen($_SESSION["id_tesa"],"G","");
+    $fecha_crea=do_fecha($_SESSION["CFGCreacion"]);
+    $fecha_mod=do_fecha($_SESSION["CFGlastMod"]);
+    $ARRAYmailContact=ARRAYfetchValue('CONTACT_MAIL');
+/*
+   	$_SESSION["CFGContributor"]
+	$_SESSION["CFGRights"]
+	$_SESSION["CFGPublisher"]
+*/
+
+
+    $rows='<h1>'.$_SESSION["CFGTitulo"].' / '.$_SESSION["CFGAutor"].'</h1>';
+
+    $rows.=' <div class="table-responsive">';
+  	$rows.='<table class="table"><tbody>';
+  	$rows.='<tr><th>'.ucfirst(LABEL_URI).'</th><td>'.$_SESSION["CFGURL"].'</td></tr>';
+  	if($_SESSION["CFGContributor"])	$rows.='<tr><th>'.ucfirst(LABEL_Contributor).'</th><td>'.$_SESSION["CFGContributor"].'</td></tr>';
+	
+  	$rows.='<tr><th>'.ucfirst(LABEL_Idioma).'</th><td>'.$_SESSION["CFGIdioma"].'</td></tr>';
+  	$rows.='<tr><th>'.ucfirst(LABEL_lastChangeDate).'</th><td>'.$fecha_crea["dia"].'/'.$fecha_crea["mes"].'/'.$fecha_crea["ano"].'</td></tr>';
+  	$rows.='<tr><th>'.ucfirst(LABEL_Fecha).'</th><td>'.$fecha_mod["dia"].'/'.$fecha_mod["mes"].'/'.$fecha_mod["ano"].'</td></tr>';
+
+  	if($ARRAYmailContact["value"])	$rows.='<tr><th>'.ucfirst(FORM_LABEL__contactMail).'</th><td>'.$ARRAYmailContact["value"].'</td></tr>';
+
+  	$rows.='<tr><th>'.ucfirst(LABEL_Keywords).'</th><td>'.$_SESSION["CFGKeywords"].'</td></tr>';
+  	$rows.='<tr><th>'.ucfirst(LABEL_Cobertura).'</th><td>'.$_SESSION["CFGCobertura"].'</td></tr>';
+
+  	if($_SESSION["CFGPublisher"])	$rows.='<tr><th>'.ucfirst(LABEL_Publisher).'</th><td>'.$_SESSION["CFGPublisher"].'</td></tr>';
+  	if($_SESSION["CFGRights"])	$rows.='<tr><th>'.ucfirst(LABEL_Rights).'</th><td>'.$_SESSION["CFGRights"].'</td></tr>';
+  	
+
+
+  	//terms stats
+  	$rows.='<tr><th>'.ucfirst(LABEL_Terminos).'</th><td>'.$resumen["cant_total"];
+
+  	$rows.=' <a class="label label-info" href="'.URL_BASE.'index.php?s=n" title="'.ucfirst(LABEL_showNewsTerm).'"><span class="glyphicon glyphicon-fire"></span> '.ucfirst(LABEL_showNewsTerm).'</a>';
+  	$rows.='<ul>';
+	if($_SESSION[$_SESSION["CFGURL"]]["CFG_VIEW_STATUS"]==1){
+		if($resumen[cant_candidato]>0){
+			$rows.='<li><a href="'.URL_BASE.'index.php?estado_id=12">'.ucfirst(LABEL_Candidato).': '.$resumen[cant_candidato].'</a></li>';
+			}
+
+		if($resumen[cant_rechazado]>0){
+			$rows.= '<li><a href="'.URL_BASE.'index.php?estado_id=14">'.ucfirst(LABEL_Rechazado).': '.$resumen[cant_rechazado].'</a></li>';
+			}
+	}
+	
+	$rows.='</ul>';
+	$rows.='</td></tr>';
+
+	  //show tree
+	  if(($_SESSION[$_SESSION["CFGURL"]]["ssuser_id"]) && ($_SESSION[$_SESSION["CFGURL"]]["_SHOW_TREE"]==1)){
+	  	$rows.='<tr><th>'.ucfirst(LABEL_termsXdeepLevel).'</th><td>'.HTMLdeepStats().'</td></tr>';
+	  }
+
+  	$rows.='<tr><th>'.ucfirst(LABEL_RelTerminos).'</th><td>'.$resumen["cant_rel"].'</td></tr>';
+  	$rows.='<tr><th>'.ucfirst(LABEL_TerminosUP).'</th><td>'.$resumen["cant_up"].'</td></tr>';
+
+	//Evaluar si hay notas
+	if (is_array($resumen["cant_notas"])){
+	  $sqlNoteType=SQLcantNotas();
+	  while ($arraySummaryNotes=$sqlNoteType->FetchRow()){
+	  		 if($arraySummaryNotes["cant"]>0){
+	  		 	$note_type=(in_array($arraySummaryNotes["value_id"],array(8,9,10,11,15))) ? arrayReplace(array(8,9,10,11,15),array(LABEL_NA,LABEL_NH,LABEL_NB,LABEL_NP,LABEL_NC),$arraySummaryNotes["value_id"]) : $arraySummaryNotes["value"];
+		 	  	$rows.='<tr><th>'.$note_type.'</th><td>'.$arraySummaryNotes["cant"].'</td></tr>';
+			  		 }
+			  };
+		}
+
+	if(CFG_ENABLE_SPARQL==1)	$rows.='<tr><th>'.ucfirst(LABEL_SPARQLEndpoint).'</th><td><a href="'.$_SESSION["CFGURL"].'sparql.php" title="'.LABEL_SPARQLEndpoint.'">'.$_SESSION["CFGURL"].'sparql.php</a></td></tr>';
+	if(CFG_SIMPLE_WEB_SERVICE==1)	$rows.='<tr><th>API</th><td><a href="'.$_SESSION["CFGURL"].'services.php" title="API">'.$_SESSION["CFGURL"].'services.php</a></td></tr>';
+
+  	$rows.='<tr><th>'.ucfirst(LABEL_Version).'</th><td><a href="http://www.vocabularyserver.com/" title="TemaTres: vocabulary server">'.$CFG["Version"].'</a></td></tr>';
+	$rows.='</tbody></table>';
+	$rows.='</div> ';
+
+return $rows;
+};
+
+
+
+#
+# extract note content about one type of notes for given array term metadata
+#
+function extractNoteTypeConent($metadata,$note_type,$format="txt"){
+
+	if(!is_array($metadata["notas"])) return;
+	
+	foreach ($metadata["notas"] as $notes) {
+	
+		if($notes["tipoNota"]==$note_type){
+			$note_text.=($format=='txt') ? html2txt($notes["nota"]) : $notes["nota"];	
+		} 
+	}
+	return $note_text;
 }
 ?>
