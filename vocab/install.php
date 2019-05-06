@@ -635,8 +635,9 @@ function HTMLformInstall($lang_install)
 							<option value="en">english</option>
 							<option value="es">español</option>
 							<option value="fr">fran&ccedil;ais</option>
-							<option value="pt-PT">portugu&ecirc;s (Portugal)</option>				    </select>
-							<option value="pt-BR">portugu&ecirc;s (Brasil)</option>				    </select>
+							<option value="pt-PT">portugu&ecirc;s (Portugal)</option>
+							<option value="pt-BR">portugu&ecirc;s (Brasil)</option>
+				    </select>
 				  </div>
 				</div>
 
