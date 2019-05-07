@@ -1654,7 +1654,7 @@ function ARRAYaboutness($term_id=0){
 
 	$sql=($term_id!=0) ? SQLverTerminosE($term_id) : SQLverTopTerm();
 
-	if(!is_object($sql)) return array();
+	if(SQLcount($sql)<1) return array($_SESSION["CFGTitulo"],$_SESSION["CFGAutor"]);
 
 	
 	while ($array= $sql->FetchRow()){
