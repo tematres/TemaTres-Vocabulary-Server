@@ -166,7 +166,7 @@ tinymce.addI18n('cy',{
 "Insert\/edit video": "Mewnosod\/golygu fideo",
 "Insert\/edit media": "Mewnosod\/golygu cyfrwng",
 "Alternative source": "Ffynhonnell amgen",
-"Alternative image URL": "URL delwedd arall",
+"Alternative source URL": "Alternative source URL",
 "Media poster (Image URL)": "Poster cyfrwng (URL delwedd)",
 "Paste your embed code below:": "Gludwch eich cod mewnosod isod:",
 "Embed": "Mewnosod",

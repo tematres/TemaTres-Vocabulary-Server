@@ -166,7 +166,7 @@ tinymce.addI18n('fr_FR',{
 "Insert\/edit video": "Ins\u00e9rer\/modifier une vid\u00e9o",
 "Insert\/edit media": "Ins\u00e9rer\/modifier un m\u00e9dia",
 "Alternative source": "Source alternative",
-"Alternative image URL": "URL alternative d'image",
+"Alternative source URL": "Source alternative",
 "Media poster (Image URL)": "Affiche de m\u00e9dia (URL d'image)",
 "Paste your embed code below:": "Collez votre code d'int\u00e9gration ci-dessous :",
 "Embed": "Int\u00e9grer",

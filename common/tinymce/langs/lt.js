@@ -166,7 +166,7 @@ tinymce.addI18n('lt',{
 "Insert\/edit video": "\u012eterpti\/tvarkyti video",
 "Insert\/edit media": "Prid\u0117ti \/ keisti medij\u0105",
 "Alternative source": "Alternatyvus \u0161altinis",
-"Alternative image URL": "Alternatyvus paveiksl\u0117lio URL adresas",
+"Alternative source URL": "Alternatyvus \u0161altinio URL adresas",
 "Media poster (Image URL)": "medijos skelbiklis (paveiksl\u0117lio URL adresas)",
 "Paste your embed code below:": "\u012eterpkite kod\u0105 \u017eemiau:",
 "Embed": "\u012eterpti",

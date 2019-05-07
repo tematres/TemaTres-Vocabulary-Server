@@ -166,7 +166,7 @@ tinymce.addI18n('sv_SE',{
 "Insert\/edit video": "Infoga\/redigera video",
 "Insert\/edit media": "Infoga\/redigera media",
 "Alternative source": "Alternativ k\u00e4lla",
-"Alternative image URL": "Alternativ bildk\u00e4lla",
+"Alternative source URL": "Alternative source URL",
 "Media poster (Image URL)": "Media poster (bildk\u00e4lla)",
 "Paste your embed code below:": "Klistra in din inb\u00e4ddningskod nedan:",
 "Embed": "Inb\u00e4ddning",

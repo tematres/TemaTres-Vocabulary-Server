@@ -166,7 +166,7 @@ tinymce.addI18n('tr_TR',{
 "Insert\/edit video": "Video ekle\/d\u00fczenle",
 "Insert\/edit media": "Medya ekle\/d\u00fczenle",
 "Alternative source": "Alternatif kaynak",
-"Alternative image URL": "Alternatif resim URL'si",
+"Alternative source URL": "Alternative source URL",
 "Media poster (Image URL)": "Medya posteri (Resim URL)",
 "Paste your embed code below:": "Medya g\u00f6mme kodunu buraya yap\u0131\u015ft\u0131r:",
 "Embed": "G\u00f6mme",

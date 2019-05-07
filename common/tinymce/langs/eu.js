@@ -166,7 +166,7 @@ tinymce.addI18n('eu',{
 "Insert\/edit video": "Bideoa txertatu\/editatu",
 "Insert\/edit media": "Media txertatu\/editatu",
 "Alternative source": "Iturburu alternatiboa",
-"Alternative image URL": "Irudiaren beste helbide bat",
+"Alternative source URL": "Ordezko jatorri URLa",
 "Media poster (Image URL)": "Media posterra (irudiaren helbidea)",
 "Paste your embed code below:": "Itsatsi hemen zure enkapsulatzeko kodea:",
 "Embed": "Kapsulatu",
