@@ -120,7 +120,7 @@ class XMLvocabularyServices {
 
 		while($array=$sql->FetchRow())
 		{
-			$result["result"][$array[id_tema]]= array(
+			$result["result"][$array["id_tema"]]= array(
 				"term_id"=>$array[id_tema],
 				"string"=>$array[tema],
 				"isMetaTerm"=>$array[isMetaTerm],
@@ -145,11 +145,12 @@ class XMLvocabularyServices {
 
 		$sql=SQLURIxterm($tema_id);
 
-		while($array=$sql->FetchRow())
-		{
-			$result["result"][$array["tema_id"]]= array(
+		while($array=$sql->FetchRow()){
+
+			$result["result"][]= array(
 				"link_type"=>$array["uri_value"],
-				"link"=>$array["uri"]
+				"link"=>$array["uri"],
+				"term_id"=>$array["tema_id"]
 			);
 		};
 		return $result;
