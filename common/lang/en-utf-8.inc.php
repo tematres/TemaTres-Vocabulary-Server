@@ -485,7 +485,7 @@ define('LABEL_CFG_PUBLISH','Publish the vocabulary so anyone can view it?');
 define('LABEL_Replace','replace');
 define('LABEL_Preview','preview');
 #v.2.2
-define('LABEL_selectRelation','select type relation');
+define('LABEL_selectRelation','select relation type');
 define('LABEL_withSelected','with selected terms:');
 define('LABEL_rejectTerms','reject terms');
 define('LABEL_doMetaTerm','turn to meta-terms');
