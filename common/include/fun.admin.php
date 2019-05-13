@@ -714,8 +714,8 @@ $titu_tema=$DB->qstr($titu_tema,get_magic_quotes_gpc());
 
 $userId=$_SESSION[$_SESSION["CFGURL"]]["ssuser_id"];
 
-$sql=SQLo("insert","into $DBCFG[DBprefix]tema (tema,tesauro_id,uid,cuando,estado_id,cuando_estado)
-			values (?,?,?,now(),?,now())",array($string,$tesauro_id,$userId,$estado_id));
+$sql=SQLo("insert","into $DBCFG[DBprefix]tema (tema,tesauro_id,uid,cuando,estado_id,cuando_estado,cuando_final,uid_final)
+			values (?,?,?,now(),?,now())",array($string,$tesauro_id,$userId,$estado_id,null,null));
 
 return $sql["cant"];
 
@@ -2664,12 +2664,10 @@ function do_mysql_dump($encode="utf8")
 
 	$tables= $DBCFG[DBprefix].'config,'.$DBCFG[DBprefix].'tema,'.$DBCFG[DBprefix].'tabla_rel,'.$DBCFG[DBprefix].'indice,'.$DBCFG[DBprefix].'usuario,'.$DBCFG[DBprefix].'notas,'.$DBCFG[DBprefix].'values,'.$DBCFG[DBprefix].'tvocab,'.$DBCFG[DBprefix].'term2tterm,'.$DBCFG[DBprefix].'uri';
 
-
 	/*
 	 * To UTF-8 databases
 	*/
-	if($encode=='utf8')
-	{
+	if($encode=='utf8'){
 		$setUTF=SQL("SET NAMES","utf8");
 		$setUTF1=SQL("SET CHARACTER SET","utf8");
 	}
@@ -2677,8 +2675,7 @@ function do_mysql_dump($encode="utf8")
 		$tables =  explode(',',$tables);
 
 	//cycle through
-	foreach($tables as $table)
-	{
+	foreach($tables as $table){
 		$result = SQL('SELECT',' * FROM '.$table);
 		$num_fields = $result->_numOfFields;
 
