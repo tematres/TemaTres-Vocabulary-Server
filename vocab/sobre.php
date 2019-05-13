@@ -42,9 +42,9 @@ $metadata=do_meta_tag();
 <div id="footer" class="footer">
       <div class="container">
         <div class="row">
-          <a href="http://www.vocabularyserver.com/" title="TemaTres: vocabulary server">
-            <img src="<?php echo T3_WEBPATH;?>/images/tematres-logo.gif"  width="42" alt="TemaTres"/></a>
-            <a href="http://www.vocabularyserver.com/" title="TemaTres: vocabulary server">TemaTres</a>
+          <a href="http://www.vocabularyserver.com/" title="TemaTres: vocabulary server" target="_blank">
+            <img src="<?php echo T3_WEBPATH;?>/images/tematres-logo.gif" width="42" alt="TemaTres"/></a>
+            <a href="http://www.vocabularyserver.com/" title="TemaTres: vocabulary server" target="_blank">TemaTres</a>
 <p class="navbar-text pull-left">
         <?php
         //are enable SPARQL
