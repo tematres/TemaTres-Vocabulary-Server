@@ -715,7 +715,7 @@ $titu_tema=$DB->qstr($titu_tema,get_magic_quotes_gpc());
 $userId=$_SESSION[$_SESSION["CFGURL"]]["ssuser_id"];
 
 $sql=SQLo("insert","into $DBCFG[DBprefix]tema (tema,tesauro_id,uid,cuando,estado_id,cuando_estado,cuando_final,uid_final)
-			values (?,?,?,now(),?,now())",array($string,$tesauro_id,$userId,$estado_id,null,null));
+			values (?,?,?,now(),?,now(),null,null)",array($string,$tesauro_id,$userId,$estado_id));
 
 return $sql["cant"];
 
