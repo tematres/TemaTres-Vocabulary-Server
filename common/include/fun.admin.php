@@ -1038,22 +1038,19 @@ function admin_users($do,$user_id=""){
 			}
 	}
 
+	
+	$POSTarrayUser=doArrayDatosUser($_POST);
 
+//Normalice admin 
+	//nivel submit is 1 and is admin
+
+	$nivel=(($POSTarrayUser["isAdmin"]==1) && ($_SESSION[$_SESSION["CFGURL"]]["ssuser_nivel"]=='1')) ? '1' : '2';
+	//Check have one admin user
+	$nivel=(($arrayUserData["nivel"]=='1') && ($arrayCheckAdmin["cant"]==1)) ? '1' : $nivel;
+
+	
 	switch($do){
 		case 'actua':
-		$POSTarrayUser=doArrayDatosUser($_POST);
-		//Normalice admin
-		$nivel=($POSTarrayUser["isAdmin"]=='1') ? '1' : '2';
-
-		//Check have one admin user
-		if (
-			($arrayUserData["nivel"]=='1') &&
-			($arrayCheckAdmin["cant"]=='1')
-			)		{
-			$nivel='1';
-		}
-
-
 		$POSTarrayUser["apellido"]=trim($POSTarrayUser[apellido]);
 		$POSTarrayUser["nombres"]=trim($POSTarrayUser[nombres]);
 		$POSTarrayUser["mail"]=trim($POSTarrayUser[mail]);
@@ -1124,11 +1121,6 @@ function admin_users($do,$user_id=""){
 
 
 		case 'alta':
-		$POSTarrayUser=doArrayDatosUser($_POST);
-
-
-		$nivel=($POSTarrayUser[isAdmin]=='1') ? '1' : '2';
-
 		$POSTarrayUser["apellido"]=trim($POSTarrayUser[apellido]);
 		$POSTarrayUser["nombres"]=trim($POSTarrayUser[nombres]);
 		$POSTarrayUser["mail"]=trim($POSTarrayUser[mail]);
