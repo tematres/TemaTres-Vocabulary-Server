@@ -59,6 +59,9 @@ $CFG["_URI_SEPARATOR_ID"] ='?tema=';
 // Config char encode (only can be: utf-8 or iso-8859-1)
 $CFG["_CHAR_ENCODE"] ='utf-8';
 
+// Google Analytics  GA_TRACKING_ID, Default false=0, to add Google Analytics replace 0 with your GA_TRACKING_ID
+$CFG["GA_TRACKING_ID"] ='0';
+
 // use term codes to sort the terms: (1 = Yes, 0 = No: default: 0)
 // If you use codes as notations, please see _SHOW_CORE param
 $CFG["_USE_CODE"] =($_SESSION[$_SESSION["CFGURL"]]["_USE_CODE"]);
