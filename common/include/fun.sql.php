@@ -1218,7 +1218,7 @@ function SQLTerminosValidos($tema_id=""){
 	$tema_id=secure_data($tema_id,"int");
 
 	//first order by code
-	$orderBy=(["_USE_CODE"]=='1') ? "lower(tema.code),":"";
+	$orderBy=($CFG["_USE_CODE"]=='1') ? "lower(tema.code),":"";
 
 	$where=(@$tema_id) ? " and tema.tema_id='$tema_id' " : "";
 
