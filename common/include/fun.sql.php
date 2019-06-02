@@ -938,7 +938,7 @@ order by rel_order,trr.value_order,lower(uf_tema),lower(bt_tema),lower(nt_tema),
 		$tema_id=secure_data($tema_id,"int");
 
 		//first order by code
-		$orderBy=(["_USE_CODE"]=='1') ? "lower(tema.code)," : "" ;
+		$orderBy=($CFG["_USE_CODE"]=='1') ? "lower(tema.code)," : "" ;
 
 		//Control de estados
 		$where= (!$_SESSION[$_SESSION["CFGURL"]]["ssuser_id"]) ? " and tema.estado_id='13' " : "";
