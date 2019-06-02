@@ -10,7 +10,7 @@ if ((stristr( $_SERVER['REQUEST_URI'], "session.php") ) || ( !defined('T3_ABSPAT
 
 $CFG["Version"]        = "TemaTres 3.1";
 
-$CFG["VersionWebService"]        = "1.6";
+$CFG["VersionWebService"]        = "1.7";
 
 // ID del Tesauro por DEFAULT
 $CFG["DFT_TESA"] ='1';
@@ -39,6 +39,8 @@ $CFG["IMP_TAG_TABULATOR"]  ='===';
 // Define symbols to type of relations
 $CFG["REL_SYMBOLS"]=array("BT"=>'↑',"NT"=>'↓',"UF"=>'↸',"RT"=>'⇆');
 
+// Google Analytics  GA_TRACKING_ID, Default false=0
+$CFG["GA_TRACKING_ID"] ='0';
 
 //Define specific excluded characters from the alphabetic menu
 $CFG["_EXCLUDED_CHARS"]=array("<",">","[","]","(",")",'"',"'","|");

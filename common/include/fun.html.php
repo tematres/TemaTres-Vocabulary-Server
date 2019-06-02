@@ -2068,8 +2068,7 @@ function HTMLheader($metadata){
     $rows.='<script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script><script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>';
     //<![endif]-->
     $rows.=$metadata["metadata"];
- $rows.=' <link type="image/x-icon" href="'.T3_WEBPATH.'images/tematres.ico" rel="icon" />
-  <link type="image/x-icon" href="'.T3_WEBPATH.'images/tematres.ico" rel="shortcut icon" />';
+ 	$rows.=' <link type="image/x-icon" href="'.T3_WEBPATH.'images/tematres.ico" rel="icon" /><link type="image/x-icon" href="'.T3_WEBPATH.'images/tematres.ico" rel="shortcut icon" />';
 	return $rows;
 }
 
@@ -2141,6 +2140,8 @@ return $rows;
 
 function HTMLjsInclude(){
 
+GLOBAL $CFG;	
+
   #	<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 $rows='<script type="text/javascript" src="'.T3_WEBPATH.'jq/lib/jquery-3.3.1.min.js"></script>';	
 $rows.='<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>';
@@ -2181,33 +2182,46 @@ $rows.='<script type="text/javascript">
 		$(".autoGloss").tooltip(options);
 	  </script>';
 
+
+if($CFG["GA_TRACKING_ID"]!=='0'){
+	$rows.='<!-- Google Analytics -->';
+	$rows.='<script async src="https://www.googletagmanager.com/gtag/js?id='.$CFG["GA_TRACKING_ID"].'"></script>
+			<script>
+			  window.dataLayer = window.dataLayer || [];
+			  function gtag(){dataLayer.push(arguments);}
+			  gtag(\'js\', new Date());
+			  gtag(\'config\', \''.$CFG["GA_TRACKING_ID"].'\');
+			</script>
+			<!-- Google Analytics -->';
+}		
+
 //scritp to export form
 if ((isset($_SESSION[$_SESSION["CFGURL"]]["ssuser_nivel"])) &&
 		($_SESSION[$_SESSION["CFGURL"]]["ssuser_nivel"]==1) &&
 		($_GET["doAdmin"]=='export')){
-$rows.='<script type=\'text/javascript\'>//<![CDATA[
-					$(window).load(function(){
-					$(\'#dis\').bind(\'change\', function(event) {
-					    var x = $(\'#dis\').val();
-					    if ((x == "txt") || (x == "spdf") || (x == "rpdf")) {
-					        $(\'#txt_config\').show();
-					    }else{
-					        $(\'#txt_config\').hide();
-					    }
-					    if ((x == "txt") || (x == "rpdf")) {
-					        $(\'#txt_config2\').show();
-					    } else {
-					        $(\'#txt_config2\').hide();
-					    }
-					    if (x == "rfile") {
-					        $(\'#skos_config\').show();
-					    } else{
-					        $(\'#skos_config\').hide();
-					    }
-					});
-					});//]]>
-			</script>';
-};
+		$rows.='<script type=\'text/javascript\'>//<![CDATA[
+							$(window).load(function(){
+							$(\'#dis\').bind(\'change\', function(event) {
+							    var x = $(\'#dis\').val();
+							    if ((x == "txt") || (x == "spdf") || (x == "rpdf")) {
+							        $(\'#txt_config\').show();
+							    }else{
+							        $(\'#txt_config\').hide();
+							    }
+							    if ((x == "txt") || (x == "rpdf")) {
+							        $(\'#txt_config2\').show();
+							    } else {
+							        $(\'#txt_config2\').hide();
+							    }
+							    if (x == "rfile") {
+							        $(\'#skos_config\').show();
+							    } else{
+							        $(\'#skos_config\').hide();
+							    }
+							});
+							});//]]>
+					</script>';
+			};
 
 return $rows;
 }
