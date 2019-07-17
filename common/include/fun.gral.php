@@ -781,11 +781,17 @@ function DBconnect(){
 	GLOBAL $DBCFG;
 
 	//default driver
-	$DBCFG["DBdriver"] = (!$DBCFG["DBdriver"]) ? 'MySQLi' : $DBCFG["DBdriver"];
+	$DBCFG["DBdriver"] = (!$DBCFG["DBdriver"]) ? 'mysqli' : $DBCFG["DBdriver"];
+  
+  $DBCFG["DBpersist"] = ($DBCFG["DBpersist"]=='0') ? '' : '?persist';
 
-	$DB = NewADOConnection($DBCFG["DBdriver"]);
+  $dsn = $DBCFG["DBdriver"].'://'.$DBCFG["DBLogin"].':'.$DBCFG["DBPass"].'@'.$DBCFG["Server"].'/'.$DBCFG["DBName"].$DBCFG["DBpersist"]; 
+  
+  $DB = adoNewConnection($dsn);  # no need for Connect()
 
-	$DB->Connect($DBCFG["Server"], $DBCFG["DBLogin"], $DBCFG["DBPass"], $DBCFG["DBName"]);
+	//$DB = NewADOConnection($DBCFG["DBdriver"]);
+
+	//$DB->Connect($DBCFG["Server"], $DBCFG["DBLogin"], $DBCFG["DBPass"], $DBCFG["DBName"]);
 
 
 	$DB->Execute("SET SESSION sql_mode = 'TRADITIONAL'");

@@ -38,13 +38,17 @@ $DBCFG["DBLogin"]    = "root";
 $DBCFG["DBPass"] = "pass";
 
 //  Prefijo para tablas # Prefix for tables
-$DBCFG["DBprefix"] = "glosaknoc__";
+$DBCFG["DBprefix"] = "lc_";
 
 
 $DBCFG["DBcharset"] ="utf8";
 
 //  modo debug = 1 // debug mode = 1
 $DBCFG["debugMode"] = "0";
+
+//  persist connection to DB. TRUE = 1 // FALSE mode = 0. Default: TRUE
+$DBCFG["DBpersist"] = "";
+
 
 // Define if storage hashed passwords or not  (1 = Yes, 0 = No: default: 0)
 define('CFG_HASH_PASS','0');
