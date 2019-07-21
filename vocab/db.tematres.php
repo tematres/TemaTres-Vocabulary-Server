@@ -44,10 +44,10 @@ $DBCFG["DBprefix"] = "lc_";
 $DBCFG["DBcharset"] ="utf8";
 
 //  modo debug = 1 // debug mode = 1
-$DBCFG["debugMode"] = "0";
+$DBCFG["debugMode"] = "1";
 
 //  persist connection to DB. TRUE = 1 // FALSE mode = 0. Default: TRUE
-$DBCFG["DBpersist"] = "";
+$DBCFG["DBpersist"] = "1";
 
 
 // Define if storage hashed passwords or not  (1 = Yes, 0 = No: default: 0)

@@ -232,7 +232,7 @@ if(@$DBCFG["DBcharset"]){
 
 			$result2 = $DB->Execute("INSERT INTO `".$prefix."config`
 			(`id`, `titulo`, `autor`, `idioma`,  `tipo`, `polijerarquia`, `cuando`, `observa`, `url_base`)
-			VALUES (1, $title, $author, $tematres_lang, 'Controlled vocabulary', 2, '$today', NULL, '$url');") ;
+			VALUES (1, $title, $author, $tematres_lang, 'Controlled vocabulary', '2', '$today', NULL, '$url');") ;
 
 
 

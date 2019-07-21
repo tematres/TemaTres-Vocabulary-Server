@@ -42,6 +42,9 @@ $CFG["REL_SYMBOLS"]=array("BT"=>'↑',"NT"=>'↓',"UF"=>'↸',"RT"=>'⇆');
 // Google Analytics  GA_TRACKING_ID, Default false=0
 $CFG["GA_TRACKING_ID"] ='0';
 
+// Enable copy the string value of valid terms with on click. Default true=1
+$CFG["COPY_CLICK"] =1;
+
 //Define specific excluded characters from the alphabetic menu
 $CFG["_EXCLUDED_CHARS"]=array("<",">","[","]","(",")",'"',"'","|");
 

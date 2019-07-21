@@ -173,26 +173,11 @@ a.eliminar   {
 }
 
 /* Set the fixed height of the footer here */
-.push,
-#footer {
+.push,#footer {
   height: 60px;
 }
 #footer {
   background-color: #f5f5f5;
-}
-
-/* Lastly, apply responsive CSS fixes as necessary */
-@media (max-width: 767px) {
-  #footer {
-    margin-left: -20px;
-    margin-right: -20px;
-    padding-left: 20px;
-    padding-right: 20px;
-  }
-}
-
-.hidden {
-     display:none;
 }
 
 
@@ -284,71 +269,6 @@ fieldset[disabled] .btn-second.active {
 }
 
 
-/* checkbox css  http://bootsnipp.com/snippets/featured/fancy-bootstrap-checkboxes*/
-.form-group-chk input[type="checkbox"] {
-    display: none;
-}
-
-.form-group-chk input[type="checkbox"] + .btn-group > label span {
-    width: 20px;
-}
-
-.form-group-chk input[type="checkbox"] + .btn-group > label span:first-child {
-    display: none;
-}
-.form-group-chk input[type="checkbox"] + .btn-group > label span:last-child {
-    display: inline-block;
-}
-
-.form-group-chk input[type="checkbox"]:checked + .btn-group > label span:first-child {
-    display: inline-block;
-}
-.form-group-chk input[type="checkbox"]:checked + .btn-group > label span:last-child {
-    display: none;
-}
-
-
-/*Custom secondary button*/
-.btn-second {
-  color: #ffffff;
-  background-color: #1E5D94;
-  border-color: #0D033D;
-}
-
-.btn-second:hover,
-.btn-second:focus,
-.btn-second:active,
-.btn-second.active,
-.open .dropdown-toggle.btn-second {
-  color: #ffffff;
-  background-color: #49247A;
-  border-color: #0D033D;
-}
-
-.btn-second:active,
-.btn-second.active,
-.open .dropdown-toggle.btn-second {
-  background-image: none;
-}
-
-.btn-second.disabled,
-.btn-second[disabled],
-fieldset[disabled] .btn-second,
-.btn-second.disabled:hover,
-.btn-second[disabled]:hover,
-fieldset[disabled] .btn-second:hover,
-.btn-second.disabled:focus,
-.btn-second[disabled]:focus,
-fieldset[disabled] .btn-second:focus,
-.btn-second.disabled:active,
-.btn-second[disabled]:active,
-fieldset[disabled] .btn-second:active,
-.btn-second.disabled.active,
-.btn-second[disabled].active,
-fieldset[disabled] .btn-second.active {
-  background-color: #1E5D94;
-  border-color: #0D033D;
-}
 
 .btn-second .badge {
   color: #1E5D94;
@@ -473,7 +393,7 @@ fieldset[disabled] .btn-second.active {
     background-color: rgba(0,0,0,0.85);
     border-radius: 5px;
     box-shadow: 0 0 5px rgba(0,0,0,0.4);
-    max-width: 60%; // Max Width of the popover (depending on the container!)
+    max-width: 60%; /* // Max Width of the popover (depending on the container!) */
     font-family: 'Helvetica',sans-serif;
     color:white;
     box-shadow: 0 0 5px rgba(0,0,0,0.4);
@@ -546,3 +466,36 @@ display: inline;
     color: #000;
     content: "\2192";
 }
+
+.right_separator:before {
+  color: #ccc;
+  padding: 5px,15px,5px,15px;
+  content: "| ";
+}
+
+.panel-heading .accordion-toggle:after {
+    /* symbol for "opening" panels */
+    font-family: 'Glyphicons Halflings';  /* essential for enabling glyphicon */
+    content: "\e114";    /* adjust as needed, taken from bootstrap.css */
+    float: right;        
+
+}
+.panel-heading .accordion-toggle.collapsed:after {
+    /* symbol for "collapsed" panels */
+    content: "\e080";    /* adjust as needed, taken from bootstrap.css */
+}
+
+.panel-group {
+    padding: 20px;
+}
+
+.copy-clipboard {
+
+}
+.copy-clipboard {
+    font-size: 20px;
+    border-radius: 0;
+    vertical-align: inherit;
+    font-size: 14px;
+    margin-left: 5px;
+    border: 0;

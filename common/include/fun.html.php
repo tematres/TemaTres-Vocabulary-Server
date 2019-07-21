@@ -50,16 +50,14 @@ function resultaBusca($texto,$tipo=""){
 
 			$acumula_temas.=$resulta_busca["id_definitivo"].'|';
 
-			if($ibusca=='1')
-			{
+			if($ibusca=='1'){
 				//Guardar el primer término para ver si hay coincidencia exacta
 				$primerTermino=$resulta_busca["tema"];
 				$primerTermino_id=($resulta_busca["id_definitivo"]) ? $resulta_busca["id_definitivo"] : $resulta_busca["tema_id"];
 			}
 
 			//si hubo coicidencia exacta y están apagadas las sugerencias
-			if((strtoupper($primerTermino)==trim(strtoupper($texto))) && (($_GET["sgs"]=='off') || ($sql_cant==1)))
-			{
+			if((strtoupper($primerTermino)==trim(strtoupper($texto))) && (($_GET["sgs"]=='off') || ($sql_cant==1))){
 				return HTMLbodyTermino(ARRAYverDatosTermino($primerTermino_id));
 			}
 
@@ -209,7 +207,9 @@ function doContextoTermino($idTema,$i_profundidad){
 		$css_class_MT=($datosNT["isMetaTerm"]==1) ? ' class="metaTerm" ' : '';
 		$label_MT=($datosNT["isMetaTerm"]==1) ? NOTE_isMetaTerm : '';
 
-		$row_NT.=$CFG["REL_SYMBOLS"]["NT"].' <a '.$css_class_MT.' title="'.LABEL_verDetalle.' '.$datosNT["tema"].' ('.TE_termino.') '.$label_MT.'"  href="'.URL_BASE.'index.php?tema='.$datosNT["id_tema"].'&amp;/'.string2url($datosNT["tema"]).'">'.$datosNT["tema"].'</a>'.$link_next.'</li>';
+		$row_NT.=HTMLcopyClick('nt'.$datosNT["id_tema"],array("isMetaTerm"=>$datosNT["isMetaTerm"],"isValidTerm"=>1,"copy_click"=>$CFG["COPY_CLICK"]));
+
+		$row_NT.=$CFG["REL_SYMBOLS"]["NT"].' <a '.$css_class_MT.' title="'.LABEL_verDetalle.' '.$datosNT["tema"].' ('.TE_termino.') '.$label_MT.'"  href="'.URL_BASE.'index.php?tema='.$datosNT["id_tema"].'&amp;/'.string2url($datosNT["tema"]).'" id="nt'.$datosNT["id_tema"].'">'.$datosNT["tema"].'</a>'.$link_next.'</li>';
 	};
 
 	// Terminos TG, UF y TR
@@ -242,7 +242,10 @@ function doContextoTermino($idTema,$i_profundidad){
 			case '3':// TG
 			$itg=++$itg;
 			$row_TG.='          <li>'.$td_delete.'<abbr class="'.$classAcrnoyn.'" id="edit_rel_id'.$datosTotalRelacionados[rel_id].'" style="display: inline" title="'.TG_termino.' '.$datosTotalRelacionados[rr_value].'" lang="'.LANG.'">'.TG_acronimo.$datosTotalRelacionados["rr_code"].'</abbr>';
-			$row_TG.=$CFG["REL_SYMBOLS"]["BT"].' <a '.$css_class_MT.' title="'.LABEL_verDetalle.' '.$datosTotalRelacionados["tema"].' ('.TG_termino.') '.$label_MT.'"  href="'.URL_BASE.'index.php?tema='.$datosTotalRelacionados["tema_id"].'&amp;/'.string2url($datosTotalRelacionados["tema"]).'">'.$datosTotalRelacionados["tema"].'</a></li>';
+			
+			$row_TG.=HTMLcopyClick('bt'.$datosTotalRelacionados["tema_id"],array("isMetaTerm"=>$datosTotalRelacionados["BT_isMetaTerm"],"isValidTerm"=>1,"copy_click"=>$CFG["COPY_CLICK"]));
+
+			$row_TG.=$CFG["REL_SYMBOLS"]["BT"].' <a '.$css_class_MT.' title="'.LABEL_verDetalle.' '.$datosTotalRelacionados["tema"].' ('.TG_termino.') '.$label_MT.'"  href="'.URL_BASE.'index.php?tema='.$datosTotalRelacionados["tema_id"].'&amp;/'.string2url($datosTotalRelacionados["tema"]).'" id="bt'.$datosTotalRelacionados["tema_id"].'">'.$datosTotalRelacionados["tema"].'</a></li>';
 			break;
 
 			case '4':// UF
@@ -258,7 +261,10 @@ function doContextoTermino($idTema,$i_profundidad){
 			case '2':// TR
 			$irt=++$irt;
 			$row_TR.='          <li>'.$td_delete.'<abbr class="'.$classAcrnoyn.'" id="edit_rel_id'.$datosTotalRelacionados[rel_id].'" style="display: inline" title="'.TR_termino.' '.$datosTotalRelacionados["rr_value"].'" lang="'.LANG.'">'.TR_acronimo.$datosTotalRelacionados["rr_code"].'</abbr>';
-			$row_TR.=$CFG["REL_SYMBOLS"]["RT"].' <a '.$css_class_MT.' title="'.LABEL_verDetalle.' '.$datosTotalRelacionados["tema"].' ('.TR_termino.') '.$label_MT.'"  href="'.URL_BASE.'index.php?tema='.$datosTotalRelacionados["tema_id"].'&amp;/'.string2url($datosTotalRelacionados["tema"]).'">'.$datosTotalRelacionados["tema"].'</a></li>';
+
+			$row_TR.=HTMLcopyClick('rt'.$datosTotalRelacionados["tema_id"],array("isMetaTerm"=>$datosTotalRelacionados["isMetaTerm"],"isValidTerm"=>1,"copy_click"=>$CFG["COPY_CLICK"]));
+
+			$row_TR.=$CFG["REL_SYMBOLS"]["RT"].' <a '.$css_class_MT.' title="'.LABEL_verDetalle.' '.$datosTotalRelacionados["tema"].' ('.TR_termino.') '.$label_MT.'"  href="'.URL_BASE.'index.php?tema='.$datosTotalRelacionados["tema_id"].'&amp;/'.string2url($datosTotalRelacionados["tema"]).'" id="rt'.$datosTotalRelacionados["tema_id"].'">'.$datosTotalRelacionados["tema"].'</a></li>';
 			break;
 
 			case '5':// parcialmente EQ
@@ -423,12 +429,8 @@ function HTMLbodyTermino($array){
 	$body.=$row_miga;
 	$body.='</div>';
 	# fin Div miga de pan
-	$cantNotas=count($array["notas"]);
-	$body.='<ul id="myTermTab" class="nav nav-tabs" style="margin-bottom: 15px;"><li ><a class="active" href="#theTerm" data-toggle="tab">'.ucfirst(LABEL_Termino).'</a></li>';
 
-	if($cantNotas>0) {
-		$body.='<li><a href="#notesTerm" id="labelNotes" data-toggle="tab">'.ucfirst(LABEL_notes).' <span class="badge">'.$cantNotas.'</span></a></li>';
-	}
+	$body.='<ul id="myTermTab" class="nav nav-tabs" style="margin-bottom: 15px;"><li ><a class="active" href="#theTerm" data-toggle="tab">'.ucfirst(LABEL_Termino).'</a></li>';
 
 	//term menu
 	if($_SESSION[$_SESSION["CFGURL"]]["ssuser_id"])	{
@@ -441,9 +443,6 @@ function HTMLbodyTermino($array){
 	#Tabs content
 	$body.='<div id="tabContent" class="tab-content">';
 
-	$body.='<div class="tab-pane fade" id="notesTerm">';
-	$body.=HTMLNotasTermino($array,$editFlag);
-	$body.='</div>';
 	#Div relaciones del terminos
 	$body.='<div class="tab-pane fade in active" id="theTerm">';
 
@@ -451,13 +450,13 @@ function HTMLbodyTermino($array){
 	if($_SESSION[$_SESSION["CFGURL"]]["ssuser_id"]>0){
 		$body.='<dfn class="term "id="term"><span id="edit_tema'.$array["tema_id"].'" class="edit_area_term">'.$array["titTema"].'</span></dfn> ' ;
 	} else{
-		// Replaced by HTMLnotaPpal();
-		//$body.='<h3  class="termDefinition" data-content="'.TXTtermDefinition($array,array($_SESSION[$_SESSION["CFGURL"]]["_GLOSS_NOTES"])).'" rel="popover" data-placement="top" data-trigger="hover">'.$array["titTema"].'</h3>';
-		$body.='<dfn class="term">'.$array["titTema"].'</dfn>';
+		$body.='<dfn id="term" class="term">'.$array["titTema"].'</dfn>';
 	}
 
+	$body.=HTMLcopyClick('term',array("isMetaTerm"=>$array["isMetaTerm"],"isValidTerm"=>boolval(isValidTerm($array["tema_id"])),"copy_click"=>$CFG["COPY_CLICK"]));
 
-	$body.=HTMLNotaPpal($array,$editFlag);
+
+	$body.=HTMLNotasTermino($array,$editFlag);
 
 
 	$body.=HTMLshowCode($array);
@@ -596,8 +595,8 @@ function HTMLtermMenuX2($array_tema,$relacionesTermino){
 
 	GLOBAL $CFG;
 
-	$sqlcheckIsValidTerm=SQLcheckIsValidTerm($array_tema["tema_id"]);
-	$isValidTerm=(SQLcount($sqlcheckIsValidTerm)==0) ? true : false;
+	$isValidTerm=isValidTerm($array_tema["tema_id"]);
+
 
 	// PERMITIR O NO POLIJERARQUIAS//
 	if( ( ($relacionesTermino["cantTG"]==0) || ($_SESSION["CFGPolijerarquia"]=='1') ) &&
@@ -717,84 +716,61 @@ function HTMLtermMenuX2($array_tema,$relacionesTermino){
 
 
 
-#
-# Ficha del término
-#
+
+/* Nora Ficha del término*/
 function HTMLNotasTermino($array,$editFlag=0){
 
-	if(count($array["notas"])){
+if(count($array["notas"])==0) return;
+
 		for($iNota=0; $iNota<(count($array["notas"])); ++$iNota){
-			if($array["notas"][$iNota][id]){
-				$body.='<div class="NA" id="'.$array["notas"][$iNota]["tipoNota"].$array["notas"][$iNota]["id"].'">';
-				$body.='<dl id="notas">';
-				switch($array["notas"][$iNota]["tipoNota"]){
-					case 'NA';
-					$tipoNota=LABEL_NA;
-					break;
 
-					case 'NH';
-					$tipoNota=LABEL_NH;
-					break;
+			$tipoNota=(in_array($array["notas"][$iNota]["tipoNota_id"],array(8,9,10,11,15))) ? arrayReplace(array(8,9,10,11,15),array(LABEL_NA,LABEL_NH,LABEL_NB,LABEL_NP,LABEL_NC),$array["notas"][$iNota]["tipoNota_id"]) : $array["notas"][$iNota]["tipoNotaLabel"];
+			//idioma de la nota
+			//Rellenar si esta vacion
+			$array["notas"][$iNota]["lang_nota"]=(!$array["notas"][$iNota]["lang_nota"]) ? $_SESSION["CFGIdioma"] : $array["notas"][$iNota]["lang_nota"];
 
-					case 'NC';
-					$tipoNota=LABEL_NC;
-					break;
+			//no mostrar si es igual al idioma del vocabulario
+			$label_lang_nota=($array["notas"][$iNota]["lang_nota"]==$_SESSION["CFGIdioma"]) ? '' : ' ('.$array["notas"][$iNota]["lang_nota"].')';
 
-					case 'NB';
-					$tipoNota=LABEL_NB;
-					break;
+			/*reorganize the note array to create type note groups */
+			$body_note[$tipoNota]["content"].='<div class="panel-body">'.wiki2html($array["notas"][$iNota]["nota"]).'</div>';
 
-					case 'NP';
-					$tipoNota=LABEL_NP;
-					break;
+			if($editFlag==1){
+				$body_note[$tipoNota]["content"].='<div class="panel-footer"">';
+				$body_note[$tipoNota]["content"].=' '.$array["notas"][$iNota]["cuando_nota"].' <a class="right_separator" href="'.URL_BASE.'sobre.php?user_id='.$array["notas"][$iNota]["user_id"].'#termaudit" title="'.LABEL_DatosUser.'">'.$array["notas"][$iNota]["user"].'</a>';
+				$body_note[$tipoNota]["content"].=' <span class="right_separator"><a role="button" class="btn btn-primary btn-xs" href="'.URL_BASE.'index.php?editNota='.$array["notas"][$iNota]["id"].'&amp;taskterm=editNote&amp;tema='.$array["idTema"].'">'.ucfirst(LABEL_EditarNota).'</a>';
+				$body_note[$tipoNota]["content"].=' <a role="button" class="btn btn-danger btn-xs" href="'.URL_BASE.'index.php?tema='.$array["idTema"].'&amp;idTema='.$array["idTema"].'&amp;idNota='.$array["notas"][$iNota]["id"].'&amp;taskNota=rem" name="eliminarNota" title="'.LABEL_EliminarNota.'"/>'.ucfirst(LABEL_EliminarNota).'</a></span>';
 
-				}
+				$body_note[$tipoNota]["content"].='</div>';
+			}
 
-				$tipoNota=(in_array($array["notas"][$iNota]["tipoNota_id"],array(8,9,10,11,15))) ? arrayReplace(array(8,9,10,11,15),array(LABEL_NA,LABEL_NH,LABEL_NB,LABEL_NP,LABEL_NC),$array[notas][$iNota][tipoNota_id]) : $array[notas][$iNota][tipoNotaLabel];
-				//idioma de la nota
-				//Rellenar si esta vacion
-				$array["notas"][$iNota]["lang_nota"]=(!$array["notas"][$iNota]["lang_nota"]) ? $_SESSION["CFGIdioma"] : $array["notas"][$iNota]["lang_nota"];
+			$body_note[$tipoNota]["cant"]=++$body_note[$tipoNota]["cant"];
+			$body_note[$tipoNota]["note_type"]=$array["notas"][$iNota]["tipoNota"];
 
-				//no mostrar si es igual al idioma del vocabulario
-				$label_lang_nota=($array["notas"][$iNota]["lang_nota"]==$_SESSION["CFGIdioma"]) ? '' : ' ('.$array["notas"][$iNota]["lang_nota"].')';
-
-				//enable or not edit
-				if($editFlag==1){
-					$body.='<dt> <a title="'.LABEL_EditarNota.'" href="'.URL_BASE.'index.php?editNota='.$array["notas"][$iNota]["id"].'&amp;taskterm=editNote&amp;tema='.$array["idTema"].'">'.$tipoNota.'</a>'.$label_lang_nota;
-					$body.=' <a role="button" class="btn btn-primary btn-xs" href="'.URL_BASE.'index.php?editNota='.$array["notas"][$iNota]["id"].'&amp;taskterm=editNote&amp;tema='.$array["idTema"].'">'.ucfirst(LABEL_EditarNota).'</a>';
-					$body.=' <a role="button" class="btn btn-danger btn-xs" href="'.URL_BASE.'index.php?tema='.$array["idTema"].'&amp;idTema='.$array["idTema"].'&amp;idNota='.$array["notas"][$iNota]["id"].'&amp;taskNota=rem" name="eliminarNota" title="'.LABEL_EliminarNota.'"/>'.ucfirst(LABEL_EliminarNota).'</a>';
-					$body.='</dt>';
-					//$body.='<dd> '.wiki2html($array["notas"][$iNota]["nota"]);
-					$body.='<dd> '.wiki2link($array["notas"][$iNota]["nota"]);
-					$body.='<div class="footnote">'.$array["notas"][$iNota]["cuando_nota"].' <a href="'.URL_BASE.'sobre.php?user_id='.$array["notas"][$iNota]["user_id"].'#termaudit" title="'.LABEL_DatosUser.'">'.$array["notas"][$iNota]["user"].'</a></div>';
-					$body.='<div class="footnote"></div>';
-					$body.='</dd>';
-				}else{
-					$body.='<dt>'.$tipoNota.$label_lang_nota.'</dt><dd> '.wiki2html($array["notas"][$iNota]["nota"]).'</dd>';
-				}
-
-				$body.='</dl>';;
-				$body.='</div>';;
-			};//fin de if id nota
 		};// fin del for
+	
 
-	};
+		$body='<div class="panel-group" id="notas_collap">';
+		foreach ($body_note as $note_type => $note) {
+				$i=++$i;
+				$display_note=($note["note_type"]==$_SESSION[$_SESSION["CFGURL"]]["_GLOSS_NOTES"]) ? ' in':'';			
+				$body.='<div class="panel panel-default">
+				    <div class="panel-heading">
+				      <h5 class="panel-title"><a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseNote'.$i.'">'.$note_type.'</a>';
+				if($note["cant"]>1) $body.=' <span class="badge">'.$note["cant"].'</span>';
+				$body.='</h5></div>
+				    <div id="collapseNote'.$i.'" class="panel-collapse collapse'.$display_note.'">'.$note["content"].' </div>
+				  </div>';
+		}
+		$body.='</div>';
+
 	return $body;
 };
-#
-# Nota principal del término
-#
-function HTMLNotaPpal($array,$tema_id){
-	$body='<div class="panel card-outline-secondary">';
-	$body.='<p class="panel-body"> '.wiki2link(extractNoteTypeConent($array,$_SESSION[$_SESSION["CFGURL"]]["_GLOSS_NOTES"],"html")).'</p>';
-	$body.='</div>';					
 
-	return $body;
-};
 
-#
-# //// BUCLE HACIA ARRIBA
-#
+
+
+/* //// BUCLE HACIA ARRIBA*/
 function sql_rel($idTema,$i){
 	if($i<10){// Para evitar bucle infinito en caso de error por relaciones recursivas. max= 10
 		$sql=SQLbucleArriba($idTema);
@@ -855,9 +831,9 @@ function otro_bucle_arriba($sql){
 
 	return $indice_temas;
 };
-#
-# //// BUCLE HACIA ABAJO
-#
+
+
+/*BUCLE HACIA ABAJO*/
 function evalRelacionSuperior($idTema,$i,$idTemaEvaluado){
 
 	$sql=SQLbucleArriba($idTema);
@@ -873,9 +849,8 @@ function evalRelacionSuperior($idTema,$i,$idTemaEvaluado){
 };
 
 
-#
-# //// PROCESAMIENTO ARRAY DEL BUCLE HACIA abajo
-#
+
+/* PROCESAMIENTO ARRAY DEL BUCLE HACIA abajo */
 function evalSubordina($datos,$i,$idTemaEvaluado){
 
 	while($lista=$datos->FetchRow()){
@@ -891,9 +866,8 @@ function evalSubordina($datos,$i,$idTemaEvaluado){
 
 
 
-#
-# Armado del menú de cambio de idioma
-#
+
+/* Armado del menú de cambio de idioma */
 function doMenuLang($tema_id="0"){
 
 	GLOBAL $idiomas_disponibles;
@@ -922,9 +896,8 @@ function doMenuLang($tema_id="0"){
 
 
 
-#
-# Armado de tabla de términos según meses
-#
+
+/* Armado de tabla de términos según meses */
 function doBrowseTermsFromDate($month,$year,$ord=""){
 
 	GLOBAL $MONTHS;
@@ -973,9 +946,8 @@ function doBrowseTermsFromDate($month,$year,$ord=""){
 };
 
 
-#
-# Armado de browse de términos
-#
+
+/* Armado de browse de términos */
 function doBrowseTermsByDate(){
 	GLOBAL $MONTHS;
 	$sql=SQLtermsByDate();
@@ -1052,9 +1024,8 @@ function HTML_URLsearch($display=Array(),$arrayTema=Array()) {
 };
 
 
-#
-# Expande una busqueda hacia arriba == busca los términos más generales de los términos especificos devueltos en una busqueda
-#
+
+/* Expande una busqueda hacia arriba == busca los términos más generales de los términos especificos devueltos en una busqueda */
 function HTMLbusquedaExpandidaTG($acumula_indice,$acumula_temas,$string){
 
 	global $DBCFG;
@@ -1098,9 +1069,8 @@ function HTMLbusquedaExpandidaTG($acumula_indice,$acumula_temas,$string){
 
 
 
-#
-# Expande una busqueda hacia terminos relacionados == busca los términos relacionados de los términos especificos devueltos en una busqueda
-#
+
+/* Expande una busqueda hacia terminos relacionados == busca los términos relacionados de los términos especificos devueltos en una busqueda */
 function HTMLbusquedaExpandidaTR($acumula_temas,$string){
 
 	$temas_ids=str_replace("|",",", $acumula_temas);
@@ -1126,6 +1096,7 @@ function HTMLbusquedaExpandidaTR($acumula_temas,$string){
 };
 
 
+/*  mostrar html de términos específicos */
 function HTMLverTE($tema_id,$i_profundidad,$i=""){
 
 	GLOBAL $CFG;
@@ -1170,6 +1141,7 @@ function JHTMLverTE($tema_id){
 }
 
 
+/* términos según estados */
 function HTMLlistaTerminosEstado($estado_id,$limite="")
 {
 
@@ -1262,6 +1234,7 @@ function HTMLlistaTerminosFecha($limite="")
 
 
 
+/* HTML de Acaso quiso decir... (levenstein) */
 function HTMLsugerirTermino($texto,$acumula_temas="0"){
 
 	$sqlSimilar=SQLsimiliar($texto,$acumula_temas);
@@ -1452,9 +1425,8 @@ function HTMLterminosLetra($letra)
 
 
 
-#
-# Armado de resultados de búsqueda avanzada
-#
+
+/* Armado de resultados de búsqueda avanzada */
 function HTMLadvancedSearchResult($array){
 
 	//Ctrol lenght string
@@ -1533,9 +1505,7 @@ function HTMLadvancedSearchResult($array){
 };
 
 
-/*
-Show terms from target vocabularies
-*/
+/* Show terms from target vocabularies */
 function HTMLtargetTerms($tema_id)
 {
 	$sql=SQLtargetTerms($tema_id);
@@ -1596,9 +1566,7 @@ function HTMLURI4term($tema_id)
 }
 
 
-/*
-check changes in one foreing term
-*/
+/* check changes in one foreing term */
 function HTMLcheckTargetTerm($array)
 {
 
@@ -1918,6 +1886,9 @@ function paginate_links( $args = '' ) {
 
 		}
 
+
+
+/* estadística de términos según nivel de profundidad */
 function HTMLdeepStats(){
 
 	$sql=SQLTermDeep();
@@ -2058,9 +2029,9 @@ function makeGlossary($notesType=array("NA"),$params=array()){
 function HTMLheader($metadata){
 
  	$rows='<meta charset="utf-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1">';
-    $rows.='<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">';
+    $rows.='<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">';
 	$rows.='<!-- Optional theme -->';
-	$rows.='<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap-theme.min.css">';
+	$rows.='<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css">';
     //$rows.='<link href="'.T3_WEBPATH.'bootstrap/submenu/css/bootstrap-submenu.min.css" rel="stylesheet">';
     $rows.='<link href="'.T3_WEBPATH.'css/t3style.css" rel="stylesheet">';
     //<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
@@ -2144,12 +2115,13 @@ GLOBAL $CFG;
 
   #	<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 $rows='<script type="text/javascript" src="'.T3_WEBPATH.'jq/lib/jquery-3.3.1.min.js"></script>';	
-$rows.='<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>';
+$rows.='<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>';
 $rows.='<!-- Include all compiled plugins (below), or include individual files as needed -->
 		 
 		 <script type="text/javascript" src="'.T3_WEBPATH.'jq/jquery.autocomplete.min.js"></script>
 		 <script type="text/javascript" src="'.T3_WEBPATH.'jq/jquery.mockjax.js"></script>
 		 <script type="text/javascript" src="'.T3_WEBPATH.'jq/tree.jquery.js"></script>
+		 <script type="text/javascript" src="'.T3_WEBPATH.'jq/clipboard.min.js"></script>
 
 		 <link rel="stylesheet" type="text/css" href="'.T3_WEBPATH.'css/jquery.autocomplete.css" />
 		 <link rel="stylesheet" type="text/css" href="'.T3_WEBPATH.'css/jqtree.css" />
@@ -2174,6 +2146,8 @@ if (isset($_SESSION[$_SESSION["CFGURL"]]["ssuser_nivel"]) && ($_SESSION[$_SESSIO
  	$rows.='<script src="'.T3_WEBPATH.'forms/localization/messages_'.$_SESSION[$_SESSION["CFGURL"]]["lang"][2].'.js" type="text/javascript"></script>';
 
 $rows.='<script type="text/javascript">
+    	var clipboard = new ClipboardJS(\'.copy-clipboard\');
+
 	  	$("#myTermTab").tabCollapse();
 	  	$(".dropdown-submenu > a").submenupicker();
 
@@ -2222,6 +2196,9 @@ if ((isset($_SESSION[$_SESSION["CFGURL"]]["ssuser_nivel"])) &&
 							});//]]>
 					</script>';
 			};
+
+
+
 
 return $rows;
 }
@@ -2324,7 +2301,7 @@ function HTMLselectTargetVocabulary($tvocab_id=""){
 }
 
 
-//alphabetic list of terms to browse table
+/* alphabetic list of terms to browse table */
 function HTMLalphaListTerms4map($tvocab_id,$filterEQ,$char=""){
 
 	$sqlMenuAlfabetico=SQLlistaABCPreferedTerms($char);
@@ -2432,9 +2409,7 @@ function HTMLsimpleTerm($arrayTerm){
 
 
 
-#
-#  ARMADOR DE HTML CON DATOS DEL TERMINO
-#
+/*ARMADOR DE HTML CON DATOS DE TERMINO externo vía web services */ 
 function HTMLsimpleForeignTerm($arrayTerm,$URL_ttermData){
   $NTrows='';
   $BTrows='';
@@ -2559,19 +2534,32 @@ return $rows;
 
 
 
-#
-# extract note content about one type of notes for given array term metadata
-#
-function extractNoteTypeConent($metadata,$note_type,$format="txt"){
+
+/* extract note content about one type of notes for given array term metadata*/
+function extractNoteTypeConent($metadata,$note_type,$format="txt",$editFlag=0){
 
 	if(!is_array($metadata["notas"])) return;
 	
 	foreach ($metadata["notas"] as $notes) {
 	
 		if($notes["tipoNota"]==$note_type){
-			$note_text.=($format=='txt') ? html2txt($notes["nota"]) : $notes["nota"];	
+			$note_text.=($format=='txt') ? html2txt($notes["nota"]) : $notes["nota"];
+
+			if($editFlag==1){
+				$note_text.='<div class="text-right"><a role="button" class="btn btn-primary btn-xs" href="'.URL_BASE.'index.php?editNota='.$notes["id"].'&amp;taskterm=editNote&amp;tema='.$metadata["idTema"].'">'.ucfirst(LABEL_EditarNota).'</a>';
+				$note_text.=' <a role="button" class="btn btn-danger btn-xs" href="'.URL_BASE.'index.php?tema='.$notes["idTema"].'&amp;idTema='.$metadata["idTema"].'&amp;idNota='.$notes["id"].'&amp;taskNota=rem" name="eliminarNota" title="'.LABEL_EliminarNota.'"/>'.ucfirst(LABEL_EliminarNota).'</a></div>';
+				};
 		} 
 	}
 	return $note_text;
+}
+
+
+/*HTML button to copy the value string for valid term*/
+function HTMLcopyClick($targt_div,$array_flags){
+
+	if(($array_flags["isMetaTerm"]==1) || ($array_flags["isValidTerm"]==0) || ($array_flags["copy_click"]==0)) return;
+
+	return '<button class="btn btn-default btn-xs copy-clipboard" data-clipboard-action="copy" data-clipboard-target="#'.$targt_div.'" alt="Copy to clipboard"><span class="glyphicon glyphicon-copy" aria-hidden="true"></span></button>';
 }
 ?>

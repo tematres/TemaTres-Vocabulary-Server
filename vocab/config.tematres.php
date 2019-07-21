@@ -22,12 +22,13 @@ if (stristr( $_SERVER['REQUEST_URI'], "config.tematres.php") ) die("no access");
  */
 # ARCHIVO DE CONFIGURACION == CONFIG FILE #
 include('db.tematres.php');
+
 if($DBCFG["debugMode"]=='1'){
 	ini_set('display_errors', 'On');
 	error_reporting(E_ALL);	
-}else{
+	}else{
 	ini_set('display_errors',false);
-}
+	}
 require_once(T3_ABSPATH . 'common/include/fun.gral.php');
 // Conexión con la BD || => proceso de instalación
 $DB = DBconnect();

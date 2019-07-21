@@ -187,7 +187,7 @@ function do_nodo_zthes($idTema){
 	if($datosTermino["isMetaTerm"]!=='1') $meta_tag.='	<termSortkey>'.xmlentities($datosTermino["titTema"]).'</termSortkey>';
 
 	for($iNota=0; $iNota<(count($datosTermino["notas"])); ++$iNota){
-		if($datosTermino[notas][$iNota][id]){
+		if($datosTermino["notas"][$iNota]["id"]){
 			switch($datosTermino["notas"][$iNota]["tipoNota"]){
 				case 'NP':
 				//nothing

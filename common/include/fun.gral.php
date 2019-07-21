@@ -766,6 +766,7 @@ function clean($val) {
    return $val;
 }
 
+
 ########################################################################################################################
 ########################################################################################################################
 function DBconnect(){
@@ -777,14 +778,15 @@ function DBconnect(){
 */
 //	include_once('adodb5/adodb-exceptions.inc.php');
 
-
 	GLOBAL $DBCFG;
 
 	//default driver
 	$DBCFG["DBdriver"] = (!$DBCFG["DBdriver"]) ? 'mysqli' : $DBCFG["DBdriver"];
   
-  $DBCFG["DBpersist"] = ($DBCFG["DBpersist"]=='0') ? '' : '?persist';
+  //default value for type pesistence
+  $DBCFG["DBpersist"] = (@$DBCFG["DBpersist"]==0) ? '' : '?persist';
 
+  
   $dsn = $DBCFG["DBdriver"].'://'.$DBCFG["DBLogin"].':'.$DBCFG["DBPass"].'@'.$DBCFG["Server"].'/'.$DBCFG["DBName"].$DBCFG["DBpersist"]; 
   
   $DB = adoNewConnection($dsn);  # no need for Connect()
@@ -1049,6 +1051,14 @@ function ARRAYlastNoteMod()
 	$sql=SQL("select","max(n.cuando) last from $DBCFG[DBprefix]notas n");
 	$array=$sql->FetchRow();
 	return $array[last];
+}
+
+
+
+/*Check if a prefered term in the object language of the voca*/
+function isValidTerm($term_id){
+  $sqlcheckIsValidTerm=SQLcheckIsValidTerm($term_id);
+  return (SQLcount($sqlcheckIsValidTerm)==0) ? true : false;
 }
 
 
