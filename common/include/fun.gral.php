@@ -1532,4 +1532,18 @@ if (checkdate((int) $arrayDate[1],(int) $arrayDate[2],(int) $arrayDate[0])) {
   } else {return false;};
 }
 
+
+/**
+ * Get the boolean value of a variable
+ *
+ * @param   mixed   The scalar value being converted to a boolean.
+ * @return  boolean The boolean value of var.
+ * @refer http://php.net/manual/en/function.boolval.php#114013
+ */
+if( !function_exists('boolval')) {
+  
+  function boolval($var){
+    return !! $var;
+  }
+}
 ?>
