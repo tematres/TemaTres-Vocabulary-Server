@@ -489,13 +489,10 @@ display: inline;
     padding: 20px;
 }
 
-.copy-clipboard {
 
-}
 .copy-clipboard {
-    font-size: 20px;
     border-radius: 0;
     vertical-align: inherit;
     font-size: 14px;
-    margin-left: 5px;
+    margin-right: 5px;
     border: 0;
