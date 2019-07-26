@@ -188,10 +188,14 @@ function doContextoTermino($idTema,$i_profundidad){
 			$link_next='';
 		};
 
+		// abre lista TE
+		$row_NT.='<li  id="t'.$datosNT[id_tema].'">';
+		$row_NT.=HTMLcopyClick('nt'.$datosNT["id_tema"],array("isMetaTerm"=>$datosNT["isMetaTerm"],"isValidTerm"=>1,"copy_click"=>$CFG["COPY_CLICK"]));
+
 		//editor de relaciones
 		if($_SESSION[$_SESSION["CFGURL"]]["ssuser_id"]){
 			$td_delete='<a type="button" class="btn btn-danger btn-xs" id="elimina_'.$datosNT["id_tema"].'" title="'.LABEL_borraRelacion.'"  class="eliminar" href="'.URL_BASE.'index.php?ridelete='.$datosNT["id_relacion"].'&amp;tema='.$idTema.'" onclick="return askData();"><span class="glyphicon glyphicon-remove"></span></a> ';
-			$row_NT.=' <li  id="t'.$datosNT[id_tema].'">'.$td_delete.'<abbr class="thesacronym" title="'.TE_termino.' '.$datosNT["rr_value"].'" lang="'.LANG.'" id="r'.$datosNT["rel_id"].'"><span class="editable_selectTE" id="edit_rel_id'.$datosNT["rel_id"].'" style="display: inline">'.TE_acronimo.$datosNT["rr_code"].'</span>'.$i_profundidad.'</abbr> ';
+			$row_NT.=' '.$td_delete.'<abbr class="thesacronym" title="'.TE_termino.' '.$datosNT["rr_value"].'" lang="'.LANG.'" id="r'.$datosNT["rel_id"].'"><span class="editable_selectTE" id="edit_rel_id'.$datosNT["rel_id"].'" style="display: inline">'.TE_acronimo.$datosNT["rr_code"].'</span>'.$i_profundidad.'</abbr> ';
 
 			//Editor de código
 			$row_NT.=($CFG["_USE_CODE"]=='1') ? '<div title="term code, click to edit" class="editable_textarea" id="code_tema'.$datosNT["id_tema"].'">'.$datosNT["code"].'</div>' : '';
@@ -199,15 +203,13 @@ function doContextoTermino($idTema,$i_profundidad){
 		}
 		else
 		{
-			$row_NT.=' <li id="t'.$datosNT["id_tema"].'"><abbr class="thesacronym" id="r'.$datosNT["rel_id"].'" title="'.TE_termino.' '.$datosNT["rr_value"].'" lang="'.LANG.'">'.TE_acronimo.$datosNT["rr_code"].$i_profundidad.'</abbr> ';
+			$row_NT.=' <abbr class="thesacronym" id="r'.$datosNT["rel_id"].'" title="'.TE_termino.' '.$datosNT["rr_value"].'" lang="'.LANG.'">'.TE_acronimo.$datosNT["rr_code"].$i_profundidad.'</abbr> ';
 			//ver  código
 			$row_NT.=($CFG["_SHOW_CODE"]=='1') ? ' '.$datosNT["code"].' ' : '';
 		}
 
 		$css_class_MT=($datosNT["isMetaTerm"]==1) ? ' class="metaTerm" ' : '';
 		$label_MT=($datosNT["isMetaTerm"]==1) ? NOTE_isMetaTerm : '';
-
-		$row_NT.=HTMLcopyClick('nt'.$datosNT["id_tema"],array("isMetaTerm"=>$datosNT["isMetaTerm"],"isValidTerm"=>1,"copy_click"=>$CFG["COPY_CLICK"]));
 
 		$row_NT.=$CFG["REL_SYMBOLS"]["NT"].' <a '.$css_class_MT.' title="'.LABEL_verDetalle.' '.$datosNT["tema"].' ('.TE_termino.') '.$label_MT.'"  href="'.URL_BASE.'index.php?tema='.$datosNT["id_tema"].'&amp;/'.string2url($datosNT["tema"]).'" id="nt'.$datosNT["id_tema"].'">'.$datosNT["tema"].'</a>'.$link_next.'</li>';
 	};
@@ -241,9 +243,10 @@ function doContextoTermino($idTema,$i_profundidad){
 		switch($datosTotalRelacionados["t_relacion"]){
 			case '3':// TG
 			$itg=++$itg;
-			$row_TG.='          <li>'.$td_delete.'<abbr class="'.$classAcrnoyn.'" id="edit_rel_id'.$datosTotalRelacionados[rel_id].'" style="display: inline" title="'.TG_termino.' '.$datosTotalRelacionados[rr_value].'" lang="'.LANG.'">'.TG_acronimo.$datosTotalRelacionados["rr_code"].'</abbr>';
-			
+			$row_TG.='          <li>';
 			$row_TG.=HTMLcopyClick('bt'.$datosTotalRelacionados["tema_id"],array("isMetaTerm"=>$datosTotalRelacionados["BT_isMetaTerm"],"isValidTerm"=>1,"copy_click"=>$CFG["COPY_CLICK"]));
+			$row_TG.=' '.$td_delete.'<abbr class="'.$classAcrnoyn.'" id="edit_rel_id'.$datosTotalRelacionados[rel_id].'" style="display: inline" title="'.TG_termino.' '.$datosTotalRelacionados[rr_value].'" lang="'.LANG.'">'.TG_acronimo.$datosTotalRelacionados["rr_code"].'</abbr>';
+						
 
 			$row_TG.=$CFG["REL_SYMBOLS"]["BT"].' <a '.$css_class_MT.' title="'.LABEL_verDetalle.' '.$datosTotalRelacionados["tema"].' ('.TG_termino.') '.$label_MT.'"  href="'.URL_BASE.'index.php?tema='.$datosTotalRelacionados["tema_id"].'&amp;/'.string2url($datosTotalRelacionados["tema"]).'" id="bt'.$datosTotalRelacionados["tema_id"].'">'.$datosTotalRelacionados["tema"].'</a></li>';
 			break;
@@ -260,7 +263,9 @@ function doContextoTermino($idTema,$i_profundidad){
 
 			case '2':// TR
 			$irt=++$irt;
-			$row_TR.='          <li>'.$td_delete.'<abbr class="'.$classAcrnoyn.'" id="edit_rel_id'.$datosTotalRelacionados[rel_id].'" style="display: inline" title="'.TR_termino.' '.$datosTotalRelacionados["rr_value"].'" lang="'.LANG.'">'.TR_acronimo.$datosTotalRelacionados["rr_code"].'</abbr>';
+			$row_TR.='<li>';
+			$row_TR.=HTMLcopyClick('rt'.$datosTotalRelacionados["tema_id"],array("isMetaTerm"=>$datosTotalRelacionados["isMetaTerm"],"isValidTerm"=>1,"copy_click"=>$CFG["COPY_CLICK"]));
+			$row_TR.=' '.$td_delete.'<abbr class="'.$classAcrnoyn.'" id="edit_rel_id'.$datosTotalRelacionados[rel_id].'" style="display: inline" title="'.TR_termino.' '.$datosTotalRelacionados["rr_value"].'" lang="'.LANG.'">'.TR_acronimo.$datosTotalRelacionados["rr_code"].'</abbr>';
 
 			$row_TR.=HTMLcopyClick('rt'.$datosTotalRelacionados["tema_id"],array("isMetaTerm"=>$datosTotalRelacionados["isMetaTerm"],"isValidTerm"=>1,"copy_click"=>$CFG["COPY_CLICK"]));
 
@@ -446,6 +451,9 @@ function HTMLbodyTermino($array){
 	#Div relaciones del terminos
 	$body.='<div class="tab-pane fade in active" id="theTerm">';
 
+
+	$body.=HTMLcopyClick('term',array("isMetaTerm"=>$array["isMetaTerm"],"isValidTerm"=>boolval(isValidTerm($array["tema_id"])),"copy_click"=>$CFG["COPY_CLICK"]));
+
 		//el termino //span editable
 	if($_SESSION[$_SESSION["CFGURL"]]["ssuser_id"]>0){
 		$body.='<dfn class="term "id="term"><span id="edit_tema'.$array["tema_id"].'" class="edit_area_term">'.$array["titTema"].'</span></dfn> ' ;
@@ -453,7 +461,7 @@ function HTMLbodyTermino($array){
 		$body.='<dfn id="term" class="term">'.$array["titTema"].'</dfn>';
 	}
 
-	$body.=HTMLcopyClick('term',array("isMetaTerm"=>$array["isMetaTerm"],"isValidTerm"=>boolval(isValidTerm($array["tema_id"])),"copy_click"=>$CFG["COPY_CLICK"]));
+
 
 
 	$body.=HTMLNotasTermino($array,$editFlag);
@@ -1125,9 +1133,11 @@ function HTMLverTE($tema_id,$i_profundidad,$i=""){
 
 		$label_MT=($array["isMetaTerm"]==1) ? NOTE_isMetaTerm : '';
 
-		$rows.='<li class="listTE"><abbr class="thesacronym" title="'.TE_termino.'" lang="'.LANG.'">'.TE_acronimo.$i_profundidad.'</abbr> ' ;
+		$rows.='<li class="listTE">' ;
+		$rows.=HTMLcopyClick('nt'.$array["id_tema"],array("isMetaTerm"=>$array["isMetaTerm"],"isValidTerm"=>1,"copy_click"=>$CFG["COPY_CLICK"]));
+		$rows.=' <abbr class="thesacronym" title="'.TE_termino.'" lang="'.LANG.'">'.TE_acronimo.$i_profundidad.'</abbr> ' ;
 		$rows.=HTMLshowCode($array);
-		$rows.=$CFG["REL_SYMBOLS"]["NT"].' <a '.$css_class_MT.' title="'.LABEL_verDetalle.' '.$array["tema"].' ('.TE_termino.') '.$label_MT.'"  href="'.URL_BASE.'index.php?tema='.$array["id_tema"].'&amp;/'.string2url($array["tema"]).'">'.$array["tema"].'</a>'.$link_next.'</li>';
+		$rows.=$CFG["REL_SYMBOLS"]["NT"].' <a id="nt'.$array["id_tema"].'" '.$css_class_MT.' title="'.LABEL_verDetalle.' '.$array["tema"].' ('.TE_termino.') '.$label_MT.'"  href="'.URL_BASE.'index.php?tema='.$array["id_tema"].'&amp;/'.string2url($array["tema"]).'">'.$array["tema"].'</a>'.$link_next.'</li>';
 	};
 	$rows.='</ul>';
 
@@ -2029,10 +2039,13 @@ function makeGlossary($notesType=array("NA"),$params=array()){
 function HTMLheader($metadata){
 
  	$rows='<meta charset="utf-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1">';
-    $rows.='<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">';
-	$rows.='<!-- Optional theme -->';
-	$rows.='<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css">';
-    //$rows.='<link href="'.T3_WEBPATH.'bootstrap/submenu/css/bootstrap-submenu.min.css" rel="stylesheet">';
+	 //	<!-- Latest compiled and minified CSS -->
+	$rows.='<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">';
+	//<!-- Optional theme -->
+	$rows.='<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">';
+	//<!-- Latest compiled and minified JavaScript -->
+	$rows.='<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>';
+
     $rows.='<link href="'.T3_WEBPATH.'css/t3style.css" rel="stylesheet">';
     //<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     //<!--[if lt IE 9]>
