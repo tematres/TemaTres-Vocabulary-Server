@@ -2097,7 +2097,7 @@ function SQLTermDeep($tema_id="0")
 {
 	GLOBAL $DBCFG;
 
-	$w=($tema_id>0) ? " where i.tema_id='$tema_id'" : "";
+	$w=($tema_id>0) ? ' where i.tema_id like "|'.$tema_id.'|%"'  : null;
 
 	return SQL("select","LENGTH(i.indice) - LENGTH(REPLACE(i.indice, '|', '')) AS tdeep, count(*) as cant
 	from $DBCFG[DBprefix]indice i
