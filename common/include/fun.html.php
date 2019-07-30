@@ -2040,11 +2040,11 @@ function HTMLheader($metadata){
 
  	$rows='<meta charset="utf-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1">';
 	 //	<!-- Latest compiled and minified CSS -->
-	$rows.='<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">';
+	$rows.='<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">';
 	//<!-- Optional theme -->
-	$rows.='<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">';
+	$rows.='<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">';
 	//<!-- Latest compiled and minified JavaScript -->
-	$rows.='<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>';
+
 
     $rows.='<link href="'.T3_WEBPATH.'css/t3style.css" rel="stylesheet">';
     //<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
@@ -2127,11 +2127,10 @@ function HTMLjsInclude(){
 GLOBAL $CFG;	
 
   #	<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-$rows='<script type="text/javascript" src="'.T3_WEBPATH.'jq/lib/jquery-3.3.1.min.js"></script>';	
-$rows.='<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>';
-$rows.='<!-- Include all compiled plugins (below), or include individual files as needed -->
-		 
-		 <script type="text/javascript" src="'.T3_WEBPATH.'jq/jquery.autocomplete.min.js"></script>
+$rows='<script type="text/javascript" src="'.T3_WEBPATH.'jq/lib/jquery-3.4.1.min.js"></script>';	
+$rows.='<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>';
+# <!-- Include all compiled plugins (below), or include individual files as needed -->
+$rows.='<script type="text/javascript" src="'.T3_WEBPATH.'jq/jquery.autocomplete.min.js"></script>
 		 <script type="text/javascript" src="'.T3_WEBPATH.'jq/jquery.mockjax.js"></script>
 		 <script type="text/javascript" src="'.T3_WEBPATH.'jq/tree.jquery.js"></script>
 		 <script type="text/javascript" src="'.T3_WEBPATH.'jq/clipboard.min.js"></script>
