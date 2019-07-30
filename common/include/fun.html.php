@@ -452,13 +452,13 @@ function HTMLbodyTermino($array){
 	$body.='<div class="tab-pane fade in active" id="theTerm">';
 
 
-	$body.=HTMLcopyClick('term',array("isMetaTerm"=>$array["isMetaTerm"],"isValidTerm"=>boolval(isValidTerm($array["tema_id"])),"copy_click"=>$CFG["COPY_CLICK"]));
+	$copy_link=HTMLcopyClick('term',array("isMetaTerm"=>$array["isMetaTerm"],"isValidTerm"=>boolval(isValidTerm($array["tema_id"])),"copy_click"=>$CFG["COPY_CLICK"]));
 
 		//el termino //span editable
 	if($_SESSION[$_SESSION["CFGURL"]]["ssuser_id"]>0){
-		$body.='<dfn class="term "id="term"><span id="edit_tema'.$array["tema_id"].'" class="edit_area_term">'.$array["titTema"].'</span></dfn> ' ;
+		$body.='<dfn class="term "id="term">'.$copy_link.'<span id="edit_tema'.$array["tema_id"].'" class="edit_area_term">'.$array["titTema"].'</span></dfn> ' ;
 	} else{
-		$body.='<dfn id="term" class="term">'.$array["titTema"].'</dfn>';
+		$body.='<dfn id="term" class="term">'.$copy_link.' '.$array["titTema"].'</dfn>';
 	}
 
 
