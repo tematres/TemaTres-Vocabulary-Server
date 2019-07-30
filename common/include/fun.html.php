@@ -265,9 +265,9 @@ function doContextoTermino($idTema,$i_profundidad){
 			$irt=++$irt;
 			$row_TR.='<li>';
 			$row_TR.=HTMLcopyClick('rt'.$datosTotalRelacionados["tema_id"],array("isMetaTerm"=>$datosTotalRelacionados["isMetaTerm"],"isValidTerm"=>1,"copy_click"=>$CFG["COPY_CLICK"]));
+			
 			$row_TR.=' '.$td_delete.'<abbr class="'.$classAcrnoyn.'" id="edit_rel_id'.$datosTotalRelacionados[rel_id].'" style="display: inline" title="'.TR_termino.' '.$datosTotalRelacionados["rr_value"].'" lang="'.LANG.'">'.TR_acronimo.$datosTotalRelacionados["rr_code"].'</abbr>';
 
-			$row_TR.=HTMLcopyClick('rt'.$datosTotalRelacionados["tema_id"],array("isMetaTerm"=>$datosTotalRelacionados["isMetaTerm"],"isValidTerm"=>1,"copy_click"=>$CFG["COPY_CLICK"]));
 
 			$row_TR.=$CFG["REL_SYMBOLS"]["RT"].' <a '.$css_class_MT.' title="'.LABEL_verDetalle.' '.$datosTotalRelacionados["tema"].' ('.TR_termino.') '.$label_MT.'"  href="'.URL_BASE.'index.php?tema='.$datosTotalRelacionados["tema_id"].'&amp;/'.string2url($datosTotalRelacionados["tema"]).'" id="rt'.$datosTotalRelacionados["tema_id"].'">'.$datosTotalRelacionados["tema"].'</a></li>';
 			break;
