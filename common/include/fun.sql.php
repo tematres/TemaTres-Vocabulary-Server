@@ -10,15 +10,13 @@ if ((stristr( $_SERVER['REQUEST_URI'], "session.php") ) || ( !defined('T3_ABSPAT
 #
 # Cantidad de términos relacionados generales y por usuarios
 #
-function SQLcantTR($tipo,$idUser=""){
+function SQLcantTR($tipo="G",$idUser=""){
 
 	GLOBAL $DBCFG;
 
 	$idUser=secure_data($idUser,"int");
 
-	if($tipo=='U'){
-		$clausula="where uid='$idUser'";
-	};
+	if(($tipo=='U') && ($idUser>0))	$clausula="where uid='$idUser'";
 
 	$sql=SQL("select","relaciones.t_relacion,count(relaciones.id) as cant
 	from $DBCFG[DBprefix]tabla_rel as relaciones
@@ -31,20 +29,22 @@ function SQLcantTR($tipo,$idUser=""){
 #
 # Cantidad de términos generales y por usuarios
 #
-function SQLcantTerminos($tipo,$idUser=""){
+function SQLcantTerminos($tipo="G",$idUser=""){
 
 	GLOBAL $DBCFG;
 
 	$idUser=secure_data($idUser,"int");
 
 
-	$clausula= ($tipo=='U') ? " where tema.uid='$idUser' " :"";
+	$clausula= (($tipo=='U') && ($idUser>0)) ? " and tema.uid='$idUser' " :"";
 
-	return SQL("select","count(tema.tema_id) as cant,count(c.tema_id) as cant_candidato,count(r.tema_id) as cant_rechazado
+	return SQL("select","count(tema.tema_id) as cant,count(c.tema_id) as cant_candidato,count(r.tema_id) as cant_rechazado,
+count(a.tema_id) as cant_aceptados
 	from $DBCFG[DBprefix]tema as tema
 	left join $DBCFG[DBprefix]tema as c on tema.tema_id=c.tema_id and c.estado_id='12'
 	left join $DBCFG[DBprefix]tema as r on tema.tema_id=r.tema_id and r.estado_id='14'
-	$clausula");
+	left join $DBCFG[DBprefix]tema as a on tema.tema_id=a.tema_id and a.estado_id='13'
+	where tema.tesauro_id=1 $clausula");
 };
 
 
@@ -1573,17 +1573,26 @@ function SQLlistTermsfromUser($id_user,$ord=""){
 #
 # Resúmen de datos del tesauro
 #
-function ARRAYresumen($id_tesa,$tipo,$idUser=""){
+function ARRAYresumen($tesauro_id,$tipo,$idUser=""){
 
 
 	$sql_cant_rel=SQLcantTR($tipo,$idUser);
 
 	while($cant_rel=$sql_cant_rel->FetchRow()){
-		if($cant_rel[0]=='2'){
-			$cant_terminos_relacionados=$cant_rel[1];
-		}elseif($cant_rel[0]=='4'){
-			$cant_terminos_up=$cant_rel[1];
-		};
+		switch ($cant_rel[0]) {
+			case '2':
+				$cant_terminos_relacionados=$cant_rel[1];
+				break;
+			case '3':
+				$cant_terminos_tg=$cant_rel[1];
+				break;
+			case '4':
+				$cant_terminos_up=$cant_rel[1];
+				break;
+			
+			default:
+				break;
+		}
 	};
 
 	$sql_cant_term=SQLcantTerminos($tipo,$idUser);
@@ -1599,8 +1608,10 @@ function ARRAYresumen($id_tesa,$tipo,$idUser=""){
 	$ARRAYcant_term2tterm=ARRAYcant_term2tterm();
 
 	$resumen=array("cant_rel"=>$cant_terminos_relacionados,
+			"cant_tg"=>$cant_terminos_tg,
 			"cant_up"=>$cant_terminos_up,
 			"cant_total"=>$cant_term["cant"],
+			"cant_aceptados"=>$cant_term["cant_aceptados"],
 			"cant_candidato"=>$cant_term["cant_candidato"],
 			"cant_rechazado"=>$cant_term["cant_rechazado"],
 			"cant_notas"=>$cant_notas,
