@@ -2104,11 +2104,11 @@ function ARRAYCodeDetailed($code)
 #
 # Retrive summary about deep terms
 #
-function SQLTermDeep($tema_id="0")
+function SQLTermDeep($tema_id=0)
 {
 	GLOBAL $DBCFG;
 
-	$w=($tema_id>0) ? ' where i.tema_id like "|'.$tema_id.'|%"'  : null;
+	$w=($tema_id>0) ? ' where i.indice like "|'.$tema_id.'|%"'  : null;
 
 	return SQL("select","LENGTH(i.indice) - LENGTH(REPLACE(i.indice, '|', '')) AS tdeep, count(*) as cant
 	from $DBCFG[DBprefix]indice i
@@ -4075,4 +4075,36 @@ function SQLtermsSinceDate($sinceDate,$limit="50"){
 	return $sql;
 };
 
+
+/*middle terms in the vocab or tax*/
+function SQLprotoTerms($max_deep,$limit=10,$term_id=0){
+
+	$max_deep=(secure_data($max_deep,"int")) ? $max_deep : 0;
+	$limit=(secure_data($limit,"int")) ? $limit : 10;
+	$term_id=(secure_data($term_id,"int")) ? $term_id : 0;
+
+	$having=round($max_deep/2);
+
+	GLOBAL $DBCFG;
+
+	if($term_id>0){
+		$size_i=strlen($term_id)+2;
+		$from=",$DBCFG[DBprefix]indice tti";
+		$where="	and t.tema_id=tti.tema_id";
+		$where.="	and left(tti.indice,$size_i)='|$term_id|'";
+	}
+
+	return SQL("select","t.tema_id,t.tema,
+			LENGTH(i.indice) - LENGTH(REPLACE(i.indice, '|', '')) AS tdeep,
+			count(r.id_menor) as cant_nt
+			from $DBCFG[DBprefix]indice i,$DBCFG[DBprefix]tema t,$DBCFG[DBprefix]tabla_rel r $from
+			where t.tema_id=i.tema_id
+			and r.id_mayor=t.tema_id
+			$where
+			group by t.tema_id
+			having tdeep=$having
+			order by cant_nt desc
+			limit $limit");
+
+}
 ?>

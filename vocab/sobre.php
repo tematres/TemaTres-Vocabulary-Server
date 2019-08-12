@@ -1,7 +1,7 @@
 <?php
 #   TemaTres : aplicación para la gestión de lenguajes documentales #       #
 #                                                                        #
-#   Copyright (C) 2004-2008 Diego Ferreyra tematres@r020.com.ar
+#   Copyright (C) 2004-2019 Diego Ferreyra tematres@r020.com.ar
 #   Distribuido bajo Licencia GNU Public License, versión 2 (de junio de 1.991) Free Software Foundation
 #
 ###############################################################################################################
@@ -12,16 +12,42 @@ $metadata=do_meta_tag();
 <!DOCTYPE html>
 <html lang="<?php echo LANG;?>">
   <head>
-  <?php echo HTMLheader($metadata);?>
-  </head>
- <body>
-   
-  <?php echo HTMLnavHeader(); ?>
+  <?php echo HTMLheader($metadata);?>        
+        <?php
+        echo '<link rel="stylesheet" type="text/css" href="'.T3_WEBPATH.'jq/chartist-js/chartist.min.css">';
+        echo '<script type="text/javascript" src="'.T3_WEBPATH.'jq/chartist-js/chartist.min.js"></script>';
+        echo '<script type="text/javascript" src="'.T3_WEBPATH.'jq/chartist-js/chartist-plugin-axistitle.min.js"></script>';
+        ?>
+        <style>
+            #ct-deep  {
+                height: 300px;
+                width: 100%;
+            }
+            #ct-lexical {
+                height: 400px;
+                width: 100%;
 
+            }
+            #ct-logic {
+                height: 400px;
+                width: 100%;
+            }
+            .ct-label{
+			    fill: rgba(0,0,0,.8);
+			    color: rgba(0,0,0,.8);
+			    font-size: 1em;
+			    line-height: 2;
+			}
+        </style>        
+  </head>
+ <body>   
+  <?php echo HTMLnavHeader(); ?>
 <div class="container">
 <div class="container sobre " id="bodyText">
 	
-	<?php echo HTMLsummary();
+	<?php 
+
+	echo HTMLsummary();
 
 	if($_SESSION[$_SESSION["CFGURL"]]["ssuser_id"]){
 		//es admin y quiere ver un usuario
@@ -66,5 +92,5 @@ $metadata=do_meta_tag();
 
 		  </div>
 <?php echo HTMLjsInclude();?>
-    </body>
+</body>
 </html>

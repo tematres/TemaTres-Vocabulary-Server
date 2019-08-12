@@ -485,15 +485,22 @@ display: inline;
     /* symbol for "collapsed" panels */
     content: "\e080";    /* adjust as needed, taken from bootstrap.css */
 }
-
 .panel-group {
     padding: 20px;
 }
-
-
 .copy-clipboard {
     border-radius: 0;
     vertical-align: inherit;
     font-size: 14px;
     margin-right: 5px;
     border: 0;
+  }
+.contag { margin: 30px auto; }
+.contag a {
+    text-decoration: none;
+    color: white;
+    display: inline-block;
+    padding: 5px;
+    margin: 0 7px 7px 0;
+    border-radius: 5px;
+}

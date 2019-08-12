@@ -228,13 +228,10 @@ function doContextoTermino($idTema,$i_profundidad){
 		};
 
 		#Change to metaTerm attributes
-		if(($datosTotalRelacionados["BT_isMetaTerm"]==1))
-		{
+		if(($datosTotalRelacionados["BT_isMetaTerm"]==1)){
 			$css_class_MT= ' class="metaTerm" ';
 			$label_MT=NOTE_isMetaTerm;
-		}
-		else
-		{
+		}else{
 			$css_class_MT= '';
 			$label_MT='';
 		}
@@ -510,6 +507,11 @@ function HTMLbodyTermino($array){
 
 
 	$body.='</div>';#Tabs content
+
+	//i_profundidad
+	$middle_deep=SQLcount(SQLTermDeep($array["tema_id"]));
+	if($i_profundidad==1)	$body.=HTMLcloudTerms(3,20,$array["tema_id"]);
+
 
 	$body.='</div>';	#Fin div bodyText
 
@@ -1281,7 +1283,6 @@ function HTMLtopTerms($letra=""){
 
 	$rows.='<div class="clearer-top"></div>';
 
-	//$_TOP_TERMS_BROWSER=1;
 	if($_TOP_TERMS_BROWSER==1){
 		//Top terms
 		$sql=SQLverTopTerm();
@@ -1817,8 +1818,8 @@ function paginate_links( $args = '' ) {
 		};
 
 
-		#display metada about the_term
-		function HTMLtermMetadata($arrayTerm,$arrayCantRelaciones){
+#display metada about the_term
+function HTMLtermMetadata($arrayTerm,$arrayCantRelaciones){
 			GLOBAL $CFG;
 			$fecha_crea=do_fecha($arrayTerm["cuando"]);
 			$fecha_estado=do_fecha($arrayTerm["cuando_estado"]);
@@ -1894,7 +1895,7 @@ function paginate_links( $args = '' ) {
 
 			return $body;
 
-		}
+}
 
 
 
@@ -1902,7 +1903,6 @@ function paginate_links( $args = '' ) {
 function HTMLdeepStats(){
 
 	$sql=SQLTermDeep();
-
 
 	$rows.='<div class="table-responsive col-xs-6 col-md-4">
 	  <table class="table  table-bordered table-condensed table-hover" summary="'.LABEL.'">
@@ -2152,6 +2152,7 @@ if (isset($_SESSION[$_SESSION["CFGURL"]]["ssuser_nivel"]) && ($_SESSION[$_SESSIO
 
  $rows.='<script type="application/javascript" src="'.URL_BASE.'js.php" charset="utf-8"></script>
 		<script type="text/javascript" src="'.T3_WEBPATH.'forms/jquery.validate.min.js"></script>
+		<script type="text/javascript" src="'.T3_WEBPATH.'jq/tagcloud.js"></script>
 		<script type="text/javascript" src="'.T3_WEBPATH.'bootstrap/js/validator.min.js"></script>';
 
  if($_SESSION[$_SESSION["CFGURL"]]["lang"][2]!=='en')
@@ -2166,6 +2167,11 @@ $rows.='<script type="text/javascript">
 	  	$(".termDefinition").popover();
 		$("#popoverOption").popover({ trigger: "hover"});
 		$(".autoGloss").tooltip(options);
+
+		$("#tagcloud a").tagcloud({
+		size: {start: 12, end: 36, unit: "px"},
+		color: {start: "#3498DB", end: "#46CFB0"}
+		});
 	  </script>';
 
 
@@ -2498,17 +2504,17 @@ function HTMLsummary(){
 
 
   	//terms stats
-  	$rows.='<tr><th>'.ucfirst(LABEL_Terminos).'</th><td>'.$resumen["cant_total"];
+  	$rows.='<tr><th>'.ucfirst(LABEL_Terminos).'</th><td>'.$resumen["cant_aceptados"];
 
   	$rows.=' <a class="label label-info" href="'.URL_BASE.'index.php?s=n" title="'.ucfirst(LABEL_showNewsTerm).'"><span class="glyphicon glyphicon-fire"></span> '.ucfirst(LABEL_showNewsTerm).'</a>';
   	$rows.='<ul>';
 	if($_SESSION[$_SESSION["CFGURL"]]["CFG_VIEW_STATUS"]==1){
 		if($resumen[cant_candidato]>0){
-			$rows.='<li><a href="'.URL_BASE.'index.php?estado_id=12">'.ucfirst(LABEL_Candidato).': '.$resumen[cant_candidato].'</a></li>';
+			$rows.='<li><a href="'.URL_BASE.'index.php?estado_id=12">'.ucfirst(LABEL_Candidato).': '.$resumen["cant_candidato"].'</a></li>';
 			}
 
 		if($resumen[cant_rechazado]>0){
-			$rows.= '<li><a href="'.URL_BASE.'index.php?estado_id=14">'.ucfirst(LABEL_Rechazado).': '.$resumen[cant_rechazado].'</a></li>';
+			$rows.= '<li><a href="'.URL_BASE.'index.php?estado_id=14">'.ucfirst(LABEL_Rechazado).': '.$resumen["cant_rechazado"].'</a></li>';
 			}
 	}
 	
@@ -2520,8 +2526,9 @@ function HTMLsummary(){
 	  	$rows.='<tr><th>'.ucfirst(LABEL_termsXdeepLevel).'</th><td>'.HTMLdeepStats().'</td></tr>';
 	  }
 
-  	$rows.='<tr><th>'.ucfirst(LABEL_RelTerminos).'</th><td>'.$resumen["cant_rel"].'</td></tr>';
   	$rows.='<tr><th>'.ucfirst(LABEL_TerminosUP).'</th><td>'.$resumen["cant_up"].'</td></tr>';
+  	$rows.='<tr><th>'.ucfirst(LABEL_rel_hierarchical).'</th><td>'.$resumen["cant_tg"].'</td></tr>';
+  	$rows.='<tr><th>'.ucfirst(LABEL_rel_associative).'</th><td>'.$resumen["cant_rel"].'</td></tr>';
 
 	//Evaluar si hay notas
 	if (is_array($resumen["cant_notas"])){
@@ -2540,6 +2547,11 @@ function HTMLsummary(){
   	$rows.='<tr><th>'.ucfirst(LABEL_Version).'</th><td><a href="http://www.vocabularyserver.com/" title="TemaTres: vocabulary server">'.$CFG["Version"].'</a></td></tr>';
 	$rows.='</tbody></table>';
 	$rows.='</div> ';
+
+
+  	$rows.=HTMLglobalView($resumen);
+
+  	$rows.=HTMLcloudTerms(SQLcount(SQLTermDeep()),20);
 
 return $rows;
 };
@@ -2573,5 +2585,159 @@ function HTMLcopyClick($targt_div,$array_flags){
 	if(($array_flags["isMetaTerm"]==1) || ($array_flags["isValidTerm"]==0) || ($array_flags["copy_click"]==0)) return;
 
 	return '<button class="btn btn-default btn-xs copy-clipboard" data-clipboard-action="copy" data-clipboard-target="#'.$targt_div.'" alt="Copy to clipboard"><span class="glyphicon glyphicon-copy" aria-hidden="true"></span></button>';
+}
+
+
+
+/*Cloud terms */
+function HTMLcloudTerms($level,$limit,$term_id=0){
+
+
+	if($level<2) return false;
+  	
+  	$sql=SQLprotoTerms($level,$limit,$term_id);
+
+  	if(SQLcount($sql)>2) {
+
+		$rows='<div class="contag" id="tagcloud">';
+		$rows.='<h3>'.ucfirst(LABEL_prototypeTerms).'</h3>';
+	  	while ($array_tag=$sql->FetchRow()){
+	  		$rows.='<a href="'.URL_BASE.'index.php?tema='.$array_tag["tema_id"].'" role="button" title="'.ucfirst(LABEL_Detalle).' '.$array_tag["tema"].'"" rel="'.($array_tag["cant_nt"]).'">'.$array_tag["tema"].'</a>';
+	  		}  		          
+	  	$rows.='</div>';
+  	}
+
+return $rows;
+}
+
+/*Stats about terms distribution in the tree*/
+function HTMLglobalView($arraydata=array()){
+  GLOBAL $CFG;
+  $resumen=$arraydata;
+
+	$options='var options = {
+				  labelInterpolationFnc: function(value) {return value[0]},
+				  donut: true,
+				  chartPadding: 30,
+				  donutWidth: 150,
+				  donutSolid: true,				  
+				  startAngle: 270,
+				  total: 200 		      
+				};';
+
+	$options_responsible.='	var responsiveOptions = [
+				  ["screen and (min-width: 640px)", {
+				    chartPadding: 30,
+				    labelOffset: 100,
+				    labelDirection: "explode",
+				  	labelOffset: 50,
+				    labelInterpolationFnc: function(value) {
+				      return value;
+				    }
+
+				  }],
+				  ["screen and (min-width: 1024px)", {
+				    labelOffset: 100,
+				    labelDirection: "implode",
+				  }]
+				];';
+
+	
+	$rowsHTML='<div id="global_view"><h2>'.ucfirst(LABEL_globalOrganization).'</h2>';
+
+    $rows.='<script>';
+
+    if(($_SESSION[$_SESSION["CFGURL"]]["_SHOW_TREE"]==1) && (SQLcount($sql=SQLTermDeep())>1)){
+
+	  $rowsHTML.='<div><h4>'.ucfirst(LABEL_termXlevel).'</h4>';
+      $rowsHTML.='<div class="ct-chart" id="ct-deep"></div>';
+      $rowsHTML.='</div>';
+
+            $terms=ARRAYcantTerms4Thes(1);
+            while($array=$sql->FetchRow()){
+                $labels[]=$array["tdeep"].' ';
+                $series[]=$array["cant"];
+              };
+          
+              $label=implode(',',$labels);
+              $serie=implode(',',$series);
+            
+            $rows.='new Chartist.Line("#ct-deep", {
+                  labels: ['.$label.'],series: [ ['.$serie.']]
+                }, {
+                  low: 0,
+                  fullWidth: true,
+                  showArea: true,
+                  chartPadding: {bottom: 40,top: 20,left:20},
+                  plugins: [
+            Chartist.plugins.ctAxisTitle({
+              axisX: {
+                axisTitle: "'.ucfirst(LABEL_termXlevel).'",
+                axisClass: "ct-axis-title",
+                offset: {
+                  x: 0,
+                  y: 50
+                },
+                textAnchor: "middle"
+              },
+              axisY: {
+                axisTitle: "'.ucfirst(LABEL_Terminos).'",
+                axisClass: "ct-axis-title",
+                offset: {
+                  x: 0,
+                  y: 0
+                },
+                textAnchor: "middle",
+                flipTitle: false
+              }
+            })
+          ]
+        });';
+    };
+
+    $total_lexical_values=($resumen["cant_aceptados"]+$resumen["cant_up"]);
+    $total_logic_values=($resumen["cant_tg"]+$resumen["cant_rel"]);
+
+    if($total_lexical_values!=$resumen["cant_aceptados"]){
+
+	    $cant_pref=round(100*($resumen["cant_aceptados"]/$total_lexical_values),2);
+	    $cant_alt=round(100*($resumen["cant_up"]/$total_lexical_values),2);
+
+	    $data_lexical='var data = {
+	        	  labels: ["'.ucfirst(LABEL_preferedTerms).' ('.$cant_pref.'%)","'.ucfirst(LABEL_altTerms).' ('.$cant_alt.'%)"],
+	        	  series: ['.$cant_pref.','.$cant_alt.']
+					};';
+
+		$rowsHTML.='<div><h4>'.ucfirst(LABEL_preferedTerms).' / '.ucfirst(LABEL_altTerms).'</h4>';
+	    $rowsHTML.=' <div  class="ct-chart" id="ct-lexical"></div>';
+	    $rowsHTML.='</div>';
+	  
+		$rows.=$data_lexical.$options.$options_responsible;				
+		$rows.='Chartist.Pie("#ct-lexical", data, options, responsiveOptions);';
+	    }
+      
+    if($resumen["cant_tg"]>0 && $resumen["cant_rel"]>0){
+
+
+	    $cant_BT=round(100*($resumen["cant_tg"]/$total_logic_values),2);
+	    $cant_RT=round(100*($resumen["cant_rel"]/$total_logic_values),2);
+
+		$data_logic='var data = {
+                  labels: ["'.ucfirst(LABEL_rel_hierarchical).' ('.$cant_BT.'%)","'.ucfirst(LABEL_rel_associative).' ('.$cant_RT.'%)"],
+                  series: ['.$cant_BT.','.$cant_RT.']
+				};';
+
+	    $rowsHTML.='<div class="ct-chart"><h4>'.ucfirst(LABEL_rel_hierarchical).' / '.ucfirst(LABEL_rel_associative).'</h4>';
+	    $rowsHTML.='	<div id="ct-logic"></div>';
+	    $rowsHTML.='</div>';
+
+		$rows.=$data_logic.$options.$options_responsible;				
+		
+		$rows.='Chartist.Pie("#ct-logic", data, options, responsiveOptions);';
+
+        }
+    $rows.='</script></div>';
+
+return $rowsHTML.$rows;
 }
 ?>
