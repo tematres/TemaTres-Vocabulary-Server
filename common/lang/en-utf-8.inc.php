@@ -535,6 +535,5 @@ define('LABEL_globalOrganization','global organization of the vocabulary');
 define('LABEL_rel_associative','associative relationships');
 define('LABEL_rel_hierarchical','hierarchical relationships');
 define('LABEL_rel_synonymy','synonym relationships');
-define('LABEL_termXlevel','terms by hierarchical level');
 define('LABEL_prototypeTerms','central terms');
 ?>

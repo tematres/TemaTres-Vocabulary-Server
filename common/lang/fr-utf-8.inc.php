@@ -530,5 +530,9 @@ define('LABEL_i18n_TranslationAuthor','Community translation for TemaTres.'); /*
 
 #v.3.1
 define('LABEL_noResults','Aucun résultat trouvé');
-
+define('LABEL_globalOrganization','global organization of the vocabulary');
+define('LABEL_rel_associative','associative relationships');
+define('LABEL_rel_hierarchical','hierarchical relationships');
+define('LABEL_rel_synonymy','synonym relationships');
+define('LABEL_prototypeTerms','central terms');
 ?>
