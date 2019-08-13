@@ -2108,10 +2108,12 @@ function SQLTermDeep($tema_id=0)
 {
 	GLOBAL $DBCFG;
 
-	$w=($tema_id>0) ? ' where i.indice like "|'.$tema_id.'|%"'  : null;
+	$w=($tema_id>0) ? ' and i.indice like "|'.$tema_id.'|%"'  : null;
 
 	return SQL("select","LENGTH(i.indice) - LENGTH(REPLACE(i.indice, '|', '')) AS tdeep, count(*) as cant
-	from $DBCFG[DBprefix]indice i
+	from $DBCFG[DBprefix]tema t , $DBCFG[DBprefix]indice i
+	where t.tema_id=i.tema_id
+	and t.tesauro_id=1 and t.estado_id=13
 	$w
 	group by tdeep
 	order by tdeep");
