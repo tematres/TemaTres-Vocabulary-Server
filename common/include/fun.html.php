@@ -2672,7 +2672,7 @@ function HTMLglobalView($arraydata=array()){
                   plugins: [
             Chartist.plugins.ctAxisTitle({
               axisX: {
-                axisTitle: "'.ucfirst(LABEL_termXlevel).'",
+                axisTitle: "'.ucfirst(LABEL_deepLevel).'",
                 axisClass: "ct-axis-title",
                 offset: {
                   x: 0,
@@ -2681,7 +2681,7 @@ function HTMLglobalView($arraydata=array()){
                 textAnchor: "middle"
               },
               axisY: {
-                axisTitle: "'.ucfirst(LABEL_Terminos).'",
+                axisTitle: "'.ucfirst(LABEL_cantTerms).'",
                 axisClass: "ct-axis-title",
                 offset: {
                   x: 0,
