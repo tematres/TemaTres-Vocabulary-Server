@@ -2649,7 +2649,7 @@ function HTMLglobalView($arraydata=array()){
 
     if(($_SESSION[$_SESSION["CFGURL"]]["_SHOW_TREE"]==1) && (SQLcount($sql=SQLTermDeep())>1)){
 
-	  $rowsHTML.='<div><h4>'.ucfirst(LABEL_termXlevel).'</h4>';
+	  $rowsHTML.='<div><h4>'.ucfirst(LABEL_termsXdeepLevel).'</h4>';
       $rowsHTML.='<div class="ct-chart" id="ct-deep"></div>';
       $rowsHTML.='</div>';
 
