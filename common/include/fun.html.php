@@ -510,7 +510,8 @@ function HTMLbodyTermino($array){
 
 	//i_profundidad
 	$middle_deep=SQLcount(SQLTermDeep($array["tema_id"]));
-	if($i_profundidad==1)	$body.=HTMLcloudTerms(3,20,$array["tema_id"]);
+
+	if($i_profundidad==1)	$body.=HTMLcloudTerms($middle_deep,$cant_terms_cloud,$array["tema_id"]);
 
 
 	$body.='</div>';	#Fin div bodyText
@@ -2551,7 +2552,7 @@ function HTMLsummary(){
 
   	$rows.=HTMLglobalView($resumen);
 
-  	$rows.=HTMLcloudTerms(SQLcount(SQLTermDeep()),20);
+  	$rows.=HTMLcloudTerms(SQLcount(SQLTermDeep()),30);
 
 return $rows;
 };
