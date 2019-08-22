@@ -10,7 +10,8 @@ include("config.tematres.php"); ?>
 <!DOCTYPE html>
 <html lang="<?php echo LANG;?>">
   <body>
-    <div class="modal-header">TemaTres Login Page</div>
+    <div class="modal-header"><a href="http://www.vocabularyserver.com/" title="TemaTres: vocabulary server" target="_blank">
+            <img src="<?php echo T3_WEBPATH;?>/images/tematres-logo.gif" width="42" alt="TemaTres"/></a> <?php echo ucfirst($_SESSION["CFGTitulo"]);?></div>
     <div class="modal-body">
 <?php
  if($_SESSION[$_SESSION["CFGURL"]]["ssuser_id"]){
@@ -32,6 +33,6 @@ include("config.tematres.php"); ?>
 		echo HTMLformLogin($task_result);
 	};
  }// if session ?></div>
-    <div class="modal-footer"><button type="button" class="btn btn-default" data-dismiss="modal">Close</button></div>
+    <div class="modal-footer"><button type="button" class="btn btn-default" data-dismiss="modal"><?php echo ucfirst(LABEL_close);?></button></div>
   </body>
 </html>
