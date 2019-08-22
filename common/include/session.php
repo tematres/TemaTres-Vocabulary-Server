@@ -97,7 +97,7 @@ $chk_user=ARRAYcheckLogin($_POST["id_correo_electronico"]);
 		$_SESSION[$_SESSION["CFGURL"]]["ssuser_nombre"]=$chk_user["name"];
 		//redirigir
 		$_SESSION[$_SESSION["CFGURL"]]["user_data"]=ARRAYUserData($chk_user["user_id"]);
-		header("Location:index.php");
+		header("Location: " . $_SERVER['HTTP_REFERER']);
 	}
  }
 }
