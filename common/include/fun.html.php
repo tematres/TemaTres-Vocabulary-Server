@@ -2098,7 +2098,7 @@ $rows.='<nav class="navbar navbar-inverse" role="navigation">
   			$rows.=HTMLmainMenu();
         }else{//no hay session de usuario
 
- 			$rows.='<li><a href="login.php" title="'.MENU_MiCuenta.'">'.MENU_MiCuenta.'</a></li>';
+ 			$rows.='<li><a href="login-modal.php" title="'.MENU_MiCuenta.'" data-toggle="modal" data-target="#remoteModal">'.MENU_MiCuenta.'</a></li>';
         };
 
   $focus=($_GET["taskSearch"]=='1') ? 'autofocus':'';
@@ -2116,7 +2116,12 @@ $rows.='<nav class="navbar navbar-inverse" role="navigation">
     </div>
 
   </div>
-</nav>';
+</nav>
+<div class="modal fade" id="remoteModal" tabindex="-1" role="dialog" aria-labelledby="remoteModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content"></div>
+  </div>
+</div>';
 
 return $rows;
 }
