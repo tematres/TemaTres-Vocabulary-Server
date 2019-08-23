@@ -4143,7 +4143,7 @@ EOT;
         	{
        		 $txt .=' <datafield tag="450" ind1=" " ind2=" ">' . "\n";
    			 $txt .=' <subfield code="a">'.$arrayRelaciones["uf_tema"] .'</subfield>' . "\n";
-   			 $txt .=' <subfield code="i">NÃO AUTORIZADO</subfield>' . "\n";
+   			 $txt .=' <subfield code="i">'.ucfirst(LABEL_esNoPreferido).'</subfield>' . "\n";
    			 $txt .=' </datafield>' . "\n";
         	}
     	}
