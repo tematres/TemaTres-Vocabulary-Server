@@ -4069,7 +4069,15 @@ function do_pdfSist($params=array()) {
 	$pdf->Output('D',$filname);
 }
 
-function autoridadesMarcXML(){
+
+
+function autoridadesMarcXML($params=array()){
+
+	GLOBAL $CFG;
+
+	//Note types enabled: Scope note, historical note, bibliographic note, cataloging note and definition note
+	$includeNotes=array("NA","NH","NB","NC","DF");
+    
     // lista de todos os termos
     $sql=SQLlistaTemas();
 
@@ -4174,12 +4182,17 @@ EOT;
 
    	 while($arrayNotas=$sqlNotas->FetchRow()){
 
-   		 $arrayNotas[label_tipo_nota]=(in_array($arrayNotas[ntype_id],array(8,9,10,11,15))) ? arrayReplace(array(8,9,10,11,15),array(LABEL_NA,LABEL_NH,LABEL_NB,LABEL_NP,LABEL_NC),$arrayNotas[ntype_id]) : $arrayNotas[ntype_code];
-
-   		 if(($arrayNotas[tipo_nota]!=='NP') && (in_array($arrayNotas[tipo_nota], $params["includeNote"])))
-   		 {
-   			 $txt .=' <datafield tag="680" ind1=" " ind2=" ">' . "\n";
-   			 $txt .='  <subfield code="a">'.html2txt($arrayNotas[nota]) .'</subfield>' . "\n";
+   		 if(in_array($arrayNotas["tipo_nota"], $includeNotes)){
+			/*$includeNotes=array("NA","NH","NB","NC","DF");   
+			677 - Definition (R)
+			670 - Source Data Found (R)
+			688 - Application History Note (R) 
+			680 - Public General Note (R) 
+			688 - Application History Note (R) 
+			*/
+	 		$tag_note=arrayReplace($includeNotes,array("680","688","670","688","677"),$arrayNotas["tipo_nota"]);
+   			 $txt .=' <datafield tag="'.$tag_note.'" ind1=" " ind2=" ">' . "\n";
+   			 $txt .='  <subfield code="a">'.html2txt($arrayNotas["nota"]) .'</subfield>' . "\n";
    			 $txt .=' </datafield>' . "\n";
    		 }
    	 };
