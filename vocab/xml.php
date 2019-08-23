@@ -103,6 +103,10 @@ if(($_SESSION[$_SESSION["CFGURL"]][ssuser_nivel]=='1')&&($_GET["dis"])){
 		return doTotalMADS("file");
 		break;
 
+		case 'marc':
+		echo autoridadesMarcXML();
+		break;
+
 		case 'wxr':
         echo doTotalWXR("file");
     break;

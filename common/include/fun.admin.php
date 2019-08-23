@@ -4068,4 +4068,127 @@ function do_pdfSist($params=array()) {
 	$filname=string2url($_SESSION[CFGTitulo].'-Sistematico').'.pdf';
 	$pdf->Output('D',$filname);
 }
+
+function autoridadesMarcXML(){
+    // lista de todos os termos
+    $sql=SQLlistaTemas();
+
+// cabecalho do arquivo marc
+$text = <<<EOT
+<?xml version="1.0" encoding="UTF-8"?>
+<collection
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xsi:schemaLocation="http://www.loc.gov/MARC21/slim
+http://www.loc.gov/standards/marcxml/schema/MARC21slim.xsd"
+xmlns="http://www.loc.gov/MARC21/slim">
+\n
+EOT;
+    // $txt armazena o conteudo do marcxml a ser gerado
+    $txt .= $text;
+
+    // pega termo do banco de dados, coluna por coluna
+    while($arrayTema=$sql->FetchRow())
+    { // mantem o navegador acordado
+   	 $time_now = time();
+   	 if ($time_start >= $time_now + 10)
+   	 {
+   	 $time_start = $time_now;
+   	 header('X-pmaPing: Pong');
+   	 };
+
+    // explode ( string $delimiter , string $string [, int $limit ] ) : array
+    // Retorna uma matriz de strings, cada uma como substring de string
+    // formada pela divisão dela a partir do delimiter.
+    $date = date('Y-m-d H:i:s');
+    $dataCalendario=explode(" ", $date);
+    $anoMesDia = explode("-", $dataCalendario[0]);
+    $horaMinSeg = explode(":", $dataCalendario[1]);
+    $formatoData = $anoMesDia[0] .$anoMesDia[1] . $anoMesDia[2];
+    $formatoHora = $horaMinSeg[0] .$horaMinSeg[1] . $horaMinSeg[2] . ".0";
+    $txt .='<record>' . "\n";
+    $txt.= "<leader>00415nz  a2200121n  4500</leader>" . "\n";
+    $txt .=' <controlfield tag="003">OSt</controlfield>' . "\n";
+    $txt .=' <controlfield tag="005">' . $formatoData . $formatoHora . '</controlfield>' .
+    "\n";
+    $txt .=' <controlfield tag="008">171020|| aca||babn | a|a d</controlfield>' .
+    "\n";
+    $txt .=' <datafield tag="040" ind1=" " ind2=" ">' . "\n";
+    $txt .='  <subfield code="a">OSt</subfield>' . "\n";
+    $txt .=' </datafield>' . "\n";
+    $txt .=' <datafield tag="150" ind1=" " ind2=" ">' . "\n";
+    // inclusao do termo no campo 150 $a
+    $txt .='  <subfield code="a">'.$arrayTema["tema"] .'</subfield>' . "\n";
+    $txt .=' </datafield>' . "\n";
+
+    $sqlRelaciones=SQLdirectTerms($arrayTema["id"]);
+
+    $arrayRelacionesVisibles=array(2,3,4,5,6,7); // TG/TE/UP/TR
+
+	while($arrayRelaciones=$sqlRelaciones->FetchRow()){
+
+    	$acronimo=arrayReplace ( $arrayRelacionesVisibles,array(TR_acronimo,TG_acronimo,UP_acronimo,EQP_acronimo,EQ_acronimo,NEQ_acronimo),$arrayRelaciones["t_relacion"]);
+
+    	if($arrayRelaciones["t_relacion"]==4){
+   		 // inclusao de termos nao-autorizados 450 $a
+        	# is UF and not hidden UF
+        	if (!in_array($arrayRelaciones["rr_code"],$CFG["HIDDEN_EQ"]))
+        	{
+       		 $txt .=' <datafield tag="450" ind1=" " ind2=" ">' . "\n";
+   			 $txt .=' <subfield code="a">'.$arrayRelaciones["uf_tema"] .'</subfield>' . "\n";
+   			 $txt .=' <subfield code="i">NÃO AUTORIZADO</subfield>' . "\n";
+   			 $txt .=' </datafield>' . "\n";
+        	}
+    	}
+
+    	if($arrayRelaciones["t_relacion"]==3)
+    	{    // inclusao de termos genericos 550 $a
+        	if($arrayRelaciones["bt_tema"])
+        	{
+       		 $txt .=' <datafield tag="550" ind1=" " ind2=" ">' . "\n";
+   			 $txt .='  <subfield code="a">'.$arrayRelaciones["bt_tema"] .'</subfield>' . "\n";
+   			 $txt .='  <subfield code="w">g</subfield>' . "\n";
+   			 $txt .=' </datafield>' . "\n";
+        	}
+
+        	// inclusao de termos especificos 550 $a
+        	if($arrayRelaciones["nt_tema"])
+        	{
+       		 $txt .=' <datafield tag="550" ind1=" " ind2=" ">' . "\n";
+   			 $txt .='  <subfield code="a">'.$arrayRelaciones["nt_tema"] .'</subfield>' . "\n";
+   			 $txt .='  <subfield code="w">h</subfield>' . "\n";
+   			 $txt .=' </datafield>' . "\n";
+        	}
+     	}
+    		 // inclusao de termos relacionados 550 $a
+        	if($arrayRelaciones["t_relacion"]==2){
+        	if($arrayRelaciones["rt_tema"]){
+       		 $txt .=' <datafield tag="550" ind1=" " ind2=" ">' . "\n";
+   			 $txt .='  <subfield code="a">'.$arrayRelaciones["rt_tema"] .'</subfield>' . "\n";
+   			 $txt .=' </datafield>' . "\n";
+            	}
+        	}
+	}
+
+	//Notas
+    $sqlNotas=SQLdatosTerminoNotas($arrayTema[id]);
+
+   	 while($arrayNotas=$sqlNotas->FetchRow()){
+
+   		 $arrayNotas[label_tipo_nota]=(in_array($arrayNotas[ntype_id],array(8,9,10,11,15))) ? arrayReplace(array(8,9,10,11,15),array(LABEL_NA,LABEL_NH,LABEL_NB,LABEL_NP,LABEL_NC),$arrayNotas[ntype_id]) : $arrayNotas[ntype_code];
+
+   		 if(($arrayNotas[tipo_nota]!=='NP') && (in_array($arrayNotas[tipo_nota], $params["includeNote"])))
+   		 {
+   			 $txt .=' <datafield tag="680" ind1=" " ind2=" ">' . "\n";
+   			 $txt .='  <subfield code="a">'.html2txt($arrayNotas[nota]) .'</subfield>' . "\n";
+   			 $txt .=' </datafield>' . "\n";
+   		 }
+   	 };
+
+    $txt .='</record>' . "\n";
+    }
+    $txt .='</collection>' . "\n";
+    $filname=string2url($_SESSION[CFGTitulo].' '.marcXML).'.xml';
+    
+    return sendFile("$txt","$filname");
+};
 ?>

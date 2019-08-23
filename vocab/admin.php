@@ -162,6 +162,10 @@ if($_SESSION[$_SESSION["CFGURL"]]["ssuser_id"]){
 	if($_POST["taskAdmin"]=='importSkos'){
 			require_once(T3_ABSPATH . 'common/include/inc.importSkos.php');
 		};
+	if($_POST["taskAdmin"]=='importXML'){
+   		 require_once(T3_ABSPATH . 'common/include/inc.importMARC.php');
+   	 };
+
 
 	//Form to add / edit foreing target vocabulary
 	if($_GET["doAdmin"]=='seeformTargetVocabulary'){

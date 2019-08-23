@@ -1615,7 +1615,7 @@ function HTMLformImport(){
 	            <label for="simpleReport" class="col-sm-3 control-label">'.ucfirst(FORM_LABEL_format_import).'</label>
 	                <div class="col-sm-9">
 	                    <select class="form-control" id="taskAdmin" name="taskAdmin">
-	                    '.doSelectForm(array("importTab#$LABEL_importTab","importTag#$LABEL_importTag","importSkos#$LABEL_importSkos"),$_POST["doAdmin"]).'
+	                    '.doSelectForm(array("importTab#$LABEL_importTab","importTag#$LABEL_importTag","importSkos#$LABEL_importSkos","importXML#MARC 21 XML Schema (MarcXML)"),$_POST["doAdmin"]).'
 	                    </select>
 	                </div>
 	            </div>';
@@ -2278,7 +2278,7 @@ $rows.='<div class="row">
 		$rows.='<div class="form-group"><label class="col-sm-3 control-label" for="report_tvocab_id" accesskey="t">'.ucfirst(FORM_LABEL_format_export).'</label>';
 		$rows.='   <div class="col-sm-9">';
 		$rows.='<select class="form-control" id="dis" name="dis">';
-		$rows.=doSelectForm(array("jtxt#$LABEL_jtxt","txt#$LABEL_abctxt",'spdf#'.LABEL_SystPDF,'rpdf#'.LABEL_AlphaPDF,"moodfile#Moodle","zline#Zthes","rfile#Skos-Core","rxtm#TopicMap","BSfile#BS8723","madsFile#Metadata Authority Description Schema (MADS)","vfile#IMS Vocabulary Definition Exchange (VDEX)","wxr#WXR (Wordpress XML)","siteMap#SiteMap","rsql#SQL (Backup)"),"$_GET[dis]");
+		$rows.=doSelectForm(array("jtxt#$LABEL_jtxt","txt#$LABEL_abctxt",'spdf#'.LABEL_SystPDF,'rpdf#'.LABEL_AlphaPDF,"moodfile#Moodle","zline#Zthes","rfile#Skos-Core","rxtm#TopicMap","BSfile#BS8723","madsFile#Metadata Authority Description Schema (MADS)","marc#MARC 21 XML Schema (MarcXML)","vfile#IMS Vocabulary Definition Exchange (VDEX)","wxr#WXR (Wordpress XML)","siteMap#SiteMap","rsql#SQL (Backup)"),"$_GET[dis]");
 		$rows.='</select>';
 		$rows.='   </div>'; # col-sm
 		$rows.='</div>'; #form group
