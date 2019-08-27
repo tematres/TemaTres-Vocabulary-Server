@@ -1232,6 +1232,8 @@ switch($do){
 		$ctrl202a=ARRAYfetchValueXValue('config','_SHOW_RANDOM_TERM');
 		$ctrl202b=ARRAYfetchValueXValue('config','_GLOSS_NOTES');
 
+		/*add condig opotion for 3.2 version*/
+		$ctrl32=ARRAYfetchValueXValue('config','COPY_CLICK');
 
 
 		if(!$ctrl["value_id"])			{
@@ -1262,6 +1264,12 @@ switch($do){
 		if(!$ctrl202b["value_id"])			{
 				$sql20x202=SQL("insert","into `".$DBCFG["DBprefix"]."values` (`value_type`, `value`, `value_order`, `value_code`) VALUES
 					('config', '_GLOSS_NOTES', NULL, '$_GLOSS_NOTES')");
+			}
+
+		if(!$ctrl32["value_id"])			{
+				$value_code=($_POST["COPY_CLICK"]=='00') ? '0' : '1';
+				$sql32=SQL("insert","into `".$DBCFG["DBprefix"]."values` (`value_type`, `value`, `value_order`, `value_code`) VALUES
+					('config', 'COPY_CLICK', NULL, '$value_code')");
 			}
 
 		//Update to 1.73=> check if CONTACT_MAIL is defined
@@ -4204,4 +4212,6 @@ EOT;
     
     return sendFile("$txt","$filname");
 };
+
+
 ?>

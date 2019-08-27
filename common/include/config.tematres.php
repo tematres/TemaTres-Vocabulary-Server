@@ -43,13 +43,14 @@ $CFG["REL_SYMBOLS"]=array("BT"=>'↑',"NT"=>'↓',"UF"=>'↸',"RT"=>'⇆');
 $CFG["GA_TRACKING_ID"] ='0';
 
 // Enable copy the string value of valid terms with on click. Default true=1
-$CFG["COPY_CLICK"] =1;
+//$CFG["COPY_CLICK"] ='1';
 
 //Define specific excluded characters from the alphabetic menu
 $CFG["_EXCLUDED_CHARS"]=array("<",">","[","]","(",")",'"',"'","|");
 
 //default values for config
 $arrayCFGs =array(	'CFG_PUBLISH'=>'1',
+					'COPY_CLICK'=>'1',
 					'CFG_ALLOW_DUPLICATED'=>'0',
 				 	'CFG_MAX_TREE_DEEP'=>'3',
 				 	'_SHOW_TREE'=>'1',

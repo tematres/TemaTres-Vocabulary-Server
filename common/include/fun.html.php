@@ -2590,7 +2590,7 @@ function HTMLcopyClick($targt_div,$array_flags){
 
 	if(($array_flags["isMetaTerm"]==1) || ($array_flags["isValidTerm"]==0) || ($array_flags["copy_click"]==0)) return;
 
-	return '<button class="btn btn-default btn-xs copy-clipboard" data-clipboard-action="copy" data-clipboard-target="#'.$targt_div.'" alt="Copy to clipboard"><span class="glyphicon glyphicon-copy" aria-hidden="true"></span></button>';
+	return '<button class="btn btn-default btn-xs copy-clipboard" data-clipboard-action="copy" data-clipboard-target="#'.$targt_div.'" alt="'.ucfirst(LABEL_copy_click).'"><span class="glyphicon glyphicon-copy" aria-hidden="true"  title="'.ucfirst(LABEL_copy_click).'"></span></button>';
 }
 
 

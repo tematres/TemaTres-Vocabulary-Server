@@ -947,38 +947,36 @@ function loadConfigValues($renew="0"){
 		$sql=SQL("select","v.value_id,v.value_type,v.value,v.value_code,v.value_order
 						from $DBCFG[DBprefix]values v where v.value_type='config'");
 
-	 if(SQLcount($sql)>0){
     $NEWarrayCFGs=array();
 
      while ($array=$sql->FetchRow()){
 
-		switch ($array["value"]){
-			case 'CFG_MAX_TREE_DEEP':
-						$array["value_code"] = (in_array($array["value_code"],array(1,2,3,4,5,6))) ? $array["value_code"] : $arrayCFGs[$array["value"]];
-						break;
+  		switch ($array["value"]){
+  			case 'CFG_MAX_TREE_DEEP':
+  						$array["value_code"] = (in_array($array["value_code"],array(1,2,3,4,5,6))) ? $array["value_code"] : $arrayCFGs[$array["value"]];
+  						break;
 
-			case 'CFG_MIN_SEARCH_SIZE':
-						$array["value_code"] = (in_array($array["value_code"],array(1,2,3,4,5,6))) ? $array["value_code"] : $arrayCFGs[$array["value"]];
-						break;
+  			case 'CFG_MIN_SEARCH_SIZE':
+  						$array["value_code"] = (in_array($array["value_code"],array(1,2,3,4,5,6))) ? $array["value_code"] : $arrayCFGs[$array["value"]];
+  						break;
 
-			case 'CFG_NUM_SHOW_TERMSxSTATUS':
-						$array["value_code"] = (in_array($array["value_code"],array(50,100,150,200,250))) ? $array["value_code"] : $arrayCFGs[$array["value"]];
-				break;
-			case '_GLOSS_NOTES':
-						$array["value_code"] = (!$array["value_code"]) ? $arrayCFGs[$array["value"]] : $array["value_code"] ;
-				break;
+  			case 'CFG_NUM_SHOW_TERMSxSTATUS':
+  						$array["value_code"] = (in_array($array["value_code"],array(50,100,150,200,250))) ? $array["value_code"] : $arrayCFGs[$array["value"]];
+  				break;
+  			case '_GLOSS_NOTES':
+  						$array["value_code"] = (!$array["value_code"]) ? $arrayCFGs[$array["value"]] : $array["value_code"] ;
+  				break;
 
-			case '_SHOW_RANDOM_TERM':
-						$array["value_code"] = (!$array["value_code"]) ? $arrayCFGs[$array["value"]] : $array["value_code"] ;
-				break;
+  			case '_SHOW_RANDOM_TERM':
+  						$array["value_code"] = (!$array["value_code"]) ? $arrayCFGs[$array["value"]] : $array["value_code"] ;
+  				break;
 
-				default:
-				$array["value_code"] = (in_array($array["value_code"],array(1,0))) ? $array["value_code"] : $arrayCFGs[$array["value"]];
+  				default:
+  				$array["value_code"] = (in_array($array["value_code"],array(1,0))) ? $array["value_code"] : $arrayCFGs[$array["value"]];
+  			}
+
+		   $NEWarrayCFGs[$array["value"]]= $array["value_code"];
 			}
-
-			   $NEWarrayCFGs[$array["value"]]= $array["value_code"];
-			}
-	   }
     }// end renew
 
 	//define default values

@@ -417,7 +417,8 @@ if(@$DBCFG["DBcharset"]){
 				(48, 't_nota', 'Definition note', 5, 'DF'),
 				(49, 'config', 'CFG_PUBLISH', NULL, '1'),
 				(50, 'config', 'CFG_ALLOW_DUPLICATED', NULL, '0'),
-				(51, 't_nota', 'Example note', 6, 'EX')
+				(51, 't_nota', 'Example note', 6, 'EX'),
+				(52, 'config', 'COPY_CLICK', NULL, '1')
 				");
 
 		//If create table --> insert data

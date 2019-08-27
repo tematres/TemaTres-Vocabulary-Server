@@ -1591,7 +1591,7 @@ function HTMLformConfigValues($array_vocabulario){
 			$rows.='<div class="col-sm-5">     <select id="'.$key.'" name="'.$key.'">';
 			$rows.=	doSelectForm(array('1#'.LABEL_SI,'00#'.LABEL_NO),$NEWarrayCFGs[$key]);
 			$rows.='</select>';
-			$rows.='<span class="help-block">'.ucfirst(arrayReplace(array('_USE_CODE','_SHOW_CODE','CFG_VIEW_STATUS','CFG_SIMPLE_WEB_SERVICE','_SHOW_TREE','_PUBLISH_SKOS','CFG_ENABLE_SPARQL'),array(LABEL__USE_CODE,LABEL__SHOW_CODE,LABEL_CFG_VIEW_STATUS,LABEL_CFG_SIMPLE_WEB_SERVICE,LABEL__SHOW_TREE,LABEL__PUBLISH_SKOS,LABEL__ENABLE_SPARQL),$key)).'</span></div>';
+			$rows.='<span class="help-block">'.ucfirst(arrayReplace(array('_USE_CODE','_SHOW_CODE','CFG_VIEW_STATUS','CFG_SIMPLE_WEB_SERVICE','_SHOW_TREE','_PUBLISH_SKOS','CFG_ENABLE_SPARQL','COPY_CLICK'),array(LABEL__USE_CODE,LABEL__SHOW_CODE,LABEL_CFG_VIEW_STATUS,LABEL_CFG_SIMPLE_WEB_SERVICE,LABEL__SHOW_TREE,LABEL__PUBLISH_SKOS,LABEL__ENABLE_SPARQL,LABEL__ENABLE_COPY_CLICK),$key)).'</span></div>';
 			$rows.='</div>';
 		}
 	}

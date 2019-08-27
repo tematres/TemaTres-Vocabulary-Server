@@ -75,6 +75,10 @@ Define specific  Excluded characters from the alphabetic menu
 // Shown term codes in public view (1 = Yes, 0 = No: default: 0)
 $CFG["_SHOW_CODE"] =$_SESSION[$_SESSION["CFGURL"]]["_SHOW_CODE"];
 
+// Enable copy the string value of valid terms with on click. Default true=1
+$CFG["COPY_CLICK"] =$_SESSION[$_SESSION["CFGURL"]]["COPY_CLICK"];
+
+
 // Maximum level of depth in the tree of items for display on the same page [Máximo nivel de profundidad en el árbol de temas para la visualización en una misma página]
 define('CFG_MAX_TREE_DEEP',$_SESSION[$_SESSION["CFGURL"]]["CFG_MAX_TREE_DEEP"]);
 
@@ -107,6 +111,7 @@ $CFG["IMP_TAG_SEPARATOR"]  =':';
 
 // Define char to recognice as tabulator, tabulator is char used in txt import procedure to asig to the term the same relation as previous relation. default = "==="
 $CFG["IMP_TAG_TABULATOR"]  ='===';
+
 
 
 /* Config here to publish image and fixed link in header:
