@@ -2588,6 +2588,8 @@ function extractNoteTypeConent($metadata,$note_type,$format="txt",$editFlag=0){
 /*HTML button to copy the value string for valid term*/
 function HTMLcopyClick($targt_div,$array_flags){
 
+	if($_SESSION[$_SESSION["CFGURL"]]["ssuser_id"])  return;
+	
 	if(($array_flags["isMetaTerm"]==1) || ($array_flags["isValidTerm"]==0) || ($array_flags["copy_click"]==0)) return;
 
 	return '<button class="btn btn-default btn-xs copy-clipboard" data-clipboard-action="copy" data-clipboard-target="#'.$targt_div.'" alt="'.ucfirst(LABEL_copy_click).'"><span class="glyphicon glyphicon-copy" aria-hidden="true"  title="'.ucfirst(LABEL_copy_click).'"></span></button>';
