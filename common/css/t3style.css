@@ -504,3 +504,6 @@ display: inline;
     margin: 0 7px 7px 0;
     border-radius: 5px;
 }
+.tooltip-inner {
+    text-align: left;
+}

@@ -744,7 +744,7 @@ if(count($array["notas"])==0) return;
 			$label_lang_nota=($array["notas"][$iNota]["lang_nota"]==$_SESSION["CFGIdioma"]) ? '' : ' ('.$array["notas"][$iNota]["lang_nota"].')';
 
 			/*reorganize the note array to create type note groups */
-			$body_note[$tipoNota]["content"].='<div class="panel-body">'.wiki2html($array["notas"][$iNota]["nota"]).'</div>';
+			$body_note[$tipoNota]["content"].='<div class="panel-body">'.wiki2link($array["notas"][$iNota]["nota"]).'</div>';
 
 			if($editFlag==1){
 				$body_note[$tipoNota]["content"].='<div class="panel-footer"">';
