@@ -1373,9 +1373,7 @@ function HTMLformTargetVocabularySuggested($arrayTterm,$t_relation,$string_searc
 
 
 function HTMLformAltaEquivalenciaTermino($ARRAYTermino){
-	$LabelEE=id_EQ.'#'.LABEL_termino_equivalente;
-	$LabelIE=id_EQ_PARCIAL.'#'.LABEL_termino_parcial_equivalente;
-	$LabelNE=id_EQ_NO.'#'.LABEL_termino_no_equivalente;
+
 	$sql=SQLdatosVocabulario();
 	//SEND_KEY to prevent duplicated
 	session_start();
@@ -1424,7 +1422,7 @@ function HTMLformAltaEquivalenciaTermino($ARRAYTermino){
 					            <label for="tipo_equivalencia" accesskey="q" class="col-sm-3 control-label">'.ucfirst(FORM_LABEL_tipo_equivalencia).'</label>
 					                <div class="col-sm-9">
 					                    <select class="form-control" id="tipo_equivalencia" name="tipo_equivalencia">
-					                    '.doSelectForm(array("$LabelEE","$LabelIE","$LabelNE"),"").'
+					                    '.doSelectForm(array(id_EQ.'#'.LABEL_termino_equivalente,id_EQ_PARCIAL.'#'.LABEL_termino_parcial_equivalente),id_EQ).'
 					                    </select>
 					                </div>
 					            </div>
@@ -1669,9 +1667,10 @@ function HTMLformURI4term($ARRAYtermino){
 	$SQLURIdefinition=SQLURIdefinition();
 	if(SQLcount($SQLURIdefinition)>0)
 	{
-		while($ARRAYURIdefinition=$SQLURIdefinition->FetchRow())
-		{
+		while($ARRAYURIdefinition=$SQLURIdefinition->FetchRow()){
 			$arraySelectURItype[]=$ARRAYURIdefinition["uri_type_id"].'#'.$ARRAYURIdefinition["uri_value"];
+
+			if($ARRAYURIdefinition["uri_value"]=='exactMatch') $value_default= $ARRAYURIdefinition["uri_type_id"];
 		}
 
 	$rows.='<div class="container" id="bodyText">';
@@ -1689,7 +1688,7 @@ function HTMLformURI4term($ARRAYtermino){
 								<label for="uri_type_id" class="col-sm-3 control-label accesskey="u">'.ucfirst(LABEL_URItype).'</label>
 		                <div class="col-sm-9">
 		                    <select class="form-control" id="uri_type_id" name="uri_type_id">
-		                    '.doSelectForm($arraySelectURItype,"").'
+		                    '.doSelectForm($arraySelectURItype,$value_default).'
 		                    </select>
 		                </div>
 		            </div>

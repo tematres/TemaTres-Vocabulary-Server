@@ -252,7 +252,7 @@ function SQLsearchInNotes($texto,$params=array()){
 #
 # Buscador términos que comienzan según string = terms beginning with string
 #
-function SQLstartWith($texto){
+function SQLstartWith($texto,$strict_mode=1){
 
 	GLOBAL $DBCFG;
 
@@ -264,6 +264,10 @@ function SQLstartWith($texto){
 
 	//Control de estados
 	$where=(!$_SESSION[$_SESSION["CFGURL"]]["ssuser_id"]) ? " and tema.estado_id='13' " : "";
+
+
+	//incluir sólo término de la lengua base (no lengua de referencia)
+	$where.=($strict_mode==1) ? " and tema.tesauro_id='1' " : "";
 
 	//Check is include or not meta terms
 	$where.=(CFG_SEARCH_METATERM==0) ? " and tema.isMetaTerm=0 " : "";

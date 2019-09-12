@@ -1762,7 +1762,7 @@ function paginate_links( $args = '' ) {
 			
 			$sql=($type==1) ? SQLstartWith($searchq) : SQLbuscaTerminosSimple($searchq,"15");
 
-			$arrayResponse=array("query"=>$searchq,"suggestions"=>"");
+			$arrayResponse=array("query"=>$searchq,"suggestions"=>array());
 
 			while($array=$sql->FetchRow()){
 				$string_term= (($CFG["_SHOW_CODE"]=='1') && (isset($array["code"]))) ? $array["code"].': '.$array["tema"] : $array["tema"];
