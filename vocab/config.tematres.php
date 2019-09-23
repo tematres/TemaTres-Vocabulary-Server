@@ -55,7 +55,7 @@ $CFG["HIDDEN_EQ"] =array("MS","SP","H");
 $CFG["_URI_BASE_ID"] = '';
 
 // Config char beween _URI_BASE_ID and term ID. If null, use '?tema=' for HTTP response
-$CFG["_URI_SEPARATOR_ID"] ='?tema=';
+$CFG["_URI_SEPARATOR_ID"] ='xml.php?skosTema=';
 
 // Config char encode (only can be: utf-8 or iso-8859-1)
 $CFG["_CHAR_ENCODE"] ='utf-8';
