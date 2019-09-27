@@ -537,5 +537,5 @@ define('LABEL_rel_hierarchical','hierarchical relationships');
 define('LABEL_rel_synonymy','synonym relationships');
 define('LABEL_prototypeTerms','central terms');
 define('LABEL_copy_click','copy term to clipboard');
-define('LABEL__ENABLE_COPY_CLICK','Enable button to copy term in clipboard.');
+define('LABEL__ENABLE_COPY_CLICK','Enable button to copy term to the clipboard.');
 ?>
