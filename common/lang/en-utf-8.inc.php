@@ -35,7 +35,7 @@ define("MENU_AgregarTR","Related Term");
 define("MENU_AgregarUP","Non-preferred Term");  /* Non-descriptor */
 define("MENU_MisDatos","My account");
 define("MENU_Caducar","disable");
-define("MENU_Habilitar","available");
+define("MENU_Habilitar","enable");
 define("MENU_Salir","Logout");
 define("LABEL_Menu","Menu");
 define("LABEL_Opciones","Options");
