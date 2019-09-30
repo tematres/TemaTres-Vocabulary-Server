@@ -14,11 +14,11 @@ Main site: http://www.vocabularyserver.com/
 
 For tutorials and documentation, please visit:
 
-http://vocabularyserver.com/wiki/ or (in spanish) http://r020.com.ar/tematres/manual/
+https://vocabularyserver.com/wiki/ or (in spanish) https://r020.com.ar/tematres/manual/
 
 
 ## Examples
-Visit: http://www.vocabularyserver.com/vocabularies.php
+Visit: https://www.vocabularyserver.com/vocabularies.php
 
 
 ## Translation
