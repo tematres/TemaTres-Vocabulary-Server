@@ -13,7 +13,7 @@ define('LABEL_i18n_MasterVersion','3.1.03'); /* Do not translate. Master languag
 define('LABEL_i18n_TranslationVersion','01'); /* Translation language file version. Will be used as a sufix for the language master version number. Can be changed by translators to track minor changes to your translation file */
 define('LABEL_i18n_TranslationAuthor','Community translation for TemaTres'); /* Can be changed by translators. Do not include emails or personal details */
 /* Strings to translate */
-define("LANG","en-US");
+define("LANG","en-GB");
 define("TR_acronimo","RT"); /* Related Term */
 define("TE_acronimo","NT"); /* Narrower term > Specific term */
 define("TG_acronimo","BT"); /* Broader term > Generic term */

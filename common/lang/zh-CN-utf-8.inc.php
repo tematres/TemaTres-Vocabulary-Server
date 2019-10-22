@@ -13,192 +13,192 @@ define('LABEL_i18n_MasterVersion','3.1.03'); /* Do not translate. Master languag
 define('LABEL_i18n_TranslationVersion','01'); /* Translation language file version. Will be used as a sufix for the language master version number. Can be changed by translators to track minor changes to your translation file */
 define('LABEL_i18n_TranslationAuthor','Community translation for TemaTres'); /* Can be changed by translators. Do not include emails or personal details */
 /* Strings to translate */
-define("LANG","en-US");
-define("TR_acronimo","RT"); /* Related Term */
-define("TE_acronimo","NT"); /* Narrower term > Specific term */
-define("TG_acronimo","BT"); /* Broader term > Generic term */
-define("UP_acronimo","UF"); /* Used for > instead */
-define("TR_termino","Related Term");
-define("TE_termino","Narrower Term");
-define("TG_termino","Broader Term");
-define("UP_termino","Use for"); /* A term with this symbol is followed by non preferred terms (non descriptors) */
+define("LANG","zh-CN");
+define("TR_acronimo","参 RT"); /* Related Term */
+define("TE_acronimo","分 NT"); /* Narrower term > Specific term */
+define("TG_acronimo","属 BT"); /* Broader term > Generic term */
+define("UP_acronimo","代 UF"); /* Used for > instead */
+define("TR_termino","相关词");
+define("TE_termino","狭义词");
+define("TG_termino","广义词");
+define("UP_termino","代用"); /* A term with this symbol is followed by non preferred terms (non descriptors) */
 /* v 9.5 */
-define("USE_termino","USE"); /* A term with this symbol is followed by a preferred term (descriptor) */
-define("MENU_ListaSis","Hierarchical list");
-define("MENU_ListaAbc","Alphabetic list");
-define("MENU_Sobre","About...");
-define("MENU_Inicio","Home");
-define("MENU_MiCuenta","My account");
-define("MENU_Usuarios","Users");
-define("MENU_NuevoUsuario","New user");
-define("MENU_DatosTesauro","About thesaurus");
-define("MENU_AgregarT","Add Term");
-define("MENU_EditT","Edit Term");
-define("MENU_BorrarT","Delete Term");
-define("MENU_AgregarTG","Subordinate the Term");
-define("MENU_AgregarTE","Subordinated Term");
-define("MENU_AgregarTR","Related Term");
-define("MENU_AgregarUP","Non-preferred Term");  /* Non-descriptor */
-define("MENU_MisDatos","My account");
-define("MENU_Caducar","disable");
-define("MENU_Habilitar","available");
-define("MENU_Salir","Logout");
-define("LABEL_Menu","Menu");
-define("LABEL_Opciones","Options");
-define("LABEL_Admin","Administration");
-define("LABEL_Agregar","Add");
-define("LABEL_editT","Edit Term ");
-define("LABEL_EditorTermino","Term Editor");
-define("LABEL_Termino","Term");
-define("LABEL_NotaAlcance","Scope Note");
-define("LABEL_EliminarTE","Delete term");
-define("LABEL_AgregarT","New Term");
-define("LABEL_AgregarTG","Add broader Term to %s ");
-define("LABEL_AgregarTE","New Term subordinated to ");
-define("LABEL_AgregarUP","New UF term for ");
-define("LABEL_AgregarTR","New related Term for ");
-define("LABEL_Detalle","details");
-define("LABEL_Autor","Author");
+define("USE_termino","用"); /* A term with this symbol is followed by a preferred term (descriptor) */
+define("MENU_ListaSis","等级列表");
+define("MENU_ListaAbc","字顺列表");
+define("MENU_Sobre","关于...");
+define("MENU_Inicio","主页");
+define("MENU_MiCuenta","我的帐户");
+define("MENU_Usuarios","用户");
+define("MENU_NuevoUsuario","新用户");
+define("MENU_DatosTesauro","关于词表");
+define("MENU_AgregarT","新增词条");
+define("MENU_EditT","词条编辑");
+define("MENU_BorrarT","删除词条");
+define("MENU_AgregarTG","建立从属");
+define("MENU_AgregarTE","下位词");
+define("MENU_AgregarTR","相关词");
+define("MENU_AgregarUP","非选词");  /* Non-descriptor */
+define("MENU_MisDatos","我的帐户");
+define("MENU_Caducar","停用");
+define("MENU_Habilitar","可用e");
+define("MENU_Salir","注销");
+define("LABEL_Menu","菜单");
+define("LABEL_Opciones","选项");
+define("LABEL_Admin","系统管理");
+define("LABEL_Agregar","新增");
+define("LABEL_editT","词条编辑 ");
+define("LABEL_EditorTermino","词条编辑");
+define("LABEL_Termino","词条");
+define("LABEL_NotaAlcance","范围注释");
+define("LABEL_EliminarTE","删除词条");
+define("LABEL_AgregarT","新增词条");
+define("LABEL_AgregarTG","增加%s的广义词 ");
+define("LABEL_AgregarTE","新增词从属于 ");
+define("LABEL_AgregarUP","新增异形词 ");
+define("LABEL_AgregarTR","新增相关词 ");
+define("LABEL_Detalle","详细");
+define("LABEL_Autor","作者");
 define("LABEL_URI","URI");
-define("LABEL_Version","Powered by");
-define("LABEL_Idioma","Language");
-define("LABEL_Fecha","Date of creation");
-define("LABEL_Keywords","Keywords");
-define("LABEL_TipoLenguaje","Language type");
-define("LABEL_Cobertura","Scope");
-define("LABEL_Terminos","terms");
-define("LABEL_RelTerminos","relations between terms");
-define("LABEL_TerminosUP","non-preferred terms");
-define("LABEL_BuscaTermino","Search term");
-define("LABEL_Buscar","Search");
-define("LABEL_Enviar","Submit");
-define("LABEL_Cambiar","Update");
-define("LABEL_Anterior","back");
-define("LABEL_AdminUser","Users admin");
-define("LABEL_DatosUser","User data");
-define("LABEL_Acciones","Tasks");
-define("LABEL_verEsquema","show schema");
-define("LABEL_actualizar","Update");
-define("LABEL_terminosLibres","Free terms"); /* 'Free term' usually refers to a term from the natural language, and thus not controlled. This is not exactly what 'termino libre' means in TemaTres. Note: 'orphan' is not good either as it means 'not preferred' */
-define("LABEL_busqueda","Search");
-define("LABEL_borraRelacion","delete relation");
-define("MSG_ResultBusca","term/s found for search expression");
-define("MSG_ResultLetra","Letter");
-define("MSG_ResultCambios","The changes have been made successfully.");
-define("MSG_noUser","Not a Registered User");
-define("FORM_JS_check","Please check the data of ");
-define("FORM_JS_confirm","eliminate this relationship?");
-define("FORM_JS_pass","_pass");
-define("FORM_JS_confirmPass","_confirm_pass");
-define("FORM_LABEL_termino","_term");
-define("FORM_LABEL_buscar","_search_expresion");
-define("FORM_LABEL_buscarTermino","_term_related");
-define("FORM_LABEL_nombre","_name");
-define("FORM_LABEL_apellido","_surname");
-define("FORM_LABEL_mail","_mail");
-define("FORM_LABEL_pass","_pass");
-define("FORM_LABEL_repass","_confirm_pass");
-define("FORM_LABEL_orga","orga");
-define("LABEL_nombre","name");
-define("LABEL_apellido","surname");
-define("LABEL_mail","mail");
-define("LABEL_pass","password");
-define("LABEL_repass","Confirm password");
-define("LABEL_orga","organization");
-define("LABEL_lcConfig","vocabulary configuration");
-define("LABEL_lcDatos","vocabulary metadata");
-define("LABEL_Titulo","title");
-define("FORM_LABEL_Titulo","_title");
-define("FORM_LABEL_Autor","_author");
+define("LABEL_Version","版本");
+define("LABEL_Idioma","语种");
+define("LABEL_Fecha","创建时间");
+define("LABEL_Keywords","关键词");
+define("LABEL_TipoLenguaje","语言类型");
+define("LABEL_Cobertura","范围");
+define("LABEL_Terminos","词条");
+define("LABEL_RelTerminos","词间关系");
+define("LABEL_TerminosUP","非选用词");
+define("LABEL_BuscaTermino","查找词条");
+define("LABEL_Buscar","查找");
+define("LABEL_Enviar","提交");
+define("LABEL_Cambiar","更新");
+define("LABEL_Anterior","返回");
+define("LABEL_AdminUser","用户管理");
+define("LABEL_DatosUser","用户数据");
+define("LABEL_Acciones","任务");
+define("LABEL_verEsquema","显示模式");
+define("LABEL_actualizar","更新");
+define("LABEL_terminosLibres","自由词"); /* 'Free term' usually refers to a term from the natural language, and thus not controlled. This is not exactly what 'termino libre' means in TemaTres. Note: 'orphan' is not good either as it means 'not preferred' */
+define("LABEL_busqueda","查找");
+define("LABEL_borraRelacion","删除关系");
+define("MSG_ResultBusca","检索式命中词条数");
+define("MSG_ResultLetra","字母");
+define("MSG_ResultCambios","更新成功");
+define("MSG_noUser","不是一个注册用户");
+define("FORM_JS_check","请核对数据 ");
+define("FORM_JS_confirm","删除这个关系吗？");
+define("FORM_JS_pass","_密码");
+define("FORM_JS_confirmPass","_确认_密码");
+define("FORM_LABEL_termino","词条");
+define("FORM_LABEL_buscar","_检索_表达式");
+define("FORM_LABEL_buscarTermino","_词条_相关");
+define("FORM_LABEL_nombre","_名");
+define("FORM_LABEL_apellido","_姓");
+define("FORM_LABEL_mail","_邮件");
+define("FORM_LABEL_pass","_密码");
+define("FORM_LABEL_repass","_确认_密码");
+define("FORM_LABEL_orga","机构");
+define("LABEL_nombre","名");
+define("LABEL_apellido","姓");
+define("LABEL_mail","邮件");
+define("LABEL_pass","密码");
+define("LABEL_repass","确认密码");
+define("LABEL_orga","机构");
+define("LABEL_lcConfig","词表配置");
+define("LABEL_lcDatos","词表元数据");
+define("LABEL_Titulo","名称");
+define("FORM_LABEL_Titulo","_名称");
+define("FORM_LABEL_Autor","_作者");
 define("FORM_LABEL_URI","_URI");
-define("FORM_LABEL_Idioma","language");
-define("FORM_LABEL_FechaDia","day");
-define("FORM_LABEL_FechaMes","month");
-define("FORM_LABEL_FechaAno","year");
-define("FORM_LABEL_Keywords","keywords");
-define("FORM_LABEL_TipoLenguaje","language_type");
-define("FORM_LABEL_Cobertura","scope");
-define("FORM_LABEL_Terminos","terms");
-define("FORM_LABEL_RelTerminos","relations between terms");
-define("FORM_LABEL_TerminosUP","Non preferred terms");
-define("FORM_LABEL_Guardar","Save");
-define("LABEL_verDetalle","see details from ");
-define("LABEL_verTerminosLetra","see terms beginning with ");
-define("LABEL_NB","Bibliographic note");
-define("LABEL_NH","Historical note");
-define("LABEL_NA","Scope note");   /* version 0.9.1 */
-define("LABEL_NP","Private note"); /* version 0.9.1 */
-define("LABEL_EditorNota","Notes Editor ");
-define("LABEL_EditorNotaTermino","note for ");
-define("LABEL_tipoNota","note type");
-define("FORM_LABEL_tipoNota","note_type");
-define("LABEL_nota","note");
-define("FORM_LABEL_nota","_note");
-define("LABEL_EditarNota","edit note");
-define("LABEL_EliminarNota","Delete note");
-define("LABEL_OptimizarTablas","Optimize tables");
-define("LABEL_TotalZthesLine","export on Zthes");
+define("FORM_LABEL_Idioma","语种");
+define("FORM_LABEL_FechaDia","日");
+define("FORM_LABEL_FechaMes","月");
+define("FORM_LABEL_FechaAno","年");
+define("FORM_LABEL_Keywords","关键词");
+define("FORM_LABEL_TipoLenguaje","词表类型");
+define("FORM_LABEL_Cobertura","范围");
+define("FORM_LABEL_Terminos","词条");
+define("FORM_LABEL_RelTerminos","词间关系");
+define("FORM_LABEL_TerminosUP","非选用词");
+define("FORM_LABEL_Guardar","保存");
+define("LABEL_verDetalle","查看详细 ");
+define("LABEL_verTerminosLetra","开始查看 ");
+define("LABEL_NB","用法说明");
+define("LABEL_NH","沿革注释");
+define("LABEL_NA","范围注释");   /* version 0.9.1 */
+define("LABEL_NP","私人注释"); /* version 0.9.1 */
+define("LABEL_EditorNota","注释编辑 ");
+define("LABEL_EditorNotaTermino","注释 ");
+define("LABEL_tipoNota","注释类型");
+define("FORM_LABEL_tipoNota","注释类型");
+define("LABEL_nota","注释");
+define("FORM_LABEL_nota","_注释");
+define("LABEL_EditarNota","编辑注释");
+define("LABEL_EliminarNota","删除注释");
+define("LABEL_OptimizarTablas","优化表结构");
+define("LABEL_TotalZthesLine","以Zthes导出");
 /* v 9.2 */
-define("LABEL_negrita","bold");
-define("LABEL_italica","italic");
-define("LABEL_subrayado","underline");
-define("LABEL_textarea","body notes");
-define("MSGL_relacionIlegal","Illegal relation between terms");
+define("LABEL_negrita","粗体");
+define("LABEL_italica","斜体");
+define("LABEL_subrayado","下划线");
+define("LABEL_textarea","主体注释");
+define("MSGL_relacionIlegal","非法的词间关系");
 /* v 9.3 */
-define("LABEL_fecha_modificacion","modified");
-define("LABEL_TotalUsuarios","total users");
-define("LABEL_TotalTerminos","total terms");
-define("LABEL_ordenar","order by");
-define("LABEL_auditoria","terms supervision");
-define("LABEL_dia","day");
-define("LABEL_mes","month");
-define("LABEL_ano","year");
-define("LABEL_terminosRepetidos","duplicate terms");
-define("MSG_noTerminosLibres","there are no free terms");
-define("MSG_noTerminosRepetidos","there are no duplicate terms");
-define("LABEL_TotalSkosLine","export on Skos-core");
-$MONTHS=array("01"=>"Jan",
-              "02"=>"Feb",
-              "03"=>"Mar",
-              "04"=>"Apr",
-              "05"=>"May",
-              "06"=>"Jun",
-              "07"=>"Jul",
-              "08"=>"Ago",
-              "09"=>"Sep",
-              "10"=>"Oct",
-              "11"=>"Nov",
-              "12"=>"Dec"
+define("LABEL_fecha_modificacion","修改");
+define("LABEL_TotalUsuarios","用户总计");
+define("LABEL_TotalTerminos","词条总计");
+define("LABEL_ordenar","排序");
+define("LABEL_auditoria","词条管理");
+define("LABEL_dia","日");
+define("LABEL_mes","月");
+define("LABEL_ano","年");
+define("LABEL_terminosRepetidos","词条查重");
+define("MSG_noTerminosLibres","没有自由词");
+define("MSG_noTerminosRepetidos","没有重复词条");
+define("LABEL_TotalSkosLine","以Skoscore导出");
+$MONTHS=array("01"=>"一月",
+              "02"=>"二月",
+              "03"=>"三月",
+              "04"=>"四月",
+              "05"=>"五月",
+              "06"=>"六月",
+              "07"=>"七月",
+              "08"=>"八月",
+              "09"=>"九月",
+              "10"=>"十月",
+              "11"=>"十一月",
+              "12"=>"十二月"
               );
 /* v 9.4 */
-define("LABEL_SI","YES");
-define("LABEL_NO","NO");
-define("FORM_LABEL_jeraquico","polyhierarchical");
-define("LABEL_jeraquico","Polyhierarchical"); /* Polyhierarchical relationship */
-define("LABEL_terminoLibre","free term");
+define("LABEL_SI","是");
+define("LABEL_NO","否");
+define("FORM_LABEL_jeraquico","多层等级");
+define("LABEL_jeraquico","多层等级"); /* Polyhierarchical relationship */
+define("LABEL_terminoLibre","自由词");
 /* v 9.5 */
-define("LABEL_URL_busqueda","Search %s in: ");
+define("LABEL_URL_busqueda","在%s中检索 ");
 /* v 9.6 */
-define("LABEL_relacion_vocabulario","relationship with another vocabulary");
-define("FORM_LABEL_relacion_vocabulario","equivalence");
-define("FORM_LABEL_nombre_vocabulario","target vocabulary");
-define("LABEL_vocabulario_referencia","target vocabulary");
-define("LABEL_NO_vocabulario_referencia","there are no target vocabulary to make terminology relation");
-define("FORM_LABEL_tipo_equivalencia","equivalence type");
-define("LABEL_vocabulario_principal","vocabulary");
-define("LABEL_tipo_vocabulario","type");
-define("LABEL_termino_equivalente","equivalent");
-define("LABEL_termino_parcial_equivalente","partial equivalent");
-define("LABEL_termino_no_equivalente","not equivalent");
-define("EQ_acronimo","EQ"); /* Exact equivalence > inter-language synonymy */
-define("EQP_acronimo","EQP"); /* Partial equivalence > inter-language quasi-synonymy with a difference in specificity*/
-define("NEQ_acronimo","NEQ"); /*  Non-equivalence */
-define("LABEL_NC","Cataloger's note");
-define("LABEL_resultados_suplementarios","supplemental results");
-define("LABEL_resultados_relacionados","related results");
+define("LABEL_relacion_vocabulario","关联词表");
+define("FORM_LABEL_relacion_vocabulario","等价");
+define("FORM_LABEL_nombre_vocabulario","目标词表");
+define("LABEL_vocabulario_referencia","目标词表");
+define("LABEL_NO_vocabulario_referencia","没有可建立术语关系的目标词表");
+define("FORM_LABEL_tipo_equivalencia","等价类型");
+define("LABEL_vocabulario_principal","词表");
+define("LABEL_tipo_vocabulario","类型");
+define("LABEL_termino_equivalente","等价");
+define("LABEL_termino_parcial_equivalente","部分等价");
+define("LABEL_termino_no_equivalente","不等价");
+define("EQ_acronimo","等价"); /* Exact equivalence > inter-language synonymy */
+define("EQP_acronimo","部分等价"); /* Partial equivalence > inter-language quasi-synonymy with a difference in specificity*/
+define("NEQ_acronimo","不等价"); /*  Non-equivalence */
+define("LABEL_NC","编目员注释");
+define("LABEL_resultados_suplementarios","补充检索结果");
+define("LABEL_resultados_relacionados","相关检索结果");
 /* v 9.7 */
-define("LABEL_export","export");
-define("FORM_LABEL_format_export","select XML schema");
+define("LABEL_export","导出");
+define("FORM_LABEL_format_export","选择XML Schema");
 /* v 1.0 */
 define("LABEL_fecha_creacion","created");
 define("NB_acronimo","BN"); /* Bibliographic note */
@@ -214,8 +214,8 @@ define("MSG_ERROR_ESTADO","illegal status");
 define("LABEL_Candidatos","candidate terms");
 define("LABEL_Aceptados","accepted terms");
 define("LABEL_Rechazados","rejected terms");
-define("LABEL_User_NoHabilitado","disable");
-define("LABEL_User_Habilitado","enable");
+define("LABEL_User_NoHabilitado","停用");
+define("LABEL_User_Habilitado","可用e");
 
 define("LABEL_CandidatearTermino","candidate term");
 define("LABEL_AceptarTermino","accept term");
@@ -292,8 +292,8 @@ define('LABEL_tvocab_tag',"tag for the reference");
 define('LABEL_tvocab_uri_service',"URL for the web services reference");
 define('LABEL_targetTermsforUpdate',"terms with pending update");
 define('LABEL_ShowTargetTermsforUpdate',"check terms update");
-define('LABEL_enable',"enable");
-define('LABEL_disable',"disable");
+define('LABEL_enable',"可用e");
+define('LABEL_disable',"停用");
 define('LABEL_notFound',"term not found");
 define('LABEL_termUpdated',"term updated");
 define('LABEL_ShowTargetTermforUpdate',"update");
@@ -412,7 +412,7 @@ define('LABEL_turnOnMetaTerm','Is a meta-term');
 define('LABEL_meta_term','meta-term');
 define('LABEL_meta_terms','meta-terms');
 define('LABEL_relatedTerms','related terms');
-define('LABEL_nonPreferedTerms','non-preferred terms');
+define('LABEL_nonPreferedTerms','非选用词');
 define('LABEL_update1_6x1_7','Update (1.6 -> 2.2)');
 define('LABEL_include_data','include');
 define('LABEL_updateEndpoint','update SPARQL endpoint');

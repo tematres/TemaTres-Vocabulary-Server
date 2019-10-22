@@ -13,274 +13,274 @@ define('LABEL_i18n_MasterVersion','3.1.03'); /* Do not translate. Master languag
 define('LABEL_i18n_TranslationVersion','01'); /* Translation language file version. Will be used as a sufix for the language master version number. Can be changed by translators to track minor changes to your translation file */
 define('LABEL_i18n_TranslationAuthor','Community translation for TemaTres'); /* Can be changed by translators. Do not include emails or personal details */
 /* Strings to translate */
-define("LANG","en-US");
+define("LANG","pl");
 define("TR_acronimo","RT"); /* Related Term */
 define("TE_acronimo","NT"); /* Narrower term > Specific term */
 define("TG_acronimo","BT"); /* Broader term > Generic term */
 define("UP_acronimo","UF"); /* Used for > instead */
-define("TR_termino","Related Term");
-define("TE_termino","Narrower Term");
-define("TG_termino","Broader Term");
-define("UP_termino","Use for"); /* A term with this symbol is followed by non preferred terms (non descriptors) */
+define("TR_termino","Termin powiązany");
+define("TE_termino","Termin węższy");
+define("TG_termino","Termin szerszy");
+define("UP_termino","Używany dla"); /* A term with this symbol is followed by non preferred terms (non descriptors) */
 /* v 9.5 */
-define("USE_termino","USE"); /* A term with this symbol is followed by a preferred term (descriptor) */
-define("MENU_ListaSis","Hierarchical list");
-define("MENU_ListaAbc","Alphabetic list");
-define("MENU_Sobre","About...");
+define("USE_termino","Użyj"); /* A term with this symbol is followed by a preferred term (descriptor) */
+define("MENU_ListaSis","Lista hierarchiczna");
+define("MENU_ListaAbc","Lista alfabetyczna");
+define("MENU_Sobre","O ...");
 define("MENU_Inicio","Home");
-define("MENU_MiCuenta","My account");
-define("MENU_Usuarios","Users");
-define("MENU_NuevoUsuario","New user");
-define("MENU_DatosTesauro","About thesaurus");
-define("MENU_AgregarT","Add Term");
-define("MENU_EditT","Edit Term");
-define("MENU_BorrarT","Delete Term");
-define("MENU_AgregarTG","Subordinate the Term");
+define("MENU_MiCuenta","Moje konto");
+define("MENU_Usuarios","Użytkownicy");
+define("MENU_NuevoUsuario","Nowy użytkownik");
+define("MENU_DatosTesauro","O tezaurusie");
+define("MENU_AgregarT","Dodaj termin");
+define("MENU_EditT","Edytuj termin");
+define("MENU_BorrarT","Usuń termin");
+define("MENU_AgregarTG","Podporządkuj ten termin");
 define("MENU_AgregarTE","Subordinated Term");
-define("MENU_AgregarTR","Related Term");
-define("MENU_AgregarUP","Non-preferred Term");  /* Non-descriptor */
-define("MENU_MisDatos","My account");
-define("MENU_Caducar","disable");
-define("MENU_Habilitar","available");
-define("MENU_Salir","Logout");
+define("MENU_AgregarTR","Termin powiązany");
+define("MENU_AgregarUP","Termin równoznaczny");  /* Non-descriptor */
+define("MENU_MisDatos","Moje konto");
+define("MENU_Caducar","Deaktywuj");
+define("MENU_Habilitar","Dostępne");
+define("MENU_Salir","Wyloguj");
 define("LABEL_Menu","Menu");
-define("LABEL_Opciones","Options");
-define("LABEL_Admin","Administration");
-define("LABEL_Agregar","Add");
-define("LABEL_editT","Edit Term ");
-define("LABEL_EditorTermino","Term Editor");
-define("LABEL_Termino","Term");
-define("LABEL_NotaAlcance","Scope Note");
-define("LABEL_EliminarTE","Delete term");
-define("LABEL_AgregarT","New Term");
-define("LABEL_AgregarTG","Add broader Term to %s ");
-define("LABEL_AgregarTE","New Term subordinated to ");
-define("LABEL_AgregarUP","New UF term for ");
-define("LABEL_AgregarTR","New related Term for ");
-define("LABEL_Detalle","details");
-define("LABEL_Autor","Author");
+define("LABEL_Opciones","Opcje");
+define("LABEL_Admin","Administracja");
+define("LABEL_Agregar","Dodaj");
+define("LABEL_editT","Edytuj termin ");
+define("LABEL_EditorTermino","Edytor terminów");
+define("LABEL_Termino","Termin");
+define("LABEL_NotaAlcance","Nota o zakresie");
+define("LABEL_EliminarTE","Usuń termin");
+define("LABEL_AgregarT","Nowy termin");
+define("LABEL_AgregarTG","Dodaj szerszy termin do %s ");
+define("LABEL_AgregarTE","Nowy termin podporządkowny dla ");
+define("LABEL_AgregarUP","Nowy UF termin dla ");
+define("LABEL_AgregarTR","Nowy termin powiązany dla ");
+define("LABEL_Detalle","szczegóły");
+define("LABEL_Autor","Autor");
 define("LABEL_URI","URI");
 define("LABEL_Version","Powered by");
-define("LABEL_Idioma","Language");
-define("LABEL_Fecha","Date of creation");
-define("LABEL_Keywords","Keywords");
-define("LABEL_TipoLenguaje","Language type");
+define("LABEL_Idioma","Język");
+define("LABEL_Fecha","Data utworzenia");
+define("LABEL_Keywords","Słowa kluczowe");
+define("LABEL_TipoLenguaje","Typ języka");
 define("LABEL_Cobertura","Scope");
-define("LABEL_Terminos","terms");
-define("LABEL_RelTerminos","relations between terms");
-define("LABEL_TerminosUP","non-preferred terms");
-define("LABEL_BuscaTermino","Search term");
-define("LABEL_Buscar","Search");
-define("LABEL_Enviar","Submit");
-define("LABEL_Cambiar","Update");
-define("LABEL_Anterior","back");
-define("LABEL_AdminUser","Users admin");
-define("LABEL_DatosUser","User data");
-define("LABEL_Acciones","Tasks");
-define("LABEL_verEsquema","show schema");
-define("LABEL_actualizar","Update");
-define("LABEL_terminosLibres","Free terms"); /* 'Free term' usually refers to a term from the natural language, and thus not controlled. This is not exactly what 'termino libre' means in TemaTres. Note: 'orphan' is not good either as it means 'not preferred' */
-define("LABEL_busqueda","Search");
-define("LABEL_borraRelacion","delete relation");
-define("MSG_ResultBusca","term/s found for search expression");
-define("MSG_ResultLetra","Letter");
-define("MSG_ResultCambios","The changes have been made successfully.");
-define("MSG_noUser","Not a Registered User");
-define("FORM_JS_check","Please check the data of ");
-define("FORM_JS_confirm","eliminate this relationship?");
-define("FORM_JS_pass","_pass");
-define("FORM_JS_confirmPass","_confirm_pass");
-define("FORM_LABEL_termino","_term");
-define("FORM_LABEL_buscar","_search_expresion");
-define("FORM_LABEL_buscarTermino","_term_related");
-define("FORM_LABEL_nombre","_name");
-define("FORM_LABEL_apellido","_surname");
+define("LABEL_Terminos","terminy");
+define("LABEL_RelTerminos","relacje pomiędzy terminami");
+define("LABEL_TerminosUP","terminy równoznaczne");
+define("LABEL_BuscaTermino","Znajdź termin");
+define("LABEL_Buscar","Szukaj");
+define("LABEL_Enviar","Zatwierdź");
+define("LABEL_Cambiar","Aktualizuj");
+define("LABEL_Anterior","wstecz");
+define("LABEL_AdminUser","Administracja użytkownikami");
+define("LABEL_DatosUser","Dane użytkownika");
+define("LABEL_Acciones","Zadania");
+define("LABEL_verEsquema","Pokaż schemat");
+define("LABEL_actualizar","Aktualizuj");
+define("LABEL_terminosLibres","Wolne terminy"); /* 'Free term' usually refers to a term from the natural language, and thus not controlled. This is not exactly what 'termino libre' means in TemaTres. Note: 'orphan' is not good either as it means 'not preferred' */
+define("LABEL_busqueda","Szukaj");
+define("LABEL_borraRelacion","Usuń relację");
+define("MSG_ResultBusca","Znaleziono termin/ów");
+define("MSG_ResultLetra","Liter");
+define("MSG_ResultCambios","zatwierdzono zmianę.");
+define("MSG_noUser","Niezarejestrowany użytkownik");
+define("FORM_JS_check","Proszę sprawdzić datę ");
+define("FORM_JS_confirm","Usunąć tę relację?");
+define("FORM_JS_pass","_hasło");
+define("FORM_JS_confirmPass","_potwierdź_hasło");
+define("FORM_LABEL_termino","_termin");
+define("FORM_LABEL_buscar","_wyszukiwane_wyrażenie");
+define("FORM_LABEL_buscarTermino","_termin_powiązany");
+define("FORM_LABEL_nombre","_imię");
+define("FORM_LABEL_apellido","_nazwisko");
 define("FORM_LABEL_mail","_mail");
-define("FORM_LABEL_pass","_pass");
-define("FORM_LABEL_repass","_confirm_pass");
+define("FORM_LABEL_pass","_hasło");
+define("FORM_LABEL_repass","_potwierdź_hasło");
 define("FORM_LABEL_orga","orga");
-define("LABEL_nombre","name");
-define("LABEL_apellido","surname");
+define("LABEL_nombre","imię");
+define("LABEL_apellido","nazwisko");
 define("LABEL_mail","mail");
-define("LABEL_pass","password");
-define("LABEL_repass","Confirm password");
-define("LABEL_orga","organization");
-define("LABEL_lcConfig","vocabulary configuration");
-define("LABEL_lcDatos","vocabulary metadata");
-define("LABEL_Titulo","title");
-define("FORM_LABEL_Titulo","_title");
-define("FORM_LABEL_Autor","_author");
+define("LABEL_pass","hasło");
+define("LABEL_repass","Potwierdź hasło");
+define("LABEL_orga","organizcja");
+define("LABEL_lcConfig","konfiguracja słownictwa");
+define("LABEL_lcDatos","metadane dla słownictwa");
+define("LABEL_Titulo","tytuł");
+define("FORM_LABEL_Titulo","_tytuł");
+define("FORM_LABEL_Autor","_autor");
 define("FORM_LABEL_URI","_URI");
-define("FORM_LABEL_Idioma","language");
-define("FORM_LABEL_FechaDia","day");
-define("FORM_LABEL_FechaMes","month");
-define("FORM_LABEL_FechaAno","year");
-define("FORM_LABEL_Keywords","keywords");
-define("FORM_LABEL_TipoLenguaje","language_type");
-define("FORM_LABEL_Cobertura","scope");
-define("FORM_LABEL_Terminos","terms");
-define("FORM_LABEL_RelTerminos","relations between terms");
-define("FORM_LABEL_TerminosUP","Non preferred terms");
-define("FORM_LABEL_Guardar","Save");
-define("LABEL_verDetalle","see details from ");
-define("LABEL_verTerminosLetra","see terms beginning with ");
-define("LABEL_NB","Bibliographic note");
-define("LABEL_NH","Historical note");
-define("LABEL_NA","Scope note");   /* version 0.9.1 */
-define("LABEL_NP","Private note"); /* version 0.9.1 */
-define("LABEL_EditorNota","Notes Editor ");
-define("LABEL_EditorNotaTermino","note for ");
-define("LABEL_tipoNota","note type");
-define("FORM_LABEL_tipoNota","note_type");
-define("LABEL_nota","note");
-define("FORM_LABEL_nota","_note");
-define("LABEL_EditarNota","edit note");
-define("LABEL_EliminarNota","Delete note");
-define("LABEL_OptimizarTablas","Optimize tables");
-define("LABEL_TotalZthesLine","export on Zthes");
+define("FORM_LABEL_Idioma","język");
+define("FORM_LABEL_FechaDia","dzień");
+define("FORM_LABEL_FechaMes","miesiąc");
+define("FORM_LABEL_FechaAno","rok");
+define("FORM_LABEL_Keywords","słowa kluczowe");
+define("FORM_LABEL_TipoLenguaje","typ_języka");
+define("FORM_LABEL_Cobertura","zakres");
+define("FORM_LABEL_Terminos","terminy");
+define("FORM_LABEL_RelTerminos","relacje pomiędzy terminami");
+define("FORM_LABEL_TerminosUP","terminy równoznaczne");
+define("FORM_LABEL_Guardar","Zapisz");
+define("LABEL_verDetalle","zobacz szczególy z ");
+define("LABEL_verTerminosLetra","zobacz terminy zaczynjące się z ");
+define("LABEL_NB","Nota bibliograficzna");
+define("LABEL_NH","Nota historyczna");
+define("LABEL_NA","Nota o zakresie");   /* version 0.9.1 */
+define("LABEL_NP","Nota prywatna"); /* version 0.9.1 */
+define("LABEL_EditorNota","Edytor not ");
+define("LABEL_EditorNotaTermino","nota dla ");
+define("LABEL_tipoNota","typ noty");
+define("FORM_LABEL_tipoNota","typ_noty");
+define("LABEL_nota","nota");
+define("FORM_LABEL_nota","_nota");
+define("LABEL_EditarNota","Edytuj notę");
+define("LABEL_EliminarNota","Usuń notę");
+define("LABEL_OptimizarTablas","Optymalizuj tabele");
+define("LABEL_TotalZthesLine","eksportuje do Zthes");
 /* v 9.2 */
-define("LABEL_negrita","bold");
+define("LABEL_negrita","pogrubienie");
 define("LABEL_italica","italic");
-define("LABEL_subrayado","underline");
+define("LABEL_subrayado","podkreślenie");
 define("LABEL_textarea","body notes");
-define("MSGL_relacionIlegal","Illegal relation between terms");
+define("MSGL_relacionIlegal","Niepoprawna relacja pomiędzy terminami");
 /* v 9.3 */
-define("LABEL_fecha_modificacion","modified");
-define("LABEL_TotalUsuarios","total users");
-define("LABEL_TotalTerminos","total terms");
-define("LABEL_ordenar","order by");
-define("LABEL_auditoria","terms supervision");
-define("LABEL_dia","day");
-define("LABEL_mes","month");
-define("LABEL_ano","year");
-define("LABEL_terminosRepetidos","duplicate terms");
-define("MSG_noTerminosLibres","there are no free terms");
-define("MSG_noTerminosRepetidos","there are no duplicate terms");
-define("LABEL_TotalSkosLine","export on Skos-core");
-$MONTHS=array("01"=>"Jan",
-              "02"=>"Feb",
+define("LABEL_fecha_modificacion","modyfikowany");
+define("LABEL_TotalUsuarios","Całkowita liczba użytkowników");
+define("LABEL_TotalTerminos","Całkowita liczba terminów");
+define("LABEL_ordenar","wybierz według");
+define("LABEL_auditoria","nadzór nad terminami");
+define("LABEL_dia","dzień");
+define("LABEL_mes","miesiąc");
+define("LABEL_ano","rok");
+define("LABEL_terminosRepetidos","zduplikowane terminy");
+define("MSG_noTerminosLibres","brak wolnych terminów");
+define("MSG_noTerminosRepetidos","brak zduplikowanych terminów");
+define("LABEL_TotalSkosLine","eksportuj do Skos-core");
+$MONTHS=array("01"=>"Sty",
+              "02"=>"Lut",
               "03"=>"Mar",
-              "04"=>"Apr",
-              "05"=>"May",
-              "06"=>"Jun",
-              "07"=>"Jul",
-              "08"=>"Ago",
-              "09"=>"Sep",
-              "10"=>"Oct",
-              "11"=>"Nov",
-              "12"=>"Dec"
+              "04"=>"Kwi",
+              "05"=>"Maj",
+              "06"=>"Cze",
+              "07"=>"Lip",
+              "08"=>"Sie",
+              "09"=>"Wrz",
+              "10"=>"Paź",
+              "11"=>"Lis",
+              "12"=>"Gru"
               );
 /* v 9.4 */
-define("LABEL_SI","YES");
-define("LABEL_NO","NO");
-define("FORM_LABEL_jeraquico","polyhierarchical");
-define("LABEL_jeraquico","Polyhierarchical"); /* Polyhierarchical relationship */
-define("LABEL_terminoLibre","free term");
+define("LABEL_SI","TAK");
+define("LABEL_NO","NIE");
+define("FORM_LABEL_jeraquico","polihierarchiczny");
+define("LABEL_jeraquico","Polihierarchiczny"); /* Polyhierarchical relationship */
+define("LABEL_terminoLibre","wolny termin");
 /* v 9.5 */
-define("LABEL_URL_busqueda","Search %s in: ");
+define("LABEL_URL_busqueda","Znajdź %s w: ");
 /* v 9.6 */
 define("LABEL_relacion_vocabulario","relationship with another vocabulary");
-define("FORM_LABEL_relacion_vocabulario","equivalence");
-define("FORM_LABEL_nombre_vocabulario","target vocabulary");
-define("LABEL_vocabulario_referencia","target vocabulary");
-define("LABEL_NO_vocabulario_referencia","there are no target vocabulary to make terminology relation");
-define("FORM_LABEL_tipo_equivalencia","equivalence type");
-define("LABEL_vocabulario_principal","vocabulary");
-define("LABEL_tipo_vocabulario","type");
-define("LABEL_termino_equivalente","equivalent");
-define("LABEL_termino_parcial_equivalente","partial equivalent");
-define("LABEL_termino_no_equivalente","not equivalent");
+define("FORM_LABEL_relacion_vocabulario","równowartość");
+define("FORM_LABEL_nombre_vocabulario","docelowe słownictwo");
+define("LABEL_vocabulario_referencia","docelowe słownictwo");
+define("LABEL_NO_vocabulario_referencia","brak docelowego słownictwa do utworzenia relacji dla terminologii");
+define("FORM_LABEL_tipo_equivalencia","typ równowartości");
+define("LABEL_vocabulario_principal","słownictwo");
+define("LABEL_tipo_vocabulario","typ");
+define("LABEL_termino_equivalente","równoważny");
+define("LABEL_termino_parcial_equivalente","częściowo równoważny");
+define("LABEL_termino_no_equivalente","nie równoważny");
 define("EQ_acronimo","EQ"); /* Exact equivalence > inter-language synonymy */
 define("EQP_acronimo","EQP"); /* Partial equivalence > inter-language quasi-synonymy with a difference in specificity*/
 define("NEQ_acronimo","NEQ"); /*  Non-equivalence */
 define("LABEL_NC","Cataloger's note");
-define("LABEL_resultados_suplementarios","supplemental results");
-define("LABEL_resultados_relacionados","related results");
+define("LABEL_resultados_suplementarios","dodatkowe wyniki");
+define("LABEL_resultados_relacionados","powiązane wyniki");
 /* v 9.7 */
-define("LABEL_export","export");
-define("FORM_LABEL_format_export","select XML schema");
+define("LABEL_export","eksport");
+define("FORM_LABEL_format_export","wybierz schemat XML");
 /* v 1.0 */
-define("LABEL_fecha_creacion","created");
+define("LABEL_fecha_creacion","utworzony");
 define("NB_acronimo","BN"); /* Bibliographic note */
 define("NH_acronimo","HN"); /* Historical note */
 define("NA_acronimo","SN"); /* Scope or Explanatory note */
 define("NP_acronimo","PN"); /* Private note */
 define("NC_acronimo","CN"); /* Cataloger's note */
-define("LABEL_Candidato","candidate term");
-define("LABEL_Aceptado","accepted term");
-define("LABEL_Rechazado","rejected term");
-define("LABEL_Ultimos_aceptados","last accepted terms");
-define("MSG_ERROR_ESTADO","illegal status");
-define("LABEL_Candidatos","candidate terms");
-define("LABEL_Aceptados","accepted terms");
-define("LABEL_Rechazados","rejected terms");
-define("LABEL_User_NoHabilitado","disable");
-define("LABEL_User_Habilitado","enable");
+define("LABEL_Candidato","proponowany termin");
+define("LABEL_Aceptado","zatwierdzony termin");
+define("LABEL_Rechazado","odrzucony termin");
+define("LABEL_Ultimos_aceptados","ostatnio zatwierdzone terminy");
+define("MSG_ERROR_ESTADO","niewłaściwy status");
+define("LABEL_Candidatos","proponowane terminy");
+define("LABEL_Aceptados","zatwierdzone terminy");
+define("LABEL_Rechazados","odrzucone terminy");
+define("LABEL_User_NoHabilitado","wyłącz");
+define("LABEL_User_Habilitado","włącz");
 
-define("LABEL_CandidatearTermino","candidate term");
-define("LABEL_AceptarTermino","accept term");
-define("LABEL_RechazarTermino","reject term");
+define("LABEL_CandidatearTermino","proponowany termin");
+define("LABEL_AceptarTermino","zatwierdź termin");
+define("LABEL_RechazarTermino","odrzuć termin");
 /* v 1.01 */
-define("LABEL_TERMINO_SUGERIDO","did you mean:");
+define("LABEL_TERMINO_SUGERIDO","chodziło o:");
 /* v 1.02 */
-define("LABEL_esSuperUsuario","is admin");
-define("LABEL_Cancelar","cancel");
-define("LABEL_Guardar","save");
+define("LABEL_esSuperUsuario","jest administratorem");
+define("LABEL_Cancelar","anuluj");
+define("LABEL_Guardar","zapisz");
 /* v 1.033 */
-define("MENU_AgregarTEexist","Subordinate An Existing Term");
-define("MENU_AgregarUPexist","Associate An Existing Non-Preferred Term");
-define("LABEL_existAgregarUP","Add UF term to %s");
-define("LABEL_existAgregarTE","Add narrower term to %s ");
-define("MSG_minCharSerarch","The search expression <i>%s</i> has only <strong>%s </strong> characters. Must be greater than <strong>%s</strong> characters");
+define("MENU_AgregarTEexist","Podporządkuj istniejący termin");
+define("MENU_AgregarUPexist","Przypisz istniejący równoważny termin");
+define("LABEL_existAgregarUP","Dodaj UF termin do %s");
+define("LABEL_existAgregarTE","Dodaj węższy termin do %s ");
+define("MSG_minCharSerarch","Wyszukiwane wyrażenie <i>%s</i> ma tylko <strong>%s </strong> znaków. Należy zwiększyć wartość do <strong>%s </strong> znaków");
 /* v 1.04 */
-define("LABEL_terminoExistente","exist term");
-define("HELP_variosTerminos","To add multiple terms at once please put <strong>one term per line</strong>.");
+define("LABEL_terminoExistente","istniejący termin");
+define("HELP_variosTerminos","Aby dodać jednocześnie wiele terminów należy je umieścić <strong>jako jedno słowo na linię</strong>.");
 /* Install messages */
-define("FORM","Form") ;
-define("ERROR","Error") ;
-define("LABEL_bienvenida","Welcome to TemaTres Vocabulary Server") ;
+define("FORM","Formularz") ;
+define("ERROR","Błąd") ;
+define("LABEL_bienvenida","Witaj na Serwerze Słownictwa TemaTres") ;
 // COMMON SQL
-define("PARAM_SERVER","Server address") ;
-define("PARAM_DBName","Database name") ;
-define("PARAM_DBLogin","Database User") ;
-define("PARAM_DBPass","Database Password") ;
-define("PARAM_DBprefix","Prefix tables") ;
-$install_message[101] = 'TemaTres Setup' ;
-$install_message[201] = 'Can not find the file configuration for the database connection (%s).';
-$install_message[202] = 'File configuration for the database connection found.';
-$install_message[203] = 'Unable to connect to database server <em>%s</em> with the user <em>%s</em>. Please check your file configuration for the database connection (%s).';
-$install_message[204] = 'Connection to Server <em>%s</em> successful ';
-$install_message[205] = 'Unable to connect to database <em>%s</em> in server <em>%s</em>. Please check your file configuration for the database connection (%s).';
-$install_message[206] = 'Connection to database <em>%s</em> in server <em>%s</em> successful.' ;
-$install_message[301] = 'Whoops... There is already a TemaTres instance for that configuration. Please check your file configuration for the database connection (%s) or <a href="index.php">Enjoy your Vocabulary Server</a>' ;
-$install_message[305] = 'Checking security password.' ;
-$install_message[306] = 'Setup is completed, <a href="index.php">Enjoy your Vocabulary Server</a>' ;
+define("PARAM_SERVER","Adres serwera") ;
+define("PARAM_DBName","Nazwa bazy danych") ;
+define("PARAM_DBLogin","Użytkownik bazy danych") ;
+define("PARAM_DBPass","Hasło do bazy danych") ;
+define("PARAM_DBprefix","Prefix dla tabel") ;
+$install_message[101] = 'Konfiguracja TemaTres' ;
+$install_message[201] = 'Nie mogę odnaleźć pliku z konfiguracją połączenia do bazy danych (%s).';
+$install_message[202] = 'Znaleziono plik z konfiguracją połączenia do bazy danych.';
+$install_message[203] = 'Nie udało się połączyć z serwerem bazy danych <em>%s</em> jako użytkownik <em>%s</em>. Proszę sprawdzić konfigurację (%s).';
+$install_message[204] = 'Pomyślnie nawiązano połączenie z serwerem <em>%s</em> ';
+$install_message[205] = 'Nie udało się połączyć do bazy danych <em>%s</em> na serwerze <em>%s</em>. Proszę sprawdzić konfigurację (%s).';
+$install_message[206] = 'Pomyślnie nawiązano połączenie z bazą danych <em>%s</em> na serwerze <em>%s</em>.' ;
+$install_message[301] = 'Ooppsss... Dla tej konfiguracji istnieje już instalacja TemaTres. Proszę sprawdzić konfigurację z bazą danych (%s) złoto <a href="index.php">Ciesz się swoim serwerem Vocabulary</a>' ;
+$install_message[305] = 'Sprawdzanie hasła.' ;
+$install_message[306] = 'Konfiguracja zakończona pomyślnie, <a href="index.php">Miłego korzystania z Serwera TemaTres</a>' ;
 /* end Install messages */
 /* v 1.1 */
-define('MSG_ERROR_CODE',"invalid code");
-define('LABEL_CODE',"code");
-define('LABEL_Ver',"Show");
-define('LABEL_OpcionesTermino',"term");
-define('LABEL_CambiarEstado',"Change term status");
-define('LABEL_ClickEditar',"Click to edit...");
-define('LABEL_TopTerm',"Has this top term");
-define('LABEL_esFraseExacta',"exact phrase");
-define('LABEL_DesdeFecha',"created on or after");
-define('LABEL_ProfundidadTermino',"is located in the level of deep");
-define('LABEL_esNoPreferido',"non preferred term");
-define('LABEL_BusquedaAvanzada',"advanced search");
-define('LABEL_Todos',"all");
-define('LABEL_QueBuscar',"what to search?");
-define("LABEL_import","import") ;
-define("IMPORT_form_legend","import thesaurus from file") ;
-define("IMPORT_form_label","file") ;
-define("IMPORT_file_already_exists","a txt file is already present on the server") ;
-define("IMPORT_file_not_exists","no import txt file yet") ;
-define("IMPORT_do_it","You can start the import") ;
-define("IMPORT_working","import task is working") ;
-define("IMPORT_finish","import task finished") ;
-define("LABEL_reIndice","recreate indexes") ;
-define("LABEL_dbMantenimiento","database maintenance");  /* Used as menu entry. Keep it short */ 
+define('MSG_ERROR_CODE',"niewłaściwy kod");
+define('LABEL_CODE',"kod");
+define('LABEL_Ver',"Pokaż");
+define('LABEL_OpcionesTermino',"Termin");
+define('LABEL_CambiarEstado',"Zmień status terminu");
+define('LABEL_ClickEditar',"Kliknij aby edytować...");
+define('LABEL_TopTerm',"Posiada ten top termin");
+define('LABEL_esFraseExacta',"dokładna fraza");
+define('LABEL_DesdeFecha',"Utworzone dokładnie lub później");
+define('LABEL_ProfundidadTermino',"jest umiejscowiony na poziomie");
+define('LABEL_esNoPreferido',"brak preferowanego terminu");
+define('LABEL_BusquedaAvanzada',"wyszukiwanie zaawansowane");
+define('LABEL_Todos',"wszystko");
+define('LABEL_QueBuscar',"jakie wyszukiwanie?");
+define("LABEL_import","importowanie") ;
+define("IMPORT_form_legend","importuj tezaurus z pliku txt") ;
+define("IMPORT_form_label","plik") ;
+define("IMPORT_file_already_exists","plik txt już istnieje na serwerze") ;
+define("IMPORT_file_not_exists","jeszcze nie zaimportowano pliku txt") ;
+define("IMPORT_do_it","Można rozpocząć importowanie") ;
+define("IMPORT_working","trwa importowanie") ;
+define("IMPORT_finish","importowanie zakończone") ;
+define("LABEL_reIndice","odtwórz indeksy") ;
+define("LABEL_dbMantenimiento","utrzymywanie bazy danych");  /* Used as menu entry. Keep it short */ 
 /*
 v 1.2
 */
@@ -292,8 +292,8 @@ define('LABEL_tvocab_tag',"tag for the reference");
 define('LABEL_tvocab_uri_service',"URL for the web services reference");
 define('LABEL_targetTermsforUpdate',"terms with pending update");
 define('LABEL_ShowTargetTermsforUpdate',"check terms update");
-define('LABEL_enable',"enable");
-define('LABEL_disable',"disable");
+define('LABEL_enable',"włącz");
+define('LABEL_disable',"wyłącz");
 define('LABEL_notFound',"term not found");
 define('LABEL_termUpdated',"term updated");
 define('LABEL_ShowTargetTermforUpdate',"update");
@@ -412,7 +412,7 @@ define('LABEL_turnOnMetaTerm','Is a meta-term');
 define('LABEL_meta_term','meta-term');
 define('LABEL_meta_terms','meta-terms');
 define('LABEL_relatedTerms','related terms');
-define('LABEL_nonPreferedTerms','non-preferred terms');
+define('LABEL_nonPreferedTerms','terminy równoznaczne');
 define('LABEL_update1_6x1_7','Update (1.6 -> 2.2)');
 define('LABEL_include_data','include');
 define('LABEL_updateEndpoint','update SPARQL endpoint');

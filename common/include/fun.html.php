@@ -2090,21 +2090,8 @@ $rows.='<nav class="navbar navbar-inverse" role="navigation">
         <li><a title="'.LABEL_busqueda.'" href="'.URL_BASE.'index.php?xsearch=1">'.ucfirst(LABEL_BusquedaAvanzada).'</a></li>
 
         <li>
-	        <ul class="nav navbar-nav navbar-left">
-	        	<ul class="nav navbar-nav navbar-right">
-		        	<li class="dropdown"><a href="#" id="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-toggle="dropdown">'.MENU_Sobre.' <b class="caret"></b></a>
-						<ul class="dropdown-menu">
-						<li><a href="'.URL_BASE.'presenta.php">Presentación</a></li>
-						<li><a href="'.URL_BASE.'antecedentes.php">Antecedentes</a></li>
-						<li><a href="'.URL_BASE.'biblio.php" >Fuentes bibliográficas</a></li>
-						<li><a href="'.URL_BASE.'sobre.php">'.ucfirst(LABEL_metadatos).'</a></li>
-						</ul>
-					</li>
-				  </ul>	
-		 	</ul>';	
-
-//      <a title="'.MENU_Sobre.'" href="'.URL_BASE.'sobre.php">'.MENU_Sobre.'</a>
-$rows.='    </li>
+		      <a title="'.MENU_Sobre.'" href="'.URL_BASE.'sobre.php">'.MENU_Sobre.'</a>
+	    </li>
       </ul>
       <ul class="nav navbar-nav navbar-left">';
 

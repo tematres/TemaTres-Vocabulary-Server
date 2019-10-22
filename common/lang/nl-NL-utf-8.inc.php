@@ -13,219 +13,219 @@ define('LABEL_i18n_MasterVersion','3.1.03'); /* Do not translate. Master languag
 define('LABEL_i18n_TranslationVersion','01'); /* Translation language file version. Will be used as a sufix for the language master version number. Can be changed by translators to track minor changes to your translation file */
 define('LABEL_i18n_TranslationAuthor','Community translation for TemaTres'); /* Can be changed by translators. Do not include emails or personal details */
 /* Strings to translate */
-define("LANG","en-US");
+define("LANG","nl");
 define("TR_acronimo","RT"); /* Related Term */
 define("TE_acronimo","NT"); /* Narrower term > Specific term */
 define("TG_acronimo","BT"); /* Broader term > Generic term */
 define("UP_acronimo","UF"); /* Used for > instead */
-define("TR_termino","Related Term");
-define("TE_termino","Narrower Term");
-define("TG_termino","Broader Term");
-define("UP_termino","Use for"); /* A term with this symbol is followed by non preferred terms (non descriptors) */
+define("TR_termino","Gerelateerde term");
+define("TE_termino","Nauwere term");
+define("TG_termino","Bredere term");
+define("UP_termino","Gebruikt voor"); /* A term with this symbol is followed by non preferred terms (non descriptors) */
 /* v 9.5 */
-define("USE_termino","USE"); /* A term with this symbol is followed by a preferred term (descriptor) */
-define("MENU_ListaSis","Hierarchical list");
-define("MENU_ListaAbc","Alphabetic list");
-define("MENU_Sobre","About...");
+define("USE_termino","GEBRUIK"); /* A term with this symbol is followed by a preferred term (descriptor) */
+define("MENU_ListaSis","Hiërarchische lijst");
+define("MENU_ListaAbc","Alfabetische lijst");
+define("MENU_Sobre","Over...");
 define("MENU_Inicio","Home");
-define("MENU_MiCuenta","My account");
-define("MENU_Usuarios","Users");
-define("MENU_NuevoUsuario","New user");
-define("MENU_DatosTesauro","About thesaurus");
-define("MENU_AgregarT","Add Term");
-define("MENU_EditT","Edit Term");
-define("MENU_BorrarT","Delete Term");
-define("MENU_AgregarTG","Subordinate the Term");
-define("MENU_AgregarTE","Subordinated Term");
-define("MENU_AgregarTR","Related Term");
-define("MENU_AgregarUP","Non-preferred Term");  /* Non-descriptor */
-define("MENU_MisDatos","My account");
+define("MENU_MiCuenta","Mijn account");
+define("MENU_Usuarios","Gebruikers");
+define("MENU_NuevoUsuario","Nieuwe gebruiker");
+define("MENU_DatosTesauro","Over thesaurus");
+define("MENU_AgregarT","Voeg term toe");
+define("MENU_EditT","Bewerk term");
+define("MENU_BorrarT","Verwijder term");
+define("MENU_AgregarTG","Rangschik term onder");
+define("MENU_AgregarTE","Ondergeschikte term");
+define("MENU_AgregarTR","Gerelateerde term");
+define("MENU_AgregarUP","Niet geprefereerde term");  /* Non-descriptor */
+define("MENU_MisDatos","Mijn account");
 define("MENU_Caducar","disable");
-define("MENU_Habilitar","available");
-define("MENU_Salir","Logout");
+define("MENU_Habilitar","Activeer");
+define("MENU_Salir","Uitloggen");
 define("LABEL_Menu","Menu");
-define("LABEL_Opciones","Options");
-define("LABEL_Admin","Administration");
-define("LABEL_Agregar","Add");
-define("LABEL_editT","Edit Term ");
-define("LABEL_EditorTermino","Term Editor");
+define("LABEL_Opciones","Opties");
+define("LABEL_Admin","Administratie");
+define("LABEL_Agregar","Voer in");
+define("LABEL_editT","Bewerk term ");
+define("LABEL_EditorTermino","Term editor");
 define("LABEL_Termino","Term");
-define("LABEL_NotaAlcance","Scope Note");
-define("LABEL_EliminarTE","Delete term");
-define("LABEL_AgregarT","New Term");
-define("LABEL_AgregarTG","Add broader Term to %s ");
-define("LABEL_AgregarTE","New Term subordinated to ");
-define("LABEL_AgregarUP","New UF term for ");
-define("LABEL_AgregarTR","New related Term for ");
+define("LABEL_NotaAlcance","Scope notitie");
+define("LABEL_EliminarTE","Verwijder term");
+define("LABEL_AgregarT","Nieuwe term");
+define("LABEL_AgregarTG","Voeg bredere term toe aan %s ");
+define("LABEL_AgregarTE","Nieuwe term ondergeschikt aan ");
+define("LABEL_AgregarUP","Nieuwe UF term voor ");
+define("LABEL_AgregarTR","Nieuwe gerelateerde term voor ");
 define("LABEL_Detalle","details");
-define("LABEL_Autor","Author");
+define("LABEL_Autor","Auteur");
 define("LABEL_URI","URI");
 define("LABEL_Version","Powered by");
-define("LABEL_Idioma","Language");
-define("LABEL_Fecha","Date of creation");
-define("LABEL_Keywords","Keywords");
-define("LABEL_TipoLenguaje","Language type");
+define("LABEL_Idioma","Taal");
+define("LABEL_Fecha","Aanmaakdatum");
+define("LABEL_Keywords","Trefwoorden");
+define("LABEL_TipoLenguaje","Taalsoort");
 define("LABEL_Cobertura","Scope");
-define("LABEL_Terminos","terms");
-define("LABEL_RelTerminos","relations between terms");
-define("LABEL_TerminosUP","non-preferred terms");
-define("LABEL_BuscaTermino","Search term");
-define("LABEL_Buscar","Search");
-define("LABEL_Enviar","Submit");
-define("LABEL_Cambiar","Update");
-define("LABEL_Anterior","back");
-define("LABEL_AdminUser","Users admin");
-define("LABEL_DatosUser","User data");
-define("LABEL_Acciones","Tasks");
-define("LABEL_verEsquema","show schema");
-define("LABEL_actualizar","Update");
-define("LABEL_terminosLibres","Free terms"); /* 'Free term' usually refers to a term from the natural language, and thus not controlled. This is not exactly what 'termino libre' means in TemaTres. Note: 'orphan' is not good either as it means 'not preferred' */
-define("LABEL_busqueda","Search");
-define("LABEL_borraRelacion","delete relation");
-define("MSG_ResultBusca","term/s found for search expression");
+define("LABEL_Terminos","term(en)");
+define("LABEL_RelTerminos","relaties tussen termen");
+define("LABEL_TerminosUP","niet geprefereerde termen");
+define("LABEL_BuscaTermino","Zoekterm");
+define("LABEL_Buscar","Zoek");
+define("LABEL_Enviar","Voer in");
+define("LABEL_Cambiar","Wijzig");
+define("LABEL_Anterior","terug");
+define("LABEL_AdminUser","Gebruikersadmin");
+define("LABEL_DatosUser","Gebruikersdata");
+define("LABEL_Acciones","Taken");
+define("LABEL_verEsquema","toon schema");
+define("LABEL_actualizar","Bijwerken");
+define("LABEL_terminosLibres","Vrije termen"); /* 'Free term' usually refers to a term from the natural language, and thus not controlled. This is not exactly what 'termino libre' means in TemaTres. Note: 'orphan' is not good either as it means 'not preferred' */
+define("LABEL_busqueda","Zoek");
+define("LABEL_borraRelacion","verwijder relatie");
+define("MSG_ResultBusca","term(en) gevonden voor zoekexpressie");
 define("MSG_ResultLetra","Letter");
-define("MSG_ResultCambios","The changes have been made successfully.");
-define("MSG_noUser","Not a Registered User");
-define("FORM_JS_check","Please check the data of ");
-define("FORM_JS_confirm","eliminate this relationship?");
-define("FORM_JS_pass","_pass");
-define("FORM_JS_confirmPass","_confirm_pass");
+define("MSG_ResultCambios","wijziging succesvol.");
+define("MSG_noUser","Geen geregistreerde gebruiker");
+define("FORM_JS_check","AUB, controleer de invoer van ");
+define("FORM_JS_confirm","deze relatie elimineren?");
+define("FORM_JS_pass","_wachtwoord");
+define("FORM_JS_confirmPass","_bevestig_wachtwoord");
 define("FORM_LABEL_termino","_term");
-define("FORM_LABEL_buscar","_search_expresion");
-define("FORM_LABEL_buscarTermino","_term_related");
-define("FORM_LABEL_nombre","_name");
-define("FORM_LABEL_apellido","_surname");
+define("FORM_LABEL_buscar","_zoek_expressie");
+define("FORM_LABEL_buscarTermino","_term_gerelateerd");
+define("FORM_LABEL_nombre","_naam");
+define("FORM_LABEL_apellido","_voornaam");
 define("FORM_LABEL_mail","_mail");
-define("FORM_LABEL_pass","_pass");
-define("FORM_LABEL_repass","_confirm_pass");
+define("FORM_LABEL_pass","_wachtwoord");
+define("FORM_LABEL_repass","_bevestig_wachtwoord");
 define("FORM_LABEL_orga","orga");
-define("LABEL_nombre","name");
-define("LABEL_apellido","surname");
+define("LABEL_nombre","naam");
+define("LABEL_apellido","voornaam");
 define("LABEL_mail","mail");
-define("LABEL_pass","password");
-define("LABEL_repass","Confirm password");
-define("LABEL_orga","organization");
-define("LABEL_lcConfig","vocabulary configuration");
-define("LABEL_lcDatos","vocabulary metadata");
-define("LABEL_Titulo","title");
-define("FORM_LABEL_Titulo","_title");
-define("FORM_LABEL_Autor","_author");
+define("LABEL_pass","wachtwoord");
+define("LABEL_repass","Bevestig wachtwoord");
+define("LABEL_orga","organisatie");
+define("LABEL_lcConfig","vocabulaire configuratie");
+define("LABEL_lcDatos","vocabulaire metadata");
+define("LABEL_Titulo","titel");
+define("FORM_LABEL_Titulo","_titel");
+define("FORM_LABEL_Autor","_auteur");
 define("FORM_LABEL_URI","_URI");
-define("FORM_LABEL_Idioma","language");
-define("FORM_LABEL_FechaDia","day");
-define("FORM_LABEL_FechaMes","month");
-define("FORM_LABEL_FechaAno","year");
-define("FORM_LABEL_Keywords","keywords");
-define("FORM_LABEL_TipoLenguaje","language_type");
+define("FORM_LABEL_Idioma","taal");
+define("FORM_LABEL_FechaDia","dag");
+define("FORM_LABEL_FechaMes","maand");
+define("FORM_LABEL_FechaAno","jaar");
+define("FORM_LABEL_Keywords","trefwoord");
+define("FORM_LABEL_TipoLenguaje","taal_soort");
 define("FORM_LABEL_Cobertura","scope");
-define("FORM_LABEL_Terminos","terms");
-define("FORM_LABEL_RelTerminos","relations between terms");
-define("FORM_LABEL_TerminosUP","Non preferred terms");
-define("FORM_LABEL_Guardar","Save");
-define("LABEL_verDetalle","see details from ");
-define("LABEL_verTerminosLetra","see terms beginning with ");
-define("LABEL_NB","Bibliographic note");
-define("LABEL_NH","Historical note");
-define("LABEL_NA","Scope note");   /* version 0.9.1 */
-define("LABEL_NP","Private note"); /* version 0.9.1 */
-define("LABEL_EditorNota","Notes Editor ");
-define("LABEL_EditorNotaTermino","note for ");
-define("LABEL_tipoNota","note type");
-define("FORM_LABEL_tipoNota","note_type");
-define("LABEL_nota","note");
-define("FORM_LABEL_nota","_note");
-define("LABEL_EditarNota","edit note");
-define("LABEL_EliminarNota","Delete note");
-define("LABEL_OptimizarTablas","Optimize tables");
-define("LABEL_TotalZthesLine","export on Zthes");
+define("FORM_LABEL_Terminos","termen");
+define("FORM_LABEL_RelTerminos","relatie tussen termen");
+define("FORM_LABEL_TerminosUP","niet geprefereerde termen");
+define("FORM_LABEL_Guardar","Bewaar");
+define("LABEL_verDetalle","zie details uit ");
+define("LABEL_verTerminosLetra","zie termen geinitialiseerd met ");
+define("LABEL_NB","Bibliografisch notitie");
+define("LABEL_NH","Historische notitie");
+define("LABEL_NA","Scope notitie");   /* version 0.9.1 */
+define("LABEL_NP","Prive notitie"); /* version 0.9.1 */
+define("LABEL_EditorNota","Notitie editor ");
+define("LABEL_EditorNotaTermino","notitie voor ");
+define("LABEL_tipoNota","notitie soort");
+define("FORM_LABEL_tipoNota","notitie_soort");
+define("LABEL_nota","notitie");
+define("FORM_LABEL_nota","_notitie");
+define("LABEL_EditarNota","bewerk notitie");
+define("LABEL_EliminarNota","Verwijder notitie");
+define("LABEL_OptimizarTablas","Optimaliseer tabellen");
+define("LABEL_TotalZthesLine","exporteer naar Zthes");
 /* v 9.2 */
-define("LABEL_negrita","bold");
-define("LABEL_italica","italic");
-define("LABEL_subrayado","underline");
-define("LABEL_textarea","body notes");
-define("MSGL_relacionIlegal","Illegal relation between terms");
+define("LABEL_negrita","vet");
+define("LABEL_italica","italisch");
+define("LABEL_subrayado","onderstreepd");
+define("LABEL_textarea","Tekstveld notities");
+define("MSGL_relacionIlegal","Illegale relatie tussen terms");
 /* v 9.3 */
-define("LABEL_fecha_modificacion","modified");
-define("LABEL_TotalUsuarios","total users");
-define("LABEL_TotalTerminos","total terms");
-define("LABEL_ordenar","order by");
-define("LABEL_auditoria","terms supervision");
-define("LABEL_dia","day");
-define("LABEL_mes","month");
-define("LABEL_ano","year");
-define("LABEL_terminosRepetidos","duplicate terms");
-define("MSG_noTerminosLibres","there are no free terms");
-define("MSG_noTerminosRepetidos","there are no duplicate terms");
-define("LABEL_TotalSkosLine","export on Skos-core");
-$MONTHS=array("01"=>"Jan",
-              "02"=>"Feb",
-              "03"=>"Mar",
-              "04"=>"Apr",
-              "05"=>"May",
-              "06"=>"Jun",
-              "07"=>"Jul",
-              "08"=>"Ago",
-              "09"=>"Sep",
-              "10"=>"Oct",
-              "11"=>"Nov",
-              "12"=>"Dec"
+define("LABEL_fecha_modificacion","gewijzigd");
+define("LABEL_TotalUsuarios","Totaal gebruikers");
+define("LABEL_TotalTerminos","Totaal termen");
+define("LABEL_ordenar","sorteer op");
+define("LABEL_auditoria","termenoverzicht");
+define("LABEL_dia","dag");
+define("LABEL_mes","maand");
+define("LABEL_ano","jaar");
+define("LABEL_terminosRepetidos","dubbele termen");
+define("MSG_noTerminosLibres","er zijn geen vrije termen");
+define("MSG_noTerminosRepetidos","er zijn geen dubbele termen");
+define("LABEL_TotalSkosLine","exporteer naar Skos-core");
+$MONTHS=array("01"=>"jan",
+              "02"=>"feb",
+              "03"=>"mrt",
+              "04"=>"apr",
+              "05"=>"mei",
+              "06"=>"jun",
+              "07"=>"jul",
+              "08"=>"aug",
+              "09"=>"sep",
+              "10"=>"okt",
+              "11"=>"nov",
+              "12"=>"dec"
               );
 /* v 9.4 */
-define("LABEL_SI","YES");
-define("LABEL_NO","NO");
-define("FORM_LABEL_jeraquico","polyhierarchical");
-define("LABEL_jeraquico","Polyhierarchical"); /* Polyhierarchical relationship */
-define("LABEL_terminoLibre","free term");
+define("LABEL_SI","JA");
+define("LABEL_NO","NEE");
+define("FORM_LABEL_jeraquico","polihiërarchisch");
+define("LABEL_jeraquico","Polihiërarchisch"); /* Polyhierarchical relationship */
+define("LABEL_terminoLibre","vrije term");
 /* v 9.5 */
-define("LABEL_URL_busqueda","Search %s in: ");
+define("LABEL_URL_busqueda","Zoek %s in: ");
 /* v 9.6 */
-define("LABEL_relacion_vocabulario","relationship with another vocabulary");
-define("FORM_LABEL_relacion_vocabulario","equivalence");
-define("FORM_LABEL_nombre_vocabulario","target vocabulary");
-define("LABEL_vocabulario_referencia","target vocabulary");
-define("LABEL_NO_vocabulario_referencia","there are no target vocabulary to make terminology relation");
-define("FORM_LABEL_tipo_equivalencia","equivalence type");
-define("LABEL_vocabulario_principal","vocabulary");
-define("LABEL_tipo_vocabulario","type");
+define("LABEL_relacion_vocabulario","relatie met andere vocabulaires");
+define("FORM_LABEL_relacion_vocabulario","equivalentie");
+define("FORM_LABEL_nombre_vocabulario","doelvocabulaire");
+define("LABEL_vocabulario_referencia","doelvocabulaire");
+define("LABEL_NO_vocabulario_referencia","er zijn geen doelvocabulaires voor het leggen van een terminologische relatie");
+define("FORM_LABEL_tipo_equivalencia","equivalentie soort");
+define("LABEL_vocabulario_principal","vocabulaire");
+define("LABEL_tipo_vocabulario","soort");
 define("LABEL_termino_equivalente","equivalent");
-define("LABEL_termino_parcial_equivalente","partial equivalent");
-define("LABEL_termino_no_equivalente","not equivalent");
+define("LABEL_termino_parcial_equivalente","gedeeltelijk equivalent");
+define("LABEL_termino_no_equivalente","niet equivalent");
 define("EQ_acronimo","EQ"); /* Exact equivalence > inter-language synonymy */
 define("EQP_acronimo","EQP"); /* Partial equivalence > inter-language quasi-synonymy with a difference in specificity*/
 define("NEQ_acronimo","NEQ"); /*  Non-equivalence */
-define("LABEL_NC","Cataloger's note");
-define("LABEL_resultados_suplementarios","supplemental results");
-define("LABEL_resultados_relacionados","related results");
+define("LABEL_NC","Catalogiseerder's notitie");
+define("LABEL_resultados_suplementarios","aanvullende resultaten");
+define("LABEL_resultados_relacionados","gerelateerde resultaten");
 /* v 9.7 */
 define("LABEL_export","export");
-define("FORM_LABEL_format_export","select XML schema");
+define("FORM_LABEL_format_export","selecteer XML schema");
 /* v 1.0 */
-define("LABEL_fecha_creacion","created");
+define("LABEL_fecha_creacion","gecreeërd");
 define("NB_acronimo","BN"); /* Bibliographic note */
 define("NH_acronimo","HN"); /* Historical note */
 define("NA_acronimo","SN"); /* Scope or Explanatory note */
 define("NP_acronimo","PN"); /* Private note */
 define("NC_acronimo","CN"); /* Cataloger's note */
-define("LABEL_Candidato","candidate term");
-define("LABEL_Aceptado","accepted term");
-define("LABEL_Rechazado","rejected term");
-define("LABEL_Ultimos_aceptados","last accepted terms");
-define("MSG_ERROR_ESTADO","illegal status");
-define("LABEL_Candidatos","candidate terms");
-define("LABEL_Aceptados","accepted terms");
-define("LABEL_Rechazados","rejected terms");
-define("LABEL_User_NoHabilitado","disable");
-define("LABEL_User_Habilitado","enable");
+define("LABEL_Candidato","kandidaatterm");
+define("LABEL_Aceptado","geaccepteerde term");
+define("LABEL_Rechazado","verworpen term");
+define("LABEL_Ultimos_aceptados","laatste geaccepteerde termen");
+define("MSG_ERROR_ESTADO","illegale status");
+define("LABEL_Candidatos","kandidaattermen");
+define("LABEL_Aceptados","geaccepteerde termen");
+define("LABEL_Rechazados","verworpen termen");
+define("LABEL_User_NoHabilitado","niet actief");
+define("LABEL_User_Habilitado","actief");
 
-define("LABEL_CandidatearTermino","candidate term");
-define("LABEL_AceptarTermino","accept term");
-define("LABEL_RechazarTermino","reject term");
+define("LABEL_CandidatearTermino","kandideer term");
+define("LABEL_AceptarTermino","accepteer term");
+define("LABEL_RechazarTermino","verwerp term");
 /* v 1.01 */
-define("LABEL_TERMINO_SUGERIDO","did you mean:");
+define("LABEL_TERMINO_SUGERIDO","bedoelt u:");
 /* v 1.02 */
 define("LABEL_esSuperUsuario","is admin");
-define("LABEL_Cancelar","cancel");
-define("LABEL_Guardar","save");
+define("LABEL_Cancelar","stop");
+define("LABEL_Guardar","exporteren");
 /* v 1.033 */
 define("MENU_AgregarTEexist","Subordinate An Existing Term");
 define("MENU_AgregarUPexist","Associate An Existing Non-Preferred Term");
@@ -292,8 +292,8 @@ define('LABEL_tvocab_tag',"tag for the reference");
 define('LABEL_tvocab_uri_service',"URL for the web services reference");
 define('LABEL_targetTermsforUpdate',"terms with pending update");
 define('LABEL_ShowTargetTermsforUpdate',"check terms update");
-define('LABEL_enable',"enable");
-define('LABEL_disable',"disable");
+define('LABEL_enable',"actief");
+define('LABEL_disable',"niet actief");
 define('LABEL_notFound',"term not found");
 define('LABEL_termUpdated',"term updated");
 define('LABEL_ShowTargetTermforUpdate',"update");
@@ -412,7 +412,7 @@ define('LABEL_turnOnMetaTerm','Is a meta-term');
 define('LABEL_meta_term','meta-term');
 define('LABEL_meta_terms','meta-terms');
 define('LABEL_relatedTerms','related terms');
-define('LABEL_nonPreferedTerms','non-preferred terms');
+define('LABEL_nonPreferedTerms','niet geprefereerde termen');
 define('LABEL_update1_6x1_7','Update (1.6 -> 2.2)');
 define('LABEL_include_data','include');
 define('LABEL_updateEndpoint','update SPARQL endpoint');
