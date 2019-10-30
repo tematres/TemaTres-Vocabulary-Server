@@ -1065,6 +1065,8 @@ function admin_users($do,$user_id=""){
 
 		$POSTarrayUser["status"]=($POSTarrayUser["isAlive"]=='ACTIVO') ? 'ACTIVO' : 'BAJA';
 
+		$POSTarrayUser["status"]=($POSTarrayUser["isAlive"]=='ACTIVO') ? 'ACTIVO' : 'BAJA';
+
 		//Check have one admin user
 		if (($POSTarrayUser["status"]=='BAJA') &&
 			($arrayUserData["nivel"]=='1') &&
@@ -1102,13 +1104,14 @@ function admin_users($do,$user_id=""){
 		case 'estado':
 		$new_estado = ($POSTarrayUser["status"]=='ACTIVO') ?  'ACTIVO': 'BAJA';
 
-		//Check have one admin user
-		if (($new_estado=='BAJA') &&
-			($arrayUserData["nivel"]=='1') &&
-			($arrayCheckAdmin["cant"]=='1')
-			)		{
-			$new_estado='ACTIVO';
-		}
+		//Check have one admin user && you do not disable yourself
+		if($new_estado=='BAJA'){
+
+			if(($arrayUserData["nivel"]=='1' && $arrayCheckAdmin["cant"]=='1') || 
+			($arrayUserData["user_id"]==$userId)){
+				$new_estado='ACTIVO';
+				}
+		} 
 
 
 		$sql=SQL("update","$DBCFG[DBprefix]usuario
