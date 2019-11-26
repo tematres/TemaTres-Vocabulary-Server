@@ -2495,8 +2495,8 @@ function HTMLsummary(){
   	if($_SESSION["CFGContributor"])	$rows.='<tr><th>'.ucfirst(LABEL_Contributor).'</th><td>'.$_SESSION["CFGContributor"].'</td></tr>';
 	
   	$rows.='<tr><th>'.ucfirst(LABEL_Idioma).'</th><td>'.$_SESSION["CFGIdioma"].'</td></tr>';
-  	$rows.='<tr><th>'.ucfirst(LABEL_lastChangeDate).'</th><td>'.$fecha_crea["dia"].'/'.$fecha_crea["mes"].'/'.$fecha_crea["ano"].'</td></tr>';
-  	$rows.='<tr><th>'.ucfirst(LABEL_Fecha).'</th><td>'.$fecha_mod["dia"].'/'.$fecha_mod["mes"].'/'.$fecha_mod["ano"].'</td></tr>';
+  	$rows.='<tr><th>'.ucfirst(LABEL_Fecha).'</th><td>'.$fecha_crea["dia"].'/'.$fecha_crea["mes"].'/'.$fecha_crea["ano"].'</td></tr>';
+  	$rows.='<tr><th>'.ucfirst(LABEL_lastChangeDate).'</th><td>'.$fecha_mod["dia"].'/'.$fecha_mod["mes"].'/'.$fecha_mod["ano"].'</td></tr>';
 
   	if($ARRAYmailContact["value"])	$rows.='<tr><th>'.ucfirst(FORM_LABEL__contactMail).'</th><td>'.$ARRAYmailContact["value"].'</td></tr>';
 
