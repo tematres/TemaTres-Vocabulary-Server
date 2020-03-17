@@ -1065,8 +1065,6 @@ function admin_users($do,$user_id=""){
 
 		$POSTarrayUser["status"]=($POSTarrayUser["isAlive"]=='ACTIVO') ? 'ACTIVO' : 'BAJA';
 
-		$POSTarrayUser["status"]=($POSTarrayUser["isAlive"]=='ACTIVO') ? 'ACTIVO' : 'BAJA';
-
 		//Check have one admin user
 		if (($POSTarrayUser["status"]=='BAJA') &&
 			($arrayUserData["nivel"]=='1') &&
@@ -1074,7 +1072,8 @@ function admin_users($do,$user_id=""){
 			)		{
 			$POSTarrayUser["status"]='ACTIVO';
 		}
-
+		//eviatar auto-deshabilitado
+		if($arrayUserData["user_id"]==$userId) $POSTarrayUser["status"]='ACTIVO';
 
 		$sql=SQL("update","$DBCFG[DBprefix]usuario
 			SET apellido=$POSTarrayUser[apellido],
