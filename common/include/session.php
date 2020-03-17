@@ -67,12 +67,9 @@ if(in_array($_SESSION[$_SESSION["CFGURL"]][lang],$idiomas_disponibles))	{
 
 
 if($_GET["cmdlog"]==substr(md5(date("Ymd")),"5","10")){
-
-//Save stadistics
-$stats=doLastModified(); 
-unset($_SESSION[$_SESSION["CFGURL"]]);
-
-header("Location:index.php");
+	//Save stadistics
+	$stats=doLastModified(); 
+	unset($_SESSION[$_SESSION["CFGURL"]]);
 };
 
 if($_POST["id_correo_electronico"]){
@@ -97,7 +94,16 @@ $chk_user=ARRAYcheckLogin($_POST["id_correo_electronico"]);
 		$_SESSION[$_SESSION["CFGURL"]]["ssuser_nombre"]=$chk_user["name"];
 		//redirigir
 		$_SESSION[$_SESSION["CFGURL"]]["user_data"]=ARRAYUserData($chk_user["user_id"]);
-		header("Location: " . $_SERVER['HTTP_REFERER']);
+
+		$url_data=extract4url($_SERVER['HTTP_REFERER']);
+			$add_param='';
+			if(is_numeric($url_data["tema_id"])){
+				$add_param='?tema='.$url_data["tema_id"];
+			}elseif(strlen($url_data["letra"])==1){
+				$add_param='?letra='.$url_data["letra"];
+			};
+
+		header("Location: " . $_SESSION["CFGURL"].$add_param);
 	}
  }
 }

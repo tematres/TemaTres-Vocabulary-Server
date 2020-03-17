@@ -1544,4 +1544,16 @@ if( !function_exists('boolval')) {
     return !! $var;
   }
 }
+
+function extract4url($url){
+
+  $url_parser=parse_url($url);
+
+  parse_str($url_parser["query"]);
+ 
+  if(@$tema) $tema_id=$tema;
+  if(@$letra) $char=$letra;
+  
+  return array("url"=>$url,"tema_id"=>$tema_id,"letra"=>$char);
+}
 ?>

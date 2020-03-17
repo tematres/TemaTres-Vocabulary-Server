@@ -1137,7 +1137,6 @@ function HTMLverTE($tema_id,$i_profundidad,$i=""){
 		$label_MT=($array["isMetaTerm"]==1) ? NOTE_isMetaTerm : '';
 
 		$rows.='<li class="listTE">' ;
-		//$rows.=HTMLcopyClick('nt'.$array["id_tema"],array("isMetaTerm"=>$array["isMetaTerm"],"isValidTerm"=>1,"copy_click"=>$CFG["COPY_CLICK"]));
 		$rows.=' <abbr class="thesacronym" title="'.TE_termino.'" lang="'.LANG.'">'.TE_acronimo.$i_profundidad.'</abbr> ' ;
 		$rows.=HTMLshowCode($array);
 		$rows.=$CFG["REL_SYMBOLS"]["NT"].' <a id="nt'.$array["id_tema"].'" '.$css_class_MT.' title="'.LABEL_verDetalle.' '.$array["tema"].' ('.TE_termino.') '.$label_MT.'"  href="'.URL_BASE.'index.php?tema='.$array["id_tema"].'&amp;/'.string2url($array["tema"]).'">'.$array["tema"].'</a> '.HTMLcopyClick('nt'.$array["id_tema"],array("isMetaTerm"=>$array["isMetaTerm"],"isValidTerm"=>1,"copy_click"=>$CFG["COPY_CLICK"])).$link_next.'</li>';
