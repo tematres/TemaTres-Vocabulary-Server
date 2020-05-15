@@ -982,7 +982,7 @@ order by rel_order,trr.value_order,lower(uf_tema),lower(bt_tema),lower(nt_tema),
 		GLOBAL $CFG;
 		$where='';
 		$leftJoin='';
-		if(isset($_SESSION[$_SESSION["CFGURL"]]["ssuser_id"])){
+		if(!isset($_SESSION[$_SESSION["CFGURL"]]["ssuser_id"])){
 			//Control de estados
 			$where=" where tema.estado_id='13' ";
 
@@ -997,7 +997,7 @@ order by rel_order,trr.value_order,lower(uf_tema),lower(bt_tema),lower(nt_tema),
 
 		$letra=secure_data($letra,"ADOsql");
 
-		return SQL("select","ucase(LEFT(tema.tema,1)) as letra_orden,
+	return SQL("select","ucase(LEFT(tema.tema,1)) as letra_orden,
 		if(LEFT(tema.tema,1)=$letra, 1,0) as letra
 		from $DBCFG[DBprefix]tema as tema
 		left join $DBCFG[DBprefix]tabla_rel as relaciones on relaciones.id_mayor=tema.tema_id
