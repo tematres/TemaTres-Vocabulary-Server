@@ -9,7 +9,7 @@ if ((stristr( $_SERVER['REQUEST_URI'], "session.php") ) || ( !defined('T3_ABSPAT
 # Include para seleccionar include o función de visualizaicon de listas de términos #
 
 //Antes de desplegar cotenidos => Echo mensajes de error
-	echo $MSG_PROC_ERROR["html"];
+echo $MSG_PROC_ERROR["html"];
 
 //Mostrar alfabeto
 if($_GET["letra"]){	// sanitice $letra
@@ -38,9 +38,9 @@ elseif(
 	require_once(T3_ABSPATH . 'common/include/inc.vistaTermino.php');
 }
 //Vista de términos según estados
-elseif(is_numeric($_GET[estado_id]) && ($_SESSION[$_SESSION["CFGURL"]][ssuser_id])){
+elseif(is_numeric($_GET["estado_id"]) && ($_SESSION[$_SESSION["CFGURL"]]["ssuser_id"])){
 	echo '<div class="container" id="bodyText">';
-	echo HTMLlistaTerminosEstado($_GET[estado_id],CFG_NUM_SHOW_TERMSxSTATUS);
+	echo HTMLlistaTerminosEstado($_GET["estado_id"],CFG_NUM_SHOW_TERMSxSTATUS);
 	echo '</div>';
 }
 //Vista de términos según estados
@@ -50,13 +50,13 @@ elseif($_GET["s"]=='n'){
 	echo '</div>';
 }
 //Vista de busqueda avanzada
-elseif(($_GET[xsearch]=='1')){
+elseif(($_GET["xsearch"]=='1')){
 	echo '<div class="container" id="bodyText">';
 	echo HTMLformAdvancedSearch($_GET);
 	echo '</div>';
 }
 //Vista de reporteador
-elseif(($_GET[mod]=='csv') && ($_SESSION[$_SESSION["CFGURL"]][ssuser_id])){
+elseif(($_GET["mod"]=='csv') && ($_SESSION[$_SESSION["CFGURL"]]["ssuser_id"])){
 	echo '<div id="bodyText">';
 	echo HTMLformSimpleTermReport($_GET);
 
@@ -96,7 +96,7 @@ elseif(($_SESSION[$_SESSION["CFGURL"]]["ssuser_id"])&&($_GET["mod"]=='trad')){
 //Esta login y mostrar terminios libres o repetidos
 elseif(($_SESSION[$_SESSION["CFGURL"]]["ssuser_id"])&&($_GET["verT"])){
 	echo '<div class="container" id="bodyText">';
-	switch($_GET[verT]){
+	switch($_GET["verT"]){
 		case 'L':
 		if($_POST["massive_task_freeterms"]=='assocfreeTerm'){
 			echo HTMLformAssociateFreeTerms($_POST["deleteFreeTerms_id"],"");

@@ -41,13 +41,13 @@ $_SESSION["CFGTipo"]      =$CFG_LC[6];
 $_SESSION["CFGCreacion"]  =$CFG_LC[7];
 $_SESSION["CFGURL"]       =$CFG_LC[8];
 $_SESSION["CFGPolijerarquia"]  =$CFG_LC[9];
-$_SESSION["CFGVersion"]   =$CFG[Version];
+$_SESSION["CFGVersion"]   =$CFG["Version"];
 
 //Load config values
 loadConfigValues(1);
 
 	
-if($_GET[setLang]){
+if($_GET["setLang"]){
 		$_SESSION[$_SESSION["CFGURL"]]["lang"]=$idiomas_disponibles[$_GET["setLang"]];
 	}	
 
@@ -59,10 +59,10 @@ if(!$_SESSION[$_SESSION["CFGURL"]]["lang"])   {
 }
 
 //prevent missing language file
-if(in_array($_SESSION[$_SESSION["CFGURL"]][lang],$idiomas_disponibles))	{
-	require_once(T3_ABSPATH . 'common/lang/'.$_SESSION[$_SESSION["CFGURL"]][lang][1]);
+if(in_array($_SESSION[$_SESSION["CFGURL"]]["lang"],$idiomas_disponibles))	{
+	require_once(T3_ABSPATH . 'common/lang/'.$_SESSION[$_SESSION["CFGURL"]]["lang"][1]);
 }	else	{
-	require_once(T3_ABSPATH . 'common/lang/'.$idiomas_disponibles[en][1]);
+	require_once(T3_ABSPATH . 'common/lang/'.$idiomas_disponibles["en"][1]);
 }
 
 
@@ -82,9 +82,9 @@ $chk_user=ARRAYcheckLogin($_POST["id_correo_electronico"]);
 	//if the hash not hashed because the admin of tematres change the CFG_HASH_PASS config in db.tematres.php
 	if (( strlen($chk_user["pass"]) < 34 ) && (CFG_HASH_PASS)){
 
-		setPassword($chk_user["user_id"],$chk_user[pass],CFG_HASH_PASS);
+		setPassword($chk_user["user_id"],$chk_user["pass"],CFG_HASH_PASS);
 
-		$chk_user=ARRAYcheckLogin($_POST[id_correo_electronico]);
+		$chk_user=ARRAYcheckLogin($_POST["id_correo_electronico"]);
 	}
 	 
 	 

@@ -18,9 +18,9 @@ $resumen=ARRAYresumen($_SESSION["id_tesa"],"U",secure_data($user_id,"sql"));
 
 $row_resumen.='<div id="cajaAncha">'."\n\r";
 $row_resumen.='<strong>'.ucfirst(LABEL_Acciones).'</strong><dl class="dosCol">'."\n\r";
-$row_resumen.='<dt>'.ucfirst(LABEL_Terminos).'</dt><dd>'.$resumen[cant_total]."&nbsp;</dd>\n\r";
-$row_resumen.='<dt>'.ucfirst(LABEL_RelTerminos).'</dt><dd>'.$resumen[cant_rel]."&nbsp;</dd>\n\r";
-$row_resumen.='<dt>'.ucfirst(LABEL_TerminosUP).'</dt><dd> '.$resumen[cant_up]."&nbsp;</dd>\n\r";
+$row_resumen.='<dt>'.ucfirst(LABEL_Terminos).'</dt><dd>'.$resumen["cant_total"]."&nbsp;</dd>\n\r";
+$row_resumen.='<dt>'.ucfirst(LABEL_RelTerminos).'</dt><dd>'.$resumen["cant_rel"]."&nbsp;</dd>\n\r";
+$row_resumen.='<dt>'.ucfirst(LABEL_TerminosUP).'</dt><dd> '.$resumen["cant_up"]."&nbsp;</dd>\n\r";
 $row_resumen.='</dl></div>';
 
 

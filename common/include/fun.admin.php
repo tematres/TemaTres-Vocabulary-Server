@@ -19,7 +19,7 @@ if ($_GET["tcode"]){
 
 # Borrado y edición de término
 # no control if resend.
-if($_POST[task]=='remterm'){
+if($_POST["task"]=='remterm'){
 	borra_t($_POST["tema_id"]);
 	};
 
@@ -109,7 +109,7 @@ if(isset($_SESSION['SEND_KEY'])) {
 
 
 	# Alta de término subordinado
-	if($_POST[id_termino_sub])	{
+	if($_POST["id_termino_sub"])	{
 		$proc=associateTerms($_POST["id_termino_sub"],doValue($_POST,FORM_LABEL_termino),"3",$_POST["t_rel_rel_id"]);
 		$tema=$proc["last_term_id"];
 		if(count($proc["arrayDupliTerms"])>0){
@@ -118,7 +118,7 @@ if(isset($_SESSION['SEND_KEY'])) {
 	}
 
 	# Alta de término no preferido
-	if($_POST[id_termino_uf]){
+	if($_POST["id_termino_uf"]){
 		$proc=associateTerms($_POST["id_termino_uf"],doValue($_POST,FORM_LABEL_termino),"4",$_POST["t_rel_rel_id"]);
 		$tema=$proc["last_term_id"];
 		if(count($proc["arrayDupliTerms"])>0){
@@ -127,7 +127,7 @@ if(isset($_SESSION['SEND_KEY'])) {
 	}
 
 	# Alta de término relacionado
-	if($_POST[id_termino_rt]){
+	if($_POST["id_termino_rt"]){
 		$proc=associateTerms($_POST["id_termino_rt"],doValue($_POST,FORM_LABEL_termino),"2",$_POST["t_rel_rel_id"]);
 		$tema=$proc["last_term_id"];
 		if(count($proc["arrayDupliTerms"])>0){
@@ -153,8 +153,10 @@ if(isset($_SESSION['SEND_KEY'])) {
 
 		$tema=$proc["last_term_id"];
 
-		if(count($proc["arrayDupliTerms"])>0){
-			$MSG_PROC_ERROR=HTMLduplicatedTermsAlert($proc["arrayDupliTerms"]);
+		if(is_array($proc["arrayDupliTerms"])){
+			if(count($proc["arrayDupliTerms"])>0){
+				$MSG_PROC_ERROR=HTMLduplicatedTermsAlert($proc["arrayDupliTerms"]);
+				}
 		}
 	};
 
@@ -226,8 +228,8 @@ switch ($_GET["taskrelations"])
 	break;
 
 	case 'addFreeNT':
-		for($i=0; $i<sizeof($_GET[rema_id]);++$i){
-			$new_relacion=do_r($_GET[tema],$_GET[rema_id][$i],"3");
+		for($i=0; $i<sizeof($_GET["rema_id"]);++$i){
+			$new_relacion=do_r($_GET["tema"],$_GET["rema_id"][$i],"3");
 			}
 		$tema=$_GET["tema"];
 
@@ -477,7 +479,7 @@ $arrayDatos=array("titulo"=>doValue($array,FORM_LABEL_Titulo),
 		"url_base"=> doValue($array,FORM_LABEL_URI),
 		"polijerarquia"=> doValue($array,FORM_LABEL_jeraquico),
 		"cuando"=>doValue($array,FORM_LABEL_FechaAno).'-'.doValue($array,FORM_LABEL_FechaMes).'-'.doValue($array,FORM_LABEL_FechaDia),
-		"id"=>doValue($array,FORM_LABEL_idTes)
+		"id"=>doValue($array,"vocabulario_id")
 		);
 
 return $arrayDatos;
@@ -771,9 +773,8 @@ return $tema_id;
 
 
 #update date for a term
-function updateTermDate($tema_id)
-{
-	$userId=$_SESSION[$_SESSION["CFGURL"]][ssuser_id];
+function updateTermDate($tema_id){
+	$userId=$_SESSION[$_SESSION["CFGURL"]]["ssuser_id"];
 	$tema_id=secure_data($tema_id,"int");
 
 	GLOBAL $DBCFG;
@@ -791,7 +792,7 @@ function abm_target_tema($do,$tema_id,$tvocab_id,$tgetTerm_id,$tterm_id="0")
 GLOBAL $DBCFG;
 GLOBAL $DB;
 
-$userId=$_SESSION[$_SESSION["CFGURL"]][ssuser_id];
+$userId=$_SESSION[$_SESSION["CFGURL"]]["ssuser_id"];
 
 $tema_id=secure_data($tema_id,"int");
 
@@ -818,9 +819,9 @@ if(is_array($arrayVocab)){
 
 		$sql=SQLo("insert","into $DBCFG[DBprefix]term2tterm (tema_id,tvocab_id,tterm_url,tterm_uri,tterm_string,cuando,uid)
 					values (?,?,?,?,$arrayTterm[tterm_string],now(),?)",
-					array($tema_id,$arrayVocab[tvocab_id],$arrayTterm[tterm_url],$arrayTterm[tterm_uri],$userId));
+					array($tema_id,$arrayVocab["tvocab_id"],$arrayTterm["tterm_url"],$arrayTterm["tterm_uri"],$userId));
 
-		$target_relation_id=$sql[cant];
+		$target_relation_id=$sql["cant"];
 
 		break;
 
@@ -847,7 +848,7 @@ if(is_array($arrayVocab)){
 		where tterm_id=? and tema_id=? and tvocab_id=? limit 1",
 		array($userId,$tterm_id,$tema_id,$tvocab_id));
 
-		$target_relation_id=$sql[cant];
+		$target_relation_id=$sql["cant"];
 
 		break;
 		};
@@ -901,7 +902,7 @@ GLOBAL $DBCFG;
 GLOBAL $DB;
 
 
-$userId=$_SESSION[$_SESSION["CFGURL"]][ssuser_id];
+$userId=$_SESSION[$_SESSION["CFGURL"]]["ssuser_id"];
 
 $tipoNota=$DB->qstr(trim($tipoNota),get_magic_quotes_gpc());
 $langNota=$DB->qstr(trim($langNota),get_magic_quotes_gpc());
@@ -947,7 +948,7 @@ function abmURI($do,$tema_id,$array=array(),$uri_id=0){
 GLOBAL $DBCFG;
 GLOBAL $DB;
 
-$userId=$_SESSION[$_SESSION["CFGURL"]][ssuser_id];
+$userId=$_SESSION[$_SESSION["CFGURL"]]["ssuser_id"];
 
 $tema_id=secure_data($tema_id,"int");
 $uri_type_id=secure_data($array["uri_type_id"],"int");
@@ -990,12 +991,12 @@ function edit_single_code($tema_id,$code)
 	$ARRAYCode=ARRAYCode($code);
 
 	//No cambi� nada
-	if($ARRAYCode[tema_id]==$tema_id)	{
+	if($ARRAYCode["tema_id"]==$tema_id)	{
 		//sin cambios
 		$ARRAYCode["log"]='0';
 		return $ARRAYCode;
 
-	}	elseif($ARRAYCode[tema_id])	{
+	}	elseif($ARRAYCode["tema_id"])	{
 		//error
 		$ARRAYCode["log"]='-1';
 		return $ARRAYCode;
@@ -1157,7 +1158,7 @@ return $user_id;
 # # # # funciones de administracion # # # #
 #
 
-if($_SESSION[$_SESSION["CFGURL"]][ssuser_nivel]=='1'){
+if($_SESSION[$_SESSION["CFGURL"]]["ssuser_nivel"]=='1'){
 
 
 # cambios de configuracion y registro de vocabularios de referencia
@@ -1168,16 +1169,16 @@ GLOBAL $DB;
 
 $arrayTesa=doArrayDatosTesauro($_POST);
 
-	$POSTarrayUser[orga]=trim($POSTarrayUser[orga]);
-	$arrayTesa[titulo]=trim($arrayTesa[titulo]);
-	$arrayTesa[autor]=trim($arrayTesa[autor]);
-	$arrayTesa[idioma]=trim($arrayTesa[idioma]);
-	$arrayTesa[cobertura]=trim($arrayTesa[cobertura]);
-	$arrayTesa[keywords]=trim($arrayTesa[keywords]);
-	$arrayTesa[tipo]=trim($arrayTesa[tipo]);
-	$arrayTesa[polijerarquia]=trim($arrayTesa[polijerarquia]);
-	$arrayTesa[url_base]=trim($arrayTesa[url_base]);
-	$arrayTesa[cuando]=trim($arrayTesa[cuando]);
+	$POSTarrayUser["orga"]=trim($POSTarrayUser["orga"]);
+	$arrayTesa["titulo"]=trim($arrayTesa["titulo"]);
+	$arrayTesa["autor"]=trim($arrayTesa["autor"]);
+	$arrayTesa["idioma"]=trim($arrayTesa[2]);
+	$arrayTesa["cobertura"]=trim($arrayTesa["cobertura"]);
+	$arrayTesa["keywords"]=trim($arrayTesa["keywords"]);
+	$arrayTesa["tipo"]=trim($arrayTesa["tipo"]);
+	$arrayTesa["polijerarquia"]=trim($arrayTesa["polijerarquia"]);
+	$arrayTesa["url_base"]=trim($arrayTesa["url_base"]);
+	$arrayTesa["cuando"]=trim($arrayTesa["cuando"]);
 
 	$POSTarrayUser["orga"]=$DB->qstr($POSTarrayUser[orga],get_magic_quotes_gpc());
 	$arrayTesa["titulo"]=$DB->qstr($arrayTesa[titulo],get_magic_quotes_gpc());
@@ -1199,7 +1200,7 @@ switch($do){
 	case 'A':
 	//Alta de vocabulario de referencia
 	$sql=SQL("insert","into $DBCFG[DBprefix]config (titulo,autor,idioma,cobertura,url_base,cuando)
-	values
+	VALUES
 	($arrayTesa[titulo],$arrayTesa[autor],$arrayTesa[idioma],$arrayTesa[cobertura], $arrayTesa[url_base],now())");
 	break;
 
@@ -1349,10 +1350,8 @@ switch($do){
 				VALUES
 				($array[tvocab_label], $array[tvocab_tag], $array[tvocab_lang], $array[tvocab_title], $array[tvocab_uri], $array[tvocab_uri_service], $array[tvocab_status], now(), $user_id)");
 
-				$tvocab_id=$sql[cant];
-			}
-			else
-			{
+				$tvocab_id=$sql["cant"];
+			}	else	{
 				return false;
 			}
 
@@ -1589,15 +1588,15 @@ $rows.='</thead>';
 $rows.='<tbody>';
 
 while($listaUsers=$sqlListaUsers->FetchRow()){
-	$fecha_alta=do_fecha($listaUsers[cuando]);
+	$fecha_alta=do_fecha($listaUsers["cuando"]);
 	$rows.='<tr>';
-	$rows.='<td class="izq"><a href="admin.php?user_id='.$listaUsers[id].'" title="'.LABEL_detallesUsuario.'">'.$listaUsers[apellido].', '.$listaUsers[nombres].'</a></td>';
-	$rows.='<td class="izq">'.$listaUsers[orga].'</td>';
-	$rows.='<td>'.$fecha_alta[dia].'-'.$fecha_alta[descMes].'-'.$fecha_alta[ano].' ('.arrayReplace(array("ACTIVO","BAJA"),array(LABEL_User_Habilitado,LABEL_User_NoHabilitado),$listaUsers[estado]). ')</td>';
-	if($listaUsers[cant_terminos]>0){
-		$rows.='<td><a href="sobre.php?user_id='.$listaUsers[id].'" title="'.LABEL_Detalle.'">'.$listaUsers[cant_terminos].'</a></td>';
+	$rows.='<td class="izq"><a href="admin.php?user_id='.$listaUsers["id"].'" title="'.LABEL_detallesUsuario.'">'.$listaUsers["apellido"].', '.$listaUsers["nombres"].'</a></td>';
+	$rows.='<td class="izq">'.$listaUsers["orga"].'</td>';
+	$rows.='<td>'.$fecha_alta["dia"].'-'.$fecha_alta["descMes"].'-'.$fecha_alta["ano"].' ('.arrayReplace(array("ACTIVO","BAJA"),array(LABEL_User_Habilitado,LABEL_User_NoHabilitado),$listaUsers["estado"]). ')</td>';
+	if($listaUsers["cant_terminos"]>0){
+		$rows.='<td><a href="sobre.php?user_id='.$listaUsers["id"].'" title="'.LABEL_Detalle.'">'.$listaUsers["cant_terminos"].'</a></td>';
 		}else{
-		$rows.='<td>'.$listaUsers[cant_terminos].'</td>';
+		$rows.='<td>'.$listaUsers["cant_terminos"].'</td>';
 		}
 	$rows.='</tr>';
 	};
@@ -1637,11 +1636,11 @@ $rows.='</thead>';
 $rows.='<tbody>';
 
 while($array=$sql->FetchRow()){
-	$fecha_alta=do_fecha($listaUsers[cuando]);
+	$fecha_alta=do_fecha($listaUsers["cuando"]);
 	$rows.='<tr>';
-	$rows.='<td class="izq"><a href="admin.php?vocabulario_id='.$array[vocabulario_id].'" title="'.MENU_DatosTesauro.' '.$array[titulo].'">'.$array[titulo].'</a> / '.$array[idioma].'</td>';
-	$rows.='<td class="izq">'.$array[autor].'</td>';
-	if($array[vocabulario_id]=='1'){
+	$rows.='<td class="izq"><a href="admin.php?vocabulario_id='.$array["vocabulario_id"].'" title="'.MENU_DatosTesauro.' '.$array["titulo"].'">'.$array["titulo"].'</a> / '.$array["idioma"].'</td>';
+	$rows.='<td class="izq">'.$array["autor"].'</td>';
+	if($array["vocabulario_id"]=='1'){
 		$rows.='<td>'.LABEL_vocabulario_principal.'</td>';
 		}else{
 		$rows.='<td>'.LABEL_vocabulario_referencia.'</td>';
@@ -1663,7 +1662,7 @@ function HTMLlistaInternalTargetVocabularios(){
 $sql=SQLinternalTargetVocabs();
 
 $rows.='<div class="table-responsive"> ';
-$rows.='<h3>'.ucfirst(LABEL_vocabulario_referencia).' ('.SQLcount($sql).') <a class="btn btn-primary btn-xs" href="admin.php?vocabulario_id=0" title="'.MENU_NuevoVocabularioReferencia.'">'.ucfirst(LABEL_Agregar.' '.LABEL_vocabulario_referencia).'</a></h3>';
+$rows.='<h3>'.ucfirst(LABEL_vocabulario_referencia).' ('.SQLcount($sql).') <a class="btn btn-primary btn-xs" href="admin.php?vocabulario_id=0" title="'.LABEL_vocabulario_referencia.'">'.ucfirst(LABEL_Agregar.' '.LABEL_vocabulario_referencia).'</a></h3>';
 
 if(SQLcount($sql)>0)	{
 
@@ -1716,17 +1715,17 @@ $rows.='</thead>';
 $rows.='<tbody>';
 
 while($array=$sql->FetchRow()){
-	$fecha_alta=do_fecha($listaUsers[cuando]);
+	$fecha_alta=do_fecha($listaUsers["cuando"]);
 
-	$label_tvocab_status=($array[tvocab_status]=='1') ? ucfirst(LABEL_enable) : ucfirst(LABEL_disable);
+	$label_tvocab_status=($array["tvocab_status"]=='1') ? ucfirst(LABEL_enable) : ucfirst(LABEL_disable);
 
 	$rows.='<tr>';
-	$rows.='<td class="izq"><a href="admin.php?tvocab_id='.$array[tvocab_id].'&amp;doAdmin=seeformTargetVocabulary" title="'.MENU_DatosTesauro.' '.$array[tvocab_title].'">'.FixEncoding($array[tvocab_label]).'</a> ('.FixEncoding($array[tvocab_tag]).')</td>';
-	$rows.='<td class="izq"><a href="'.$array[tvocab_url].'" title="'.LABEL_vocabulario_referenciaWS.' '.FixEncoding($array[tvocab_title]).'">'.FixEncoding($array[tvocab_title]).'</a></td>';
+	$rows.='<td class="izq"><a href="admin.php?tvocab_id='.$array["tvocab_id"].'&amp;doAdmin=seeformTargetVocabulary" title="'.MENU_DatosTesauro.' '.$array["tvocab_title"].'">'.FixEncoding($array["tvocab_label"]).'</a> ('.FixEncoding($array["tvocab_tag"]).')</td>';
+	$rows.='<td class="izq"><a href="'.$array["tvocab_url"].'" title="'.LABEL_vocabulario_referenciaWS.' '.FixEncoding($array["tvocab_title"]).'">'.FixEncoding($array["tvocab_title"]).'</a></td>';
 
 	//hay términos y esta habilitado
-	if ($array[cant]>0)	{
-		$rows.='<td><a href="admin.php?doAdmin=seeTermsTargetVocabulary&amp;tvocab_id='.$array[tvocab_id].'">'.$label_tvocab_status.': '.$array[cant].'</a></td>';
+	if ($array["cant"]>0)	{
+		$rows.='<td><a href="admin.php?doAdmin=seeTermsTargetVocabulary&amp;tvocab_id='.$array["tvocab_id"].'">'.$label_tvocab_status.': '.$array["cant"].'</a></td>';
 	}
 	$rows.='</tr>';
 	};
@@ -1747,19 +1746,18 @@ function HTMLlistaTermsTargetVocabularios($tvocab_id,$from="0"){
 $ARRAYtargetVocabulary=ARRAYtargetVocabulary($tvocab_id);
 
 $from=(is_numeric($from)) ? $from : '0';
-$from=($from<$ARRAYtargetVocabulary[cant]) ? $from : '0';
+$from=($from<$ARRAYtargetVocabulary["cant"]) ? $from : '0';
 
-if($ARRAYtargetVocabulary[cant]>20)
-{
-	$linkMore=($from<($ARRAYtargetVocabulary[cant]-20)) ? '<a href="admin.php?doAdmin=seeTermsTargetVocabulary&amp;tvocab_id='.$ARRAYtargetVocabulary[tvocab_id].'&amp;f='.($from+20).'"> + 20</a>' : "";
+if($ARRAYtargetVocabulary["cant"]>20){
+	$linkMore=($from<($ARRAYtargetVocabulary["cant"]-20)) ? '<a href="admin.php?doAdmin=seeTermsTargetVocabulary&amp;tvocab_id='.$ARRAYtargetVocabulary["tvocab_id"].'&amp;f='.($from+20).'"> + 20</a>' : "";
 
-	$linkLess=($from>0) ? '<a href="admin.php?doAdmin=seeTermsTargetVocabulary&amp;tvocab_id='.$ARRAYtargetVocabulary[tvocab_id].'&amp;f='.($from-20).'"> - 20</a>' : "";
+	$linkLess=($from>0) ? '<a href="admin.php?doAdmin=seeTermsTargetVocabulary&amp;tvocab_id='.$ARRAYtargetVocabulary["tvocab_id"].'&amp;f='.($from-20).'"> - 20</a>' : "";
 
-	$linkFirst= ($from>0) ? '<a href="admin.php?doAdmin=seeTermsTargetVocabulary&amp;tvocab_id='.$ARRAYtargetVocabulary[tvocab_id].'&amp;f=0"><<</a> &middot; ' : "";
+	$linkFirst= ($from>0) ? '<a href="admin.php?doAdmin=seeTermsTargetVocabulary&amp;tvocab_id='.$ARRAYtargetVocabulary["tvocab_id"].'&amp;f=0"><<</a> &middot; ' : "";
 
-	$linkLast= ($from<($ARRAYtargetVocabulary[cant]-20)) ? ' &middot; <a href="admin.php?doAdmin=seeTermsTargetVocabulary&amp;tvocab_id='.$ARRAYtargetVocabulary[tvocab_id].'&amp;f='.($ARRAYtargetVocabulary[cant]-20).'">>></a>' : "";
+	$linkLast= ($from<($ARRAYtargetVocabulary["cant"]-20)) ? ' &middot; <a href="admin.php?doAdmin=seeTermsTargetVocabulary&amp;tvocab_id='.$ARRAYtargetVocabulary["tvocab_id"].'&amp;f='.($ARRAYtargetVocabulary["cant"]-20).'">>></a>' : "";
 
-	$next20= (($from+20)<$ARRAYtargetVocabulary[cant]) ? $from+20 :  $ARRAYtargetVocabulary[cant];
+	$next20= (($from+20)<$ARRAYtargetVocabulary["cant"]) ? $from+20 :  $ARRAYtargetVocabulary["cant"];
 
 	$labelShow=($from>0) ? ' | '.$from.' - '.($next20).' | ' : $from.' - '.($next20).' | ';
 };
@@ -1774,22 +1772,20 @@ $rows.='<tbody>';
 
 while($array=$sql->FetchRow()){
 
-	$last_term_update=($array[cuando_last]) ? $array[cuando_last] : $array[cuando];
+	$last_term_update=($array["cuando_last"]) ? $array["cuando_last"] : $array["cuando"];
 
-	if($_GET["doAdmin2"]=='checkDateTermsTargetVocabulary')
-	{
+	if($_GET["doAdmin2"]=='checkDateTermsTargetVocabulary')	{
 		$iUpd=0;
 
-		$dataSimpleChkUpdateTterm=dataSimpleChkUpdateTterm("tematres",$array[tterm_uri]);
+		$dataSimpleChkUpdateTterm=dataSimpleChkUpdateTterm("tematres",$array["tterm_uri"]);
 /*
 		El término no existe m�s en el vocabulario de destino
 */
-		if(!$dataSimpleChkUpdateTterm->result->term->tema_id)
-		{
-			$linkUpdateTterm["$array[tterm_uri]"].= '<ul class="errorNoImage">';
-			$linkUpdateTterm["$array[tterm_uri]"].= '<li><strong>'.ucfirst(LABEL_notFound).'</strong></li>';
-			$linkUpdateTterm["$array[tterm_uri]"].= '<li>[<a href="admin.php?doAdmin=seeTermsTargetVocabulary&amp;doAdmin2=checkDateTermsTargetVocabulary&amp;tvocab_id='.$ARRAYtargetVocabulary[tvocab_id].'&amp;f='.$from.'&amp;tterm_id='.$array[tterm_id].'&amp;tema='.$array[tema_id].'&amp;taskrelations=delTgetTerm" title="'.ucfirst(LABEL_borraRelacion).'">'.ucfirst(LABEL_borraRelacion).'</a>]</li>';
-			$linkUpdateTterm["$array[tterm_uri]"].= '</ul>';
+		if(!$dataSimpleChkUpdateTterm->result->term->tema_id){
+			$linkUpdateTterm[$array["tterm_uri"]].= '<ul class="errorNoImage">';
+			$linkUpdateTterm[$array["tterm_uri"]].= '<li><strong>'.ucfirst(LABEL_notFound).'</strong></li>';
+			$linkUpdateTterm[$array["tterm_uri"]].= '<li>[<a href="admin.php?doAdmin=seeTermsTargetVocabulary&amp;doAdmin2=checkDateTermsTargetVocabulary&amp;tvocab_id='.$ARRAYtargetVocabulary["tvocab_id"].'&amp;f='.$from.'&amp;tterm_id='.$array["tterm_id"].'&amp;tema='.$array["tema_id"].'&amp;taskrelations=delTgetTerm" title="'.ucfirst(LABEL_borraRelacion).'">'.ucfirst(LABEL_borraRelacion).'</a>]</li>';
+			$linkUpdateTterm[$array["tterm_uri"]].= '</ul>';
 		}
 /*
 		hay actualizacion del término
@@ -1803,8 +1799,8 @@ while($array=$sql->FetchRow()){
 			$linkUpdateTterm["$array[tterm_uri]"].= '<ul class="warningNoImage">';
 			$linkUpdateTterm["$array[tterm_uri]"].= '<li><strong>'.$ARRAYupdateTterm["$array[tterm_uri]"]["string"].'</strong></li>';
 			$linkUpdateTterm["$array[tterm_uri]"].= '<li>'.$ARRAYupdateTterm["$array[tterm_uri]"]["date_mod"].'</li>';
-			$linkUpdateTterm["$array[tterm_uri]"].= '<li>[<a href="admin.php?doAdmin=seeTermsTargetVocabulary&amp;doAdmin2=checkDateTermsTargetVocabulary&amp;tvocab_id='.$ARRAYtargetVocabulary[tvocab_id].'&amp;f='.$from.'&amp;tterm_id='.$array[tterm_id].'&amp;tgetTerm_id='.$array[tterm_id].'&amp;tema='.$array[tema_id].'&amp;taskrelations=updTgetTerm" title="'.ucfirst(LABEL_actualizar).'">'.ucfirst(LABEL_actualizar).'</a>]</li>';
-			$linkUpdateTterm["$array[tterm_uri]"].= '<li>[<a href="admin.php?doAdmin=seeTermsTargetVocabulary&amp;doAdmin2=checkDateTermsTargetVocabulary&amp;tvocab_id='.$ARRAYtargetVocabulary[tvocab_id].'&amp;f='.$from.'&amp;tterm_id='.$array[tterm_id].'&amp;tema='.$array[tema_id].'&amp;taskrelations=delTgetTerm" title="'.ucfirst(LABEL_borraRelacion).'">'.ucfirst(LABEL_borraRelacion).'</a>]</li>';
+			$linkUpdateTterm["$array[tterm_uri]"].= '<li>[<a href="admin.php?doAdmin=seeTermsTargetVocabulary&amp;doAdmin2=checkDateTermsTargetVocabulary&amp;tvocab_id='.$ARRAYtargetVocabulary["tvocab_id"].'&amp;f='.$from.'&amp;tterm_id='.$array["tterm_id"].'&amp;tgetTerm_id='.$array["tterm_id"].'&amp;tema='.$array["tema_id"].'&amp;taskrelations=updTgetTerm" title="'.ucfirst(LABEL_actualizar).'">'.ucfirst(LABEL_actualizar).'</a>]</li>';
+			$linkUpdateTterm["$array[tterm_uri]"].= '<li>[<a href="admin.php?doAdmin=seeTermsTargetVocabulary&amp;doAdmin2=checkDateTermsTargetVocabulary&amp;tvocab_id='.$ARRAYtargetVocabulary["tvocab_id"].'&amp;f='.$from.'&amp;tterm_id='.$array["tterm_id"].'&amp;tema='.$array["tema_id"].'&amp;taskrelations=delTgetTerm" title="'.ucfirst(LABEL_borraRelacion).'">'.ucfirst(LABEL_borraRelacion).'</a>]</li>';
 			$linkUpdateTterm["$array[tterm_uri]"].= '</ul>';
 		}
 
@@ -1812,10 +1808,10 @@ while($array=$sql->FetchRow()){
 
 	$rows.='<tr>';
 
-	$rows.='<td class="izq"><a href="index.php?tema='.$array[tema_id].'" title="'.LABEL_verDetalle.' '.$array[tema].'">'.$array[tema].'</a></td>';
+	$rows.='<td class="izq"><a href="index.php?tema='.$array["tema_id"].'" title="'.LABEL_verDetalle.' '.$array["tema"].'">'.$array["tema"].'</a></td>';
 	$rows.='<td class="izq">';
 
-	$rows.='<a href="'.$array[tterm_url].'" title="'.LABEL_verDetalle.' '.FixEncoding($array[tterm_string]).'" >'.FixEncoding($array[tterm_string]).'</a>';
+	$rows.='<a href="'.$array["tterm_url"].'" title="'.LABEL_verDetalle.' '.FixEncoding($array["tterm_string"]).'" >'.FixEncoding($array["tterm_string"]).'</a>';
 
 	$rows.=' '.$linkUpdateTterm["$array[tterm_uri]"].'</td>';
 	$rows.='<td class="izq">'.$last_term_update.'</td>';
@@ -1826,11 +1822,10 @@ $rows.='</tbody>';
 
 $rows.='<tfoot>';
 $rows.='<tr>';
-$rows.='<td class="izq" colspan="3">'.$ARRAYtargetVocabulary[cant].' '.FORM_LABEL_Terminos.': '.$linkFirst.$linkLess.' '.$labelShow.' '.$linkMore.$linkLast.' ';
+$rows.='<td class="izq" colspan="3">'.$ARRAYtargetVocabulary["cant"].' '.FORM_LABEL_Terminos.': '.$linkFirst.$linkLess.' '.$labelShow.' '.$linkMore.$linkLast.' ';
 
-if($ARRAYtargetVocabulary[cant]>0)
-{
-	$rows.='&middot;  <a href="admin.php?doAdmin=seeTermsTargetVocabulary&amp;doAdmin2=checkDateTermsTargetVocabulary&amp;tvocab_id='.$ARRAYtargetVocabulary[tvocab_id].'&amp;f='.$from.'">'.ucfirst(LABEL_ShowTargetTermsforUpdate).'</a>';
+if($ARRAYtargetVocabulary["cant"]>0){
+	$rows.='&middot;  <a href="admin.php?doAdmin=seeTermsTargetVocabulary&amp;doAdmin2=checkDateTermsTargetVocabulary&amp;tvocab_id='.$ARRAYtargetVocabulary["tvocab_id"].'&amp;f='.$from.'">'.ucfirst(LABEL_ShowTargetTermsforUpdate).'</a>';
 }
 
 
@@ -1850,14 +1845,14 @@ $thead.='<table class="table table-striped table-bordered table-condensed table-
 
 $thead.='<thead>';
 $thead.='<tr>';
-$thead.='<th class="izq" colspan="3"><a href="admin.php" title="'.ucfirst(LABEL_lcConfig).'">'.ucfirst(LABEL_lcConfig).'</a> &middot; '.$ARRAYtargetVocabulary[tvocab_title].' &middot '.(($ARRAYtargetVocabulary["tvocab_status"]=='1') ? LABEL_enable : LABEL_disable).'</th>';
+$thead.='<th class="izq" colspan="3"><a href="admin.php" title="'.ucfirst(LABEL_lcConfig).'">'.ucfirst(LABEL_lcConfig).'</a> &middot; '.$ARRAYtargetVocabulary["tvocab_title"].' &middot '.(($ARRAYtargetVocabulary["tvocab_status"]=='1') ? LABEL_enable : LABEL_disable).'</th>';
 $thead.='</tr>';
 $thead.='<tr>';
-$thead.='<th class="izq" colspan="3">'.$ARRAYtargetVocabulary[cant].' '.FORM_LABEL_Terminos.': '.$linkFirst.$linkLess.' '.$labelShow.' '.$linkMore.$linkLast.' ';
+$thead.='<th class="izq" colspan="3">'.$ARRAYtargetVocabulary["cant"].' '.FORM_LABEL_Terminos.': '.$linkFirst.$linkLess.' '.$labelShow.' '.$linkMore.$linkLast.' ';
 
-if($ARRAYtargetVocabulary[cant]>0)
+if($ARRAYtargetVocabulary["cant"]>0)
 {
-	$thead.='&middot;  <a href="admin.php?doAdmin=seeTermsTargetVocabulary&amp;doAdmin2=checkDateTermsTargetVocabulary&amp;tvocab_id='.$ARRAYtargetVocabulary[tvocab_id].'&amp;f='.$from.'">'.ucfirst(LABEL_ShowTargetTermsforUpdate).'</a>';
+	$thead.='&middot;  <a href="admin.php?doAdmin=seeTermsTargetVocabulary&amp;doAdmin2=checkDateTermsTargetVocabulary&amp;tvocab_id='.$ARRAYtargetVocabulary["tvocab_id"].'&amp;f='.$from.'">'.ucfirst(LABEL_ShowTargetTermsforUpdate).'</a>';
 }
 
 if(isset($iUpd))
@@ -1869,7 +1864,7 @@ $thead.='</th>';
 $thead.='</tr>';
 $thead.='<tr>';
 $thead.='<th>'.ucfirst(LABEL_Termino).'</th>';
-$thead.='<th>'.ucfirst($ARRAYtargetVocabulary[tvocab_label]).'</th>';
+$thead.='<th>'.ucfirst($ARRAYtargetVocabulary["tvocab_label"]).'</th>';
 $thead.='<th>'.ucfirst(LABEL_Fecha).'</th>';
 $thead.='</tr>';
 $thead.='</thead>';
@@ -1931,7 +1926,7 @@ switch($tipoEnvio){
 		$meta_tag.=$zthes;
 		$meta_tag.='</Zthes>';
 
-	$filname=string2url($_SESSION[CFGTitulo]).'.xml';
+	$filname=string2url($_SESSION["CFGTitulo"]).'.xml';
 	return sendFile("$meta_tag","$filname");
 
 	break;
@@ -1974,7 +1969,7 @@ switch($tipoEnvio){
 
 	$meta_tag.='</mads>';
 
-	$filname=string2url($_SESSION[CFGTitulo]).'.xml';
+	$filname=string2url($_SESSION["CFGTitulo"]).'.xml';
 	return sendFile("$meta_tag","$filname");
 
 	break;
@@ -2007,12 +2002,12 @@ switch($tipoEnvio){
 		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 		xsi:schemaLocation="http://schemas.bs8723.org/XmlSchema/DD8723-5.xsd">';
 	$xml.='	 <dc:identifier>'.$_URI_BASE_ID.'</dc:identifier>';
-	$xml.='  <dc:title>'.xmlentities($_SESSION[CFGTitulo]).'</dc:title>';
-	$xml.='  <dc:creator>'.xmlentities($_SESSION[CFGAutor]).'</dc:creator>';
-	$xml.='  <dc:subject>'.xmlentities($_SESSION[CFGKeywords]).'</dc:subject>';
-	$xml.='  <dc:description>'.xmlentities($_SESSION[CFGCobertura],true).'</dc:description>';
-	$xml.='  <dc:publisher>'.xmlentities($_SESSION[CFGAutor]).'</dc:publisher>';
-	$xml.='  <dc:date>'.xmlentities($_SESSION[CFGCreacion]).'</dc:date>';
+	$xml.='  <dc:title>'.xmlentities($_SESSION["CFGTitulo"]).'</dc:title>';
+	$xml.='  <dc:creator>'.xmlentities($_SESSION["CFGAutor"]).'</dc:creator>';
+	$xml.='  <dc:subject>'.xmlentities($_SESSION["CFGKeywords"]).'</dc:subject>';
+	$xml.='  <dc:description>'.xmlentities($_SESSION["CFGCobertura"],true).'</dc:description>';
+	$xml.='  <dc:publisher>'.xmlentities($_SESSION["CFGAutor"]).'</dc:publisher>';
+	$xml.='  <dc:date>'.xmlentities($_SESSION["CFGCreacion"]).'</dc:date>';
 	$xml.='  <dc:language>'.LANG.'</dc:language>';
 
 	// consulta muy costosa
@@ -2036,7 +2031,7 @@ switch($tipoEnvio){
 	$xml.='</Thesaurus>';
 
 
-	$filname=string2url($_SESSION[CFGTitulo]).'_BS8723.xml';
+	$filname=string2url($_SESSION["CFGTitulo"]).'_BS8723.xml';
 
 	sendFile("$xml","$filname");
 	break;
@@ -2061,7 +2056,7 @@ switch($tipoEnvio){
 	$sqlTT=SQLverTopTerm();
 	while ($arrayTT=$sqlTT->FetchRow())
 	{
-		$skos_TT.='<skos:hasTopConcept rdf:nodeID="tema'.$arrayTT[id].'"/>';
+		$skos_TT.='<skos:hasTopConcept rdf:nodeID="tema'.$arrayTT["id"].'"/>';
 	};
 
 		header ('content-type: text/xml');
@@ -2073,12 +2068,12 @@ switch($tipoEnvio){
 		outputCosas('        xmlns:dct="http://purl.org/dc/terms/"');
 		outputCosas('        xmlns:dc="http://purl.org/dc/elements/1.1/">');
 		outputCosas('<skos:ConceptScheme rdf:nodeID="tematres">');
-		outputCosas('     <dc:title>'.$_SESSION[CFGTitulo].'</dc:title>');
-		outputCosas('     <dc:creator>'.$_SESSION[CFGAutor].'</dc:creator>');
-		outputCosas('     <dc:subject>'.$_SESSION[CFGKeywords].'</dc:subject>');
-		outputCosas('     <dc:description>'.$_SESSION[CFGCobertura].'</dc:description>');
-		outputCosas('     <dc:publisher>'.$_SESSION[CFGAutor].'</dc:publisher>');
-		outputCosas('     <dc:date>'.$_SESSION[CFGCreacion].'</dc:date>');
+		outputCosas('     <dc:title>'.$_SESSION["CFGTitulo"].'</dc:title>');
+		outputCosas('     <dc:creator>'.$_SESSION["CFGAutor"].'</dc:creator>');
+		outputCosas('     <dc:subject>'.$_SESSION["CFGKeywords"].'</dc:subject>');
+		outputCosas('     <dc:description>'.$_SESSION["CFGCobertura"].'</dc:description>');
+		outputCosas('     <dc:publisher>'.$_SESSION["CFGAutor"].'</dc:publisher>');
+		outputCosas('     <dc:date>'.$_SESSION["CFGCreacion"].'</dc:date>');
 		outputCosas('     <dc:language>'.LANG.'</dc:language>');
 		outputCosas($skos_TT);
 		outputCosas('</skos:ConceptScheme>');
@@ -2122,7 +2117,7 @@ case 'file':
 
 	$meta_tag=do_skos($skosNodos,true);
 
-	$filname=string2url($_SESSION[CFGTitulo]).'.rdf';
+	$filname=string2url($_SESSION["CFGTitulo"]).'.rdf';
 	return sendFile("$meta_tag","$filname");
 	break;
 	};
@@ -2194,7 +2189,7 @@ switch($tipoEnvio){
 
 	$rows=$row.$rowTerminos.$rowRelaciones.$rowFinal;
 
-	$filname=string2url($_SESSION[CFGTitulo]).'.xtm';
+	$filname=string2url($_SESSION["CFGTitulo"]).'.xtm';
 	sendFile("$rows","$filname");
 	break;
 	};
@@ -2226,7 +2221,7 @@ $_URI_BASE_ID = ($CFG["_URI_BASE_ID"]) ? $CFG["_URI_BASE_ID"] : $_SESSION["CFGUR
 
 	$rows=$row.$rowTerminos.$rowRelaciones.$rowFinal;
 
-	$filname=string2url($_SESSION[CFGTitulo]).'.vdex';
+	$filname=string2url($_SESSION["CFGTitulo"]).'.vdex';
 	sendFile("$rows","$filname");
 
 };
@@ -2260,27 +2255,27 @@ while ($array=$sql->FetchRow()){
 		header('X-pmaPing: Pong');
 	};
 
-	($array[cuando_final]>0) ? $fecha = do_fecha($array[cuando_final]) : $fecha = do_fecha($array[cuando]);
+	($array["cuando_final"]>0) ? $fecha = do_fecha($array["cuando_final"]) : $fecha = do_fecha($array["cuando"]);
 
 
 	//valores posibles para prioridad
     $priority_values=array("0.0", "0.1", "0.2", "0.3", "0.4", "0.5", "0.6", "0.7", "0.8", "0.9", "1.0");
 
-    $term_distance=substr_count($array[indice],'|');
+    $term_distance=substr_count($array["indice"],'|');
 
 	//C�lculo de prioridad
 	$priority=($term_distance<='10') ? $priority_values[$term_distance] : $priority_values[10];
 
 	$rows.='<url>';
-	$rows.='    <loc>'.$_SESSION[CFGURL].'?tema='.$array[id].'</loc>';
-	$rows.='    <lastmod>'.$fecha[ano].'-'.$fecha[mes].'-'.$fecha[dia].'</lastmod>';
+	$rows.='    <loc>'.$_SESSION["CFGURL"].'?tema='.$array["id"].'</loc>';
+	$rows.='    <lastmod>'.$fecha["ano"].'-'.$fecha[mes].'-'.$fecha["dia"].'</lastmod>';
 	$rows.='    <changefreq>weekly</changefreq>';
 	$rows.='    <priority>0.7</priority>';
 	$rows.='</url>';
 	};
 $rows.=' </urlset>';
 
-$filname=string2url($_SESSION[CFGTitulo]).'_sitemap.xml';
+$filname=string2url($_SESSION["CFGTitulo"]).'_sitemap.xml';
 sendFile("$rows","$filname");
 };
 
@@ -2298,9 +2293,9 @@ function doTotalWXR($tipoEnvio='file'){
 	<channel>
         <title>'.xmlentities($_SESSION["CFGTitulo"]).'</title>
         <link>'.$_SESSION["CFGURL"].'</link>
-        <description>'.xmlentities($_SESSION[CFGCobertura]).'</description>
+        <description>'.xmlentities($_SESSION["CFGCobertura"]).'</description>
         <pubDate>'.date('D, d M Y H:i:s T').'</pubDate>
-        <language>'.$_SESSION[CFGIdioma].'</language>
+        <language>'.$_SESSION["CFGIdioma"].'</language>
         <wp:wxr_version>1.1</wp:wxr_version>';
 
 	$sql=SQLverTopTerm();
@@ -2316,20 +2311,20 @@ function doTotalWXR($tipoEnvio='file'){
 		};
 
 			$rows.='<wp:category>
-					<wp:term_id>'.$arrayTema[id].'</wp:term_id>
-					<wp:category_nicename>'.xmlentities(strtolower($arrayTema[tema])).'</wp:category_nicename>
-					<wp:cat_name><![CDATA['.xmlentities($arrayTema[tema]).']]></wp:cat_name>
+					<wp:term_id>'.$arrayTema["id"].'</wp:term_id>
+					<wp:category_nicename>'.xmlentities(strtolower($arrayTema["tema"])).'</wp:category_nicename>
+					<wp:cat_name><![CDATA['.xmlentities($arrayTema["tema"]).']]></wp:cat_name>
 			</wp:category>';
 
 
-			$rows.=WXRverTE($arrayTema[id],$arrayTema);
+			$rows.=WXRverTE($arrayTema["id"],$arrayTema);
     };
 
     $rows.='<generator>'.$_SESSION["CFGURL"].'</generator>
 	</channel>
 	</rss>';
 
-    $filname=string2url($_SESSION[CFGTitulo]).'_wxr.xml';
+    $filname=string2url($_SESSION["CFGTitulo"]).'_wxr.xml';
 
     sendFile("$rows","$filname");
 }
@@ -2343,22 +2338,22 @@ function WXRverTE($tema_id,$parent_category){
 	while($array=$sql->FetchRow())
 	{
 		//si tiene TEs
-		if($array[id_te]){
+		if($array["id_te"]){
 			$rows.='<wp:category>
-						<wp:term_id>'.$array[id_tema].'</wp:term_id>
-						<wp:category_nicename>'.xmlentities(strtolower($array[tema])).'</wp:category_nicename>
-						<wp:category_parent>'.xmlentities(strtolower($parent_category[tema])).'</wp:category_parent>
-						<wp:cat_name><![CDATA['.xmlentities($array[tema]).']]></wp:cat_name>
+						<wp:term_id>'.$array["id_tema"].'</wp:term_id>
+						<wp:category_nicename>'.xmlentities(strtolower($array["tema"])).'</wp:category_nicename>
+						<wp:category_parent>'.xmlentities(strtolower($parent_category["tema"])).'</wp:category_parent>
+						<wp:cat_name><![CDATA['.xmlentities($array["tema"]).']]></wp:cat_name>
 					</wp:category>';
 
-			$rows.=WXRverTE($array[id_tema],$array);
+			$rows.=WXRverTE($array["id_tema"],$array);
 
 		}else{
 			$rows.='<wp:category>
-						<wp:term_id>'.$array[id_tema].'</wp:term_id>
-						<wp:category_nicename>'.xmlentities(strtolower($array[tema])).'</wp:category_nicename>
-						<wp:category_parent>'.xmlentities(strtolower($parent_category[tema])).'</wp:category_parent>
-						<wp:cat_name><![CDATA['.xmlentities($array[tema]).']]></wp:cat_name>
+						<wp:term_id>'.$array["id_tema"].'</wp:term_id>
+						<wp:category_nicename>'.xmlentities(strtolower($array["tema"])).'</wp:category_nicename>
+						<wp:category_parent>'.xmlentities(strtolower($parent_category["tema"])).'</wp:category_parent>
+						<wp:cat_name><![CDATA['.xmlentities($array["tema"]).']]></wp:cat_name>
 					</wp:category>';
 		};
 	};
@@ -2401,7 +2396,7 @@ while($arrayTema=$sql->FetchRow()){
 	if($arrayTema["t_relacion"])// Si es no preferido o refencia: mostrar preferido y referido
 	{
 		//Remisiones de equivalencias y no preferidos
-		$sqlNoPreferidos=SQLterminosValidosUF($arrayTema[id]);
+		$sqlNoPreferidos=SQLterminosValidosUF($arrayTema["id"]);
 		while($arrayNoPreferidos=$sqlNoPreferidos->FetchRow()){
 
 		$acronimo=arrayReplace ( array("4","5","6","7"),array(USE_termino,EQP_acronimo,EQ_acronimo,NEQ_acronimo),$arrayNoPreferidos["t_relacion"]);
@@ -2424,28 +2419,28 @@ while($arrayTema=$sql->FetchRow()){
 	$label_target_vocabulary='';
 
 
-	$txt.=($params["includeCreatedDate"]==1) ? LABEL_fecha_creacion.': '.$arrayTema[cuando]."\r\n" : '';
+	$txt.=($params["includeCreatedDate"]==1) ? LABEL_fecha_creacion.': '.$arrayTema["cuando"]."\r\n" : '';
 
-	if(($arrayTema[cuando_final]>$arrayTema[cuando]) && ($params["includeModDate"]==1))	{$txt.=LABEL_fecha_modificacion.': '.$arrayTema[cuando_final]."\r\n";};
+	if(($arrayTema["cuando_final"]>$arrayTema["cuando"]) && ($params["includeModDate"]==1))	{$txt.=LABEL_fecha_modificacion.': '.$arrayTema["cuando_final"]."\r\n";};
 
 
 	if($params["includeTopTerm"]==1){
-		$arrayMyTT=ARRAYmyTopTerm($arrayTema[id]);
-		$txt.=($arrayMyTT["tema_id"]!==$arrayTema[id]) ? '	TT: '.$arrayMyTT["tema"]."\r\n" : '';
+		$arrayMyTT=ARRAYmyTopTerm($arrayTema["id"]);
+		$txt.=($arrayMyTT["tema_id"]!==$arrayTema["id"]) ? '	TT: '.$arrayMyTT["tema"]."\r\n" : '';
 	}
 
 
 	//include or not notes
 	if(is_array($params["includeNote"])){
 		//Notas
-		$sqlNotas=SQLdatosTerminoNotas($arrayTema[id]);
+		$sqlNotas=SQLdatosTerminoNotas($arrayTema["id"]);
 
 			while($arrayNotas=$sqlNotas->FetchRow()){
 
-				$arrayNotas[label_tipo_nota]=(in_array($arrayNotas[ntype_id],array(8,9,10,11,15))) ? arrayReplace(array(8,9,10,11,15),array(LABEL_NA,LABEL_NH,LABEL_NB,LABEL_NP,LABEL_NC),$arrayNotas[ntype_id]) : $arrayNotas[ntype_code];
+				$arrayNotas["label_tipo_nota"]=(in_array($arrayNotas["ntype_id"],array(8,9,10,11,15))) ? arrayReplace(array(8,9,10,11,15),array(LABEL_NA,LABEL_NH,LABEL_NB,LABEL_NP,LABEL_NC),$arrayNotas["ntype_id"]) : $arrayNotas["ntype_code"];
 
-				if(($arrayNotas[tipo_nota]!=='NP') && (in_array($arrayNotas[tipo_nota], $params["includeNote"]))){
-					$txt.='	'.$arrayNotas[label_tipo_nota].': '.html2txt($arrayNotas[nota])."\r\n";
+				if(($arrayNotas["tipo_nota"]!=='NP') && (in_array($arrayNotas["tipo_nota"], $params["includeNote"]))){
+					$txt.='	'.$arrayNotas["label_tipo_nota"].': '.html2txt($arrayNotas["nota"])."\r\n";
 				}
 			};
 	}
@@ -2498,14 +2493,14 @@ while($arrayTema=$sql->FetchRow()){
 	//Terminos equivalentes web services
 	$SQLtargetTerms=SQLtargetTerms($arrayTema["id"]);
 	while($arrayTT=$SQLtargetTerms->FetchRow()){
-			$txt.='	'.FixEncoding(ucfirst($arrayTT[tvocab_label])).': '.FixEncoding($arrayTT[tterm_string])."\r\n";
+			$txt.='	'.FixEncoding(ucfirst($arrayTT["tvocab_label"])).': '.FixEncoding($arrayTT["tterm_string"])."\r\n";
 		};
 
 
 	}
 }
 
-$filname=string2url($_SESSION[CFGTitulo].' '.MENU_ListaAbc).'.txt';
+$filname=string2url($_SESSION["CFGTitulo"].' '.MENU_ListaAbc).'.txt';
 
 return sendFile("$txt","$filname");
 };
@@ -2514,30 +2509,29 @@ return sendFile("$txt","$filname");
 
 
 //Create txt node for one term
-function txt4term($tema_id,$params=array())
-{
+function txt4term($tema_id,$params=array()){
 
 	$arrayTema=ARRAYverTerminoBasico($tema_id);
 
-	$txt.="\n".$arrayTema[tema]."\r\n";
+	$txt.="\n".$arrayTema["tema"]."\r\n";
 
 	$label_target_vocabulary='';
 
-	$txt.=($params["includeCreatedDate"]==1) ? LABEL_fecha_creacion.': '.$arrayTema[cuando]."\r\n" : '';
+	$txt.=($params["includeCreatedDate"]==1) ? LABEL_fecha_creacion.': '.$arrayTema["cuando"]."\r\n" : '';
 
-	if(($arrayTema[cuando_final]>$arrayTema[cuando]) && ($params["includeModDate"]==1))	{$txt.=LABEL_fecha_modificacion.': '.$arrayTema[cuando_final]."\r\n";};
+	if(($arrayTema["cuando_final"]>$arrayTema["cuando"]) && ($params["includeModDate"]==1))	{$txt.=LABEL_fecha_modificacion.': '.$arrayTema["cuando_final"]."\r\n";};
 
 	//Notas
-	$sqlNotas=SQLdatosTerminoNotas($arrayTema[tema_id]);
+	$sqlNotas=SQLdatosTerminoNotas($arrayTema["tema_id"]);
 
 		while($arrayNotas=$sqlNotas->FetchRow())
 		{
 
-			$arrayNotas[label_tipo_nota]=(in_array($arrayNotas[ntype_id],array(8,9,10,11,15))) ? arrayReplace(array(8,9,10,11,15),array(LABEL_NA,LABEL_NH,LABEL_NB,LABEL_NP,LABEL_NC),$arrayNotas[ntype_id]) : $arrayNotas[ntype_code];
+			$arrayNotas["label_tipo_nota"]=(in_array($arrayNotas["ntype_id"],array(8,9,10,11,15))) ? arrayReplace(array(8,9,10,11,15),array(LABEL_NA,LABEL_NH,LABEL_NB,LABEL_NP,LABEL_NC),$arrayNotas["ntype_id"]) : $arrayNotas["ntype_code"];
 
-			if(($arrayNotas[tipo_nota]!=='NP') && (in_array($arrayNotas[tipo_nota], $params["includeNote"])))
+			if(($arrayNotas["tipo_nota"]!=='NP') && (in_array($arrayNotas["tipo_nota"], $params["includeNote"])))
 			{
-				$txt.='	'.$arrayNotas[label_tipo_nota].': '.html2txt($arrayNotas[nota])."\r\n";
+				$txt.='	'.$arrayNotas["label_tipo_nota"].': '.html2txt($arrayNotas["nota"])."\r\n";
 			}
 		};
 
@@ -2584,12 +2578,9 @@ function txt4term($tema_id,$params=array())
 
 	//Terminos equivalentes web services
 	$SQLtargetTerms=SQLtargetTerms($arrayTema["tema_id"]);
-	while($arrayTT=$SQLtargetTerms->FetchRow())
-		{
-			$txt.='	'.FixEncoding(ucfirst($arrayTT[tvocab_label])).': '.FixEncoding($arrayTT[tterm_string])."\r\n";
+	while($arrayTT=$SQLtargetTerms->FetchRow()){
+			$txt.='	'.FixEncoding(ucfirst($arrayTT["tvocab_label"])).': '.FixEncoding($arrayTT["tterm_string"])."\r\n";
 		};
-
-
 		return $txt;
 }
 
@@ -2617,12 +2608,12 @@ if ($time_start >= $time_now + 10) {
 // es preferido
 
 // $txt.="\n".$arrayTema[tema]."\r\n";
-$txt.=$arrayTema[tema]."\r\n";
+$txt.=$arrayTema["tema"]."\r\n";
 //Terminos especificos
-$txt.=TXTverTE($arrayTema[id],"0");
+$txt.=TXTverTE($arrayTema["id"],"0");
 }
 
-$filname=string2url($_SESSION[CFGTitulo].' '.MENU_ListaSis).'.txt';
+$filname=string2url($_SESSION["CFGTitulo"].' '.MENU_ListaSis).'.txt';
 
 return sendFile("$txt","$filname");
 };
@@ -2644,11 +2635,11 @@ $sql=SQLverTerminosE($tema_id);
 			};
 
 		//si tiene TEs
-		if($array[id_te]){
-			$txt.=$sangria.$array[tema]."\r\n";
-			$txt.=TXTverTE($array[id_tema],$i_profundidad);
+		if($array["id_te"]){
+			$txt.=$sangria.$array["tema"]."\r\n";
+			$txt.=TXTverTE($array["id_tema"],$i_profundidad);
 		}else{
-		$txt.=$sangria.$array[tema]."\r\n";
+		$txt.=$sangria.$array["tema"]."\r\n";
 		};
 	};
 	return $txt;
@@ -2660,11 +2651,10 @@ $sql=SQLverTerminosE($tema_id);
  * Backup tematres tables
  * inspired by http://davidwalsh.name/backup-mysql-database-php
  * */
-function do_mysql_dump($encode="utf8")
-{
+function do_mysql_dump($encode="utf8"){
 	GLOBAL $DBCFG;
 
-	$tables= $DBCFG[DBprefix].'config,'.$DBCFG[DBprefix].'tema,'.$DBCFG[DBprefix].'tabla_rel,'.$DBCFG[DBprefix].'indice,'.$DBCFG[DBprefix].'usuario,'.$DBCFG[DBprefix].'notas,'.$DBCFG[DBprefix].'values,'.$DBCFG[DBprefix].'tvocab,'.$DBCFG[DBprefix].'term2tterm,'.$DBCFG[DBprefix].'uri';
+	$tables= $DBCFG["DBprefix"].'config,'.$DBCFG["DBprefix"].'tema,'.$DBCFG["DBprefix"].'tabla_rel,'.$DBCFG["DBprefix"].'indice,'.$DBCFG["DBprefix"].'usuario,'.$DBCFG["DBprefix"].'notas,'.$DBCFG["DBprefix"].'values,'.$DBCFG["DBprefix"].'tvocab,'.$DBCFG["DBprefix"].'term2tterm,'.$DBCFG["DBprefix"].'uri';
 
 	/*
 	 * To UTF-8 databases
@@ -2708,15 +2698,14 @@ function do_mysql_dump($encode="utf8")
 		$return.="\n\n\n";
 	}
 
-	sendFile($return,string2url('TemaTres-'.$_SESSION[CFGTitulo]).'.sql');
+	sendFile($return,string2url('TemaTres-'.$_SESSION["CFGTitulo"]).'.sql');
 }
 
 
 /*
 User note editor. Create and edit uset definition notes
 */
-function abm_userNotes($do,$array,$value_id="0")
-{
+function abm_userNotes($do,$array,$value_id="0"){
 	GLOBAL $DBCFG;
 	GLOBAL $DB;
 
@@ -2725,11 +2714,9 @@ function abm_userNotes($do,$array,$value_id="0")
 	$array["orden"]=secure_data(trim($array["orden"]),"int");
 
 
-	switch ($do)
-	{
+	switch ($do){
 		case 'A':
-		if(strlen($array["value"])>0)
-			{
+		if(strlen($array["value"])>0){
 			//default type no is scope note
 			$array["alias"]= (strlen($array["alias"])>0) ? $array["alias"] : 'NA';
 			//default order 10
@@ -2740,7 +2727,7 @@ function abm_userNotes($do,$array,$value_id="0")
 				values
 				('t_nota',$array[value],'$array[orden]',$array[alias])
 				");
-			$value_id=$sql[cant];
+			$value_id=$sql["cant"];
 			}
 
 		break;
@@ -2752,8 +2739,7 @@ function abm_userNotes($do,$array,$value_id="0")
 		if((strlen($array["value"])>0) // must be  string
 			&& (!in_array($value_id,array(8,9,10,11,15))) // not can be SYSTEM default notes
 			&& ($value_id>0) // must be int
-			)
-			{
+			){
 			//default type no is scope note
 			$array["alias"]= (strlen($array["alias"])>0) ? $array["alias"] : 'NA';
 			//default order 10
@@ -2775,8 +2761,7 @@ function abm_userNotes($do,$array,$value_id="0")
 
 		if((!in_array($value_id,array(8,9,10,11,15))) // not can be SYSTEM default notes
 			&& ($value_id>0) // must be int
-			)
-			{
+			){
 			$sql=SQL("delete"," from $DBCFG[DBprefix]values
 				where value_id='$value_id'
 				and value_type='t_nota'");
@@ -2789,7 +2774,7 @@ function abm_userNotes($do,$array,$value_id="0")
 	}
 
 
-	return array("cant"=>$sql[cant],
+	return array("cant"=>$sql["cant"],
 				 "value_id"=>$value_id
 				);
 
@@ -2799,8 +2784,7 @@ function abm_userNotes($do,$array,$value_id="0")
 /*
 User relations editor. Create and edit user define relations
 */
-function abm_userRelations($do,$array,$value_id="0")
-{
+function abm_userRelations($do,$array,$value_id="0"){
 	GLOBAL $DBCFG;
 
 	$array["rr_value"]=secure_data($array["rr_value"],"ADOsql");
@@ -2821,20 +2805,18 @@ function abm_userRelations($do,$array,$value_id="0")
 		$value_id=secure_data($value_id,"int");
 		$sqlDataRelation=SQLtypeRelations(0,$value_id,true);
 		$arrayDataRelation=$sqlDataRelation->FetchRow();
-		$array["t_relacion"]=$arrayDataRelation[t_relation];
+		$array["t_relacion"]=$arrayDataRelation["t_relation"];
 	}
-	if(in_array($array["t_relacion"],array(2,3,4)))
-	{
+	if(in_array($array["t_relacion"],array(2,3,4)))	{
 
-		switch ($do)
-		{
+		switch ($do)		{
 			case 'A':
 				$sql=SQL("insert","into $DBCFG[DBprefix]values
 					(value_type, value,value_order, value_code)
 					values
 					('$array[t_relacion]',$array[rr_value],$array[rr_ord],$array[rr_code])
 					");
-				$value_id=$sql[cant];
+				$value_id=$sql["cant"];
 			break;
 
 			case 'M':
@@ -2848,8 +2830,7 @@ function abm_userRelations($do,$array,$value_id="0")
 
 			case 'B':
 
-			if($arrayDataRelation[cant]==0)
-				{
+			if($arrayDataRelation["cant"]==0){
 
 				$sql=SQL("delete"," from $DBCFG[DBprefix]values
 					where value_id='$arrayDataRelation[rel_rel_id]'");
@@ -2862,7 +2843,7 @@ function abm_userRelations($do,$array,$value_id="0")
 			}
 		}
 
-	return array("cant"=>$sql[cant],
+	return array("cant"=>$sql["cant"],
 				 "value_id"=>$value_id
 				);
 
@@ -2872,8 +2853,7 @@ function abm_userRelations($do,$array,$value_id="0")
 /*
 create/delete/mod to External URI definition
 */
-function abm_URIdefinition($do,$array,$value_id="0")
-{
+function abm_URIdefinition($do,$array,$value_id="0"){
 	GLOBAL $DBCFG;
 	GLOBAL $DB;
 
@@ -2895,7 +2875,7 @@ function abm_URIdefinition($do,$array,$value_id="0")
 				values
 				('URI_TYPE',$array[uri_value],$array[uri_code])
 				");
-			$value_id=$sql[cant];
+			$value_id=$sql["cant"];
 		break;
 
 		case 'M':
@@ -2908,8 +2888,7 @@ function abm_URIdefinition($do,$array,$value_id="0")
 
 		case 'B':
 
-		if($arrayURIdefinition[cant]==0)
-			{
+		if($arrayURIdefinition["cant"]==0)	{
 
 			$sql=SQL("delete"," from $DBCFG[DBprefix]values
 				where value_id='$arrayURIdefinition[uri_type_id]'");
@@ -2921,7 +2900,7 @@ function abm_URIdefinition($do,$array,$value_id="0")
 
 		}
 
-	return array("cant"=>$sql[cant],
+	return array("cant"=>$sql["cant"],
 				 "value_id"=>$value_id
 				);
 
@@ -2930,8 +2909,7 @@ function abm_URIdefinition($do,$array,$value_id="0")
 /*
 update config values
 */
-function ABM_value($do,$arrayValue)
-{
+function ABM_value($do,$arrayValue){
 	GLOBAL $DBCFG;
 	GLOBAL $DB;
 	GLOBAL $CFG;
@@ -2975,8 +2953,7 @@ function ABM_value($do,$arrayValue)
 alta y baja de relaciones de usuario
 */
 
-function abm_rel_rel($do,$rel_id,$rel_type_id)
-{
+function abm_rel_rel($do,$rel_id,$rel_type_id){
 
 	GLOBAL $DBCFG;
 
@@ -2994,7 +2971,7 @@ function abm_rel_rel($do,$rel_id,$rel_type_id)
 
 			$ARRAYtypeRelations=ARRAYtypeRelations($ARRAYdataRelation["t_relacion"],$rel_type_id);
 
-			if(count($ARRAYtypeRelations["$ARRAYdataRelation[t_relacion]"])=='1'){
+			if(count($ARRAYtypeRelations[$ARRAYdataRelation["t_relacion"]])=='1'){
 
 				$sql=SQL("update"," $DBCFG[DBprefix]tabla_rel set rel_rel_id='$rel_type_id', cuando=now(),uid='$userId' where id='$rel_id'");
 			}
@@ -3025,8 +3002,7 @@ function HTMLformUserNotes(){
 						   "alias"=>$_POST['alias']);
 
 		$task=abm_userNotes("A",$arrayValues);
-		if ($task[cant]>0)
-		echo "<script>javascript:alert('".ucfirst(LABEL_saved)."');</script>";
+		if ($task["cant"]>0) echo "<script>javascript:alert('".ucfirst(LABEL_saved)."');</script>";
 	}
 
 	//MOD
@@ -3036,7 +3012,7 @@ function HTMLformUserNotes(){
 							"orden"=>$_POST['orden'],
 							"alias"=>$_POST['alias']);
 		$task=abm_userNotes("M",$arrayValues,$_POST['valueid']);
-		if ($task[cant]>0)
+		if ($task["cant"]>0)
 		echo "<script>javascript:alert('".ucfirst(LABEL_saved)."');</script>";
 
 		$_POST['value']='';
@@ -3062,8 +3038,8 @@ function HTMLformUserNotes(){
 	$rows.='<thead>';
 	$rows.='<tr>';
 	$rows.=' <th>'.ucfirst(LABEL_tipoNota).'</th>';
-	$rows.= '<th>'.ucfirst(alias).':</th>';
-	$rows.= '<th>'.ucfirst(orden).'</th>';
+	$rows.= '<th>'.ucfirst(LABEL_alias).':</th>';
+	$rows.= '<th>'.ucfirst(LABEL_order).'</th>';
 	$rows.= '<th></th>';
 	$rows.= '</tr>';
 
@@ -3096,7 +3072,7 @@ function HTMLformUserNotes(){
 			$rows.=' <td class="izq"><a title="'.$array["value"].'"  href="javascript:recargaedit(\''.$array["value"].'\',\''.$array["value_order"].'\',\''.$array["value_code"].'\',\''.$array["value_id"].'\')">'.$array["value"].'</a></td>';
 			$rows.= '<td>'.$array["value_code"].'</td>';
 			$rows.= '<td>'.$array["value_order"].'</td>';
-			$rows.= ($array["cant"]>0) ? '<td>'.$array["cant"].' '.LABEL_notes.'</td>' : '<td><a onclick=preparaborrado2(\''.$array["value_id"].'\') title="'.ucfirst(borrar).'" href="#")><strong>'.ucfirst(borrar).'</strong></a></td>';
+			$rows.= ($array["cant"]>0) ? '<td>'.$array["cant"].' '.LABEL_notes.'</td>' : '<td><a onclick=preparaborrado2(\''.$array["value_id"].'\') title="'.ucfirst(LABEL_eliminar).'" href="#")><strong>'.ucfirst(LABEL_eliminar).'</strong></a></td>';
 			$rows.= '</tr>';
 		}
 
@@ -3126,8 +3102,7 @@ function HTMLformUserRelations(){
 
 		$task=abm_userRelations("A",$arrayValues);
 
-		if ($task[cant]>0)
-		echo "<script>javascript:alert('".ucfirst(LABEL_saved)."');</script>";
+		if ($task["cant"]>0)	echo "<script>javascript:alert('".ucfirst(LABEL_saved)."');</script>";
 	}
 
 	//MOD
@@ -3139,8 +3114,8 @@ function HTMLformUserRelations(){
 						   "rr_code"=>$_POST['rr_code']);
 
 		$task=abm_userRelations("M",$arrayValues,$_POST['rr_id']);
-		if ($task[cant]>0)
-		echo "<script>javascript:alert('".ucfirst(LABEL_saved)."');</script>";
+		
+		if ($task["cant"]>0)		echo "<script>javascript:alert('".ucfirst(LABEL_saved)."');</script>";
 
 		$_POST['rr_value']='';
 		$_POST['t_relation']='';
@@ -3174,14 +3149,15 @@ function HTMLformUserRelations(){
 	$rows.=' <th>'.ucfirst(LABEL_relationSubType).'</th>';
 	$rows.= '<th>'.ucfirst(LABEL_relationSubTypeLabel).':</th>';
 	$rows.= '<th>'.ucfirst(LABEL_relationSubTypeCode).'</th>';
-	$rows.= '<th>'.ucfirst(orden).'</th>';
+	$rows.= '<th>'.ucfirst(LABEL_order).'</th>';
 	$rows.= '<th></th>';
 	$rows.= '</tr>';
 
+	$t_relacion=secure_data($_GET["t_relation"],"int");
 	$rows.='<tr>';
 	$rows.='<th class="izq">';
 	$rows.='<select id="t_relacion" name="t_relacion">';
-	$rows.=doSelectForm(array("3#$LABEL_BT","4#$LABEL_UP","2#$LABEL_RT"),"$_GET[t_relation]");
+	$rows.=doSelectForm(array("3#$LABEL_BT","4#$LABEL_UP","2#$LABEL_RT"),$t_relacion);
 	$rows.='</select>';
 	$rows.='<th class="izq"><input type="text" name="rr_value" id="rr_value"/></td>';
 	$rows.='<th class="izq"><input type="text" name="rr_code" size="2" maxlength="2" id="rr_code"/></td>';
@@ -3201,7 +3177,7 @@ function HTMLformUserRelations(){
 			$rows.=' <td class="izq"><a title="'.$array["rr_value"].'"  href="javascript:recargaeditRel(\''.$array["rr_value"].'\',\''.$array["t_relation"].'\',\''.$array["rr_code"].'\',\''.$array["rel_rel_id"].'\',\''.$array["rr_ord"].'\')">'.$array["rr_value"].'</a></td>';
 			$rows.= '<td>'.$array["rr_code"].'</td>';
 			$rows.= '<td>'.$array["rr_ord"].'</td>';
-			$rows.= ($array["cant"]>0) ? '<td>'.$array["cant"].'</td>' : '<td><a onclick=preparaborradoRel(\''.$array["rel_rel_id"].'\') title="'.ucfirst(borrar).'" href="#")><strong>'.ucfirst(LABEL_relationDelete).'</strong></a></td>';
+			$rows.= ($array["cant"]>0) ? '<td>'.$array["cant"].'</td>' : '<td><a onclick=preparaborradoRel(\''.$array["rel_rel_id"].'\') title="'.ucfirst(LABEL_eliminar).'" href="#")><strong>'.ucfirst(LABEL_relationDelete).'</strong></a></td>';
 			$rows.= '</tr>';
 		}
 
@@ -3228,8 +3204,7 @@ function HTMLformURIdefinition(){
 
 		$task=abm_URIdefinition("A",$arrayValues);
 
-		if ($task[cant]>0)
-		echo "<script>javascript:alert('".ucfirst(LABEL_saved)."');</script>";
+		if ($task["cant"]>0)echo "<script>javascript:alert('".ucfirst(LABEL_saved)."');</script>";
 	}
 
 	//MOD
@@ -3239,7 +3214,7 @@ function HTMLformURIdefinition(){
 						   "uri_code"=>$_POST['uri_code']);
 
 		$task=abm_URIdefinition("M",$arrayValues,$_POST['uri_type_id']);
-		if ($task[cant]>0)
+		if ($task["cant"]>0)
 		echo "<script>javascript:alert('".ucfirst(LABEL_saved)."');</script>";
 
 		$_POST['uri_value']='';
@@ -3283,7 +3258,7 @@ function HTMLformURIdefinition(){
 			$rows.='<tr>';
 			$rows.=' <td class="izq"><a title="'.$array["uri_value"].'"  href="javascript:recargaeditURI(\''.$array["uri_value"].'\',\''.$array["uri_code"].'\',\''.$array["uri_type_id"].'\')">'.$array["uri_value"].'</a></td>';
 			$rows.= '<td>'.$array["uri_code"].'</td>';
-			$rows.= ($array["uri_cant"]>0) ? '<td>'.$array["uri_cant"].'</td>' : '<td><a onclick=preparaborradoURI(\''.$array["uri_type_id"].'\') title="'.ucfirst(borrar).'" href="#moreURI")><strong>'.ucfirst(LABEL_URItypeDelete).'</strong></a></td>';
+			$rows.= ($array["uri_cant"]>0) ? '<td>'.$array["uri_cant"].'</td>' : '<td><a onclick=preparaborradoURI(\''.$array["uri_type_id"].'\') title="'.ucfirst(LABEL_eliminar).'" href="#moreURI")><strong>'.ucfirst(LABEL_URItypeDelete).'</strong></a></td>';
 			$rows.= '</tr>';
 		}
 
@@ -3300,12 +3275,10 @@ return $rows;
 
 
 //delete massive data
-function REMmassiveData($array)
-{
+function REMmassiveData($array){
 
 //only admin
-if($_SESSION[$_SESSION["CFGURL"]][ssuser_nivel]=='1')
-{
+if($_SESSION[$_SESSION["CFGURL"]]["ssuser_nivel"]=='1'){
 	GLOBAL $DBCFG;
 
 	if($array["massrem_terms"]=='1')
@@ -3340,8 +3313,7 @@ if($_SESSION[$_SESSION["CFGURL"]][ssuser_nivel]=='1')
 
 
 //retrieve term_id (created or retrieved)
-function resolveTerm_id($string)
-{
+function resolveTerm_id($string){
 	$term_id = fetchTermId($string);
 
 	return  ((!$term_id)) ? abm_tema('alta',$string) : $term_id;
@@ -3353,7 +3325,7 @@ function resolveTerm_id2RT($string,$tema_id)
 {
 		$term = fetchTermId2RT($string,$tema_id);
 
-		return  ((!$term[tema_id])) ? abm_tema('alta',$string) : $term[tema_id];
+		return  ((!$term["tema_id"])) ? abm_tema('alta',$string) : $term["tema_id"];
 }
 
 
@@ -3362,17 +3334,16 @@ function resolve2FreeTerms($string,$tema_id)
 {
 		$term = fetchSearchExactFreeTerms($string,$tema_id);
 
-		return  ((!$term[tema_id])) ? abm_tema('alta',$string) : $term[tema_id];
+		return  ((!$term["tema_id"])) ? abm_tema('alta',$string) : $term["tema_id"];
 }
 
 
 // Create mapped relation with term from target vocabulary by code
-function do_target_temaXcode($tema_id,$code,$tvocab_id)
-{
+function do_target_temaXcode($tema_id,$code,$tvocab_id){
 
 	GLOBAL $DBCFG;
 
-	$userId=$_SESSION[$_SESSION["CFGURL"]][ssuser_id];
+	$userId=$_SESSION[$_SESSION["CFGURL"]]["ssuser_id"];
 
 // 	check valid data
 	$tema_id=secure_data($tema_id,"int");
@@ -3384,7 +3355,7 @@ function do_target_temaXcode($tema_id,$code,$tvocab_id)
 
 	require_once(T3_ABSPATH . 'common/include/vocabularyservices.php')	;
 
-	$dataTterm=getURLdata($arrayVocab[tvocab_uri_service].'?task=fetchCode&arg='.$code);
+	$dataTterm=getURLdata($arrayVocab["tvocab_uri_service"].'?task=fetchCode&arg='.$code);
 
 	$tterm_id=(int)$dataTterm->result->term->term_id;
 	$tterm_string=(string)$dataTterm->result->term->string;
@@ -3398,9 +3369,9 @@ function do_target_temaXcode($tema_id,$code,$tvocab_id)
 
 		$sql=SQLo("insert","into $DBCFG[DBprefix]term2tterm (tema_id,tvocab_id,tterm_url,tterm_uri,tterm_string,cuando,uid)
 				values (?,?,?,?,$arrayTterm[tterm_string],now(),?)",
-				array($tema_id,$arrayVocab[tvocab_id],$arrayTterm[tterm_url],$arrayTterm[tterm_uri],$userId));
+				array($tema_id,$arrayVocab["tvocab_id"],$arrayTterm["tterm_url"],$arrayTterm["tterm_uri"],$userId));
 
-		$target_relation_id=$sql[cant];
+		$target_relation_id=$sql["cant"];
 	}
 
 	return array("tterm_id"=>$target_relation_id);
@@ -3408,11 +3379,10 @@ function do_target_temaXcode($tema_id,$code,$tvocab_id)
 
 
 
-function setMetaTerm($term_id,$flag=0)
-{
+function setMetaTerm($term_id,$flag=0){
 	GLOBAL $DBCFG;
 
-	$userId=$_SESSION[$_SESSION["CFGURL"]][ssuser_id];
+	$userId=$_SESSION[$_SESSION["CFGURL"]]["ssuser_id"];
 	// 	check valid data
 	$tema_id=secure_data($tema_id,"int");
 	$flag=(in_array($flag, array(1,0))) ? $flag : 0;
@@ -3427,8 +3397,7 @@ function setMetaTerm($term_id,$flag=0)
 #
 # Reset and update sparql endpoint
 #
-function doSparqlEndpoint()
-{
+function doSparqlEndpoint(){
 
 	GLOBAL $DBCFG;
 	/* Include ARC2 classes. */
@@ -3481,7 +3450,7 @@ function doSparqlEndpoint()
 				header('X-pmaPing: Pong');
 			};
 
-			$sparql_command='LOAD <'.$_SESSION["CFGURL"].'xml.php?skosNode='.$array[id].'> into <'.$_SESSION["CFGURL"].'>';
+			$sparql_command='LOAD <'.$_SESSION["CFGURL"].'xml.php?skosNode='.$array["id"].'> into <'.$_SESSION["CFGURL"].'>';
 
 
 			$ep->query($sparql_command);
@@ -3636,7 +3605,6 @@ function createTerms($arrayStrings,$isMetaTerm=0){
 			if($fetchTerm["tema_id"]){
 					$arrayDuplicateTerms[$fetchTerm["tema_id"]].=$fetchTerm["tema"];
 			}else{
-
 				$new_termino=abm_tema('alta',XSSprevent($arrayTerminos[$i]));
 				$tema=$new_termino;
 				if($isMetaTerm==1)	setMetaTerm($tema,1);
@@ -3896,9 +3864,9 @@ while($arrayTema=$sql->FetchRow()){
 		if(($arrayTema["cuando_final"]>$arrayTema["cuando"]) && ($params["includeModDate"]==1))	{$txt.=LABEL_fecha_modificacion.': '.$arrayTema["cuando_final"]."\r\n";};
 
 		//Notas
-		$sqlNotas=SQLdatosTerminoNotas($arrayTema[id]);
+		$sqlNotas=SQLdatosTerminoNotas($arrayTema["id"]);
 			while($arrayNotas=$sqlNotas->FetchRow()){
-				$arrayNotas["label_tipo_nota"]=(in_array($arrayNotas[ntype_id],array(8,9,10,11,15))) ? arrayReplace(array(8,9,10,11,15),array(LABEL_NA,LABEL_NH,LABEL_NB,LABEL_NP,LABEL_NC),$arrayNotas["ntype_id"]) : $arrayNotas["ntype_code"];
+				$arrayNotas["label_tipo_nota"]=(in_array($arrayNotas["ntype_id"],array(8,9,10,11,15))) ? arrayReplace(array(8,9,10,11,15),array(LABEL_NA,LABEL_NH,LABEL_NB,LABEL_NP,LABEL_NC),$arrayNotas["ntype_id"]) : $arrayNotas["ntype_code"];
 				if(($arrayNotas["tipo_nota"]!=='NP') && (in_array($arrayNotas["tipo_nota"], $params["includeNote"])))				{
 					$txt.='	'.$arrayNotas["label_tipo_nota"].': '.html2txt($arrayNotas["nota"])."\r\n";
 				}
@@ -3948,13 +3916,13 @@ while($arrayTema=$sql->FetchRow()){
 			//Terminos equivalentes web services
 			$SQLtargetTerms=SQLtargetTerms($arrayTema["id"]);
 			while($arrayTT=$SQLtargetTerms->FetchRow()){
-					$txt.='	'.FixEncoding(ucfirst($arrayTT[tvocab_label])).': '.FixEncoding($arrayTT[tterm_string])."\r\n";
+					$txt.='	'.FixEncoding(ucfirst($arrayTT["tvocab_label"])).': '.FixEncoding($arrayTT["tterm_string"])."\r\n";
 			};
 	} //end Si es preferido: mostar notas y relaciones
 }
 
 
-$filname=string2url($_SESSION[CFGTitulo].' '.MENU_ListaAbc).'.txt';
+$filname=string2url($_SESSION["CFGTitulo"].' '.MENU_ListaAbc).'.txt';
 return sendFile("$txt","$filname");
 };
 
@@ -4017,7 +3985,7 @@ while ($datosAlfabetico = $sqlMenuAlfabetico->FetchRow())	{
 		if(strlen($value)>0) $pdf->PrintChapter(ucwords($key),$value,$params);
 	}
 
-$filname=string2url($_SESSION[CFGTitulo].' '.MENU_ListaAbc).'.pdf';
+$filname=string2url($_SESSION["CFGTitulo"].' '.MENU_ListaAbc).'.pdf';
 
 $pdf->Output('D',$filname);
 
@@ -4048,8 +4016,8 @@ function do_pdfSist($params=array()) {
 				$time_start = $time_now;
 				header('X-pmaPing: Pong');
 			}
-			$txt.=$arrayTema[tema]."\r\n";
-			$txt.=TXTverTE($arrayTema[id],"0");
+			$txt.=$arrayTema["tema"]."\r\n";
+			$txt.=TXTverTE($arrayTema["id"],"0");
 		}
 	} else {
 		$txt=TXTverTE($params['hasTopTerm'],"0");
@@ -4075,7 +4043,7 @@ function do_pdfSist($params=array()) {
 		$i++;
 	}
 
-	$filname=string2url($_SESSION[CFGTitulo].'-Sistematico').'.pdf';
+	$filname=string2url($_SESSION["CFGTitulo"].'-Sistematico').'.pdf';
 	$pdf->Output('D',$filname);
 }
 
@@ -4188,7 +4156,7 @@ EOT;
 	}
 
 	//Notas
-    $sqlNotas=SQLdatosTerminoNotas($arrayTema[id]);
+    $sqlNotas=SQLdatosTerminoNotas($arrayTema["id"]);
 
    	 while($arrayNotas=$sqlNotas->FetchRow()){
 
@@ -4210,7 +4178,7 @@ EOT;
     $txt .='</record>' . "\n";
     }
     $txt .='</collection>' . "\n";
-    $filname=string2url($_SESSION[CFGTitulo].' '.marcXML).'.xml';
+    $filname=string2url($_SESSION["CFGTitulo"].' '.marcXML).'.xml';
     
     return sendFile("$txt","$filname");
 };

@@ -537,4 +537,7 @@ define('LABEL_rel_synonymy','relações de sinonimia');
 define('LABEL_prototypeTerms','termos centrais');
 define('LABEL_copy_click','copiar termo para a área de transferência');
 define('LABEL__ENABLE_COPY_CLICK','Ativar botão para copiar termos para a área de transferência.');
+#v.3.1.1
+define('LABEL_order','orden');
+define('LABEL_alias','alias');
 ?>

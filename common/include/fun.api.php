@@ -21,7 +21,7 @@ class XMLvocabularyServices {
 
 		while($array=$sql->FetchRow()){
 			if($array["t_relacion"]=='2'){
-				$result["result"][$array[tema_id]]= array(
+				$result["result"][$array["tema_id"]]= array(
 					"term_id"=>$array["tema_id"],
 					"code"=>$array["code"],
 					"lang"=>$array["idioma"],
@@ -46,16 +46,16 @@ class XMLvocabularyServices {
 		$sql=SQLverTerminoRelaciones($tema_id);
 
 		while($array=$sql->FetchRow()){
-			if($array[t_relacion]=='4'){
-				$result["result"][$array[tema_id]]= array(
-					"term_id"=>$array[tema_id],
-					"code"=>$array[code],
-					"lang"=>$array[idioma],
-					"string"=>$array[tema],
-					"relation_type_id"=>$array[t_relacion],
+			if($array["t_relacion"]=='4'){
+				$result["result"][$array["tema_id"]]= array(
+					"term_id"=>$array["tema_id"],
+					"code"=>$array["code"],
+					"lang"=>$array["idioma"],
+					"string"=>$array["tema"],
+					"relation_type_id"=>$array["t_relacion"],
 					"relation_type"=>"UF",
-					"relation_code"=>$array[rr_code],
-					"relation_label"=>$array[rr_value]
+					"relation_code"=>$array["rr_code"],
+					"relation_label"=>$array["rr_value"]
 				);
 			};
 		}
@@ -95,18 +95,18 @@ class XMLvocabularyServices {
 
 		while($array=$sql->FetchRow()){
 
-			$relation_type=arrayReplace(array("2","3","4"),array("RT","BT","UF"),$array[t_relacion]);
+			$relation_type=arrayReplace(array("2","3","4"),array("RT","BT","UF"),$array["t_relacion"]);
 
-			$result["result"][$array[tema_id]]= array(
-				"term_id"=>$array[tema_id],
-				"code"=>$array[code],
-				"lang"=>$array[idioma],
-				"string"=>$array[tema],
-				"isMetaTerm"=>$array[isMetaTerm],
-				"relation_type_id"=>$array[t_relacion],
+			$result["result"][$array["tema_id"]]= array(
+				"term_id"=>$array["tema_id"],
+				"code"=>$array["code"],
+				"lang"=>$array["idioma"],
+				"string"=>$array["tema"],
+				"isMetaTerm"=>$array["isMetaTerm"],
+				"relation_type_id"=>$array["t_relacion"],
 				"relation_type"=>$relation_type,
-				"relation_code"=>$array[rr_code],
-				"relation_label"=>$array[rr_value]
+				"relation_code"=>$array["rr_code"],
+				"relation_label"=>$array["rr_value"]
 			);
 		}
 		return $result;
@@ -121,15 +121,15 @@ class XMLvocabularyServices {
 		while($array=$sql->FetchRow())
 		{
 			$result["result"][$array["id_tema"]]= array(
-				"term_id"=>$array[id_tema],
-				"string"=>$array[tema],
-				"isMetaTerm"=>$array[isMetaTerm],
-				"lang"=>$array[idioma],
-				"relation_type_id"=>$array[t_relacion],
+				"term_id"=>$array["id_tema"],
+				"string"=>$array["tema"],
+				"isMetaTerm"=>$array["isMetaTerm"],
+				"lang"=>$array["idioma"],
+				"relation_type_id"=>$array["t_relacion"],
 				"relation_type"=>"NT",
-				"relation_code"=>$array[rr_code],
-				"relation_label"=>$array[rr_value],
-				"hasMoreDown" => ($array[id_te]) ? 1 : 0
+				"relation_code"=>$array["rr_code"],
+				"relation_label"=>$array["rr_value"],
+				"hasMoreDown" => ($array["id_te"]) ? 1 : 0
 			);
 		};
 		return $result;
@@ -170,11 +170,11 @@ class XMLvocabularyServices {
 			while($array=$sql->FetchRow())
 			{
 				$i=++$i;
-				$result["result"][$array[tema_id]]= array(
-					"term_id"=>$array[tema_id],
-					"string"=>$array[tema],
-					"isMetaTerm"=>$array[isMetaTerm],
-					"relation_type_id"=>$array[t_relacion],
+				$result["result"][$array["tema_id"]]= array(
+					"term_id"=>$array["tema_id"],
+					"string"=>$array["tema"],
+					"isMetaTerm"=>$array["isMetaTerm"],
+					"relation_type_id"=>$array["t_relacion"],
 					"order" => $i
 				);
 			};
@@ -261,14 +261,14 @@ class XMLvocabularyServices {
 		{
 			$i=++$i;
 
-			$note_text=($CFG["_HTMLinDATA"]==0) ? html2txt($array[nota]) : wiki2xml($array[nota]);
+			$note_text=($CFG["_HTMLinDATA"]==0) ? html2txt($array["nota"]) : wiki2xml($array["nota"]);
 
-			$result["result"][$array[nota_id]]= array(
-				"term_id"=>$array[tema_id],
-				"string"=>$array[tema],
-				"note_id"=>$array[nota_id],
-				"note_type"=>($array[ntype_code]) ? $array[ntype_code] : $array[tipo_nota],
-				"note_lang"=>$array[lang_nota],
+			$result["result"][$array["nota_id"]]= array(
+				"term_id"=>$array["tema_id"],
+				"string"=>$array["tema"],
+				"note_id"=>$array["nota_id"],
+				"note_type"=>($array["ntype_code"]) ? $array["ntype_code"] : $array["tipo_nota"],
+				"note_lang"=>$array["lang_nota"],
 				"note_text"=>$note_text
 			);
 		};
@@ -284,7 +284,7 @@ class XMLvocabularyServices {
 
 		while($array=$sql->FetchRow())
 		{
-			$result["result"][$array[id]]= array(
+			$result["result"][$array["id"]]= array(
 				"term_id"=>$array["id"],
 				"code"=>$array["code"],
 				"lang"=>$array["idioma"],
@@ -305,7 +305,7 @@ class XMLvocabularyServices {
 		{
 			$array["cuando_final"]=($array["cuando_final"]>0) ? $array["cuando_final"] : '';
 
-			$result["result"]["$array[tema_id]"]= array(
+			$result["result"][$array["tema_id"]]= array(
 				"term_id"=>$array["tema_id"],
 				"code"=>$array["code"],
 				"lang"=>$array["idioma"],
@@ -328,7 +328,7 @@ class XMLvocabularyServices {
 
 		while($array=$sql->FetchRow())
 		{
-			$result["result"][$array[tema_id]]= array(
+			$result["result"][$array["tema_id"]]= array(
 				"term_id"=>$array["tema_id"],
 				"string"=>$array["tema"],
 				"isMetaTerm"=>$array["isMetaTerm"]
@@ -347,9 +347,9 @@ class XMLvocabularyServices {
 
 		while($array=$sql->FetchRow())
 		{
-			$result["result"][$array[tema_id]]= array(
-				"term_id"=>$array[tema_id],
-				"string"=>$array[tema],
+			$result["result"][$array["tema_id"]]= array(
+				"term_id"=>$array["tema_id"],
+				"string"=>$array["tema"],
 				"isMetaTerm"=>$array["isMetaTerm"]
 			);
 		};
@@ -364,15 +364,15 @@ class XMLvocabularyServices {
 
 		while($array=$sql->FetchRow())
 		{
-			$result["result"][$array[tterm_id]]= array(
+			$result["result"][$array["tterm_id"]]= array(
 
-				"string"=>$array[tterm_string],
-				"url"=>$array[tterm_url],
-				"uri"=>$array[tterm_uri],
-				"term_id"=>$array[tema_id],
-				"target_vocabulary_label"=>$array[tvocab_label],
-				"target_vocabulary_tag"=>$array[tvocab_tag],
-				"target_vocabulary_title"=>$array[tvocab_title]
+				"string"=>$array["tterm_string"],
+				"url"=>$array["tterm_url"],
+				"uri"=>$array["tterm_uri"],
+				"term_id"=>$array["tema_id"],
+				"target_vocabulary_label"=>$array["tvocab_label"],
+				"target_vocabulary_tag"=>$array["tvocab_tag"],
+				"target_vocabulary_title"=>$array["tvocab_title"]
 			);
 		};
 		return $result;
@@ -385,7 +385,7 @@ class XMLvocabularyServices {
 		$sql=SQLsourceTermsByURI($URI_term);
 		while($array=$sql->FetchRow())
 		{
-			$result["result"][$array[tema_id]]= array(
+			$result["result"][$array["tema_id"]]= array(
 				"term_id"=>$array["tema_id"],
 				"tema_id"=>$array["tema_id"],
 				"code"=>$array["code"],
@@ -406,7 +406,7 @@ class XMLvocabularyServices {
 		$sql=SQLsourceTermsByTerm($term);
 		while($array=$sql->FetchRow())
 		{
-			$result["result"][$array[tema_id]]= array(
+			$result["result"][$array["tema_id"]]= array(
 				"term_id"=>$array["tema_id"],
 				"tema_id"=>$array["tema_id"],
 				"code"=>$array["code"],
@@ -431,12 +431,12 @@ class XMLvocabularyServices {
 		while($array=$sql->FetchRow())
 		{
 			$i=++$i;
-			$result["result"][$array[id_definitivo]]= array(
-				"term_id"=>$array[id_definitivo],
-				"string"=>($array[termino_preferido]) ? $array[termino_preferido] : $array[tema],
+			$result["result"][$array["id_definitivo"]]= array(
+				"term_id"=>$array["id_definitivo"],
+				"string"=>($array["termino_preferido"]) ? $array["termino_preferido"] : $array["tema"],
 				"isMetaTerm"=>$array["isMetaTerm"],
-				"no_term_string"=>($array[termino_preferido]) ? $array[tema] : FALSE ,
-				"relation_type_id"=>$array[t_relacion]
+				"no_term_string"=>($array["termino_preferido"]) ? $array["tema"] : FALSE ,
+				"relation_type_id"=>$array["t_relacion"]
 			);
 		};
 		return $result;
@@ -452,13 +452,13 @@ class XMLvocabularyServices {
 
 		while($array=$sql->FetchRow()){
 			$i=++$i;
-			$arrayIndex=explode('|',$array[indice]);
-			$result["result"][$array[id_definitivo]]= array(
-				"term_id"=>$array[id_definitivo],
-				"string"=>($array[termino_preferido]) ? $array[termino_preferido] : $array[tema],
+			$arrayIndex=explode('|',$array["indice"]);
+			$result["result"][$array["id_definitivo"]]= array(
+				"term_id"=>$array["id_definitivo"],
+				"string"=>($array["termino_preferido"]) ? $array["termino_preferido"] : $array["tema"],
 				"isMetaTerm"=>$array["isMetaTerm"],
-				"no_term_string"=>($array[termino_preferido]) ? $array[tema] : FALSE ,
-				"index"=>$array[indice],
+				"no_term_string"=>($array["termino_preferido"]) ? $array["tema"] : FALSE ,
+				"index"=>$array["indice"],
 				"order" => $i
 			);
 		};
@@ -475,13 +475,13 @@ class XMLvocabularyServices {
 
 		while($array=$sql->FetchRow()){
 			$i=++$i;
-			$arrayIndex=explode('|',$array[indice]);
-			$result["result"][$array[id_definitivo]]= array(
-				"term_id"=>$array[id_definitivo],
-				"string"=>($array[termino_preferido]) ? $array[termino_preferido] : $array[tema],
+			$arrayIndex=explode('|',$array["indice"]);
+			$result["result"][$array["id_definitivo"]]= array(
+				"term_id"=>$array["id_definitivo"],
+				"string"=>($array["termino_preferido"]) ? $array["termino_preferido"] : $array["tema"],
 				"isMetaTerm"=>$array["isMetaTerm"],
-				"no_term_string"=>($array[termino_preferido]) ? $array[tema] : FALSE ,
-				"index"=>$array[indice],
+				"no_term_string"=>($array["termino_preferido"]) ? $array["tema"] : FALSE ,
+				"index"=>$array["indice"],
 				"order" => $i
 			);
 		};
@@ -498,13 +498,13 @@ class XMLvocabularyServices {
 
 		while($array=$sql->FetchRow()){
 			$i=++$i;
-			$arrayIndex=explode('|',$array[indice]);
-			$result["result"][$array[id_definitivo]]= array(
-				"term_id"=>$array[id_definitivo],
-				"string"=>($array[termino_preferido]) ? $array[termino_preferido] : $array[tema],
+			$arrayIndex=explode('|',$array["indice"]);
+			$result["result"][$array["id_definitivo"]]= array(
+				"term_id"=>$array["id_definitivo"],
+				"string"=>($array["termino_preferido"]) ? $array["termino_preferido"] : $array["tema"],
 				"isMetaTerm"=>$array["isMetaTerm"],
-				"no_term_string"=>($array[termino_preferido]) ? $array[tema] : FALSE ,
-				"index"=>$array[indice],
+				"no_term_string"=>($array["termino_preferido"]) ? $array["tema"] : FALSE ,
+				"index"=>$array["indice"],
 				"order" => $i
 			);
 		};
@@ -544,7 +544,7 @@ class XMLvocabularyServices {
 
 			if(is_object($sql)){
 				while($array=$sql->FetchRow()){
-					$result["result"][$array[tema_id]]= array(
+					$result["result"][$array["tema_id"]]= array(
 						"term_id"=>$array["tema_id"],
 						"code"=>$array["code"],
 						"lang"=>$array["idioma"],
@@ -597,7 +597,7 @@ class XMLvocabularyServices {
 
 		while($array=$sql->FetchRow()){
 			$i=++$i;
-			array_push($result["result"], ($array[termino_preferido]) ? $array[termino_preferido] : $array[tema]);
+			array_push($result["result"], ($array["termino_preferido"]) ? $array["termino_preferido"] : $array["tema"]);
 		};
 
 		return $result;
@@ -610,15 +610,15 @@ class XMLvocabularyServices {
 
 		$sql=SQLdatosVocabulario($vocabulary_id);
 		$array=$sql->FetchRow();
-		$arrayResponse["result"][vocabulary_id]	=$array[vocabulario_id];
-		$arrayResponse["result"][title]		=$array[titulo];
-		$arrayResponse["result"][author]		=$array[autor];
-		$arrayResponse["result"][lang]		=$array[idioma];
-		$arrayResponse["result"][scope]		=$array[cobertura];
-		$arrayResponse["result"][keywords]	=$array[keywords];
-		$arrayResponse["result"][uri]		=$array[url_base];
-		$arrayResponse["result"][createDate]=$array[cuando];
-		$arrayResponse["result"][lastMod]	=fetchlastMod();
+		$arrayResponse["result"]["vocabulary_id"]	=$array["vocabulario_id"];
+		$arrayResponse["result"]["title"]		=$array["titulo"];
+		$arrayResponse["result"]["author"]		=$array["autor"];
+		$arrayResponse["result"]["lang"]		=$array["idioma"];
+		$arrayResponse["result"]["scope"]		=$array["cobertura"];
+		$arrayResponse["result"]["keywords"]	=$array["keywords"];
+		$arrayResponse["result"]["uri"]		=$array["url_base"];
+		$arrayResponse["result"]["createDate"]=$array["cuando"];
+		$arrayResponse["result"]["lastMod"]	=fetchlastMod();
 
 
 		$ARRAYfetchValues=ARRAYfetchValues('METADATA');
@@ -649,7 +649,7 @@ class XMLvocabularyServices {
 		{
 			while($arraySimilar=$sqlSimilar->FetchRow())
 			{
-				$listaCandidatos.= $arraySimilar[tema].'|';
+				$listaCandidatos.= $arraySimilar["tema"].'|';
 			}
 
 			$listaCandidatos=explode("|",$listaCandidatos);
@@ -1052,7 +1052,7 @@ function fetchVocabularyService($task,$arg,$output="xml"){
 
 		$arrayResume['version'] = $CFG["Version"];
 
-		$arrayResume["cant_result"] = count($response["result"]);
+		$arrayResume["cant_result"] = (@$response["result"]) ?  count($response["result"]) : 0;
 
 		$response["resume"] = $arrayResume;
 
@@ -1281,7 +1281,7 @@ function array2skos($array, $name='vocabularyservices') {
 	foreach ($array as $node) {
 		if (is_array($node)) {
 			foreach ($node as $root=>$child) {
-				if($child[term_id]>0)$nodos_skos .= do_nodo_skos($child[term_id]);
+				if($child["term_id"]>0)$nodos_skos .= do_nodo_skos($child["term_id"]);
 			}
 		}
 	}

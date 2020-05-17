@@ -13,18 +13,16 @@ $arrayLang=array();
 foreach ($CFG["ISO639-1"] as $langs) {
 	array_push($arrayLang,"$langs[0]#$langs[1]");
 	};
-$si=LABEL_SI;
-$no=LABEL_NO;
 
-if($_GET[vocabulario_id]>0){
-	$sql_vocabulario=SQLdatosVocabulario($_GET[vocabulario_id]);
+if($_GET["vocabulario_id"]>0){
+	$sql_vocabulario=SQLdatosVocabulario($_GET["vocabulario_id"]);
 	$array_vocabulario=$sql_vocabulario->FetchRow();
-	$fecha_crea=do_fecha($array_vocabulario[cuando]);
+	$fecha_crea=do_fecha($array_vocabulario["cuando"]);
 	}else{
-	$array_vocabulario[vocabulario_id]='NEW';
+	$array_vocabulario["vocabulario_id"]='NEW';
 	}
 
-if($array_vocabulario[vocabulario_id]==1){
+if($array_vocabulario["vocabulario_id"]==1){
 	$titulo_formulario=LABEL_vocabulario_principal;
 
 	$ARRAYfetchValues=ARRAYfetchValues('METADATA');
@@ -32,7 +30,7 @@ if($array_vocabulario[vocabulario_id]==1){
 	$titulo_formulario=LABEL_vocabulario_referencia;
 	}
 
-$array_ano=do_intervalDate("1998",date(Y),FORM_LABEL_FechaAno);
+$array_ano=do_intervalDate("1998",date("Y"),FORM_LABEL_FechaAno);
 $array_dia=do_intervalDate("1","31",FORM_LABEL_FechaDia);
 $array_mes=do_intervalDate("1","12",FORM_LABEL_FechaMes);
 

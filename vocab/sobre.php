@@ -51,12 +51,12 @@ $metadata=do_meta_tag();
 
 	if($_SESSION[$_SESSION["CFGURL"]]["ssuser_id"]){
 		//es admin y quiere ver un usuario
-  		if(($_GET[user_id])	&&	($_SESSION[$_SESSION["CFGURL"]][ssuser_nivel]==1)){
-		echo doBrowseTermsFromUser(secure_data($_GET[user_id],$_GET[ord]));
-		} elseif($_GET[user_id]){//no es admin y quiere verse a si mismo
-		echo doBrowseTermsFromUser(secure_data($_SESSION[$_SESSION["CFGURL"]][ssuser_id],"sql"),secure_data($_GET[ord],"sql"));		
-		}elseif($_GET[y]){//quiere ver un año
-		echo doBrowseTermsFromDate(secure_data($_GET[m],"sql"),secure_data($_GET[y],"sql"),secure_data($_GET[ord],"sql"));
+  		if(($_GET["user_id"])	&&	($_SESSION[$_SESSION["CFGURL"]]["ssuser_nivel"]==1)){
+		echo doBrowseTermsFromUser(secure_data($_GET["user_id"],$_GET["ord"]));
+		} elseif($_GET["user_id"]){//no es admin y quiere verse a si mismo
+		echo doBrowseTermsFromUser(secure_data($_SESSION[$_SESSION["CFGURL"]]["ssuser_id"],"sql"),secure_data($_GET["ord"],"sql"));		
+		}elseif($_GET["y"]){//quiere ver un año
+		echo doBrowseTermsFromDate(secure_data($_GET["m"],"sql"),secure_data($_GET["y"],"sql"),secure_data($_GET["ord"],"sql"));
 		}else{//ver lista agregada
 		echo doBrowseTermsByDate();
 		}

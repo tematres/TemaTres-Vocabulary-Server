@@ -3,7 +3,7 @@ if ((stristr( $_SERVER['REQUEST_URI'], "session.php") ) || ( !defined('T3_ABSPAT
 /*
 must be ADMIN
 */
-if($_SESSION[$_SESSION["CFGURL"]][ssuser_nivel]=='1'){
+if($_SESSION[$_SESSION["CFGURL"]]["ssuser_nivel"]=='1'){
     // get the variables
 
     // tests

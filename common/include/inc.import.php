@@ -9,7 +9,7 @@ if ((stristr( $_SERVER['REQUEST_URI'], "session.php") ) || ( !defined('T3_ABSPAT
 /*
 must be ADMIN
 */
-if($_SESSION[$_SESSION["CFGURL"]][ssuser_nivel]=='1'){
+if($_SESSION[$_SESSION["CFGURL"]]["ssuser_nivel"]=='1'){
 	// get the variables
 	
 	if (($_POST['taskAdmin']=='importTab') && (file_exists($_FILES["file"]["tmp_name"])) )
@@ -26,8 +26,7 @@ if($_SESSION[$_SESSION["CFGURL"]][ssuser_nivel]=='1'){
 	if ( $ok ) {
 	//~ && utf8_encode(utf8_decode($content_text)) == $content_text ) {
 		$content_text = NULL ;
-	}
-	else {
+	}	else {
 		$ok = false ;
 		$error[] = "ERROR : encodage of import file must be UTF-8" ;
 		// sinon faire conversion automatique
@@ -35,7 +34,6 @@ if($_SESSION[$_SESSION["CFGURL"]][ssuser_nivel]=='1'){
 
 	// start the procedure
 	if ($ok == true ) {
-
 		// creation of the relation
 		// 2 step : 1. add the terms 2. add the relation
 		$to_do = array() ;
@@ -45,14 +43,12 @@ if($_SESSION[$_SESSION["CFGURL"]][ssuser_nivel]=='1'){
 		$fd=fopen($src_txt,"r");
 		
 		while ( ($content= fgets($fd)) !== false ) {	
-
-		$time_now = time();
-		if ($time_start >= $time_now + 10) {
-			$time_start = $time_now;
-			header('X-pmaPing: Pong');
-		};
-			
-			
+			$time_now = time();
+			if ($time_start >= $time_now + 10) {
+				$time_start = $time_now;
+				header('X-pmaPing: Pong');
+			};
+						
 			//sleep(1) ;
 			$terme = $content ;
 			// traitement data
@@ -117,18 +113,13 @@ if($_SESSION[$_SESSION["CFGURL"]][ssuser_nivel]=='1'){
 		$sql=SQLreCreateTermIndex();		
 		echo '<p class="true">'.ucfirst(IMPORT_finish).'</p>' ;
 
-	}
-
-	else {
+	} else {
 		foreach ($error as $e) {
 			echo "<p>$e</p>" ;
 		}
 	}
 }
-
-
-	################# UPLOAD FORM ##########################
-
+################# UPLOAD FORM ##########################
 //end must be admin
 };
 ?>

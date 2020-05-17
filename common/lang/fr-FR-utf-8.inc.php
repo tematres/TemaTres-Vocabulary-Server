@@ -537,4 +537,7 @@ define('LABEL_rel_synonymy','relations synonymiques');
 define('LABEL_prototypeTerms','termes centraux');
 define('LABEL_copy_click','copier le terme dans le presse-papier');
 define('LABEL__ENABLE_COPY_CLICK','Activer le bouton de copie des termes dans le presse-papier.');
+#v.3.1.1
+define('LABEL_order','order');
+define('LABEL_alias','alias');
 ?>

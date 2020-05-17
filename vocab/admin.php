@@ -133,7 +133,7 @@ if($_SESSION[$_SESSION["CFGURL"]]["ssuser_id"]){
 	//Regenerate indice table
 	if($_GET["doAdmin"]=='reindex'){
 		$sql=SQLreCreateTermIndex();
-		echo $sql[cant_terms_index].' '.LABEL_Terminos;
+		echo $sql["cant_terms_index"].' '.LABEL_Terminos;
 		}
 
 	if($_GET["doAdmin"]=='import' && empty($_REQUEST["taskAdmin"]) ){ // change Nicolas Poulain, http://tounoki.Org - 2015
@@ -169,12 +169,12 @@ if($_SESSION[$_SESSION["CFGURL"]]["ssuser_id"]){
 
 	//Form to add / edit foreing target vocabulary
 	if($_GET["doAdmin"]=='seeformTargetVocabulary'){
-			echo HTMLformTargetVocabulary($_GET[tvocab_id]);
+			echo HTMLformTargetVocabulary($_GET["tvocab_id"]);
 			}
 
 	//Form to add / edit foreing target vocabulary
 	if($_GET["doAdmin"]=='seeTermsTargetVocabulary'){
-			echo HTMLlistaTermsTargetVocabularios($_GET[tvocab_id],$_GET[f]);
+			echo HTMLlistaTermsTargetVocabularios($_GET["tvocab_id"],$_GET["f"]);
 			}
 
 	//update from tematres 1.1 -> tematres 1.2

@@ -504,7 +504,7 @@ function fetchTermId2RT($string,$tema_id){
 	GLOBAL $DBCFG;
 
 	$tema_id=secure_data($tema_id,"int");
-	$thes_id=secure_data($_SESSION[id_tesa],"int");
+	$thes_id=secure_data($_SESSION["id_tesa"],"int");
 	$string=secure_data($string,"ADOsql");
 
 	//Solo terminos aceptados == estado_id ='13'
@@ -587,7 +587,7 @@ function ARRAYverDatosTermino($tema_id){
 	$sqlNotas=SQLdatosTerminoNotas($tema_id);
 
 	while($array=$sqlNotas->FetchRow()){
-		if($array[nota_id]){
+		if($array["nota_id"]){
 			array_push($arrayNotas,array(
 				"id"=>$array["nota_id"],
 				"tipoNota"=>$array["ntype_code"],
@@ -856,7 +856,7 @@ order by rel_order,trr.value_order,lower(uf_tema),lower(bt_tema),lower(nt_tema),
 
 		$show_code=($CFG["_USE_CODE"]=='1') ? 'TT.code,' : '';
 
-		$thes_id=secure_data($_SESSION[id_tesa],"int");
+		$thes_id=secure_data($_SESSION["id_tesa"],"int");
 
 		$sql=SQL("select","TT.tema_id, $show_code TT.tema,TT.estado_id,TT.cuando,TT.isMetaTerm
 		from $DBCFG[DBprefix]tema as TT
@@ -1196,7 +1196,7 @@ function SQLbuscaTerminosSimple($string,$limit="20"){
 function SQLIdTerminosValidos(){
 	GLOBAL $DBCFG;
 
-	$thes_id=secure_data($_SESSION[id_tesa],"int");
+	$thes_id=secure_data($_SESSION["id_tesa"],"int");
 
 	$sql=SQL("select","tema.tema_id as id,tema.cuando,tema.uid,tema.cuando_final,tema.isMetaTerm
 	from $DBCFG[DBprefix]tema as tema
@@ -1635,7 +1635,7 @@ function SQLarbolTema($tema_id){
 
 	$ARRAYtema_indice=ARRAYIndexTema($tema_id);
 	if($ARRAYtema_indice){
-		$temas_ids=str_replace('|', ',',$ARRAYtema_indice[indice]);
+		$temas_ids=str_replace('|', ',',$ARRAYtema_indice["indice"]);
 		$temas_ids=substr($temas_ids,1);
 
 		$sql=SQL("select","t.tema_id as tema_id,t.tema,t.isMetaTerm
@@ -1962,7 +1962,7 @@ function SQLsearchFreeTerms($search_term,$tema_id=""){
 
 	$tema_id=secure_data($tema_id,"int");
 
-	$_SESSION[id_tesa]=secure_data($_SESSION[id_tesa],"int");
+	$_SESSION["id_tesa"]=secure_data($_SESSION["id_tesa"],"int");
 
 	$search_term=secure_data("%$search_term%","ADOsql");
 
@@ -2002,7 +2002,7 @@ function SQLsearchTerms4NT($search_term,$term_id){
 
 	$TTterm_exclude='%|'.$ARRAYtopTerm["tema_id"].'|%';
 
-	$_SESSION[id_tesa]=secure_data($_SESSION[id_tesa],"int");
+	$_SESSION["id_tesa"]=secure_data($_SESSION["id_tesa"],"int");
 
 	$search_term=secure_data("%$search_term%","ADOsql");
 
@@ -2042,7 +2042,7 @@ function fetchSearchExactFreeTerms($string,$tema_id){
 
 
 	$tema_id=secure_data($tema_id,"int");
-	$thes_id=secure_data($_SESSION[id_tesa],"int");
+	$thes_id=secure_data($_SESSION["id_tesa"],"int");
 	$string=secure_data($string,"ADOsql");
 
 	$sql=SQL("select","t.tema_id as tema_id,t.tema,t.isMetaTerm
@@ -2126,28 +2126,27 @@ function SQLTermDeep($tema_id=0)
 #
 # SQL for advanced search
 #
-function SQLadvancedSearch($array)
-{
+function SQLadvancedSearch($array){
 	GLOBAL $DBCFG;
 	GLOBAL $DB;
 
 	//sanitice string
-	$array[xstring]=($array[isExactMatch]=='1') ? $DB->qstr(trim($array[xstring]),get_magic_quotes_gpc()) : $DB->qstr(trim("%$array[xstring]%"),get_magic_quotes_gpc());
+	$array["xstring"]=($array["isExactMatch"]=='1') ? $DB->qstr(trim($array["xstring"]),get_magic_quotes_gpc()) : $DB->qstr(trim("%$array[xstring]%"),get_magic_quotes_gpc());
 
 
 	#has top term X
-	$array[hasTopTerm]=secure_data($array[hasTopTerm],"int");
+	$array["hasTopTerm"]=secure_data($array["hasTopTerm"],"int");
 
-	if($array[hasTopTerm]>0)
+	if($array["hasTopTerm"]>0)
 	{
-		$size_i=strlen($array[hasTopTerm])+2;
+		$size_i=strlen($array["hasTopTerm"])+2;
 		$from=",$DBCFG[DBprefix]indice tti";
 		$where="	and t.tema_id=tti.tema_id";
 		$where.="	and left(tti.indice,$size_i)='|$array[hasTopTerm]|'";
 	}
 
-	$array[hasNote]=$DB->qstr(trim($array[hasNote]),get_magic_quotes_gpc());
-	if(strlen($array[hasNote])>2)
+	$array["hasNote"]=$DB->qstr(trim($array[hasNote]),get_magic_quotes_gpc());
+	if(strlen($array["hasNote"])>2)
 	{
 		$from.=",$DBCFG[DBprefix]notas n";
 		$where.="		and n.id_tema=t.tema_id";
@@ -2155,18 +2154,18 @@ function SQLadvancedSearch($array)
 	}
 
 	#time filter
-	$array[fromDate]=secure_data($array[fromDate],"int");
-	if($array[fromDate])
+	$array["fromDate"]=secure_data($array["fromDate"],"int");
+	if($array["fromDate"])
 	{
 
-		$array[fromDate]=date_format(date_create($array[fromDate].'01'),'Y-m-d');
+		$array["fromDate"]=date_format(date_create($array["fromDate"].'01'),'Y-m-d');
 		$where.="		and (t.cuando between '$array[fromDate]' and now())";
 	}
 
 
 	#deep level
-	$array[termDeep]=secure_data($array[termDeep],"int");
-	if($array[termDeep]>0)
+	$array["termDeep"]=secure_data($array["termDeep"],"int");
+	if($array["termDeep"]>0)
 	{
 		$select=",LENGTH(i.indice) - LENGTH(REPLACE(i.indice, '|', '')) AS tdeep";
 		$from.=	"	,$DBCFG[DBprefix]indice i";
@@ -2179,18 +2178,18 @@ function SQLadvancedSearch($array)
 	#and (cuando_final between '2010-05-19' and now())
 
 
-	switch ($array[ws]) {
+	switch ($array["ws"]) {
 		case 't'://term
-		$initial_where=($array[isExactMatch]=='1') ? " binary t.tema=$array[xstring] " : " t.tema like $array[xstring] ";
+		$initial_where=($array["isExactMatch"]=='1') ? " binary t.tema=$array[xstring] " : " t.tema like $array[xstring] ";
 		break;
 
 		case 'mt'://meta term
-		$initial_where=($array[isExactMatch]=='1') ? " binary t.tema=$array[xstring] and t.isMetaTerm=1 " : " t.tema like $array[xstring] and t.isMetaTerm=1 ";
+		$initial_where=($array["isExactMatch"]=='1') ? " binary t.tema=$array[xstring] and t.isMetaTerm=1 " : " t.tema like $array[xstring] and t.isMetaTerm=1 ";
 
 		break;
 
 		case 'uf':// no term
-		$initial_where=($array[isExactMatch]=='1') ? " binary UFt.tema= $array[xstring] " : " UFt.tema like $array[xstring] ";
+		$initial_where=($array["isExactMatch"]=='1') ? " binary UFt.tema= $array[xstring] " : " UFt.tema like $array[xstring] ";
 
 		$select.=",UFt.tema_id as uf_tema_id,UFt.tema as uf_tema,r.t_relacion";
 		$from.=	"	,$DBCFG[DBprefix]tabla_rel r";
@@ -2201,27 +2200,27 @@ function SQLadvancedSearch($array)
 		break;
 
 		case 'c':// code
-		$initial_where=($array[isExactMatch]=='1') ? " t.code= $array[xstring] " : " t.code like $array[xstring] ";
+		$initial_where=($array["isExactMatch"]=='1') ? " t.code= $array[xstring] " : " t.code like $array[xstring] ";
 		break;
 
 		case 'n':// note
 
-		$array[xstring4html]='<p>'.str_replace("'", "", $array[xstring]).'</p>';
+		$array["xstring4html"]='<p>'.str_replace("'", "", $array["xstring"]).'</p>';
 
 		$from.=	"	,$DBCFG[DBprefix]notas ns";
 		$where.="	and t.tema_id=ns.id_tema";
 
-		$initial_where.=($array[isExactMatch]=='1') ? " (ns.nota=$array[xstring] or ns.nota='$array[xstring4html]')  " : " ns.nota like $array[xstring] ";
+		$initial_where.=($array["isExactMatch"]=='1') ? " (ns.nota=$array[xstring] or ns.nota='$array[xstring4html]')  " : " ns.nota like $array[xstring] ";
 		break;
 
 		case 'tgt':// target term from target vocabulary (foreign term)
-		$initial_where=($array[isExactMatch]=='1') ? " tt.tterm_string= $array[xstring] " : " tt.tterm_string like $array[xstring] ";
+		$initial_where=($array["isExactMatch"]=='1') ? " tt.tterm_string= $array[xstring] " : " tt.tterm_string like $array[xstring] ";
 		$from.=	"	,$DBCFG[DBprefix]term2tterm tt";
 		$where.="	and t.tema_id=tt.tema_id";
 		break;
 
 		default ://term
-		$initial_where=($array[isExactMatch]=='1') ? " binary t.tema=$array[xstring] " : " t.tema like $array[xstring] ";
+		$initial_where=($array["isExactMatch"]=='1') ? " binary t.tema=$array[xstring] " : " t.tema like $array[xstring] ";
 
 		break;
 	}
@@ -2250,19 +2249,19 @@ function SQLadvancedTermReport($array)
 	GLOBAL $DB;
 
 	#has top term X
-	$array[hasTopTerm]=secure_data($array[hasTopTerm],"int");
-	if($array[hasTopTerm]>0)
+	$array["hasTopTerm"]=secure_data($array["hasTopTerm"],"int");
+	if($array["hasTopTerm"]>0)
 	{
-		$size_i=strlen($array[hasTopTerm])+2;
+		$size_i=strlen($array["hasTopTerm"])+2;
 		$from="$DBCFG[DBprefix]indice tti,";
 		$where="	and t.tema_id=tti.tema_id";
 		$where.="	and left(tti.indice,$size_i)='|$array[hasTopTerm]|'";
 	}
 
 	#has note type X
-	$array[hasNote]=$DB->qstr(trim($array[hasNote]),get_magic_quotes_gpc());
+	$array["hasNote"]=$DB->qstr(trim($array["hasNote"]),get_magic_quotes_gpc());
 
-	if(strlen($array[hasNote])>2)
+	if(strlen($array["hasNote"])>2)
 	{
 		$from.="$DBCFG[DBprefix]notas n,";
 		$where.="		and n.id_tema=t.tema_id";
@@ -2284,9 +2283,9 @@ function SQLadvancedTermReport($array)
 	#and (cuando_final between '2010-05-19' and now())
 
 	#user filter
-	$array[byuser_id]=secure_data($array[byuser_id],"int");
+	$array["byuser_id"]=secure_data($array["byuser_id"],"int");
 
-	if(($array[byuser_id]) && ($_SESSION[$_SESSION["CFGURL"]][ssuser_nivel]=='1'))
+	if(($array["byuser_id"]) && ($_SESSION[$_SESSION["CFGURL"]]["ssuser_nivel"]=='1'))
 	{
 		$where.="		and '$array[byuser_id]' in (t.uid,t.uid_final)";
 	}
@@ -2294,9 +2293,9 @@ function SQLadvancedTermReport($array)
 	#string filter
 	//$array[csvstring]=secure_data(trim($array[csvstring]),"sql");
 
-	if((strlen($array[csvstring])>0) && (in_array($array[w_string],array('x','s','e'))))
+	if((strlen($array["csvstring"])>0) && (in_array($array["w_string"],array('x','s','e'))))
 	{
-		switch($array[w_string])
+		switch($array["w_string"])
 		{
 
 			case 's'://start term
@@ -2345,10 +2344,10 @@ function SQLadvancedTermReport($array)
 
 
 	#mapped terms
-	$array[csv_tvocab_id]=secure_data($array[csv_tvocab_id],"int");
-	if($array[csv_tvocab_id])
+	$array["csv_tvocab_id"]=secure_data($array["csv_tvocab_id"],"int");
+	if($array["csv_tvocab_id"])
 	{
-		if ($array[mapped]=='n')
+		if ($array["mapped"]=='n')
 		{
 			$leftJoin=" left join $DBCFG[DBprefix]term2tterm tt on tt.tema_id=t.tema_id and tt.tvocab_id='$array[csv_tvocab_id]'";
 			$leftJoin.=" left join $DBCFG[DBprefix]tabla_rel as r on t.tema_id in (r.id_menor,r.id_mayor) ";
@@ -2367,10 +2366,10 @@ function SQLadvancedTermReport($array)
 	}
 
 	#internal mapped terms
-	$array[csv_itvocab_id]=secure_data($array[csv_itvocab_id],"int");
-	if($array[csv_itvocab_id])
+	$array["csv_itvocab_id"]=secure_data($array["csv_itvocab_id"],"int");
+	if($array["csv_itvocab_id"])
 	{
-		if ($array[int_mapped]=='n')
+		if ($array["int_mapped"]=='n')
 		{
 			$leftJoin=" left join $DBCFG[DBprefix]tabla_rel ir on t.tema_id=ir.id_menor ";
 			$leftJoin.=" left join $DBCFG[DBprefix]tema itt on itt.tema_id=ir.id_mayor and itt.tesauro_id='$array[csv_itvocab_id]'";
@@ -2440,7 +2439,7 @@ function SQLreportTargetTerms($tvocab_ids=array())
 			"tvocab_title"=>$ARRAYtvocabs["tvocab_title"]
 		);
 		$select.=',tv'.$ARRAYtvocabs["tvocab_id"].'.tterm_string as "'.$ARRAYtvocabs["tvocab_label"].'"';
-		$leftjoin.=' left join '.$DBCFG[DBprefix].'term2tterm tv'.$ARRAYtvocabs["tvocab_id"].' on tv'.$ARRAYtvocabs["tvocab_id"].'.tema_id=t.tema_id';
+		$leftjoin.=' left join '.$DBCFG["DBprefix"].'term2tterm tv'.$ARRAYtvocabs["tvocab_id"].' on tv'.$ARRAYtvocabs["tvocab_id"].'.tema_id=t.tema_id';
 		$leftjoin.=' and tv'.$ARRAYtvocabs["tvocab_id"].'.tvocab_id='.$ARRAYtvocabs["tvocab_id"];
 
 	}
@@ -3259,7 +3258,7 @@ function fetchTermIdxNote($string)
 
 	$array=$sql->FetchRow();
 
-	return $array[tema_id];
+	return $array["tema_id"];
 }
 
 
@@ -3280,7 +3279,7 @@ function fetchTermId($string,$tesauro_id="1")
 
 	$array=$sql->FetchRow();
 
-	return $array[tema_id];
+	return $array["tema_id"];
 }
 
 
@@ -3363,17 +3362,16 @@ function ARRAYtypeRelations($t_relation=0,$rrel_type_id=0)
 {
 	$sql=SQLtypeRelations($t_relation,$rrel_type_id);
 
-	if($sql)
-	{
+	if($sql){
 
 		while($array=$sql->FetchRow()){
 			$i=++$i;
-			$arrayRelations["$array[t_relation]"]["$array[rr_id]"]["t_relation"].=$array[t_relation];
-			$arrayRelations["$array[t_relation]"]["$array[rr_id]"]["r_code"].=$array[r_code];
-			$arrayRelations["$array[t_relation]"]["$array[rr_id]"]["rr_id"].=$array[rel_rel_id];
-			$arrayRelations["$array[t_relation]"]["$array[rr_id]"]["rr_value"].=$array[rr_value];
-			$arrayRelations["$array[t_relation]"]["$array[rr_id]"]["rr_code"].=$array[rr_code];
-			$arrayRelations["$array[t_relation]"]["$array[rr_id]"]["rr_cant_rel"].=$array[rr_cant_rel];
+			$arrayRelations["$array[t_relation]"]["$array[rr_id]"]["t_relation"].=$array["t_relation"];
+			$arrayRelations["$array[t_relation]"]["$array[rr_id]"]["r_code"].=$array["r_code"];
+			$arrayRelations["$array[t_relation]"]["$array[rr_id]"]["rr_id"].=$array["rel_rel_id"];
+			$arrayRelations["$array[t_relation]"]["$array[rr_id]"]["rr_value"].=$array["rr_value"];
+			$arrayRelations["$array[t_relation]"]["$array[rr_id]"]["rr_code"].=$array["rr_code"];
+			$arrayRelations["$array[t_relation]"]["$array[rr_id]"]["rr_cant_rel"].=$array["rr_cant_rel"];
 		}
 	}
 	else
@@ -3526,10 +3524,10 @@ function ARRAYfetchValues($value_type)
 
 	while($array=$sql->FetchRow()){
 		$i=++$i;
-		$ARRAYvalues["$array[value_code]"][value_id].=$array[value_id];
-		$ARRAYvalues["$array[value_code]"][value_type].=$array[value_type];
-		$ARRAYvalues["$array[value_code]"][value_code].=$array[value_code];
-		$ARRAYvalues["$array[value_code]"][value].=$array[value];
+		$ARRAYvalues["$array[value_code]"]["value_id"].=$array["value_id"];
+		$ARRAYvalues["$array[value_code]"]["value_type"].=$array["value_type"];
+		$ARRAYvalues["$array[value_code]"]["value_code"].=$array["value_code"];
+		$ARRAYvalues["$array[value_code]"]["value"].=$array["value"];
 	}
 	return $ARRAYvalues;
 }
@@ -3548,7 +3546,7 @@ function fetchlastMod($value_code="")
 
 	$array= $sql->FetchRow();
 
-	return $array[last];
+	return $array["last"];
 }
 
 //Retrieve last update of SPARQL endpoint

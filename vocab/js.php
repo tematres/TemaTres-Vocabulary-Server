@@ -11,7 +11,7 @@ include("config.tematres.php");
 /*
  * Load tinyMCE only if there are login
 */
-if ($_SESSION[$_SESSION["CFGURL"]][ssuser_nivel]>0){
+if ($_SESSION[$_SESSION["CFGURL"]]["ssuser_nivel"]>0){
 	?>
 	<!-- Load TinyMCE -->
 	tinymce.init({
@@ -85,9 +85,8 @@ if ($_SESSION[$_SESSION["CFGURL"]][ssuser_nivel]>0){
 		$arrayCustumRelations["2"]["0"].=TR_acronimo;
 
 		$SQLtypeRelations=SQLtypeRelations();
-		while ($ARRAYtypeRelations=$SQLtypeRelations->FetchRow())
-		{
-				$arrayCustumRelations["$ARRAYtypeRelations[t_relation]"]["$ARRAYtypeRelations[rel_rel_id]"].= $ARRAYtypeRelations[rr_value];
+		while ($ARRAYtypeRelations=$SQLtypeRelations->FetchRow()){
+				$arrayCustumRelations["$ARRAYtypeRelations[t_relation]"]["$ARRAYtypeRelations[rel_rel_id]"].= $ARRAYtypeRelations["rr_value"];
 		};
 
 		//add reverse view or BT/NT relation

@@ -3,7 +3,7 @@ if ((stristr( $_SERVER['REQUEST_URI'], "session.php") ) || ( !defined('T3_ABSPAT
 /*
 must be ADMIN
 */
-if($_SESSION[$_SESSION["CFGURL"]][ssuser_nivel]=='1'){
+if($_SESSION[$_SESSION["CFGURL"]]["ssuser_nivel"]=='1'){
 	// get the variables
 
 	// tests
@@ -156,8 +156,7 @@ functiones
 function ALTArelacionXId($id_mayor,$id_menor,$t_relacion){
 	GLOBAL $DBCFG;
 
-	if(($id_mayor>0) && ($id_menor>0))
-	{
+	if(($id_mayor>0) && ($id_menor>0))	{
 		return do_r($id_mayor,$id_menor,$t_relacion);
 	}
 }

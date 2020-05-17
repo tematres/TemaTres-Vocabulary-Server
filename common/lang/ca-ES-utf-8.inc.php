@@ -537,4 +537,9 @@ define('LABEL_rel_synonymy','synonym relationships');
 define('LABEL_prototypeTerms','central terms');
 define('LABEL_copy_click','copy term to clipboard');
 define('LABEL__ENABLE_COPY_CLICK','Enable button to copy terms to the clipboard.');
+
+#v.3.1.1
+define('LABEL_order','order');
+define('LABEL_alias','alias');
+
 ?>

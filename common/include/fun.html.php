@@ -61,9 +61,9 @@ function resultaBusca($texto,$tipo=""){
 				return HTMLbodyTermino(ARRAYverDatosTermino($primerTermino_id));
 			}
 
-			$leyendaTerminoLibre=($resulta_busca[esTerminoLibre]=='SI') ? ' ('.LABEL_terminoLibre.')' : '';
+			$leyendaTerminoLibre=($resulta_busca["esTerminoLibre"]=='SI') ? ' ('.LABEL_terminoLibre.')' : '';
 
-			$styleClassLink= ($resulta_busca["estado_id"]!=='13') ? 'estado_termino'.$resulta_busca[estado_id] : '';
+			$styleClassLink= ($resulta_busca["estado_id"]!=='13') ? 'estado_termino'.$resulta_busca["estado_id"] : '';
 			$styleClassLinkMetaTerm= ($resulta_busca["isMetaTerm"]=='1') ? 'metaTerm' : '';
 
 			//Si no es un término preferido
@@ -182,15 +182,14 @@ function doContextoTermino($idTema,$i_profundidad){
 		$int=++$int;
 
 		if($datosNT["id_te"]){
-			$link_next=' <a href="javascript:expand(\''.$datosNT["id_tema"].'\')" title="'.LABEL_verDetalle.' '.$datosNT[tema].'"><span id="expandTE'.$datosNT["id_tema"].'">&#x25ba;</span><span id="contraeTE'.$datosNT["id_tema"].'" style="display: none">&#x25bc;</span></a>';
+			$link_next=' <a href="javascript:expand(\''.$datosNT["id_tema"].'\')" title="'.LABEL_verDetalle.' '.$datosNT["tema"].'"><span id="expandTE'.$datosNT["id_tema"].'">&#x25ba;</span><span id="contraeTE'.$datosNT["id_tema"].'" style="display: none">&#x25bc;</span></a>';
 			$link_next.=HTMLverTE($datosNT["id_tema"],$i_profundidad);
 		}else{
 			$link_next='';
 		};
 
 		// abre lista TE
-		$row_NT.='<li  id="t'.$datosNT[id_tema].'">';
-		//$row_NT.=HTMLcopyClick('nt'.$datosNT["id_tema"],array("isMetaTerm"=>$datosNT["isMetaTerm"],"isValidTerm"=>1,"copy_click"=>$CFG["COPY_CLICK"]));
+		$row_NT.='<li  id="t'.$datosNT["id_tema"].'">';
 
 		//editor de relaciones
 		if($_SESSION[$_SESSION["CFGURL"]]["ssuser_id"]){
@@ -242,7 +241,7 @@ function doContextoTermino($idTema,$i_profundidad){
 			$itg=++$itg;
 			$row_TG.='          <li>';
 			//$row_TG.=HTMLcopyClick('bt'.$datosTotalRelacionados["tema_id"],array("isMetaTerm"=>$datosTotalRelacionados["BT_isMetaTerm"],"isValidTerm"=>1,"copy_click"=>$CFG["COPY_CLICK"]));
-			$row_TG.=' '.$td_delete.'<abbr class="'.$classAcrnoyn.'" id="edit_rel_id'.$datosTotalRelacionados[rel_id].'" style="display: inline" title="'.TG_termino.' '.$datosTotalRelacionados[rr_value].'" lang="'.LANG.'">'.TG_acronimo.$datosTotalRelacionados["rr_code"].'</abbr>';
+			$row_TG.=' '.$td_delete.'<abbr class="'.$classAcrnoyn.'" id="edit_rel_id'.$datosTotalRelacionados["rel_id"].'" style="display: inline" title="'.TG_termino.' '.$datosTotalRelacionados["rr_value"].'" lang="'.LANG.'">'.TG_acronimo.$datosTotalRelacionados["rr_code"].'</abbr>';
 						
 
 			$row_TG.=$CFG["REL_SYMBOLS"]["BT"].' <a '.$css_class_MT.' title="'.LABEL_verDetalle.' '.$datosTotalRelacionados["tema"].' ('.TG_termino.') '.$label_MT.'"  href="'.URL_BASE.'index.php?tema='.$datosTotalRelacionados["tema_id"].'&amp;/'.string2url($datosTotalRelacionados["tema"]).'" id="bt'.$datosTotalRelacionados["tema_id"].'">'.$datosTotalRelacionados["tema"].'</a> '.HTMLcopyClick('bt'.$datosTotalRelacionados["tema_id"],array("isMetaTerm"=>$datosTotalRelacionados["BT_isMetaTerm"],"isValidTerm"=>1,"copy_click"=>$CFG["COPY_CLICK"])).'</li>';
@@ -253,8 +252,8 @@ function doContextoTermino($idTema,$i_profundidad){
 			if ((!in_array($datosTotalRelacionados["rr_code"],$CFG["HIDDEN_EQ"])) || ($_SESSION[$_SESSION["CFGURL"]]["ssuser_id"]))
 			{
 				$iuf=++$iuf;
-				$row_UP.='          <li>'.$td_delete.'<abbr class="'.$classAcrnoyn.'" id="edit_rel_id'.$datosTotalRelacionados[rel_id].'" style="display: inline" title="'.UP_termino.' '.$datosTotalRelacionados["rr_value"].'" lang="'.LANG.'">'.UP_acronimo.$datosTotalRelacionados["rr_code"].'</abbr>';
-				$row_UP.=$CFG["REL_SYMBOLS"]["UF"].' <a class="NoTerm" title="'.LABEL_verDetalle.' '.$datosTotalRelacionados["tema"].' ('.UP_termino.')"  href="'.URL_BASE.'index.php?tema='.$datosTotalRelacionados[tema_id].'&amp;/'.string2url($datosTotalRelacionados["tema"]).'">'.$datosTotalRelacionados["tema"].'</a></li>';
+				$row_UP.='          <li>'.$td_delete.'<abbr class="'.$classAcrnoyn.'" id="edit_rel_id'.$datosTotalRelacionados["rel_id"].'" style="display: inline" title="'.UP_termino.' '.$datosTotalRelacionados["rr_value"].'" lang="'.LANG.'">'.UP_acronimo.$datosTotalRelacionados["rr_code"].'</abbr>';
+				$row_UP.=$CFG["REL_SYMBOLS"]["UF"].' <a class="NoTerm" title="'.LABEL_verDetalle.' '.$datosTotalRelacionados["tema"].' ('.UP_termino.')"  href="'.URL_BASE.'index.php?tema='.$datosTotalRelacionados["tema_id"].'&amp;/'.string2url($datosTotalRelacionados["tema"]).'">'.$datosTotalRelacionados["tema"].'</a></li>';
 			}
 			break;
 
@@ -263,7 +262,7 @@ function doContextoTermino($idTema,$i_profundidad){
 			$row_TR.='<li>';
 			//$row_TR.=HTMLcopyClick('rt'.$datosTotalRelacionados["tema_id"],array("isMetaTerm"=>$datosTotalRelacionados["isMetaTerm"],"isValidTerm"=>1,"copy_click"=>$CFG["COPY_CLICK"]));
 			
-			$row_TR.=' '.$td_delete.'<abbr class="'.$classAcrnoyn.'" id="edit_rel_id'.$datosTotalRelacionados[rel_id].'" style="display: inline" title="'.TR_termino.' '.$datosTotalRelacionados["rr_value"].'" lang="'.LANG.'">'.TR_acronimo.$datosTotalRelacionados["rr_code"].'</abbr>';
+			$row_TR.=' '.$td_delete.'<abbr class="'.$classAcrnoyn.'" id="edit_rel_id'.$datosTotalRelacionados["rel_id"].'" style="display: inline" title="'.TR_termino.' '.$datosTotalRelacionados["rr_value"].'" lang="'.LANG.'">'.TR_acronimo.$datosTotalRelacionados["rr_code"].'</abbr>';
 
 
 			$row_TR.=$CFG["REL_SYMBOLS"]["RT"].' <a '.$css_class_MT.' title="'.LABEL_verDetalle.' '.$datosTotalRelacionados["tema"].' ('.TR_termino.') '.$label_MT.'"  href="'.URL_BASE.'index.php?tema='.$datosTotalRelacionados["tema_id"].'&amp;/'.string2url($datosTotalRelacionados["tema"]).'" id="rt'.$datosTotalRelacionados["tema_id"].'">'.$datosTotalRelacionados["tema"].'</a> '.HTMLcopyClick('rt'.$datosTotalRelacionados["tema_id"],array("isMetaTerm"=>$datosTotalRelacionados["isMetaTerm"],"isValidTerm"=>1,"copy_click"=>$CFG["COPY_CLICK"])).'</li>';
@@ -272,19 +271,19 @@ function doContextoTermino($idTema,$i_profundidad){
 			case '5':// parcialmente EQ
 			$ieq=++$ieq;
 			$row_EQ.='          <li>'.$td_delete.' <abbr class="thesacronym" title="'.LABEL_termino_parcial_equivalente.'" lang="'.LANG.'">'.EQP_acronimo.'</abbr> ';
-			$row_EQ.='          <a title="'.LABEL_verDetalle.' '.$datosTotalRelacionados["tema"].' ('.LABEL_termino_parcial_equivalente.')"  href="'.URL_BASE.'index.php?tema='.$datosTotalRelacionados[tema_id].'&amp;/'.string2url($datosTotalRelacionados["tema"]).'">'.$datosTotalRelacionados["tema"].'</a> ('.$datosTotalRelacionados["titulo"].')</li>';
+			$row_EQ.='          <a title="'.LABEL_verDetalle.' '.$datosTotalRelacionados["tema"].' ('.LABEL_termino_parcial_equivalente.')"  href="'.URL_BASE.'index.php?tema='.$datosTotalRelacionados["tema_id"].'&amp;/'.string2url($datosTotalRelacionados["tema"]).'">'.$datosTotalRelacionados["tema"].'</a> ('.$datosTotalRelacionados["titulo"].')</li>';
 			break;
 
 			case '6':// EQ
 			$ieq=++$ieq;
 			$row_EQ.='          <li>'.$td_delete.' <abbr class="thesacronym" title="'.LABEL_termino_equivalente.'" lang="'.LANG.'">'.EQ_acronimo.'</abbr> ';
-			$row_EQ.='          <a title="'.LABEL_verDetalle.' '.$datosTotalRelacionados["tema"].' ('.LABEL_termino_equivalente.')"  href="'.URL_BASE.'index.php?tema='.$datosTotalRelacionados[tema_id].'&amp;/'.string2url($datosTotalRelacionados["tema"]).'">'.$datosTotalRelacionados["tema"].'</a> ('.$datosTotalRelacionados["titulo"].')</li>';
+			$row_EQ.='          <a title="'.LABEL_verDetalle.' '.$datosTotalRelacionados["tema"].' ('.LABEL_termino_equivalente.')"  href="'.URL_BASE.'index.php?tema='.$datosTotalRelacionados["tema_id"].'&amp;/'.string2url($datosTotalRelacionados["tema"]).'">'.$datosTotalRelacionados["tema"].'</a> ('.$datosTotalRelacionados["titulo"].')</li>';
 			break;
 
 			case '7':// NO EQ
 			$ieq=++$ieq;
 			$row_EQ.='          <li>'.$td_delete.' <abbr class="thesacronym" title="'.LABEL_termino_no_equivalente.'" lang="'.LANG.'">'.NEQ_acronimo.'</abbr> ';
-			$row_EQ.='          <a title="'.LABEL_verDetalle.' '.$datosTotalRelacionados["tema"].' ('.LABEL_termino_no_equivalente.')"  href="'.URL_BASE.'index.php?tema='.$datosTotalRelacionados[tema_id].'&amp;/'.string2url($datosTotalRelacionados["tema"]).'">'.$datosTotalRelacionados["tema"].'</a> ('.$datosTotalRelacionados["titulo"].')</li>';
+			$row_EQ.='          <a title="'.LABEL_verDetalle.' '.$datosTotalRelacionados["tema"].' ('.LABEL_termino_no_equivalente.')"  href="'.URL_BASE.'index.php?tema='.$datosTotalRelacionados["tema_id"].'&amp;/'.string2url($datosTotalRelacionados["tema"]).'">'.$datosTotalRelacionados["tema"].'</a> ('.$datosTotalRelacionados["titulo"].')</li>';
 			break;
 		}
 	};
@@ -304,26 +303,26 @@ function doContextoTermino($idTema,$i_profundidad){
 				case '4':// USE
 				$leyendaConector=USE_termino;
 					$iuse=++$iuse;
-					$row_USE.='<li><em>'.$arrayTerminosValidosUF["tema"].'</em> '.$leyendaConector.' <a title="'.LABEL_verDetalle.$arrayTerminosValidosUF[tema_pref].'" href="'.URL_BASE.'index.php?tema='.$arrayTerminosValidosUF[tema_pref_id].'">'.$arrayTerminosValidosUF["tema_pref"].'</a> </li>'."\r\n" ;
+					$row_USE.='<li><em>'.$arrayTerminosValidosUF["tema"].'</em> '.$leyendaConector.' <a title="'.LABEL_verDetalle.$arrayTerminosValidosUF["tema_pref"].'" href="'.URL_BASE.'index.php?tema='.$arrayTerminosValidosUF["tema_pref_id"].'">'.$arrayTerminosValidosUF["tema_pref"].'</a> </li>'."\r\n" ;
 				break;
 
 
 				case '5':// parcialmente EQ
 				$leyendaConector='<abbr class="thesacronym" title="'.LABEL_termino_parcial_equivalente.'" lang="'.LANG.'">'.EQP_acronimo.'</abbr>';
 				$ieq=++$ieq;
-				$row_EQ='<li><em>'.$arrayTerminosValidosUF["tema"].'</em> ('.$arrayTerminosValidosUF["titulo"].' / '.$arrayTerminosValidosUF[idioma].') '.$leyendaConector.' <a title="'.LABEL_verDetalle.$arrayTerminosValidosUF[tema_pref].'" href="'.URL_BASE.'index.php?tema='.$arrayTerminosValidosUF["tema_pref_id"].'">'.$arrayTerminosValidosUF["tema_pref"].'</a> </li>'."\r\n" ;
+				$row_EQ='<li><em>'.$arrayTerminosValidosUF["tema"].'</em> ('.$arrayTerminosValidosUF["titulo"].' / '.$arrayTerminosValidosUF["idioma"].') '.$leyendaConector.' <a title="'.LABEL_verDetalle.$arrayTerminosValidosUF["tema_pref"].'" href="'.URL_BASE.'index.php?tema='.$arrayTerminosValidosUF["tema_pref_id"].'">'.$arrayTerminosValidosUF["tema_pref"].'</a> </li>'."\r\n" ;
 				break;
 
 				case '6':// EQ
 				$leyendaConector='<abbr class="thesacronym" title="'.LABEL_termino_equivalente.'" lang="'.LANG.'">'.EQ_acronimo.'</abbr>';
 				$ieq=++$ieq;
-				$row_EQ='<li><em>'.$arrayTerminosValidosUF["tema"].'</em> ('.$arrayTerminosValidosUF["titulo"].' / '.$arrayTerminosValidosUF[idioma].') '.$leyendaConector.' <a title="'.LABEL_verDetalle.$arrayTerminosValidosUF[tema_pref].'" href="'.URL_BASE.'index.php?tema='.$arrayTerminosValidosUF["tema_pref_id"].'">'.$arrayTerminosValidosUF["tema_pref"].'</a> </li>'."\r\n" ;
+				$row_EQ='<li><em>'.$arrayTerminosValidosUF["tema"].'</em> ('.$arrayTerminosValidosUF["titulo"].' / '.$arrayTerminosValidosUF["idioma"].') '.$leyendaConector.' <a title="'.LABEL_verDetalle.$arrayTerminosValidosUF["tema_pref"].'" href="'.URL_BASE.'index.php?tema='.$arrayTerminosValidosUF["tema_pref_id"].'">'.$arrayTerminosValidosUF["tema_pref"].'</a> </li>'."\r\n" ;
 				break;
 
 				case '7':// NO EQ
 				$leyendaConector='<abbr class="thesacronym" title="'.LABEL_termino_no_equivalente.'" lang="'.LANG.'">'.NEQ_acronimo.'</abbr>';
 				$ieq=++$ieq;
-				$row_EQ='<li><em>'.$arrayTerminosValidosUF["tema"].'</em> ('.$arrayTerminosValidosUF["titulo"].' / '.$arrayTerminosValidosUF[idioma].') '.$leyendaConector.' <a title="'.LABEL_verDetalle.$arrayTerminosValidosUF[tema_pref].'" href="'.URL_BASE.'index.php?tema='.$arrayTerminosValidosUF["tema_pref_id"].'">'.$arrayTerminosValidosUF["tema_pref"].'</a> </li>'."\r\n" ;
+				$row_EQ='<li><em>'.$arrayTerminosValidosUF["tema"].'</em> ('.$arrayTerminosValidosUF["titulo"].' / '.$arrayTerminosValidosUF["idioma"].') '.$leyendaConector.' <a title="'.LABEL_verDetalle.$arrayTerminosValidosUF["tema_pref"].'" href="'.URL_BASE.'index.php?tema='.$arrayTerminosValidosUF["tema_pref_id"].'">'.$arrayTerminosValidosUF["tema_pref"].'</a> </li>'."\r\n" ;
 				break;
 
 			}
@@ -364,11 +363,11 @@ function HTMLmenuCustumRel($tema_id,$arrayDataRelation)
 
 	if($_SESSION[$_SESSION["CFGURL"]]["ssuser_id"])
 	{
-		$rows.='<abbr class="editable_select'.$arrayDataRelation[t_relacion].'" id="edit_rel_id'.$arrayDataRelation[rel_id].'" style="display: inline" title="'.$arrayLabel["$arrayDataRelation[t_relacion]"][1].' '.$arrayDataRelation[rr_value].'" lang="'.LANG.'">'.$arrayLabel["$arrayDataRelation[t_relacion]"][0].$arrayDataRelation[rr_code].'</abbr>';
+		$rows.='<abbr class="editable_select'.$arrayDataRelation[t_relacion].'" id="edit_rel_id'.$arrayDataRelation["rel_id"].'" style="display: inline" title="'.$arrayLabel["$arrayDataRelation[t_relacion]"][1].' '.$arrayDataRelation["rr_value"].'" lang="'.LANG.'">'.$arrayLabel["$arrayDataRelation[t_relacion]"][0].$arrayDataRelation["rr_code"].'</abbr>';
 	}
 	else
 	{
-		$rows.='<abbr class="editable_select'.$arrayDataRelation[t_relacion].'" id="r'.$arrayDataRelation[rel_id].'" style="display: inline" title="'.$arrayLabel["$arrayDataRelation[t_relacion]"][1].' '.$arrayDataRelation[rr_value].'" lang="'.LANG.'">'.$arrayLabel["$arrayDataRelation[t_relacion]"][0].$arrayDataRelation[rr_code].'</abbr>';
+		$rows.='<abbr class="editable_select'.$arrayDataRelation[t_relacion].'" id="r'.$arrayDataRelation["rel_id"].'" style="display: inline" title="'.$arrayLabel["$arrayDataRelation[t_relacion]"][1].' '.$arrayDataRelation["rr_value"].'" lang="'.LANG.'">'.$arrayLabel["$arrayDataRelation[t_relacion]"][0].$arrayDataRelation["rr_code"].'</abbr>';
 	}
 
 	return $rows;
@@ -416,7 +415,7 @@ function HTMLbodyTermino($array){
 
 	if($array["isMetaTerm"]==1)	{
 		$body.=' <h1 class="metaTerm" title="'.$array["titTema"].' - '.NOTE_isMetaTermNote.'" id="T'.$array["tema_id"].'">'.$array["titTema"].'</h1>';
-		$body.=' <p class="metaTerm alert" title="'.NOTE_isMetaTermNote.'" id="noteT'.$array[tema_id].'">'.NOTE_isMetaTerm.'</p>';
+		$body.=' <p class="metaTerm alert" title="'.NOTE_isMetaTermNote.'" id="noteT'.$array["tema_id"].'">'.NOTE_isMetaTerm.'</p>';
 	}	else	{
 		$body.=' <h1 class="estado_termino'.$array["estado_id"].'">'.$array["titTema"].'</h1>';
 	}
@@ -917,15 +916,15 @@ function doBrowseTermsFromDate($month,$year,$ord=""){
 	$rows.='<table id="termaudit" class="table table-striped table-bordered table-condensed table-hover" summary="'.LABEL_auditoria.'" >';
 	$rows.='<tbody>';
 	while($array=$sql->FetchRow()){
-		$fecha_termino=do_fecha($array[cuando]);
+		$fecha_termino=do_fecha($array["cuando"]);
 
 		$rows.='<tr>';
 		$rows.='<td class="izq">'.HTMLlinkTerm($array,array("modal"=>1)).'</td>';
-		$rows.='<td>'.$fecha_termino[dia].' / '.$fecha_termino[descMes].' / '.$fecha_termino[ano].'</td>';
+		$rows.='<td>'.$fecha_termino["dia"].' / '.$fecha_termino["descMes"].' / '.$fecha_termino["ano"].'</td>';
 		if($_SESSION[$_SESSION["CFGURL"]]["ssuser_nivel"]=='1'){
-			$rows.='<td><a href="admin.php?user_id='.$array[id_usuario].'" title="'.LABEL_DatosUser.'">'.$array[apellido].', '.$array[nombres].'</a></td>';
+			$rows.='<td><a href="admin.php?user_id='.$array["id_usuario"].'" title="'.LABEL_DatosUser.'">'.$array["apellido"].', '.$array["nombres"].'</a></td>';
 		}else{
-			$rows.='<td>'.$array[apellido].', '.$array[nombres].'</td>';
+			$rows.='<td>'.$array["apellido"].', '.$array["nombres"].'</td>';
 		}
 		$rows.='</tr>';
 	};
@@ -933,7 +932,7 @@ function doBrowseTermsFromDate($month,$year,$ord=""){
 
 	$rows.='<thead>';
 	$rows.='<tr>';
-	$rows.='<th class="izq" colspan="3"><a href="'.URL_BASE.'sobre.php#termaudit" title="'.ucfirst(LABEL_auditoria).'">'.ucfirst(LABEL_auditoria).'.</a> &middot; '.$fecha_termino[descMes].' / '.$fecha_termino[ano].': '.SQLcount($sql).' '.LABEL_Terminos.'</th>';
+	$rows.='<th class="izq" colspan="3"><a href="'.URL_BASE.'sobre.php#termaudit" title="'.ucfirst(LABEL_auditoria).'">'.ucfirst(LABEL_auditoria).'.</a> &middot; '.$fecha_termino["descMes"].' / '.$fecha_termino["ano"].': '.SQLcount($sql).' '.LABEL_Terminos.'</th>';
 	$rows.='</tr>';
 
 	$rows.='<tr>';
@@ -982,10 +981,10 @@ function doBrowseTermsByDate(){
 	$rows.='<tbody>';
 	while($array=$sql->FetchRow()){
 
-		$fecha_termino=do_fecha($array[cuando]);
+		$fecha_termino=do_fecha($array["cuando"]);
 		$rows.='<tr>';
-		$rows.='<td class="centrado">'.$array[years].'</td>';
-		$rows.='<td class="centrado"><a href="'.URL_BASE.'sobre.php?m='.$array[months].'&y='.$array[years].'#termaudit" title="'.LABEL_verDetalle.$fecha_termino[descMes].'">'.$fecha_termino[descMes].'</a></td>';
+		$rows.='<td class="centrado">'.$array["years"].'</td>';
+		$rows.='<td class="centrado"><a href="'.URL_BASE.'sobre.php?m='.$array["months"].'&y='.$array["years"].'#termaudit" title="'.LABEL_verDetalle.$fecha_termino["descMes"].'">'.$fecha_termino["descMes"].'</a></td>';
 		$rows.='<td class="centrado">'.$array["cant"].'</td>';
 		$rows.='</tr>';
 		$TotalTerminos+=$array["cant"];
@@ -1010,7 +1009,7 @@ function HTML_URLsearch($display=Array(),$arrayTema=Array()) {
 	GLOBAL $CFG;
 	$ARRAY_busquedas=$CFG["SEARCH_URL_SITES_SINTAX"];
 
-	$string_busqueda = $arrayTema[titTema];
+	$string_busqueda = $arrayTema["titTema"];
 	$html = '<ul class="list-inline" id="enlaces_web">' . "\n";
 	foreach($display as $sitename) {
 		if (in_array($sitename, $ARRAY_busquedas))
@@ -1024,8 +1023,8 @@ function HTML_URLsearch($display=Array(),$arrayTema=Array()) {
 			$url = str_replace('STRING_BUSQUEDA', $string_busqueda, $url);
 		}
 
-		$html .= '<a href="'.$url.'" target="_blank" title="'.LABEL_Buscar.' '.$arrayTema[titTema].'  ('.$site[leyenda].')">';
-		$html .= '<img src="'.T3_WEBPATH.'/images/'.$site[favicon].'" alt="'.LABEL_Buscar.' '.$arrayTema[titTema].'  ('.$site[leyenda].')"/>';
+		$html .= '<a href="'.$url.'" target="_blank" title="'.LABEL_Buscar.' '.$arrayTema["titTema"].'  ('.$site["leyenda"].')">';
+		$html .= '<img src="'.T3_WEBPATH.'/images/'.$site["favicon"].'" alt="'.LABEL_Buscar.' '.$arrayTema["titTema"].'  ('.$site["leyenda"].')"/>';
 		$html .= '</a>';
 		$html .= "</li>";
 	}
@@ -1047,14 +1046,10 @@ function HTMLbusquedaExpandidaTG($acumula_indice,$acumula_temas,$string){
 	$cantValores=array_count_values($array_indice);
 	$array_indice=array_unique($array_indice);
 
-	while (list($key, $val) = each($array_indice))
-	{
-		if(!in_array($val,$array_temas))
-		{
-			$temas_ids.=$val.',';
-		}
-	};
 
+     foreach ($array_indice as $key => $val) {
+		if(!in_array($val,$array_temas)) $temas_ids.=$val.',';
+      }
 
 	//Si no hay términos más genericos que los resultados
 	if(@$temas_ids)	{
@@ -1122,7 +1117,7 @@ function HTMLverTE($tema_id,$i_profundidad,$i=""){
 	while($array=$sql->FetchRow()){
 		if($array["id_te"]){
 			if($i<CFG_MAX_TREE_DEEP){
-				$link_next='  <a href="javascript:expand(\''.$array[id_tema].'\')" title="'.LABEL_verDetalle.' '.$array["tema"].' ('.TE_termino.')" ><span id ="expandTE'.$array["id_tema"].'">&#x25ba;</span><span id ="contraeTE'.$array["id_tema"].'" style="display: none">&#x25bc;</span></a> ';
+				$link_next='  <a href="javascript:expand(\''.$array["id_tema"].'\')" title="'.LABEL_verDetalle.' '.$array["tema"].' ('.TE_termino.')" ><span id ="expandTE'.$array["id_tema"].'">&#x25ba;</span><span id ="contraeTE'.$array["id_tema"].'" style="display: none">&#x25bc;</span></a> ';
 				$link_next.=HTMLverTE($array["id_tema"],$i_profundidad,$i);
 			}		else {
 				$link_next='&nbsp; <a title="'.LABEL_verDetalle.TE_termino.' '.$array["tema"].'" href="'.URL_BASE.'index.php?tema='.$array["id_tema"].'">&#x25ba;</a>';
@@ -1154,8 +1149,7 @@ function JHTMLverTE($tema_id){
 
 
 /* términos según estados */
-function HTMLlistaTerminosEstado($estado_id,$limite="")
-{
+function HTMLlistaTerminosEstado($estado_id,$limite=""){
 
 	//Estados posibles y aceptados
 	$arrayEstados_id=array(12,14);
@@ -1182,7 +1176,7 @@ function HTMLlistaTerminosEstado($estado_id,$limite="")
 
 			while ($array = $sql->FetchRow()){
 
-				$styleTerm='estado_termino'.$array[estado_id];
+				$styleTerm='estado_termino'.$array["estado_id"];
 
 				$css_class_MT=($array["isMetaTerm"]==1) ? ' class="metaTerm" ' : '';
 				$rows.= '<tr>';
@@ -1226,7 +1220,7 @@ function HTMLlistaTerminosFecha($limite="")
 
 			while ($array = $sql->FetchRow()){
 				$css_class_MT=($array["isMetaTerm"]==1) ? ' class="metaTerm" ' : '';
-				$styleTerm='estado_termino'.$array[estado_id];
+				$styleTerm='estado_termino'.$array["estado_id"];
 
 				$fecha=(@$array["cuando_final"]) ? $array["cuando_final"] : $array["cuando"];
 				$rows.= '<tr>';
@@ -1251,10 +1245,9 @@ function HTMLsugerirTermino($texto,$acumula_temas="0"){
 
 	$sqlSimilar=SQLsimiliar($texto,$acumula_temas);
 
-	if(SQLcount($sqlSimilar)>0)
-	{
+	if(SQLcount($sqlSimilar)>0){
 		while($arraySimilar=$sqlSimilar->FetchRow()){
-			$listaCandidatos.= $arraySimilar[tema].'|';
+			$listaCandidatos.= $arraySimilar["tema"].'|';
 		}
 
 		$listaCandidatos=explode("|",$listaCandidatos);
@@ -1340,9 +1333,7 @@ function HTMLlistaAlfabeticaUnica($letra=""){
 /*
 All terms form one char
 */
-function HTMLterminosLetra($letra)
-{
-
+function HTMLterminosLetra($letra){
 
 	$cantLetra=numTerms2Letter($letra);
 
@@ -1356,14 +1347,11 @@ function HTMLterminosLetra($letra)
 
 	$paginado_letras='';
 
-	$pag= secure_data($_GET["p"]);
+	$pag= (is_numeric($_GET["p"])) ?  $_GET["p"] : 1;
 
-	if($cantLetra>0)
-	{
+	if($cantLetra>0){
 
-		if($cantLetra>CFG_NUM_SHOW_TERMSxSTATUS)
-		{
-
+		if($cantLetra>CFG_NUM_SHOW_TERMSxSTATUS){
 
 			$paginado_letras=paginate_links( array(
 				'type' => 'list',
@@ -1390,8 +1378,8 @@ function HTMLterminosLetra($letra)
 		while ($datosLetra= $sqlDatosLetra->FetchRow()){
 
 			//Si no es un término preferido
-			if($datosLetra[termino_preferido]){
-				switch($datosLetra[t_relacion]){
+			if($datosLetra["termino_preferido"]){
+				switch($datosLetra["t_relacion"]){
 					//UF
 					case '4':
 					$leyendaConector=USE_termino;
@@ -1414,14 +1402,12 @@ function HTMLterminosLetra($letra)
 					break;
 				}
 
-				$terminosLetra.='<li><em><a title="'.LABEL_verDetalle.xmlentities($datosLetra[tema]).'" href="'.URL_BASE.'index.php?tema='.$datosLetra[tema_id].'&amp;/'.string2url($datosLetra[tema]).'">'.$datosLetra[tema].'</a></em> '.$leyendaConector.' <a title="'.LABEL_verDetalle.$datosLetra[tema].'" href="'.URL_BASE.'index.php?tema='.$datosLetra[id_definitivo].'&amp;/'.($datosLetra[termino_preferido]).'">'.$datosLetra[termino_preferido].'</a></li>'."\r\n" ;
-			}
-			else
-			{
-				$styleClassLink= ($datosLetra[estado_id]!=='13') ? 'estado_termino'.$datosLetra[estado_id] : '';
+				$terminosLetra.='<li><em><a title="'.LABEL_verDetalle.xmlentities($datosLetra["tema"]).'" href="'.URL_BASE.'index.php?tema='.$datosLetra["tema_id"].'&amp;/'.string2url($datosLetra["tema"]).'">'.$datosLetra["tema"].'</a></em> '.$leyendaConector.' <a title="'.LABEL_verDetalle.$datosLetra["tema"].'" href="'.URL_BASE.'index.php?tema='.$datosLetra["id_definitivo"].'&amp;/'.($datosLetra["termino_preferido"]).'">'.$datosLetra["termino_preferido"].'</a></li>'."\r\n" ;
+			} else	{
+				$styleClassLink= ($datosLetra["estado_id"]!=='13') ? 'estado_termino'.$datosLetra["estado_id"] : '';
 				$styleClassLinkMetaTerm= ($datosLetra["isMetaTerm"]=='1') ? 'metaTerm' : '';
 
-				$terminosLetra.='<li><a class="'.$styleClassLink.' '.$styleClassLinkMetaTerm.'"  title="'.LABEL_verDetalle.xmlentities($datosLetra[tema]).'" href="'.URL_BASE.'index.php?tema='.$datosLetra[id_definitivo].'&amp;/'.string2url($datosLetra[tema]).'">'.xmlentities($datosLetra[tema]).'</a></li>'."\r\n" ;
+				$terminosLetra.='<li><a class="'.$styleClassLink.' '.$styleClassLinkMetaTerm.'"  title="'.LABEL_verDetalle.xmlentities($datosLetra["tema"]).'" href="'.URL_BASE.'index.php?tema='.$datosLetra["id_definitivo"].'&amp;/'.string2url($datosLetra["tema"]).'">'.xmlentities($datosLetra["tema"]).'</a></li>'."\r\n" ;
 			}
 		};
 		$terminosLetra.='   </ol>';
@@ -1452,12 +1438,12 @@ function HTMLadvancedSearchResult($array){
 
 		$classMensaje= ($sql_cant>0) ? 'info' : 'danger';
 
-		$resumeResult = '<p id="adsearch" class="alert alert-'.$classMensaje.'" role="alert"><strong>'.$sql_cant.'</strong> '.MSG_ResultBusca.' <strong> "<em>'.stripslashes($array[xstring]).'</em>"</strong></p>';
+		$resumeResult = '<p id="adsearch" class="alert alert-'.$classMensaje.'" role="alert"><strong>'.$sql_cant.'</strong> '.MSG_ResultBusca.' <strong> "<em>'.stripslashes($array["xstring"]).'</em>"</strong></p>';
 	}
 	else
 	{
 		$sql_cant='0';
-		$resumeResult = '<p id="adsearch" class="error">'.sprintf(MSG_minCharSerarch,stripslashes($array[xstring]),strlen($array[xstring]),CFG_MIN_SEARCH_SIZE-1).'</p>';
+		$resumeResult = '<p id="adsearch" class="error">'.sprintf(MSG_minCharSerarch,stripslashes($array["xstring"]),strlen($array["xstring"]),CFG_MIN_SEARCH_SIZE-1).'</p>';
 	}
 
 	$body.=$resumeResult;
@@ -1472,9 +1458,9 @@ function HTMLadvancedSearchResult($array){
 			$css_class_MT=($resulta_busca["isMetaTerm"]==1) ? ' class="metaTerm" ' : '';
 
 			//Si no es un término preferido
-			if($resulta_busca[uf_tema_id])
+			if($resulta_busca["uf_tema_id"])
 			{
-				switch($resulta_busca[t_relacion])
+				switch($resulta_busca["t_relacion"])
 				{
 					case '4':					//UF
 					$leyendaConector=USE_termino;
@@ -1497,7 +1483,7 @@ function HTMLadvancedSearchResult($array){
 					break;
 				}
 
-				$row_result.='<li><em><a title="'.LABEL_verDetalle.$resulta_busca[tema].'" href="'.URL_BASE.'index.php?tema='.$resulta_busca[uf_tema_id].'&amp;/'.string2url($resulta_busca[uf_tema]).'">'.$resulta_busca[uf_tema].'</a></em> '.$leyendaConector.' <a title="'.LABEL_verDetalle.$resulta_busca[tema].'" href="'.URL_BASE.'index.php?tema='.$resulta_busca[tema_id].'">'.$resulta_busca[tema].'</a> </li>'."\r\n" ;
+				$row_result.='<li><em><a title="'.LABEL_verDetalle.$resulta_busca["tema"].'" href="'.URL_BASE.'index.php?tema='.$resulta_busca["uf_tema_id"].'&amp;/'.string2url($resulta_busca["uf_tema"]).'">'.$resulta_busca["uf_tema"].'</a></em> '.$leyendaConector.' <a title="'.LABEL_verDetalle.$resulta_busca["tema"].'" href="'.URL_BASE.'index.php?tema='.$resulta_busca["tema_id"].'">'.$resulta_busca["tema"].'</a> </li>'."\r\n" ;
 			}
 			else // es un término preferido
 			{
@@ -1526,14 +1512,14 @@ function HTMLtargetTerms($tema_id)
 
 		while ($array=$sql->FetchRow())		{
 			if ($_SESSION[$_SESSION["CFGURL"]]["ssuser_id"])			{
-				$delLink= '<a type="button" class="btn btn-danger btn-xs" id="elimina_'.$array["tterm_id"].'" title="'.LABEL_borraRelacion.'"  href="'.URL_BASE.'index.php?tterm_id='.$array["tterm_id"].'&amp;tema='.$tema_id.'&amp;tvocab_id='.$array[tvocab_id].'&amp;taskrelations=delTgetTerm" onclick="return askData();"><span class="glyphicon glyphicon-remove"></span></a> ';
-				$checkLink= '<a id="actua_'.$array["tterm_id"].'" title="'.LABEL_ShowTargetTermforUpdate.'"  class="btn btn-warning btn-xs" href="'.URL_BASE.'index.php?tterm_id='.$array["tterm_id"].'&amp;tema='.$tema_id.'&amp;tvocab_id='.$array[tvocab_id].'&amp;tterm_id='.$array["tterm_id"].'&amp;taskEdit=checkDateTermsTargetVocabulary">'.LABEL_ShowTargetTermforUpdate.'</a>';
+				$delLink= '<a type="button" class="btn btn-danger btn-xs" id="elimina_'.$array["tterm_id"].'" title="'.LABEL_borraRelacion.'"  href="'.URL_BASE.'index.php?tterm_id='.$array["tterm_id"].'&amp;tema='.$tema_id.'&amp;tvocab_id='.$array["tvocab_id"].'&amp;taskrelations=delTgetTerm" onclick="return askData();"><span class="glyphicon glyphicon-remove"></span></a> ';
+				$checkLink= '<a id="actua_'.$array["tterm_id"].'" title="'.LABEL_ShowTargetTermforUpdate.'"  class="btn btn-warning btn-xs" href="'.URL_BASE.'index.php?tterm_id='.$array["tterm_id"].'&amp;tema='.$tema_id.'&amp;tvocab_id='.$array["tvocab_id"].'&amp;tterm_id='.$array["tterm_id"].'&amp;taskEdit=checkDateTermsTargetVocabulary">'.LABEL_ShowTargetTermforUpdate.'</a>';
 
 				$ttermManageLink=' '.$delLink.' '.$checkLink.'  ';
 
 			}
 
-			$rows.='<li>'.$ttermManageLink.' '.FixEncoding(ucfirst($array["tvocab_label"])).' <a href="modal.php?tema='.$tema_id.'&tterm_id='.$array["tterm_id"].'"  class="modalTrigger" title="'.FixEncoding($array[tterm_string]).'">'.FixEncoding($array["tterm_string"]).'</a>';
+			$rows.='<li>'.$ttermManageLink.' '.FixEncoding(ucfirst($array["tvocab_label"])).' <a href="modal.php?tema='.$tema_id.'&tterm_id='.$array["tterm_id"].'"  class="modalTrigger" title="'.FixEncoding($array["tterm_string"]).'">'.FixEncoding($array["tterm_string"]).'</a>';
 			$rows.=(($_GET["taskEdit"]=='checkDateTermsTargetVocabulary') && ($_GET["tterm_id"]==$array["tterm_id"]) && ($_SESSION[$_SESSION["CFGURL"]]["ssuser_nivel"])) ? HTMLcheckTargetTerm($array) : '';
 			$rows.='</li>';
 
@@ -1556,7 +1542,7 @@ function HTMLURI4term($tema_id)
 
 		while ($array=$sql->FetchRow())		{
 			if ($_SESSION[$_SESSION["CFGURL"]]["ssuser_id"]){
-				$delLink= '<a type="button" class="btn btn-danger btn-xs" id="elimina_'.$array["uri_id"].'" title="'.LABEL_borraRelacion.'"  href="'.URL_BASE.'index.php?uri_id='.$array[uri_id].'&amp;tema='.$tema_id.'&amp;taskrelations=delURIterm" onclick="return askData();"><span class="glyphicon glyphicon-remove"></span></a> ';
+				$delLink= '<a type="button" class="btn btn-danger btn-xs" id="elimina_'.$array["uri_id"].'" title="'.LABEL_borraRelacion.'"  href="'.URL_BASE.'index.php?uri_id='.$array["uri_id"].'&amp;tema='.$tema_id.'&amp;taskrelations=delURIterm" onclick="return askData();"><span class="glyphicon glyphicon-remove"></span></a> ';
 				}
 
 
@@ -1564,7 +1550,7 @@ function HTMLURI4term($tema_id)
 
 			$url_parts=parse_url($array["uri"]);
 			if(in_array($url_parts['scheme'],array('http','https'))){
-				$rows.=' <a href="'.$array["uri"].'" target="_blank" title="'.ucfirst($array[uri_value]).'">'.$array["uri"].'</a>';
+				$rows.=' <a href="'.$array["uri"].'" target="_blank" title="'.ucfirst($array["uri_value"]).'">'.$array["uri"].'</a>';
 			}else{
 				$rows.=' '.$array["uri"];
 			}
@@ -1713,7 +1699,7 @@ function paginate_links( $args = '' ) {
 	for ( $n = 1; $n <= $total+1; $n++ ) :
 		$n_display = $n;
 		if ( $n == $current ) :
-			$page_links[] = "<span class='page-numbers active'>$n_display</span>";
+			$page_links[] = '<span class="page-numbers active">'.$n_display.'</span>';
 			$dots = true;
 			else :
 				if ( $show_all || ( $n <= $end_size || ( $current && $n >= $current - $mid_size && $n <= $current + $mid_size ) || $n > $total - $end_size ) ) :
@@ -1811,7 +1797,7 @@ function paginate_links( $args = '' ) {
 				$link='<span class="TT">'.$pre_link.HTMLlinkTerm($array,array("style"=>$styleClassLink)).'</span>';
 
 				array_push($arrayResponse, array("label"=>"$link",
-				"id"=>"$array[tema_id]",
+				"id"=>$array["tema_id"],
 				"load_on_demand"=>$load_on_demand));
 			}
 			return json_encode($arrayResponse);
@@ -1888,7 +1874,7 @@ function HTMLtermMetadata($arrayTerm,$arrayCantRelaciones){
 
 			$body.='<dt>'.ucfirst(LABEL_busqueda).'</dt>';
 			$body.='<dd>';
-			$body.=HTML_URLsearch($CFG[SEARCH_URL_SITES],$arrayTerm);
+			$body.=HTML_URLsearch($CFG["SEARCH_URL_SITES"],$arrayTerm);
 			$body.='</dd> ';
 			$body.='</dl> ';
 			# fin Div pie de datos
@@ -1905,7 +1891,7 @@ function HTMLdeepStats(){
 	$sql=SQLTermDeep();
 
 	$rows.='<div class="table-responsive col-xs-6 col-md-4">
-	  <table class="table  table-bordered table-condensed table-hover" summary="'.LABEL.'">
+	  <table class="table  table-bordered table-condensed table-hover" summary="'.LABEL_termsXdeepLevel.'">
 	  <thead><tr><tr><th>'.ucfirst(LABEL_deepLevel).'</th><th>'.ucfirst(LABEL_cantTerms).'</th></tr></thead>
 	  <tbody>';
 		while($array=$sql->FetchRow())			{
@@ -1925,7 +1911,7 @@ function HTMLshowCode($arrayTerm){
 	//Editor de código
 	if(($_SESSION[$_SESSION["CFGURL"]]["ssuser_id"]) && ($CFG["_USE_CODE"]=='1'))
 	{
-		$rows.='<div title="term code, click to edit" class="editable_textarea" id="code_tema'.$arrayTerm[tema_id].'">'.$arrayTerm["code"].'</div>';
+		$rows.='<div title="term code, click to edit" class="editable_textarea" id="code_tema'.$arrayTerm["tema_id"].'">'.$arrayTerm["code"].'</div>';
 	}
 	elseif($CFG["_SHOW_CODE"]=='1')
 	{
@@ -2067,7 +2053,7 @@ if(!isset($_SESSION[$_SESSION["CFGURL"]]["HTMLextraHeader"])) $_SESSION[$_SESSIO
 // here img
 $rows.='<div class="container">
   <div class="header">
-      <h1><a href="'.URL_BASE.'index.php" title="'.$_SESSION[CFGTitulo].': '.MENU_ListaSis.'">'.$_SESSION[CFGTitulo].'</a></h1>
+      <h1><a href="'.URL_BASE.'index.php" title="'.$_SESSION["CFGTitulo"].': '.MENU_ListaSis.'">'.$_SESSION["CFGTitulo"].'</a></h1>
       '.$_SESSION[$_SESSION["CFGURL"]]["HTMLextraHeader"].'
  </div>
 </div>';
@@ -2447,21 +2433,21 @@ function HTMLsimpleForeignTerm($arrayTerm,$URL_ttermData){
 
   if(count($arrayTerm["ttermBT"])>0){
     foreach ($arrayTerm["ttermBT"] as $eachTerm) {
-          			$row_BT.=' <li '.$css_class_MT.' id="t'.$eachTerm[term_id].'"><abbr class="thesacronym"  title="'.TG_acronimo.' '.$eachTerm[rtype].'">'.TG_acronimo.$eachTerm[rtype].'</abbr> '.$eachTerm[string].'</li>';
+          			$row_BT.=' <li '.$css_class_MT.' id="t'.$eachTerm["term_id"].'"><abbr class="thesacronym"  title="'.TG_acronimo.' '.$eachTerm["rtype"].'">'.TG_acronimo.$eachTerm["rtype"].'</abbr> '.$eachTerm[string].'</li>';
     }
     $BTrows='<h4>'.ucfirst(LABEL_broatherTerms).'</h4><ul class="list-unstyled" id="bt_data">'.$row_BT.'</ul>';
   }
 
   if(count($arrayTerm["ttermRT"])>0){
     foreach ($arrayTerm["ttermRT"] as $eachTerm) {
-          			$row_RT.=' <li '.$css_class_MT.' id="t'.$eachTerm[term_id].'"><abbr class="thesacronym"  title="'.TR_acronimo.' '.$eachTerm[rtype].'">'.TR_acronimo.$eachTerm[rtype].'</abbr> '.$eachTerm[string].'</li>';
+          			$row_RT.=' <li '.$css_class_MT.' id="t'.$eachTerm["term_id"].'"><abbr class="thesacronym"  title="'.TR_acronimo.' '.$eachTerm["rtype"].'">'.TR_acronimo.$eachTerm["rtype"].'</abbr> '.$eachTerm[string].'</li>';
     }
   $RTrows='<h4>'.ucfirst(LABEL_relatedTerms).'</h4><ul class="list-unstyled" id="rt_data">'.$row_RT.'</ul>';
   }
 
   if(count($arrayTerm["ttermUF"])>0){
     foreach ($arrayTerm["ttermUF"] as $eachTerm) {
-          			$row_UF.=' <li  id="t'.$eachTerm[term_id].'"><abbr class="thesacronym"  title="'.UP_acronimo.' '.$eachTerm[rtype].'">'.UP_acronimo.$eachTerm[rtype].'</abbr> '.$eachTerm[string].'</li>';
+          			$row_UF.=' <li  id="t'.$eachTerm["term_id"].'"><abbr class="thesacronym"  title="'.UP_acronimo.' '.$eachTerm["rtype"].'">'.UP_acronimo.$eachTerm["rtype"].'</abbr> '.$eachTerm[string].'</li>';
     }
   $UFrows='<h4>'.ucfirst(LABEL_nonPreferedTerms).'</h4><ul class="list-unstyled" id="uf_data">'.$row_UF.'</ul>';
   }

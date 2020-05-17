@@ -16,8 +16,8 @@ if($dato_user["id"]){
 	$row_resumen.='<div id="cajaAncha">'."\n\r";
 	$row_resumen.='  <div><strong>'.LABEL_Acciones.'</strong></div><dl class="dosCol">'."\n\r";
 
-	if($resumen[cant_total]>0){
-		$row_resumen.='<dt><a href="sobre.php?user_id='.$dato_user["id"].'" title="'.LABEL_Terminos.'">'.ucfirst(LABEL_Terminos).'</dt><dd>'.$resumen[cant_total].'</a>&nbsp;</dd>'."\n\r";
+	if($resumen["cant_total"]>0){
+		$row_resumen.='<dt><a href="sobre.php?user_id='.$dato_user["id"].'" title="'.LABEL_Terminos.'">'.ucfirst(LABEL_Terminos).'</dt><dd>'.$resumen["cant_total"].'</a>&nbsp;</dd>'."\n\r";
 		}else{
 		$row_resumen.='<dt>'.ucfirst(LABEL_Terminos).'</dt><dd>'.$resumen["cant_total"]."&nbsp;</dd>\n\r";
 		};

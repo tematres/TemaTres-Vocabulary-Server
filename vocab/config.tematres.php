@@ -144,7 +144,7 @@ require_once(T3_ABSPATH . 'common/include/fun.xml.php');
 require_once(T3_ABSPATH . 'common/include/fun.html.php');
 require_once(T3_ABSPATH . 'common/include/fun.html_forms.php');
 //////////////////// ADMINISTRACION y GESTION ////////////////////////////
-if($_SESSION[$_SESSION["CFGURL"]][ssuser_id]){
+if($_SESSION[$_SESSION["CFGURL"]]["ssuser_id"]){
   require_once(T3_ABSPATH . 'common/include/fun.admin.php');
   };
 ?>

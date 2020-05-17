@@ -109,12 +109,15 @@ function TrimArray(&$array) {
 
 # Seleccionar un valor del array
 function doValue($array,$nombreValor){
-        if(count($array[$nombreValor])>'0'){
+  if(!is_array($array)) return false;
+  
+  if(count($array)>'0'){
         return $array[$nombreValor];
-        }else{
-        return FALSE;
-        }
+    }
+        
+  return false;
 };
+
 
 ###################################################################################
 ##################      FUNCIONES DE PARSEO         ###############################
@@ -136,13 +139,13 @@ function doValue($array,$nombreValor){
 function do_fecha($fecha){
    GLOBAL $MONTHS;
    $array=array(
-   		min=>date("i",strtotime($fecha)),
-   		hora=>date("G",strtotime($fecha)),
-                dia=>date("d",strtotime($fecha)),
-                mes=>date("m",strtotime($fecha)),
-				descMes=>$MONTHS[date("m",strtotime($fecha))],
-                ano=>date("Y",strtotime($fecha))
-               );
+   		         "min"=>date("i",strtotime($fecha)),
+   		         "hora"=>date("G",strtotime($fecha)),
+                "dia"=>date("d",strtotime($fecha)),
+                "mes"=>date("m",strtotime($fecha)),
+				        "descMes"=>$MONTHS[date("m",strtotime($fecha))],
+                "ano"=>date("Y",strtotime($fecha))
+          );
    return $array;
    }
 
@@ -1303,9 +1306,9 @@ function setPassword($user_id,$user_pass,$to_hash=0){
 function XSSpreventArray($array)
 {
     if (is_array($array)) {
-        while (list($k, $v) = each($array) ) {
-            $array[$k] = is_array($v) ? XSSpreventArray($v) : XSSprevent($v);
-        }
+      foreach ($array as $k => $v) {
+        $array[$k] = is_array($v) ? XSSpreventArray($v) : XSSprevent($v);
+      }
         @reset($array);
     } else  {
         $array = array();
