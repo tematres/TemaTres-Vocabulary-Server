@@ -1,28 +1,32 @@
 <?php
 /*
- *      db.tematres.php
+ *  db.tematres.php
  *
- *      Copyright 2011 diego ferreyra <diego@r020.com.ar>
+ *  Copyright 2011 diego ferreyra <diego@r020.com.ar>
  *
- *      This program is free software; you can redistribute it and/or modify
- *      it under the terms of the GNU General Public License as published by
- *      the Free Software Foundation; either version 2 of the License, or
- *      (at your option) any later version.
+ *  This program is free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; either version 2 of the License, or
+ *  (at your option) any later version.
  *
- *      This program is distributed in the hope that it will be useful,
- *      but WITHOUT ANY WARRANTY; without even the implied warranty of
- *      MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *      GNU General Public License for more details.
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
  *
- *      You should have received a copy of the GNU General Public License
- *      along with this program; if not, write to the Free Software
- *      Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
- *      MA 02110-1301, USA.
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program; if not, write to the Free Software
+ *  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
+ *  MA 02110-1301, USA.
  */
-// Configuarcion de base de datos - Database Configuration
-// Select driver to use
-// Default: MySQLi , can be mysqli,postgres, oci8, mssql, and more: http://phplens.com/adodb/supported.databases.html
-// To default value, leave empty eg: $DBCFG["DBdriver"] ="";
+
+/*
+    Configuarcion de base de datos - Database Configuration
+    Select driver to use
+    Default: MySQLi , can be mysqli,postgres, oci8, mssql, and more: http://phplens.com/adodb/supported.databases.html
+    To default value, leave empty eg: $DBCFG["DBdriver"] ="";
+*/
+
 $DBCFG["DBdriver"] ="";
 
 //  Dirección IP o nombre del servidor - IP Address of the database server
@@ -58,16 +62,16 @@ define('CFG_HASH_PASS','0');
 
 // change to whatever timezone you want
 if(date_default_timezone_get()!=ini_get('date.timezone')){
-	date_default_timezone_set('Etc/UTC');
+    date_default_timezone_set('Etc/UTC');
 }
 
 if ( !defined('T3_ABSPATH') )
-	/** Use this for version of PHP < 5.3 */
-	define('T3_ABSPATH', dirname(__FILE__) . '/../');
+    /** Use this for version of PHP < 5.3 */
+    define('T3_ABSPATH', dirname(__FILE__) . '/../');
 
-	/** Use this for version of PHP >= 5.3	*/
-	//~ define('T3_ABSPATH', dirname(__DIR__) . '/');
+    /** Use this for version of PHP >= 5.3*/
+    //~ define('T3_ABSPATH', dirname(__DIR__) . '/');
 
-	/** Use to define specific local path for common/include directory */
-	//~ define('T3_ABSPATH', '/home/my_name/tematres/');
+    /** Use to define specific local path for common/include directory */
+    //~ define('T3_ABSPATH', '/home/my_name/tematres/');
 ?>
