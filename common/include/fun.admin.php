@@ -1,5 +1,5 @@
 <?php
-if ((stristr( $_SsRVER['REQUEST_URI'], "session.php") ) || ( !defined('T3_ABSPATH') )) die("no access");
+if ((stristr( $_SERVER['REQUEST_URI'], "session.php") ) || ( !defined('T3_ABSPATH') )) die("no access");
 #   TemaTres : aplicación para la gestión de lenguajes documentales #       #
 #                                                                        #
 #   Copyright (C) 2004-2008 Diego Ferreyra tematres@r020.com.ar
@@ -1039,17 +1039,17 @@ function admin_users($do,$user_id=""){
 			}
 	}
 
-	
+
 	$POSTarrayUser=doArrayDatosUser($_POST);
 
-//Normalice admin 
+//Normalice admin
 	//nivel submit is 1 and is admin
 
 	$nivel=(($POSTarrayUser["isAdmin"]==1) && ($_SESSION[$_SESSION["CFGURL"]]["ssuser_nivel"]=='1')) ? '1' : '2';
 	//Check have one admin user
 	$nivel=(($arrayUserData["nivel"]=='1') && ($arrayCheckAdmin["cant"]==1)) ? '1' : $nivel;
 
-	
+
 	switch($do){
 		case 'actua':
 		$POSTarrayUser["apellido"]=trim($POSTarrayUser[apellido]);
@@ -1107,11 +1107,11 @@ function admin_users($do,$user_id=""){
 		//Check have one admin user && you do not disable yourself
 		if($new_estado=='BAJA'){
 
-			if(($arrayUserData["nivel"]=='1' && $arrayCheckAdmin["cant"]=='1') || 
+			if(($arrayUserData["nivel"]=='1' && $arrayCheckAdmin["cant"]=='1') ||
 			($arrayUserData["user_id"]==$userId)){
 				$new_estado='ACTIVO';
 				}
-		} 
+		}
 
 
 		$sql=SQL("update","$DBCFG[DBprefix]usuario
@@ -3114,7 +3114,7 @@ function HTMLformUserRelations(){
 						   "rr_code"=>$_POST['rr_code']);
 
 		$task=abm_userRelations("M",$arrayValues,$_POST['rr_id']);
-		
+
 		if ($task["cant"]>0)		echo "<script>javascript:alert('".ucfirst(LABEL_saved)."');</script>";
 
 		$_POST['rr_value']='';
@@ -4055,7 +4055,7 @@ function autoridadesMarcXML($params=array()){
 
 	//Note types enabled: Scope note, historical note, bibliographic note, cataloging note and definition note
 	$includeNotes=array("NA","NH","NB","NC","DF");
-    
+
     // lista de todos os termos
     $sql=SQLlistaTemas();
 
@@ -4161,12 +4161,12 @@ EOT;
    	 while($arrayNotas=$sqlNotas->FetchRow()){
 
    		 if(in_array($arrayNotas["tipo_nota"], $includeNotes)){
-			/*$includeNotes=array("NA","NH","NB","NC","DF");   
+			/*$includeNotes=array("NA","NH","NB","NC","DF");
 			677 - Definition (R)
 			670 - Source Data Found (R)
-			688 - Application History Note (R) 
-			680 - Public General Note (R) 
-			688 - Application History Note (R) 
+			688 - Application History Note (R)
+			680 - Public General Note (R)
+			688 - Application History Note (R)
 			*/
 	 		$tag_note=arrayReplace($includeNotes,array("680","688","670","688","677"),$arrayNotas["tipo_nota"]);
    			 $txt .=' <datafield tag="'.$tag_note.'" ind1=" " ind2=" ">' . "\n";
@@ -4179,7 +4179,7 @@ EOT;
     }
     $txt .='</collection>' . "\n";
     $filname=string2url($_SESSION["CFGTitulo"].' '.marcXML).'.xml';
-    
+
     return sendFile("$txt","$filname");
 };
 
