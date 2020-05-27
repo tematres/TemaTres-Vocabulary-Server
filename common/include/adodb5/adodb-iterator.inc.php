@@ -13,14 +13,14 @@
   Declares the ADODB Base Class for PHP5 "ADODB_BASE_RS", and supports iteration with
   the ADODB_Iterator class.
 
-  		$rs = $db->Execute("select * from adoxyz");
-		foreach($rs as $k => $v) {
-			echo $k; print_r($v); echo "<br>";
-		}
+        $rs = $db->Execute("select * from adoxyz");
+        foreach($rs as $k => $v) {
+            echo $k; print_r($v); echo "<br>";
+        }
 
 
-	Iterator code based on http://cvs.php.net/cvs.php/php-src/ext/spl/examples/cachingiterator.inc?login=2
+    Iterator code based on http://cvs.php.net/cvs.php/php-src/ext/spl/examples/cachingiterator.inc?login=2
 
 
-	Moved to adodb.inc.php to improve performance.
+    Moved to adodb.inc.php to improve performance.
  */

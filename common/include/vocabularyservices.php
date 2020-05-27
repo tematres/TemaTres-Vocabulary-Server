@@ -75,11 +75,12 @@ function simplexml2array($xml)
     /*
     fix bug for php 5.04
     */
-    if(is_object($xml)) {
+    if (is_object($xml)) {
         if (get_class($xml) == 'SimpleXMLElement') {
             $attributes = $xml->attributes();
-            foreach($attributes as $k=>$v) {
-                if ($v) { $a[$k] = (string) $v;
+            foreach ($attributes as $k => $v) {
+                if ($v) {
+                    $a[$k] = (string) $v;
                 }
             }
             $x = $xml;
@@ -89,12 +90,14 @@ function simplexml2array($xml)
 
 
     if (is_array($xml)) {
-        if (count($xml) == 0) { return (string) $x; // for CDATA
+        if (count($xml) == 0) {
+            return (string) $x; // for CDATA
         }
-        foreach($xml as $key=>$value) {
+        foreach ($xml as $key => $value) {
             $r[$key] = simplexml2array($value);
         }
-        if (isset($a)) { $r['@'] = $a;// Attributes
+        if (isset($a)) {
+            $r['@'] = $a;// Attributes
         }
         return $r;
     }
@@ -117,7 +120,7 @@ Hacer una consulta y devolver un objeto
 * +    & task = consulta a realizar
 * +    & arg = argumentos de la consulta
 */
-function getURLdata($url,$debug=0)
+function getURLdata($url, $debug = 0)
 {
 
 
@@ -128,10 +131,7 @@ function getURLdata($url,$debug=0)
         curl_setopt($rCURL, CURLOPT_RETURNTRANSFER, 1);
         $xml = curl_exec($rCURL) or die("Could not open a feed called: " . $url);
         curl_close($rCURL);
-
-    }
-    else
-    {
+    } else {
         $xml=file_get_contents($url) or die("Could not open a feed called: " . $url);
     }
 
@@ -139,7 +139,7 @@ function getURLdata($url,$debug=0)
 
 
 
-    if($debug==1) {
+    if ($debug==1) {
         echo $url;
         var_dump($xml);
     }
@@ -150,25 +150,25 @@ function getURLdata($url,$debug=0)
 
 
 //Create one array from many terms references by one relation (eg: uf,BT)
-function getForeingStrings($tvocab_uri_service,$task,$array_terms)
+function getForeingStrings($tvocab_uri_service, $task, $array_terms)
 {
 
     $arrayTtermData = array();
 
-    if(!in_array($task, array('fetchAlt','fetchDown','fetchRelated','fetchTerms'))) { return array();
+    if (!in_array($task, array('fetchAlt','fetchDown','fetchRelated','fetchTerms'))) {
+        return array();
     }
 
-    if(count($array_terms)<1) { return array();
+    if (count($array_terms)<1) {
+        return array();
     }
 
 
-    foreach ($array_terms as $term){
-
+    foreach ($array_terms as $term) {
         $dataTerm=getURLdata($tvocab_uri_service.'?task='.$task.'&arg='.$term["term_id"]);
 
-        if($dataTerm->resume->cant_result > "0") {
-            foreach ($dataTerm->result->term as $value){
-
+        if ($dataTerm->resume->cant_result > "0") {
+            foreach ($dataTerm->result->term as $value) {
                 $i=++$i;
                 $term_id=(int) $value->term_id;
                 $string=(string) $value->string;
@@ -190,13 +190,15 @@ function getForeingStringsObject($dataTterm)
 
     $arrayTtermData = array();
 
-    if(count($array_term_id)<1) { return array();
+    if (count($array_term_id)<1) {
+        return array();
     }
 
-    if((int) $dataTterm->resume->cant_result < 1) { return array();
+    if ((int) $dataTterm->resume->cant_result < 1) {
+        return array();
     }
 
-    foreach ($dataTterm->result->term as $value){
+    foreach ($dataTterm->result->term as $value) {
         $i=++$i;
         $term_id=(int) $value->term_id;
         $string=(string) $value->string;
@@ -212,9 +214,10 @@ function getForeingStringsObject($dataTterm)
 function ARRAYttermData($dataTterm)
 {
     $arrayTtermData = array();
-    if((int) $dataTterm->resume->cant_result < 1) { return array();
+    if ((int) $dataTterm->resume->cant_result < 1) {
+        return array();
     }
-    foreach ($dataTterm->result->term as $value){
+    foreach ($dataTterm->result->term as $value) {
         $arrayTtermData=array("term_id"=>(int) $value->term_id,
                                     "string"=>(string) $value->string,
                                     "code"=>(string) $value->code,
@@ -233,15 +236,17 @@ function ttermFullMetadata($tterm_url)
     $URL_ttermData=URIterm2array($tterm_url);
 
     //check if there are tterm_id
-    if($URL_ttermData["tterm_id"]<1) { return false;
+    if ($URL_ttermData["tterm_id"]<1) {
+        return false;
     }
 
     //fetch Matadata about vocab
     $tvocab_metadata=getURLdata($URL_ttermData["URL_service"].'?task=fetchVocabularyData');
-    if($tvocab_metadata->result->vocabulary_id=='1') {
+    if ($tvocab_metadata->result->vocabulary_id=='1') {
         $arrayTvocab["tvocab_title"]=(string) $tvocab_metadata->result->title;
         $arrayTvocab["tvocab_uri"]=(string) $tvocab_metadata->result->uri;
-    }else {return false;
+    } else {
+        return false;
     }
 
     $tterm_NarrowerTerms = getURLdata($URL_ttermData["URL_service"].'?task=fetchDown&arg='.$URL_ttermData["tterm_id"]);
@@ -256,15 +261,15 @@ function ttermFullMetadata($tterm_url)
     if ($tterm_DirectTerms->resume->cant_result > 0) {
         foreach ($tterm_DirectTerms->result->term as $value) {
             switch ((int) $value->relation_type_id) {
-            case '2':
-                $arrayTtermRT[]=array("term_id"=>(int)$value->term_id,"string"=>(string)$value->string,"rtype"=>(string)$value->relation_code);
-                break;
-            case '3':
-                $arrayTtermBT[]=array("term_id"=>(int)$value->term_id,"string"=>(string)$value->string,"rtype"=>(string)$value->relation_code);
-                break;
-            case '4':
-                $arrayTtermUF[]=array("term_id"=>(int)$value->term_id,"string"=>(string)$value->string,"rtype"=>(string)$value->relation_code);
-                break;
+                case '2':
+                    $arrayTtermRT[]=array("term_id"=>(int)$value->term_id,"string"=>(string)$value->string,"rtype"=>(string)$value->relation_code);
+                    break;
+                case '3':
+                    $arrayTtermBT[]=array("term_id"=>(int)$value->term_id,"string"=>(string)$value->string,"rtype"=>(string)$value->relation_code);
+                    break;
+                case '4':
+                    $arrayTtermUF[]=array("term_id"=>(int)$value->term_id,"string"=>(string)$value->string,"rtype"=>(string)$value->relation_code);
+                    break;
             }
         }
     }
@@ -280,14 +285,13 @@ function ttermFullMetadata($tterm_url)
 
 
 
-function vars2tterm_uri($tvocab_id,$tterm_id)
+function vars2tterm_uri($tvocab_id, $tterm_id)
 {
     $ARRAYtargetVocabulary=ARRAYtargetVocabulary($tvocab_id);
 
-    if(($ARRAYtargetVocabulary["tvocab_id"]>0) && (is_numeric($tterm_id))) {
+    if (($ARRAYtargetVocabulary["tvocab_id"]>0) && (is_numeric($tterm_id))) {
         return $ARRAYtargetVocabulary["tvocab_uri_service"].'?task=fetchTerm&arg='.$tterm_id;
-    } else { return false;
+    } else {
+        return false;
     }
 }
-
-?>

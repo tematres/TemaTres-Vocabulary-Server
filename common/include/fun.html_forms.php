@@ -1,50 +1,54 @@
 <?php
-if ((stristr($_SERVER['REQUEST_URI'], "session.php") ) || ( !defined('T3_ABSPATH') )) { die("no access");
+if ((stristr($_SERVER['REQUEST_URI'], "session.php") ) || ( !defined('T3_ABSPATH') )) {
+    die("no access");
 }
 // TemaTres : aplicación para la gestión de vocabularios controlados#       #
 // TemaTres : web application to manage controlled vocabularies
-// 
+//
 // Copyright (C) 2004-2008 Diego Ferreyra tematres@r020.com.ar
 // Distribuido bajo Licencia GNU Public License, versión 2 (de junio de 1.991) Free Software Foundation
-// 
-// 
+//
+//
 // Funciones para presentar formularios HTML. #
-// 
+//
 
-function HTMLformAssociateFreeTerms($ARRAYterm_id=array(),$taskterm="")
+function HTMLformAssociateFreeTerms($ARRAYterm_id = array(), $taskterm = "")
 {
-    if(count($ARRAYterm_id)==0) { return HTMLformVerTerminosLibres();
+    if (count($ARRAYterm_id)==0) {
+        return HTMLformVerTerminosLibres();
     }
     //list terms_id
     foreach ($ARRAYterm_id as $term_id) {
-        if(is_numeric($term_id)) {    $tema_id_list.=$term_id.',';
+        if (is_numeric($term_id)) {
+            $tema_id_list.=$term_id.',';
         }
     }
     //fetch free terms
     $sqlTerms=SQLlistaTema_id($tema_id_list);
     $cantFreeTerms=SQLcount($sqlTerms);
-    if($cantFreeTerms==0) { return HTMLformVerTerminosLibres();
+    if ($cantFreeTerms==0) {
+        return HTMLformVerTerminosLibres();
     }
     while ($arrayFreeTerms=$sqlTerms->FetchRow()) {
         $freeTerms.=HTMLlinkTerm($arrayFreeTerms).', ';
         $freeTermsHiddenTag.=  '<input type="hidden" name="freeTerms_id[]" id="freeTerm_'.$arrayFreeTerms["tema_id"].'" value="'.$arrayFreeTerms["tema_id"].'" />';
     }
     $HTMLfreeTerms=substr($freeTerms, 0, -2);
-    if(doValue($_POST, FORM_LABEL_buscarTermino)) {
+    if (doValue($_POST, FORM_LABEL_buscarTermino)) {
         $expresBusca=doValue($_POST, FORM_LABEL_buscarTermino);
         //seleccionar SQL adecuado a la operacion
         $sql_busca=SQLsearchPrefTermsNotInList($tema_id_list, $expresBusca);
         $cant_result=SQLcount($sql_busca);
         $search_leyenda='<h3>'.$cant_result.' '.MSG_ResultBusca.' <i>'.$expresBusca.'</i>.</h3>'."\n\r";
 
-        if($cant_result>0) {
+        if ($cant_result>0) {
             $rows_busca.='<div><input id="filter" type="text" class="form-control" placeholder="'.ucfirst(LABEL_type2filter).'"></div>';
             $rows_busca.='<form role="form" class="form-inline" role="form" name="addRelations" id="addRelations" action="index.php?taskrelations=freeTermsAssoc" method="post">';
             $rows_busca.='<div class="table-responsive"> ';
             $rows_busca.='<table class="table table-striped table-bordered table-condensed table-hover"">';
             $rows_busca.='<thead>	<tr><th>';
             $rows_busca.='</th><th>'.ucfirst(LABEL_Termino).'</th><th>'.ucfirst(LABEL_Fecha).'</th>	</tr></thead>	<tbody class="searchable">';
-            while($resulta_busca=$sql_busca->FetchRow()){
+            while ($resulta_busca=$sql_busca->FetchRow()) {
                 $css_class_MT=($resulta_busca["isMetaTerm"]==1) ? ' class="metaTerm" ' : '';
                 $alert_MT=($resulta_busca["isMetaTerm"]==1) ? ' ('.LABEL_meta_term.') ' : '';
                  $rows_busca.= '<tr>';
@@ -65,7 +69,7 @@ function HTMLformAssociateFreeTerms($ARRAYterm_id=array(),$taskterm="")
 			</tfoot>
 			</table>	</div>';
             //no es subordinar término y hay resultados
-            if($cant_result>0) {
+            if ($cant_result>0) {
                 $rows_busca.='<div class="form-group"><label for="rel_free_term" accesskey="r">'.ucfirst(LABEL_selectRelation).' ';
                 $rows_busca.='<select class="form-control" id="rel_free_term" name="rel_free_term">';
                 $rows_busca.=doSelectForm(array('2#'.ucfirst(TR_termino),'3#'.ucfirst(TE_termino),'4#'.ucfirst(UP_termino)), "");
@@ -80,7 +84,8 @@ function HTMLformAssociateFreeTerms($ARRAYterm_id=array(),$taskterm="")
     $rows.='<div class="container" id="bodyText">
 	<a class="topOfPage" href="'.URL_BASE.'index.php?verT=L" title="'.LABEL_Anterior.'">'.LABEL_Anterior.'</a>
 	<h3>'.LABEL_EditorTermino.'</h3>';
-    if ($new_relacion["log"]==true) {        $rows.='<p class="success">'.ucfirst(LABEL_saved).'</p>';    
+    if ($new_relacion["log"]==true) {
+        $rows.='<p class="success">'.ucfirst(LABEL_saved).'</p>';
     }
 
     $rows.=' <form class="form-inline" role="form" name="busca_rel" action="index.php?verT=LA" method="post">';
@@ -98,59 +103,59 @@ function HTMLformAssociateFreeTerms($ARRAYterm_id=array(),$taskterm="")
     return $rows;
 }
 
-function HTMLformAssociateExistTerms($taskterm,$ARRAYtermino,$term_id="0")
+function HTMLformAssociateExistTerms($taskterm, $ARRAYtermino, $term_id = "0")
 {
-    GLOBAL $new_relacion;
+    global $new_relacion;
     $link_term=HTMLlinkTerm(array("tema_id"=>$ARRAYtermino["tema_id"],"tema"=>$ARRAYtermino["titTema"]));
-    switch ($taskterm){
-    case 'addRT':
-        $nombre_pantalla=ucfirst(LABEL_AgregarRTexist).$link_term;
-        break;
-    case 'addBT':
-        $nombre_pantalla=sprintf(LABEL_AgregarTG, $link_term);
-        break;
-    case 'addFreeUF':
-        $nombre_pantalla=sprintf(LABEL_existAgregarUP, $link_term);
-        break;
-    case 'addFreeNT':
-        $nombre_pantalla=sprintf(LABEL_existAgregarTE, $link_term);
-        break;
-    case 'addNT':
-        $nombre_pantalla=sprintf(MENU_selectExistTerm, $link_term);
-        break;
-    default: '';
+    switch ($taskterm) {
+        case 'addRT':
+            $nombre_pantalla=ucfirst(LABEL_AgregarRTexist).$link_term;
+            break;
+        case 'addBT':
+            $nombre_pantalla=sprintf(LABEL_AgregarTG, $link_term);
+            break;
+        case 'addFreeUF':
+            $nombre_pantalla=sprintf(LABEL_existAgregarUP, $link_term);
+            break;
+        case 'addFreeNT':
+            $nombre_pantalla=sprintf(LABEL_existAgregarTE, $link_term);
+            break;
+        case 'addNT':
+            $nombre_pantalla=sprintf(MENU_selectExistTerm, $link_term);
+            break;
+        default:
+            '';
     }
-    if(in_array($_GET["showTerms"], array('free','nt','tt'))) {
-        if($_GET["showTerms"]=="free") {
+    if (in_array($_GET["showTerms"], array('free','nt','tt'))) {
+        if ($_GET["showTerms"]=="free") {
             $sql_busca=SQLverTerminosLibres();
             $cant_result=SQLcount($sql_busca);
             $search_leyenda='<h3>'.$cant_result.' '.LABEL_terminosLibres.'</h3>'."\n\r";
         }//seleccionar SQL adecuado a la operacion
 
-        if(($_GET["showTerms"]=='tt') &&     (in_array($taskterm, array('addBT','addFreeNT')))) {
+        if (($_GET["showTerms"]=='tt') &&     (in_array($taskterm, array('addBT','addFreeNT')))) {
             $sql_busca=SQLverTopTerm();
             $cant_result=SQLcount($sql_busca);
             $search_leyenda='<h3>'.$cant_result.' '.LABEL_TTTerms.'</h3>'."\n\r";
         }
-    }    else    {
-        if((doValue($_POST, FORM_LABEL_buscarTermino))) {
-
+    } else {
+        if ((doValue($_POST, FORM_LABEL_buscarTermino))) {
             $expresBusca=doValue($_POST, FORM_LABEL_buscarTermino);
             $expresBusca=trim($expresBusca);
 
-            if(($taskterm=='addFreeNT') || ($taskterm=='addFreeUF')) {
+            if (($taskterm=='addFreeNT') || ($taskterm=='addFreeUF')) {
                 //if enable polijerarquia
                 $sql_busca = ($array_vocabulario["polijerarquia"]==1) ? SQLsearchTerms4NT($expresBusca, $ARRAYtermino["idTema"]) : SQLsearchFreeTerms($expresBusca, $ARRAYtermino["idTema"]);
                 $cant_result=SQLcount($sql_busca);
                 $search_leyenda='<h3>'.$cant_result.' '.MSG_ResultBusca.' <i>'.$expresBusca.'</i>.</h3>'."\n\r";
-            }        else        {
+            } else {
                 $sql_busca=SQLbuscaTR($ARRAYtermino["idTema"], "$expresBusca");
                 $cant_result=SQLcount($sql_busca);
                 $search_leyenda='<h3>'.$cant_result.' '.MSG_ResultBusca.' <i>'.$expresBusca.'</i>.</h3>'."\n\r";
             }
         }
     }
-    if($cant_result>0) {
+    if ($cant_result>0) {
         $rows_busca.='<div><input id="filter" type="text" class="form-control" placeholder="'.ucfirst(LABEL_type2filter).'"></div>';
         $rows_busca.='<form role="form" class="form-inline" role="form" name="addRelations" id="addRelations" action="index.php" method="get" >';
         $rows_busca.='<div class="table-responsive"> ';
@@ -162,18 +167,18 @@ function HTMLformAssociateExistTerms($taskterm,$ARRAYtermino,$term_id="0")
 			</tr>
 			</thead>
 			<tbody class="searchable">';
-        while($resulta_busca=$sql_busca->FetchRow()){
+        while ($resulta_busca=$sql_busca->FetchRow()) {
             $css_class_MT=($resulta_busca["isMetaTerm"]==1) ? ' class="metaTerm" ' : '';
             $alert_MT=($resulta_busca["isMetaTerm"]==1) ? ' ('.LABEL_meta_term.') ' : '';
             //prevenir que no seleccione el mismo término que esta mirando
-            if($resulta_busca["tema_id"]!==$ARRAYtermino["idTema"]) {
-                if($taskterm=='addBT') {
+            if ($resulta_busca["tema_id"]!==$ARRAYtermino["idTema"]) {
+                if ($taskterm=='addBT') {
                     $rows_busca.= '<tr>';
                     $rows_busca.=  '     <td align="center"><input type="radio" name="rema_id" id="rema_'.$resulta_busca["tema_id"].'" title="'.$resulta_busca["tema"].'" value="'.$resulta_busca["tema_id"].'" /> </td>';
                     $rows_busca.=  '     <td><label  for="rema_'.$resulta_busca["tema_id"].'" '.$css_class_MT.'> '.$resulta_busca["tema"].'</label> '.$alert_MT.' </td>';
                     $rows_busca.=  '      <td>'.$resulta_busca["cuando"].'</td>';
                     $rows_busca.=  '  </tr>';
-                }            else             {
+                } else {
                     $rows_busca.= '<tr>';
                     $rows_busca.=  '     <td align="center"><input type="checkbox" name="rema_id[]" id="rema_'.$resulta_busca["tema_id"].'" title="'.$resulta_busca["tema"].'" value="'.$resulta_busca["tema_id"].'" /> </td>';
                     $rows_busca.=  '     <td><label class="check_label" for="rema_'.$resulta_busca["tema_id"].'" '.$css_class_MT.'> '.$resulta_busca["tema"].'</label>  '.$alert_MT.'  </td>';
@@ -194,7 +199,7 @@ function HTMLformAssociateExistTerms($taskterm,$ARRAYtermino,$term_id="0")
 			</tfoot>
 			</table>	</div>';
         //no es subordinar término y hay resultados
-        if($cant_result>0) {
+        if ($cant_result>0) {
             $rows_busca.='<div class="submit_form" align="center">';
             $rows_busca.='  <button type="submit" class="btn btn-primary">'.LABEL_Agregar.'</button>';
             $rows_busca.='</div>';
@@ -229,7 +234,7 @@ function HTMLformAssociateExistTerms($taskterm,$ARRAYtermino,$term_id="0")
 	<input class="form-inline input_ln form-control" name="'.FORM_LABEL_buscarTermino.'" type="search" id="addExistTerm" maxlength="50"/>
 	<button type="submit" class="btn btn-primary">'.LABEL_Buscar.'</button>
 	 <button type="button" class="btn btn-info" onClick="location.href=\'index.php?tema='.$ARRAYtermino["idTema"].'&amp;taskterm='.$taskterm.'&amp;showTerms=free\'"/>'.ucfirst(LABEL_showFreeTerms).'</button>';
-    if(in_array($taskterm, array('addBT','addFreeNT'))) {
+    if (in_array($taskterm, array('addBT','addFreeNT'))) {
         $rows.=' <button type="button" class="btn btn-info" onClick="location.href=\'index.php?tema='.$ARRAYtermino["idTema"].'&amp;taskterm='.$taskterm.'&amp;showTerms=tt\'"/>'.ucfirst(LABEL_TTTerms).'</button>';
     }
     $rows.='	 <button type="button" class="btn btn-default" onClick="location.href=\'index.php?tema='.$ARRAYtermino["idTema"].'\'">'.ucfirst(LABEL_Cancelar).'</button>
@@ -252,53 +257,53 @@ function HTMLformAssociateExistTerms($taskterm,$ARRAYtermino,$term_id="0")
 - Alta de un t�rmino subordinado a un t�rmino.
 *
 */
-function HTMLformEditTerms($taskterm,$ARRAYtermino="0")
+function HTMLformEditTerms($taskterm, $ARRAYtermino = "0")
 {
     //SEND_KEY to prevent duplicated
     session_start();
     $_SESSION['SEND_KEY']=md5(uniqid(rand(), true));
-    switch($taskterm){
-    case 'addTerm':// add term
-        $nombre_pantalla=LABEL_AgregarT;
-        $hidden='<input type="hidden"  name="alta_t" value="new" />';
-        $hidden.='<div><input type="checkbox" name="estado_id" id="estado_id" value="12" alt="'.ucfirst(LABEL_Candidato).'" /> <label for="estado_id" accesskey="e">'.ucfirst(LABEL_Candidato).'</label></div>';
-        $hidden.='<div><input type="checkbox" name="isMetaTerm" id="isMetaTerm" value="1" alt="'.ucfirst(LABEL_meta_term).'" /> <label for="isMetaTerm" accesskey="e">'.ucfirst(LABEL_meta_term).'</label>
+    switch ($taskterm) {
+        case 'addTerm':// add term
+            $nombre_pantalla=LABEL_AgregarT;
+            $hidden='<input type="hidden"  name="alta_t" value="new" />';
+            $hidden.='<div><input type="checkbox" name="estado_id" id="estado_id" value="12" alt="'.ucfirst(LABEL_Candidato).'" /> <label for="estado_id" accesskey="e">'.ucfirst(LABEL_Candidato).'</label></div>';
+            $hidden.='<div><input type="checkbox" name="isMetaTerm" id="isMetaTerm" value="1" alt="'.ucfirst(LABEL_meta_term).'" /> <label for="isMetaTerm" accesskey="e">'.ucfirst(LABEL_meta_term).'</label>
 			<div class="alert alert-info" role="alert">'.NOTE_isMetaTermNote.'</div>
 			</div>';
 
-        $help_rows='<p class="text-primary">'.HELP_variosTerminos.'</p>';
-        $extra_button='<a class="btn btn-second btn-xs" role="button" href="'.URL_BASE.'index.php?taskterm=addTermSuggested" title="'.ucfirst(LABEL__getForRecomendation).'">'.ucfirst(LABEL__getForRecomendation).'</a>';
-        break;
-    case 'editTerm'://Edici�n de un t�rmino $edit_id
-        $nombre_pantalla=LABEL_editT.HTMLlinkTerm(array("tema_id"=>$ARRAYtermino["idTema"],"tema"=>$ARRAYtermino["titTema"]));
-        $vista_titulo_tema=$ARRAYtermino["titTema"];
-        $vista_desc_tema=$ARRAYtermino[descTema];
-        $hidden='<input type="hidden"  name="edit_id_tema" value="'.$ARRAYtermino["idTema"].'" />';
-        break;
-    case 'addNT':// add narowwer term
-        $nombre_pantalla=LABEL_AgregarTE.HTMLlinkTerm(array("tema_id"=>$ARRAYtermino["idTema"],"tema"=>$ARRAYtermino["titTema"]));
-        $hidden.='<input type="hidden"  name="id_termino_sub" value="'.$ARRAYtermino["idTema"].'" />';
-        $help_rows='<p class="text-primary">'.HELP_variosTerminos.'</p>';
-        $extra_button='<a class="btn btn-second btn-xs" role="button" href="'.URL_BASE.'index.php?taskterm=addFreeNT&amp;tema='.$ARRAYtermino["idTema"].'" title="'.ucfirst(MENU_selectExistTerm).'">'.ucfirst(MENU_selectExistTerm).'</a>';
-        $extra_button.=' <a class="btn btn-second btn-xs" role="button" href="'.URL_BASE.'index.php?taskterm=findSuggestionTargetTerm&amp;tema='.$ARRAYtermino["idTema"].'&amp;t_relation=3" title="'.ucfirst(LABEL__getForRecomendation).'">'.ucfirst(LABEL__getForRecomendation).'</a>';
-        $t_relation='3';
-        break;
-    case 'addUF'://Alta de un t�rmino no preferido a $id_uf
-        $nombre_pantalla=LABEL_AgregarUP.HTMLlinkTerm(array("tema_id"=>$ARRAYtermino["idTema"],"tema"=>$ARRAYtermino["titTema"]));
-        $hidden='<input type="hidden"  name="id_termino_uf" value="'.$ARRAYtermino["idTema"].'" />';
-        $help_rows='<p class="text-primary">'.HELP_variosTerminos.'</p>';
-        $extra_button='<a class="btn btn-second btn-xs" role="button" href="'.URL_BASE.'index.php?taskterm=addFreeUF&amp;tema='.$ARRAYtermino["idTema"].'" title="'.ucfirst(MENU_AgregarUPexist).'">'.ucfirst(MENU_AgregarUPexist).'</a>';
-        $extra_button.=' <a class="btn btn-second btn-xs" role="button" href="'.URL_BASE.'index.php?taskterm=findSuggestionTargetTerm&amp;tema='.$ARRAYtermino["idTema"].'&amp;t_relation=4" title="'.ucfirst(LABEL__getForRecomendation).'">'.ucfirst(LABEL__getForRecomendation).'</a>';
-        $t_relation='4';
-        break;
-    case 'addRTnw'://Alta de un término RT
-        $nombre_pantalla=LABEL_AgregarTR.HTMLlinkTerm(array("tema_id"=>$ARRAYtermino["idTema"],"tema"=>$ARRAYtermino["titTema"]));
-        $hidden='<input type="hidden"  name="id_termino_rt" value="'.$ARRAYtermino["idTema"].'" />';
-        $help_rows='<p class="text-primary">'.HELP_variosTerminos.'</p>';
-        $extra_button='<a class="btn btn-second btn-xs" role="button" href="'.URL_BASE.'index.php?taskterm=addRT&amp;tema='.$ARRAYtermino["idTema"].'" title="'.ucfirst(MENU_selectExistTerm).'">'.ucfirst(MENU_selectExistTerm).'</a>';
-        $extra_button.=' <a class="btn btn-second btn-xs" role="button" href="'.URL_BASE.'index.php?taskterm=findSuggestionTargetTerm&amp;tema='.$ARRAYtermino["idTema"].'&amp;t_relation=2" title="'.ucfirst(LABEL__getForRecomendation).'">'.ucfirst(LABEL__getForRecomendation).'</a>';
-        $t_relation='2';
-        break;
+            $help_rows='<p class="text-primary">'.HELP_variosTerminos.'</p>';
+            $extra_button='<a class="btn btn-second btn-xs" role="button" href="'.URL_BASE.'index.php?taskterm=addTermSuggested" title="'.ucfirst(LABEL__getForRecomendation).'">'.ucfirst(LABEL__getForRecomendation).'</a>';
+            break;
+        case 'editTerm'://Edici�n de un t�rmino $edit_id
+            $nombre_pantalla=LABEL_editT.HTMLlinkTerm(array("tema_id"=>$ARRAYtermino["idTema"],"tema"=>$ARRAYtermino["titTema"]));
+            $vista_titulo_tema=$ARRAYtermino["titTema"];
+            $vista_desc_tema=$ARRAYtermino[descTema];
+            $hidden='<input type="hidden"  name="edit_id_tema" value="'.$ARRAYtermino["idTema"].'" />';
+            break;
+        case 'addNT':// add narowwer term
+            $nombre_pantalla=LABEL_AgregarTE.HTMLlinkTerm(array("tema_id"=>$ARRAYtermino["idTema"],"tema"=>$ARRAYtermino["titTema"]));
+            $hidden.='<input type="hidden"  name="id_termino_sub" value="'.$ARRAYtermino["idTema"].'" />';
+            $help_rows='<p class="text-primary">'.HELP_variosTerminos.'</p>';
+            $extra_button='<a class="btn btn-second btn-xs" role="button" href="'.URL_BASE.'index.php?taskterm=addFreeNT&amp;tema='.$ARRAYtermino["idTema"].'" title="'.ucfirst(MENU_selectExistTerm).'">'.ucfirst(MENU_selectExistTerm).'</a>';
+            $extra_button.=' <a class="btn btn-second btn-xs" role="button" href="'.URL_BASE.'index.php?taskterm=findSuggestionTargetTerm&amp;tema='.$ARRAYtermino["idTema"].'&amp;t_relation=3" title="'.ucfirst(LABEL__getForRecomendation).'">'.ucfirst(LABEL__getForRecomendation).'</a>';
+            $t_relation='3';
+            break;
+        case 'addUF'://Alta de un t�rmino no preferido a $id_uf
+            $nombre_pantalla=LABEL_AgregarUP.HTMLlinkTerm(array("tema_id"=>$ARRAYtermino["idTema"],"tema"=>$ARRAYtermino["titTema"]));
+            $hidden='<input type="hidden"  name="id_termino_uf" value="'.$ARRAYtermino["idTema"].'" />';
+            $help_rows='<p class="text-primary">'.HELP_variosTerminos.'</p>';
+            $extra_button='<a class="btn btn-second btn-xs" role="button" href="'.URL_BASE.'index.php?taskterm=addFreeUF&amp;tema='.$ARRAYtermino["idTema"].'" title="'.ucfirst(MENU_AgregarUPexist).'">'.ucfirst(MENU_AgregarUPexist).'</a>';
+            $extra_button.=' <a class="btn btn-second btn-xs" role="button" href="'.URL_BASE.'index.php?taskterm=findSuggestionTargetTerm&amp;tema='.$ARRAYtermino["idTema"].'&amp;t_relation=4" title="'.ucfirst(LABEL__getForRecomendation).'">'.ucfirst(LABEL__getForRecomendation).'</a>';
+            $t_relation='4';
+            break;
+        case 'addRTnw'://Alta de un término RT
+            $nombre_pantalla=LABEL_AgregarTR.HTMLlinkTerm(array("tema_id"=>$ARRAYtermino["idTema"],"tema"=>$ARRAYtermino["titTema"]));
+            $hidden='<input type="hidden"  name="id_termino_rt" value="'.$ARRAYtermino["idTema"].'" />';
+            $help_rows='<p class="text-primary">'.HELP_variosTerminos.'</p>';
+            $extra_button='<a class="btn btn-second btn-xs" role="button" href="'.URL_BASE.'index.php?taskterm=addRT&amp;tema='.$ARRAYtermino["idTema"].'" title="'.ucfirst(MENU_selectExistTerm).'">'.ucfirst(MENU_selectExistTerm).'</a>';
+            $extra_button.=' <a class="btn btn-second btn-xs" role="button" href="'.URL_BASE.'index.php?taskterm=findSuggestionTargetTerm&amp;tema='.$ARRAYtermino["idTema"].'&amp;t_relation=2" title="'.ucfirst(LABEL__getForRecomendation).'">'.ucfirst(LABEL__getForRecomendation).'</a>';
+            $t_relation='2';
+            break;
     };
     $rows.='<div class="container" id="bodyText">';
     $rows.='<div class="row">';
@@ -315,10 +320,10 @@ function HTMLformEditTerms($taskterm,$ARRAYtermino="0")
     $rows.=$extra_tag;
     $rows.='</div>';
 
-    if(in_array($t_relation, array(2,3,4))) {
+    if (in_array($t_relation, array(2,3,4))) {
         $SQLtypeRelations=SQLtypeRelations($t_relation);
-        if(SQLcount($SQLtypeRelations)>0) {
-            while($ARRAYtypeRelations=$SQLtypeRelations->FetchRow()){
+        if (SQLcount($SQLtypeRelations)>0) {
+            while ($ARRAYtypeRelations=$SQLtypeRelations->FetchRow()) {
                 $arraySelectTypeRelations[]=$ARRAYtypeRelations["rel_rel_id"].'#'.$ARRAYtypeRelations["rr_value"];
                 $neutralLabel=LABELrelTypeSYS($ARRAYtypeRelations["t_relation"]);
             }
@@ -350,23 +355,23 @@ function HTMLformEditTerms($taskterm,$ARRAYtermino="0")
 - Alta de un t�rmino nuevo.
 *
 */
-function HTMLformSuggestTerms($ARRAYtargetVocabulary=array())
+function HTMLformSuggestTerms($ARRAYtargetVocabulary = array())
 {
-    GLOBAL $CFG;
+    global $CFG;
     //SEND_KEY to prevent duplicated
     session_start();
     $_SESSION['SEND_KEY']=md5(uniqid(rand(), true));
     $sql=SQLtargetVocabulary("1");
     $rows='<div class="container" id="bodyText">';
     $rows.='<a class="topOfPage" href="'.URL_BASE.'index.php?taskterm=addTerm" title="'.LABEL_Anterior.'">'.LABEL_Anterior.'</a>';
-    if(SQLcount($sql)=='0') {
+    if (SQLcount($sql)=='0') {
         //No hay vocabularios de referencia, solo vocabulario principal
         $rows.=HTMLalertNoTargetVocabulary();
     } else {
         //Hay vobularios de referencia
         $array_vocabularios=array();
-        while($array=$sql->FetchRow()){
-            if($array["vocabulario_id"]!=='1') {
+        while ($array=$sql->FetchRow()) {
+            if ($array["vocabulario_id"]!=='1') {
                 //vocabularios que no sean el vocabulario principal
                 array_push($array_vocabularios, $array["tvocab_id"].'#'.FixEncoding($array["tvocab_label"].' - '.$CFG["ISO639-1"][$array["tvocab_lang"]][1]));
             }
@@ -415,14 +420,14 @@ function HTMLformSuggestTerms($ARRAYtargetVocabulary=array())
         $rows.='<input type="hidden" name="taskterm" value="addTermSuggested"/>';
         $rows.='</form>';
     }
-    if(($string2search) && ($_GET["tvocab_id"])) {
+    if (($string2search) && ($_GET["tvocab_id"])) {
         include_once T3_ABSPATH . 'common/include/vocabularyservices.php'    ;
         $arrayVocab=ARRAYtargetVocabulary($_GET["tvocab_id"]);
         $task=($_GET["searchType"]==1) ? 'fetch' : 'search';
         $dataTterm=getURLdata($arrayVocab["tvocab_uri_service"].'?task='.$task.'&arg='.urlencode($string2search));
-        if($dataTterm->resume->cant_result > "0") {
+        if ($dataTterm->resume->cant_result > "0") {
             $arrayTtermData = array();
-            foreach ($dataTterm->result->term as $value){
+            foreach ($dataTterm->result->term as $value) {
                 $i=++$i;
                 $term_id=(int) $value->term_id;
                 $string=(string) $value->string;
@@ -437,7 +442,6 @@ function HTMLformSuggestTerms($ARRAYtargetVocabulary=array())
         $t_relation=0;
         $rows.='   </div>';//row
         $rows.=HTMLformTargetVocabularySuggested($arrayTtermData, $t_relation, $string2search, $arrayVocab, $ARRAYtermino["idTema"]);
-
     };//fin de if buscar
     $rows.='   </div>';//container
     return $rows;
@@ -451,7 +455,7 @@ function HTMLformSuggestTerms($ARRAYtargetVocabulary=array())
 - Alta de un t�rmino subordinado a un t�rmino.
 *
 */
-function HTMLformSuggestTermsXRelations($ARRAYtermino,$ARRAYtargetVocabulary=array())
+function HTMLformSuggestTermsXRelations($ARRAYtermino, $ARRAYtargetVocabulary = array())
 {
     //SEND_KEY to prevent duplicated
     session_start();
@@ -464,13 +468,13 @@ function HTMLformSuggestTermsXRelations($ARRAYtermino,$ARRAYtargetVocabulary=arr
     $rows.='<h3>'.HTMLlinkTerm(array("tema_id"=>$ARRAYtermino["idTema"],"tema"=>$ARRAYtermino["titTema"])).'</h3>';
 
     $sql=SQLtargetVocabulary("1");
-    if(SQLcount($sql)=='0') {
+    if (SQLcount($sql)=='0') {
         //No hay vocabularios de referencia, solo vocabulario principal
         $rows.=HTMLalertNoTargetVocabulary();
     } else {
         //Hay vobularios de referencia
-        while($array=$sql->FetchRow()){
-            if($array["vocabulario_id"]!=='1') {
+        while ($array=$sql->FetchRow()) {
+            if ($array["vocabulario_id"]!=='1') {
                 //vocabularios que no sean el vocabulario principal
                 $array_vocabularios[]=$array["tvocab_id"].'#'.FixEncoding($array["tvocab_label"]);
             }
@@ -532,33 +536,32 @@ function HTMLformSuggestTermsXRelations($ARRAYtermino,$ARRAYtargetVocabulary=arr
     }
     $rows.='</div>';
     $t_relation=(in_array($_GET["t_relation"], array("4","3","2","0"))) ? $_GET["t_relation"] : '';
-    if(($string2search) && ($_GET["tvocab_id"])) {
+    if (($string2search) && ($_GET["tvocab_id"])) {
         include_once T3_ABSPATH . 'common/include/vocabularyservices.php'    ;
         $arrayVocab=ARRAYtargetVocabulary($_GET["tvocab_id"]);
         $task=($_GET["searchType"]==1) ? 'fetch' : 'search';
         $dataTterm=getURLdata($arrayVocab["tvocab_uri_service"].'?task='.$task.'&arg='.urlencode($string2search));
-        if($dataTterm->resume->cant_result > "0") {
-            foreach ($dataTterm->result->term as $value){
+        if ($dataTterm->resume->cant_result > "0") {
+            foreach ($dataTterm->result->term as $value) {
                 $array_terms[]=array("term_id"=>(int) $value->term_id,"string"=>(string) $value->string);
                 $tterms_id.=(int) $value->term_id.',';
             };
         }
         switch ($t_relation) {
-        case '2'://RT
-            $arrayTterm=getForeingStrings($arrayVocab["tvocab_uri_service"], 'fetchRelated', $array_terms);
-            break;
-        case '3'://BT/NT
-            $arrayTterm=getForeingStrings($arrayVocab["tvocab_uri_service"], 'fetchDown', $array_terms);
-            break;
+            case '2'://RT
+                $arrayTterm=getForeingStrings($arrayVocab["tvocab_uri_service"], 'fetchRelated', $array_terms);
+                break;
+            case '3'://BT/NT
+                $arrayTterm=getForeingStrings($arrayVocab["tvocab_uri_service"], 'fetchDown', $array_terms);
+                break;
 
-        case '4'://UF
-            $arrayTterm=getForeingStrings($arrayVocab["tvocab_uri_service"], 'fetchAlt', $array_terms);
-            break;
-        default :
-            break;
+            case '4'://UF
+                $arrayTterm=getForeingStrings($arrayVocab["tvocab_uri_service"], 'fetchAlt', $array_terms);
+                break;
+            default:
+                break;
         }
         $rows.=HTMLformTargetVocabularySuggested($arrayTterm, $t_relation, $string2search, $arrayVocab, $ARRAYtermino["idTema"]);
-
     };//fin de if buscar
     $rows.='   </div>';
     return $rows;
@@ -571,7 +574,7 @@ Advanced search form
 */
 function HTMLformAdvancedSearch($array)
 {
-    GLOBAL $CFG;
+    global $CFG;
     $array=XSSpreventArray($array);
     $rows.='<div class="row">';
     $rows.='	<div class="col-md-6 col-md-offset-3">';
@@ -580,22 +583,22 @@ function HTMLformAdvancedSearch($array)
     $rows.='<fieldset>';
     $arrayWS=array('t#'.ucfirst(LABEL_Termino),'mt#'.ucfirst(LABEL_meta_term));
     $arrayVocabStats=ARRAYresumen($_SESSION["id_tesa"], "G", "");
-    if($arrayVocabStats["cant_up"]>0) {
+    if ($arrayVocabStats["cant_up"]>0) {
         array_push($arrayWS, 'uf#'.ucfirst(LABEL_esNoPreferido));
     }
-    if($arrayVocabStats["cant_notas"]>0) {
+    if ($arrayVocabStats["cant_notas"]>0) {
         array_push($arrayWS, 'n#'.ucfirst(LABEL_nota));
     }
-    if($CFG["_SHOW_CODE"]=='1') {
+    if ($CFG["_SHOW_CODE"]=='1') {
         array_push($arrayWS, 'c#'.ucfirst(LABEL_CODE));
     }
-    if($arrayVocabStats["cant_term2tterm"]) {
+    if ($arrayVocabStats["cant_term2tterm"]) {
         array_push($arrayWS, 'tgt#'.ucfirst(LABEL_TargetTerm));
     }
     /*
     solo si hay m�s de un opci�n
     */
-    if(count($arrayWS)>1) {
+    if (count($arrayWS)>1) {
         $rows.='<div class="form-group"><label class="label_ttl control-label" for="ws" accesskey="f">'.ucfirst(LABEL_QueBuscar).'</label>';
         $rows.='<select class="select_ttl form-control" id="ws" name="ws">';
         $rows.=doSelectForm($arrayWS, $_GET["ws"]);
@@ -611,8 +614,8 @@ function HTMLformAdvancedSearch($array)
     $rows.='<div class="collapse" id="masOpcionesBusqueda">';
     //Evaluar si hay top terms
     $sqlTopTerm=SQLverTopTerm();
-    if(SQLcount($sqlTopTerm)>0) {
-        while ($arrayTopTerms=$sqlTopTerm->FetchRow()){
+    if (SQLcount($sqlTopTerm)>0) {
+        while ($arrayTopTerms=$sqlTopTerm->FetchRow()) {
             $formSelectTopTerms[]=$arrayTopTerms["tema_id"].'#'.$arrayTopTerms["tema"];
         }
         $rows.='<div class="form-group"><label class="label_ttl control-label" for="hasTopTerm" accesskey="t">'.ucfirst(LABEL_TopTerm).'</label>';
@@ -631,10 +634,10 @@ function HTMLformAdvancedSearch($array)
         $LabelNC='NC#'.LABEL_NC;
         $sqlNoteType=SQLcantNotas();
 
-        while ($arrayNotes=$sqlNoteType->FetchRow()){
-            if($arrayNotes["cant"]>0) {
+        while ($arrayNotes=$sqlNoteType->FetchRow()) {
+            if ($arrayNotes["cant"]>0) {
                 //nota privada no
-                if(($_SESSION[$_SESSION["CFGURL"]]["ssuser_nivel"]) || ($arrayNotes["value_id"]!=='11')) {
+                if (($_SESSION[$_SESSION["CFGURL"]]["ssuser_nivel"]) || ($arrayNotes["value_id"]!=='11')) {
                     $varNoteType=(in_array($arrayNotes["value_id"], array(8,9,10,11,15))) ? arrayReplace(array(8,9,10,11,15), array($LabelNA,$LabelNH,$LabelNB,$LabelNP,$LabelNC), $arrayNotes["value_id"]) : $arrayNotes["value_code"].'#'.$arrayNotes["value"];
                     $varNoteType.=' ('.$arrayNotes["cant"].')';
                     $arrayNoteType[]=$varNoteType;
@@ -645,7 +648,7 @@ function HTMLformAdvancedSearch($array)
         /*
         Si hay m�s de un tipo de nota
         */
-        if(count($arrayVocabStats["cant_notas"])>0) {
+        if (count($arrayVocabStats["cant_notas"])>0) {
             $rows.='<div class="form-group"><label class="label_ttl control-label" for="hasNote" accesskey="n">'.ucfirst(LABEL_tipoNota).'</label>';
             $rows.='<select class="select_ttl form-control" id="hasNote" name="hasNote">';
             $rows.='<option value="">'.ucfirst(LABEL_Todos).'</option>';
@@ -657,9 +660,9 @@ function HTMLformAdvancedSearch($array)
 
     //Evaluar si hay terminos
     $sqlTermsByDates=SQLtermsByDate();
-    if(SQLcount($sqlTermsByDates)>0) {
-        GLOBAL $MONTHS;
-        while ($arrayTermsByDates=$sqlTermsByDates->FetchRow())        {
+    if (SQLcount($sqlTermsByDates)>0) {
+        global $MONTHS;
+        while ($arrayTermsByDates=$sqlTermsByDates->FetchRow()) {
             //normalizacion de fechas
             $arrayTermsByDates["months"]=(strlen($arrayTermsByDates["months"])==1) ? '0'.$arrayTermsByDates["months"] : $arrayTermsByDates["months"];
             $formSelectByDate[]=$arrayTermsByDates["years"].'-'.$arrayTermsByDates["months"].'#'.$MONTHS["$arrayTermsByDates[months]"].'/'.$arrayTermsByDates["years"].' ('.$arrayTermsByDates["cant"].')';
@@ -673,8 +676,8 @@ function HTMLformAdvancedSearch($array)
     };
     //terms by deep
     $sqlTermsByDeep=SQLTermDeep();
-    if(SQLcount($sqlTermsByDeep)>1) {
-        while ($arrayTermsByDeep=$sqlTermsByDeep->FetchRow())        {
+    if (SQLcount($sqlTermsByDeep)>1) {
+        while ($arrayTermsByDeep=$sqlTermsByDeep->FetchRow()) {
             $formSelectByDeep[]=$arrayTermsByDeep["tdeep"].'#'.$arrayTermsByDeep["tdeep"].' ('.$arrayTermsByDeep["cant"].')';
         }
         $rows.='<div class="form-group"><label class="label_ttl control-label" for="termDeep" accesskey="e">'.ucfirst(LABEL_ProfundidadTermino).'</label>';
@@ -696,7 +699,7 @@ function HTMLformAdvancedSearch($array)
     $rows.='</div>';//div row
     $rows.='</div>';//div col
     $rows.='<div class="push"></div>';
-    if($_GET["boton"]==LABEL_Enviar) {
+    if ($_GET["boton"]==LABEL_Enviar) {
         $rows.=HTMLadvancedSearchResult($array);
     }
 
@@ -709,7 +712,7 @@ Term Report form
 */
 function HTMLformAdvancedTermReport($array)
 {
-    GLOBAL $CFG;
+    global $CFG;
     $LABEL_Termino=ucfirst(LABEL_Termino);
     $LABEL_esNoPreferido=ucfirst(LABEL_esNoPreferido);
     $LABEL_CODE=ucfirst(LABEL_CODE);
@@ -723,11 +726,11 @@ function HTMLformAdvancedTermReport($array)
     $arrayVocabStats=ARRAYresumen($_SESSION["id_tesa"], "G", "");
 
     $arrayWS=array("t#$LABEL_Termino");
-    if($arrayVocabStats["cant_up"]>0) {
+    if ($arrayVocabStats["cant_up"]>0) {
         array_push($arrayWS, "uf#$LABEL_esNoPreferido");
     }
     //Notes
-    if($arrayVocabStats["cant_notas"]>0) {
+    if ($arrayVocabStats["cant_notas"]>0) {
         array_push($arrayWS, "n#$LABEL_NOTE");
         $LabelNB='NB#'.LABEL_NB;
         $LabelNH='NH#'.LABEL_NH;
@@ -736,35 +739,35 @@ function HTMLformAdvancedTermReport($array)
         $LabelNC='NC#'.LABEL_NC;
         $sqlNoteType=SQLcantNotas();
         $arrayNoteType=array();
-        while ($array=$sqlNoteType->FetchRow()){
+        while ($array=$sqlNoteType->FetchRow()) {
             $varNoteType=(in_array($array["value_id"], array(8,9,10,11,15))) ? arrayReplace(array(8,9,10,11,15), array($LabelNA,$LabelNH,$LabelNB,$LabelNP,$LabelNC), $array["value_id"]) : $array["value_code"].'#'.$array["value"];
-            if($array["cant"]>0) {
+            if ($array["cant"]>0) {
                 $varNoteType.=' ('.$array["cant"].')';
                 array_push($arrayNoteType, $varNoteType);
             }
         };
     }
     //target vocabularies
-    if($arrayVocabStats["cant_term2tterm"]) {
+    if ($arrayVocabStats["cant_term2tterm"]) {
         $sql=SQLtargetVocabulary("1");
         $array_vocabularios=array();
-        while($array=$sql->FetchRow())            {
+        while ($array=$sql->FetchRow()) {
             //vocabularios que no sean el vocabulario principal
             array_push($array_vocabularios, $array["tvocab_id"].'#'.FixEncoding($array["tvocab_label"]));
         };
     }
     //Evaluar si hay top terms
     $sqlTopTerm=SQLverTopTerm();
-    if(SQLcount($sqlTopTerm)>0) {
-        while ($arrayTopTerms=$sqlTopTerm->FetchRow())            {
+    if (SQLcount($sqlTopTerm)>0) {
+        while ($arrayTopTerms=$sqlTopTerm->FetchRow()) {
             $formSelectTopTerms[]=$arrayTopTerms["tema_id"].'#'.$arrayTopTerms["tema"];
         }
     }
     //Evaluar si hay terminos
     $sqlTermsByDates=SQLtermsByDate();
-    if(SQLcount($sqlTermsByDates)>0) {
-        GLOBAL $MONTHS;
-        while ($arrayTermsByDates=$sqlTermsByDates->FetchRow())            {
+    if (SQLcount($sqlTermsByDates)>0) {
+        global $MONTHS;
+        while ($arrayTermsByDates=$sqlTermsByDates->FetchRow()) {
             //normalizacion de fechas
             $arrayTermsByDates["months"]=(strlen($arrayTermsByDates["months"])==1) ? '0'.$arrayTermsByDates["months"] : $arrayTermsByDates["months"];
             $formSelectByDate[]=$arrayTermsByDates["years"].'-'.$arrayTermsByDates["months"].'#'.$MONTHS["$arrayTermsByDates[months]"].'/'.$arrayTermsByDates["years"].' ('.$arrayTermsByDates["cant"].')';
@@ -772,11 +775,11 @@ function HTMLformAdvancedTermReport($array)
     };
     //internal reference vocabularies
     $sql=SQLdatosVocabulario();
-    if(SQLcount($sql)>'1') {
+    if (SQLcount($sql)>'1') {
         //Hay vobularios de referencia
         $array_ivocabularios=array();
-        while($array=$sql->FetchRow()){
-            if($array["vocabulario_id"]!=='1') {
+        while ($array=$sql->FetchRow()) {
+            if ($array["vocabulario_id"]!=='1') {
                 //vocabularios que no sean el vocabulario principal
                 array_push($array_ivocabularios, $array["vocabulario_id"].'#'.$array["titulo"]);
             }
@@ -786,7 +789,7 @@ function HTMLformAdvancedTermReport($array)
 <fieldset>
 <!-- Form Name -->
 <legend>'.ucfirst(LABEL_FORM_advancedReport).'</legend>';
-    if(SQLcount($sqlTopTerm)>0) {
+    if (SQLcount($sqlTopTerm)>0) {
         $rows.='<!-- Select Basic -->
 <div class="form-group">
   <label class="col-md-4 control-label" for="hasTopTerm">'.ucfirst(LABEL_TopTerm).'</label>
@@ -798,7 +801,7 @@ function HTMLformAdvancedTermReport($array)
   </div>
 </div>';
     };
-    if($arrayVocabStats["cant_notas"]>0) {
+    if ($arrayVocabStats["cant_notas"]>0) {
         $rows.='<!-- Select Basic -->
 <div class="form-group">
   <label class="col-md-4 control-label" for="hasNote">'.ucfirst(LABEL_FORM_haveNoteType).'</label>
@@ -820,7 +823,7 @@ function HTMLformAdvancedTermReport($array)
   </div>
 </div>';
     //target vocabularies
-    if($arrayVocabStats["cant_term2tterm"]) {
+    if ($arrayVocabStats["cant_term2tterm"]) {
         $rows.='<!-- Select Basic -->
 <div class="form-group">
   <label class="col-md-4 control-label" for="csv_tvocab_id">'.ucfirst(LABEL_TargetTerms).'</label>
@@ -837,7 +840,7 @@ function HTMLformAdvancedTermReport($array)
   </div>
 </div>';
     };
-    if(SQLcount($sql)>'1') {
+    if (SQLcount($sql)>'1') {
         $rows.='<!-- Select Basic -->
 <div class="form-group">
   <label class="col-md-4 control-label" for="csv_itvocab_id">'.ucfirst(LABEL_vocabulario_referencia).'</label>
@@ -855,10 +858,10 @@ function HTMLformAdvancedTermReport($array)
 </div>';
     };
     //only for admin
-    if($_SESSION[$_SESSION["CFGURL"]]["ssuser_nivel"]=='1') {
+    if ($_SESSION[$_SESSION["CFGURL"]]["ssuser_nivel"]=='1') {
         $sqlUsers=SQLdatosUsuarios();
-        if(SQLcount($sqlUsers)>1) {
-            while ($arrayUsers=$sqlUsers->FetchRow())        {
+        if (SQLcount($sqlUsers)>1) {
+            while ($arrayUsers=$sqlUsers->FetchRow()) {
                   $formSelectUsers[]=$arrayUsers["id"].'#'.$arrayUsers["apellido"].', '.$arrayUsers["nombres"];
             }
             $rows.='<!-- Select Basic -->
@@ -910,7 +913,7 @@ Simple Term report by
 */
 function HTMLformSimpleTermReport($array)
 {
-    GLOBAL $CFG;
+    global $CFG;
 
     $arraySimpleReports=array('csv2#'.ucfirst(LABEL_terminosLibres),
                                                         'csv3#'.ucfirst(LABEL_terminosRepetidos),
@@ -921,12 +924,12 @@ function HTMLformSimpleTermReport($array)
                                                         'csv13#'.ucfirst(LABEL_preferedTerms),
                                                         'csv10#'.ucfirst(LABEL_relatedTerms),
                                                         'csv11#'.ucfirst(LABEL_nonPreferedTerms),
-                                                        'csv18#'.ucfirst(LABEL_sources4vocab),                                                        
+                                                        'csv18#'.ucfirst(LABEL_sources4vocab),
                                                         'csv5#'.ucfirst(LABEL_Candidato),
                                                         'csv6#'.ucfirst(LABEL_Rechazado));
 
     //admin reports
-    if(checkValidRol($_SESSION[$_SESSION["CFGURL"]]["user_data"], "adminReports")) {
+    if (checkValidRol($_SESSION[$_SESSION["CFGURL"]]["user_data"], "adminReports")) {
         array_push($arraySimpleReports, 'csv15#'.ucfirst(LABEL_allTerms), 'csv16#'.ucfirst(LABEL_allRelations), 'csv17#'.ucfirst(LABEL_allNotes), 'csv19#'.ucfirst(LABEL_source4term));
     }
 
@@ -976,7 +979,7 @@ Simple Term report for mapped terms
 */
 function HTMLformMappedTermReport($array)
 {
-    GLOBAL $CFG;
+    global $CFG;
     $rows.='<form class="" role="form" name="mappedreport" id="mappedreport" action="index.php" method="get">';
     $rows.='	<div class="row">
 	    <div class="col-sm-12">
@@ -988,7 +991,7 @@ function HTMLformMappedTermReport($array)
 	            <div class="panel-body form-horizontal">';
 
     $SQLtvocabs=SQLtargetVocabulary();
-    while($ARRAYtvocabs=$SQLtvocabs->FetchRow()){
+    while ($ARRAYtvocabs=$SQLtvocabs->FetchRow()) {
         $i_tvocab=++$i_tvocab;
         $rows.='<div class="form-group">
 		<input name="tvocabs[]" type="checkbox" id="tvocab_id'.$ARRAYtvocabs["tvocab_id"].'" value="'.$ARRAYtvocabs["tvocab_id"].'" />
@@ -1018,7 +1021,8 @@ function HTMLformMappedTermReport($array)
     $rows.='<input type="hidden"  name="task" id="simpleMappedTermReport" value="csv12"/>';
     $rows.='</form>';
 
-    if($i_tvocab>0) {    return $rows;
+    if ($i_tvocab>0) {
+        return $rows;
     }
 }
 
@@ -1027,7 +1031,7 @@ Simple Term report for notes
 */
 function HTMLformNullNotesTermReport($array)
 {
-    GLOBAL $CFG;
+    global $CFG;
     $LabelNB=LABEL_NB;
     $LabelNH=LABEL_NH;
     $LabelNA=LABEL_NA;
@@ -1044,7 +1048,7 @@ function HTMLformNullNotesTermReport($array)
 	            <div class="panel-body form-horizontal"><div class="panel-heading">'.ucfirst(MSG_FORM_NULLnotesTermReport).'</div>';
 
     $sqlNoteType=SQLcantNotas();
-    while($ARRAYnoteType=$sqlNoteType->FetchRow()){
+    while ($ARRAYnoteType=$sqlNoteType->FetchRow()) {
         $i_note=++$i_note;
         $varNoteType=(in_array($ARRAYnoteType["value_id"], array(8,9,10,11,15))) ? arrayReplace(array(8,9,10,11,15), array($LabelNA,$LabelNH,$LabelNB,$LabelNP,$LabelNC), $ARRAYnoteType["value_id"]) : $ARRAYnoteType["value"];
         $rows.='<div class="form-group">
@@ -1092,9 +1096,9 @@ function HTMLformNullNotesTermReport($array)
 Register web services provider
 *
 */
-function HTMLformTargetVocabulary($tvocab_id="0")
+function HTMLformTargetVocabulary($tvocab_id = "0")
 {
-    GLOBAL $CFG;
+    global $CFG;
     $array=($tvocab_id>0) ? ARRAYtargetVocabulary($tvocab_id) : array();
     $array["tvocab_status"] = (is_numeric($array["tvocab_status"])) ? $array["tvocab_status"] : '1';
     $doAdmin= ($array["tvocab_id"]>0) ? 'saveTargetVocabulary' : 'addTargetVocabulary';
@@ -1114,7 +1118,7 @@ function HTMLformTargetVocabulary($tvocab_id="0")
 			    <div class="col-lg-7">
 			        <div class="panel panel-default">
 			            <div class="panel-body form-horizontal">';
-    if($array["tvocab_id"]) {
+    if ($array["tvocab_id"]) {
         $link2tterms='(<a href="admin.php?doAdmin=seeTermsTargetVocabulary&amp;tvocab_id='.$array["tvocab_id"].'">'.$array["cant"].' '.LABEL_Terminos.'</a>)';
         $rows.='<div class="form-group"><label class="col-sm-3 control-label" for="tvocab_label">'.ucfirst(LABEL_Titulo).'</label>';
         $rows.='	<div class="col-sm-9"><a id="tvocab_title" href="'.$array["tvocab_url"].'">'.$array["tvocab_title"].'</a> '.$link2tterms.' ';
@@ -1145,11 +1149,9 @@ function HTMLformTargetVocabulary($tvocab_id="0")
 									<div class="form-group">
 										<label for="tvocab_uri_service" accesskey="l" class="col-sm-3 control-label">'.ucfirst(LABEL_tvocab_uri_service).'</label>
 			                <div class="col-sm-9">';
-    if($array["tvocab_id"]) {
+    if ($array["tvocab_id"]) {
         $rows.='<span id="tvocab_uri_service">'.$array["tvocab_uri_service"].'</span>';
-    }
-    else
-                                                    {
+    } else {
         $rows.='<input type="url" required placeholder="'.LABEL_tvocab_uri_service.'"  class="form-control" name="tvocab_uri_service" id="tvocab_uri_service" value="'.$array["tvocab_uri_service"].'"/>';
         $rows.='<span class="help-block">'.ucfirst(LINK_publicKnownVocabularies).'</span>';
     };
@@ -1180,19 +1182,19 @@ function HTMLformTargetVocabulary($tvocab_id="0")
 /*
 Asociaci�n con datos provistos por web services terminol�gicos TemaTres
 */
-function HTMLformAssociateTargetTerms($ARRAYtermino,$term_id="0")
+function HTMLformAssociateTargetTerms($ARRAYtermino, $term_id = "0")
 {
-    GLOBAL $CFG;
+    global $CFG;
     $sql=SQLtargetVocabulary("1");
     $rows='<div class="container" id="bodyText">';
     $rows.='<a class="topOfPage" href="'.URL_BASE.'index.php?tema='.$ARRAYtermino["idTema"].'" title="'.LABEL_Anterior.'">'.LABEL_Anterior.'</a>';
-    if(SQLcount($sql)=='0') {
+    if (SQLcount($sql)=='0') {
         //No hay vocabularios de referencia, solo vocabulario principal
         $rows.=HTMLalertNoTargetVocabulary();
     } else {
         //Hay vobularios de referencia
-        while($array=$sql->FetchRow()){
-            if($array["vocabulario_id"]!=='1') {
+        while ($array=$sql->FetchRow()) {
+            if ($array["vocabulario_id"]!=='1') {
                 //vocabularios que no sean el vocabulario principal
                 $array_vocabularios[]=$array["tvocab_id"].'#'.FixEncoding($array["tvocab_label"].' - '.$CFG["ISO639-1"][$array["tvocab_lang"]][1]);
             }
@@ -1249,26 +1251,25 @@ function HTMLformAssociateTargetTerms($ARRAYtermino,$term_id="0")
 
     $string2search = toASCII($string2search);
 
-    if(($string2search) && ($_GET["tvocab_id"])) {
+    if (($string2search) && ($_GET["tvocab_id"])) {
         include_once T3_ABSPATH . 'common/include/vocabularyservices.php'    ;
         $arrayVocab=ARRAYtargetVocabulary($_GET["tvocab_id"]);
         switch ($_GET["search_by"]) {
-        case 'string':
-            $dataTerm=getURLdata($arrayVocab["tvocab_uri_service"].'?task=search&arg='.urlencode($string2search));
-            break;
-        case 'code':
-            $dataTerm=getURLdata($arrayVocab["tvocab_uri_service"].'?task=fetchCode&arg='.urlencode($ARRAYtermino["code"]));
-            break;
-        case 'reverse':
-            $dataTerm=getURLdata($arrayVocab["tvocab_uri_service"].'?task=fetchSourceTerms&arg='.rawurlencode($ARRAYtermino["titTema"]));
-            break;
-        default :
-            $dataTerm=getURLdata($arrayVocab["tvocab_uri_service"].'?task=search&arg='.urlencode($string2search));
-            break;
+            case 'string':
+                $dataTerm=getURLdata($arrayVocab["tvocab_uri_service"].'?task=search&arg='.urlencode($string2search));
+                break;
+            case 'code':
+                $dataTerm=getURLdata($arrayVocab["tvocab_uri_service"].'?task=fetchCode&arg='.urlencode($ARRAYtermino["code"]));
+                break;
+            case 'reverse':
+                $dataTerm=getURLdata($arrayVocab["tvocab_uri_service"].'?task=fetchSourceTerms&arg='.rawurlencode($ARRAYtermino["titTema"]));
+                break;
+            default:
+                $dataTerm=getURLdata($arrayVocab["tvocab_uri_service"].'?task=search&arg='.urlencode($string2search));
+                break;
         }
 
         $rows.=HTMLtargetVocabularySearchResult($dataTerm, $_GET["string2search"], $arrayVocab, $ARRAYtermino["idTema"]);
-
     };//fin de if buscar
     $rows.='   </div>';
     $rows.='<script type="text/javascript">
@@ -1280,18 +1281,18 @@ function HTMLformAssociateTargetTerms($ARRAYtermino,$term_id="0")
 }
 
 
-function HTMLtargetVocabularySearchResult($dataTerm,$string_search,$arrayVocab,$tema_id)
+function HTMLtargetVocabularySearchResult($dataTerm, $string_search, $arrayVocab, $tema_id)
 {
-    GLOBAL $CFG;
+    global $CFG;
     //SEND_KEY to prevent duplicated
     session_start();
     $_SESSION['SEND_KEY']=md5(uniqid(rand(), true));
     $tag_type='ol';
     $rows.='<h3>'.$dataTerm->resume->cant_result.' '.MSG_ResultBusca.' <i>'.$string_search.'</i>  ('.FixEncoding($arrayVocab["tvocab_title"]).' - '.$CFG["ISO639-1"][$arrayVocab["tvocab_lang"]][1].')</h3>'."\n\r";
 
-    if($dataTerm->resume->cant_result > "0") {
+    if ($dataTerm->resume->cant_result > "0") {
         $rows.='<'.$tag_type.'>';
-        foreach ($dataTerm->result->term as $value){
+        foreach ($dataTerm->result->term as $value) {
             $rows.='<li class="btn-block">';
             $rows.='<a class="btn btn-primary btn-sm" role="button" title="'.FixEncoding((string) $value->string).'" href="'.URL_BASE.'index.php?tema='.$tema_id.'&amp;tvocab_id='.$arrayVocab["tvocab_id"].'&amp;tgetTerm_id='.(int) $value->term_id.'&amp;taskrelations=addTgetTerm&amp;ks='.$_SESSION["SEND_KEY"].'">'.ucfirst(LABEL_seleccionar).'</a> ';
             $rows.='<a class="modalTrigger" title="'.LABEL_Detalle.' '.FixEncoding((string) $value->string).'" href="'.URL_BASE.'modal.php?tvocab_id='.$arrayVocab["tvocab_id"].'&term_id='.(int) $value->term_id.'">'.FixEncoding((string) $value->string).'</a>';
@@ -1303,15 +1304,15 @@ function HTMLtargetVocabularySearchResult($dataTerm,$string_search,$arrayVocab,$
     return $rows;
 }
 
-function HTMLformTargetVocabularySuggested($arrayTterm,$t_relation,$string_search,$arrayVocab,$tema_id)
+function HTMLformTargetVocabularySuggested($arrayTterm, $t_relation, $string_search, $arrayVocab, $tema_id)
 {
-    GLOBAL $CFG;
+    global $CFG;
     //SEND_KEY to prevent duplicated
     session_start();
     $_SESSION['SEND_KEY']=md5(uniqid(rand(), true));
     $label_relation=ucfirst(arrayReplace(array('0','2','3','4'), array(LABEL_Termino,TR_termino,TE_termino,UP_termino), $t_relation));
     $rows.='<h3 id="suggestResult">'.FixEncoding($arrayVocab["tvocab_title"]).' ('.$CFG["ISO639-1"][$arrayVocab["tvocab_lang"]][1].')</h3>';
-    if(count($arrayTterm) > 0) {
+    if (count($arrayTterm) > 0) {
         $rows.='<form role="form" name="select_multi_term" action="index.php" method="post">';
         $rows.='	<div class="row">
 		    <div class="col-lg-10">
@@ -1331,7 +1332,7 @@ function HTMLformTargetVocabularySuggested($arrayTterm,$t_relation,$string_searc
 		</tr>
 		</thead>
 		<tbody class="searchable">';
-        foreach ($arrayTterm as $value){
+        foreach ($arrayTterm as $value) {
             $rows.= '<tr>';
             $rows.=  '     	<td align="center"><input type="checkbox" name="selectedTerms[]" id="tterm_'.$value["term_id"].'" title="'.$value["source_string"].' ('.$label_relation.')" value="'.$value["string"].'|tterm_|'.$value["term_id"].'" /> </td>';
             $rows.=  '      <td><label class="check_label" title="'.$value["source_string"].' ('.$label_relation.')" for="tterm_'.$value["term_id"].'">'.$value["string"].' <span style="font-weight:normal;">[<a href="modal.php?tvocab_id='.$arrayVocab["tvocab_id"].'&term_id='.$value["source_term_id"].'" class="modalTrigger" title="'.$value["source_string"].' ('.$label_relation.')" target="_blank">'.LABEL_Detalle.'</a>]</span></label></td>';
@@ -1339,7 +1340,7 @@ function HTMLformTargetVocabularySuggested($arrayTterm,$t_relation,$string_searc
         };
         $rows.='        </tbody>		</table>';
         $rows.='        </div>';
-        if($t_relation!=="4") {
+        if ($t_relation!=="4") {
             $ARRAYuriReference=ARRAYfetchValue("URI_TYPE", "exactMatch");
             $rows.='<div class="form-group">
 			<input type="checkbox" name="addLinkReference" id="addLinkReference" value="'.$ARRAYuriReference["value_id"].'" alt="'.ucfirst(LABEL_addExactLink).'" />
@@ -1375,8 +1376,8 @@ function HTMLformTargetVocabularySuggested($arrayTterm,$t_relation,$string_searc
         $rows.='<input type="hidden" id="taskterm" name="taskterm" value="addSuggestedTerms"/>';
         $rows.='<input type="hidden" name="tvocab_id" name="tvocab_id" value="'.$arrayVocab["tvocab_id"].'"/>';
         $rows.='</form>';
-    }//end of if result
-    else{
+    } //end of if result
+    else {
         $rows.='<p class="alert alert-danger"> '.$label_relation.': '.count($arrayTterm).' '.MSG_ResultBusca.' <i>'.$string_search.'</i></p>';
     }
 
@@ -1394,15 +1395,14 @@ function HTMLformAltaEquivalenciaTermino($ARRAYTermino)
     $rows='<div class="container" id="bodyText">';
     $rows.='<script type="text/javascript">$("#form-tvocab").validate({});</script>';
     $rows.='<a class="topOfPage" href="'.URL_BASE.'index.php?tema='.$ARRAYtermino["idTema"].'" title="'.LABEL_Anterior.'">'.LABEL_Anterior.'</a>';
-    if(SQLcount($sql)=='1') {
+    if (SQLcount($sql)=='1') {
         //No hay vocabularios de referencia, solo vocabulario principal
         $rows.=HTMLalertNoTargetVocabularyPivotModel();
     } else {
         //Hay vobularios de referencia
         $array_vocabularios=array();
-        while($array=$sql->FetchRow())
-        {
-            if($array["vocabulario_id"]!=='1') {
+        while ($array=$sql->FetchRow()) {
+            if ($array["vocabulario_id"]!=='1') {
                 //vocabularios que no sean el vocabulario principal
                 array_push($array_vocabularios, $array["vocabulario_id"].'#'.$array["titulo"]);
             }
@@ -1473,11 +1473,11 @@ function HTMLformAltaEquivalenciaTermino($ARRAYTermino)
 function HTMLformConfigValues($array_vocabulario)
 {
 
-    GLOBAL $arrayCFGs;
+    global $arrayCFGs;
 
     $sql=SQLconfigValues();
     $NEWarrayCFGs=array();
-    while ($array=$sql->FetchRow()){
+    while ($array=$sql->FetchRow()) {
         $NEWarrayCFGs[$array["value"]]= $array["value_code"];
     }
 
@@ -1489,121 +1489,120 @@ function HTMLformConfigValues($array_vocabulario)
     $rows.='</div>';
 
     foreach ($arrayCFGs as $key => $value) {
-        switch ($key){
-        case 'CFG_PUBLISH':
-            $rows.='<div class="form-group">';
-            $rows.='<label class="col-sm-5 control-label" for="'.$key.'">'.$key.'</label>';
-            $rows.='<div class="col-sm-5">     <select id="'.$key.'" name="'.$key.'">';
-            $rows.=    doSelectForm(array('1#'.LABEL_SI,'00#'.LABEL_NO), $NEWarrayCFGs[$key]);
-            $rows.='</select>';
-            $rows.='<span class="help-block">'.ucfirst(LABEL_CFG_PUBLISH).'</span></div>';
-            $rows.='</div>';
-            break;
-        case 'CFG_ALLOW_DUPLICATED':
-            $rows.='<div class="form-group">';
-            $rows.='<label class="col-sm-5 control-label" for="'.$key.'">'.$key.'</label>';
-            $rows.='<div class="col-sm-5">     <select id="'.$key.'" name="'.$key.'">';
-            $rows.=    doSelectForm(array('1#'.LABEL_SI,'00#'.LABEL_NO), $NEWarrayCFGs[$key]);
-            $rows.='</select>';
-            $rows.='<span class="help-block">'.ucfirst(LABEL_ALLOW_DUPLICATED).'</span></div>';
-            $rows.='</div>';
-            break;
+        switch ($key) {
+            case 'CFG_PUBLISH':
+                $rows.='<div class="form-group">';
+                $rows.='<label class="col-sm-5 control-label" for="'.$key.'">'.$key.'</label>';
+                $rows.='<div class="col-sm-5">     <select id="'.$key.'" name="'.$key.'">';
+                $rows.=    doSelectForm(array('1#'.LABEL_SI,'00#'.LABEL_NO), $NEWarrayCFGs[$key]);
+                $rows.='</select>';
+                $rows.='<span class="help-block">'.ucfirst(LABEL_CFG_PUBLISH).'</span></div>';
+                $rows.='</div>';
+                break;
+            case 'CFG_ALLOW_DUPLICATED':
+                $rows.='<div class="form-group">';
+                $rows.='<label class="col-sm-5 control-label" for="'.$key.'">'.$key.'</label>';
+                $rows.='<div class="col-sm-5">     <select id="'.$key.'" name="'.$key.'">';
+                $rows.=    doSelectForm(array('1#'.LABEL_SI,'00#'.LABEL_NO), $NEWarrayCFGs[$key]);
+                $rows.='</select>';
+                $rows.='<span class="help-block">'.ucfirst(LABEL_ALLOW_DUPLICATED).'</span></div>';
+                $rows.='</div>';
+                break;
 
 
-        case '_SHOW_RANDOM_TERM':
-            $ARRAYnoteType=ARRAYnoteTypes(array('NP'));
+            case '_SHOW_RANDOM_TERM':
+                $ARRAYnoteType=ARRAYnoteTypes(array('NP'));
 
-            foreach ($ARRAYnoteType as $noteType => $noteData) {
-                //exclude private notes
-                $flagSelected=($NEWarrayCFGs[$key]==$noteData["value_code"]) ? 'SELECTED':"";
-                $noteOption.='<option value="'.$noteData["value_code"].'" '.$flagSelected.'>'.$noteData["value"].' ('.$noteData["cant"].')</option>';
-            };
+                foreach ($ARRAYnoteType as $noteType => $noteData) {
+                    //exclude private notes
+                    $flagSelected=($NEWarrayCFGs[$key]==$noteData["value_code"]) ? 'SELECTED':"";
+                    $noteOption.='<option value="'.$noteData["value_code"].'" '.$flagSelected.'>'.$noteData["value"].' ('.$noteData["cant"].')</option>';
+                };
 
-            $noteSelect.='<option value="00">'.LABEL_NO.'</option>';
-            $noteSelect.=' <optgroup label="'.ucfirst(LABEL_opt_show_rando_term).'">'.$noteOption.'</optgroup>';
+                $noteSelect.='<option value="00">'.LABEL_NO.'</option>';
+                $noteSelect.=' <optgroup label="'.ucfirst(LABEL_opt_show_rando_term).'">'.$noteOption.'</optgroup>';
 
-            $rows.='<div class="form-group">';
-            $rows.='<label class="col-sm-5 control-label" for="'.$key.'">'.$key.'</label>';
-            $rows.='<div class="col-sm-5">     <select id="'.$key.'" name="'.$key.'">';
-            $rows.=    $noteSelect;
-            $rows.='</select>';
-            $rows.='<span class="help-block">'.ucfirst(LABEL_SHOW_RANDOM_TERM).'</span></div>';
-            $rows.='</div>';
+                $rows.='<div class="form-group">';
+                $rows.='<label class="col-sm-5 control-label" for="'.$key.'">'.$key.'</label>';
+                $rows.='<div class="col-sm-5">     <select id="'.$key.'" name="'.$key.'">';
+                $rows.=    $noteSelect;
+                $rows.='</select>';
+                $rows.='<span class="help-block">'.ucfirst(LABEL_SHOW_RANDOM_TERM).'</span></div>';
+                $rows.='</div>';
 
-            empty($noteData);
-            empty($noteType);
-            break;
+                empty($noteData);
+                empty($noteType);
+                break;
 
-        case '_GLOSS_NOTES':
+            case '_GLOSS_NOTES':
+                foreach ($ARRAYnoteType as $noteType => $noteData) {
+                    //exclude private notes
+                    $flagSelected=($NEWarrayCFGs[$key]==$noteData["value_code"]) ? 'SELECTED':"";
+                    $_GLOSS_NOTESOptions.='<option value="'.$noteData["value_code"].'" '.$flagSelected.'>'.$noteData["value"].' ('.$noteData["cant"].')</option>';
+                };
 
-            foreach ($ARRAYnoteType as $noteType => $noteData) {
-                //exclude private notes
-                $flagSelected=($NEWarrayCFGs[$key]==$noteData["value_code"]) ? 'SELECTED':"";
-                $_GLOSS_NOTESOptions.='<option value="'.$noteData["value_code"].'" '.$flagSelected.'>'.$noteData["value"].' ('.$noteData["cant"].')</option>';
-            };
+                $rows.='<div class="form-group">';
+                $rows.='<label class="col-sm-5 control-label" for="'.$key.'">'.$key.'</label>';
+                $rows.='<div class="col-sm-5">     <select id="'.$key.'" name="'.$key.'">';
+                $rows.=    $_GLOSS_NOTESOptions;
+                $rows.='</select>';
+                $rows.='<span class="help-block">'.ucfirst(LABEL_GLOSS_NOTES).'</span></div>';
+                $rows.='</div>';
+                break;
 
-            $rows.='<div class="form-group">';
-            $rows.='<label class="col-sm-5 control-label" for="'.$key.'">'.$key.'</label>';
-            $rows.='<div class="col-sm-5">     <select id="'.$key.'" name="'.$key.'">';
-            $rows.=    $_GLOSS_NOTESOptions;
-            $rows.='</select>';
-            $rows.='<span class="help-block">'.ucfirst(LABEL_GLOSS_NOTES).'</span></div>';
-            $rows.='</div>';
-            break;
-
-        case 'CFG_MAX_TREE_DEEP':
-            $rows.='<div class="form-group">';
-            $rows.='<label class="col-sm-5 control-label" for="'.$key.'">'.$key.'</label>';
-            $rows.='<div class="col-sm-5">    <select id="'.$key.'" name="'.$key.'">';
-            $rows.=    doSelectForm(array("1#1","2#2","3#3","4#4","5#5","6#6"), $NEWarrayCFGs[$key]);
-            $rows.='</select>';
-            $rows.='<span class="help-block">'.ucfirst(LABEL_CFG_MAX_TREE_DEEP).'</span></div>';
-            $rows.='</div>';
-            break;
-        case 'CFG_MIN_SEARCH_SIZE':
-            $rows.='<div class="form-group">';
-            $rows.='<label class="col-sm-5 control-label" for="'.$key.'" >'.$key.'</label>';
-            $rows.='<div class="col-sm-5">     <select id="'.$key.'" name="'.$key.'">';
-            $rows.=    doSelectForm(array("1#1","2#2","3#3","4#4","5#5","6#6"), $NEWarrayCFGs[$key]);
-            $rows.='</select>';
-            $rows.='<span class="help-block">'.ucfirst(LABEL_CFG_MIN_SEARCH_SIZE).'</span></div>';
-            $rows.='</div>';
-            break;
-        case 'CFG_NUM_SHOW_TERMSxSTATUS':
-            $rows.='<div class="form-group">';
-            $rows.='<label class="col-sm-5 control-label" for="'.$key.'">'.$key.'</label>';
-            $rows.='<div class="col-sm-5">     <select id="'.$key.'" name="'.$key.'">';
-            $rows.=    doSelectForm(array("50#50","100#100","150#150","200#200","250#250"), $NEWarrayCFGs[$key]);
-            $rows.='</select>';
-            $rows.='<span class="help-block">'.ucfirst(LABEL_CFG_NUM_SHOW_TERMSxSTATUS).'</span></div>';
-            $rows.='</div>';
-            break;
-        case 'CFG_SEARCH_METATERM':
-            $rows.='<div class="form-group">';
-            $rows.='<label class="col-sm-5 control-label" for="'.$key.'">'.$key.'</label>';
-            $rows.='<div class="col-sm-5">     <select id="'.$key.'" name="'.$key.'">';
-            $rows.=    doSelectForm(array('1#'.LABEL_SI,'00#'.LABEL_NO), $NEWarrayCFGs[$key]);
-            $rows.='</select>';
-            $rows.='<span class="help-block">'.ucfirst(NOTE_isMetaTermNote).'</span></div>';
-            $rows.='</div>';
-            break;
-        case 'CFG_SUGGESTxWORD':
-            $rows.='<div class="form-group">';
-            $rows.='<label class="col-sm-5 control-label" for="'.$key.'">'.$key.'</label>';
-            $rows.='<div class="col-sm-5">     <select id="'.$key.'" name="'.$key.'">';
-            $rows.=    doSelectForm(array('1#'.LABEL_SI,'00#'.LABEL_NO), $NEWarrayCFGs[$key]);
-            $rows.='</select>';
-            $rows.='<span class="help-block">'.ucfirst(LABEL_CFG_SUGGESTxWORD).'</span></div>';
-            $rows.='</div>';
-            break;
-        default:
-            $rows.='<div class="form-group">';
-            $rows.='<label class="col-sm-5 control-label" for="'.$key.'">'.$key.'</label>';
-            $rows.='<div class="col-sm-5">     <select id="'.$key.'" name="'.$key.'">';
-            $rows.=    doSelectForm(array('1#'.LABEL_SI,'00#'.LABEL_NO), $NEWarrayCFGs[$key]);
-            $rows.='</select>';
-            $rows.='<span class="help-block">'.ucfirst(arrayReplace(array('_USE_CODE','_SHOW_CODE','CFG_VIEW_STATUS','CFG_SIMPLE_WEB_SERVICE','_SHOW_TREE','_PUBLISH_SKOS','CFG_ENABLE_SPARQL','COPY_CLICK'), array(LABEL__USE_CODE,LABEL__SHOW_CODE,LABEL_CFG_VIEW_STATUS,LABEL_CFG_SIMPLE_WEB_SERVICE,LABEL__SHOW_TREE,LABEL__PUBLISH_SKOS,LABEL__ENABLE_SPARQL,LABEL__ENABLE_COPY_CLICK), $key)).'</span></div>';
-            $rows.='</div>';
+            case 'CFG_MAX_TREE_DEEP':
+                $rows.='<div class="form-group">';
+                $rows.='<label class="col-sm-5 control-label" for="'.$key.'">'.$key.'</label>';
+                $rows.='<div class="col-sm-5">    <select id="'.$key.'" name="'.$key.'">';
+                $rows.=    doSelectForm(array("1#1","2#2","3#3","4#4","5#5","6#6"), $NEWarrayCFGs[$key]);
+                $rows.='</select>';
+                $rows.='<span class="help-block">'.ucfirst(LABEL_CFG_MAX_TREE_DEEP).'</span></div>';
+                $rows.='</div>';
+                break;
+            case 'CFG_MIN_SEARCH_SIZE':
+                $rows.='<div class="form-group">';
+                $rows.='<label class="col-sm-5 control-label" for="'.$key.'" >'.$key.'</label>';
+                $rows.='<div class="col-sm-5">     <select id="'.$key.'" name="'.$key.'">';
+                $rows.=    doSelectForm(array("1#1","2#2","3#3","4#4","5#5","6#6"), $NEWarrayCFGs[$key]);
+                $rows.='</select>';
+                $rows.='<span class="help-block">'.ucfirst(LABEL_CFG_MIN_SEARCH_SIZE).'</span></div>';
+                $rows.='</div>';
+                break;
+            case 'CFG_NUM_SHOW_TERMSxSTATUS':
+                $rows.='<div class="form-group">';
+                $rows.='<label class="col-sm-5 control-label" for="'.$key.'">'.$key.'</label>';
+                $rows.='<div class="col-sm-5">     <select id="'.$key.'" name="'.$key.'">';
+                $rows.=    doSelectForm(array("50#50","100#100","150#150","200#200","250#250"), $NEWarrayCFGs[$key]);
+                $rows.='</select>';
+                $rows.='<span class="help-block">'.ucfirst(LABEL_CFG_NUM_SHOW_TERMSxSTATUS).'</span></div>';
+                $rows.='</div>';
+                break;
+            case 'CFG_SEARCH_METATERM':
+                $rows.='<div class="form-group">';
+                $rows.='<label class="col-sm-5 control-label" for="'.$key.'">'.$key.'</label>';
+                $rows.='<div class="col-sm-5">     <select id="'.$key.'" name="'.$key.'">';
+                $rows.=    doSelectForm(array('1#'.LABEL_SI,'00#'.LABEL_NO), $NEWarrayCFGs[$key]);
+                $rows.='</select>';
+                $rows.='<span class="help-block">'.ucfirst(NOTE_isMetaTermNote).'</span></div>';
+                $rows.='</div>';
+                break;
+            case 'CFG_SUGGESTxWORD':
+                $rows.='<div class="form-group">';
+                $rows.='<label class="col-sm-5 control-label" for="'.$key.'">'.$key.'</label>';
+                $rows.='<div class="col-sm-5">     <select id="'.$key.'" name="'.$key.'">';
+                $rows.=    doSelectForm(array('1#'.LABEL_SI,'00#'.LABEL_NO), $NEWarrayCFGs[$key]);
+                $rows.='</select>';
+                $rows.='<span class="help-block">'.ucfirst(LABEL_CFG_SUGGESTxWORD).'</span></div>';
+                $rows.='</div>';
+                break;
+            default:
+                $rows.='<div class="form-group">';
+                $rows.='<label class="col-sm-5 control-label" for="'.$key.'">'.$key.'</label>';
+                $rows.='<div class="col-sm-5">     <select id="'.$key.'" name="'.$key.'">';
+                $rows.=    doSelectForm(array('1#'.LABEL_SI,'00#'.LABEL_NO), $NEWarrayCFGs[$key]);
+                $rows.='</select>';
+                $rows.='<span class="help-block">'.ucfirst(arrayReplace(array('_USE_CODE','_SHOW_CODE','CFG_VIEW_STATUS','CFG_SIMPLE_WEB_SERVICE','_SHOW_TREE','_PUBLISH_SKOS','CFG_ENABLE_SPARQL','COPY_CLICK'), array(LABEL__USE_CODE,LABEL__SHOW_CODE,LABEL_CFG_VIEW_STATUS,LABEL_CFG_SIMPLE_WEB_SERVICE,LABEL__SHOW_TREE,LABEL__PUBLISH_SKOS,LABEL__ENABLE_SPARQL,LABEL__ENABLE_COPY_CLICK), $key)).'</span></div>';
+                $rows.='</div>';
         }
     }
     return $rows;
@@ -1680,11 +1679,12 @@ function HTMLformURI4term($ARRAYtermino)
     session_start();
     $_SESSION['SEND_KEY']=md5(uniqid(rand(), true));
     $SQLURIdefinition=SQLURIdefinition();
-    if(SQLcount($SQLURIdefinition)>0) {
-        while($ARRAYURIdefinition=$SQLURIdefinition->FetchRow()){
+    if (SQLcount($SQLURIdefinition)>0) {
+        while ($ARRAYURIdefinition=$SQLURIdefinition->FetchRow()) {
             $arraySelectURItype[]=$ARRAYURIdefinition["uri_type_id"].'#'.$ARRAYURIdefinition["uri_value"];
 
-            if($ARRAYURIdefinition["uri_value"]=='exactMatch') { $value_default= $ARRAYURIdefinition["uri_type_id"];
+            if ($ARRAYURIdefinition["uri_value"]=='exactMatch') {
+                $value_default= $ARRAYURIdefinition["uri_type_id"];
             }
         }
 
@@ -1828,7 +1828,7 @@ function HTMLformUpdateEndpoit()
 
 function HTMLformLogin($task_result)
 {
-    if(is_array($task_result)) {
+    if (is_array($task_result)) {
         $rows='<div>'.$task_result["msg"].'</div>';
     }
 
@@ -1857,7 +1857,7 @@ function HTMLformLogin($task_result)
     return $rows;
 }
 
-function HTMLformRecoveryPassword($user_name="")
+function HTMLformRecoveryPassword($user_name = "")
 {
     $rows='<form class="form-horizontal" id="myRecovery" name="myRecovery" action="login.php" method="post">
 <fieldset>
@@ -1880,41 +1880,44 @@ function HTMLformRecoveryPassword($user_name="")
     return $rows;
 }
 
-// 
+//
 // Vista de términos libres
-// 
-function HTMLformVerTerminosLibres($taskterm='null',$freeTerms_id=array())
+//
+function HTMLformVerTerminosLibres($taskterm = 'null', $freeTerms_id = array())
 {
     switch ($taskterm) {
-    case 'deleteFreeTerms':
-        if(count($freeTerms_id)==0) { return HTMLformVerTerminosLibres();
-        }
-        $task=REMTerms($freeTerms_id, 1);
-        break;
-    case 'rejectFreeTerms':
-        if(count($freeTerms_id)==0) { return HTMLformVerTerminosLibres();
-        }
-        $task=REJECTterms($freeTerms_id, 1);
-        break;
-    case 'makeMetaTermsFreeTerms':
-        if(count($freeTerms_id)==0) { return HTMLformVerTerminosLibres();
-        }
-        $task=makeMetaTerms($freeTerms_id);
-        break;
-    default:
-        break;
+        case 'deleteFreeTerms':
+            if (count($freeTerms_id)==0) {
+                return HTMLformVerTerminosLibres();
+            }
+            $task=REMTerms($freeTerms_id, 1);
+            break;
+        case 'rejectFreeTerms':
+            if (count($freeTerms_id)==0) {
+                return HTMLformVerTerminosLibres();
+            }
+            $task=REJECTterms($freeTerms_id, 1);
+            break;
+        case 'makeMetaTermsFreeTerms':
+            if (count($freeTerms_id)==0) {
+                return HTMLformVerTerminosLibres();
+            }
+            $task=makeMetaTerms($freeTerms_id);
+            break;
+        default:
+            break;
     }
     $sql=SQLverTerminosLibres();
     $rows.='<div>';
     $rows.='<h3>'.ucfirst(LABEL_terminosLibres).' ('.SQLcount($sql).') </h3>';
-    if(is_array($task)) {
-        if($task["error"]>0) {
+    if (is_array($task)) {
+        if ($task["error"]>0) {
             $rows.='<p class="error">'.$task["error"].' '.MSG_termsErrorTask.' </p>';
-        }else{
+        } else {
             $rows.='<p class="success">'.$task["success"].' '.MSG_termsSuccessTask.' </p>';
         }
     }
-    if(SQLcount($sql)>0) {
+    if (SQLcount($sql)>0) {
         $rows.='<div><input id="filter" type="text" class="form-control" placeholder="'.ucfirst(LABEL_type2filter).'"></div>';
         $rows.='<form  role="form"  id="delete_free_terms" name="delete_free_terms" action="index.php?verT=L" method="post">';
         $rows.='<div class="table-responsive"> ';
@@ -1927,7 +1930,7 @@ function HTMLformVerTerminosLibres($taskterm='null',$freeTerms_id=array())
 		</tr>
 		</thead>
 		<tbody class="searchable">';
-        while ($array = $sql->FetchRow()){
+        while ($array = $sql->FetchRow()) {
             $alert_MT=($resulta_busca["isMetaTerm"]==1) ? ' ('.LABEL_meta_term.') ' : '';
             $rows.= '<tr>';
             $rows.=  '     	<td align="center"><input type="checkbox" name="deleteFreeTerms_id[]" id="freeTerm_'.$array["tema_id"].'" title="'.ucfirst(MENU_BorrarT).' '.$array["tema"].' " value="'.$array["tema_id"].'" /></td>';
@@ -1955,21 +1958,21 @@ function HTMLformVerTerminosLibres($taskterm='null',$freeTerms_id=array())
     return $rows;
 };
 
-// 
+//
 // Vista de términos repetidos
-// 
+//
 function HTMLformVerTerminosRepetidos()
 {
     $sql=SQLverTerminosRepetidos();
     $rows.='<div><h3>'.ucfirst(LABEL_terminosRepetidos).' ('.SQLcount($sql).') </h3>';
     $rows.='<ul>';
-    if(SQLcount($sql)==0) {
+    if (SQLcount($sql)==0) {
         $rows.='<li>'.ucfirst(MSG_noTerminosRepetidos).'</li>';
-    }else{
-        while($array = $sql->FetchRow()){
+    } else {
+        while ($array = $sql->FetchRow()) {
             $i=++$i;
-            if($string_term!==$array["string_term"]) {
-                if(!$i!==0) {
+            if ($string_term!==$array["string_term"]) {
+                if (!$i!==0) {
                     $rows.='</ul></li>';
                 }
                 $rows.='<li>'.$array["string_term"].' ('.$array["cant"].')<ul>';
@@ -1986,13 +1989,13 @@ function HTMLformVerTerminosRepetidos()
     return $rows;
 };
 
-// 
+//
 // Vista de términos sin relaciones jer�rquicas // preferred and accepted terms without hierarchical relationships
-// 
-function HTMLformVerTerminosSinBT($taskterm='null',$terms_id=array())
+//
+function HTMLformVerTerminosSinBT($taskterm = 'null', $terms_id = array())
 {
     //borrado masivo de términos libres
-    if($taskterm=='deleteTerms') {
+    if ($taskterm=='deleteTerms') {
         $task=REMTerms($terms_id, 0);
     }
 
@@ -2000,15 +2003,15 @@ function HTMLformVerTerminosSinBT($taskterm='null',$terms_id=array())
     $sql=SQLtermsNoBT(1);
     $rows.='<div>';
     $rows.='<h3>'.ucfirst(LABEL_termsNoBT).' ('.SQLcount($sql).') </h3>';
-    if(is_array($task)) {
-        if($task["error"]>0) {
+    if (is_array($task)) {
+        if ($task["error"]>0) {
             $rows.='<p class="error">'.$task["error"].' '.MSG_termsNoDeleted.' </p>';
-        }else{
+        } else {
             $rows.='<p class="success">'.$task["success"].' '.MSG_termsDeleted.' </p>';
         }
     }
 
-    if(SQLcount($sql)>0) {
+    if (SQLcount($sql)>0) {
         $rows.='<div><input id="filter" type="text" class="form-control" placeholder="'.ucfirst(LABEL_type2filter).'"></div>';
         $rows.='<form role="form"  id="delete_free_terms" name="delete_free_terms" action="index.php?verT=NBT" method="post">';
         $rows.='<div class="table-responsive"> ';
@@ -2022,7 +2025,7 @@ function HTMLformVerTerminosSinBT($taskterm='null',$terms_id=array())
 		</tr>
 		</thead>
 		<tbody class="searchable">';
-        while ($array = $sql->FetchRow()){
+        while ($array = $sql->FetchRow()) {
             $alert_MT=($array["isMetaTerm"]==1) ? ' ('.LABEL_meta_term.') ' : '';
             $rows.= '<tr>';
             $rows.=  '     <td align="center"><input type="checkbox" name="deleteTerms_id[]" id="term_'.$array["tema_id"].'" title="'.ucfirst(MENU_BorrarT).' '.$array["tema"].' " value="'.$array["tema_id"].'" /></td>';
@@ -2047,9 +2050,9 @@ function HTMLformVerTerminosSinBT($taskterm='null',$terms_id=array())
 
 function HTMLalertNoTargetVocabulary()
 {
-    if($_SESSION[$_SESSION["CFGURL"]]["ssuser_nivel"]=='1') {
+    if ($_SESSION[$_SESSION["CFGURL"]]["ssuser_nivel"]=='1') {
         $help_msg='<a href="admin.php?tvocabulario_id=0&doAdmin=seeformTargetVocabulary" title="'.ucfirst(LABEL_addTargetVocabulary).'">'.ucfirst(LABEL_addTargetVocabulary).'</a>.';
-    }else {
+    } else {
         $help_msg=ucfirst(MSG_contactAdmin).'.';
     }
     return '<p class="alert alert-danger" role="alert">'.ucfirst(LABEL_NO_vocabulario_referencia).'. '.$help_msg.'</p>';
@@ -2057,9 +2060,9 @@ function HTMLalertNoTargetVocabulary()
 
 function HTMLalertNoTargetVocabularyPivotModel()
 {
-    if($_SESSION[$_SESSION["CFGURL"]]["ssuser_nivel"]=='1') {
+    if ($_SESSION[$_SESSION["CFGURL"]]["ssuser_nivel"]=='1') {
         $help_msg='<a href="admin.php?vocabulario_id=0" title="'.ucfirst(LABEL_vocabulario_referencia).'">'.ucfirst(LABEL_vocabulario_referencia).'</a>.';
-    }else {
+    } else {
         $help_msg=ucfirst(MSG_contactAdmin).'.';
     }
     return '<p class="alert alert-danger" role="alert">'.ucfirst(LABEL_NO_vocabulario_referencia).'. '.$help_msg.'</p>';
@@ -2074,7 +2077,7 @@ function HTMLAlertDuplicateTerm($arrayDuplicateTerms)
     return $rows;
 }
 
-function HTMLformBulkReplace($params=array())
+function HTMLformBulkReplace($params = array())
 {
     $rows.='<div class="row">';
     $rows.='	<div class="col-md-6 col-md-offset-3">';
@@ -2085,13 +2088,13 @@ function HTMLformBulkReplace($params=array())
     $LABEL_NOTE=ucfirst(LABEL_notes);
     $arrayWS=array("t#$LABEL_Termino");
     $arrayVocabStats=ARRAYresumen($_SESSION["id_tesa"], "G", "");
-    if($arrayVocabStats["cant_notas"]>0) {
+    if ($arrayVocabStats["cant_notas"]>0) {
         array_push($arrayWS, "n#$LABEL_NOTE");
     }
     /*
     solo si hay m�s de un opci�n
     */
-    if(count($arrayWS)>1) {
+    if (count($arrayWS)>1) {
         $rows.='<div class="form-group"><label class="label_ttl control-label" for="ws" accesskey="f">'.ucfirst(LABEL_QueBuscar).'</label>';
         $rows.='<select class="select_ttl form-control" id="ws" name="ws">';
         $rows.=doSelectForm($arrayWS, "$_POST[ws]");
@@ -2119,7 +2122,7 @@ function HTMLformBulkReplace($params=array())
     $rows.='</div>';//div col
     $rows.='<div class="push"></div>';
 
-    if($params["taskAdmin"]=='bulkReplace') {
+    if ($params["taskAdmin"]=='bulkReplace') {
         $rows.=($params["ws"]=='t') ? HTMLbulkReplaceResultsTerms($params) : HTMLbulkReplaceResultsNotes($params);
     }
     return $rows;
@@ -2130,18 +2133,17 @@ function HTMLbulkReplaceResultsTerms($params)
 {
     $search_string=XSSprevent($params["search_string"]);
     $replace_string=XSSprevent($params["replace_string"]);
-    if($params["replaceStep"]=='bulkReplaceTest') {
+    if ($params["replaceStep"]=='bulkReplaceTest') {
         $label=ucfirst(LABEL_bulkTermsWillReplace);
         $sql=SQLbulkReplaceTermTest($search_string, $replace_string, $search_string);
         $cantTermsAffected=SQLcount($sql);
-    }else{
+    } else {
         $label=ucfirst(LABEL_bulkTermsReplaced);
         $sql=SQLbulkReplaceTerm($search_string, $replace_string, $search_string, $params["blkmod_id"]);
         $cantTermsAffected=$sql["cant"];
     }
     $rows='<h3><i>'.$search_string.'</i> X <i>'.$replace_string.'</i>: '.$cantTermsAffected.' '.$label.'</h3>';
-    if(($cantTermsAffected>0) && ($params["replaceStep"]=='bulkReplaceTest')) {
-
+    if (($cantTermsAffected>0) && ($params["replaceStep"]=='bulkReplaceTest')) {
         $rows.='<form class="form-inline" role="form" name="confirmBulkReplace" action="admin.php?doAdmin=bulkReplace" method="post">';
         $rows.='  <fieldset id="bulkReplaceDiv">';
         $rows.= '<p class="alert alert-warning" role="alert">'.LABEL_warningBulkEditor.'</p>';
@@ -2151,7 +2153,7 @@ function HTMLbulkReplaceResultsTerms($params)
         $rows.='<th><input name="checktodos" type="checkbox" title="'.LABEL_selectAll.'"/></th>
 				<th>'.ucfirst(LABEL_termMOD).'</th><th>'.ucfirst(LABEL_Termino).'</th></tr>
 				</thead><tbody>';
-        while($result=$sql->FetchRow()){
+        while ($result=$sql->FetchRow()) {
             $text = (strlen($replace_string)>0) ? preg_replace("|($replace_string)|", "<mark>".$replace_string."</mark>", $result["tema_mod"]) : $result["tema_mod"];
             $alert_MT=($result["isMetaTerm"]==1) ? ' ('.LABEL_meta_term.') ' : '';
             $rows.= '<tr>';
@@ -2185,18 +2187,17 @@ function HTMLbulkReplaceResultsNotes($params)
 {
     $search_string=XSSprevent($params["search_string"]);
     $replace_string=XSSprevent($params["replace_string"]);
-    if($params["replaceStep"]=='bulkReplaceTest') {
+    if ($params["replaceStep"]=='bulkReplaceTest') {
         $label=ucfirst(LABEL_bulkNotesWillReplace);
         $sql=SQLbulkReplaceNoteTest($search_string, $replace_string, $search_string);
         $cantTermsAffected=SQLcount($sql);
-    }else{
+    } else {
         $label=ucfirst(LABEL_bulkNotesReplaced);
         $sql=SQLbulkReplaceNote($search_string, $replace_string, $search_string, $params["blkmod_id"]);
         $cantTermsAffected=$sql["cant"];
     }
     $rows='<h3><i>'.$search_string.'</i> X <i>'.$replace_string.'</i>: '.$cantTermsAffected.' '.$label.'</h3>';
-    if(($cantTermsAffected>0) && ($params["replaceStep"]=='bulkReplaceTest')) {
-
+    if (($cantTermsAffected>0) && ($params["replaceStep"]=='bulkReplaceTest')) {
         $rows.='<form class="form-inline" role="form" name="confirmBulkReplace" action="admin.php?doAdmin=bulkReplace" method="post">';
         $rows.='  <fieldset id="bulkReplaceDiv">';
         $rows.= '<p class="alert alert-warning" role="alert">'.LABEL_warningBulkEditor.'</p>';
@@ -2206,7 +2207,7 @@ function HTMLbulkReplaceResultsNotes($params)
         $rows.='<th><input name="checktodos" type="checkbox" title="'.LABEL_selectAll.'"/></th>
 				<th>'.ucfirst(LABEL_noteMOD).'</th><th>'.ucfirst(LABEL_Termino).'</th></tr>
 				</thead><tbody>';
-        while($result=$sql->FetchRow()){
+        while ($result=$sql->FetchRow()) {
             $text = (strlen($replace_string)>0) ? preg_replace("|($replace_string)|", "<mark>".$replace_string."</mark>", $result["nota_mod"]): $result["nota_mod"];
             $rows.= '<tr>';
             $rows.=  '     <td align="center"><input type="checkbox" name="blkmod_id[]" id="blkmod_id'.$result["nota_id"].'" title="'.LABEL_seleccionar.'" value="'.$result["nota_id"].'" checked/></td>';
@@ -2236,7 +2237,7 @@ function HTMLbulkReplaceResultsNotes($params)
 
 function HTMLformExportGlossary()
 {
-    GLOBAL $CFG;
+    global $CFG;
 
     $rows.='<form class="" role="form" name="configGlossary" id="configGlossary" action="xml.php" method="get">';
     $rows.='	<div class="row">
@@ -2248,9 +2249,9 @@ function HTMLformExportGlossary()
 	        <div class="panel panel-default">
 	            <div class="panel-body form-horizontal"><div class="panel-heading">'.ucfirst(MSG_includeNotes).'</div>';
     $sqlNoteType=SQLcantNotas();
-    while($ARRAYnoteType=$sqlNoteType->FetchRow()){
+    while ($ARRAYnoteType=$sqlNoteType->FetchRow()) {
         $i_note=++$i_note;
-        if($ARRAYnoteType["cant"]>0) {
+        if ($ARRAYnoteType["cant"]>0) {
             $rows.='<div class="form-group">
 			<div class="col-sm-4">
 			<label for="note4gloss'.$ARRAYnoteType["value_id"].'">'.$ARRAYnoteType["value"].' ('.$ARRAYnoteType["cant"].')</label>
@@ -2316,8 +2317,8 @@ function HTMLformExport()
     $rows.='<div style="display:none;" id="skos_config">';
 
     $sqlTopTerm=SQLverTopTerm();
-    if(SQLcount($sqlTopTerm)>0) {
-        while ($arrayTopTerms=$sqlTopTerm->FetchRow()){
+    if (SQLcount($sqlTopTerm)>0) {
+        while ($arrayTopTerms=$sqlTopTerm->FetchRow()) {
             $formSelectTopTerms[]=$arrayTopTerms["tema_id"].'#'.$arrayTopTerms["tema"];
         }
         $rows.='<div class="form-group">
@@ -2334,7 +2335,7 @@ function HTMLformExport()
 
     $rows.='<div style="display:none;" id="txt_config">';
     $arrayVocabStats=ARRAYresumen($_SESSION["id_tesa"], "G", "");
-    if(SQLcount($sqlTopTerm)>0) {
+    if (SQLcount($sqlTopTerm)>0) {
         $rows.='<div class="form-group">
 						<label class="col-sm-3 control-label" for="hasTopTerm" accesskey="t">'.ucfirst(LABEL_TopTerm).'</label>';
         $rows.='<div class="col-sm-9">';
@@ -2357,10 +2358,10 @@ function HTMLformExport()
         $LabelNC=array('NC',LABEL_NC);
         $sqlNoteType=SQLcantNotas();
         $arrayNoteType=array();
-        while ($arrayNotes=$sqlNoteType->FetchRow()){
-            if($arrayNotes["cant"]>0) {
+        while ($arrayNotes=$sqlNoteType->FetchRow()) {
+            if ($arrayNotes["cant"]>0) {
                 //nota privada no
-                if($arrayNotes["value_id"]!=='11') {
+                if ($arrayNotes["value_id"]!=='11') {
                     $varNoteType=(in_array($arrayNotes["value_id"], array(8,9,10,11,15))) ? arrayReplace(array(8,9,10,11,15), array($LabelNA[1],$LabelNH[1],$LabelNB[1],$LabelNP[1],$LabelNC[1]), $arrayNotes["value_id"]) : $arrayNotes["value"];
                     $varNoteTypeCode=(in_array($arrayNotes["value_id"], array(8,9,10,11,15))) ? arrayReplace(array(8,9,10,11,15), array($LabelNA[0],$LabelNH[0],$LabelNB[0],$LabelNP[0],$LabelNC[0]), $arrayNotes["value_id"]) : $arrayNotes["value_code"];
                     $rows_notes.='<div class="form-group">
@@ -2376,7 +2377,7 @@ function HTMLformExport()
         $rows.='</div>';
 
         /* Si hay m�s de un tipo de nota             */
-        if(count($arrayVocabStats["cant_notas"])>0) {
+        if (count($arrayVocabStats["cant_notas"])>0) {
             $rows.=$rows_notes;
         }
     }
@@ -2415,27 +2416,26 @@ function HTMLformExport()
 function HTMLbulkGlossTerms($params)
 {
 
-    GLOBAL $CFG;
+    global $CFG;
 
     $params["replaceType"]=($params["replaceType"]!==0) ? 1 : $params["replaceType"];
 
     $params["note4gloss"]=($params["note4gloss"]) ? $params["note4gloss"] : $_SESSION[$_SESSION["CFGURL"]]["_GLOSS_NOTES"];
 
-    if($params["makeAutoGloss"]==1) {
-
+    if ($params["makeAutoGloss"]==1) {
         SQLnoteshtml2chars();
 
         $sql=SQLreportTerminosPreferidos();
 
         $i_replace=0;
 
-        while($result=$sql->FetchRow()){
+        while ($result=$sql->FetchRow()) {
             $search_string=' '.$result["tema"].' ';
             $replace_string=' [['.$result["tema"].']] ';
 
             $sql2=SQLbulkGlossNote($search_string, $replace_string, $search_string, $params["note4gloss"], $result["id"]);
 
-            if($sql2["cant"]>0) {
+            if ($sql2["cant"]>0) {
                 $i_replace=++$i_replace;
                 $arrayLog[$result["id"]]=$sql2["cant"];
                 $rowsLog.='<tr><td><a href="'.URL_BASE.'index.php?tema='.$result["id"].'" title="'.$result["id"].'">'.$result["tema"].'</a></td><td>'.$sql2["cant"].'</td></tr>';
@@ -2447,7 +2447,7 @@ function HTMLbulkGlossTerms($params)
 
 
         $rowsResult='<div class="panel-body"><h4>'.ucfirst(MSG_cantTermsFound).': '.$i_replace.'</h4>';
-        if($i_replace>0) {
+        if ($i_replace>0) {
             $rowsResult.='<div class="table-responsive"> ';
             $rowsResult.='<table class="table table-striped table-bordered table-condensed table-hover"">';
             $rowsResult.='<thead><tr>';
@@ -2519,7 +2519,7 @@ function HTMLbulkGlossTerms($params)
 /*
 terms form one char to translate
 */
-function FORMtransterm4char4map($tvocab_id,$filterEQ,$letra)
+function FORMtransterm4char4map($tvocab_id, $filterEQ, $letra)
 {
 
     $ARRAYvocabulario=ARRAYvocabulario($tvocab_id);
@@ -2540,12 +2540,11 @@ function FORMtransterm4char4map($tvocab_id,$filterEQ,$letra)
 			    <h4><a title="'.LABEL_bulkTranslate.'" href="'.URL_BASE.'index.php?mod=trad">'.ucfirst(LABEL_bulkTranslate).'</a> &middot; '.$ARRAYvocabulario["titulo"].'</h4>';
     $rows.='  </div>';
 
-    if($letra) {
+    if ($letra) {
         $rows.='<div class="panel-body">';
         $rows.='<p><em>'.MSG_ResultLetra.' '.$letra_label.': </em><a href="'.URL_BASE.'index.php?letra2trad='.$letra.'&amp;filterEQ=0&amp;tvocab_id='.$ARRAYvocabulario["vocabulario_id"].'&mod=trad">'.$cantLetra["cant"].' '.LABEL_Terminos.'</a>';
 
-        if(($cantLetra["cant_no_eq"]!=$cantLetra["cant"]) && ($cantLetra["cant_no_eq"]>0)) {
-
+        if (($cantLetra["cant_no_eq"]!=$cantLetra["cant"]) && ($cantLetra["cant_no_eq"]>0)) {
             $rows.='<ul>';
             $rows.='<li class="active">'.ucfirst(LABEL_termsEQ).': <a href="'.URL_BASE.'index.php?letra2trad='.$letra.'&amp;filterEQ=2&amp;tvocab_id='.$ARRAYvocabulario["vocabulario_id"].'&mod=trad">'.$cantLetra["cant_eq"].'  '.LABEL_Terminos.'</a></li>';
 
@@ -2566,14 +2565,13 @@ function FORMtransterm4char4map($tvocab_id,$filterEQ,$letra)
     $cantLetra2Paginador=$cantLetra["cant"];
 
 
-    if($filterEQ>0) {
+    if ($filterEQ>0) {
         $cantLetra2Paginador=($filterEQ==2) ? $cantLetra["cant_eq"] : $cantLetra["cant_no_eq"];
     }
 
 
-    if($cantLetra2Paginador>0) {
-
-        if($cantLetra2Paginador>CFG_NUM_SHOW_TERMSxTRAD) {
+    if ($cantLetra2Paginador>0) {
+        if ($cantLetra2Paginador>CFG_NUM_SHOW_TERMSxTRAD) {
             $paginado_letras=paginate_links(
                 array(
                 'type' => 'list',
@@ -2609,11 +2607,11 @@ function FORMtransterm4char4map($tvocab_id,$filterEQ,$letra)
 						        </tr>
 						    </thead>
 						    <tbody>';
-        while ($datosLetra= $sqlDatosLetra->FetchRow()){
+        while ($datosLetra= $sqlDatosLetra->FetchRow()) {
             $i=++$i;
             $num_terms=++$num_terms;
             //edit term
-            if($datosLetra["tterm_id"]) {
+            if ($datosLetra["tterm_id"]) {
                 $rows.='<tr>
 				            <td class="col-sm-2">'.$num_terms.'</td>';
                 $rows.='        <td class="col-sm-2">'.arrayReplace(array(id_EQ,id_EQ_PARCIAL,id_EQ_NO), array(LABEL_termino_equivalente,LABEL_termino_parcial_equivalente,LABEL_termino_no_equivalente), $datosLetra["t_relacion"]).'</td>';
@@ -2626,7 +2624,7 @@ function FORMtransterm4char4map($tvocab_id,$filterEQ,$letra)
                 $rows.='</tr>';
 
                 //create term
-            }else{
+            } else {
                 $rows.='<tr><td class="col-sm-2">'.$num_terms.'</td>';
 
                 $rows.='<td class="col-sm-2">
@@ -2636,7 +2634,6 @@ function FORMtransterm4char4map($tvocab_id,$filterEQ,$letra)
 				<td class="col-sm-2"></td>';
                 $rows.='</tr>';
             }
-
         }
         $rows.='    </tbody>
 						    <tfoot>
@@ -2662,7 +2659,7 @@ function FORMtransterm4char4map($tvocab_id,$filterEQ,$letra)
 
 
 
-function HTMLformSource($source_id="0")
+function HTMLformSource($source_id = "0")
 {
 
     $array=($source_id>0) ? ARRAYsource($source_id) : array();
@@ -2715,7 +2712,7 @@ function HTMLformSource($source_id="0")
 			                      <a type="button" class="btn btn" name="cancelar" type="button" href="admin.php" title="'.ucfirst(LABEL_Cancelar).'">'.ucfirst(LABEL_Cancelar).'</a>
 
 			                     <button type="submit" class="btn btn-primary" id="boton" name="boton_src" value="'.LABEL_Guardar.'"/>'.ucfirst(LABEL_Guardar).'</button>';
-    if(($array["src_id"]>0) && ($array["src_cant"]==0)) {
+    if (($array["src_id"]>0) && ($array["src_cant"]==0)) {
         $rows.='	<input type="button" class="btn btn-danger" id="boton" name="boton" onclick="document.getElementById(\'delete-src_note\').submit();" value="'.ucfirst(LABEL_eliminar).'"/>';
     }
 
@@ -2727,13 +2724,12 @@ function HTMLformSource($source_id="0")
 			    </div> <!-- / panel  -->';
                     $rows.='<input type="hidden"  id="src_id" name="src_id" value="'.$array["src_id"].'"/>';
                     $rows.='<input type="hidden"  name="doAdmin" id="doAdmin" value="'.$doAdmin.'"/>';
-    $rows.='</form>';    
-    $rows.='</div>';    
+    $rows.='</form>';
+    $rows.='</div>';
 
     $rows.='<form id="delete-src_note" name="delete-src_note" action="admin.php" method="post"><input type="hidden" name="rem_src_id" id="rem_src_id" value="'.$array["src_id"].'"/><input type="hidden"  name="doAdmin" id="doAdmin" value="remSourceNote"/></form>';
 
     return $rows;
-
 }
 
 
@@ -2750,7 +2746,7 @@ function HTMLlistSources()
     $rows.='<thead>	<tr>';
     $rows.='<th>'.ucfirst(LABEL_alias).'</th><th>'.ucfirst(LABEL_source).'</th><th>'.ucfirst(LABEL_notes).'</th></tr></thead>	<tbody class="searchable">';
             
-    while($array=$sql->FetchRow()){
+    while ($array=$sql->FetchRow()) {
         $rows.= '<tr>';
         $rows.=  '     <td><a href="admin.php?editsrc_id='.$array["src_id"].'" title="'.ucfirst(LABEL_Detalle).'">'.$array["src_alias"].'</a></td>';
         $rows.=  '     <td>'.$array["src_note"].'</td>';
@@ -2762,4 +2758,3 @@ function HTMLlistSources()
     $rows.='</div>'; //end div
     return $rows;
 }
-?>

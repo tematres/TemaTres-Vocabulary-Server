@@ -249,7 +249,6 @@ class HTMLPurifier_Encoder
                             // Codepoints outside the Unicode range are illegal
                             ($mUcs4 > 0x10FFFF)
                         ) {
-
                         } elseif (0xFEFF != $mUcs4 && // omit BOM
                             // check for valid Char unicode codepoints
                             (

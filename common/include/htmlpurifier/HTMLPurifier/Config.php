@@ -133,7 +133,9 @@ class HTMLPurifier_Config
         }
         if (is_string($config)) {
             $ret->loadIni($config);
-        } elseif (is_array($config)) $ret->loadArray($config);
+        } elseif (is_array($config)) {
+            $ret->loadArray($config);
+        }
         return $ret;
     }
 
@@ -914,7 +916,6 @@ class HTMLPurifier_Config
         $this->getDefinition('URI');
         return serialize($this);
     }
-
 }
 
 // vim: et sw=4 sts=4

@@ -79,7 +79,7 @@ class HTMLPurifier_URIScheme_data extends HTMLPurifier_URIScheme
         } else {
             $raw_data = $data;
         }
-        if ( strlen($raw_data) < 12 ) {
+        if (strlen($raw_data) < 12) {
             // error; exif_imagetype throws exception with small files,
             // and this likely indicates a corrupt URI/failed parse anyway
             return false;

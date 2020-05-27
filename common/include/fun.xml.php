@@ -1,23 +1,24 @@
 <?php
-if ((stristr($_SERVER['REQUEST_URI'], "session.php") ) || ( !defined('T3_ABSPATH') )) { die("no access");
+if ((stristr($_SERVER['REQUEST_URI'], "session.php") ) || ( !defined('T3_ABSPATH') )) {
+    die("no access");
 }
 // TemaTres : aplicación para la gestión de lenguajes documentales #       #
-// 
+//
 // Copyright (C) 2004-2008 Diego Ferreyra tematres@r020.com.ar
 // Distribuido bajo Licencia GNU Public License, versión 2 (de junio de 1.991) Free Software Foundation
-// 
-// 
+//
+//
 // funciones XML #
-// 
+//
 
-// 
+//
 // Armado de salida ZTHES
-// 
+//
 function do_zthes($nodos_zthes)
 {
 
 
-    GLOBAL $CFG;
+    global $CFG;
 
     header('content-type: text/xml');
 
@@ -36,7 +37,7 @@ function do_nodo_zthes($idTema)
     $SQLTerminosE=SQLverTerminosE($idTema);
     $SQLTerminosRelacionados=SQLverTerminoRelacionesTipo($idTema);
 
-    while ($datosTerminosE=$SQLTerminosE->FetchRow()){
+    while ($datosTerminosE=$SQLTerminosE->FetchRow()) {
         $zthes_narrower.='<relation>';
         $zthes_narrower.='<relationType>NT</relationType>';
         $zthes_narrower.='<termId>'.$datosTerminosE["id_tema"].'</termId>';
@@ -46,9 +47,8 @@ function do_nodo_zthes($idTema)
     };
 
 
-    while ($datosTerminosRelacionados= $SQLTerminosRelacionados->FetchRow()){
-
-        if($datosTerminosRelacionados["t_relacion"]=='3') {// TG
+    while ($datosTerminosRelacionados= $SQLTerminosRelacionados->FetchRow()) {
+        if ($datosTerminosRelacionados["t_relacion"]=='3') {// TG
             $zthes_broader.='<relation>';
             $zthes_broader.='<relationType>BT</relationType>';
             $zthes_broader.='<termId>'.$datosTerminosRelacionados["id_tema"].'</termId>';
@@ -57,7 +57,7 @@ function do_nodo_zthes($idTema)
             $zthes_broader.='</relation>';
         };
 
-        if($datosTerminosRelacionados["t_relacion"]=='4') {// UF
+        if ($datosTerminosRelacionados["t_relacion"]=='4') {// UF
             $zthes_UF.='<relation>';
             $zthes_UF.='<relationType>UF</relationType>';
             $zthes_UF.='<termId>'.$datosTerminosRelacionados["id_tema"].'</termId>';
@@ -66,7 +66,7 @@ function do_nodo_zthes($idTema)
             $zthes_UF.='</relation>';
         };
 
-        if($datosTerminosRelacionados["t_relacion"]=='2') {// TR
+        if ($datosTerminosRelacionados["t_relacion"]=='2') {// TR
             $zthes_related.='<relation>';
             $zthes_related.='<relationType>RT</relationType>';
             $zthes_related.='<termId>'.$datosTerminosRelacionados["id_tema"].'</termId>';
@@ -74,7 +74,6 @@ function do_nodo_zthes($idTema)
             $zthes_related.='<termType>'.$datosTerminosRelacionados["tipo_termino"].'</termType>';
             $zthes_related.='</relation>';
         };
-
     };
 
     $meta_tag.='<term>';
@@ -88,44 +87,45 @@ function do_nodo_zthes($idTema)
     $meta_tag.='	<termApproval>'.arrayReplace(array('12','13','14'), array('candidate','approved','rejected'), $datosTermino["estado_id"]).'</termApproval>';
 
 
-    if($datosTermino["isMetaTerm"]!=='1') { $meta_tag.='	<termSortkey>'.xmlentities($datosTermino["titTema"]).'</termSortkey>';
+    if ($datosTermino["isMetaTerm"]!=='1') {
+        $meta_tag.='	<termSortkey>'.xmlentities($datosTermino["titTema"]).'</termSortkey>';
     }
 
-    for($iNota=0; $iNota<(count($datosTermino["notas"])); ++$iNota){
-        if($datosTermino["notas"][$iNota]["id"]) {
-            switch($datosTermino["notas"][$iNota]["tipoNota"]){
-            case 'NP':
-                //nothing
-                break;
+    for ($iNota=0; $iNota<(count($datosTermino["notas"])); ++$iNota) {
+        if ($datosTermino["notas"][$iNota]["id"]) {
+            switch ($datosTermino["notas"][$iNota]["tipoNota"]) {
+                case 'NP':
+                    //nothing
+                    break;
 
-            case 'NA':
-                $meta_tag.='<termNote label="Scope">'.xmlentities($datosTermino["notas"][$iNota]["nota"].TXTsource4note($datosTermino["notas"][$iNota]["id"]), true).'</termNote>';
-                break;
+                case 'NA':
+                    $meta_tag.='<termNote label="Scope">'.xmlentities($datosTermino["notas"][$iNota]["nota"].TXTsource4note($datosTermino["notas"][$iNota]["id"]), true).'</termNote>';
+                    break;
 
-            case 'NH':
-                $meta_tag.='<termNote label="History">'.xmlentities($datosTermino["notas"][$iNota]["nota"].TXTsource4note($datosTermino["notas"][$iNota]["id"]), true).'</termNote>';
-                break;
+                case 'NH':
+                    $meta_tag.='<termNote label="History">'.xmlentities($datosTermino["notas"][$iNota]["nota"].TXTsource4note($datosTermino["notas"][$iNota]["id"]), true).'</termNote>';
+                    break;
 
-            case 'NB':
-                $meta_tag.='<termNote label="Source">'.xmlentities($datosTermino["notas"][$iNota]["nota"].TXTsource4note($datosTermino["notas"][$iNota]["id"]), true).'</termNote>';
-                break;
+                case 'NB':
+                    $meta_tag.='<termNote label="Source">'.xmlentities($datosTermino["notas"][$iNota]["nota"].TXTsource4note($datosTermino["notas"][$iNota]["id"]), true).'</termNote>';
+                    break;
 
-            case 'DF':
-                $meta_tag.='<termNote label="Definition">'.xmlentities($datosTermino["notas"][$iNota]["nota"].TXTsource4note($datosTermino["notas"][$iNota]["id"]), true).'</termNote>';
-            case 'DEF':
-                $meta_tag.='<termNote label="Definition">'.xmlentities($datosTermino["notas"][$iNota]["nota"].TXTsource4note($datosTermino["notas"][$iNota]["id"]), true).'</termNote>';
-                break;
+                case 'DF':
+                    $meta_tag.='<termNote label="Definition">'.xmlentities($datosTermino["notas"][$iNota]["nota"].TXTsource4note($datosTermino["notas"][$iNota]["id"]), true).'</termNote>';
+                case 'DEF':
+                    $meta_tag.='<termNote label="Definition">'.xmlentities($datosTermino["notas"][$iNota]["nota"].TXTsource4note($datosTermino["notas"][$iNota]["id"]), true).'</termNote>';
+                    break;
 
-            default:
-                $meta_tag.='<termNote label="'.xmlentities($datosTermino["notas"][$iNota]["tipoNotaLabel"]).'">'.xmlentities($datosTermino["notas"][$iNota][nota].TXTsource4note($datosTermino["notas"][$iNota]["id"]), true).'</termNote>';
-                break;
+                default:
+                    $meta_tag.='<termNote label="'.xmlentities($datosTermino["notas"][$iNota]["tipoNotaLabel"]).'">'.xmlentities($datosTermino["notas"][$iNota][nota].TXTsource4note($datosTermino["notas"][$iNota]["id"]), true).'</termNote>';
+                    break;
             }
         };
     };
 
     $meta_tag.='<termCreatedDate>'.xmlentities($datosTermino["titTema"]).'</termCreatedDate>';
 
-    if(@$datosTermino["cuando_final"]>$datosTermino["cuando"]) {
+    if (@$datosTermino["cuando_final"]>$datosTermino["cuando"]) {
         $meta_tag.='<termModifiedDate>'.$datosTermino["cuando_final"].'</termModifiedDate>';
     }
 
@@ -139,16 +139,16 @@ function do_nodo_zthes($idTema)
     return  $meta_tag;
 };
 
-// 
+//
 
-// 
+//
 // Armado de salida XML glossary Moodle
-// 
+//
 function do_moodle($moodle_nodes)
 {
 
 
-    GLOBAL $CFG;
+    global $CFG;
 
     header('content-type: text/xml');
     $output='<?xml version="1.0" encoding="'.$CFG["_CHAR_ENCODE"].'"?>';
@@ -187,26 +187,25 @@ function do_nodo_moodle($tema_id)
     $output.='    		<CONCEPT>'.xmlentities($datosTermino["titTema"]).'</CONCEPT>';
     $output.='    		<FORMAT>1</FORMAT><USEDYNALINK>0</USEDYNALINK><CASESENSITIVE>0</CASESENSITIVE><FULLMATCH>0</FULLMATCH><TEACHERENTRY>1</TEACHERENTRY>';
 
-    for($iNota=0; $iNota<(count($datosTermino["notas"])); ++$iNota){
-        if($datosTermino["notas"][$iNota]["id"]) {
-            switch($datosTermino["notas"][$iNota]["tipoNota"]){
-            case 'NA':
-                $output.='<DEFINITION>'.xmlentities($datosTermino["notas"][$iNota]["nota"].TXTsource4note($datosTermino["notas"][$iNota]["id"]), true).'</DEFINITION>';
-                break;
+    for ($iNota=0; $iNota<(count($datosTermino["notas"])); ++$iNota) {
+        if ($datosTermino["notas"][$iNota]["id"]) {
+            switch ($datosTermino["notas"][$iNota]["tipoNota"]) {
+                case 'NA':
+                    $output.='<DEFINITION>'.xmlentities($datosTermino["notas"][$iNota]["nota"].TXTsource4note($datosTermino["notas"][$iNota]["id"]), true).'</DEFINITION>';
+                    break;
             }
         };
     };
 
 
-    while ($datosTerminosRelacionados= $SQLTerminosRelacionados->FetchRow()){
-
-        if($datosTerminosRelacionados["t_relacion"]=='4') {// UF
+    while ($datosTerminosRelacionados= $SQLTerminosRelacionados->FetchRow()) {
+        if ($datosTerminosRelacionados["t_relacion"]=='4') {// UF
             $i_UF=++$i_UF;
             $tag_UF.='<ALIAS><NAME>'.xmlentities($datosTerminosRelacionados["tema"]).'</NAME></ALIAS>';
         };
     };
 
-    if($i_UF>0) {
+    if ($i_UF>0) {
         $output.='    		<ALIASES>';
         $output.=$tag_UF;
         $output.='    		</ALIASES>';
@@ -220,13 +219,13 @@ function do_nodo_moodle($tema_id)
 
 
 
-// 
+//
 // FUNCION PARA ARMAR RDF SKOS
-// 
-function do_skos($nodos_skos,$top_terms="false")
+//
+function do_skos($nodos_skos, $top_terms = "false")
 {
 
-    GLOBAL $CFG;
+    global $CFG;
 
     $_URI_BASE_ID = ($CFG["_URI_BASE_ID"]) ? $CFG["_URI_BASE_ID"] : $_SESSION["CFGURL"];
 
@@ -244,10 +243,9 @@ function do_skos($nodos_skos,$top_terms="false")
         // Top term del esquema
         $sqlTT=SQLverTopTerm();
 
-        while ($arrayTT=$sqlTT->FetchRow()){
+        while ($arrayTT=$sqlTT->FetchRow()) {
             $skos_TT.='<skos:hasTopConcept rdf:resource="'.$_URI_BASE_ID.$_URI_SEPARATOR_ID.$arrayTT["id"].'"/>';
         };
-
     };//fin top terms
     header('content-type: text/xml');
     $meta_tag.='<?xml version="1.0" encoding="'.$CFG["_CHAR_ENCODE"].'"?>';
@@ -283,14 +281,14 @@ function do_skos($nodos_skos,$top_terms="false")
     return $meta_tag;
 };
 
-// 
+//
 // FUNCION PARA ARMAR RDF NODO SKOS
 // Make SKOS-Core nodes only with node data and conceptScheme reference
-// 
-function do_skosNode($nodos_skos,$top_terms="false")
+//
+function do_skosNode($nodos_skos, $top_terms = "false")
 {
 
-    GLOBAL $CFG;
+    global $CFG;
 
     $_URI_BASE_ID = ($CFG["_URI_BASE_ID"]) ? $CFG["_URI_BASE_ID"] : $_SESSION["CFGURL"];
 
@@ -325,13 +323,13 @@ function do_skosNode($nodos_skos,$top_terms="false")
     return $meta_tag;
 };
 
-// 
+//
 // Arma nodos Skos
-// 
+//
 function do_nodo_skos($idTema)
 {
 
-    GLOBAL $CFG;
+    global $CFG;
 
     $_URI_BASE_ID = ($CFG["_URI_BASE_ID"]) ? $CFG["_URI_BASE_ID"] : $_SESSION["CFGURL"];
 
@@ -347,38 +345,32 @@ function do_nodo_skos($idTema)
     $datosTermino=ARRAYverDatosTermino($idTema);
 
     $SQLTerminosE=SQLverTerminosE($idTema);
-    while ($datosTerminosE=$SQLTerminosE->FetchRow()){
+    while ($datosTerminosE=$SQLTerminosE->FetchRow()) {
         $skos_narrower.='<skos:narrower rdf:resource="'.$_URI_BASE_ID.$_URI_SEPARATOR_ID.$datosTerminosE["id_tema"].'"/>';
     };
 
     $SQLterminosRelacionados=SQLverTerminoRelaciones($idTema);
 
-    while ($datosTerminosRelacionados= $SQLterminosRelacionados->FetchRow()){
-        if($datosTerminosRelacionados["t_relacion"]=='2') {// TR
+    while ($datosTerminosRelacionados= $SQLterminosRelacionados->FetchRow()) {
+        if ($datosTerminosRelacionados["t_relacion"]=='2') {// TR
             $skos_related.='<skos:related rdf:resource="'.$_URI_BASE_ID.$_URI_SEPARATOR_ID.$datosTerminosRelacionados["tema_id"].'"/>';
         };
 
-        if($datosTerminosRelacionados["t_relacion"]=='3') {// TG
+        if ($datosTerminosRelacionados["t_relacion"]=='3') {// TG
             $skos_broader.='<skos:broader rdf:resource="'.$_URI_BASE_ID.$_URI_SEPARATOR_ID.$datosTerminosRelacionados["tema_id"].'"/>';
         };
 
-        if($datosTerminosRelacionados["t_relacion"]=='4') {// UF
-
+        if ($datosTerminosRelacionados["t_relacion"]=='4') {// UF
             //HiddenLabel
-            if(in_array($datosTerminosRelacionados["rr_code"], $CFG["HIDDEN_EQ"])) {
+            if (in_array($datosTerminosRelacionados["rr_code"], $CFG["HIDDEN_EQ"])) {
                 $skos_altLabel.='<skos:hiddenLabel xml:lang="'.$_SESSION["CFGIdioma"].'">'.xmlentities($datosTerminosRelacionados["tema"]).'</skos:hiddenLabel>';
-            }
-            else
-            {
+            } else {
                 $skos_altLabel.='<skos:altLabel xml:lang="'.$_SESSION["CFGIdioma"].'">'.xmlentities($datosTerminosRelacionados["tema"]).'</skos:altLabel>';
-
             }
-
         };
 
         //terms with internal mapping
-        if(in_array($datosTerminosRelacionados["t_relacion"], array(5,6))) {
-
+        if (in_array($datosTerminosRelacionados["t_relacion"], array(5,6))) {
             $map_label=arrayReplace(array(5,6), array("partial","exact"), $datosTerminosRelacionados["t_relacion"]);
 
             $skos_map.='<skos:'.$map_label.'Match>';
@@ -386,14 +378,12 @@ function do_nodo_skos($idTema)
             $skos_map.=' <skos:prefLabel xml:lang="'.$datosTerminosRelacionados["idioma"].'">'.$datosTerminosRelacionados["tema"].'</skos:prefLabel>';
             $skos_map.=' </skos:Concept>';
             $skos_map.='</skos:'.$map_label.'Match>';
-
         }
     };
 
 
     $SQLtargetTerms=SQLtargetTerms($idTema);
-    while ($datosTargetTerms=$SQLtargetTerms->FetchRow()){
-
+    while ($datosTargetTerms=$SQLtargetTerms->FetchRow()) {
         $map_label=(in_array(strtolower($datosTargetTerms["tvocab_tag"]), array('exact','close','related','partial','broad','narrow'))) ? strtolower($datosTargetTerms["tvocab_tag"]) : 'exact';
 
         $skos_map.='<skos:'.$map_label.'Match>';
@@ -405,10 +395,8 @@ function do_nodo_skos($idTema)
 
     $SQLURI2term=SQLURIxterm($idTema);
 
-    while ($datosURI2term=$SQLURI2term->FetchRow()){
-
-        if(in_array(strtolower($datosURI2term["uri_code"]), array('exactmatch','closematch','relatedmatch','partialmatch','broadmatch','narrowmatch'))) {
-
+    while ($datosURI2term=$SQLURI2term->FetchRow()) {
+        if (in_array(strtolower($datosURI2term["uri_code"]), array('exactmatch','closematch','relatedmatch','partialmatch','broadmatch','narrowmatch'))) {
             $skos_map.='<skos:'.$datosURI2term["uri_code"].'>';
             $skos_map.=' <skos:Concept rdf:about="'.htmlentities($datosURI2term["uri"]).'"/>';
             $skos_map.='</skos:'.$datosURI2term["uri_code"].'>';
@@ -417,43 +405,41 @@ function do_nodo_skos($idTema)
             $skos_map.='<skos:'.$datosURI2term[uri_code].' resource="'.htmlentities($datosURI2term[uri]).'" />';
             */
         }
-
     };
 
 
-    for($iNota=0; $iNota<(count($datosTermino["notas"])); ++$iNota){
-        if($datosTermino["notas"][$iNota]["id"]) {
-            
+    for ($iNota=0; $iNota<(count($datosTermino["notas"])); ++$iNota) {
+        if ($datosTermino["notas"][$iNota]["id"]) {
             $note_content=html2txt($datosTermino["notas"][$iNota]["nota"].' '.TXTsource4note($datosTermino["notas"][$iNota]["id"]));
 
-            switch($datosTermino["notas"][$iNota]["tipoNota"]){
-            case 'NH':
-                $skos_notes.=' <skos:historyNote xml:lang="'.$datosTermino["notas"][$iNota]["lang_nota"].'">'.$note_content.'</skos:historyNote>';
-                break;
+            switch ($datosTermino["notas"][$iNota]["tipoNota"]) {
+                case 'NH':
+                    $skos_notes.=' <skos:historyNote xml:lang="'.$datosTermino["notas"][$iNota]["lang_nota"].'">'.$note_content.'</skos:historyNote>';
+                    break;
 
-            case 'NA':
-                $skos_notes.=' <skos:scopeNote xml:lang="'.$datosTermino["notas"][$iNota]["lang_nota"].'">'.$note_content.'</skos:scopeNote>';
-                break;
+                case 'NA':
+                    $skos_notes.=' <skos:scopeNote xml:lang="'.$datosTermino["notas"][$iNota]["lang_nota"].'">'.$note_content.'</skos:scopeNote>';
+                    break;
 
-            case 'DF':
-                $skos_notes.=' <skos:definition xml:lang="'.$datosTermino["notas"][$iNota]["lang_nota"].'">'.$note_content.'</skos:definition>';
-                break;
+                case 'DF':
+                    $skos_notes.=' <skos:definition xml:lang="'.$datosTermino["notas"][$iNota]["lang_nota"].'">'.$note_content.'</skos:definition>';
+                    break;
 
-            case 'ED':
-                $skos_notes.=' <skos:editorialNote xml:lang="'.$datosTermino["notas"][$iNota]["lang_nota"].'">'.$note_content.'</skos:editorialNote>';
-                break;
+                case 'ED':
+                    $skos_notes.=' <skos:editorialNote xml:lang="'.$datosTermino["notas"][$iNota]["lang_nota"].'">'.$note_content.'</skos:editorialNote>';
+                    break;
 
-            case 'EX':
-                $skos_notes.=' <skos:example xml:lang="'.$datosTermino["notas"][$iNota]["lang_nota"].'">'.$note_content.'</skos:example>';
-                break;
+                case 'EX':
+                    $skos_notes.=' <skos:example xml:lang="'.$datosTermino["notas"][$iNota]["lang_nota"].'">'.$note_content.'</skos:example>';
+                    break;
 
-            case 'CH':
-                $skos_notes.=' <skos:changeNote xml:lang="'.$datosTermino["notas"][$iNota]["lang_nota"].'">'.$note_content.'</skos:changeNote>';
-                break;
+                case 'CH':
+                    $skos_notes.=' <skos:changeNote xml:lang="'.$datosTermino["notas"][$iNota]["lang_nota"].'">'.$note_content.'</skos:changeNote>';
+                    break;
 
-            case 'NB':
-                $skos_notes.=' <skos:note xml:lang="'.$datosTermino["notas"][$iNota]["lang_nota"].'">'.$note_content.'</skos:note>';
-                break;
+                case 'NB':
+                    $skos_notes.=' <skos:note xml:lang="'.$datosTermino["notas"][$iNota]["lang_nota"].'">'.$note_content.'</skos:note>';
+                    break;
             }
         };
     };
@@ -463,7 +449,7 @@ function do_nodo_skos($idTema)
     $meta_tag.='<skos:prefLabel xml:lang="'.$_SESSION["CFGIdioma"].'">'.xmlentities($datosTermino["titTema"]).'</skos:prefLabel>';
 
     //Use or not term code / notation tag in Skos
-    if(($CFG["_USE_CODE"]=='1') && (strlen($datosTermino["code"])>0)) {
+    if (($CFG["_USE_CODE"]=='1') && (strlen($datosTermino["code"])>0)) {
         $meta_tag.='<skos:notation>'.xmlentities($datosTermino["code"]).'</skos:notation>';
     }
 
@@ -478,7 +464,7 @@ function do_nodo_skos($idTema)
     $meta_tag.=$skos_map;
 
     $meta_tag.='  <dct:created>'.$datosTermino["cuando"].'</dct:created>';
-    if($datosTermino["cuando_final"]>$datosTermino["cuando"]) {
+    if ($datosTermino["cuando_final"]>$datosTermino["cuando"]) {
         $meta_tag.='<dct:modified>'.$datosTermino["cuando_final"].'</dct:modified>';
     }
 
@@ -494,13 +480,13 @@ function do_nodo_skos($idTema)
 
 
 
-// 
+//
 // Armado de salida MADS
-// 
+//
 function do_mads($idTema)
 {
 
-    GLOBAL $CFG;
+    global $CFG;
 
     header('content-type: text/xml');
     $xml.='<?xml version="1.0" encoding="'.$CFG["_CHAR_ENCODE"].'"?>';
@@ -514,13 +500,13 @@ function do_mads($idTema)
 };
 
 
-// 
+//
 // Armado de salida MADS
-// 
+//
 function do_nodo_mads($idTema)
 {
 
-    GLOBAL $CFG;
+    global $CFG;
 
     $datosTermino=ARRAYverDatosTermino($idTema);
     $SQLTerminosE=SQLverTerminosE($idTema);
@@ -535,49 +521,48 @@ function do_nodo_mads($idTema)
     $xml.='<topic authority="'.$_URI_BASE_ID.'">'.xmlentities($datosTermino["titTema"]).'</topic>';
     $xml.='</authority>';
 
-    while ($datosTerminosE=$SQLTerminosE->FetchRow()){
+    while ($datosTerminosE=$SQLTerminosE->FetchRow()) {
         $xml.='<related type="narrower">';
         $xml.='<topic>'.xmlentities($datosTerminosE["tema"]).'</topic>';
         $xml.='</related>';
     };
 
-    while ($datosTerminosRelacionados= $SQLTerminosRelacionados->FetchRow()){
-
-        if($datosTerminosRelacionados["t_relacion"]=='3') {// TG
+    while ($datosTerminosRelacionados= $SQLTerminosRelacionados->FetchRow()) {
+        if ($datosTerminosRelacionados["t_relacion"]=='3') {// TG
             $xml.='<related type="broader">';
             $xml.='<topic>'.xmlentities($datosTerminosRelacionados["tema"]).'</topic>';
             $xml.='</related>';
         };
 
-        if($datosTerminosRelacionados["t_relacion"]=='2') {// TR
+        if ($datosTerminosRelacionados["t_relacion"]=='2') {// TR
             $xml.='<related type="other">';
             $xml.='<topic>'.xmlentities($datosTerminosRelacionados["tema"]).'</topic>';
             $xml.='</related>';
         };
 
-        if($datosTerminosRelacionados["t_relacion"]=='4') {// UF
+        if ($datosTerminosRelacionados["t_relacion"]=='4') {// UF
             $xml.='<variant type="other">';
             $xml.='<topic>'.xmlentities($datosTerminosRelacionados["tema"]).'</topic>';
             $xml.='</variant>';
         };
     };
 
-    for($iNota=0; $iNota<(count($datosTermino["notas"])); ++$iNota){
-        if($datosTermino["notas"][$iNota]["id"]) {
+    for ($iNota=0; $iNota<(count($datosTermino["notas"])); ++$iNota) {
+        if ($datosTermino["notas"][$iNota]["id"]) {
             $note_content=xmlentities($datosTermino["notas"][$iNota]["nota"].' '.TXTsource4note($datosTermino["notas"][$iNota]["id"]));
 
-            switch($datosTermino["notas"][$iNota]["tipoNota"]){
-            case 'NH':
-                $xml.=' <note type="history" xml:lang="'.$datosTermino["notas"][$iNota]["lang_nota"].'">'.$note_content.'</note>';
-                break;
+            switch ($datosTermino["notas"][$iNota]["tipoNota"]) {
+                case 'NH':
+                    $xml.=' <note type="history" xml:lang="'.$datosTermino["notas"][$iNota]["lang_nota"].'">'.$note_content.'</note>';
+                    break;
 
-            case 'NA':
-                $xml.=' <note xml:lang="'.$datosTermino["notas"][$iNota]["lang_nota"].'">'.$note_content.'</note>';
-                break;
+                case 'NA':
+                    $xml.=' <note xml:lang="'.$datosTermino["notas"][$iNota]["lang_nota"].'">'.$note_content.'</note>';
+                    break;
 
-            case 'NB':
-                $xml.=' <note type="source" xml:lang="'.$datosTermino["notas"][$iNota]["lang_nota"].'">'.$note_content.'</note>';
-                break;
+                case 'NB':
+                    $xml.=' <note type="source" xml:lang="'.$datosTermino["notas"][$iNota]["lang_nota"].'">'.$note_content.'</note>';
+                    break;
             }
         };
     };
@@ -587,13 +572,13 @@ function do_nodo_mads($idTema)
 
 
 
-// 
+//
 // Armado de salida Dublin Core x término
-// 
+//
 function do_dublin_core($idTema)
 {
 
-    GLOBAL $CFG;
+    global $CFG;
 
 
     $_URI_BASE_ID = ($CFG["_URI_BASE_ID"]) ? $CFG["_URI_BASE_ID"] : $_SESSION["CFGURL"];
@@ -619,32 +604,33 @@ function do_dublin_core($idTema)
     $xml.='<dc:language>'.$_SESSION["CFGIdioma"].'</dc:language>';
     $xml.='<dc:publisher xml:lang="'.$_SESSION["CFGIdioma"].'">'.xmlentities($_SESSION["CFGAutor"]).'</dc:publisher>';
     $xml.='<dcterms:created>'.$datosTermino["cuando"].'</dcterms:created>';
-    if($datosTermino["cuando_final"]>$datosTermino["cuando"]) {$xml.='<dcterms:modified>'.$datosTermino["cuando_final"].'</dcterms:modified>';
+    if ($datosTermino["cuando_final"]>$datosTermino["cuando"]) {
+        $xml.='<dcterms:modified>'.$datosTermino["cuando_final"].'</dcterms:modified>';
     }
 
     $xml.='<dcterms:isPartOf xsi:type="dcterms:URI">'.URL_BASE.'</dcterms:isPartOf>';
     $xml.='<dcterms:isPartOf xml:lang="'.$_SESSION["CFGIdioma"].'">'.xmlentities($_SESSION["CFGTitulo"]).'</dcterms:isPartOf>';
     $xml.='<dc:format>text/html</dc:format>';
 
-    while ($datosTerminosRelacionados= $SQLTerminosRelacionados->FetchRow()){
-        if($datosTerminosRelacionados["t_relacion"]=='4') {// UF
+    while ($datosTerminosRelacionados= $SQLTerminosRelacionados->FetchRow()) {
+        if ($datosTerminosRelacionados["t_relacion"]=='4') {// UF
             $xml.=' <dcterms:alternative xml:lang="'.$_SESSION["CFGIdioma"].'">'.xmlentities($datosTerminosRelacionados["tema"]).'</dcterms:alternative>';
         };
     };
 
 
-    for($iNota=0; $iNota<(count($datosTermino["notas"])); ++$iNota){
-        if($datosTermino["notas"][$iNota]["id"]) {
+    for ($iNota=0; $iNota<(count($datosTermino["notas"])); ++$iNota) {
+        if ($datosTermino["notas"][$iNota]["id"]) {
             //idioma de la nota
             $label_lang_nota = (!$datosTermino["notas"][$iNota]["lang_nota"]) ? $_SESSION["CFGIdioma"] : $datosTermino["notas"][$iNota]["lang_nota"];
-            switch($datosTermino["notas"][$iNota]["tipoNota"]){
-            case 'NA':
-                $xml.=' <dc:description xml:lang="'.$label_lang_nota.'">'.xmlentities($datosTermino["notas"][$iNota]["nota"], true).' '.TXTsource4note($datosTermino["notas"][$iNota]["id"]).'</dc:description>';
-                break;
+            switch ($datosTermino["notas"][$iNota]["tipoNota"]) {
+                case 'NA':
+                    $xml.=' <dc:description xml:lang="'.$label_lang_nota.'">'.xmlentities($datosTermino["notas"][$iNota]["nota"], true).' '.TXTsource4note($datosTermino["notas"][$iNota]["id"]).'</dc:description>';
+                    break;
 
-            case 'NB':
-                $xml.=' <dc:source xml:lang="'.$label_lang_nota.'">'.xmlentities($datosTermino["notas"][$iNota]["nota"], true).' '.TXTsource4note($datosTermino["notas"][$iNota]["id"]).'</dc:source>';
-                break;
+                case 'NB':
+                    $xml.=' <dc:source xml:lang="'.$label_lang_nota.'">'.xmlentities($datosTermino["notas"][$iNota]["nota"], true).' '.TXTsource4note($datosTermino["notas"][$iNota]["id"]).'</dc:source>';
+                    break;
             }
         };
     };
@@ -665,7 +651,7 @@ function do_dublin_core($idTema)
 function do_nodo_BS8723($tema_id)
 {
 
-    GLOBAL $CFG;
+    global $CFG;
 
     $_URI_BASE_ID = ($CFG["_URI_BASE_ID"]) ? $CFG["_URI_BASE_ID"] : $_SESSION["CFGURL"];
 
@@ -688,50 +674,47 @@ function do_nodo_BS8723($tema_id)
     $SQLterminosRelacionados=SQLverTerminoRelaciones($tema_id);
 
     //Nodos de NT
-    while ($datosTerminosE=$SQLTerminosE->FetchRow())
-    {
+    while ($datosTerminosE=$SQLTerminosE->FetchRow()) {
         $xmlnodosNT.='<HasHierRelConcept Role="NT">'.$_URI_BASE_ID.$_URI_SEPARATOR_ID.$datosTerminosE["id_tema"].'</HasHierRelConcept>';
     };
 
     //Nodos RT, BT y UF
-    while ($datosTerminosRelacionados= $SQLterminosRelacionados->FetchRow())
-    {
+    while ($datosTerminosRelacionados= $SQLterminosRelacionados->FetchRow()) {
         switch ($datosTerminosRelacionados["t_relacion"]) {
+            case '2'://RT
+                $xmlnodosRT.='<HasRelatedConcept Role="RT">'.$_URI_BASE_ID.$_URI_SEPARATOR_ID.$datosTerminosRelacionados["tema_id"].'</HasRelatedConcept>';
+                break;
 
-        case '2'://RT
-            $xmlnodosRT.='<HasRelatedConcept Role="RT">'.$_URI_BASE_ID.$_URI_SEPARATOR_ID.$datosTerminosRelacionados["tema_id"].'</HasRelatedConcept>';
-            break;
+            case '3'://BT
+                $xmlnodosBT.='<HasHierRelConcept Role="BT">'.$_URI_BASE_ID.$_URI_SEPARATOR_ID.$datosTerminosRelacionados["tema_id"].'</HasHierRelConcept>';
+                break;
 
-        case '3'://BT
-            $xmlnodosBT.='<HasHierRelConcept Role="BT">'.$_URI_BASE_ID.$_URI_SEPARATOR_ID.$datosTerminosRelacionados["tema_id"].'</HasHierRelConcept>';
-            break;
-
-        case '4'://UF
-            $xmlnodosUF.='<NonPreferredTerm dc:identifier="'.$_URI_BASE_ID.$_URI_SEPARATOR_ID.$datosTerminosRelacionados["tema_id"].'" xml:lang="'.$_SESSION["CFGIdioma"].'">';
-            $xmlnodosUF.='	<LexicalValue>'.xmlentities($datosTerminosRelacionados["tema"]).'</LexicalValue>';
-            $xmlnodosUF.='		<dcterms:created>'.$datoTerminosRelacionados["cuando"].'</dcterms:created>';
-            $xmlnodosUF.='		<USE>'.$_URI_BASE_ID.$_URI_SEPARATOR_ID.$tema_id.'</USE>';
-            $xmlnodosUF.='</NonPreferredTerm>';
-            break;
+            case '4'://UF
+                $xmlnodosUF.='<NonPreferredTerm dc:identifier="'.$_URI_BASE_ID.$_URI_SEPARATOR_ID.$datosTerminosRelacionados["tema_id"].'" xml:lang="'.$_SESSION["CFGIdioma"].'">';
+                $xmlnodosUF.='	<LexicalValue>'.xmlentities($datosTerminosRelacionados["tema"]).'</LexicalValue>';
+                $xmlnodosUF.='		<dcterms:created>'.$datoTerminosRelacionados["cuando"].'</dcterms:created>';
+                $xmlnodosUF.='		<USE>'.$_URI_BASE_ID.$_URI_SEPARATOR_ID.$tema_id.'</USE>';
+                $xmlnodosUF.='</NonPreferredTerm>';
+                break;
         }
     };
 
 
     //Notas
-    for($iNota=0; $iNota<(count($datosTermino["notas"])); ++$iNota){
-        if($datosTermino["notas"][$iNota]["id"]) {
-            switch($datosTermino["notas"][$iNota]["tipoNota"]){
-            case 'NH'://HistoryNote
-                $xmlnodosNotas.='<HistoryNote xml:lang="'.$datosTermino["notas"][$iNota]["lang_nota"].'">';
-                $xmlnodosNotas.='  <LexicalValue>'.xmlentities($datosTermino["notas"][$iNota]["nota"], true).' '.TXTsource4note($datosTermino["notas"][$iNota]["id"]).'</LexicalValue>';
-                $xmlnodosNotas.='</HistoryNote>';
-                break;
+    for ($iNota=0; $iNota<(count($datosTermino["notas"])); ++$iNota) {
+        if ($datosTermino["notas"][$iNota]["id"]) {
+            switch ($datosTermino["notas"][$iNota]["tipoNota"]) {
+                case 'NH'://HistoryNote
+                    $xmlnodosNotas.='<HistoryNote xml:lang="'.$datosTermino["notas"][$iNota]["lang_nota"].'">';
+                    $xmlnodosNotas.='  <LexicalValue>'.xmlentities($datosTermino["notas"][$iNota]["nota"], true).' '.TXTsource4note($datosTermino["notas"][$iNota]["id"]).'</LexicalValue>';
+                    $xmlnodosNotas.='</HistoryNote>';
+                    break;
 
-            case 'NA'://ScopeNote
-                $xmlnodosNotas.='<ScopeNote xml:lang="'.$datosTermino["notas"][$iNota]["lang_nota"].'">';
-                $xmlnodosNotas.='  <LexicalValue>'.xmlentities($datosTermino["notas"][$iNota]["nota"], true).' '.TXTsource4note($datosTermino["notas"][$iNota]["id"]).'</LexicalValue>';
-                $xmlnodosNotas.='</ScopeNote>';
-                break;
+                case 'NA'://ScopeNote
+                    $xmlnodosNotas.='<ScopeNote xml:lang="'.$datosTermino["notas"][$iNota]["lang_nota"].'">';
+                    $xmlnodosNotas.='  <LexicalValue>'.xmlentities($datosTermino["notas"][$iNota]["nota"], true).' '.TXTsource4note($datosTermino["notas"][$iNota]["id"]).'</LexicalValue>';
+                    $xmlnodosNotas.='</ScopeNote>';
+                    break;
             }
         };
     };
@@ -767,13 +750,13 @@ function do_nodo_BS8723($tema_id)
 
 
 
-// 
+//
 // FUNCION PARA ARMAR XML BS8723s
-// 
+//
 function do_BS8723s($xmlnodos)
 {
 
-    GLOBAL $CFG;
+    global $CFG;
 
     $_URI_BASE_ID = ($CFG["_URI_BASE_ID"]) ? $CFG["_URI_BASE_ID"] : $_SESSION["CFGURL"];
 
@@ -802,17 +785,17 @@ function do_BS8723s($xmlnodos)
 
 
 
-// 
+//
 // Armado de salida RSS
-// 
-function do_rss($limit="30")
+//
+function do_rss($limit = "30")
 {
 
-    GLOBAL $CFG;
+    global $CFG;
 
     $sql=SQLlastTerms($limit);
 
-    while ($array=$sql->FetchRow()){
+    while ($array=$sql->FetchRow()) {
         $xml_seq.='<li xmlns:dc="http://purl.org/dc/elements/1.1/" rdf:resource="index.php?tema='.$array["tema_id"].'"/>';
         $xml_item.='<item xmlns:dc="http://purl.org/dc/elements/1.1/" rdf:about="'.$_SESSION["CFGURL"].'?tema='.$arrayTT["tema_id"].'">';
         $xml_item.='<title>'.$array["tema"].'</title>';
@@ -838,14 +821,14 @@ function do_rss($limit="30")
     echo $xml;
 };
 
-// 
+//
 
 
 
 function HEADdocType($metadata)
 {
 
-    //Si hay tema_id 
+    //Si hay tema_id
     $itemtype=(isset($metadata["arraydata"]["tema_id"])) ? 'DefinedTerm' : 'DefinedTermSet';
 
     $html='<!DOCTYPE html>';
@@ -864,16 +847,16 @@ function HEADdocType($metadata)
 };
 
 
-// 
+//
 // GENERADOR DE META TAGS Y DC
-// 
-function do_meta_tag($arrayTermino="")
+//
+function do_meta_tag($arrayTermino = "")
 {
-    GLOBAL $CFG;
+    global $CFG;
     $titleParts[]=$_SESSION["CFGTitulo"];
 
     //Si hay algún tema de proveniente de algún proceso
-    GLOBAL $tema;
+    global $tema;
 
     //Si hay cambio de idioma... para que no dé duplicado
     $labelChangeLang= ($_GET["setLang"]) ? '. '.ucfirst($_SESSION[$_SESSION["CFGURL"]]["lang"][0]) : '';
@@ -884,7 +867,7 @@ function do_meta_tag($arrayTermino="")
     $_SESSION["CFGPublisher"]=$ARRAYfetchValues["dc:publisher"]["value"];
     $_SESSION["CFGlastMod"]=fetchlastMod();
 
-    if(secure_data($tema, "digit")) {
+    if (secure_data($tema, "digit")) {
         //Si hay tema_id desde GET o POST
         $tema_id = ($_POST["tema"]) ? secure_data($_POST["tema"], "digit") : secure_data($_GET["tema"], "digit");
 
@@ -895,12 +878,12 @@ function do_meta_tag($arrayTermino="")
     $letra=isValidLetter($_GET["letra"]);
     $meta_url=$_SESSION["CFGURL"];
 
-    //Si hay tema_id 
-    if(secure_data($tema_id, "digit")) {
+    //Si hay tema_id
+    if (secure_data($tema_id, "digit")) {
         $ARRAYdatosTermino=ARRAYverDatosTermino($tema_id);
 
-        $aboutness=ARRAYaboutness($ARRAYdatosTermino["idTema"]);    
-        $term_note=extractNoteTypeConent($ARRAYdatosTermino, $_SESSION[$_SESSION["CFGURL"]]["_GLOSS_NOTES"]);            
+        $aboutness=ARRAYaboutness($ARRAYdatosTermino["idTema"]);
+        $term_note=extractNoteTypeConent($ARRAYdatosTermino, $_SESSION[$_SESSION["CFGURL"]]["_GLOSS_NOTES"]);
 
         $meta_url=$_SESSION["CFGURL"].'?tema='.$ARRAYdatosTermino["idTema"];
         $titleParts[]=xmlentities($ARRAYdatosTermino["titTema"]);
@@ -911,20 +894,20 @@ function do_meta_tag($arrayTermino="")
         $relMeta.='<link rel="Skos metadata" type="application/rdf+xml" href="'.$_SESSION["CFGURL"].'xml.php?skosTema='.$ARRAYdatosTermino["idTema"].'" title="Skos Core '.xmlentities($datosTermino["titTema"]).'" />';
         $relMeta.='<link rel="TopicMap metadata" type="application/xml" href="'.$_SESSION["CFGURL"].'xml.php?xtmTema='.$ARRAYdatosTermino["idTema"].'" title="TopicMap '.xmlentities($datosTermino["titTema"]).'" />';
         $itempropMeta= '<meta itemprop="inDefinedTermSet" content="'.$_SESSION["CFGURL"].'">';
-    
-    }elseif(strlen($letra)>0) {
+    } elseif (strlen($letra)>0) {
         $titleParts[]=MSG_ResultLetra.' '.xmlentities($letra);
-        $titleParts[]=MENU_ListaAbc.': '.xmlentities($letra);        
+        $titleParts[]=MENU_ListaAbc.': '.xmlentities($letra);
     }
 
     //if there are no term data
-    if(!isset($aboutness)) { $aboutness=ARRAYaboutness();
+    if (!isset($aboutness)) {
+        $aboutness=ARRAYaboutness();
     }
 
     //keywords filled with aboutness of the vocabualry or term
     $aboutness=substr(implode(", ", $aboutness), 0, 325);
     
-    //descripction filled with aboutness of the vocabualry or term at 
+    //descripction filled with aboutness of the vocabualry or term at
     $meta_description= (isset($term_note)) ? $term_note : (strlen($_SESSION["CFGCobertura"])>5) ? $_SESSION["CFGCobertura"] : $aboutness;
     
     $page_encode = (in_array($CFG["_CHAR_ENCODE"], array('utf-8','iso-8859-1'))) ? $CFG["_CHAR_ENCODE"] : 'utf-8';
@@ -971,7 +954,7 @@ function do_meta_tag($arrayTermino="")
 	<meta name="DC.Coverage" content="'.$_SESSION["CFGIdioma"].'">
 	<meta name="DC.Rights" content="'.$_SESSION["CFGRights"].'">';
 
-    // Open Graph protocol 
+    // Open Graph protocol
     $meta_tag.='	<meta property="og:title" content="'.xmlentities($title_page).'">
 	<meta property="og:type" content="dictionary:term">
 	<meta property="og:url" content="'.$meta_url.'">
@@ -983,7 +966,8 @@ function do_meta_tag($arrayTermino="")
 	<meta itemprop="description" content="'.html2txt($meta_description, true).'">
 	<meta itemprop="url" content="'.$meta_url.'">';
     //property only for vocabularies ... not for terms
-    if(!isset($ARRAYdatosTermino["idTema"])) { $meta_tag.='<meta itemprop="keywords" content="'.xmlentities($aboutness).'">';
+    if (!isset($ARRAYdatosTermino["idTema"])) {
+        $meta_tag.='<meta itemprop="keywords" content="'.xmlentities($aboutness).'">';
     }
     $meta_tag.='<meta itemprop="identifier" content="'.$meta_url.'">';
 
@@ -1004,12 +988,12 @@ function do_meta_tag($arrayTermino="")
 
     return array("metadata"=>$meta_tag,"arraydata"=>$ARRAYdatosTermino);
 };
-// 
+//
 
 function do_topicMap($tema_id)
 {
 
-    GLOBAL $CFG;
+    global $CFG;
 
     $time_start = time();
     @set_time_limit(900);
@@ -1121,10 +1105,10 @@ xlink:href="http://www.techquila.com/psi/thesaurus/#scope-note"/>
 
 
 
-function doTerminosXTM($tema_id="")
+function doTerminosXTM($tema_id = "")
 {
 
-    GLOBAL $CFG;
+    global $CFG;
 
     $_URI_BASE_ID = ($CFG["_URI_BASE_ID"]) ? $CFG["_URI_BASE_ID"] : $_SESSION["CFGURL"];
 
@@ -1136,7 +1120,7 @@ function doTerminosXTM($tema_id="")
     */
     $sql=SQLTerminosPreferidos($tema_id);
 
-    while ($array=$sql->FetchRow()){
+    while ($array=$sql->FetchRow()) {
         $row.='<topic id="'.$_URI_BASE_ID.$_URI_SEPARATOR_ID.$array["id"].'">';
         $row.='<instanceOf>';
         $row.='<topicRef xlink:href="#term"/>';
@@ -1147,7 +1131,7 @@ function doTerminosXTM($tema_id="")
 
         $sqlNotas=SQLdatosTerminoNotas($array["id"], array("NA"));
 
-        while ($arrayNotas=$sqlNotas->FetchRow()){
+        while ($arrayNotas=$sqlNotas->FetchRow()) {
             $row.='  <occurrence>';
             $row.='    <instanceOf>';
             $row.='      <topicRef xlink:href="#scope-note"/>';
@@ -1161,10 +1145,10 @@ function doTerminosXTM($tema_id="")
     };
 
     //Esta pidiendo el vocabulario completo -> incluir topic de términos no preferidos.
-    if(!isset($tema_id)) {
+    if (!isset($tema_id)) {
         //Sql de términos no prereridos (UF)
         $sql=SQLterminosValidosUF();
-        while ($array=$sql->FetchRow()){
+        while ($array=$sql->FetchRow()) {
             $row.='<topic id="'.$_URI_BASE_ID.$_URI_SEPARATOR_ID.$array["tema_id"].'">';
             $row.='<instanceOf>';
             $row.='<topicRef xlink:href="#term"/>';
@@ -1183,11 +1167,11 @@ function doTerminosXTM($tema_id="")
 /*
 Creación de relacion XTM
 */
-function doRelacionesXTM($tema_id="")
+function doRelacionesXTM($tema_id = "")
 {
-    GLOBAL $DBCFG;
+    global $DBCFG;
 
-    GLOBAL $CFG;
+    global $CFG;
 
     $_URI_BASE_ID = ($CFG["_URI_BASE_ID"]) ? $CFG["_URI_BASE_ID"] : $_SESSION["CFGURL"];
 
@@ -1195,7 +1179,7 @@ function doRelacionesXTM($tema_id="")
 
 
     $sql=SQLTerminoRelacionesIDs($tema_id);
-    while ($array=$sql->FetchRow()){
+    while ($array=$sql->FetchRow()) {
         // Mantener vivo el navegador
         $time_now = time();
         if ($time_start >= $time_now + 10) {
@@ -1204,66 +1188,66 @@ function doRelacionesXTM($tema_id="")
         };
 
 
-        switch($array["t_relacion"]){
-        case '2': //TR
-            $row.='  <association>';
-            $row.='    <instanceOf>';
-            $row.='      <topicRef xlink:href="#related-terms"/>';
-            $row.='    </instanceOf>';
-            $row.='    <member>';
-            $row.='      <roleSpec>';
-            $row.='  <topicRef xlink:href="#related-term"/>';
-            $row.='      </roleSpec>';
-            $row.='      <topicRef xlink:href="#'.$_URI_BASE_ID.$_URI_SEPARATOR_ID.$array["id1"].'"/>';
-            $row.='    </member>';
-            $row.='    <member>';
-            $row.='      <roleSpec>';
-            $row.='  <topicRef xlink:href="#related-term"/>';
-            $row.='      </roleSpec>';
-            $row.='      <topicRef xlink:href="#'.$_URI_BASE_ID.$_URI_SEPARATOR_ID.$array["id2"].'"/>';
-            $row.='    </member>';
-            $row.='  </association>';
-            break;
+        switch ($array["t_relacion"]) {
+            case '2': //TR
+                $row.='  <association>';
+                $row.='    <instanceOf>';
+                $row.='      <topicRef xlink:href="#related-terms"/>';
+                $row.='    </instanceOf>';
+                $row.='    <member>';
+                $row.='      <roleSpec>';
+                $row.='  <topicRef xlink:href="#related-term"/>';
+                $row.='      </roleSpec>';
+                $row.='      <topicRef xlink:href="#'.$_URI_BASE_ID.$_URI_SEPARATOR_ID.$array["id1"].'"/>';
+                $row.='    </member>';
+                $row.='    <member>';
+                $row.='      <roleSpec>';
+                $row.='  <topicRef xlink:href="#related-term"/>';
+                $row.='      </roleSpec>';
+                $row.='      <topicRef xlink:href="#'.$_URI_BASE_ID.$_URI_SEPARATOR_ID.$array["id2"].'"/>';
+                $row.='    </member>';
+                $row.='  </association>';
+                break;
 
-        case '3': //TG-TE
-            $row.='  <association>';
-            $row.='    <instanceOf>';
-            $row.='      <topicRef xlink:href="#broader-narrower"/>';
-            $row.='    </instanceOf>';
-            $row.='    <member>';
-            $row.='      <roleSpec>';
-            $row.='  <topicRef xlink:href="#narrower"/>';
-            $row.='      </roleSpec>';
-            $row.='      <topicRef xlink:href="#'.$_URI_BASE_ID.$_URI_SEPARATOR_ID.$array["id2"].'"/>';
-            $row.='    </member>';
-            $row.='    <member>';
-            $row.='      <roleSpec>';
-            $row.='  <topicRef xlink:href="#broader"/>';
-            $row.='      </roleSpec>';
-            $row.='      <topicRef xlink:href="#'.$_URI_BASE_ID.$_URI_SEPARATOR_ID.$array["id1"].'"/>';
-            $row.='    </member>';
-            $row.='  </association>';
-            break;
+            case '3': //TG-TE
+                $row.='  <association>';
+                $row.='    <instanceOf>';
+                $row.='      <topicRef xlink:href="#broader-narrower"/>';
+                $row.='    </instanceOf>';
+                $row.='    <member>';
+                $row.='      <roleSpec>';
+                $row.='  <topicRef xlink:href="#narrower"/>';
+                $row.='      </roleSpec>';
+                $row.='      <topicRef xlink:href="#'.$_URI_BASE_ID.$_URI_SEPARATOR_ID.$array["id2"].'"/>';
+                $row.='    </member>';
+                $row.='    <member>';
+                $row.='      <roleSpec>';
+                $row.='  <topicRef xlink:href="#broader"/>';
+                $row.='      </roleSpec>';
+                $row.='      <topicRef xlink:href="#'.$_URI_BASE_ID.$_URI_SEPARATOR_ID.$array["id1"].'"/>';
+                $row.='    </member>';
+                $row.='  </association>';
+                break;
 
-        case '4': //UP-USE
-            $row.='  <association>';
-            $row.='    <instanceOf>';
-            $row.='      <topicRef xlink:href="#synonym"/>';
-            $row.='    </instanceOf>';
-            $row.='    <member>';
-            $row.='      <roleSpec>';
-            $row.='  <topicRef xlink:href="#non-preferred-term"/>';
-            $row.='      </roleSpec>';
-            $row.='      <topicRef xlink:href="#'.$_URI_BASE_ID.$_URI_SEPARATOR_ID.$array["id1"].'"/>';
-            $row.='    </member>';
-            $row.='    <member>';
-            $row.='      <roleSpec>';
-            $row.='  <topicRef xlink:href="#preferred-term"/>';
-            $row.='      </roleSpec>';
-            $row.='      <topicRef xlink:href="#'.$_URI_BASE_ID.$_URI_SEPARATOR_ID.$array["id2"].'"/>';
-            $row.='    </member>';
-            $row.='  </association>';
-            break;
+            case '4': //UP-USE
+                $row.='  <association>';
+                $row.='    <instanceOf>';
+                $row.='      <topicRef xlink:href="#synonym"/>';
+                $row.='    </instanceOf>';
+                $row.='    <member>';
+                $row.='      <roleSpec>';
+                $row.='  <topicRef xlink:href="#non-preferred-term"/>';
+                $row.='      </roleSpec>';
+                $row.='      <topicRef xlink:href="#'.$_URI_BASE_ID.$_URI_SEPARATOR_ID.$array["id1"].'"/>';
+                $row.='    </member>';
+                $row.='    <member>';
+                $row.='      <roleSpec>';
+                $row.='  <topicRef xlink:href="#preferred-term"/>';
+                $row.='      </roleSpec>';
+                $row.='      <topicRef xlink:href="#'.$_URI_BASE_ID.$_URI_SEPARATOR_ID.$array["id2"].'"/>';
+                $row.='    </member>';
+                $row.='  </association>';
+                break;
         }
     };
     return $row;
@@ -1274,7 +1258,7 @@ function doRelacionesXTM($tema_id="")
 function do_VDEX($tema_id)
 {
 
-    GLOBAL $CFG;
+    global $CFG;
 
     $_URI_BASE_ID = ($CFG["_URI_BASE_ID"]) ? $CFG["_URI_BASE_ID"] : $_SESSION["CFGURL"];
 
@@ -1299,10 +1283,10 @@ function do_VDEX($tema_id)
 
 
 
-function doTerminosVDEX($tema_id="")
+function doTerminosVDEX($tema_id = "")
 {
 
-    GLOBAL $CFG;
+    global $CFG;
 
     $_URI_BASE_ID = ($CFG["_URI_BASE_ID"]) ? $CFG["_URI_BASE_ID"] : $_SESSION["CFGURL"];
 
@@ -1311,7 +1295,7 @@ function doTerminosVDEX($tema_id="")
 
     $sql=SQLTerminosPreferidos($tema_id);
 
-    while ($array=$sql->FetchRow()){
+    while ($array=$sql->FetchRow()) {
         $row.='<term>';
         $row.='<termIdentifier>'.$_URI_BASE_ID.$_URI_SEPARATOR_ID.$array["id"].'</termIdentifier>';
         $row.='<caption>'.xmlentities($array["tema"]).'</caption>';
@@ -1319,10 +1303,10 @@ function doTerminosVDEX($tema_id="")
     };
 
     //Esta pidiendo el vocabulario completo -> incluir topic de términos no preferidos.
-    if(!isset($tema_id)) {
+    if (!isset($tema_id)) {
         //Sql de términos no prereridos (UF)
         $sql=SQLterminosValidosUF();
-        while ($array=$sql->FetchRow()){
+        while ($array=$sql->FetchRow()) {
             $row.='<term>';
             $row.='<termIdentifier>'.$_URI_BASE_ID.$_URI_SEPARATOR_ID.$array["tema_id"].'</termIdentifier>';
             $row.='<caption>'.xmlentities($array["tema"]).'</caption>';
@@ -1336,11 +1320,11 @@ function doTerminosVDEX($tema_id="")
 /*
 Creación de relacion VDEX
 */
-function doRelacionesVDEX($tema_id="")
+function doRelacionesVDEX($tema_id = "")
 {
-    GLOBAL $DBCFG;
+    global $DBCFG;
 
-    GLOBAL $CFG;
+    global $CFG;
 
     $_URI_BASE_ID = ($CFG["_URI_BASE_ID"]) ? $CFG["_URI_BASE_ID"] : $_SESSION["CFGURL"];
 
@@ -1349,7 +1333,7 @@ function doRelacionesVDEX($tema_id="")
 
 
     $sql=SQLTerminoRelacionesIDs($tema_id);
-    while ($array=$sql->FetchRow()){
+    while ($array=$sql->FetchRow()) {
         // Mantener vivo el navegador
         $time_now = time();
         if ($time_start >= $time_now + 10) {
@@ -1358,51 +1342,49 @@ function doRelacionesVDEX($tema_id="")
         };
 
 
-        switch($array["t_relacion"]){
-        case '2': //TR
-            if($array["id1"]==$tema_id) {
-                $row.='  <relationship>';
-                $row.='      <sourceTerm>'.$_URI_BASE_ID.$_URI_SEPARATOR_ID.$array["id1"].'</sourceTerm>';
-                $row.='      <targetTerm vocabIdentifier="'.$_URI_BASE_ID.$_URI_SEPARATOR_ID.$array["id2"].'">'.$array["t2"].'</targetTerm>';
-                $row.='      <relationshipType source="http://www.imsglobal.org/vocabularies/iso2788_relations.xml">RT</relationshipType>';
-                $row.='  </relationship>';
-            }
-            break;
+        switch ($array["t_relacion"]) {
+            case '2': //TR
+                if ($array["id1"]==$tema_id) {
+                    $row.='  <relationship>';
+                    $row.='      <sourceTerm>'.$_URI_BASE_ID.$_URI_SEPARATOR_ID.$array["id1"].'</sourceTerm>';
+                    $row.='      <targetTerm vocabIdentifier="'.$_URI_BASE_ID.$_URI_SEPARATOR_ID.$array["id2"].'">'.$array["t2"].'</targetTerm>';
+                    $row.='      <relationshipType source="http://www.imsglobal.org/vocabularies/iso2788_relations.xml">RT</relationshipType>';
+                    $row.='  </relationship>';
+                }
+                break;
 
-        case '3': //TG-TE
-            if($array["id2"]==$tema_id) {
-                $row.='  <relationship>';
-                $row.='      <sourceTerm>'.$_URI_BASE_ID.$_URI_SEPARATOR_ID.$array["id2"].'</sourceTerm>';
-                $row.='      <targetTerm vocabIdentifier="'.$_URI_BASE_ID.$_URI_SEPARATOR_ID.$array["id1"].'">'.$array["tema1"].'</targetTerm>';
-                $row.='      <relationshipType source="http://www.imsglobal.org/vocabularies/iso2788_relations.xml">BT</relationshipType>';
-                $row.='  </relationship>';
-            }
-            else{
-                $row.='  <relationship>';
-                $row.='      <sourceTerm>'.$_URI_BASE_ID.$_URI_SEPARATOR_ID.$array["id1"].'</sourceTerm>';
-                $row.='      <targetTerm vocabIdentifier="'.$_URI_BASE_ID.$_URI_SEPARATOR_ID.$array["id2"].'">'.$array["t2"].'</targetTerm>';
-                $row.='      <relationshipType source="http://www.imsglobal.org/vocabularies/iso2788_relations.xml">NT</relationshipType>';
-                $row.='  </relationship>';
-            }
+            case '3': //TG-TE
+                if ($array["id2"]==$tema_id) {
+                    $row.='  <relationship>';
+                    $row.='      <sourceTerm>'.$_URI_BASE_ID.$_URI_SEPARATOR_ID.$array["id2"].'</sourceTerm>';
+                    $row.='      <targetTerm vocabIdentifier="'.$_URI_BASE_ID.$_URI_SEPARATOR_ID.$array["id1"].'">'.$array["tema1"].'</targetTerm>';
+                    $row.='      <relationshipType source="http://www.imsglobal.org/vocabularies/iso2788_relations.xml">BT</relationshipType>';
+                    $row.='  </relationship>';
+                } else {
+                    $row.='  <relationship>';
+                    $row.='      <sourceTerm>'.$_URI_BASE_ID.$_URI_SEPARATOR_ID.$array["id1"].'</sourceTerm>';
+                    $row.='      <targetTerm vocabIdentifier="'.$_URI_BASE_ID.$_URI_SEPARATOR_ID.$array["id2"].'">'.$array["t2"].'</targetTerm>';
+                    $row.='      <relationshipType source="http://www.imsglobal.org/vocabularies/iso2788_relations.xml">NT</relationshipType>';
+                    $row.='  </relationship>';
+                }
 
-            break;
+                break;
 
-        case '4': //UP-USE
-            if($array["id2"]==$tema_id) {
-                $row.='  <relationship>';
-                $row.='      <sourceTerm>'.$_URI_BASE_ID.$_URI_SEPARATOR_ID.$array["id2"].'</sourceTerm>';
-                $row.='      <targetTerm vocabIdentifier="'.$_URI_BASE_ID.$_URI_SEPARATOR_ID.$array["id1"].'">'.$array["tema1"].'</targetTerm>';
-                $row.='      <relationshipType source="http://www.imsglobal.org/vocabularies/iso2788_relations.xml">UF</relationshipType>';
-                $row.='  </relationship>';
-            }
-            else{
-                $row.='  <relationship>';
-                $row.='      <sourceTerm>'.$_URI_BASE_ID.$_URI_SEPARATOR_ID.$array["id1"].'</sourceTerm>';
-                $row.='      <targetTerm vocabIdentifier="'.$_URI_BASE_ID.$_URI_SEPARATOR_ID.$array["id2"].'">'.$array["t2"].'</targetTerm>';
-                $row.='      <relationshipType source="http://www.imsglobal.org/vocabularies/iso2788_relations.xml">USE</relationshipType>';
-                $row.='  </relationship>';
-            }
-            break;
+            case '4': //UP-USE
+                if ($array["id2"]==$tema_id) {
+                    $row.='  <relationship>';
+                    $row.='      <sourceTerm>'.$_URI_BASE_ID.$_URI_SEPARATOR_ID.$array["id2"].'</sourceTerm>';
+                    $row.='      <targetTerm vocabIdentifier="'.$_URI_BASE_ID.$_URI_SEPARATOR_ID.$array["id1"].'">'.$array["tema1"].'</targetTerm>';
+                    $row.='      <relationshipType source="http://www.imsglobal.org/vocabularies/iso2788_relations.xml">UF</relationshipType>';
+                    $row.='  </relationship>';
+                } else {
+                    $row.='  <relationship>';
+                    $row.='      <sourceTerm>'.$_URI_BASE_ID.$_URI_SEPARATOR_ID.$array["id1"].'</sourceTerm>';
+                    $row.='      <targetTerm vocabIdentifier="'.$_URI_BASE_ID.$_URI_SEPARATOR_ID.$array["id2"].'">'.$array["t2"].'</targetTerm>';
+                    $row.='      <relationshipType source="http://www.imsglobal.org/vocabularies/iso2788_relations.xml">USE</relationshipType>';
+                    $row.='  </relationship>';
+                }
+                break;
         }
     };
     return $row;
@@ -1412,27 +1394,27 @@ function doRelacionesVDEX($tema_id="")
 /*
 check update data for term from target vocabulary
 */
-function dataSimpleChkUpdateTterm($method,$tterm_uri)
+function dataSimpleChkUpdateTterm($method, $tterm_uri)
 {
     include_once 'vocabularyservices.php'    ;
     switch ($method) {
-    case 'tematres':
-        return getURLdata($tterm_uri);
+        case 'tematres':
+            return getURLdata($tterm_uri);
         break;
 
-    default :
-        return getURLdata($tterm_uri);
+        default:
+            return getURLdata($tterm_uri);
         break;
     }
 }
 
-// 
+//
 // Arma nodos JSON-LD
-// 
+//
 function do_jsonld($tema_id)
 {
 
-    GLOBAL $CFG;
+    global $CFG;
 
     $ARRAYjson_relations=array( "skos:narrower"=>array(),
     "skos:broader"=>array(),
@@ -1455,34 +1437,32 @@ function do_jsonld($tema_id)
 
     $datosTermino=ARRAYverDatosTermino($tema_id);
 
-    if(!is_numeric($datosTermino["tema_id"])) { return null;
+    if (!is_numeric($datosTermino["tema_id"])) {
+        return null;
     }
 
     $SQLTerminosE=SQLverTerminosE($tema_id);
-    while ($datosTerminosE=$SQLTerminosE->FetchRow()){
+    while ($datosTerminosE=$SQLTerminosE->FetchRow()) {
         array_push($ARRAYjson_relations["skos:narrower"], $_URI_BASE_ID.$_URI_SEPARATOR_ID.$datosTerminosE["id_tema"]);
     }
 
 
     $SQLterminosRelacionados=SQLverTerminoRelaciones($tema_id);
 
-    while ($datosTerminosRelacionados= $SQLterminosRelacionados->FetchRow()){
-        if($datosTerminosRelacionados["t_relacion"]=='2') {// TR
+    while ($datosTerminosRelacionados= $SQLterminosRelacionados->FetchRow()) {
+        if ($datosTerminosRelacionados["t_relacion"]=='2') {// TR
             array_push($ARRAYjson_relations["skos:related"], $_URI_BASE_ID.$_URI_SEPARATOR_ID.$datosTerminosRelacionados["tema_id"]);
         };
 
-        if($datosTerminosRelacionados["t_relacion"]=='3') {// TG
+        if ($datosTerminosRelacionados["t_relacion"]=='3') {// TG
             array_push($ARRAYjson_relations["skos:broader"], $_URI_BASE_ID.$_URI_SEPARATOR_ID.$datosTerminosRelacionados["tema_id"]);
         };
 
-        if($datosTerminosRelacionados["t_relacion"]=='4') {// UF
-
+        if ($datosTerminosRelacionados["t_relacion"]=='4') {// UF
             //HiddenLabel
-            if(in_array($datosTerminosRelacionados["rr_code"], $CFG["HIDDEN_EQ"])) {
+            if (in_array($datosTerminosRelacionados["rr_code"], $CFG["HIDDEN_EQ"])) {
                 array_push($ARRAYjson_relations["skos:hiddenLabel"], array("language"=>$_SESSION["CFGIdioma"],"value"=>$datosTerminosRelacionados["tema"]));
-            }
-            else
-            {
+            } else {
                 array_push($ARRAYjson_relations["skos:altLabel"], array("language"=>$_SESSION["CFGIdioma"],"value"=>$datosTerminosRelacionados["tema"]));
             }
         };
@@ -1493,8 +1473,7 @@ function do_jsonld($tema_id)
 
     $ARRAYjson_map=array();
 
-    while ($datosTargetTerms=$SQLtargetTerms->FetchRow()){
-
+    while ($datosTargetTerms=$SQLtargetTerms->FetchRow()) {
         $map_label=(in_array(strtolower($datosTargetTerms["tvocab_tag"]), array('exact','close','related','partial','broad','narrow'))) ? strtolower($datosTargetTerms["tvocab_tag"]) : 'exact';
 
         $skos_tag='skos:'.$map_label.'Match';
@@ -1509,51 +1488,47 @@ function do_jsonld($tema_id)
 
     $ARRAYjson_URI=array();
 
-    while ($datosURI2term=$SQLURI2term->FetchRow()){
-
-        if(in_array(strtolower($datosURI2term["uri_code"]), array('exactmatch','closematch','relatedmatch','partialmatch','broadmatch','narrowmatch'))) {
-
+    while ($datosURI2term=$SQLURI2term->FetchRow()) {
+        if (in_array(strtolower($datosURI2term["uri_code"]), array('exactmatch','closematch','relatedmatch','partialmatch','broadmatch','narrowmatch'))) {
             $skos_map.='<skos:'.$datosURI2term["uri_code"].'>';
             $skos_map.=' <skos:Concept rdf:about="'.htmlentities($datosURI2term["uri"]).'"/>';
             $skos_map.='</skos:'.$datosURI2term["uri_code"].'>';
         }
-
     };
     $ARRAYjson_notes=array();
 
-    for($iNota=0; $iNota<(count($datosTermino["notas"])); ++$iNota){
-        if($datosTermino["notas"][$iNota]["id"]) {
-
+    for ($iNota=0; $iNota<(count($datosTermino["notas"])); ++$iNota) {
+        if ($datosTermino["notas"][$iNota]["id"]) {
             $note_content=html2txt($datosTermino["notas"][$iNota]["nota"].' '.TXTsource4note($datosTermino["notas"][$iNota]["id"]));
 
-            switch($datosTermino["notas"][$iNota]["tipoNota"]){
-            case 'NH':
-                $ARRAYjson_notes["skos:historyNote"][]=array("@lang"=>$datosTermino["notas"][$iNota]["lang_nota"],"@value"=>$note_content);
-                break;
+            switch ($datosTermino["notas"][$iNota]["tipoNota"]) {
+                case 'NH':
+                    $ARRAYjson_notes["skos:historyNote"][]=array("@lang"=>$datosTermino["notas"][$iNota]["lang_nota"],"@value"=>$note_content);
+                    break;
 
-            case 'NA':
-                $ARRAYjson_notes["skos:scopeNote"][]=array("@lang"=>$datosTermino["notas"][$iNota]["lang_nota"],"@value"=>$note_content);
-                break;
+                case 'NA':
+                    $ARRAYjson_notes["skos:scopeNote"][]=array("@lang"=>$datosTermino["notas"][$iNota]["lang_nota"],"@value"=>$note_content);
+                    break;
 
-            case 'DF':
-                $ARRAYjson_notes["skos:definition"][]=array("@lang"=>$datosTermino["notas"][$iNota]["lang_nota"],"@value"=>$note_content);
-                break;
+                case 'DF':
+                    $ARRAYjson_notes["skos:definition"][]=array("@lang"=>$datosTermino["notas"][$iNota]["lang_nota"],"@value"=>$note_content);
+                    break;
 
-            case 'ED':
-                $ARRAYjson_notes["skos:editorialNote"][]=array("@lang"=>$datosTermino["notas"][$iNota]["lang_nota"],"@value"=>$note_content);
-                break;
+                case 'ED':
+                    $ARRAYjson_notes["skos:editorialNote"][]=array("@lang"=>$datosTermino["notas"][$iNota]["lang_nota"],"@value"=>$note_content);
+                    break;
 
-            case 'EX':
-                $ARRAYjson_notes["skos:example"][]=array("@lang"=>$datosTermino["notas"][$iNota]["lang_nota"],"@value"=>$note_content);
-                break;
+                case 'EX':
+                    $ARRAYjson_notes["skos:example"][]=array("@lang"=>$datosTermino["notas"][$iNota]["lang_nota"],"@value"=>$note_content);
+                    break;
 
-            case 'CH':
-                $ARRAYjson_notes["skos:changeNote"][]=array("@lang"=>$datosTermino["notas"][$iNota]["lang_nota"],"@value"=>$note_content);
-                break;
+                case 'CH':
+                    $ARRAYjson_notes["skos:changeNote"][]=array("@lang"=>$datosTermino["notas"][$iNota]["lang_nota"],"@value"=>$note_content);
+                    break;
 
-            case 'NB':
-                $ARRAYjson_notes["skos:note"][]=array("@lang"=>$datosTermino["notas"][$iNota]["lang_nota"],"@value"=>$note_content);
-                break;
+                case 'NB':
+                    $ARRAYjson_notes["skos:note"][]=array("@lang"=>$datosTermino["notas"][$iNota]["lang_nota"],"@value"=>$note_content);
+                    break;
             }
         };
     };
@@ -1577,37 +1552,37 @@ function do_jsonld($tema_id)
     "dct:created"=>$datosTermino["cuando"]
     );
 
-    if($datosTermino["cuando_final"]) {
+    if ($datosTermino["cuando_final"]) {
         $ARRAY_json=array_merge($ARRAY_json, array("dct:modified"=>$datosTermino["cuando_final"]));
     };
 
 
     //Use or not term code / notation tag in Skos
-    if(($CFG["_USE_CODE"]=='1') && (strlen($datosTermino["code"])>0)) {
+    if (($CFG["_USE_CODE"]=='1') && (strlen($datosTermino["code"])>0)) {
         $ARRAY_json=array_merge($ARRAY_json, array("skos:notation"=>$datosTermino["code"]));
     }
 
     //Unset empty array
-    if(count($ARRAYjson_relations["skos:related"])==0) {
+    if (count($ARRAYjson_relations["skos:related"])==0) {
         unset($ARRAYjson_relations["skos:related"]);
     };
 
 
-    if(count($ARRAYjson_relations["skos:broader"])==0) {
+    if (count($ARRAYjson_relations["skos:broader"])==0) {
         unset($ARRAYjson_relations["skos:broader"]);
     };
 
 
-    if(count($ARRAYjson_relations["skos:narrower"])==0) {
+    if (count($ARRAYjson_relations["skos:narrower"])==0) {
         unset($ARRAYjson_relations["skos:narrower"]);
     };
 
 
-    if(count($ARRAYjson_relations["skos:altLabel"])==0) {
+    if (count($ARRAYjson_relations["skos:altLabel"])==0) {
         unset($ARRAYjson_relations["skos:altLabel"]);
     };
 
-    if(count($ARRAYjson_relations["skos:hiddenLabel"])==0) {
+    if (count($ARRAYjson_relations["skos:hiddenLabel"])==0) {
         unset($ARRAYjson_relations["skos:hiddenLabel"]);
     };
 
@@ -1624,17 +1599,18 @@ function do_jsonld($tema_id)
     );
 };
 
-// 
+//
 // Arma nodos JSON
-// 
+//
 function do_json($tema_id)
 {
 
-    GLOBAL $CFG;
+    global $CFG;
 
     $datosTermino=ARRAYverDatosTermino($tema_id);
 
-    if(!is_numeric($datosTermino["tema_id"])) { return null;
+    if (!is_numeric($datosTermino["tema_id"])) {
+        return null;
     }
 
 
@@ -1642,14 +1618,13 @@ function do_json($tema_id)
     $ARRAYterm["string"]=$datosTermino["titTema"];
     $ARRAYterm["created"]=$datosTermino["cuando"];
     $ARRAYterm["code"]=$datosTermino["code"];
-    if($datosTermino["cuando_final"]) { $ARRAYterm["modified"]=$datosTermino["cuando_final"];
+    if ($datosTermino["cuando_final"]) {
+        $ARRAYterm["modified"]=$datosTermino["cuando_final"];
     }
 
-    for($iNota=0; $iNota<(count($datosTermino["notas"])); ++$iNota){
-
+    for ($iNota=0; $iNota<(count($datosTermino["notas"])); ++$iNota) {
         //there are note and is not private note
-        if(($datosTermino["notas"][$iNota]["id"]) && ($datosTermino["notas"][$iNota]["tipoNota"]!=='NP')) {
-
+        if (($datosTermino["notas"][$iNota]["id"]) && ($datosTermino["notas"][$iNota]["tipoNota"]!=='NP')) {
             $tipoNota=(in_array($datosTermino["notas"][$iNota]["tipoNota_id"], array(8,9,10,11,15))) ? arrayReplace(array(8,9,10,11,15), array(LABEL_NA,LABEL_NH,LABEL_NB,LABEL_NP,LABEL_NC), $datosTermino["notas"][$iNota]["tipoNota_id"]) : $datosTermino["notas"][$iNota]["tipoNotaLabel"];
 
             $ARRAYterm["notes"][]=array("@type"=>$tipoNota,"@lang"=>$datosTermino["notas"][$iNota]["lang_nota"],"@value"=>html2txt($datosTermino["notas"][$iNota]["nota"]).' '.TXTsource4note($datosTermino["notas"][$iNota]["id"]));
@@ -1660,19 +1635,19 @@ function do_json($tema_id)
 };
 
 
-function ARRAYaboutness($term_id=0)
+function ARRAYaboutness($term_id = 0)
 {
 
     $sql=($term_id!=0) ? SQLverTerminosE($term_id) : SQLverTopTerm();
 
-    if(SQLcount($sql)<1) { return array($_SESSION["CFGTitulo"],$_SESSION["CFGAutor"]);
+    if (SQLcount($sql)<1) {
+        return array($_SESSION["CFGTitulo"],$_SESSION["CFGAutor"]);
     }
 
     
-    while ($array= $sql->FetchRow()){
-        $ARRAYaboutness[]=$array["tema"];        
+    while ($array= $sql->FetchRow()) {
+        $ARRAYaboutness[]=$array["tema"];
     }
 
     return $ARRAYaboutness;
 }
-?>

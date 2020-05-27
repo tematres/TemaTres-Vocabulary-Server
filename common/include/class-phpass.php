@@ -8,23 +8,23 @@
  * @link    http://www.openwall.com/phpass/
  */
 
-// 
+//
 // Written by Solar Designer <solar at openwall.com> in 2004-2006 and placed in
 // the public domain.  Revised in subsequent years, still public domain.
-// 
+//
 // There's absolutely no warranty.
-// 
+//
 // Please be sure to update the Version line if you edit this file in any way.
 // It is suggested that you leave the main version number intact, but indicate
 // your project name (after the slash) and add your own revision information.
-// 
+//
 // Please do not change the "private" password hashing method implemented in
 // here, thereby making your hashes incompatible.  However, if you must, please
 // change the hash type identifier (the "$P$") to something different.
-// 
+//
 // Obviously, since this code is in the public domain, the above are not
 // requirements (there can be none), but merely suggestions.
-// 
+//
 
 /**
  * Portable PHP password hashing framework.
@@ -44,7 +44,7 @@ class PasswordHash
     /**
      * PHP5 constructor.
      */
-    function __construct( $iteration_count_log2, $portable_hashes )
+    function __construct($iteration_count_log2, $portable_hashes)
     {
         $this->itoa64 = './0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
 
@@ -61,7 +61,7 @@ class PasswordHash
     /**
      * PHP4 constructor.
      */
-    public function PasswordHash( $iteration_count_log2, $portable_hashes )
+    public function PasswordHash($iteration_count_log2, $portable_hashes)
     {
         self::__construct($iteration_count_log2, $portable_hashes);
     }
@@ -69,7 +69,7 @@ class PasswordHash
     function get_random_bytes($count)
     {
         $output = '';
-        if (@is_readable('/dev/urandom') 
+        if (@is_readable('/dev/urandom')
             && ($fh = @fopen('/dev/urandom', 'rb'))
         ) {
             $output = fread($fh, $count);
@@ -122,7 +122,8 @@ class PasswordHash
         $output = '$P$';
         $output .= $this->itoa64[min(
             $this->iteration_count_log2 +
-            ((PHP_VERSION >= '5') ? 5 : 3), 30
+            ((PHP_VERSION >= '5') ? 5 : 3),
+            30
         )];
         $output .= $this->encode64($input, 6);
 
@@ -239,7 +240,7 @@ class PasswordHash
 
     function HashPassword($password)
     {
-        if (strlen($password) > 4096 ) {
+        if (strlen($password) > 4096) {
             return '*';
         }
 
@@ -285,7 +286,7 @@ class PasswordHash
 
     function CheckPassword($password, $stored_hash)
     {
-        if (strlen($password) > 4096 ) {
+        if (strlen($password) > 4096) {
             return false;
         }
 

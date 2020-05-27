@@ -1,7 +1,7 @@
 <?php
 /*
-	Bulgarian language, v1.0, 25.03.2004, encoding by UTF-8 charset
-	contributed by Valentin Sheiretsky <valio#valio.eu.org>
+    Bulgarian language, v1.0, 25.03.2004, encoding by UTF-8 charset
+    contributed by Valentin Sheiretsky <valio#valio.eu.org>
 */
 
 $ADODB_LANG_ARRAY = array (
@@ -28,7 +28,7 @@ $ADODB_LANG_ARRAY = array (
             DB_ERROR_VALUE_COUNT_ON_ROW => 'некоректен брой колони в реда',
             DB_ERROR_INVALID_DSN        => 'невалиден DSN',
             DB_ERROR_CONNECT_FAILED     => 'връзката не може да бъде осъществена',
-            0	                        => 'няма грешки', // DB_OK
+            0                           => 'няма грешки', // DB_OK
             DB_ERROR_NEED_MORE_DATA     => 'предоставените данни са недостатъчни',
             DB_ERROR_EXTENSION_NOT_FOUND=> 'разширението не е намерено',
             DB_ERROR_NOSUCHDB           => 'несъществуваща база данни',

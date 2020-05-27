@@ -1,12 +1,13 @@
 <?php
-if ((stristr($_SERVER['REQUEST_URI'], "session.php") ) || ( !defined('T3_ABSPATH') )) { die("no access");
+if ((stristr($_SERVER['REQUEST_URI'], "session.php") ) || ( !defined('T3_ABSPATH') )) {
+    die("no access");
 }
 // TemaTres : aplicación para la gestión de lenguajes documentales #       #
-// 
+//
 // Copyright (C) 2004-2008 Diego Ferreyra tematres@r020.com.ar
 // Distribuido bajo Licencia GNU Public License, versión 2 (de junio de 1.991) Free Software Foundation
-// 
-// 
+//
+//
 // ARCHIVO DE CONFIGURACION == CONFIG FILE #
 
 $CFG["Version"]        = "TemaTres 3.2";
@@ -129,7 +130,7 @@ $CFG["_CHAR_ENCODE"]=(in_array($CFG["_CHAR_ENCODE"], array('utf-8','iso-8859-1')
 $idiomas_disponibles = array(
      "ca"  => array("català", "ca-$CFG[_CHAR_ENCODE].inc.php", "ca","ca-$CFG[_CHAR_ENCODE]"),
      "de"  => array("deutsch","de-$CFG[_CHAR_ENCODE].inc.php", "de","de-$CFG[_CHAR_ENCODE]"),
-     "en"  => array("english", "en-$CFG[_CHAR_ENCODE].inc.php", "en","en-$CFG[_CHAR_ENCODE]"),     
+     "en"  => array("english", "en-$CFG[_CHAR_ENCODE].inc.php", "en","en-$CFG[_CHAR_ENCODE]"),
      "en-US"  => array("english (US)", "en-US-$CFG[_CHAR_ENCODE].inc.php", "en-US","en-EU-$CFG[_CHAR_ENCODE]"),
      "en-GB"  => array("english (GB)", "en-GB-$CFG[_CHAR_ENCODE].inc.php", "en-GB","en-GB-$CFG[_CHAR_ENCODE]"),
      "es"  => array("español", "es-$CFG[_CHAR_ENCODE].inc.php", "es","es-$CFG[_CHAR_ENCODE]"),
@@ -169,22 +170,22 @@ $CFG["_HTMLinDATA"]=1;
 $CFG["SEARCH_URL_SITES"] =array("wikipedia","Google exacto","Google scholar","Google images","Google books");
 
 
-$CFG["SEARCH_URL_SITES_SINTAX"] = Array(
-    'del.icio.us' => Array(
+$CFG["SEARCH_URL_SITES_SINTAX"] = array(
+    'del.icio.us' => array(
         'favicon' => 'delicious.png',
         'leyenda' => 'del.icio.us',
         'url' => 'http://del.icio.us/search/?fr=del_icio_us&amp;p=STRING_BUSQUEDA&amp;type=all',
         'encode'=>'utf8'
     ),
 
-    'e-lis' => Array(
+    'e-lis' => array(
         'favicon' => 'e-lis_mini.png',
         'leyenda' => 'e-lis',
         'url' => 'http://eprints.rclis.org/perl/search/simple?title%2Fabstract%2Fkeywords=STRING_BUSQUEDA&amp;_action_search=Submit&amp;_order=bytitle&amp;title%2Fabstract%2Fkeywords_srchtype=ALL&amp;_satisfyall=ALL',
         'encode'=>'utf8'
     ),
 
-    'wikipedia' => Array(
+    'wikipedia' => array(
         'favicon' => 'wikipedia_mini.png',
         'leyenda' => 'Wikipedia',
         'url' => 'http://es.wikipedia.org/wiki/Especial:Search?search=STRING_BUSQUEDA&amp;fulltext=Buscar+en+texto',
@@ -192,7 +193,7 @@ $CFG["SEARCH_URL_SITES_SINTAX"] = Array(
     ),
 
 
-    'cc' => Array(
+    'cc' => array(
         'favicon' => 'cc.png',
         'leyenda' => 'CreativeCommon',
         'url' => 'http://search.creativecommons.org/?q=STRING_BUSQUEDA',
@@ -200,7 +201,7 @@ $CFG["SEARCH_URL_SITES_SINTAX"] = Array(
     ),
 
 
-    'Google exacto' => Array(
+    'Google exacto' => array(
         'favicon' => 'google.gif',
         'leyenda' => 'Google b&uacute;squeda exacta',
         'url' => 'http://www.google.com/search?as_epq=STRING_BUSQUEDA',
@@ -208,42 +209,42 @@ $CFG["SEARCH_URL_SITES_SINTAX"] = Array(
     ),
 
 
-    'Google' => Array(
+    'Google' => array(
         'favicon' => 'google.gif',
         'leyenda' => 'Google',
         'url' => 'http://www.google.com/search?channel=fs&q=STRING_BUSQUEDA',
         'encode'=>false
     ),
 
-    'Google scholar' => Array(
+    'Google scholar' => array(
         'favicon' => 'goo_scholar.png',
         'leyenda' => 'Google scholar',
         'url' => 'http://scholar.google.com/scholar?lr=&amp;ie=UTF-8&amp;q=%22STRING_BUSQUEDA%22&amp;btnG=Search&amp;oe=UTF-8',
         'encode'=>false
     ),
 
-    'Google images' => Array(
+    'Google images' => array(
         'favicon' => 'goo_images.png',
         'leyenda' => 'Google images',
         'url' => 'http://images.google.com/images?q=STRING_BUSQUEDA',
         'encode'=>false
     ),
 
-    'Google books' => Array(
+    'Google books' => array(
         'favicon' => 'goo_books.gif',
         'leyenda' => 'Google books',
         'url' => 'http://books.google.com/?ie=UTF-8&amp;as_epq=%22STRING_BUSQUEDA%22&amp;btnG=Search',
         'encode'=>false
     ),
 
-    'INTI libros' => Array(
+    'INTI libros' => array(
         'favicon' => 'inti.ico',
         'leyenda' => 'Libros INTI',
         'url' => 'http://www-biblio.inti.gob.ar/cgi-bin/wxis/wxis.exe?IsisScript=descri.xis&bool=STRING_BUSQUEDA&base=cat&inf=1&sup=20',
         'encode'=>true
     ),
 
-    'INTI revistas' => Array(
+    'INTI revistas' => array(
         'favicon' => 'inti.ico',
         'leyenda' => 'Revistas INTI',
         'url' => 'http://www-biblio.inti.gob.ar/cgi-bin/wxis/wxis.exe?IsisScript=descri.xis&bool=STRING_BUSQUEDA&base=kardex&inf=1&sup=20',
@@ -251,8 +252,7 @@ $CFG["SEARCH_URL_SITES_SINTAX"] = Array(
     )
 );
 
-// 
+//
 // Reporte de errores pero no de noticias (variables no inicializadas);
 error_reporting(E_ALL ^ E_NOTICE);
-// 
-?>
+//

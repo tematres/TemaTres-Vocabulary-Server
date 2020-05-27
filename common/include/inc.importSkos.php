@@ -6,17 +6,16 @@
  * Based in scripts from http://ica-atom.org/
  */
 // Be careful, access to this file is not protected
-if ((stristr($_SERVER['REQUEST_URI'], "session.php") ) || ( !defined('T3_ABSPATH') )) { die("no access");
+if ((stristr($_SERVER['REQUEST_URI'], "session.php") ) || ( !defined('T3_ABSPATH') )) {
+    die("no access");
 }
 
 /*
 must be ADMIN
 */
-if($_SESSION[$_SESSION["CFGURL"]]["ssuser_nivel"]=='1') {
-
-
+if ($_SESSION[$_SESSION["CFGURL"]]["ssuser_nivel"]=='1') {
     //parser node 2 term
-    function addSkosTerm($skos,$node)
+    function addSkosTerm($skos, $node)
     {
 
         /*    fectch hidden label ID*/
@@ -26,8 +25,7 @@ if($_SESSION[$_SESSION["CFGURL"]]["ssuser_nivel"]=='1') {
         // Preferred label
         $prefLabels = $skos->xpath->query('./skos:prefLabel', $node);
 
-        foreach ($prefLabels as $prefLabel){
-
+        foreach ($prefLabels as $prefLabel) {
             $value = setI18nValue($skos, $prefLabel);
 
             if (isset($value)) {
@@ -44,35 +42,33 @@ if($_SESSION[$_SESSION["CFGURL"]]["ssuser_nivel"]=='1') {
                 $node_stringPreferedTermLang = $value["lang"];
 
                 //add term
-                if($node_stringPreferedTermLang==$_SESSION["CFGIdioma"]) {
+                if ($node_stringPreferedTermLang==$_SESSION["CFGIdioma"]) {
                     $ARRAYterm = ARRAYCode($source_uri);
                     if ($ARRAYterm["tema_id"]) {
                           $term_id = $ARRAYterm["tema_id"];
-                    }                else                {
+                    } else {
                         $term_id=ALTAtema($node_stringPreferedTerm, "1", "13");
                     }
-                }    elseif(!$node_stringPreferedTermLang) {
+                } elseif (!$node_stringPreferedTermLang) {
                       /*
                        * What to do if the term is not in the same language of the controlled vocabulary ???
                       */
                        $ARRAYterm = ARRAYCode($source_uri);
                     if ($ARRAYterm["tema_id"]) {
                         $term_id = $ARRAYterm["tema_id"];
-                    }            else            {
+                    } else {
                         $term_id=ALTAtema($node_stringPreferedTerm, "1", "13");
                     }
-
                 }
-
             }
         }
 
         //This is a new term
-        if(!$ARRAYterm["tema_id"]) {
+        if (!$ARRAYterm["tema_id"]) {
             edit_single_code($term_id, $source_uri);
 
             // Alternate labels
-            foreach ($skos->xpath->query('./skos:altLabel', $node) as $altLabel){
+            foreach ($skos->xpath->query('./skos:altLabel', $node) as $altLabel) {
                 $value = setI18nValue($skos, $altLabel);
 
                 //the same language
@@ -84,7 +80,7 @@ if($_SESSION[$_SESSION["CFGURL"]]["ssuser_nivel"]=='1') {
             }
 
             // Alternate hidden labels
-            foreach ($skos->xpath->query('./skos:hiddenLabel', $node) as $altLabel){
+            foreach ($skos->xpath->query('./skos:hiddenLabel', $node) as $altLabel) {
                 $value = setI18nValue($skos, $altLabel);
 
                 //the same language
@@ -98,8 +94,7 @@ if($_SESSION[$_SESSION["CFGURL"]]["ssuser_nivel"]=='1') {
             }
 
             // Scope notes
-            foreach ($skos->xpath->query('./skos:scopeNote', $node) as $scopeNote)
-            {
+            foreach ($skos->xpath->query('./skos:scopeNote', $node) as $scopeNote) {
                 $value = setI18nValue($skos, $scopeNote);
 
                 if ((isset($value["value"])) && (is_string($value["value"]))) {
@@ -112,8 +107,7 @@ if($_SESSION[$_SESSION["CFGURL"]]["ssuser_nivel"]=='1') {
             }
 
             // Definition notes
-            foreach ($skos->xpath->query('./skos:definition', $node) as $defNote)
-            {
+            foreach ($skos->xpath->query('./skos:definition', $node) as $defNote) {
                 $value = setI18nValue($skos, $defNote);
 
                 if (isset($value["value"])) {
@@ -127,8 +121,7 @@ if($_SESSION[$_SESSION["CFGURL"]]["ssuser_nivel"]=='1') {
 
 
             // exampleNote
-            foreach ($skos->xpath->query('./skos:example', $node) as $defNote)
-            {
+            foreach ($skos->xpath->query('./skos:example', $node) as $defNote) {
                 $value = setI18nValue($skos, $defNote);
 
                 if (isset($value["value"])) {
@@ -141,8 +134,7 @@ if($_SESSION[$_SESSION["CFGURL"]]["ssuser_nivel"]=='1') {
             }
 
             // changeNote
-            foreach ($skos->xpath->query('./skos:changeNote', $node) as $defNote)
-            {
+            foreach ($skos->xpath->query('./skos:changeNote', $node) as $defNote) {
                 $value = setI18nValue($skos, $defNote);
 
                 if (isset($value["value"])) {
@@ -158,16 +150,13 @@ if($_SESSION[$_SESSION["CFGURL"]]["ssuser_nivel"]=='1') {
 
             //~ // exactMatch
             $sqlMatchTypes=SQLfetchValue('URI_TYPE');
-            while($arrayMatchTypes=$sqlMatchTypes->FetchRow())
-            {
-
-                foreach ($skos->xpath->query("./skos:$arrayMatchTypes[value]", $node) as $matchNode){
+            while ($arrayMatchTypes=$sqlMatchTypes->FetchRow()) {
+                foreach ($skos->xpath->query("./skos:$arrayMatchTypes[value]", $node) as $matchNode) {
                     // find URI
                      $uri_match = $matchNode->getAttributeNodeNS('http://www.w3.org/1999/02/22-rdf-syntax-ns#', 'resource');
                     if ($uri_match instanceof DOMAttr) {
                         abmURI("A", $term_id, array("uri"=>$uri_match->nodeValue,"uri_type_id"=>$arrayMatchTypes["value_id"]));
                     };
-
                 }
             }
 
@@ -176,13 +165,14 @@ if($_SESSION[$_SESSION["CFGURL"]]["ssuser_nivel"]=='1') {
             // inverse of relationship is not required by SKOS
             // http://www.w3.org/TR/2009/NOTE-skos-primer-20090818/#sechierarchy
             if ($uri instanceof DOMAttr) {
-
-                foreach ($skos->xpath->query('./skos:Concept[skos:broader[@rdf:resource="'.$uri->nodeValue.'"]]') as $narrower)      {
-                    if (!($narrower instanceof DOMElement)) {          continue;        
+                foreach ($skos->xpath->query('./skos:Concept[skos:broader[@rdf:resource="'.$uri->nodeValue.'"]]') as $narrower) {
+                    if (!($narrower instanceof DOMElement)) {
+                        continue;
                     }
 
                     $NT_term_id=addSkosTerm($skos, $narrower);
-                    if($NT_term_id) {               ALTArelacionXId($term_id, $NT_term_id, "3");            
+                    if ($NT_term_id) {
+                        ALTArelacionXId($term_id, $NT_term_id, "3");
                     }
                 }
             }
@@ -197,7 +187,7 @@ if($_SESSION[$_SESSION["CFGURL"]]["ssuser_nivel"]=='1') {
     function addSkosTermAssociations($skos)
     {
 
-        foreach ($skos->xpath->query('skos:Concept[skos:related]') as $concept){
+        foreach ($skos->xpath->query('skos:Concept[skos:related]') as $concept) {
             $subjectUri = $concept->getAttributeNodeNS('http://www.w3.org/1999/02/22-rdf-syntax-ns#', 'about');
             /*  $term_id = fetchTermIdxNote($subjectUri->nodeValue);*/
             $ARRAYterm = ARRAYCode($subjectUri->nodeValue);
@@ -211,7 +201,7 @@ if($_SESSION[$_SESSION["CFGURL"]]["ssuser_nivel"]=='1') {
                 $ARRAYterm = ARRAYCode($objectUri->nodeValue);
                 $RT_term_id = $ARRAYterm["tema_id"];
 
-                if(($term_id) && ($RT_term_id)) {
+                if (($term_id) && ($RT_term_id)) {
                     ALTArelacionXId($term_id, $RT_term_id, '2');
                 }
             }
@@ -226,23 +216,24 @@ if($_SESSION[$_SESSION["CFGURL"]]["ssuser_nivel"]=='1') {
     //extract string and land from node
     function setI18nValue($obj, $domNode)
     {
-        if (!($domNode instanceof DOMElement)) {      return;    
+        if (!($domNode instanceof DOMElement)) {
+            return;
         }
 
-        switch (get_class($obj))    {
-        case 'QubitNote':
-            $colName = 'content';
-            break;
+        switch (get_class($obj)) {
+            case 'QubitNote':
+                $colName = 'content';
+                break;
 
-        default:
-            $colName = 'name';
+            default:
+                $colName = 'name';
         }
 
         // Check for xml:lang attribute
         if (null !== $langNode = $domNode->attributes->getNamedItem('lang')) {
             $message = $domNode->nodeValue;
             $culture = $langNode->nodeValue;
-        }    else    {
+        } else {
             $message = $domNode->nodeValue;
         }
 
@@ -254,7 +245,7 @@ if($_SESSION[$_SESSION["CFGURL"]]["ssuser_nivel"]=='1') {
 
 
     //create term
-    function ALTAtema($string,$tesauro_id,$estado_id="13")
+    function ALTAtema($string, $tesauro_id, $estado_id = "13")
     {
         return abm_tema('alta', $string);
     }
@@ -262,7 +253,7 @@ if($_SESSION[$_SESSION["CFGURL"]]["ssuser_nivel"]=='1') {
 
 
     //create any relation between terms
-    function ALTArelacionXId($id_mayor,$id_menor,$t_relacion,$t_rel_rel_id="0")
+    function ALTArelacionXId($id_mayor, $id_menor, $t_relacion, $t_rel_rel_id = "0")
     {
         $t_rel_rel_id=($t_rel_rel_id>0) ? $t_rel_rel_id : 'NULL';
         return do_r($id_mayor, $id_menor, $t_relacion, $t_rel_rel_id);
@@ -274,7 +265,7 @@ if($_SESSION[$_SESSION["CFGURL"]]["ssuser_nivel"]=='1') {
 
 
     //create notes
-    function ALTAnota($tema_id,$tipo_nota,$lang_nota,$nota)
+    function ALTAnota($tema_id, $tipo_nota, $lang_nota, $nota)
     {
         return abmNota('A', $tema_id, $tipo_nota, $lang_nota, $nota);
     }
@@ -284,8 +275,7 @@ if($_SESSION[$_SESSION["CFGURL"]]["ssuser_nivel"]=='1') {
     */
     $error=array();
 
-    if (($_POST['taskAdmin']=='importSkos') && (file_exists($_FILES["file"]["tmp_name"])) ) {
-
+    if (($_POST['taskAdmin']=='importSkos') && (file_exists($_FILES["file"]["tmp_name"]))) {
         $src_txt= $_FILES["file"]["tmp_name"];
         libxml_use_internal_errors(true);
         $ok = '1';
@@ -294,14 +284,14 @@ if($_SESSION[$_SESSION["CFGURL"]]["ssuser_nivel"]=='1') {
         $errors = libxml_get_errors();
         if (empty($errors)) {
             $dom->load($src_txt);
-        }        else        {
+        } else {
             $ok = '0' ;
             $error[] = "ERROR : No file to import :(" ;
         }
     }
 
     // start the procedure
-    if ($ok=='1' ) {
+    if ($ok=='1') {
         $skos->xpath = new DOMXPath($dom);
         $iTerm=0;
         // Create Xpath object, register namespaces
@@ -309,8 +299,9 @@ if($_SESSION[$_SESSION["CFGURL"]]["ssuser_nivel"]=='1') {
         $skos->xpath->registerNamespace('skos', 'http://www.w3.org/2004/02/skos/core#');
         $skos->xpath->registerNamespace('dc', 'http://purl.org/dc/elements/1.1/');
         
-        foreach ($skos->xpath->query('skos:Concept[not(skos:broader)]') as $concept)        {
-            if (!($concept instanceof domElement)) {                continue;              
+        foreach ($skos->xpath->query('skos:Concept[not(skos:broader)]') as $concept) {
+            if (!($concept instanceof domElement)) {
+                continue;
             }
 
             $time_now = time();
@@ -328,8 +319,7 @@ if($_SESSION[$_SESSION["CFGURL"]]["ssuser_nivel"]=='1') {
         //recreate index
         $sql=SQLreCreateTermIndex();
         echo '<p class="true">'.ucfirst(IMPORT_finish).'</p>' ;
-
-    }    else {
+    } else {
         foreach ($error as $e) {
             echo "<p>$e</p>" ;
         }
@@ -337,4 +327,3 @@ if($_SESSION[$_SESSION["CFGURL"]]["ssuser_nivel"]=='1') {
     // UPLOAD FORM ##########################
     //end must be admin
 };
-?>

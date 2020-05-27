@@ -213,7 +213,6 @@ class HTMLPurifier_AttrDef_CSS_FontFamily extends HTMLPurifier_AttrDef
         }
         return $final;
     }
-
 }
 
 // vim: et sw=4 sts=4

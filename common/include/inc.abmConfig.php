@@ -1,13 +1,14 @@
 <?php
-if ((stristr($_SERVER['REQUEST_URI'], "session.php") ) || ( !defined('T3_ABSPATH') )) { die("no access");
+if ((stristr($_SERVER['REQUEST_URI'], "session.php") ) || ( !defined('T3_ABSPATH') )) {
+    die("no access");
 }
 // TemaTres : aplicación para la gestión de lenguajes documentales #       #
-// 
+//
 // Copyright (C) 2004-2008 Diego Ferreyra tematres@r020.com.ar
 // Distribuido bajo Licencia GNU Public License, versión 2 (de junio de 1.991) Free Software Foundation
-// 
-// 
-// 
+//
+//
+//
 
 // Preparado de datos para el formulario ///
 $arrayLang=array();
@@ -15,19 +16,19 @@ foreach ($CFG["ISO639-1"] as $langs) {
     array_push($arrayLang, "$langs[0]#$langs[1]");
 };
 
-if($_GET["vocabulario_id"]>0) {
+if ($_GET["vocabulario_id"]>0) {
     $sql_vocabulario=SQLdatosVocabulario($_GET["vocabulario_id"]);
     $array_vocabulario=$sql_vocabulario->FetchRow();
     $fecha_crea=do_fecha($array_vocabulario["cuando"]);
-}else{
+} else {
     $array_vocabulario["vocabulario_id"]='NEW';
 }
 
-if($array_vocabulario["vocabulario_id"]==1) {
+if ($array_vocabulario["vocabulario_id"]==1) {
     $titulo_formulario=LABEL_vocabulario_principal;
 
     $ARRAYfetchValues=ARRAYfetchValues('METADATA');
-}else{
+} else {
     $titulo_formulario=LABEL_vocabulario_referencia;
 }
 
@@ -95,7 +96,7 @@ $rows.='	<div class="row">
 
 
     //is main vocab
-if($array_vocabulario["vocabulario_id"]==1) {
+if ($array_vocabulario["vocabulario_id"]==1) {
     $ARRAYcontactMail=ARRAYfetchValue('CONTACT_MAIL');
     $rows.='<div class="form-group">
 	           <label for="dia" class="col-sm-3 control-label">'.ucfirst(LABEL_Fecha).'</label>
@@ -208,7 +209,7 @@ if($array_vocabulario["vocabulario_id"]==1) {
 	<input type="submit" class="btn btn-primary" id="boton" name="boton" value="'.ucfirst(LABEL_Guardar).'"/>
 	<a href="admin.php" class="btn btn-default" id="boton_cancelar" title="'.ucfirst(LABEL_Cancelar).'">'.ucfirst(LABEL_Cancelar).'</a>';
     //editor for target vocabularies
-if($array_vocabulario["vocabulario_id"]!=='1') {
+if ($array_vocabulario["vocabulario_id"]!=='1') {
     $rows.='	<input type="button" class="btn btn-danger" id="boton" name="boton" onclick="document.getElementById(\'delete-tvocab\').submit();" value="'.ucfirst(LABEL_eliminar).'"/>';
 }
     $rows.='</div>
@@ -222,8 +223,7 @@ if($array_vocabulario["vocabulario_id"]!=='1') {
     $rows.='<input type="hidden" name="task_config" id="task_config" value="configvocab"/>';
     $rows.='</form>';
     //remove form
-if($array_vocabulario["vocabulario_id"]!=='1') {
+if ($array_vocabulario["vocabulario_id"]!=='1') {
     $rows.='<form id="delete-tvocab" name="delete-tvocab" action="admin.php?vocabulario_id=3" method="post"><input type="hidden" name="internal_tvocab_id" id="internal_tvocab_id" value="'.$array_vocabulario["vocabulario_id"].'"/><input type="hidden" name="task_config" id="task_config" value="rem_tvocab"/></form>';
-}    
+}
 echo $rows;
-?>

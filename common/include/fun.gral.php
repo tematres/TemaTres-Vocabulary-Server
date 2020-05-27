@@ -1,18 +1,19 @@
 <?php
-if ((stristr($_SERVER['REQUEST_URI'], "session.php") ) || ( !defined('T3_ABSPATH') )) { die("no access");
+if ((stristr($_SERVER['REQUEST_URI'], "session.php") ) || ( !defined('T3_ABSPATH') )) {
+    die("no access");
 }
 // TemaTres : aplicación para la gestión de lenguajes documentales #       #
-// 
+//
 // Copyright (C) 2004-2008 Diego Ferreyra tematres@r020.com.ar
 // Distribuido bajo Licencia GNU Public License, versión 2 (de junio de 1.991) Free Software Foundation
-// 
-// 
+//
+//
 
 
-// 
+//
 // FUNCIONES GENERALES ###############################
-// 
-// 
+//
+//
 // Funcion tomada de PHPBB: http://www.phpbb.com/
 // addslashes to vars if magic_quotes_gpc is off
 // this is a security precaution to prevent someone
@@ -23,43 +24,43 @@ $_GET=XSSpreventArray($_GET);
 function PHP_magic_quotes()
 {
 
-    if(!get_magic_quotes_gpc() ) {
-        if(is_array($_GET) ) {
-            while( list($k, $v) = each($_GET) ){
-                if(is_array($_GET[$k]) ) {
-                    while( list($k2, $v2) = each($_GET[$k]) ){
+    if (!get_magic_quotes_gpc()) {
+        if (is_array($_GET)) {
+            while (list($k, $v) = each($_GET)) {
+                if (is_array($_GET[$k])) {
+                    while (list($k2, $v2) = each($_GET[$k])) {
                         $_GET[$k][$k2] = addslashes($v2);
                     }
                         @reset($_GET[$k]);
-                }else{
+                } else {
                         $_GET[$k] = addslashes($v);
                 }
             }
                 @reset($_GET);
         }
 
-        if(is_array($_POST) ) {
-            while( list($k, $v) = each($_POST) ){
-                if(is_array($_POST[$k]) ) {
-                    while( list($k2, $v2) = each($_POST[$k]) ){
+        if (is_array($_POST)) {
+            while (list($k, $v) = each($_POST)) {
+                if (is_array($_POST[$k])) {
+                    while (list($k2, $v2) = each($_POST[$k])) {
                         $_POST[$k][$k2] = addslashes($v2);
                     }
                         @reset($_POST[$k]);
-                }else{
+                } else {
                         $_POST[$k] = addslashes($v);
                 }
             }
                 @reset($_POST);
         }
 
-        if(is_array($HTTP_COOKIE_VARS) ) {
-            while( list($k, $v) = each($HTTP_COOKIE_VARS) ){
-                if(is_array($HTTP_COOKIE_VARS[$k]) ) {
-                    while( list($k2, $v2) = each($HTTP_COOKIE_VARS[$k]) ){
+        if (is_array($HTTP_COOKIE_VARS)) {
+            while (list($k, $v) = each($HTTP_COOKIE_VARS)) {
+                if (is_array($HTTP_COOKIE_VARS[$k])) {
+                    while (list($k2, $v2) = each($HTTP_COOKIE_VARS[$k])) {
                         $HTTP_COOKIE_VARS[$k][$k2] = addslashes($v2);
                     }
                         @reset($HTTP_COOKIE_VARS[$k]);
-                }else{
+                } else {
                         $HTTP_COOKIE_VARS[$k] = addslashes($v);
                 }
             }
@@ -74,20 +75,20 @@ TrimArray($_POST);
 
 
 
-// 
+//
 // Concatena nombrs y variables de GET
-// 
+//
 function doValFromGET()
 {
     $keys_get = array_keys($_GET);
 
-    foreach ($keys_get as $key_get){
-        if($key_get!=='setLang') {
+    foreach ($keys_get as $key_get) {
+        if ($key_get!=='setLang') {
             $i=++$i;
             $$key_get = $_GET[$key_get];
         }
     }
-    if($i) {
+    if ($i) {
         return '&amp;'.$key_get.'='.$$key_get;
     };
 }
@@ -112,12 +113,13 @@ function TrimArray(&$array)
 
 
 // Seleccionar un valor del array
-function doValue($array,$nombreValor)
+function doValue($array, $nombreValor)
 {
-    if(!is_array($array)) { return false;
+    if (!is_array($array)) {
+        return false;
     }
   
-    if(count($array)>'0') {
+    if (count($array)>'0') {
         return $array[$nombreValor];
     }
         
@@ -125,14 +127,14 @@ function doValue($array,$nombreValor)
 };
 
 
-// 
+//
 // FUNCIONES DE PARSEO         ###############################
-// 
+//
 
-// 
+//
 // Revisa un check de un form
-// 
-function do_check($campo,$value,$tipo)
+//
+function do_check($campo, $value, $tipo)
 {
     if ($campo==$value) {
         return $tipo;
@@ -140,12 +142,12 @@ function do_check($campo,$value,$tipo)
 };
 
 
-// 
+//
 // Arma un array con una fecha
-// 
+//
 function do_fecha($fecha)
 {
-    GLOBAL $MONTHS;
+    global $MONTHS;
     $array=array(
                     "min"=>date("i", strtotime($fecha)),
                     "hora"=>date("G", strtotime($fecha)),
@@ -159,13 +161,13 @@ function do_fecha($fecha)
 
 
 
-// 
+//
 // Arma un intervalo de n�meros o meses
-// 
-function do_intervalDate($inicio,$fin,$tipo)
+//
+function do_intervalDate($inicio, $fin, $tipo)
 {
-    for($interval="$inicio"; $interval<="$fin"; ++$interval){
-        if($tipo=='MES') {
+    for ($interval="$inicio"; $interval<="$fin"; ++$interval) {
+        if ($tipo=='MES') {
             $meses=array("1"=>Ene,
                 "2"=>Feb,
                 "3"=>Mar,
@@ -180,8 +182,7 @@ function do_intervalDate($inicio,$fin,$tipo)
                 "12"=>Dic,
                 );
             $listInterval.=$interval.'#'.$meses[$interval].'&';
-        }
-        else{
+        } else {
             $listInterval.=$interval.'#'.$interval.'&';
         };
     };
@@ -191,18 +192,17 @@ function do_intervalDate($inicio,$fin,$tipo)
 };
 
 
-// 
+//
 // Arma un select form a partir de un Array
-// 
-function doSelectForm($valores,$valor_selec)
+//
+function doSelectForm($valores, $valor_selec)
 {
-    for($i=0; $i<sizeof($valores);++$i){
+    for ($i=0; $i<sizeof($valores); ++$i) {
         $valor=explode("#", $valores[$i]);
-        if($valor[0]) {
-            if($valor[0]==$valor_selec) {
+        if ($valor[0]) {
+            if ($valor[0]==$valor_selec) {
                 $selec_values.='<option value="'.$valor[0].'" selected="selected">'.$valor[1].'</option>'."\n\r";
-            }
-            else{
+            } else {
                 $selec_values.='<option value="'.$valor[0].'">'.$valor[1].'</option>'."\n\r";
             };
         };
@@ -211,14 +211,14 @@ function doSelectForm($valores,$valor_selec)
 };
 
 
-// 
+//
 // Arma un select form a partir de un SQL
-// 
+//
 
 function SqlSelectForm($sql)
 {
     $sqlDos=SQL("select", "$sql");
-    while ($cons=$sqlDos->FetchRow()){
+    while ($cons=$sqlDos->FetchRow()) {
         $array.=$cons[0].'#'.$cons[1].'&';
     };
           $array=substr("$array", 0, -1);
@@ -227,28 +227,30 @@ function SqlSelectForm($sql)
     return $array;
 }
 
-// 
+//
 // alternador de colores en filas
-// 
-function do_color_row($i,$selec_color1,$selec_color2)
+//
+function do_color_row($i, $selec_color1, $selec_color2)
 {
          $color_row=$selec_color1;
-    if(is_int($i/2)) {$color_row=$selec_color2;
+    if (is_int($i/2)) {
+        $color_row=$selec_color2;
     }
 
          return $color_row;
 };
 
 
-// 
+//
 // Abre y cierra un c�digo html
-// 
-function doListaTag($i,$tag,$contenidoTag,$id="", $class="")
+//
+function doListaTag($i, $tag, $contenidoTag, $id = "", $class = "")
 {
 
     $class=(strlen($class)>0) ? ' class="'.$class.'" ' : '';
-    if($i>0) {
-        if(@$id) {$idTag=' id="'.$id.'"';
+    if ($i>0) {
+        if (@$id) {
+            $idTag=' id="'.$id.'"';
         };
         $rows='<'.$tag.$idTag.$class.'>'.$contenidoTag.'</'.$tag.'>';
     }
@@ -256,10 +258,10 @@ function doListaTag($i,$tag,$contenidoTag,$id="", $class="")
     return $rows;
 };
 
-// 
+//
 // Empaqueta salida y envia por Header como attach
 // Basada en clase PHP ExcelGen Class de (c) Erh-Wen,Kuo (erhwenkuo@yahoo.com).
-function sendFile($input,$filename)
+function sendFile($input, $filename)
 {
                 header("Expires: Mon, 1 Apr 1974 05:00:00 GMT");
                 header("Last-Modified: " . gmdate("D,d M YH:i:s") . " GMT");
@@ -274,7 +276,7 @@ function sendFile($input,$filename)
 
 //sql 2 CSV and send as attach
 //based on http://www.phpclasses.org/browse/file/16237.html
-function sql2csv($sql,$filename,$encode="utf8")
+function sql2csv($sql, $filename, $encode = "utf8")
 {
     $res = $sql;
     $colnames = array();
@@ -295,7 +297,6 @@ function sql2csv($sql,$filename,$encode="utf8")
     if (SQLcount($res)>0) {
         $CSV.="\n";
         while ($array = $res->FetchRow()) {
-
             //for ($i = 0; $i < sizeof($row); $i++) {
             for ($i = 0; $i < $res->FieldCount(); $i++) {
                   $array[$i] = '"'.str_replace('"', '""', $array[$i]).'"';
@@ -315,78 +316,81 @@ function sql2csv($sql,$filename,$encode="utf8")
 
     // print the final contents of .csv file
     print ($encode=='latin1') ? latin1($CSV) : utf8($CSV);
-
 }
 
 
 //From TematresView by Nicolas Poulain
-function secure_data($data,$type="alnum")
+function secure_data($data, $type = "alnum")
 {
 
-    switch ( $type ) {
-    case "alnum" :
-        // suppression des caracteres pas catholiques
-        $data = preg_replace('/^\W+|\W+$/', '', $data);
-        $data = preg_replace('/\s/', '', $data);
-        break ;
+    switch ($type) {
+        case "alnum":
+            // suppression des caracteres pas catholiques
+            $data = preg_replace('/^\W+|\W+$/', '', $data);
+            $data = preg_replace('/\s/', '', $data);
+            break ;
 
-    case "alpha" :
-        // suppression des caracteres pas catholiques
-         $data = preg_replace('/^\W+|\W+$/', '', $data);
-        $data = arrayReplace(array("0","1","2","3","4","5","6","7","8","9"), array(""), $data);
-        $data = preg_replace('/\s/', '', $data);
-        break ;
-
-
-    case "ADOsql" :
-        GLOBAL $DB;
-        $data = trim($data);
-        $data=$DB->qstr($data, get_magic_quotes_gpc());
-        break ;
+        case "alpha":
+            // suppression des caracteres pas catholiques
+             $data = preg_replace('/^\W+|\W+$/', '', $data);
+            $data = arrayReplace(array("0","1","2","3","4","5","6","7","8","9"), array(""), $data);
+            $data = preg_replace('/\s/', '', $data);
+            break ;
 
 
-    case "sql" :
-        $data = trim($data);
-        // vire les balises
-        $data = strip_tags($data);
+        case "ADOsql":
+            global $DB;
+            $data = trim($data);
+            $data=$DB->qstr($data, get_magic_quotes_gpc());
+            break ;
 
-        if (is_numeric($data)  || $data === null) {
+
+        case "sql":
+            $data = trim($data);
+            // vire les balises
+            $data = strip_tags($data);
+
+            if (is_numeric($data)  || $data === null) {
                 return $data;
-        }
-        // zappe le magic_quote d�pr�ci�
-        $data = str_replace("''", "'", $data);
-
-        if(get_magic_quotes_gpc()) { $data = stripslashes($data);
-        }
-
-        $data= addslashes($data);
-        break ;
-
-    case "sqlhtml" :
-        //SQL secure with HTML tags
-        // zappe le magic_quote d�pr�ci�
-        if(get_magic_quotes_gpc()) {
-            if(ini_get('magic_quotes_sybase')) {
-                $data = str_replace("''", "'", $data);
-            } else { $data = stripslashes($data);
             }
-        }
-        $data = trim($data);
-        break ;
+            // zappe le magic_quote d�pr�ci�
+            $data = str_replace("''", "'", $data);
 
-    case "int" : // int
-        $data =(int)preg_replace('|[^0-9.]|i', '', $data);
+            if (get_magic_quotes_gpc()) {
+                $data = stripslashes($data);
+            }
 
-        if ($data == "" ) { $data = 0 ;
-        }
-        break ;
+            $data= addslashes($data);
+            break ;
 
-    default : // int
-        $data =(int)preg_replace('|[^0-9.]|i', '', $data);
+        case "sqlhtml":
+            //SQL secure with HTML tags
+            // zappe le magic_quote d�pr�ci�
+            if (get_magic_quotes_gpc()) {
+                if (ini_get('magic_quotes_sybase')) {
+                    $data = str_replace("''", "'", $data);
+                } else {
+                    $data = stripslashes($data);
+                }
+            }
+            $data = trim($data);
+            break ;
 
-        if ($data == "" ) { $data = 0 ;
-        }
-        break ;
+        case "int": // int
+            $data =(int)preg_replace('|[^0-9.]|i', '', $data);
+
+            if ($data == "") {
+                $data = 0 ;
+            }
+            break ;
+
+        default: // int
+            $data =(int)preg_replace('|[^0-9.]|i', '', $data);
+
+            if ($data == "") {
+                $data = 0 ;
+            }
+            break ;
     }
     return $data ;
 }
@@ -396,31 +400,28 @@ function secure_data($data,$type="alnum")
 
 function is_alpha($inStr)
 {
-    return (preg_match("/^[a-zA-Z]+$/", $inStr) != 0); 
+    return (preg_match("/^[a-zA-Z]+$/", $inStr) != 0);
 }
 
 
 function is_alpha_numeric($inStr)
 {
-    return (preg_match("/^[a-zA-Z0-9]+$/", $inStr) != 0); 
+    return (preg_match("/^[a-zA-Z0-9]+$/", $inStr) != 0);
 }
 
 
 // XML Entity Mandatory Escape Characters or CDATA
-function xmlentities( $string , $pcdata=false)
+function xmlentities($string, $pcdata = false)
 {
-    if($pcdata == true) {
+    if ($pcdata == true) {
         return  '<![CDATA[ '.str_replace(array ('[[',']]' ), array ('',''), $string).' ]]>';
-    }
-    else
-    {
+    } else {
         return str_replace(array ( '&', '"', "'", '<', '>','[[',']]' ), array ( '&amp;' , '&quot;', '&apos;' , '&lt;' , '&gt;','',''), $string);
     }
-
 }
 
 //Reemplaza un valor de una matriz por otro
-function arrayReplace( $arrayInicio, $arrayFinal, $string )
+function arrayReplace($arrayInicio, $arrayFinal, $string)
 {
     return str_replace($arrayInicio, $arrayFinal, $string);
 }
@@ -438,7 +439,7 @@ function prepare2sqlregexp($string)
 
 
 // string 2 URL legible
-function string2url( $string )
+function string2url($string)
 {
     include_once 'URLify.php';
     return URLify::filter($string);
@@ -476,15 +477,14 @@ function html2txt($html)
 //This function is a part of http://svn.studentrobotics.org/ ide2/
 function wiki2html($wikitext)
 {
-    if(!isset($wikitext) || $wikitext == "") {
+    if (!isset($wikitext) || $wikitext == "") {
         return false;
     }
 
     $inter_text = $wikitext;
-    while(strpos($inter_text, "[[") && strpos($inter_text, "]]"))
-    {
+    while (strpos($inter_text, "[[") && strpos($inter_text, "]]")) {
         $link = str_replace(array("[[", "]]"), "", substr($inter_text, strpos($inter_text, "[["), (strpos($inter_text, "]]")-strpos($inter_text, "[["))));
-        if(strpos($link, "|")) {
+        if (strpos($link, "|")) {
             list($href, $title) = explode("|", $link);
         } else {
             $href = 'index.php?'.FORM_LABEL_buscar.'='.$link.'&amp;sgs=off';
@@ -498,27 +498,25 @@ function wiki2html($wikitext)
 /* Convert wiki text to XML for output */
 function wiki2xml($wikitext)
 {
-    if(!isset($wikitext) || $wikitext == "") {
+    if (!isset($wikitext) || $wikitext == "") {
         return false;
     }
 
     return str_replace(array ('[[',']]' ), array ('',''), $wikitext);
-
 }
 
 /* Convert wiki text to html for output */
 //This function is a part of http://svn.studentrobotics.org/ ide2/
 function wiki2link($wikitext)
 {
-    if(!isset($wikitext) || $wikitext == "") {
+    if (!isset($wikitext) || $wikitext == "") {
         return false;
     }
 
     $inter_text    = $wikitext;
-    while(strpos($inter_text, "[[") && strpos($inter_text, "]]"))
-    {
+    while (strpos($inter_text, "[[") && strpos($inter_text, "]]")) {
         $link    = str_replace(array("[[", "]]"), "", substr($inter_text, strpos($inter_text, "[["), (strpos($inter_text, "]]")-strpos($inter_text, "[["))));
-        if(strpos($link, "|")) {
+        if (strpos($link, "|")) {
             list($toSee,$string) = explode("|", $link);
             $inter_text = str_replace('[['.$toSee."|".$string.']]', string2gloss($string, $toSee, array($_SESSION[$_SESSION["CFGURL"]]["_GLOSS_NOTES"])), $inter_text);
         } else {
@@ -534,26 +532,26 @@ function wiki2link($wikitext)
 
 
 //Create link and tooltip for given string
-function string2gloss($string,$toSee,$noteTypes=array("NA"))
+function string2gloss($string, $toSee, $noteTypes = array("NA"))
 {
 
     $sqlTerm=SQLbuscaExacta(html2txt($string));
     $arrayTerm=$sqlTerm->FetchRow();
 
     $sqlNotes=SQLdatosTerminoNotas($arrayTerm["tema_id"], $noteTypes);
-    if(SQLcount($sqlNotes)>0) {
-        while($arrayNote=$sqlNotes->FetchRow()){
+    if (SQLcount($sqlNotes)>0) {
+        while ($arrayNote=$sqlNotes->FetchRow()) {
             $description.=$arrayNote["nota"].' ';
         }
 
         $text=html2txt($description);
-    }else{
+    } else {
         $text=ucfirst(LABEL_Detalle).' '.$arrayTerm["tema"];
     }
 
-    if($arrayTerm["tema_id"]) {
+    if ($arrayTerm["tema_id"]) {
         return '<a href="'.URL_BASE.'index.php?tema='.$arrayTerm["tema_id"].'" class="autoGloss" data-toggle="tooltip" data-placement="right" title="'.$text.'">'.$toSee.'</a>';
-    }else{
+    } else {
         return '<a href="'.URL_BASE.'index.php?'.FORM_LABEL_buscar.'='.$string.'&amp;sgs=off" title="'.ucfirst(LABEL_Detalle).' '.$string.'">'.$toSee.'</a>';
     }
 }
@@ -597,7 +595,8 @@ class Qi_Util_Similar
 
     public function sugestoes($limit = null)
     {
-        if ($limit === null) { return $this->lista;
+        if ($limit === null) {
+            return $this->lista;
         }
         return array_slice($this->lista, 0, $limit);
     }
@@ -607,7 +606,8 @@ class Qi_Util_Similar
         $pa = $pb = 0;
         similar_text($a, $this->palavra, $pa);
         similar_text($b, $this->palavra, $pb);
-        if ($pa == $pb) { return 0;
+        if ($pa == $pb) {
+            return 0;
         }
         return $pa < $pb ? 1 : -1;
     }
@@ -618,7 +618,8 @@ class Qi_Util_Similar
         $pa = $pb = 0;
         $pa = levenshtein($a, $this->palavra);
         $pb = levenshtein($b, $this->palavra);//123
-        if ($pa == $pb) { return 0;
+        if ($pa == $pb) {
+            return 0;
         }
         return $pa < $pb ? -1 : 1;
     }
@@ -626,10 +627,10 @@ class Qi_Util_Similar
 
 
 
-function evalSimiliarResults($string_a,$string_b)
+function evalSimiliarResults($string_a, $string_b)
 {
 
-    GLOBAL $CFG;
+    global $CFG;
 
     $_MIN_DISTANCE=($CFG["_MIN_DISTANCE"]>0) ? $CFG["_MIN_DISTANCE"] : 6;
 
@@ -659,19 +660,19 @@ function outputCosas($line)
 };
 
 
-function fixEncoding($input, $output_encoding="UTF-8")
+function fixEncoding($input, $output_encoding = "UTF-8")
 {
     return $input;
     // For some reason this is missing in the php4 in NMT
     $encoding = mb_detect_encoding($input);
-    switch($encoding) {
-    case 'ASCII':
-    case $output_encoding:
-        return $input;
-    case '':
-        return mb_convert_encoding($input, $output_encoding);
-    default:
-        return mb_convert_encoding($input, $output_encoding, $encoding);
+    switch ($encoding) {
+        case 'ASCII':
+        case $output_encoding:
+            return $input;
+        case '':
+            return mb_convert_encoding($input, $output_encoding);
+        default:
+            return mb_convert_encoding($input, $output_encoding, $encoding);
     }
 }
 
@@ -694,13 +695,20 @@ function seems_utf8($str)
     $length = strlen($str);
     for ($i=0; $i < $length; $i++) {
         $c = ord($str[$i]);
-        if ($c < 0x80) { $n = 0; // 0bbbbbbb
-        } elseif (($c & 0xE0) == 0xC0) { $n=1; // 110bbbbb
-        } elseif (($c & 0xF0) == 0xE0) { $n=2; // 1110bbbb
-        } elseif (($c & 0xF8) == 0xF0) { $n=3; // 11110bbb
-        } elseif (($c & 0xFC) == 0xF8) { $n=4; // 111110bb
-        } elseif (($c & 0xFE) == 0xFC) { $n=5; // 1111110b
-        } else { return false; // Does not match any model
+        if ($c < 0x80) {
+            $n = 0; // 0bbbbbbb
+        } elseif (($c & 0xE0) == 0xC0) {
+            $n=1; // 110bbbbb
+        } elseif (($c & 0xF0) == 0xE0) {
+            $n=2; // 1110bbbb
+        } elseif (($c & 0xF8) == 0xF0) {
+            $n=3; // 11110bbb
+        } elseif (($c & 0xFC) == 0xF8) {
+            $n=4; // 111110bb
+        } elseif (($c & 0xFE) == 0xFC) {
+            $n=5; // 1111110b
+        } else {
+            return false; // Does not match any model
         }
         for ($j=0; $j<$n; $j++) { // n bytes matching 10bbbbbb follow ?
             if ((++$i == $length) || ((ord($str[$i]) & 0xC0) != 0x80)) {
@@ -780,8 +788,8 @@ function clean($val)
     }
 
     // now the only remaining whitespace attacks are \t, \n, and \r
-    $ra1 = Array('javascript', 'vbscript', 'expression', 'applet', 'meta', 'xml', 'blink', 'link', 'style', 'script', 'embed', 'object', 'iframe', 'frame', 'frameset', 'ilayer', 'layer', 'bgsound', 'title', 'base');
-    $ra2 = Array('onabort', 'onactivate', 'onafterprint', 'onafterupdate', 'onbeforeactivate', 'onbeforecopy', 'onbeforecut', 'onbeforedeactivate', 'onbeforeeditfocus', 'onbeforepaste', 'onbeforeprint', 'onbeforeunload', 'onbeforeupdate', 'onblur', 'onbounce', 'oncellchange', 'onchange', 'onclick', 'oncontextmenu', 'oncontrolselect', 'oncopy', 'oncut', 'ondataavailable', 'ondatasetchanged', 'ondatasetcomplete', 'ondblclick', 'ondeactivate', 'ondrag', 'ondragend', 'ondragenter', 'ondragleave', 'ondragover', 'ondragstart', 'ondrop', 'onerror', 'onerrorupdate', 'onfilterchange', 'onfinish', 'onfocus', 'onfocusin', 'onfocusout', 'onhelp', 'onkeydown', 'onkeypress', 'onkeyup', 'onlayoutcomplete', 'onload', 'onlosecapture', 'onmousedown', 'onmouseenter', 'onmouseleave', 'onmousemove', 'onmouseout', 'onmouseover', 'onmouseup', 'onmousewheel', 'onmove', 'onmoveend', 'onmovestart', 'onpaste', 'onpropertychange', 'onreadystatechange', 'onreset', 'onresize', 'onresizeend', 'onresizestart', 'onrowenter', 'onrowexit', 'onrowsdelete', 'onrowsinserted', 'onscroll', 'onselect', 'onselectionchange', 'onselectstart', 'onstart', 'onstop', 'onsubmit', 'onunload');
+    $ra1 = array('javascript', 'vbscript', 'expression', 'applet', 'meta', 'xml', 'blink', 'link', 'style', 'script', 'embed', 'object', 'iframe', 'frame', 'frameset', 'ilayer', 'layer', 'bgsound', 'title', 'base');
+    $ra2 = array('onabort', 'onactivate', 'onafterprint', 'onafterupdate', 'onbeforeactivate', 'onbeforecopy', 'onbeforecut', 'onbeforedeactivate', 'onbeforeeditfocus', 'onbeforepaste', 'onbeforeprint', 'onbeforeunload', 'onbeforeupdate', 'onblur', 'onbounce', 'oncellchange', 'onchange', 'onclick', 'oncontextmenu', 'oncontrolselect', 'oncopy', 'oncut', 'ondataavailable', 'ondatasetchanged', 'ondatasetcomplete', 'ondblclick', 'ondeactivate', 'ondrag', 'ondragend', 'ondragenter', 'ondragleave', 'ondragover', 'ondragstart', 'ondrop', 'onerror', 'onerrorupdate', 'onfilterchange', 'onfinish', 'onfocus', 'onfocusin', 'onfocusout', 'onhelp', 'onkeydown', 'onkeypress', 'onkeyup', 'onlayoutcomplete', 'onload', 'onlosecapture', 'onmousedown', 'onmouseenter', 'onmouseleave', 'onmousemove', 'onmouseout', 'onmouseover', 'onmouseup', 'onmousewheel', 'onmove', 'onmoveend', 'onmovestart', 'onpaste', 'onpropertychange', 'onreadystatechange', 'onreset', 'onresize', 'onresizeend', 'onresizestart', 'onrowenter', 'onrowexit', 'onrowsdelete', 'onrowsinserted', 'onscroll', 'onselect', 'onselectionchange', 'onselectstart', 'onstart', 'onstop', 'onsubmit', 'onunload');
     $ra = array_merge($ra1, $ra2);
 
     $found = true; // keep replacing as long as the previous round replaced something
@@ -811,8 +819,8 @@ function clean($val)
 }
 
 
-// 
-// 
+//
+//
 function DBconnect()
 {
 
@@ -823,7 +831,7 @@ function DBconnect()
     */
     //    include_once('adodb5/adodb-exceptions.inc.php');
 
-    GLOBAL $DBCFG;
+    global $DBCFG;
 
     //default driver
     $DBCFG["DBdriver"] = (!$DBCFG["DBdriver"]) ? 'mysqli' : $DBCFG["DBdriver"];
@@ -832,7 +840,7 @@ function DBconnect()
     $DBCFG["DBpersist"] = (@$DBCFG["DBpersist"]==0) ? '' : '?persist';
 
   
-    $dsn = $DBCFG["DBdriver"].'://'.$DBCFG["DBLogin"].':'.$DBCFG["DBPass"].'@'.$DBCFG["Server"].'/'.$DBCFG["DBName"].$DBCFG["DBpersist"]; 
+    $dsn = $DBCFG["DBdriver"].'://'.$DBCFG["DBLogin"].':'.$DBCFG["DBPass"].'@'.$DBCFG["Server"].'/'.$DBCFG["DBName"].$DBCFG["DBpersist"];
   
     $DB = adoNewConnection($dsn);  // no need for Connect()
 
@@ -844,12 +852,12 @@ function DBconnect()
     $DB->Execute("SET SESSION sql_mode = 'TRADITIONAL'");
 
     // Si se establecio un charset para la conexion
-    if(@$DBCFG["DBcharset"]) {
+    if (@$DBCFG["DBcharset"]) {
         $DB->Execute("set names $DBCFG[DBcharset]");
     }
 
     //Si debug
-    if($DBCFG["debugMode"]=='1') {
+    if ($DBCFG["debugMode"]=='1') {
         echo $DB->ErrorMsg();
     };
 
@@ -857,11 +865,11 @@ function DBconnect()
 }
 
 
-function SQL($todo,$sql)
+function SQL($todo, $sql)
 {
 
-    GLOBAL $DB;
-    GLOBAL $DBCFG;
+    global $DB;
+    global $DBCFG;
 
 
     $sql=$todo.' '.$sql;
@@ -869,31 +877,33 @@ function SQL($todo,$sql)
     $rs = $DB->Execute($sql);
 
     //Si debug
-    if($DBCFG["debugMode"]=='1') {     echo $DB->ErrorMsg();
+    if ($DBCFG["debugMode"]=='1') {
+        echo $DB->ErrorMsg();
     }
 
-    if (!$rs) { return array("error"=>$DB->ErrorMsg());
+    if (!$rs) {
+        return array("error"=>$DB->ErrorMsg());
     }
 
-    switch($todo){
-    case 'insert':
-        return array("cant"=>$DB->Insert_ID());
+    switch ($todo) {
+        case 'insert':
+            return array("cant"=>$DB->Insert_ID());
         break;
 
-    case 'update':
-        return array("cant"=>$DB->Affected_Rows());
+        case 'update':
+            return array("cant"=>$DB->Affected_Rows());
         break;
 
-    default:
-        return $rs;
+        default:
+            return $rs;
     }
 };
 
 
-function SQLo($todo,$sql,$array)
+function SQLo($todo, $sql, $array)
 {
 
-    GLOBAL $DB;
+    global $DB;
 
     $sql=$todo.' '.$sql;
 
@@ -901,36 +911,37 @@ function SQLo($todo,$sql,$array)
 
     $rs = $DB->Execute($rs, $array);
 
-    if (!$rs) { return array("error"=>$DB->ErrorMsg());
+    if (!$rs) {
+        return array("error"=>$DB->ErrorMsg());
     }
 
-    switch($todo)
-    {
-    case 'insert':
-        return array("cant"=>$DB->Insert_ID());
+    switch ($todo) {
+        case 'insert':
+            return array("cant"=>$DB->Insert_ID());
         break;
 
-    case 'update':
-        return array("cant"=>$DB->Affected_Rows());
+        case 'update':
+            return array("cant"=>$DB->Affected_Rows());
         break;
 
-    default:
-        return $rs;
+        default:
+            return $rs;
     }
 };
 
 
-// 
+//
 // Datos del Tesauro
-// 
+//
 function SQLdatosTesaruo($tesauro_id)
 {
-    GLOBAL $DBCFG;
+    global $DBCFG;
 
     $tesauro_id=secure_data($tesauro_id, "int");
 
     return SQLo(
-        "select", "id,
+        "select",
+        "id,
 		titulo,
 		autor,
 		idioma,
@@ -940,34 +951,38 @@ function SQLdatosTesaruo($tesauro_id)
 		cuando,
 		url_base
 		from $DBCFG[DBprefix]config as config
-		where id=?", array($tesauro_id)
+		where id=?",
+        array($tesauro_id)
     );
 };
 
 
-function SQLAuthUser($mail,$pass)
+function SQLAuthUser($mail, $pass)
 {
-    GLOBAL $DBCFG;
+    global $DBCFG;
 
     return SQLo(
-        "select", "usuario.id,
+        "select",
+        "usuario.id,
 			usuario.mail,
 			usuario.nivel,
 			concat(usuario.apellido,', ',usuario.nombres) as nombre
 		from $DBCFG[DBprefix]usuario as usuario
 			 where usuario.mail=?
 			 and usuario.pass=?
-			 and estado=1", array($mail,$pass)
+			 and estado=1",
+        array($mail,$pass)
     );
 };
 
 
 function ARRAYcheckLogin($mail)
 {
-    GLOBAL $DBCFG;
+    global $DBCFG;
 
     $sql=SQLo(
-        "select", "u.id,
+        "select",
+        "u.id,
 			u.id as user_id,
 			u.mail,
 			u.nivel,
@@ -975,7 +990,8 @@ function ARRAYcheckLogin($mail)
 			u.pass
 		from $DBCFG[DBprefix]usuario as u
 			 where u.mail=?
-			 and u.estado=1", array($mail)
+			 and u.estado=1",
+        array($mail)
     );
 
     return (is_object($sql)) ? $sql->FetchRow() : array("result"=>false);
@@ -990,49 +1006,49 @@ function SQLcount($object)
 }
 
 
-function loadConfigValues($renew="0")
+function loadConfigValues($renew = "0")
 {
 
-    GLOBAL $arrayCFGs;
+    global $arrayCFGs;
 
     //Web URL BASE
     define('URL_BASE', getURLbase());
 
     //renovar valores
-    if($renew=='1') {
-        GLOBAL $DBCFG;
+    if ($renew=='1') {
+        global $DBCFG;
 
         $sql=SQL(
-            "select", "v.value_id,v.value_type,v.value,v.value_code,v.value_order
+            "select",
+            "v.value_id,v.value_type,v.value,v.value_code,v.value_order
 						from $DBCFG[DBprefix]values v where v.value_type='config'"
         );
 
         $NEWarrayCFGs=array();
 
-        while ($array=$sql->FetchRow()){
+        while ($array=$sql->FetchRow()) {
+            switch ($array["value"]) {
+                case 'CFG_MAX_TREE_DEEP':
+                    $array["value_code"] = (in_array($array["value_code"], array(1,2,3,4,5,6))) ? $array["value_code"] : $arrayCFGs[$array["value"]];
+                    break;
 
-            switch ($array["value"]){
-            case 'CFG_MAX_TREE_DEEP':
-                $array["value_code"] = (in_array($array["value_code"], array(1,2,3,4,5,6))) ? $array["value_code"] : $arrayCFGs[$array["value"]];
-                break;
+                case 'CFG_MIN_SEARCH_SIZE':
+                    $array["value_code"] = (in_array($array["value_code"], array(1,2,3,4,5,6))) ? $array["value_code"] : $arrayCFGs[$array["value"]];
+                    break;
 
-            case 'CFG_MIN_SEARCH_SIZE':
-                $array["value_code"] = (in_array($array["value_code"], array(1,2,3,4,5,6))) ? $array["value_code"] : $arrayCFGs[$array["value"]];
-                break;
+                case 'CFG_NUM_SHOW_TERMSxSTATUS':
+                    $array["value_code"] = (in_array($array["value_code"], array(50,100,150,200,250))) ? $array["value_code"] : $arrayCFGs[$array["value"]];
+                    break;
+                case '_GLOSS_NOTES':
+                    $array["value_code"] = (!$array["value_code"]) ? $arrayCFGs[$array["value"]] : $array["value_code"] ;
+                    break;
 
-            case 'CFG_NUM_SHOW_TERMSxSTATUS':
-                $array["value_code"] = (in_array($array["value_code"], array(50,100,150,200,250))) ? $array["value_code"] : $arrayCFGs[$array["value"]];
-                break;
-            case '_GLOSS_NOTES':
-                $array["value_code"] = (!$array["value_code"]) ? $arrayCFGs[$array["value"]] : $array["value_code"] ;
-                break;
+                case '_SHOW_RANDOM_TERM':
+                    $array["value_code"] = (!$array["value_code"]) ? $arrayCFGs[$array["value"]] : $array["value_code"] ;
+                    break;
 
-            case '_SHOW_RANDOM_TERM':
-                $array["value_code"] = (!$array["value_code"]) ? $arrayCFGs[$array["value"]] : $array["value_code"] ;
-                break;
-
-            default:
-                $array["value_code"] = (in_array($array["value_code"], array(1,0))) ? $array["value_code"] : $arrayCFGs[$array["value"]];
+                default:
+                    $array["value_code"] = (in_array($array["value_code"], array(1,0))) ? $array["value_code"] : $arrayCFGs[$array["value"]];
             }
 
             $NEWarrayCFGs[$array["value"]]= $array["value_code"];
@@ -1064,9 +1080,9 @@ function LABELrelTypeSYS($r_id)
 }
 
 
-function doLastModified($thes_change=false)
+function doLastModified($thes_change = false)
 {
-    GLOBAL $DBCFG;
+    global $DBCFG;
     $lastTerm=ARRAYlastTermMod();
     //select max value
     $lastTermMod=max($lastTerm["last_create"], $lastTerm["last_mod"], $lastTerm["last_status"]);
@@ -1078,7 +1094,7 @@ function doLastModified($thes_change=false)
     $sqlNotes=SQL("update", " $DBCFG[DBprefix]values set value='$lastNoteMod' where value_type='DATESTAMP' and value_code='NOTE_CHANGE'");
 
 
-    if($thes_change==true) {
+    if ($thes_change==true) {
         $sql=SQL("update", " $DBCFG[DBprefix]values set value='now()' where  value_type='DATESTAMP' and value_code='THES_CHANGE'");
     }
 }
@@ -1086,7 +1102,7 @@ function doLastModified($thes_change=false)
 //last term modified
 function ARRAYlastTermMod()
 {
-    GLOBAL $DBCFG;
+    global $DBCFG;
     $sql=SQL("select", "max(t.cuando) as last_create,max(t.cuando_final) as  last_mod,max(t.cuando_estado) as last_status from $DBCFG[DBprefix]tema t");
     $array=$sql->FetchRow();
     return $array;
@@ -1095,7 +1111,7 @@ function ARRAYlastTermMod()
 //last foreign term modified
 function ARRAYlastTtermMod()
 {
-    GLOBAL $DBCFG;
+    global $DBCFG;
     $sql=SQL("select", "max(tt.cuando) last from $DBCFG[DBprefix]term2tterm tt");
     $array=$sql->FetchRow();
     return $array["last"];
@@ -1104,7 +1120,7 @@ function ARRAYlastTtermMod()
 //last note modified
 function ARRAYlastNoteMod()
 {
-    GLOBAL $DBCFG;
+    global $DBCFG;
     $sql=SQL("select", "max(n.cuando) last from $DBCFG[DBprefix]notas n");
     $array=$sql->FetchRow();
     return $array["last"];
@@ -1136,17 +1152,17 @@ function isValidTerm($term_id)
  * @param  array        $defaults Array that serves as the defaults.
  * @return array Merged user defined values with defaults.
  */
-function t3_parse_args( $args, $defaults = '' )
+function t3_parse_args($args, $defaults = '')
 {
-    if (is_object($args) ) {
+    if (is_object($args)) {
         $r = get_object_vars($args);
-    } elseif (is_array($args) ) {
+    } elseif (is_array($args)) {
         $r =& $args;
     } else {
         t3_parse_str($args, $r);
     }
 
-    if (is_array($defaults) ) {
+    if (is_array($defaults)) {
         return array_merge($defaults, $r);
     }
     return $r;
@@ -1165,10 +1181,10 @@ function t3_parse_args( $args, $defaults = '' )
  * @param string $string The string to be parsed.
  * @param array  $array  Variables will be stored in this array.
  */
-function t3_parse_str( $string, &$array )
+function t3_parse_str($string, &$array)
 {
     parse_str($string, $array);
-    if (get_magic_quotes_gpc() ) {
+    if (get_magic_quotes_gpc()) {
         $array = stripslashes_deep($array);
     }
     return $array;
@@ -1189,11 +1205,11 @@ function t3_parse_str( $string, &$array )
  */
 function stripslashes_deep($value)
 {
-    if (is_array($value) ) {
+    if (is_array($value)) {
         $value = array_map('stripslashes_deep', $value);
-    } elseif (is_object($value) ) {
+    } elseif (is_object($value)) {
         $vars = get_object_vars($value);
-        foreach ($vars as $key=>$data) {
+        foreach ($vars as $key => $data) {
             $value->{$key} = stripslashes_deep($data);
         }
     } else {
@@ -1221,9 +1237,9 @@ function currentBasePage($url)
 }
 
 
-function sendMail($to_address,$subject,$message,$extra=array())
+function sendMail($to_address, $subject, $message, $extra = array())
 {
-    GLOBAL $DBCFG;
+    global $DBCFG;
     include_once "mailer/PHPMailerAutoload.php";
     $mail = new PHPMailer();
 
@@ -1257,7 +1273,7 @@ function sendMail($to_address,$subject,$message,$extra=array())
 
 
 
-    if($DBCFG["debugMode"] == "1") {
+    if ($DBCFG["debugMode"] == "1") {
         //Enable SMTP debugging
         // 0 = off (for production use)
         // 1 = client messages
@@ -1278,25 +1294,24 @@ function sendMail($to_address,$subject,$message,$extra=array())
 function t3_messages($msg_type)
 {
     switch ($msg_type) {
-    case 'no_user':
-        $msg='<p class="alert alert-danger" role="alert">'.MSG_noUser.'</p>';
-        break;
+        case 'no_user':
+            $msg='<p class="alert alert-danger" role="alert">'.MSG_noUser.'</p>';
+            break;
 
-    case 'recovery_mail_send':
-        $msg='<p  class="alert alert-info" role="alert">'.MSG_check_mail.'</p>';
-        break;
+        case 'recovery_mail_send':
+            $msg='<p  class="alert alert-info" role="alert">'.MSG_check_mail.'</p>';
+            break;
 
-    case 'mailOK':
-        $msg='<p  class="alert alert-info" role="alert">'.MSG_check_mail.'</p>';
-        break;
+        case 'mailOK':
+            $msg='<p  class="alert alert-info" role="alert">'.MSG_check_mail.'</p>';
+            break;
 
-    case 'mailFail':
-        $msg='<p  class="alert alert-danger" role="alert">'.MSG_no_mail.'</p>';
-        break;
+        case 'mailFail':
+            $msg='<p  class="alert alert-danger" role="alert">'.MSG_no_mail.'</p>';
+            break;
 
-    default :
-
-        break;
+        default:
+            break;
     }
 
     return $msg;
@@ -1338,27 +1353,24 @@ function t3_hash_password($password)
  */
 require_once 'class-phpass.php';
 
-function check_password($password,$hash)
+function check_password($password, $hash)
 {
 
-    if(CFG_HASH_PASS==1) {
+    if (CFG_HASH_PASS==1) {
         $hasher = new PasswordHash(8, true);
         return $hasher->CheckPassword($password, $hash);
-    }
-    else
-    {
+    } else {
         return ($password==$hash);
     };
-
 }
 
 /*
  *
  * Update password for user
  */
-function setPassword($user_id,$user_pass,$to_hash=0)
+function setPassword($user_id, $user_pass, $to_hash = 0)
 {
-    GLOBAL $DBCFG;
+    global $DBCFG;
     $user_pass=($to_hash==1) ? t3_hash_password($user_pass) : $user_pass;
     $sql_update_pass=SQLo("update", "$DBCFG[DBprefix]usuario set pass= ? where id= ?", array($user_pass,$user_id));
     return;
@@ -1376,7 +1388,7 @@ function XSSpreventArray($array)
             $array[$k] = is_array($v) ? XSSpreventArray($v) : XSSprevent($v);
         }
         @reset($array);
-    } else  {
+    } else {
         $array = array();
     }
 
@@ -1390,7 +1402,8 @@ function XSSpreventArray($array)
 */
 function array2json(array $arr)
 {
-    if(function_exists('json_encode')) { return json_encode($arr); //Lastest versions of PHP already has this functionality.
+    if (function_exists('json_encode')) {
+        return json_encode($arr); //Lastest versions of PHP already has this functionality.
     }
     $parts = array();
     $is_list = false;
@@ -1399,27 +1412,27 @@ function array2json(array $arr)
         //Find out if the given array is a numerical array
         $keys = array_keys($arr);
         $max_length = count($arr)-1;
-        if(($keys[0] === 0) and ($keys[$max_length] === $max_length)) {//See if the first key is 0 and last key is length - 1
+        if (($keys[0] === 0) and ($keys[$max_length] === $max_length)) {//See if the first key is 0 and last key is length - 1
             $is_list = true;
-            for($i=0; $i<count($keys); $i++) { //See if each key correspondes to its position
-                if($i !== $keys[$i]) { //A key fails at position check.
+            for ($i=0; $i<count($keys); $i++) { //See if each key correspondes to its position
+                if ($i !== $keys[$i]) { //A key fails at position check.
                     $is_list = false; //It is an associative array.
                     break;
                 }
             }
         }
 
-        foreach($arr as $key=>$value) {
+        foreach ($arr as $key => $value) {
             $str = ( !$is_list ? '"' . $key . '":' : '' );
-            if(is_array($value)) { //Custom handling for arrays
+            if (is_array($value)) { //Custom handling for arrays
                 $parts[] = $str . array2json($value);
             } else {
                 //Custom handling for multiple data types
                 if (is_numeric($value) && !is_string($value)) {
                     $str .= $value; //Numbers
-                } elseif(is_bool($value)) {
+                } elseif (is_bool($value)) {
                     $str .= ( $value ? 'true' : 'false' );
-                } elseif($value === null ) {
+                } elseif ($value === null) {
                     $str .= 'null';
                 } else {
                     $str .= '"' . addslashes($value) . '"'; //All other things
@@ -1430,7 +1443,8 @@ function array2json(array $arr)
     }
     $json = implode(',', $parts);
 
-    if($is_list) { return '[' . $json . ']';//Return numerical JSON
+    if ($is_list) {
+        return '[' . $json . ']';//Return numerical JSON
     }
     return '{' . $json . '}';//Return associative JSON
 }
@@ -1439,12 +1453,11 @@ function array2json(array $arr)
 /*
  * Parse string separated by char into array of numeric IDs.
  */
-function string2array4ID($string,$char=",")
+function string2array4ID($string, $char = ",")
 {
     $array_temas_id=explode($char, $string);
 
-    foreach ($array_temas_id as $tema_id)
-    {
+    foreach ($array_temas_id as $tema_id) {
         $temas_id[]=secure_data($tema_id, "int");
     }
 
@@ -1459,7 +1472,7 @@ Check if the string is an accepted letter
 function isValidLetter($string)
 {
 
-    GLOBAL $CFG;
+    global $CFG;
 
     $string=trim($string);
 
@@ -1469,7 +1482,6 @@ function isValidLetter($string)
 
 
     return $string;
-
 }
 
 // Return base URL of the current URL or instance of vocabulary
@@ -1509,8 +1521,8 @@ function loadPage($page)
 function checkAllowPublication($file)
 {
 
-    if(($_SESSION[$_SESSION["CFGURL"]]["ssuser_nivel"]<1) 
-        && ($_SESSION[$_SESSION["CFGURL"]]["CFG_PUBLISH"]==0) 
+    if (($_SESSION[$_SESSION["CFGURL"]]["ssuser_nivel"]<1)
+        && ($_SESSION[$_SESSION["CFGURL"]]["CFG_PUBLISH"]==0)
         && ($file!=='login.php')
     ) {
         return 0;
@@ -1521,7 +1533,7 @@ function checkAllowPublication($file)
     ;
 }
 
-function toASCII( $str )
+function toASCII($str)
 {
     include_once 'URLify.php';
     return URLify::downcode($str);
@@ -1540,9 +1552,10 @@ function URL_exists($url)
 //only for active users. retrive simple data about user
 function ARRAYUserData($user_id)
 {
-    GLOBAL $DBCFG;
+    global $DBCFG;
     $sql=SQL(
-        "select", "u.id as user_id,u.apellido,u.nombres,u.orga,u.mail,u.nivel
+        "select",
+        "u.id as user_id,u.apellido,u.nombres,u.orga,u.mail,u.nivel
     from
     $DBCFG[DBprefix]usuario u
     where u.id='$user_id'
@@ -1555,33 +1568,34 @@ function ARRAYUserData($user_id)
 
 
 //check specific task for specifi roles
-function checkValidRol($arrayUser,$task)
+function checkValidRol($arrayUser, $task)
 {
 
-    if(!$arrayUser["nivel"]) {
+    if (!$arrayUser["nivel"]) {
         $arrayUser=ARRAYdatosUser($arrayUser["user_id"]);
     }
-    if(!$arrayUser["nivel"]) { return false;
+    if (!$arrayUser["nivel"]) {
+        return false;
     }
 
     $adminTask=array("adminReports","adminUsers","config","reports","terms","notes","termStatus");
     $editorTask=array("reports","terms","notes","termStatus");
 
     //check if it is a valid task
-    if(!in_array($task, $adminTask)) { return false;
+    if (!in_array($task, $adminTask)) {
+        return false;
     }
     switch ($arrayUser["nivel"]) {
-    case '1'://admin
-        $result=in_array($task, $adminTask);
-        break;
+        case '1'://admin
+            $result=in_array($task, $adminTask);
+            break;
 
-    case '2'://editor
+        case '2':
+            break;
 
-        break;
-
-    default:
-        $result=false;
-        break;
+        default:
+            $result=false;
+            break;
     }
     return $result;
 }
@@ -1592,7 +1606,7 @@ function URIterm2array($URI_term)
 {
     $ARRAY_URL_BASE=explode("services.php", $URI_term);
 
-    if(count($ARRAY_URL_BASE)>0) {
+    if (count($ARRAY_URL_BASE)>0) {
         return array( "tterm_url"=>str_replace('services.php?task=fetchTerm&arg=', 'index.php?tema=', $URI_term),
                   "tterm_id"=>(int)substr(strrchr($URI_term, "="), 1),
                   "URL_service"=>$ARRAY_URL_BASE[0].'services.php',
@@ -1604,15 +1618,17 @@ function URIterm2array($URI_term)
 
 
 
-function check2Date($stringDate,$char="-")
+function check2Date($stringDate, $char = "-")
 {
     $arrayDate  = explode('-', $stringDate);
-    if(count($arrayDate)!==3) { return false;
+    if (count($arrayDate)!==3) {
+        return false;
     }
 
     if (checkdate((int) $arrayDate[1], (int) $arrayDate[2], (int) $arrayDate[0])) {
         return $stringDate;
-    } else {return false;
+    } else {
+        return false;
     };
 }
 
@@ -1624,7 +1640,7 @@ function check2Date($stringDate,$char="-")
  * @return boolean The boolean value of var.
  * @refer  http://php.net/manual/en/function.boolval.php#114013
  */
-if(!function_exists('boolval')) {
+if (!function_exists('boolval')) {
   
     function boolval($var)
     {
@@ -1639,11 +1655,12 @@ function extract4url($url)
 
     parse_str($url_parser["query"]);
  
-    if(@$tema) { $tema_id=$tema;
+    if (@$tema) {
+        $tema_id=$tema;
     }
-    if(@$letra) { $char=$letra;
+    if (@$letra) {
+        $char=$letra;
     }
   
     return array("url"=>$url,"tema_id"=>$tema_id,"letra"=>$char);
 }
-?>

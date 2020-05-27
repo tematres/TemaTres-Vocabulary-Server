@@ -1,26 +1,27 @@
 <?php
-if ((stristr($_SERVER['REQUEST_URI'], "session.php") ) || ( !defined('T3_ABSPATH') )) { die("no access");
+if ((stristr($_SERVER['REQUEST_URI'], "session.php") ) || ( !defined('T3_ABSPATH') )) {
+    die("no access");
 }
 // TemaTres : aplicación para la gestión de lenguajes documentales #       #
-// 
+//
 // Copyright (C) 2004-2015 Diego Ferreyra tematres@r020.com.ar
 // Distribuido bajo Licencia GNU Public License, versión 2 (de junio de 1.991) Free Software Foundation
-// 
-// 
+//
+//
 // Include para alta y modificacion de usuarios genericos.
 
-if(is_numeric($_GET["user_id"])) {  $dato_user=ARRAYdatosUser($_GET["user_id"]);
+if (is_numeric($_GET["user_id"])) {
+    $dato_user=ARRAYdatosUser($_GET["user_id"]);
 }
 
-if($dato_user["id"]) {
-
+if ($dato_user["id"]) {
     $resumen=ARRAYresumen($_SESSION["id_tesa"], "U", $dato_user["id"]);
     $row_resumen.='<div id="cajaAncha">'."\n\r";
     $row_resumen.='  <div><strong>'.LABEL_Acciones.'</strong></div><dl class="dosCol">'."\n\r";
 
-    if($resumen["cant_total"]>0) {
+    if ($resumen["cant_total"]>0) {
         $row_resumen.='<dt><a href="sobre.php?user_id='.$dato_user["id"].'" title="'.LABEL_Terminos.'">'.ucfirst(LABEL_Terminos).'</dt><dd>'.$resumen["cant_total"].'</a>&nbsp;</dd>'."\n\r";
-    }else{
+    } else {
         $row_resumen.='<dt>'.ucfirst(LABEL_Terminos).'</dt><dd>'.$resumen["cant_total"]."&nbsp;</dd>\n\r";
     };
     $row_resumen.='<dt>'.ucfirst(LABEL_RelTerminos).'</dt><dd>'.$resumen["cant_rel"]."&nbsp;</dd>\n\r";
@@ -87,8 +88,7 @@ $rows.='	<div class="row">
 							<label for="isAdmin">'.ucfirst(LABEL_esSuperUsuario).'</label>
 								</div>
 							</div>';
-if(isset($dato_user["id"])) {
-
+if (isset($dato_user["id"])) {
     $isAlive=($dato_user["estado"]=='ACTIVO') ? 'checked': '';
     $rows.='<div class="form-group">
 											<input type="checkbox" name="isAlive" id="isAlive" value="ACTIVO" '.$isAlive.'/>
@@ -96,7 +96,6 @@ if(isset($dato_user["id"])) {
 											<label for="isAlive">'.ucfirst(LABEL_User_Habilitado).'</label>
 												</div>
 											</div>';
-
 };
                                             $rows.='<div class="form-group">
 																	<div class="col-sm-12 text-right">
@@ -113,14 +112,13 @@ if(isset($dato_user["id"])) {
                                             $rows.=$row_resumen;
 
                                             $rows.='</div> <!-- / panel  -->';
-if(isset($dato_user["id"])) {
+if (isset($dato_user["id"])) {
     $rows.='<input type="hidden" name="useactua" id="useactua" value="'.$dato_user["id"].'"/>';
     $rows.='<input type="hidden" name="userTask" id="userTask" value="M"/>';
-}else {
+} else {
     $rows.='<input type="hidden" name="userTask" id="userTask" value="A"/>';
 }
                                                 $rows.='<input type="hidden" name="useactua" id="useactua" value="'.$dato_user["id"].'"/>';
                                                 $rows.='</form>';
 
                                                 echo $rows;
-?>

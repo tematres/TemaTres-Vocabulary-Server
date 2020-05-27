@@ -2,7 +2,7 @@
 // Chinese language file contributed by "Cuiyan (cysoft)" cysoft#php.net.
 // Simplified Chinese
 $ADODB_LANG_ARRAY = array (
-			'LANG'                      => 'cn',
+            'LANG'                      => 'cn',
             DB_ERROR                    => '未知错误',
             DB_ERROR_ALREADY_EXISTS     => '已经存在',
             DB_ERROR_CANNOT_CREATE      => '不能创建',
@@ -25,7 +25,7 @@ $ADODB_LANG_ARRAY = array (
             DB_ERROR_VALUE_COUNT_ON_ROW => '在行上累计值',
             DB_ERROR_INVALID_DSN        => '无效的数据源 (DSN)',
             DB_ERROR_CONNECT_FAILED     => '连接失败',
-            0	                       => '没有错误', // DB_OK
+            0                          => '没有错误', // DB_OK
             DB_ERROR_NEED_MORE_DATA     => '提供的数据不能符合要求',
             DB_ERROR_EXTENSION_NOT_FOUND=> '扩展没有被发现',
             DB_ERROR_NOSUCHDB           => '没有相应的数据库',

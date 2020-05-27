@@ -144,7 +144,6 @@ class HTMLPurifier_Lexer
         }
 
         return $inst;
-
     }
 
     // -- CONVENIENCE MEMBERS ---------------------------------------------
@@ -169,11 +168,13 @@ class HTMLPurifier_Lexer
             '&#x27;' => "'"
         );
 
-    public function parseText($string, $config) {
+    public function parseText($string, $config)
+    {
         return $this->parseData($string, false, $config);
     }
 
-    public function parseAttr($string, $config) {
+    public function parseAttr($string, $config)
+    {
         return $this->parseData($string, true, $config);
     }
 
