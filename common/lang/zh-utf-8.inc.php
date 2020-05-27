@@ -527,7 +527,6 @@ define('LABEL_i18n_MasterDate','2018-09-12'); /* Master language file creation d
 define('LABEL_i18n_MasterVersion','3.0.03'); /* Master language file version. Do not translate */
 define('LABEL_i18n_TranslationVersion','01'); /* Translation language file version. Will be used after the master version number. Can be changed to track minor changes to your translation file */
 define('LABEL_i18n_TranslationAuthor','Community translation for TemaTres.'); /* Do not include emails or personal details */
-
 #v.3.1
 define('LABEL_noResults','Sorry, no matching results');
 define('LABEL_globalOrganization','global organization of the vocabulary');
@@ -537,7 +536,15 @@ define('LABEL_rel_synonymy','synonym relationships');
 define('LABEL_prototypeTerms','central terms');
 define('LABEL_copy_click','copy term to clipboard');
 define('LABEL__ENABLE_COPY_CLICK','Enable button to copy term in clipboard.');
-#v.3.1.1
-define('LABEL_order','order');
+#v.3.2
+define('LABEL_order','orden');
 define('LABEL_alias','alias');
+define('LEGEND_alias','enter a short alias');
+define('LABEL_src_note','source');
+define('LEGEND_src_note','enter a bibliographic citation');
+define('LABEL_source','normalized sources of authority');
+define('LABEL_source4term','reference sources for terms');
+define('LABEL_add_new','add new');
+define('LABEL_sources4vocab','reference sources');
+define('LABEL_update2_2x3_2','update (2.x -> 3.2)');
 ?>

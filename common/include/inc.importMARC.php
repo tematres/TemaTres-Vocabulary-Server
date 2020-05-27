@@ -1,9 +1,10 @@
 <?php
-if ((stristr( $_SERVER['REQUEST_URI'], "session.php") ) || ( !defined('T3_ABSPATH') )) die("no access");
+if ((stristr($_SERVER['REQUEST_URI'], "session.php") ) || ( !defined('T3_ABSPATH') )) { die("no access");
+}
 /*
 must be ADMIN
 */
-if($_SESSION[$_SESSION["CFGURL"]]["ssuser_nivel"]=='1'){
+if($_SESSION[$_SESSION["CFGURL"]]["ssuser_nivel"]=='1') {
     // get the variables
 
     // tests
@@ -12,8 +13,8 @@ if($_SESSION[$_SESSION["CFGURL"]]["ssuser_nivel"]=='1'){
 
 
 
-    if ( $ok && utf8_encode(utf8_decode($content_text)) == $content_text ) {
-        $content_text = NULL ;
+    if ($ok && utf8_encode(utf8_decode($content_text)) == $content_text ) {
+        $content_text = null ;
     }
     else {
         $ok = false ;
@@ -22,7 +23,7 @@ if($_SESSION[$_SESSION["CFGURL"]]["ssuser_nivel"]=='1'){
     }
 
 
-    if (($_POST['taskAdmin']=='importXML') && (file_exists($_FILES["file"]["tmp_name"]))){
+    if (($_POST['taskAdmin']=='importXML') && (file_exists($_FILES["file"]["tmp_name"]))) {
         
         $src_txt= $_FILES["file"]["tmp_name"];
 
@@ -47,15 +48,16 @@ if($_SESSION[$_SESSION["CFGURL"]]["ssuser_nivel"]=='1'){
         Procesamiento del file
         */
         $doc = new DOMDocument();
-        $doc->load( $src_txt );
+        $doc->load($src_txt);
 
-        $collection = $doc->getElementsByTagName( "collection" );
+        $collection = $doc->getElementsByTagName("collection");
         $records = $collection->item(0)->childNodes;
 
         foreach( $records as $record )
         {
-            if($record->nodeName == "#text")
+            if($record->nodeName == "#text") {
                 continue;
+            }
 
             $termo = getTerm($record);
             $termosUF = getUFterms($record);
@@ -71,43 +73,39 @@ if($_SESSION[$_SESSION["CFGURL"]]["ssuser_nivel"]=='1'){
             }
             
             //adiciona termos UF
-            if(count($termosUF) > 0)
-            {
+            if(count($termosUF) > 0) {
                 foreach($termosUF as $termoUF)
                 {    
                     $UFterm_id=resolveTerm_id($termoUF);
-                    ALTArelacionXId($UFterm_id,$term_id,"4");
+                    ALTArelacionXId($UFterm_id, $term_id, "4");
                 }
             }
             
             //adiciona termos RT
-            if(count($termosRT) > 0)
-            {
+            if(count($termosRT) > 0) {
                 foreach($termosRT as $termoRT)
                 {
-                    $RTterm_id=resolveTerm_id($termoRT,"1");
-                    ALTArelacionXId($term_id,$RTterm_id,"2");
-                    ALTArelacionXId($RTterm_id,$term_id,"2");
+                    $RTterm_id=resolveTerm_id($termoRT, "1");
+                    ALTArelacionXId($term_id, $RTterm_id, "2");
+                    ALTArelacionXId($RTterm_id, $term_id, "2");
                 }
             }
             
             //adiciona termos NT
-            if(count($termosNT) > 0)
-            {
+            if(count($termosNT) > 0) {
                 foreach($termosNT as $termoNT)
                 {
-                    $NTterm_id=resolveTerm_id($termoNT,"1");
-                    ALTArelacionXId($term_id,$NTterm_id,"3");
+                    $NTterm_id=resolveTerm_id($termoNT, "1");
+                    ALTArelacionXId($term_id, $NTterm_id, "3");
                 }
             }
             
             //adiciona termos BT
-            if(count($termosBT) > 0)
-            {
+            if(count($termosBT) > 0) {
                 foreach($termosBT as $termoBT)
                 {
-                    $BTterm_id=resolveTerm_id($termoBT,"1");
-                    ALTArelacionXId($BTterm_id,$term_id,"3");
+                    $BTterm_id=resolveTerm_id($termoBT, "1");
+                    ALTArelacionXId($BTterm_id, $term_id, "3");
                 }
             }
         }
@@ -123,12 +121,12 @@ functiones
 
 
 
-function ALTArelacionXId($id_mayor,$id_menor,$t_relacion){
+function ALTArelacionXId($id_mayor,$id_menor,$t_relacion)
+{
     GLOBAL $DBCFG;
 
-    if(($id_mayor>0) && ($id_menor>0))
-    {
-        return do_r($id_mayor,$id_menor,$t_relacion);
+    if(($id_mayor>0) && ($id_menor>0)) {
+        return do_r($id_mayor, $id_menor, $t_relacion);
     }
 }
 
@@ -140,15 +138,15 @@ function getFieldList($record, $nameField)
     $resultFields = array();
     foreach($fields as $field)
     {
-        if($field->nodeName == "#text")
+        if($field->nodeName == "#text") {
             continue;
+        }
 
         $atributos = $field->attributes;
 
         foreach($atributos as $atributo)
         {
-            if($atributo->textContent == $nameField)
-            {    
+            if($atributo->textContent == $nameField) {    
                 $resultFields[$cont++] = $field;
             }
         }
@@ -163,11 +161,9 @@ function getTerm($record)
 
     foreach ($termos150 as $termo150)
     {
-        if(hasSubfield($termo150, "a"))
-        {
+        if(hasSubfield($termo150, "a")) {
             $sf = getSubfield($termo150, "a");
-            if($sf->textContent != "")
-            {
+            if($sf->textContent != "") {
                 return trim($sf->textContent);
             }
         }
@@ -183,11 +179,9 @@ function getUFterms($record)
     $resultFields = array();
     foreach ($termos450 as $termo450)
     {
-        if(hasSubfield($termo450, "i"))
-        {
+        if(hasSubfield($termo450, "i")) {
             $sf = getSubfield($termo450, "a");
-            if($sf->textContent != "")
-            {
+            if($sf->textContent != "") {
                 $resultFields[$cont++] = trim($sf->textContent);
             }
         }
@@ -204,11 +198,9 @@ function getRTterms($record)
     $resultFields = array();
     foreach ($termos550 as $termo550)
     {
-        if(!hasSubfield($termo550, "w"))
-        {
+        if(!hasSubfield($termo550, "w")) {
             $sf = getSubfield($termo550, "a");
-            if($sf->textContent != "")
-            {
+            if($sf->textContent != "") {
                 $resultFields[$cont++] = trim($sf->textContent);
             }
         }
@@ -225,14 +217,11 @@ function getNTterms($record)
     $resultFields = array();
     foreach ($termos550 as $termo550)
     {
-        if(hasSubfield($termo550, "w"))
-        {
+        if(hasSubfield($termo550, "w")) {
             $subfieldW = getSubfield($termo550, "w");
-            if($subfieldW->textContent == "h")
-            {
+            if($subfieldW->textContent == "h") {
                 $sf = getSubfield($termo550, "a");
-                if($sf->textContent != "")
-                {
+                if($sf->textContent != "") {
                     $resultFields[$cont++] = trim($sf->textContent);
                 }
             }
@@ -250,14 +239,11 @@ function getBTterms($record)
     $resultFields = array();
     foreach ($termos550 as $termo550)
     {
-        if(hasSubfield($termo550, "w"))
-        {
+        if(hasSubfield($termo550, "w")) {
             $subfieldW = getSubfield($termo550, "w");
-            if($subfieldW->textContent == "g")
-            {
+            if($subfieldW->textContent == "g") {
                 $sf = getSubfield($termo550, "a");
-                if($sf->textContent != "")
-                {
+                if($sf->textContent != "") {
                     $resultFields[$cont++] = trim($sf->textContent);
                 }
             }
@@ -277,13 +263,15 @@ function hasSubfield($field, $subfield)
 
     foreach ($subfields as $sf)
     {
-        if($sf->nodeName == "#text")
+        if($sf->nodeName == "#text") {
             continue;
+        }
 
         $atributos = $sf->attributes;
         foreach ($atributos as $at) {
-            if($at->textContent == $subfield)
+            if($at->textContent == $subfield) {
                 return true;
+            }
         }
     }
     return false;
@@ -295,13 +283,15 @@ function getSubfield($field, $subfield)
 
     foreach ($subfields as $sf)
     {
-        if($sf->nodeName == "#text")
+        if($sf->nodeName == "#text") {
             continue;
+        }
 
         $atributos = $sf->attributes;
         foreach ($atributos as $at) {
-            if($at->textContent == $subfield)
+            if($at->textContent == $subfield) {
                 return $sf;
+            }
         }
     }
 }

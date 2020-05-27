@@ -537,7 +537,15 @@ define('LABEL_rel_synonymy','synonym relationships');
 define('LABEL_prototypeTerms','central terms');
 define('LABEL_copy_click','copy term to clipboard');
 define('LABEL__ENABLE_COPY_CLICK','Enable button to copy terms to the clipboard.');
-#v.3.1.1
-define('LABEL_order','order');
+#v.3.2
+define('LABEL_order','orden');
 define('LABEL_alias','alias');
+define('LEGEND_alias','enter a short alias');
+define('LABEL_src_note','source');
+define('LEGEND_src_note','enter a bibliographic citation');
+define('LABEL_source','normalized sources of authority');
+define('LABEL_source4term','reference sources for terms');
+define('LABEL_add_new','add new');
+define('LABEL_sources4vocab','reference sources');
+define('LABEL_update2_2x3_2','update (2.x -> 3.2)');
 ?>
