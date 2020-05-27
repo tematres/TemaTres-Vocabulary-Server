@@ -10,7 +10,9 @@ This is the file LEAME.TXT
 
 ## Documentation
 
-Main site: http://www.vocabularyserver.com/
+Main site: https://www.vocabularyserver.com/
+
+To update from previous Tematres versions: Login as admin: Menu -> Administration -> Database maintenance -> Update from 2.x -> 3.2
 
 For tutorials and documentation, please visit:
 
