@@ -2809,7 +2809,8 @@ function HTMLterms4source($src_id)
 
     $rows='<ol class="breadcrumb">';
     $rows.='<li><a title="'.MENU_Inicio.'" href="'.URL_BASE.'index.php">'.ucfirst(MENU_Inicio).'</a></li>';
-    $rows.='<li class="active"><em>'.$ARRAYsrc["src_note"].'</em>: <strong>'.SQLcount($sql).' </strong>'.LABEL_Terminos.'</li>';
+    $rows.='<li><a title="'.LABEL_sources4vocab.'" href="'.URL_BASE.'sobre.php#source_list">'.ucfirst(LABEL_sources4vocab).'</a></li>';
+    $rows.='<li class="active"><em>'.$ARRAYsrc["src_note"].'</em>: <strong>'.SQLcount($sql).' '.LABEL_Terminos.'</strong></li>';
     $rows.='</ol>';
 
     $rows.='<div id="src_list"><ul>';
