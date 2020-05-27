@@ -3,18 +3,16 @@
 if ((stristr($_SERVER['REQUEST_URI'], "session.php") ) || ( !defined('T3_ABSPATH') )) {
     die("no access");
 }
-// TemaTres : aplicación para la gestión de lenguajes documentales #       #
-//
-// Copyright (C) 2004-2017 Diego Ferreyra tematres@r020.com.ar
-// Distribuido bajo Licencia GNU Public License, versión 2 (de junio de 1.991) Free Software Foundation
-//
-//
-// Funciones HTML. #
+/*
+ *      TemaTres : aplicación para la gestión de lenguajes documentales
+ *
+ *      Copyright (C) 2004-2020 Diego Ferreyra tematres@r020.com.ar
+ *      Distribuido bajo Licencia GNU Public License, versión 2 (de junio de 1.991) Free Software Foundation
+ */
+/*Funciones HTML*/
 
-// Armado de resultados de búsqueda
-//
-function resultaBusca($texto, $tipo = "")
-{
+/** Armado de resultados de búsqueda **/
+function resultaBusca($texto, $tipo = "") {
 
     global $CFG;
 
@@ -73,25 +71,25 @@ function resultaBusca($texto, $tipo = "")
             //Si no es un término preferido
             if ($resulta_busca["termino_preferido"]) {
                 switch ($resulta_busca["t_relacion"]) {
-                    case '4'://UF
+                case '4'://UF
                         $leyendaConector=USE_termino;
-                        break;
+                    break;
 
-                    case '5'://Tipo relacion término equivalente parcialmente
+                case '5'://Tipo relacion término equivalente parcialmente
                         $leyendaConector='<abbr title="'.LABEL_termino_parcial_equivalente.'" lang="'.LANG.'">'.EQP_acronimo.'</abbr>';
-                        break;
+                    break;
 
-                    case '6'://Tipo relacion término equivalente
+                case '6'://Tipo relacion término equivalente
                         $leyendaConector='<abbr title="'.LABEL_termino_equivalente.'" lang="'.LANG.'">'.EQ_acronimo.'</abbr>';
-                        break;
+                    break;
 
-                    case '7'://Tipo relacion término no equivalente
+                case '7'://Tipo relacion término no equivalente
                         $leyendaConector='<abbr title="'.LABEL_termino_no_equivalente.'" lang="'.LANG.'">'.NEQ_acronimo.'</abbr>';
-                        break;
+                    break;
 
-                    case '8'://Tipo relacion término equivalente inexacta
+                case '8'://Tipo relacion término equivalente inexacta
                         $leyendaConector='<abbr title="'.LABEL_termino_parcial_equivalente.'" lang="'.LANG.'">'.EQP_acronimo.'</abbr>';
-                        break;
+                    break;
                 }
 
 
@@ -100,8 +98,7 @@ function resultaBusca($texto, $tipo = "")
                 } else {
                     $row_result.= '<li><em><a class="'.$styleClassLink.' '.$styleClassLinkMetaTerm.'" title="'.LABEL_verDetalle.$resulta_busca["tema"].'" href="'.URL_BASE.'index.php?tema='.$resulta_busca["tema_id"].'&amp;/'.string2url($resulta_busca["tema"]).'">'.$resulta_busca["tema"].'</a></em> '.$leyendaConector.' <a title="'.LABEL_verDetalle.$resulta_busca["tema"].'" href="'.URL_BASE.'index.php?tema='.$resulta_busca["id_definitivo"].'">'.$resulta_busca["termino_preferido"].'</a> </li>'."\r\n" ;
                 }
-            } else // es un término preferido
-            {
+            } else {// es un término preferido
                 $row_result.='<li><a class="'.$styleClassLink.' '.$styleClassLinkMetaTerm.'"  title="'.LABEL_verDetalle.$resulta_busca["tema"].'" href="'.URL_BASE.'index.php?tema='.$resulta_busca["id_definitivo"].'&amp;/'.string2url($resulta_busca["tema"]).'">'.$resulta_busca["tema"].'</a> '.$leyendaTerminoLibre.'</li>'."\r\n" ;
             }
         };//fin del while
@@ -713,7 +710,7 @@ function HTMLtermMenuX2($array_tema, $relacionesTermino)
 
 
 
-/* Nora Ficha del término*/
+/** Nota Ficha del término **/
 function HTMLNotasTermino($array, $editFlag = 0)
 {
 
@@ -731,7 +728,7 @@ function HTMLNotasTermino($array, $editFlag = 0)
         $label_lang_nota=($array["notas"][$iNota]["lang_nota"]==$_SESSION["CFGIdioma"]) ? '' : ' ('.$array["notas"][$iNota]["lang_nota"].')';
 
         /*reorganize the note array to create type note groups */
-        $body_note[$tipoNota]["content"].='<div class="panel-body">'.wiki2link($array["notas"][$iNota]["nota"]).HTMLsource4note($array["notas"][$iNota]["id"]).'</div>';
+        $body_note[$tipoNota]["content"].='<div class="panel-body" id="note_id'.$array["notas"][$iNota]["id"].'">'.wiki2link($array["notas"][$iNota]["nota"]).HTMLsource4note($array["notas"][$iNota]["id"]).'</div>';
 
         if ($editFlag==1) {
             $body_note[$tipoNota]["content"].='<div class="panel-footer"">';
@@ -750,7 +747,7 @@ function HTMLNotasTermino($array, $editFlag = 0)
     $body='<div class="panel-group" id="notas_collap">';
     foreach ($body_note as $note_type => $note) {
         $i=++$i;
-        $display_note=($note["note_type"]==$_SESSION[$_SESSION["CFGURL"]]["_GLOSS_NOTES"]) ? ' in':'';
+        $display_note=($note["note_type"]==$_SESSION[$_SESSION["CFGURL"]]["_GLOSS_NOTES"]) ? ' in' : '' ;
         $body.='<div class="panel panel-default">
 				    <div class="panel-heading">
 				      <h5 class="panel-title"><a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseNote'.$i.'">'.$note_type.'</a>';
