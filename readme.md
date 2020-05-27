@@ -1,12 +1,13 @@
 # Tematres
-
 *TemaTres : The way to manage formal representations of knowledge*
-
 *TemaTres : aplicación para la gestión de vocabularios controlados*
 
-Copyright (C) 2004-2018 Diego Ferreyra tematres@r020.com.ar
+Copyright (C) 2004-2020 Diego Ferreyra tematres@r020.com.ar
 released under the licence GNU General Public License, Version 2 (GPLv2), June 1991. Free Software Foundation
 This is the file LEAME.TXT
+
+## Update to 3.2
+To update from previous Tematres versions: Login as admin: Menu -> Administration -> Database maintenance -> Update from 2.x -> 3.2
 
 ## Documentation
 
