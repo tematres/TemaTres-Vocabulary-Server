@@ -1,11 +1,10 @@
 <?php
-// TemaTres : aplicación para la gestión de lenguajes documentales #       #
-//
-// Copyright (C) 2004-2008 Diego Ferreyra tematres@r020.com.ar
-// Distribuido bajo Licencia GNU Public License, versión 2 (de junio de 1.991) Free Software Foundation
-//
-//
-//
+/*
+ *      TemaTres : aplicación para la gestión de lenguajes documentales
+ *
+ *      Copyright (C) 2004-2020 Diego Ferreyra tematres@r020.com.ar
+ *      Distribuido bajo Licencia GNU Public License, versión 2 (de junio de 1.991) Free Software Foundation
+ */
 if (!defined('T3_WEBPATH')) {
     define('T3_WEBPATH', getURLbaseInstall().'../common/');
 }
@@ -179,13 +178,15 @@ function checkInstall($lang)
 
 function SQLtematres($DBCFG, $DB, $arrayInstallData = array())
 {
-
-    // Si se establecio un charset para la conexion
-    if (@$DBCFG["DBcharset"]) {
-        $DB->Execute("SET NAMES $DBCFG[DBcharset]");
-    }
+    /** Si se establecio un charset para la conexion */ 
+    $dbcharset = (@$DBCFG["DBcharset"]) ? (@$DBCFG["DBcharset"]) : 'utf8';
+    
+    $DB->Execute("SET NAMES $dbcharset");
 
     $prefix=$DBCFG["DBprefix"] ;
+    
+    $engine = (array_key_exists("DBengine", $DBCFG)) ?  $DBCFG["DBengine"]: 'MyISAM';
+    $engine = (in_array($engine, array('MyISAM','InnoDB'))) ? $engine : 'MyISAM' ;
 
 
     $result1 = $DB->Execute(
@@ -202,7 +203,7 @@ function SQLtematres($DBCFG, $DB, $arrayInstallData = array())
       `observa` text,
       `url_base` varchar(255) default NULL,
       PRIMARY KEY  (`id`)
-    ) DEFAULT CHARSET=utf8 ENGINE=MyISAM ;"
+    ) DEFAULT CHARSET=$dbcharset ENGINE=$engine ;"
     );
  
     //If create table --> insert data
@@ -229,7 +230,7 @@ function SQLtematres($DBCFG, $DB, $arrayInstallData = array())
           `indice` varchar(250) NOT NULL default '',
           PRIMARY KEY  (`tema_id`),
           KEY `indice` (`indice`)
-        ) DEFAULT CHARSET=utf8 ENGINE=MyISAM COMMENT='indice de temas';"
+        ) DEFAULT CHARSET=$dbcharset ENGINE=$engine COMMENT='indice de temas';"
     );
 
     $result4 = $DB->Execute(
@@ -247,7 +248,7 @@ function SQLtematres($DBCFG, $DB, $arrayInstallData = array())
           KEY `orden_notas` (`tipo_nota`,`lang_nota`),
             KEY `src_id` (`src_id`),          
           FULLTEXT `notas` (`nota`)
-        ) DEFAULT CHARSET=utf8 ENGINE=MyISAM ;"
+        ) DEFAULT CHARSET=$dbcharset ENGINE=$engine ;"
     );
 
     $result5 = $DB->Execute(
@@ -265,7 +266,7 @@ function SQLtematres($DBCFG, $DB, $arrayInstallData = array())
           KEY `id_menor` (`id_menor`),
           KEY `id_mayor` (`id_mayor`),
           KEY `rel_rel_id` (`rel_rel_id`)
-        ) DEFAULT CHARSET=utf8 ENGINE=MyISAM ;"
+        ) DEFAULT CHARSET=$dbcharset ENGINE=$engine ;"
     );
 
     $result6 = $DB->Execute(
@@ -289,7 +290,7 @@ function SQLtematres($DBCFG, $DB, $arrayInstallData = array())
           KEY `tesauro_id` (`tesauro_id`),
           KEY `estado_id` (`estado_id`),
             KEY `isMetaTerm` (`isMetaTerm`)
-        ) DEFAULT CHARSET=utf8 ENGINE=MyISAM ;"
+        ) DEFAULT CHARSET=$dbcharset ENGINE=$engine ;"
     );
 
     $result61 = $DB->Execute(
@@ -307,7 +308,7 @@ function SQLtematres($DBCFG, $DB, $arrayInstallData = array())
           KEY `tvocab_id` (`tvocab_id`,`cuando`,`cuando_last`,`uid`),
           KEY `tema_id` (`tema_id`),
             KEY `target_terms` (`tterm_string`)
-        ) DEFAULT CHARSET=utf8 ENGINE=MyISAM;"
+        ) DEFAULT CHARSET=$dbcharset ENGINE=$engine;"
     );
 
     $result62 = $DB->Execute(
@@ -325,7 +326,7 @@ function SQLtematres($DBCFG, $DB, $arrayInstallData = array())
           PRIMARY KEY (`tvocab_id`),
           KEY `uid` (`uid`),
           KEY `status` (`tvocab_status`)
-        ) ENGINE=MyISAM DEFAULT CHARSET=utf8;"
+        ) ENGINE=$engine DEFAULT CHARSET=$dbcharset;"
     );
 
     $result7 = $DB->Execute(
@@ -346,19 +347,19 @@ function SQLtematres($DBCFG, $DB, $arrayInstallData = array())
           UNIQUE KEY `mail` (`mail`),
           KEY `pass` (`pass`),
           KEY `user_activation_key` (`user_activation_key`)
-        ) DEFAULT CHARSET=utf8 ENGINE=MyISAM ;"
+        ) DEFAULT CHARSET=$dbcharset ENGINE=$engine ;"
     );
 
     $result9 = $DB->Execute(
         "CREATE TABLE `".$prefix."values` (
           `value_id` int(11) NOT NULL auto_increment,
           `value_type` varchar(64) NOT NULL default '0',
-          `value` longtext NOT NULL ,
+          `value` longtext default NULL ,
           `value_order` tinyint(4) default NULL,
           `value_code` varchar(20) default NULL,
           PRIMARY KEY  (`value_id`),
           KEY `value_type` (`value_type`)
-        ) DEFAULT CHARSET=utf8 ENGINE=MyISAM COMMENT='general values table';"
+        ) DEFAULT CHARSET=$dbcharset ENGINE=$engine COMMENT='general values table';"
     );
 
     $result10 = $DB->Execute(
@@ -371,7 +372,7 @@ function SQLtematres($DBCFG, $DB, $arrayInstallData = array())
         `cuando` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
         PRIMARY KEY (`uri_id`),
         KEY `tema_id` (`tema_id`)
-      ) CHARSET=utf8 ENGINE=MyISAM  COMMENT='external URIs associated to terms';"
+      ) CHARSET=$dbcharset ENGINE=$engine  COMMENT='external URIs associated to terms';"
     );
 
     $result10a = $DB->Execute(
@@ -387,7 +388,7 @@ function SQLtematres($DBCFG, $DB, $arrayInstallData = array())
         `user_id` int(5) NOT NULL DEFAULT '0',
         PRIMARY KEY (`src_id`),
           KEY `src_alias` (`src_alias`)        
-      ) ENGINE=MyISAM CHARSET=utf8 COMMENT='Normalized authority sources for notes';"
+      ) ENGINE=$engine CHARSET=$dbcharset COMMENT='Normalized authority sources for notes';"
     );
 
     $result10b = $DB->Execute(
@@ -442,8 +443,7 @@ function SQLtematres($DBCFG, $DB, $arrayInstallData = array())
         (50, 'config', 'CFG_ALLOW_DUPLICATED', NULL, '0'),
         (51, 't_nota', 'Example note', 6, 'EX'),
         (52, 'config', 'COPY_CLICK', NULL, '1'),
-        (53, 'ARK_NAAN', 'NULL', NULL, '0')
-        "
+        (53, 'METADATA', NULL, NULL, 'CFG_ARK_NAAN');"
     );
 
     //If create table --> insert data

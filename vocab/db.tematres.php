@@ -2,7 +2,7 @@
 /*
  *  db.tematres.php
  *
- *  Copyright 2011 diego ferreyra <diego@r020.com.ar>
+ *  Copyright 2011-2020 diego ferreyra <diego@r020.com.ar>
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -29,47 +29,51 @@
 
 $DBCFG["DBdriver"] ="";
 
-//  Dirección IP o nombre del servidor - IP Address of the database server
+/** Dirección IP o nombre del servidor - IP Address of the database server */
 $DBCFG["Server"]      = "localhost";
 
-//  Nombre de la base de datos Database name
+/** Nombre de la base de datos Database name */
 $DBCFG["DBName"]     = "tematres";
 
-//  Nombre de usuario - login
+/** Nombre de usuario - login */
 $DBCFG["DBLogin"]    = "root";
 
-//  Passwords
+/** Passwords */
 $DBCFG["DBPass"] = "pass";
 
-//  Prefijo para tablas # Prefix for tables
+/** Prefijo para tablas # Prefix for tables */
 $DBCFG["DBprefix"] = "lc_";
 
-$DBCFG["DBcharset"] ="utf8";
 
-//  modo debug = 1 // debug mode = 1
-$DBCFG["debugMode"] = "0";
-
-//  persist connection to DB. TRUE = 1 // FALSE mode = 0. Default: TRUE
-$DBCFG["DBpersist"] = "1";
-
-
-// Define if storage hashed passwords or not  (1 = Yes, 0 = No: default: 0)
-define('CFG_HASH_PASS', '0');
-
-/*  In almost cases, you don't need to touch nothing here!!
- *  Absolute path to the directory where are located /common/include.
+/**  
+ *  In almost cases, you don't need to touch nothing here!!
  */
 
-// change to whatever timezone you want
+ /** Default charset for the database */
+$DBCFG["DBcharset"] ="utf8";
+
+/** Modo debug = 1 // debug mode = 1 */
+$DBCFG["debugMode"] = "0";
+
+/** Persist connection to DB. TRUE = 1 // FALSE mode = 0. Default: TRUE */
+$DBCFG["DBpersist"] = "1";
+
+/** Config MySql engine type:  MyISAM / InnoDB */
+$DBCFG["DBengine"] = "InnoDB";
+
+
+/** Define if storage hashed passwords or not  (1 = Yes, 0 = No: default: 0) */
+define('CFG_HASH_PASS', '0');
+
+/** Change to whatever timezone you want */
 if (date_default_timezone_get()!=ini_get('date.timezone')) {
     date_default_timezone_set('Etc/UTC');
 }
 
+/**  Absolute path to the directory where are located /common/include. */
+
 if (!defined('T3_ABSPATH')) {
-    /**
-*
- * Use this for version of PHP < 5.3
-*/
+/** Use this for version of PHP < 5.3 */
     define('T3_ABSPATH', dirname(__FILE__) . '/../');
 
     /**
