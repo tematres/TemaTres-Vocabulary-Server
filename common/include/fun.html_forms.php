@@ -1490,7 +1490,8 @@ function HTMLformConfigValues($array_vocabulario)
 
     foreach ($arrayCFGs as $key => $value) {
         switch ($key) {
-            case 'CFG_PUBLISH':
+
+        case 'CFG_PUBLISH':
                 $rows.='<div class="form-group">';
                 $rows.='<label class="col-sm-5 control-label" for="'.$key.'">'.$key.'</label>';
                 $rows.='<div class="col-sm-5">     <select id="'.$key.'" name="'.$key.'">';
@@ -1498,8 +1499,8 @@ function HTMLformConfigValues($array_vocabulario)
                 $rows.='</select>';
                 $rows.='<span class="help-block">'.ucfirst(LABEL_CFG_PUBLISH).'</span></div>';
                 $rows.='</div>';
-                break;
-            case 'CFG_ALLOW_DUPLICATED':
+            break;
+        case 'CFG_ALLOW_DUPLICATED':
                 $rows.='<div class="form-group">';
                 $rows.='<label class="col-sm-5 control-label" for="'.$key.'">'.$key.'</label>';
                 $rows.='<div class="col-sm-5">     <select id="'.$key.'" name="'.$key.'">';
@@ -1507,10 +1508,10 @@ function HTMLformConfigValues($array_vocabulario)
                 $rows.='</select>';
                 $rows.='<span class="help-block">'.ucfirst(LABEL_ALLOW_DUPLICATED).'</span></div>';
                 $rows.='</div>';
-                break;
+            break;
 
 
-            case '_SHOW_RANDOM_TERM':
+        case '_SHOW_RANDOM_TERM':
                 $ARRAYnoteType=ARRAYnoteTypes(array('NP'));
 
                 foreach ($ARRAYnoteType as $noteType => $noteData) {
@@ -1532,9 +1533,9 @@ function HTMLformConfigValues($array_vocabulario)
 
                 empty($noteData);
                 empty($noteType);
-                break;
+            break;
 
-            case '_GLOSS_NOTES':
+        case '_GLOSS_NOTES':
                 foreach ($ARRAYnoteType as $noteType => $noteData) {
                     //exclude private notes
                     $flagSelected=($NEWarrayCFGs[$key]==$noteData["value_code"]) ? 'SELECTED':"";
@@ -1548,9 +1549,9 @@ function HTMLformConfigValues($array_vocabulario)
                 $rows.='</select>';
                 $rows.='<span class="help-block">'.ucfirst(LABEL_GLOSS_NOTES).'</span></div>';
                 $rows.='</div>';
-                break;
+            break;
 
-            case 'CFG_MAX_TREE_DEEP':
+        case 'CFG_MAX_TREE_DEEP':
                 $rows.='<div class="form-group">';
                 $rows.='<label class="col-sm-5 control-label" for="'.$key.'">'.$key.'</label>';
                 $rows.='<div class="col-sm-5">    <select id="'.$key.'" name="'.$key.'">';
@@ -1558,8 +1559,9 @@ function HTMLformConfigValues($array_vocabulario)
                 $rows.='</select>';
                 $rows.='<span class="help-block">'.ucfirst(LABEL_CFG_MAX_TREE_DEEP).'</span></div>';
                 $rows.='</div>';
-                break;
-            case 'CFG_MIN_SEARCH_SIZE':
+            break;
+        
+        case 'CFG_MIN_SEARCH_SIZE':
                 $rows.='<div class="form-group">';
                 $rows.='<label class="col-sm-5 control-label" for="'.$key.'" >'.$key.'</label>';
                 $rows.='<div class="col-sm-5">     <select id="'.$key.'" name="'.$key.'">';
@@ -1567,8 +1569,9 @@ function HTMLformConfigValues($array_vocabulario)
                 $rows.='</select>';
                 $rows.='<span class="help-block">'.ucfirst(LABEL_CFG_MIN_SEARCH_SIZE).'</span></div>';
                 $rows.='</div>';
-                break;
-            case 'CFG_NUM_SHOW_TERMSxSTATUS':
+            break;
+            
+        case 'CFG_NUM_SHOW_TERMSxSTATUS':
                 $rows.='<div class="form-group">';
                 $rows.='<label class="col-sm-5 control-label" for="'.$key.'">'.$key.'</label>';
                 $rows.='<div class="col-sm-5">     <select id="'.$key.'" name="'.$key.'">';
@@ -1576,8 +1579,9 @@ function HTMLformConfigValues($array_vocabulario)
                 $rows.='</select>';
                 $rows.='<span class="help-block">'.ucfirst(LABEL_CFG_NUM_SHOW_TERMSxSTATUS).'</span></div>';
                 $rows.='</div>';
-                break;
-            case 'CFG_SEARCH_METATERM':
+            break;
+        
+        case 'CFG_SEARCH_METATERM':
                 $rows.='<div class="form-group">';
                 $rows.='<label class="col-sm-5 control-label" for="'.$key.'">'.$key.'</label>';
                 $rows.='<div class="col-sm-5">     <select id="'.$key.'" name="'.$key.'">';
@@ -1585,8 +1589,8 @@ function HTMLformConfigValues($array_vocabulario)
                 $rows.='</select>';
                 $rows.='<span class="help-block">'.ucfirst(NOTE_isMetaTermNote).'</span></div>';
                 $rows.='</div>';
-                break;
-            case 'CFG_SUGGESTxWORD':
+            break;
+        case 'CFG_SUGGESTxWORD':
                 $rows.='<div class="form-group">';
                 $rows.='<label class="col-sm-5 control-label" for="'.$key.'">'.$key.'</label>';
                 $rows.='<div class="col-sm-5">     <select id="'.$key.'" name="'.$key.'">';
@@ -1594,8 +1598,8 @@ function HTMLformConfigValues($array_vocabulario)
                 $rows.='</select>';
                 $rows.='<span class="help-block">'.ucfirst(LABEL_CFG_SUGGESTxWORD).'</span></div>';
                 $rows.='</div>';
-                break;
-            default:
+            break;
+        default:
                 $rows.='<div class="form-group">';
                 $rows.='<label class="col-sm-5 control-label" for="'.$key.'">'.$key.'</label>';
                 $rows.='<div class="col-sm-5">     <select id="'.$key.'" name="'.$key.'">';

@@ -1236,6 +1236,7 @@ if ($_SESSION[$_SESSION["CFGURL"]]["ssuser_nivel"]=='1') {
         $arrayTesa["url_base"]=trim($arrayTesa["url_base"]);
         $arrayTesa["cuando"]=trim($arrayTesa["cuando"]);
 
+
         $POSTarrayUser["orga"]=$DB->qstr($POSTarrayUser[orga], get_magic_quotes_gpc());
         $arrayTesa["titulo"]=$DB->qstr($arrayTesa[titulo], get_magic_quotes_gpc());
         $arrayTesa["autor"]=$DB->qstr($arrayTesa[autor], get_magic_quotes_gpc());
@@ -1246,7 +1247,7 @@ if ($_SESSION[$_SESSION["CFGURL"]]["ssuser_nivel"]=='1') {
         $arrayTesa["polijerarquia"]= (in_array($arrayTesa["polijerarquia"], array("1","0"))) ? $arrayTesa["polijerarquia"] : 0;
         $arrayTesa["url_base"]=(isset($arrayTesa["url_base"])) ? $DB->qstr($arrayTesa["url_base"], get_magic_quotes_gpc()) : $_SESSION["CFGURL"];
         $arrayTesa["cuando"]=(check2Date($arrayTesa["cuando"])) ? $arrayTesa["cuando"] : date("Y-m-d");
-        $arrayTesa["contact_mail"]=$_POST["contact_mail"];
+        $arrayTesa["contact_mail"]=XSSprevent($_POST["contact_mail"] );
 
 
 
@@ -1258,9 +1259,9 @@ if ($_SESSION[$_SESSION["CFGURL"]]["ssuser_nivel"]=='1') {
                 $sql=SQL(
                     "insert",
                     "into $DBCFG[DBprefix]config (titulo,autor,idioma,cobertura,url_base,cuando)
-	VALUES
-	($arrayTesa[titulo],$arrayTesa[autor],$arrayTesa[idioma],$arrayTesa[cobertura], $arrayTesa[url_base],now())"
-                );
+	                     VALUES
+	                ($arrayTesa[titulo],$arrayTesa[autor],$arrayTesa[idioma],$arrayTesa[cobertura], $arrayTesa[url_base],now())"
+                    );
                 break;
 
             case 'M':
@@ -1360,15 +1361,15 @@ if ($_SESSION[$_SESSION["CFGURL"]]["ssuser_nivel"]=='1') {
 
                     //Update to 1.73=> check if CONTACT_MAIL is defined
                     if (ARRAYfetchValue('CONTACT_MAIL')) {
-                          $ADDcontactMail=ABM_value("MOD_SINGLE_VALUE", array("value_type"=>'CONTACT_MAIL',"value_code"=>'NULL',"value"=>$arrayTesa["contact_mail"]));
+                        $ADDcontactMail=ABM_value("MOD_SINGLE_VALUE", array("value_type"=>'CONTACT_MAIL',"value_code"=>'NULL',"value"=>$arrayTesa["contact_mail"]));
                     } else {
                         $ADDcontactMail=ABM_value("ADD_VALUE", array("value_type"=>'CONTACT_MAIL',"value_code"=>'NULL',"value"=>$arrayTesa["contact_mail"]));
                     }
 
-
                     $MODdccontributor=ABM_value("MOD_VALUE", array("value_type"=>'METADATA',"value_code"=>'dc:contributor',"value"=>$_POST["dccontributor"]));
                     $MODdcpublisher=ABM_value("MOD_VALUE", array("value_type"=>'METADATA',"value_code"=>'dc:publisher',"value"=>$_POST["dcpublisher"]));
                     $MODdcrights=ABM_value("MOD_VALUE", array("value_type"=>'METADATA',"value_code"=>'dc:rights',"value"=>$_POST["dcrights"]));
+                    $MODnaan=ABM_value("MOD_VALUE", array("value_type"=>'METADATA',"value_code"=>'CFG_ARK_NAAN',"value"=>$_POST["CFG_ARK_NAAN"]));
                 }
                 break;
 

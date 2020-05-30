@@ -2856,9 +2856,7 @@ function SQLoptimizarTablas($tablas)
 //
 function SQLupdateTemaTresVersion($ver2ver)
 {
-
     global $DBCFG;
-
 
     $prefix=$DBCFG['DBprefix'] ;
 
@@ -2883,14 +2881,15 @@ function SQLupdateTemaTresVersion($ver2ver)
 			) ENGINE=MyISAM CHARSET=utf8 COMMENT='Normalized authority sources for notes';"
             );
 
-            $ctrl=ARRAYfetchValue('ARK_NAAN');
+            $ctrl=ARRAYfetchValue('METADATA', 'CFG_ARK_NAAN');
+
             if (!$ctrl["value_id"]) {
                 $sqlvalue=SQL(
                     "insert",
                     "into `".$prefix."values` (`value_type`, `value`, `value_order`, `value_code`) VALUES
-				('ARK_NAAN', 'NULL', NULL, '0')"
+				('METADATA', '', NULL, 'CFG_ARK_NAAN')"
                 );
-            }
+            }            
             break;
 
         case '1_6x1_7':

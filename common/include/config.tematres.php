@@ -51,10 +51,10 @@ $CFG["GA_TRACKING_ID"] ='0';
 $CFG["_EXCLUDED_CHARS"]=array("<",">","[","]","(",")",'"',"'","|");
 
 //default values for config
-$arrayCFGs =array(    'CFG_PUBLISH'=>'1',
+$arrayCFGs =array(  'CFG_PUBLISH'=>'1',
                     'COPY_CLICK'=>'1',
                     'CFG_ALLOW_DUPLICATED'=>'0',
-                     'CFG_MAX_TREE_DEEP'=>'3',
+                    'CFG_MAX_TREE_DEEP'=>'3',
                      '_SHOW_TREE'=>'1',
                     '_SHOW_RANDOM_TERM'=>'0',
                     '_GLOSS_NOTES'=>'NA',
@@ -67,10 +67,10 @@ $arrayCFGs =array(    'CFG_PUBLISH'=>'1',
                     'CFG_SUGGESTxWORD'=>'1',
                     'CFG_SIMPLE_WEB_SERVICE'=>'1',
                     '_PUBLISH_SKOS'=>'2',
-                    'CFG_ENABLE_SPARQL'=>'0',
+                    'CFG_ENABLE_SPARQL'=>'0'
                   );
 //list of config values registred in __values table
-$CFG["CONFIG_VAR"]=array('2','3','4','config','DATESTAMP','t_estado','t_nota','t_relacion','t_usuario','URI_TYPE','METADATA','CONTACT_MAIL');
+$CFG["CONFIG_VAR"]=array('2','3','4','config','DATESTAMP','t_estado','t_nota','t_relacion','t_usuario','URI_TYPE','METADATA','CONTACT_MAIL','CFG_ARK_NAAN');
 
 $CFG["ISO639-1"]=array(
     "ab"=>array("ab","Abkhazian"),

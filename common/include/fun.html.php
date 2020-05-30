@@ -8,11 +8,12 @@ if ((stristr($_SERVER['REQUEST_URI'], "session.php") ) || ( !defined('T3_ABSPATH
  *
  *      Copyright (C) 2004-2020 Diego Ferreyra tematres@r020.com.ar
  *      Distribuido bajo Licencia GNU Public License, versión 2 (de junio de 1.991) Free Software Foundation
-  **/
-/**Funciones HTML **/
+  */
+/**Funciones HTML */
 
-/*** Armado de resultados de búsqueda * **/
-function resultaBusca($texto, $tipo = "") {
+/*** Armado de resultados de búsqueda * */
+function resultaBusca($texto, $tipo = "")
+{
 
     global $CFG;
 
@@ -71,25 +72,25 @@ function resultaBusca($texto, $tipo = "") {
             //Si no es un término preferido
             if ($resulta_busca["termino_preferido"]) {
                 switch ($resulta_busca["t_relacion"]) {
-                case '4'://UF
+                    case '4'://UF
                         $leyendaConector=USE_termino;
-                    break;
+                        break;
 
-                case '5'://Tipo relacion término equivalente parcialmente
+                    case '5'://Tipo relacion término equivalente parcialmente
                         $leyendaConector='<abbr title="'.LABEL_termino_parcial_equivalente.'" lang="'.LANG.'">'.EQP_acronimo.'</abbr>';
-                    break;
+                        break;
 
-                case '6'://Tipo relacion término equivalente
+                    case '6'://Tipo relacion término equivalente
                         $leyendaConector='<abbr title="'.LABEL_termino_equivalente.'" lang="'.LANG.'">'.EQ_acronimo.'</abbr>';
-                    break;
+                        break;
 
-                case '7'://Tipo relacion término no equivalente
+                    case '7'://Tipo relacion término no equivalente
                         $leyendaConector='<abbr title="'.LABEL_termino_no_equivalente.'" lang="'.LANG.'">'.NEQ_acronimo.'</abbr>';
-                    break;
+                        break;
 
-                case '8'://Tipo relacion término equivalente inexacta
+                    case '8'://Tipo relacion término equivalente inexacta
                         $leyendaConector='<abbr title="'.LABEL_termino_parcial_equivalente.'" lang="'.LANG.'">'.EQP_acronimo.'</abbr>';
-                    break;
+                        break;
                 }
 
 
@@ -355,9 +356,8 @@ function HTMLmenuCustumRel($tema_id, $arrayDataRelation)
 
 
 
-//home page for term
-function HTMLbodyTermino($array)
-{
+/** home page for term */
+function HTMLbodyTermino($array) {
 
     global $MSG_ERROR_RELACION;
     global $CFG;
@@ -375,7 +375,7 @@ function HTMLbodyTermino($array)
     $fecha_crea=do_fecha($array["cuando"]);
     $fecha_estado=do_fecha($array["cuando_estado"]);
 
-
+    
     //Si tiene padres
     if ($cantBT>0) {
         while ($arrayMiga=$sqlMiga->FetchRow()) {
@@ -511,7 +511,7 @@ function HTMLmainMenu()
     $row.='<ul class="dropdown-menu">';
     /**
     * Admin menu
-     **/
+     */
     if ($_SESSION[$_SESSION["CFGURL"]]["ssuser_nivel"]=='1') {
         $row.='<li class="dropdown dropdown-submenu"><a href="#" class="dropdown-toggle" data-toggle="dropdown">'.LABEL_Admin.'</a>';
         $row.='<ul class="dropdown-menu">';
@@ -538,7 +538,7 @@ function HTMLmainMenu()
         $row.='<li><a title="'.ucfirst(LABEL_update1_3x1_4).'" href="admin.php?doAdmin=updte1_3x1_4">'.ucfirst(LABEL_update1_3x1_4).'</a></li>';
         $row.='<li><a title="'.ucfirst(LABEL_update1_1x1_2).'" href="admin.php?doAdmin=updte1_1x1_2">'.ucfirst(LABEL_update1_1x1_2).'</a></li>';
         $row.='<li><a title="'.ucfirst(LABEL_update1x1_2).'" href="admin.php?doAdmin=updte1x1_2">'.ucfirst(LABEL_update1x1_2).'</a></li>';
-         **/
+         */
 
         $row.='</ul></li>';
 
@@ -547,7 +547,7 @@ function HTMLmainMenu()
 
     /**
     Menu ver
-     **/
+     */
     $row.='<li class="dropdown dropdown-submenu"><a href="#" class="dropdown-toggle" data-toggle="dropdown">'.ucfirst(LABEL_Ver).'</a><ul class="dropdown-menu">';
 
     $row.='<li><a title="'.ucfirst(LABEL_terminosLibres).'" href="'.URL_BASE.'index.php?verT=L">'.ucfirst(LABEL_terminosLibres).'</a></li>';
@@ -607,7 +607,7 @@ function HTMLtermMenuX2($array_tema, $relacionesTermino)
         if (($relacionesTermino["cantTotal"])=='0') {
             /**
             Change status term
-             **/
+             */
             $link_estado.='<li class="dropdown-submenu" role="menu"> <a tabindex="0" label-primary data-toggle="dropdown">'.ucfirst(LABEL_CambiarEstado).'</a><ul class="dropdown-menu" id="menu_estado">';
             switch ($array_tema["estado_id"]) {
                 case '12':
@@ -710,7 +710,7 @@ function HTMLtermMenuX2($array_tema, $relacionesTermino)
 
 
 
-/*** Nota Ficha del término * **/
+/*** Nota Ficha del término * */
 function HTMLNotasTermino($array, $editFlag = 0)
 {
 
@@ -727,7 +727,7 @@ function HTMLNotasTermino($array, $editFlag = 0)
         //no mostrar si es igual al idioma del vocabulario
         $label_lang_nota=($array["notas"][$iNota]["lang_nota"]==$_SESSION["CFGIdioma"]) ? '' : ' ('.$array["notas"][$iNota]["lang_nota"].')';
 
-        /**reorganize the note array to create type note groups  **/
+        /**reorganize the note array to create type note groups  */
         $body_note[$tipoNota]["content"].='<div class="panel-body" id="note_id'.$array["notas"][$iNota]["id"].'">'.wiki2link($array["notas"][$iNota]["nota"]).HTMLsource4note($array["notas"][$iNota]["id"]).'</div>';
 
         if ($editFlag==1) {
@@ -753,9 +753,9 @@ function HTMLNotasTermino($array, $editFlag = 0)
 				      <h5 class="panel-title"><a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseNote'.$i.'">'.$note_type.'</a>';
         
         // for add copy button in notes: ' .HTMLcopyClick('collapseNote'.$i, array("isMetaTerm"=>0,"isValidTerm"=>1,"copy_click"=>1) ). '
-                      if ($note["cant"]>1) {
-                        $body.=' <span class="badge">'.$note["cant"].'</span>';
-                        }
+        if ($note["cant"]>1) {
+            $body.=' <span class="badge">'.$note["cant"].'</span>';
+        }
         $body.='</h5></div>
 				    <div id="collapseNote'.$i.'" class="panel-collapse collapse'.$display_note.'">'.$note["content"].' </div>
 				  </div>';
@@ -768,7 +768,7 @@ function HTMLNotasTermino($array, $editFlag = 0)
 
 
 
-/** BUCLE HACIA ARRIBA **/
+/** BUCLE HACIA ARRIBA */
 function sql_rel($idTema, $i)
 {
     if ($i<10) {// Para evitar bucle infinito en caso de error por relaciones recursivas. max= 10
@@ -835,7 +835,7 @@ function otro_bucle_arriba($sql)
 };
 
 
-/**BUCLE HACIA ABAJO **/
+/**BUCLE HACIA ABAJO */
 function evalRelacionSuperior($idTema, $i, $idTemaEvaluado)
 {
 
@@ -850,7 +850,7 @@ function evalRelacionSuperior($idTema, $i, $idTemaEvaluado)
 
 
 
-/** PROCESAMIENTO ARRAY DEL BUCLE HACIA abajo  **/
+/** PROCESAMIENTO ARRAY DEL BUCLE HACIA abajo  */
 function evalSubordina($datos, $i, $idTemaEvaluado)
 {
 
@@ -868,7 +868,7 @@ function evalSubordina($datos, $i, $idTemaEvaluado)
 
 
 
-/** Armado del menú de cambio de idioma  **/
+/** Armado del menú de cambio de idioma  */
 function doMenuLang($tema_id = "0")
 {
 
@@ -898,7 +898,7 @@ function doMenuLang($tema_id = "0")
 
 
 
-/** Armado de tabla de términos según meses  **/
+/** Armado de tabla de términos según meses  */
 function doBrowseTermsFromDate($month, $year, $ord = "")
 {
 
@@ -949,7 +949,7 @@ function doBrowseTermsFromDate($month, $year, $ord = "")
 
 
 
-/** Armado de browse de términos  **/
+/** Armado de browse de términos  */
 function doBrowseTermsByDate()
 {
     global $MONTHS;
@@ -1029,7 +1029,7 @@ function HTML_URLsearch($display = array(), $arrayTema = array())
 
 
 
-/** Expande una busqueda hacia arriba == busca los términos más generales de los términos especificos devueltos en una busqueda  **/
+/** Expande una busqueda hacia arriba == busca los términos más generales de los términos especificos devueltos en una busqueda  */
 function HTMLbusquedaExpandidaTG($acumula_indice, $acumula_temas, $string)
 {
 
@@ -1072,7 +1072,7 @@ function HTMLbusquedaExpandidaTG($acumula_indice, $acumula_temas, $string)
 
 
 
-/** Expande una busqueda hacia terminos relacionados == busca los términos relacionados de los términos especificos devueltos en una busqueda  **/
+/** Expande una busqueda hacia terminos relacionados == busca los términos relacionados de los términos especificos devueltos en una busqueda  */
 function HTMLbusquedaExpandidaTR($acumula_temas, $string)
 {
 
@@ -1098,7 +1098,7 @@ function HTMLbusquedaExpandidaTR($acumula_temas, $string)
 };
 
 
-/**  mostrar html de términos específicos  **/
+/**  mostrar html de términos específicos  */
 function HTMLverTE($tema_id, $i_profundidad, $i = "")
 {
 
@@ -1146,7 +1146,7 @@ function JHTMLverTE($tema_id)
 }
 
 
-/** términos según estados  **/
+/** términos según estados  */
 function HTMLlistaTerminosEstado($estado_id, $limite = "")
 {
 
@@ -1235,7 +1235,7 @@ function HTMLlistaTerminosFecha($limite = "")
 
 
 
-/** HTML de Acaso quiso decir... (levenstein)  **/
+/** HTML de Acaso quiso decir... (levenstein)  */
 function HTMLsugerirTermino($texto, $acumula_temas = "0")
 {
 
@@ -1262,7 +1262,7 @@ function HTMLsugerirTermino($texto, $acumula_temas = "0")
 
 /**
 Display top terms
- **/
+ */
 function HTMLtopTerms($letra = "")
 {
 
@@ -1328,7 +1328,7 @@ function HTMLlistaAlfabeticaUnica($letra = "")
 
 /**
 All terms form one char
- **/
+ */
 function HTMLterminosLetra($letra)
 {
 
@@ -1418,7 +1418,7 @@ function HTMLterminosLetra($letra)
 
 
 
-/** Armado de resultados de búsqueda avanzada  **/
+/** Armado de resultados de búsqueda avanzada  */
 function HTMLadvancedSearchResult($array)
 {
 
@@ -1487,7 +1487,7 @@ function HTMLadvancedSearchResult($array)
 };
 
 
-/** Show terms from target vocabularies  **/
+/** Show terms from target vocabularies  */
 function HTMLtargetTerms($tema_id)
 {
     $sql=SQLtargetTerms($tema_id);
@@ -1515,7 +1515,7 @@ function HTMLtargetTerms($tema_id)
 
 /**
 Show URIs associated to term
- **/
+ */
 function HTMLURI4term($tema_id)
 {
     $sql=SQLURIxterm($tema_id);
@@ -1546,7 +1546,7 @@ function HTMLURI4term($tema_id)
 }
 
 
-/** check changes in one foreing term  **/
+/** check changes in one foreing term  */
 function HTMLcheckTargetTerm($array)
 {
 
@@ -1562,7 +1562,7 @@ function HTMLcheckTargetTerm($array)
 
     /**
     El término no existe más en el vocabulario de destino
-     **/
+     */
     if ($tterm_id<1) {
         $rows.= '<ul class="errorNoImage list-unstyled">';
         $rows.= '<li><strong>'.ucfirst(LABEL_notFound).'</strong></li>';
@@ -1570,7 +1570,7 @@ function HTMLcheckTargetTerm($array)
         $rows.= '</ul>';
     } /**
     hay actualizacion del término
-     **/
+     */
     elseif ($tterm_date > $last_term_update) {
         $ARRAYupdateTterm["$array[tterm_uri]"]["string"]=FixEncoding($tterm_string);
         $ARRAYupdateTterm["$array[tterm_uri]"]["date_mod"]=$tterm_date;
@@ -1635,7 +1635,7 @@ function HTMLcheckTargetTerm($array)
  * @param  string|array $args Optional. Override defaults.
  * @return array|string String of page links or array of page links.
  * http://codex.wordpress.org/Function_Reference/paginate_links
-  **/
+  */
 function paginate_links($args = '')
 {
     $defaults = array(
@@ -1720,7 +1720,7 @@ function paginate_links($args = '')
 
         /***
          * Retorna los datos, acorde al formato de autocompleter
-          **/
+          */
 function getData4Autocompleter($searchq, $type = 1)
 {
             
@@ -1740,7 +1740,7 @@ function getData4Autocompleter($searchq, $type = 1)
 
         /**
         Retorna los datos, acorde al formato de jtree
-         **/
+         */
 function getData4jtree($term_id = 0)
 {
 
@@ -1816,6 +1816,12 @@ function HTMLtermMetadata($arrayTerm, $arrayCantRelaciones)
     $body.='<dt>'.ucfirst(LABEL_totalTermsDescendants).'</dt>';
     $body.='<dd> '.cantChildTerms($arrayTerm["idTema"]).'</dd>';
 
+    if($_SESSION["CFG_ARK_NAAN"]) {
+        $ark=Parser_tema_id2ark($arrayTerm["idTema"]);
+        $body.='<dt>ARK</dt>';
+        $body.='<dd> <a id="uri_ark" href="'.$_SESSION["CFGURL"].'?ark='.$ark.'">'.$ark.'</a> '.HTMLcopyClick("uri_ark" ,array("isMetaTerm"=>0,"isValidTerm"=>1,"copy_click"=>1)) .'</dd>';
+    }
+
     $body.='<dt>'.ucfirst(LABEL_narrowerTerms).'</dt>';
     $body.='<dd>'.(($arrayCantRelaciones["cantNT"]) ? $arrayCantRelaciones["cantNT"] : 0).'</dd>';
 
@@ -1868,7 +1874,7 @@ function HTMLtermMetadata($arrayTerm, $arrayCantRelaciones)
 
 
 
-/** estadística de términos según nivel de profundidad  **/
+/** estadística de términos según nivel de profundidad  */
 function HTMLdeepStats()
 {
 
@@ -1946,7 +1952,7 @@ function HTMLlinkTerm($arrayTerm, $arg = array())
 }
 
 
-
+/** gloss notes */
 function makeGlossary($notesType = array("NA"), $params = array())
 {
 
@@ -2301,7 +2307,7 @@ function HTMLselectTargetVocabulary($tvocab_id = "")
 }
 
 
-/** alphabetic list of terms to browse table  **/
+/** Alphabetic list of terms to browse table */
 function HTMLalphaListTerms4map($tvocab_id, $filterEQ, $char = "")
 {
 
@@ -2336,12 +2342,9 @@ function HTMLalphaListTerms4map($tvocab_id, $filterEQ, $char = "")
 };
 
 
-//
-// ARMADOR DE HTML CON DATOS DEL TERMINO
-//
+/** Armador DE HTML CON DATOS DEL TERMINO */
 function HTMLsimpleTerm($arrayTerm)
 {
-
     global $CFG;
     $iNT=0;
     $iBT=0;
@@ -2410,7 +2413,7 @@ function HTMLsimpleTerm($arrayTerm)
 
 
 
-/**ARMADOR DE HTML CON DATOS DE TERMINO externo vía web services  **/
+/**ARMADOR DE HTML CON DATOS DE TERMINO externo vía web services  */
 function HTMLsimpleForeignTerm($arrayTerm, $URL_ttermData)
 {
     $NTrows='';
@@ -2461,12 +2464,10 @@ function HTMLsummary()
     $fecha_mod=do_fecha($_SESSION["CFGlastMod"]);
     $ARRAYmailContact=ARRAYfetchValue('CONTACT_MAIL');
     /**
-       $_SESSION["CFGContributor"]
+    $_SESSION["CFGContributor"]
     $_SESSION["CFGRights"]
     $_SESSION["CFGPublisher"]
-     **/
-
-
+     */
     $rows='<h1>'.$_SESSION["CFGTitulo"].' / '.$_SESSION["CFGAutor"].'</h1>';
 
     $rows.=' <div class="table-responsive">';
@@ -2485,6 +2486,7 @@ function HTMLsummary()
     }
 
     $rows.='<tr><th>'.ucfirst(LABEL_Keywords).'</th><td>'.$_SESSION["CFGKeywords"].'</td></tr>';
+
     $rows.='<tr><th>'.ucfirst(LABEL_Cobertura).'</th><td>'.$_SESSION["CFGCobertura"].'</td></tr>';
 
     if ($_SESSION["CFGPublisher"]) {
@@ -2492,6 +2494,10 @@ function HTMLsummary()
     }
     if ($_SESSION["CFGRights"]) {
         $rows.='<tr><th>'.ucfirst(LABEL_Rights).'</th><td>'.$_SESSION["CFGRights"].'</td></tr>';
+    }
+      
+    if ($_SESSION["CFG_ARK_NAAN"]) {
+        $rows.='<tr><th>NAAN</th><td>'.$_SESSION["CFG_ARK_NAAN"].'</td></tr>';
     }
       
 
@@ -2557,7 +2563,7 @@ function HTMLsummary()
 
 
 
-/** extract note content about one type of notes for given array term metadata **/
+/** extract note content about one type of notes for given array term metadata */
 function extractNoteTypeConent($metadata, $note_type, $format = "txt", $editFlag = 0)
 {
 
@@ -2579,7 +2585,7 @@ function extractNoteTypeConent($metadata, $note_type, $format = "txt", $editFlag
 }
 
 
-/**HTML button to copy the value string for valid term **/
+/**HTML button to copy the value string for valid term */
 function HTMLcopyClick($targt_div, $array_flags)
 {
 
@@ -2596,7 +2602,7 @@ function HTMLcopyClick($targt_div, $array_flags)
 
 
 
-/**Cloud terms  **/
+/**Cloud terms  */
 function HTMLcloudTerms($level, $limit, $term_id = 0)
 {
 
@@ -2619,7 +2625,7 @@ function HTMLcloudTerms($level, $limit, $term_id = 0)
     return $rows;
 }
 
-/**Stats about terms distribution in the tree **/
+/**Stats about terms distribution in the tree */
 function HTMLglobalView($arraydata = array())
 {
     global $CFG;
@@ -2765,7 +2771,7 @@ function HTMLsource4note($note_id)
     return $rows;
 }
 
-/**source data for note in plain format **/
+/**source data for note in plain format */
 function TXTsource4note($note_id)
 {
     $array=ARRAYsource4note($note_id);
