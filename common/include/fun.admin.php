@@ -1247,7 +1247,7 @@ if ($_SESSION[$_SESSION["CFGURL"]]["ssuser_nivel"]=='1') {
         $arrayTesa["polijerarquia"]= (in_array($arrayTesa["polijerarquia"], array("1","0"))) ? $arrayTesa["polijerarquia"] : 0;
         $arrayTesa["url_base"]=(isset($arrayTesa["url_base"])) ? $DB->qstr($arrayTesa["url_base"], get_magic_quotes_gpc()) : $_SESSION["CFGURL"];
         $arrayTesa["cuando"]=(check2Date($arrayTesa["cuando"])) ? $arrayTesa["cuando"] : date("Y-m-d");
-        $arrayTesa["contact_mail"]=XSSprevent($_POST["contact_mail"] );
+        $arrayTesa["contact_mail"]=XSSprevent($_POST["contact_mail"]);
 
 
 
@@ -1261,7 +1261,7 @@ if ($_SESSION[$_SESSION["CFGURL"]]["ssuser_nivel"]=='1') {
                     "into $DBCFG[DBprefix]config (titulo,autor,idioma,cobertura,url_base,cuando)
 	                     VALUES
 	                ($arrayTesa[titulo],$arrayTesa[autor],$arrayTesa[idioma],$arrayTesa[cobertura], $arrayTesa[url_base],now())"
-                    );
+                );
                 break;
 
             case 'M':
@@ -1716,6 +1716,19 @@ function HTMLlistaVocabularios()
 
     $sql=SQLdatosVocabulario(1);
 
+
+    $rows='<div class=""><h2>'.ucfirst(LABEL_lcConfig).' &middot; '.strtolower(LABEL_Opciones).'</h2>';
+    $rows.='<p><ul class="">';
+    $rows.='<li><a title="'.LABEL_lcConfig.' ('.LABEL_metadatos.')" href="admin.php?vocabulario_id=1">'.ucfirst(LABEL_lcConfig).'</a></li>';
+    $rows.='<li><a title="'.LABEL_vocabulario_referencia.'" href="#ref_vocab">'.ucfirst(LABEL_vocabulario_referencia).'</a></li>';
+    $rows.='<li><a title="'.LABEL_vocabulario_referenciaWS.'" href="#target_vocab">'.ucfirst(LABEL_vocabulario_referenciaWS).'</a></li>';
+    $rows.='<li><a title="'.LABEL_configTypeNotes.'" href="#morenotas">'.ucfirst(LABEL_configTypeNotes).'</a></li>';
+    $rows.='<li><a title="'.LABEL_relationEditor.'" href="#morerelations">'.ucfirst(LABEL_relationEditor).'</a></li>';
+    $rows.='<li><a title="'.LABEL_URItypeEditor.'" href="#moreuri">'.ucfirst(LABEL_URItypeEditor).'</a></li>';
+    $rows.='<li><a title="'.LABEL_source.'" href="#source_list">'.ucfirst(LABEL_source).'</a></li>';
+    $rows.='</ul></p>';
+    $rows.='</div><hr>';
+
     $rows.='<div class="table-responsive"> ';
     $rows.='<h3>'.ucfirst(LABEL_lcConfig).' </h3>';
 
@@ -1732,7 +1745,7 @@ function HTMLlistaVocabularios()
     while ($array=$sql->FetchRow()) {
         $fecha_alta=do_fecha($listaUsers["cuando"]);
         $rows.='<tr>';
-        $rows.='<td class="izq"><a href="admin.php?vocabulario_id='.$array["vocabulario_id"].'" title="'.MENU_DatosTesauro.' '.$array["titulo"].'">'.$array["titulo"].'</a> / '.$array["idioma"].'</td>';
+        $rows.='<td class="izq" id="config_form"><a href="admin.php?vocabulario_id='.$array["vocabulario_id"].'" title="'.MENU_DatosTesauro.' '.$array["titulo"].'">'.$array["titulo"].'</a> / '.$array["idioma"].'</td>';
         $rows.='<td class="izq">'.$array["autor"].'</td>';
         if ($array["vocabulario_id"]=='1') {
             $rows.='<td>'.LABEL_vocabulario_principal.'</td>';
@@ -1756,7 +1769,7 @@ function HTMLlistaInternalTargetVocabularios()
 
     $sql=SQLinternalTargetVocabs();
 
-    $rows.='<div class="table-responsive"> ';
+    $rows.='<div class="table-responsive" id="ref_vocab"> ';
     $rows.='<h3>'.ucfirst(LABEL_vocabulario_referencia).' ('.SQLcount($sql).') <a class="btn btn-primary btn-xs" href="admin.php?vocabulario_id=0" title="'.LABEL_vocabulario_referencia.'">'.ucfirst(LABEL_Agregar.' '.LABEL_vocabulario_referencia).'</a></h3>';
 
     if (SQLcount($sql)>0) {
@@ -1795,7 +1808,7 @@ function HTMLlistaTargetVocabularios()
     $sql=SQLtargetVocabulary("0");
 
 
-    $rows.='<div class="table-responsive"> ';
+    $rows.='<div class="table-responsive" id="target_vocab"> ';
     $rows.='<h3>'.ucfirst(LABEL_vocabulario_referenciaWS).' ('.SQLcount($sql).') <a class="btn btn-primary btn-xs" href="admin.php?tvocabulario_id=0&doAdmin=seeformTargetVocabulary" title="'.ucfirst(LABEL_addTargetVocabulary).'">'.ucfirst(LABEL_addTargetVocabulary).'</a></h3>';
 
     if (SQLcount($sql)>0) {
