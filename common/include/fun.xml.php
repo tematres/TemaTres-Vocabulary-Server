@@ -112,6 +112,7 @@ function do_nodo_zthes($idTema)
 
                 case 'DF':
                     $meta_tag.='<termNote label="Definition">'.xmlentities($datosTermino["notas"][$iNota]["nota"].TXTsource4note($datosTermino["notas"][$iNota]["id"]), true).'</termNote>';
+                
                 case 'DEF':
                     $meta_tag.='<termNote label="Definition">'.xmlentities($datosTermino["notas"][$iNota]["nota"].TXTsource4note($datosTermino["notas"][$iNota]["id"]), true).'</termNote>';
                     break;
@@ -871,7 +872,6 @@ function do_meta_tag($arrayTermino = "")
     $_SESSION["CFGlastMod"]=fetchlastMod();
 
     if (isset($_SESSION["CFG_ARK_NAAN"])) {
-
         if (@isset($_GET["ark"])) {
             $tema=Parser_ark2term_id($_GET["ark"]);
         }
@@ -1664,24 +1664,31 @@ function ARRAYaboutness($term_id = 0)
 
 
 /** ARK generator */
-function Parser_tema_id2ark($term_id) {
+function Parser_tema_id2ark($term_id)
+{
     $naan=$_SESSION["CFG_ARK_NAAN"];
+
+    $naan=(strpos($naan, "/")>0) ? $naan : $naan.'/';
+
     include_once T3_ABSPATH . 'common/include/Hashids/HashGenerator.php';
     include_once T3_ABSPATH . 'common/include/Hashids/Hashids.php';
 /* create the class object with minimum hashid length of 12 */
-    $hashids = new Hashids\Hashids($naan, 12);
+    $hashids = new Hashids\Hashids($naan, 12, 'abcdefghijklmnopqrstuvwxyz0123456789');
 
-    return 'ark:/'.$naan.'/'.$hashids->encode($term_id);
+    return 'ark:/'.$naan.$hashids->encode($term_id);
 }
 
 /** ARK parser */
-function Parser_ark2term_id($ark) {
+function Parser_ark2term_id($ark)
+{
     $naan=$_SESSION["CFG_ARK_NAAN"];
+    $naan=(strpos($naan, "/")>0) ? $naan : $naan.'/';
+
     include_once T3_ABSPATH . 'common/include/Hashids/HashGenerator.php';
     include_once T3_ABSPATH . 'common/include/Hashids/Hashids.php';
 /* minimum hashid length of 12 */
-    $hashids = new Hashids\Hashids($naan, 12);
-    $ark=str_replace('ark:/'.$naan.'/', "", $ark);
+    $hashids = new Hashids\Hashids($naan, 12, 'abcdefghijklmnopqrstuvwxyz0123456789');
+    $ark=str_replace('ark:/'.$naan, "", $ark);
     $array_ark=$hashids->decode($ark);
 
     return $array_ark[0];
