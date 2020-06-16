@@ -1,15 +1,15 @@
 <?php
 #   TemaTres: open source thesaurus management
 #   Website http://www.vocabularyserver.com
-#   Copyright (C) 2004-2018 Diego Ferreyra <tematres@r020.com.ar>
+#   Copyright (C) 2004-2020 Diego Ferreyra <tematres@r020.com.ar>
 #   License: distributed under the GNU General Public License Version 2 (June 1991) Free Software Foundation
 #   Translation: Community collaborative translation https://crowdin.com/project/tematres
 #
 ###############################################################################################################
 #
 // Translation versioning
-define('LABEL_i18n_MasterDate','2019-09-28'); /* Do not translate. Master language file creation date (YYYY-MM-DD). */
-define('LABEL_i18n_MasterVersion','3.1.03'); /* Do not translate. Master language file version. */
+define('LABEL_i18n_MasterDate','2020-05-28'); /* Do not translate. Master language file creation date (YYYY-MM-DD). */
+define('LABEL_i18n_MasterVersion','3.2.0'); /* Do not translate. Master language file version. */
 define('LABEL_i18n_TranslationVersion','01'); /* Translation language file version. Will be used as a sufix for the language master version number. Can be changed by translators to track minor changes to your translation file */
 define('LABEL_i18n_TranslationAuthor','Community translation for TemaTres'); /* Can be changed by translators. Do not include emails or personal details */
 /* Strings to translate */
@@ -72,7 +72,7 @@ define("LABEL_TerminosUP","нежелательные термины");
 define("LABEL_BuscaTermino","Поиск термина");
 define("LABEL_Buscar","Поиск");
 define("LABEL_Enviar","Отправить");
-define("LABEL_Cambiar","Обновить");
+define("LABEL_Cambiar","Save changes");
 define("LABEL_Anterior","назад");
 define("LABEL_AdminUser","Администратор пользователей");
 define("LABEL_DatosUser","Данные пользователя");
@@ -292,7 +292,7 @@ define('LABEL_tvocab_tag',"тэг для справки");
 define('LABEL_tvocab_uri_service',"URL для ссылки на интернет-услуги");
 define('LABEL_targetTermsforUpdate',"термины с ожиданием обновления");
 define('LABEL_ShowTargetTermsforUpdate',"проверить обновление терминов");
-define('LABEL_enable',"включить");
+define('LABEL_enable',"доступен");
 define('LABEL_disable',"отключить");
 define('LABEL_notFound',"термин не найден");
 define('LABEL_termUpdated',"термин обновлен");
@@ -338,7 +338,7 @@ define('LABEL_CFG_NUM_SHOW_TERMSxSTATUS','Количество отобража�
 define('LABEL_CFG_MIN_SEARCH_SIZE','Минимальное количество символов для поиска');
 define('LABEL__SHOW_TREE','опубликовать иерархический вид на главной странице');
 define('LABEL__PUBLISH_SKOS','включить формат Skos-core для веб-услуг. Это может привести к открытию доступа ко всему Вашему словарю.');
-define('LABEL_update1_3x1_4',"Update (1.3x -> 1.4)");
+define('LABEL_update1_3x1_4',"Обновить (1.3x -> 1.4)");
 define("FORM_LABEL_format_import","выбрать формат");
 define("LABEL_importTab","табулированный текст");
 define("LABEL_importTag","тегированный текст");
@@ -538,7 +538,7 @@ define('LABEL_prototypeTerms','central terms');
 define('LABEL_copy_click','copy term to clipboard');
 define('LABEL__ENABLE_COPY_CLICK','Enable button to copy terms to the clipboard.');
 #v.3.2
-define('LABEL_order','orden');
+define('LABEL_order','order');
 define('LABEL_alias','alias');
 define('LEGEND_alias','enter a short alias');
 define('LABEL_src_note','source');
@@ -547,5 +547,5 @@ define('LABEL_source','normalized sources of authority');
 define('LABEL_source4term','reference sources for terms');
 define('LABEL_add_new','add new');
 define('LABEL_sources4vocab','reference sources');
-define('LABEL_update2_2x3_2','update (2.x -> 3.2)');
+define('LABEL_update2_2x3_2','Обновить (2.x -> 3.2)');
 ?>

@@ -1,15 +1,15 @@
 <?php
 #   TemaTres: open source thesaurus management
 #   Website http://www.vocabularyserver.com
-#   Copyright (C) 2004-2018 Diego Ferreyra <tematres@r020.com.ar>
+#   Copyright (C) 2004-2020 Diego Ferreyra <tematres@r020.com.ar>
 #   License: distributed under the GNU General Public License Version 2 (June 1991) Free Software Foundation
 #   Translation: Community collaborative translation https://crowdin.com/project/tematres
 #
 ###############################################################################################################
 #
 // Translation versioning
-define('LABEL_i18n_MasterDate','2019-09-28'); /* Do not translate. Master language file creation date (YYYY-MM-DD). */
-define('LABEL_i18n_MasterVersion','3.1.03'); /* Do not translate. Master language file version. */
+define('LABEL_i18n_MasterDate','2020-05-28'); /* Do not translate. Master language file creation date (YYYY-MM-DD). */
+define('LABEL_i18n_MasterVersion','3.2.0'); /* Do not translate. Master language file version. */
 define('LABEL_i18n_TranslationVersion','01'); /* Translation language file version. Will be used as a sufix for the language master version number. Can be changed by translators to track minor changes to your translation file */
 define('LABEL_i18n_TranslationAuthor','Traducción de la comunidad de TemaTres'); /* Can be changed by translators. Do not include emails or personal details */
 /* Strings to translate */
@@ -292,8 +292,8 @@ define('LABEL_tvocab_tag',"etiqueta de la referencia");
 define('LABEL_tvocab_uri_service',"URL del servicio web de referencia");
 define('LABEL_targetTermsforUpdate',"términos con actualizaciones pendientes");
 define('LABEL_ShowTargetTermsforUpdate',"actualizar términos");
-define('LABEL_enable',"habilitado");
-define('LABEL_disable',"deshabilitado");
+define('LABEL_enable',"Habilitar");
+define('LABEL_disable',"Caducar");
 define('LABEL_notFound',"término no encontrado");
 define('LABEL_termUpdated',"término actualizado");
 define('LABEL_ShowTargetTermforUpdate',"actualizar");
@@ -545,7 +545,7 @@ define('LABEL_src_note','fuente');
 define('LEGEND_src_note','consigne la cita bibliográfica');
 define('LABEL_source','fuentes normalizadas');
 define('LABEL_source4term','fuentes según términos');
-define('LABEL_sources4vocab','fuentes de consulta');
 define('LABEL_add_new','agregar nuevo');
+define('LABEL_sources4vocab','fuentes de consulta');
 define('LABEL_update2_2x3_2','Actualizar (2.x -> 3.2)');
 ?>

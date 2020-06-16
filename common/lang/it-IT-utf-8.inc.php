@@ -1,15 +1,15 @@
 <?php
 #   TemaTres: open source thesaurus management
 #   Website http://www.vocabularyserver.com
-#   Copyright (C) 2004-2018 Diego Ferreyra <tematres@r020.com.ar>
+#   Copyright (C) 2004-2020 Diego Ferreyra <tematres@r020.com.ar>
 #   License: distributed under the GNU General Public License Version 2 (June 1991) Free Software Foundation
 #   Translation: Community collaborative translation https://crowdin.com/project/tematres
 #
 ###############################################################################################################
 #
 // Translation versioning
-define('LABEL_i18n_MasterDate','2019-09-28'); /* Do not translate. Master language file creation date (YYYY-MM-DD). */
-define('LABEL_i18n_MasterVersion','3.1.03'); /* Do not translate. Master language file version. */
+define('LABEL_i18n_MasterDate','2020-05-28'); /* Do not translate. Master language file creation date (YYYY-MM-DD). */
+define('LABEL_i18n_MasterVersion','3.2.0'); /* Do not translate. Master language file version. */
 define('LABEL_i18n_TranslationVersion','01'); /* Translation language file version. Will be used as a sufix for the language master version number. Can be changed by translators to track minor changes to your translation file */
 define('LABEL_i18n_TranslationAuthor','Community translation for TemaTres'); /* Can be changed by translators. Do not include emails or personal details */
 /* Strings to translate */
@@ -72,7 +72,7 @@ define("LABEL_TerminosUP","termini non preferiti");
 define("LABEL_BuscaTermino","Cerca termine");
 define("LABEL_Buscar","Cerca");
 define("LABEL_Enviar","Conferma");
-define("LABEL_Cambiar","Modifica");
+define("LABEL_Cambiar","Save changes");
 define("LABEL_Anterior","Indietro");
 define("LABEL_AdminUser","Gestione utenti");
 define("LABEL_DatosUser","Dati utenti");
@@ -292,14 +292,14 @@ define('LABEL_tvocab_tag',"tag per il riferimento");
 define('LABEL_tvocab_uri_service',"URL per il web service di riferimento");
 define('LABEL_targetTermsforUpdate',"termini in attesa di aggiornamento");
 define('LABEL_ShowTargetTermsforUpdate',"controlla l'aggiornamento dei termini");
-define('LABEL_enable',"abilita");
-define('LABEL_disable',"disabilita");
+define('LABEL_enable',"Abilita");
+define('LABEL_disable',"Disabilita");
 define('LABEL_notFound',"termine non trovato");
 define('LABEL_termUpdated',"termine aggiornato");
 define('LABEL_ShowTargetTermforUpdate',"aggiorna");
 define('LABEL_relbetweenVocabularies',"relazione tra vocabolari");
 define('LABEL_update1_1x1_2',"Aggiorna (1.1 -> 1.3)");
-define('LABEL_update1x1_2',"Aggiorna Tematres (1.0x -> 1.3)");
+define('LABEL_update1x1_2',"Aggiorna (1.0x -> 1.3)");
 define('LABEL_TargetTerm',"mapping terminologico");
 define('LABEL_TargetTerms',"termini (mapping terminologico)");
 define('LABEL_seleccionar','seleziona');
@@ -338,7 +338,7 @@ define('LABEL_CFG_NUM_SHOW_TERMSxSTATUS','Numero di termini visualizzati per vis
 define('LABEL_CFG_MIN_SEARCH_SIZE','Caratteri minimi per le operazioni di ricerca');
 define('LABEL__SHOW_TREE','pubblica la vista gerarchica nella pagina home');
 define('LABEL__PUBLISH_SKOS','abilita il formato Skos-core nei web service. Questo può esporre interamente il vocabolario.');
-define('LABEL_update1_3x1_4',"Aggiorna Tematres (1.3x -> 1.4)");
+define('LABEL_update1_3x1_4',"Aggiorna (1.3x -> 1.4)");
 define("FORM_LABEL_format_import","scelta format");
 define("LABEL_importTab","testo con tabulazioni");
 define("LABEL_importTag","testo con tag");
@@ -413,7 +413,7 @@ define('LABEL_meta_term','meta-term');
 define('LABEL_meta_terms','meta-terms');
 define('LABEL_relatedTerms','termini associati');
 define('LABEL_nonPreferedTerms','termini non preferiti');
-define('LABEL_update1_6x1_7','Update (1.6 -> 2.2)');
+define('LABEL_update1_6x1_7','Aggiorna (1.6 -> 2.2)');
 define('LABEL_include_data','include');
 define('LABEL_updateEndpoint','update SPARQL endpoint');
 define('MSG__updateEndpoint','The data will be updated to be exposed in SPARQL endpoint. This operation may take several minutes.');
@@ -538,7 +538,7 @@ define('LABEL_prototypeTerms','central terms');
 define('LABEL_copy_click','copy term to clipboard');
 define('LABEL__ENABLE_COPY_CLICK','Enable button to copy terms to the clipboard.');
 #v.3.2
-define('LABEL_order','orden');
+define('LABEL_order','order');
 define('LABEL_alias','alias');
 define('LEGEND_alias','enter a short alias');
 define('LABEL_src_note','source');
@@ -547,5 +547,5 @@ define('LABEL_source','normalized sources of authority');
 define('LABEL_source4term','reference sources for terms');
 define('LABEL_add_new','add new');
 define('LABEL_sources4vocab','reference sources');
-define('LABEL_update2_2x3_2','update (2.x -> 3.2)');
+define('LABEL_update2_2x3_2','Aggiorna (2.x -> 3.2)');
 ?>

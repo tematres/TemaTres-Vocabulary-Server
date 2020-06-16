@@ -1,15 +1,15 @@
 <?php
 #   TemaTres: open source thesaurus management
 #   Website http://www.vocabularyserver.com
-#   Copyright (C) 2004-2018 Diego Ferreyra <tematres@r020.com.ar>
+#   Copyright (C) 2004-2020 Diego Ferreyra <tematres@r020.com.ar>
 #   License: distributed under the GNU General Public License Version 2 (June 1991) Free Software Foundation
 #   Translation: Community collaborative translation https://crowdin.com/project/tematres
 #
 ###############################################################################################################
 #
 // Translation versioning
-define('LABEL_i18n_MasterDate','2019-09-28'); /* Do not translate. Master language file creation date (YYYY-MM-DD). */
-define('LABEL_i18n_MasterVersion','3.1.03'); /* Do not translate. Master language file version. */
+define('LABEL_i18n_MasterDate','2020-05-28'); /* Do not translate. Master language file creation date (YYYY-MM-DD). */
+define('LABEL_i18n_MasterVersion','3.2.0'); /* Do not translate. Master language file version. */
 define('LABEL_i18n_TranslationVersion','01'); /* Translation language file version. Will be used as a sufix for the language master version number. Can be changed by translators to track minor changes to your translation file */
 define('LABEL_i18n_TranslationAuthor','Community translation for TemaTres'); /* Can be changed by translators. Do not include emails or personal details */
 /* Strings to translate */
@@ -72,7 +72,7 @@ define("LABEL_TerminosUP","Angelegte Synonymbegriffe");
 define("LABEL_BuscaTermino","Suchbegriff");
 define("LABEL_Buscar","Suche");
 define("LABEL_Enviar","Start");
-define("LABEL_Cambiar","Aktualisieren");
+define("LABEL_Cambiar","Save changes");
 define("LABEL_Anterior","Zurück");
 define("LABEL_AdminUser","Benutzerverwaltung");
 define("LABEL_DatosUser","Benutzerangaben");
@@ -292,8 +292,8 @@ define('LABEL_tvocab_tag',"Kürzel");
 define('LABEL_tvocab_uri_service',"Webservice-URL");
 define('LABEL_targetTermsforUpdate',"terms with pending update");
 define('LABEL_ShowTargetTermsforUpdate',"check terms update");
-define('LABEL_enable',"aktiviert");
-define('LABEL_disable',"deaktiviert");
+define('LABEL_enable',"aktiv");
+define('LABEL_disable',"inaktiv");
 define('LABEL_notFound',"Begriff nicht gefunden");
 define('LABEL_termUpdated',"Begriff aktualisiert");
 define('LABEL_ShowTargetTermforUpdate',"aktualisiert");
@@ -538,7 +538,7 @@ define('LABEL_prototypeTerms','central terms');
 define('LABEL_copy_click','copy term to clipboard');
 define('LABEL__ENABLE_COPY_CLICK','Enable button to copy terms to the clipboard.');
 #v.3.2
-define('LABEL_order','orden');
+define('LABEL_order','order');
 define('LABEL_alias','alias');
 define('LEGEND_alias','enter a short alias');
 define('LABEL_src_note','source');

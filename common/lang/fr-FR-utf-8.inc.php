@@ -1,15 +1,15 @@
 <?php
 #   TemaTres: open source thesaurus management
 #   Website http://www.vocabularyserver.com
-#   Copyright (C) 2004-2018 Diego Ferreyra <tematres@r020.com.ar>
+#   Copyright (C) 2004-2020 Diego Ferreyra <tematres@r020.com.ar>
 #   License: distributed under the GNU General Public License Version 2 (June 1991) Free Software Foundation
 #   Translation: Community collaborative translation https://crowdin.com/project/tematres
 #
 ###############################################################################################################
 #
 // Translation versioning
-define('LABEL_i18n_MasterDate','2019-09-28'); /* Do not translate. Master language file creation date (YYYY-MM-DD). */
-define('LABEL_i18n_MasterVersion','3.1.03'); /* Do not translate. Master language file version. */
+define('LABEL_i18n_MasterDate','2020-05-28'); /* Do not translate. Master language file creation date (YYYY-MM-DD). */
+define('LABEL_i18n_MasterVersion','3.2.0'); /* Do not translate. Master language file version. */
 define('LABEL_i18n_TranslationVersion','01'); /* Translation language file version. Will be used as a sufix for the language master version number. Can be changed by translators to track minor changes to your translation file */
 define('LABEL_i18n_TranslationAuthor','Traduction collaborative pour TemaTres'); /* Can be changed by translators. Do not include emails or personal details */
 /* Strings to translate */
@@ -72,7 +72,7 @@ define("LABEL_TerminosUP","termes non-préférentiels");
 define("LABEL_BuscaTermino","Valeur");
 define("LABEL_Buscar","Chercher");
 define("LABEL_Enviar","Valider");
-define("LABEL_Cambiar","Enregistrer les modifications");
+define("LABEL_Cambiar","Save changes");
 define("LABEL_Anterior","◄ Page précédente");
 define("LABEL_AdminUser","Administration des utilisateurs");
 define("LABEL_DatosUser","Profil de l'utilisateur");
@@ -292,8 +292,8 @@ define('LABEL_tvocab_tag',"étiquette p");
 define('LABEL_tvocab_uri_service',"URL du service web");
 define('LABEL_targetTermsforUpdate',"termes à Mise à jour");
 define('LABEL_ShowTargetTermsforUpdate',"vérifier les mises à jour");
-define('LABEL_enable',"activer");
-define('LABEL_disable',"désactiver");
+define('LABEL_enable',"Autoriser");
+define('LABEL_disable',"Expirer");
 define('LABEL_notFound',"terme non trouvé");
 define('LABEL_termUpdated',"terme mis à jour");
 define('LABEL_ShowTargetTermforUpdate',"Mise à jour");
@@ -449,7 +449,7 @@ define('LABEL_altTerms','termes non-préférentiels');
 define('LABEL_narrowerTerms','termes spécifiques');
 define('LABEL_results','résultats');
 define('LABEL_showFreeTerms','liste des termes libres');
-define('LABEL_helpSearchFreeTerms','Only free terms will be searched.');
+define('LABEL_helpSearchFreeTerms','La recherche ne portera que sur les termes libres.');
 define('LABEL_broatherTerms','termes génériques');
 define('LABEL_type2filter','filtrer la liste');
 define('LABEL_defaultEQmap','Taper "eq" pour définir une relation d\'équivalence');
@@ -473,7 +473,7 @@ define('LABEL_duplicatedTerm','terme en doublon');
 define('LABEL_duplicatedTerms','termes en doublon');
 define('MSG_duplicatedTerms','La configuration du vocabulaire interdit de créer des doublons.');
 define('LABEL_bulkReplace','Édition en masse');
-define('LABEL_searchFor','string to search');
+define('LABEL_searchFor','texte à rechercher');
 define('LABEL_replaceWith','Remplacer par');
 define('LABEL_bulkNotesWillReplace','notes vont être modifiées');
 define('LABEL_bulkNotesReplaced','notes ont été modifiées');
@@ -491,7 +491,7 @@ define('LABEL_CFG_PUBLISH','Montrer le vocabulaire aux utilisateurs non connect�
 define('LABEL_Replace','remplacer');
 define('LABEL_Preview','visualiser');
 #v.2.2
-define('LABEL_selectRelation','select relation type');
+define('LABEL_selectRelation','sélectionner le type de relation');
 define('LABEL_withSelected','Traitement sur les termes sélectionnés :');
 define('LABEL_rejectTerms','rejeter les termes');
 define('LABEL_doMetaTerm','marquer comme metatermes');
@@ -538,7 +538,7 @@ define('LABEL_prototypeTerms','termes centraux');
 define('LABEL_copy_click','copier le terme dans le presse-papier');
 define('LABEL__ENABLE_COPY_CLICK','Activer le bouton de copie des termes dans le presse-papier.');
 #v.3.2
-define('LABEL_order','orden');
+define('LABEL_order','order');
 define('LABEL_alias','alias');
 define('LEGEND_alias','enter a short alias');
 define('LABEL_src_note','source');
@@ -547,5 +547,5 @@ define('LABEL_source','normalized sources of authority');
 define('LABEL_source4term','reference sources for terms');
 define('LABEL_add_new','add new');
 define('LABEL_sources4vocab','reference sources');
-define('LABEL_update2_2x3_2','update (2.x -> 3.2)');
+define('LABEL_update2_2x3_2','mise à jour 2.x -> 3.2');
 ?>

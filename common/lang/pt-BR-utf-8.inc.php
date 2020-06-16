@@ -1,15 +1,15 @@
 <?php
 #   TemaTres: open source thesaurus management
 #   Website http://www.vocabularyserver.com
-#   Copyright (C) 2004-2018 Diego Ferreyra <tematres@r020.com.ar>
+#   Copyright (C) 2004-2020 Diego Ferreyra <tematres@r020.com.ar>
 #   License: distributed under the GNU General Public License Version 2 (June 1991) Free Software Foundation
 #   Translation: Community collaborative translation https://crowdin.com/project/tematres
 #
 ###############################################################################################################
 #
 // Translation versioning
-define('LABEL_i18n_MasterDate','2019-09-28'); /* Do not translate. Master language file creation date (YYYY-MM-DD). */
-define('LABEL_i18n_MasterVersion','3.1.03'); /* Do not translate. Master language file version. */
+define('LABEL_i18n_MasterDate','2020-05-28'); /* Do not translate. Master language file creation date (YYYY-MM-DD). */
+define('LABEL_i18n_MasterVersion','3.2.0'); /* Do not translate. Master language file version. */
 define('LABEL_i18n_TranslationVersion','01'); /* Translation language file version. Will be used as a sufix for the language master version number. Can be changed by translators to track minor changes to your translation file */
 define('LABEL_i18n_TranslationAuthor','Tradução pela comunidade para TemaTres'); /* Can be changed by translators. Do not include emails or personal details */
 /* Strings to translate */
@@ -72,7 +72,7 @@ define("LABEL_TerminosUP","termos não preferenciais");
 define("LABEL_BuscaTermino","Pesquisar termo");
 define("LABEL_Buscar","Buscar");
 define("LABEL_Enviar","Enviar");
-define("LABEL_Cambiar","Salvar modificações");
+define("LABEL_Cambiar","Guardar alterações");
 define("LABEL_Anterior","Voltar");
 define("LABEL_AdminUser","Administração de usuários");
 define("LABEL_DatosUser","Dados do usuário");
@@ -293,7 +293,7 @@ define('LABEL_tvocab_uri_service',"URL para web services de referência");
 define('LABEL_targetTermsforUpdate',"termos com atualização pendente");
 define('LABEL_ShowTargetTermsforUpdate',"conferir atualização de termos");
 define('LABEL_enable',"habilitar");
-define('LABEL_disable',"disabilitar");
+define('LABEL_disable',"Desabilitar");
 define('LABEL_notFound',"termo não encontrado");
 define('LABEL_termUpdated',"termo atualizado");
 define('LABEL_ShowTargetTermforUpdate',"atualizar");
@@ -538,14 +538,14 @@ define('LABEL_prototypeTerms','termos centrais');
 define('LABEL_copy_click','copiar termo para a área de transferência');
 define('LABEL__ENABLE_COPY_CLICK','Ativar botão para copiar termos para a área de transferência.');
 #v.3.2
-define('LABEL_order','orden');
+define('LABEL_order','Ordem');
 define('LABEL_alias','alias');
-define('LEGEND_alias','consigne un alias breve');
-define('LABEL_src_note','fuente');
-define('LEGEND_src_note','consigne la cita bibliográfica');
-define('LABEL_source','fuentes normalizadas');
-define('LABEL_source4term','fuentes según términos');
-define('LABEL_sources4vocab','fuentes de consulta');
-define('LABEL_add_new','agregar nuevo');
-define('LABEL_update2_2x3_2','Actualizar (2.x -> 3.2)');
+define('LEGEND_alias','insira um alias curto');
+define('LABEL_src_note','fonte');
+define('LEGEND_src_note','insira uma citação bibliográfica');
+define('LABEL_source','fontes de autoridade normalizadas');
+define('LABEL_source4term','fontes de referência dos termos');
+define('LABEL_add_new','adicionar nova');
+define('LABEL_sources4vocab','fontes de referência');
+define('LABEL_update2_2x3_2','Atualizar (2x -> 3.2)');
 ?>

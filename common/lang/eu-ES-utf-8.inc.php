@@ -1,15 +1,15 @@
 <?php
 #   TemaTres: open source thesaurus management
 #   Website http://www.vocabularyserver.com
-#   Copyright (C) 2004-2018 Diego Ferreyra <tematres@r020.com.ar>
+#   Copyright (C) 2004-2020 Diego Ferreyra <tematres@r020.com.ar>
 #   License: distributed under the GNU General Public License Version 2 (June 1991) Free Software Foundation
 #   Translation: Community collaborative translation https://crowdin.com/project/tematres
 #
 ###############################################################################################################
 #
 // Translation versioning
-define('LABEL_i18n_MasterDate','2019-09-28'); /* Do not translate. Master language file creation date (YYYY-MM-DD). */
-define('LABEL_i18n_MasterVersion','3.1.03'); /* Do not translate. Master language file version. */
+define('LABEL_i18n_MasterDate','2020-05-28'); /* Do not translate. Master language file creation date (YYYY-MM-DD). */
+define('LABEL_i18n_MasterVersion','3.2.0'); /* Do not translate. Master language file version. */
 define('LABEL_i18n_TranslationVersion','01'); /* Translation language file version. Will be used as a sufix for the language master version number. Can be changed by translators to track minor changes to your translation file */
 define('LABEL_i18n_TranslationAuthor','Community translation for TemaTres'); /* Can be changed by translators. Do not include emails or personal details */
 /* Strings to translate */
@@ -72,7 +72,7 @@ define("LABEL_TerminosUP","Baliokide terminoak");
 define("LABEL_BuscaTermino","Terminoa bilatzea");
 define("LABEL_Buscar","Bilatzea");
 define("LABEL_Enviar","Bidaltzea");
-define("LABEL_Cambiar","Kanbioak gordetzea");
+define("LABEL_Cambiar","Save changes");
 define("LABEL_Anterior","Aurrekoa");
 define("LABEL_AdminUser","ErabiltzaileenAdministrazioa");
 define("LABEL_DatosUser","ErabiltzailearenDatuak");
@@ -292,8 +292,8 @@ define('LABEL_tvocab_tag',"etiqueta de la referencia");
 define('LABEL_tvocab_uri_service',"URL del servicio web de referencia");
 define('LABEL_targetTermsforUpdate',"términos con actualizaciones pendientes");
 define('LABEL_ShowTargetTermsforUpdate',"actualizar términos");
-define('LABEL_enable',"habilitado");
-define('LABEL_disable',"deshabilitado");
+define('LABEL_enable',"Prestatzea");
+define('LABEL_disable',"Epea amaitzea");
 define('LABEL_notFound',"término no encontrado");
 define('LABEL_termUpdated',"término actualizado");
 define('LABEL_ShowTargetTermforUpdate',"actualizar");
@@ -538,14 +538,14 @@ define('LABEL_prototypeTerms','central terms');
 define('LABEL_copy_click','copy term to clipboard');
 define('LABEL__ENABLE_COPY_CLICK','Enable button to copy terms to the clipboard.');
 #v.3.2
-define('LABEL_order','orden');
+define('LABEL_order','order');
 define('LABEL_alias','alias');
-define('LEGEND_alias','consigne un alias breve');
-define('LABEL_src_note','fuente');
-define('LEGEND_src_note','consigne la cita bibliográfica');
-define('LABEL_source','fuentes normalizadas');
-define('LABEL_source4term','fuentes según términos');
-define('LABEL_sources4vocab','fuentes de consulta');
-define('LABEL_add_new','agregar nuevo');
+define('LEGEND_alias','enter a short alias');
+define('LABEL_src_note','source');
+define('LEGEND_src_note','enter a bibliographic citation');
+define('LABEL_source','normalized sources of authority');
+define('LABEL_source4term','reference sources for terms');
+define('LABEL_add_new','add new');
+define('LABEL_sources4vocab','reference sources');
 define('LABEL_update2_2x3_2','Actualizar (2.x -> 3.2)');
 ?>
