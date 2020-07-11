@@ -8,8 +8,8 @@
 ###############################################################################################################
 #
 // Translation versioning
-define('LABEL_i18n_MasterDate','2020-05-28'); /* Do not translate. Master language file creation date (YYYY-MM-DD). */
-define('LABEL_i18n_MasterVersion','3.2.0'); /* Do not translate. Master language file version. */
+define('LABEL_i18n_MasterDate','2020-06-18'); /* Do not translate. Master language file creation date (YYYY-MM-DD). */
+define('LABEL_i18n_MasterVersion','3.2.1'); /* Do not translate. Master language file version. */
 define('LABEL_i18n_TranslationVersion','01'); /* Translation language file version. Will be used as a sufix for the language master version number. Can be changed by translators to track minor changes to your translation file */
 define('LABEL_i18n_TranslationAuthor','Community translation for TemaTres'); /* Can be changed by translators. Do not include emails or personal details */
 /* Strings to translate */
@@ -292,8 +292,8 @@ define('LABEL_tvocab_tag',"etiqueta de la referència");
 define('LABEL_tvocab_uri_service',"URL del servei web de referència");
 define('LABEL_targetTermsforUpdate',"termes amb actualitzacions pendents");
 define('LABEL_ShowTargetTermsforUpdate',"revisar actualitzacions de termes");
-define('LABEL_enable',"Habilitar");
-define('LABEL_disable',"Caducar");
+define('LABEL_enable',"habilitat");  /* web services status info: in use */
+define('LABEL_disable',"no habilitat");  /* web services status info: not in use */
 define('LABEL_notFound',"terme no trobat");
 define('LABEL_termUpdated',"terme actualitzat");
 define('LABEL_ShowTargetTermforUpdate',"actualitzar");

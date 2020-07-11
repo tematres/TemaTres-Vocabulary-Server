@@ -8,8 +8,8 @@
 ###############################################################################################################
 #
 // Translation versioning
-define('LABEL_i18n_MasterDate','2020-05-28'); /* Do not translate. Master language file creation date (YYYY-MM-DD). */
-define('LABEL_i18n_MasterVersion','3.2.0'); /* Do not translate. Master language file version. */
+define('LABEL_i18n_MasterDate','2020-06-18'); /* Do not translate. Master language file creation date (YYYY-MM-DD). */
+define('LABEL_i18n_MasterVersion','3.2.1'); /* Do not translate. Master language file version. */
 define('LABEL_i18n_TranslationVersion','01'); /* Translation language file version. Will be used as a sufix for the language master version number. Can be changed by translators to track minor changes to your translation file */
 define('LABEL_i18n_TranslationAuthor','Community translation for TemaTres'); /* Can be changed by translators. Do not include emails or personal details */
 /* Strings to translate */
@@ -72,7 +72,7 @@ define("LABEL_TerminosUP","termini non preferiti");
 define("LABEL_BuscaTermino","Cerca termine");
 define("LABEL_Buscar","Cerca");
 define("LABEL_Enviar","Conferma");
-define("LABEL_Cambiar","Save changes");
+define("LABEL_Cambiar","Salvare le modifiche");
 define("LABEL_Anterior","Indietro");
 define("LABEL_AdminUser","Gestione utenti");
 define("LABEL_DatosUser","Dati utenti");
@@ -292,8 +292,8 @@ define('LABEL_tvocab_tag',"tag per il riferimento");
 define('LABEL_tvocab_uri_service',"URL per il web service di riferimento");
 define('LABEL_targetTermsforUpdate',"termini in attesa di aggiornamento");
 define('LABEL_ShowTargetTermsforUpdate',"controlla l'aggiornamento dei termini");
-define('LABEL_enable',"Abilita");
-define('LABEL_disable',"Disabilita");
+define('LABEL_enable',"abilitato");  /* web services status info: in use */
+define('LABEL_disable',"non abilitato");  /* web services status info: not in use */
 define('LABEL_notFound',"termine non trovato");
 define('LABEL_termUpdated',"termine aggiornato");
 define('LABEL_ShowTargetTermforUpdate',"aggiorna");

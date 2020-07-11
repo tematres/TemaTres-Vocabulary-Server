@@ -8,8 +8,8 @@
 ###############################################################################################################
 #
 // Translation versioning
-define('LABEL_i18n_MasterDate','2020-05-28'); /* Do not translate. Master language file creation date (YYYY-MM-DD). */
-define('LABEL_i18n_MasterVersion','3.2.0'); /* Do not translate. Master language file version. */
+define('LABEL_i18n_MasterDate','2020-06-18'); /* Do not translate. Master language file creation date (YYYY-MM-DD). */
+define('LABEL_i18n_MasterVersion','3.2.1'); /* Do not translate. Master language file version. */
 define('LABEL_i18n_TranslationVersion','01'); /* Translation language file version. Will be used as a sufix for the language master version number. Can be changed by translators to track minor changes to your translation file */
 define('LABEL_i18n_TranslationAuthor','Tradução pela comunidade para TemaTres'); /* Can be changed by translators. Do not include emails or personal details */
 /* Strings to translate */
@@ -54,8 +54,8 @@ define("LABEL_NotaAlcance","Nota de escopo");
 define("LABEL_EliminarTE","Excluir termo");
 define("LABEL_AgregarT","Novo termo");
 define("LABEL_AgregarTG","Subordinar %s a um termo superior");
-define("LABEL_AgregarTE","Novo termo subordinado a ");
-define("LABEL_AgregarUP","Novo termo não preferido para ");
+define("LABEL_AgregarTE","Criar termo subordinado a ");
+define("LABEL_AgregarUP","Criar termo não preferencial para ");
 define("LABEL_AgregarTR","Novo termo relacionado com ");
 define("LABEL_Detalle","detalhes");
 define("LABEL_Autor","Autor");
@@ -72,7 +72,7 @@ define("LABEL_TerminosUP","termos não preferenciais");
 define("LABEL_BuscaTermino","Pesquisar termo");
 define("LABEL_Buscar","Buscar");
 define("LABEL_Enviar","Enviar");
-define("LABEL_Cambiar","Guardar alterações");
+define("LABEL_Cambiar","salvar modificações");
 define("LABEL_Anterior","Voltar");
 define("LABEL_AdminUser","Administração de usuários");
 define("LABEL_DatosUser","Dados do usuário");
@@ -292,8 +292,8 @@ define('LABEL_tvocab_tag',"etiqueta para referência");
 define('LABEL_tvocab_uri_service',"URL para web services de referência");
 define('LABEL_targetTermsforUpdate',"termos com atualização pendente");
 define('LABEL_ShowTargetTermsforUpdate',"conferir atualização de termos");
-define('LABEL_enable',"habilitar");
-define('LABEL_disable',"Desabilitar");
+define('LABEL_enable',"habilitado");  /* web services status info: in use */
+define('LABEL_disable',"não habilitado");  /* web services status info: not in use */
 define('LABEL_notFound',"termo não encontrado");
 define('LABEL_termUpdated',"termo atualizado");
 define('LABEL_ShowTargetTermforUpdate',"atualizar");

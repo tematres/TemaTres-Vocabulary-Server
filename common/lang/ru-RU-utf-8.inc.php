@@ -8,8 +8,8 @@
 ###############################################################################################################
 #
 // Translation versioning
-define('LABEL_i18n_MasterDate','2020-05-28'); /* Do not translate. Master language file creation date (YYYY-MM-DD). */
-define('LABEL_i18n_MasterVersion','3.2.0'); /* Do not translate. Master language file version. */
+define('LABEL_i18n_MasterDate','2020-06-18'); /* Do not translate. Master language file creation date (YYYY-MM-DD). */
+define('LABEL_i18n_MasterVersion','3.2.1'); /* Do not translate. Master language file version. */
 define('LABEL_i18n_TranslationVersion','01'); /* Translation language file version. Will be used as a sufix for the language master version number. Can be changed by translators to track minor changes to your translation file */
 define('LABEL_i18n_TranslationAuthor','Community translation for TemaTres'); /* Can be changed by translators. Do not include emails or personal details */
 /* Strings to translate */
@@ -72,7 +72,7 @@ define("LABEL_TerminosUP","нежелательные термины");
 define("LABEL_BuscaTermino","Поиск термина");
 define("LABEL_Buscar","Поиск");
 define("LABEL_Enviar","Отправить");
-define("LABEL_Cambiar","Save changes");
+define("LABEL_Cambiar","Сохранить изменения");
 define("LABEL_Anterior","назад");
 define("LABEL_AdminUser","Администратор пользователей");
 define("LABEL_DatosUser","Данные пользователя");
@@ -214,7 +214,7 @@ define("MSG_ERROR_ESTADO","несоответствующий статус");
 define("LABEL_Candidatos","предлагаемые термины");
 define("LABEL_Aceptados","одобренные термины");
 define("LABEL_Rechazados","отклоненные термины");
-define("LABEL_User_NoHabilitado","отключить");
+define("LABEL_User_NoHabilitado","Отключён");
 define("LABEL_User_Habilitado","включить");
 
 define("LABEL_CandidatearTermino","предложить термин");
@@ -292,8 +292,8 @@ define('LABEL_tvocab_tag',"тэг для справки");
 define('LABEL_tvocab_uri_service',"URL для ссылки на интернет-услуги");
 define('LABEL_targetTermsforUpdate',"термины с ожиданием обновления");
 define('LABEL_ShowTargetTermsforUpdate',"проверить обновление терминов");
-define('LABEL_enable',"доступен");
-define('LABEL_disable',"отключить");
+define('LABEL_enable',"включить");  /* web services status info: in use */
+define('LABEL_disable',"Отключён");  /* web services status info: not in use */
 define('LABEL_notFound',"термин не найден");
 define('LABEL_termUpdated',"термин обновлен");
 define('LABEL_ShowTargetTermforUpdate',"обновить");

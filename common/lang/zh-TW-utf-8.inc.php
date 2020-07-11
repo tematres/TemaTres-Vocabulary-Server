@@ -8,8 +8,8 @@
 ###############################################################################################################
 #
 // Translation versioning
-define('LABEL_i18n_MasterDate','2020-05-28'); /* Do not translate. Master language file creation date (YYYY-MM-DD). */
-define('LABEL_i18n_MasterVersion','3.2.0'); /* Do not translate. Master language file version. */
+define('LABEL_i18n_MasterDate','2020-06-18'); /* Do not translate. Master language file creation date (YYYY-MM-DD). */
+define('LABEL_i18n_MasterVersion','3.2.1'); /* Do not translate. Master language file version. */
 define('LABEL_i18n_TranslationVersion','01'); /* Translation language file version. Will be used as a sufix for the language master version number. Can be changed by translators to track minor changes to your translation file */
 define('LABEL_i18n_TranslationAuthor','Community translation for TemaTres'); /* Can be changed by translators. Do not include emails or personal details */
 /* Strings to translate */
@@ -72,7 +72,7 @@ define("LABEL_TerminosUP","非正式词");
 define("LABEL_BuscaTermino","搜索词条");
 define("LABEL_Buscar","搜索词条");
 define("LABEL_Enviar","提交");
-define("LABEL_Cambiar","Save changes");
+define("LABEL_Cambiar","保存更改");
 define("LABEL_Anterior","返回");
 define("LABEL_AdminUser","用户管理");
 define("LABEL_DatosUser","用户数据");
@@ -292,8 +292,8 @@ define('LABEL_tvocab_tag',"参照标签");
 define('LABEL_tvocab_uri_service',"Web Services参照URL");
 define('LABEL_targetTermsforUpdate',"待更新词条");
 define('LABEL_ShowTargetTermsforUpdate',"检查词条更新");
-define('LABEL_enable',"可用");
-define('LABEL_disable',"禁用");
+define('LABEL_enable',"启用");  /* web services status info: in use */
+define('LABEL_disable',"禁用");  /* web services status info: not in use */
 define('LABEL_notFound',"词条未找到");
 define('LABEL_termUpdated',"词条已更新");
 define('LABEL_ShowTargetTermforUpdate',"更新");

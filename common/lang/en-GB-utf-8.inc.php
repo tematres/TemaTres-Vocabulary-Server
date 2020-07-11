@@ -8,8 +8,8 @@
 ###############################################################################################################
 #
 // Translation versioning
-define('LABEL_i18n_MasterDate','2020-05-28'); /* Do not translate. Master language file creation date (YYYY-MM-DD). */
-define('LABEL_i18n_MasterVersion','3.2.0'); /* Do not translate. Master language file version. */
+define('LABEL_i18n_MasterDate','2020-06-18'); /* Do not translate. Master language file creation date (YYYY-MM-DD). */
+define('LABEL_i18n_MasterVersion','3.2.1'); /* Do not translate. Master language file version. */
 define('LABEL_i18n_TranslationVersion','01'); /* Translation language file version. Will be used as a sufix for the language master version number. Can be changed by translators to track minor changes to your translation file */
 define('LABEL_i18n_TranslationAuthor','Community translation for TemaTres'); /* Can be changed by translators. Do not include emails or personal details */
 /* Strings to translate */
@@ -292,8 +292,8 @@ define('LABEL_tvocab_tag',"tag for the reference");
 define('LABEL_tvocab_uri_service',"URL for the web services reference");
 define('LABEL_targetTermsforUpdate',"terms with pending update");
 define('LABEL_ShowTargetTermsforUpdate',"check terms update");
-define('LABEL_enable',"available");
-define('LABEL_disable',"disable");
+define('LABEL_enable',"enable");  /* web services status info: in use */
+define('LABEL_disable',"disable");  /* web services status info: not in use */
 define('LABEL_notFound',"term not found");
 define('LABEL_termUpdated',"term updated");
 define('LABEL_ShowTargetTermforUpdate',"update");

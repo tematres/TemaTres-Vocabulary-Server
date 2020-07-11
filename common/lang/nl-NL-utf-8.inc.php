@@ -8,8 +8,8 @@
 ###############################################################################################################
 #
 // Translation versioning
-define('LABEL_i18n_MasterDate','2020-05-28'); /* Do not translate. Master language file creation date (YYYY-MM-DD). */
-define('LABEL_i18n_MasterVersion','3.2.0'); /* Do not translate. Master language file version. */
+define('LABEL_i18n_MasterDate','2020-06-18'); /* Do not translate. Master language file creation date (YYYY-MM-DD). */
+define('LABEL_i18n_MasterVersion','3.2.1'); /* Do not translate. Master language file version. */
 define('LABEL_i18n_TranslationVersion','01'); /* Translation language file version. Will be used as a sufix for the language master version number. Can be changed by translators to track minor changes to your translation file */
 define('LABEL_i18n_TranslationAuthor','Community translation for TemaTres'); /* Can be changed by translators. Do not include emails or personal details */
 /* Strings to translate */
@@ -40,7 +40,7 @@ define("MENU_AgregarTE","Ondergeschikte term");
 define("MENU_AgregarTR","Gerelateerde term");
 define("MENU_AgregarUP","Niet geprefereerde term");  /* Non-descriptor */
 define("MENU_MisDatos","Mijn account");
-define("MENU_Caducar","disable");
+define("MENU_Caducar","uitschakelen");
 define("MENU_Habilitar","Activeer");
 define("MENU_Salir","Uitloggen");
 define("LABEL_Menu","Menu");
@@ -72,7 +72,7 @@ define("LABEL_TerminosUP","niet geprefereerde termen");
 define("LABEL_BuscaTermino","Zoekterm");
 define("LABEL_Buscar","Zoek");
 define("LABEL_Enviar","Voer in");
-define("LABEL_Cambiar","Save changes");
+define("LABEL_Cambiar","Wijzigingen opslaan");
 define("LABEL_Anterior","terug");
 define("LABEL_AdminUser","Gebruikersadmin");
 define("LABEL_DatosUser","Gebruikersdata");
@@ -269,7 +269,7 @@ define('LABEL_DesdeFecha',"created on or after");
 define('LABEL_ProfundidadTermino',"is located in the level of deep");
 define('LABEL_esNoPreferido',"non preferred term");
 define('LABEL_BusquedaAvanzada',"advanced search");
-define('LABEL_Todos',"all");
+define('LABEL_Todos',"alle");
 define('LABEL_QueBuscar',"what to search?");
 define("LABEL_import","import") ;
 define("IMPORT_form_legend","import thesaurus from file") ;
@@ -292,8 +292,8 @@ define('LABEL_tvocab_tag',"tag for the reference");
 define('LABEL_tvocab_uri_service',"URL for the web services reference");
 define('LABEL_targetTermsforUpdate',"terms with pending update");
 define('LABEL_ShowTargetTermsforUpdate',"check terms update");
-define('LABEL_enable',"Activeer");
-define('LABEL_disable',"disable");
+define('LABEL_enable',"actief");  /* web services status info: in use */
+define('LABEL_disable',"niet actief");  /* web services status info: not in use */
 define('LABEL_notFound',"term not found");
 define('LABEL_termUpdated',"term updated");
 define('LABEL_ShowTargetTermforUpdate',"update");

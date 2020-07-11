@@ -8,8 +8,8 @@
 ###############################################################################################################
 #
 // Translation versioning
-define('LABEL_i18n_MasterDate','2020-05-28'); /* Do not translate. Master language file creation date (YYYY-MM-DD). */
-define('LABEL_i18n_MasterVersion','3.2.0'); /* Do not translate. Master language file version. */
+define('LABEL_i18n_MasterDate','2020-06-18'); /* Do not translate. Master language file creation date (YYYY-MM-DD). */
+define('LABEL_i18n_MasterVersion','3.2.1'); /* Do not translate. Master language file version. */
 define('LABEL_i18n_TranslationVersion','01'); /* Translation language file version. Will be used as a sufix for the language master version number. Can be changed by translators to track minor changes to your translation file */
 define('LABEL_i18n_TranslationAuthor','Community translation for TemaTres'); /* Can be changed by translators. Do not include emails or personal details */
 /* Strings to translate */
@@ -72,7 +72,7 @@ define("LABEL_TerminosUP","Baliokide terminoak");
 define("LABEL_BuscaTermino","Terminoa bilatzea");
 define("LABEL_Buscar","Bilatzea");
 define("LABEL_Enviar","Bidaltzea");
-define("LABEL_Cambiar","Save changes");
+define("LABEL_Cambiar","Aldaketak gorde");
 define("LABEL_Anterior","Aurrekoa");
 define("LABEL_AdminUser","ErabiltzaileenAdministrazioa");
 define("LABEL_DatosUser","ErabiltzailearenDatuak");
@@ -292,8 +292,8 @@ define('LABEL_tvocab_tag',"etiqueta de la referencia");
 define('LABEL_tvocab_uri_service',"URL del servicio web de referencia");
 define('LABEL_targetTermsforUpdate',"términos con actualizaciones pendientes");
 define('LABEL_ShowTargetTermsforUpdate',"actualizar términos");
-define('LABEL_enable',"Prestatzea");
-define('LABEL_disable',"Epea amaitzea");
+define('LABEL_enable',"Prestatuta");  /* web services status info: in use */
+define('LABEL_disable',"Prestatuta ez");  /* web services status info: not in use */
 define('LABEL_notFound',"término no encontrado");
 define('LABEL_termUpdated',"término actualizado");
 define('LABEL_ShowTargetTermforUpdate',"actualizar");

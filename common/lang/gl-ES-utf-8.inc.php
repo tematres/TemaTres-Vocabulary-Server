@@ -8,8 +8,8 @@
 ###############################################################################################################
 #
 // Translation versioning
-define('LABEL_i18n_MasterDate','2020-05-28'); /* Do not translate. Master language file creation date (YYYY-MM-DD). */
-define('LABEL_i18n_MasterVersion','3.2.0'); /* Do not translate. Master language file version. */
+define('LABEL_i18n_MasterDate','2020-06-18'); /* Do not translate. Master language file creation date (YYYY-MM-DD). */
+define('LABEL_i18n_MasterVersion','3.2.1'); /* Do not translate. Master language file version. */
 define('LABEL_i18n_TranslationVersion','01'); /* Translation language file version. Will be used as a sufix for the language master version number. Can be changed by translators to track minor changes to your translation file */
 define('LABEL_i18n_TranslationAuthor','Community translation for TemaTres'); /* Can be changed by translators. Do not include emails or personal details */
 /* Strings to translate */
@@ -72,7 +72,7 @@ define("LABEL_TerminosUP","termos equivalentes");
 define("LABEL_BuscaTermino","Buscar termo");
 define("LABEL_Buscar","Buscar");
 define("LABEL_Enviar","Enviar");
-define("LABEL_Cambiar","Save changes");
+define("LABEL_Cambiar","Gardar cambios");
 define("LABEL_Anterior","anterior");
 define("LABEL_AdminUser","Administración de usuarios");
 define("LABEL_DatosUser","Datos do usuario");
@@ -292,8 +292,8 @@ define('LABEL_tvocab_tag',"etiqueta de la referencia");
 define('LABEL_tvocab_uri_service',"URL del servicio web de referencia");
 define('LABEL_targetTermsforUpdate',"términos con actualizaciones pendientes");
 define('LABEL_ShowTargetTermsforUpdate',"actualizar términos");
-define('LABEL_enable',"Habilitar");
-define('LABEL_disable',"Caducar");
+define('LABEL_enable',"habilitado");  /* web services status info: in use */
+define('LABEL_disable',"non habilitado");  /* web services status info: not in use */
 define('LABEL_notFound',"término no encontrado");
 define('LABEL_termUpdated',"término actualizado");
 define('LABEL_ShowTargetTermforUpdate',"actualizar");
@@ -540,8 +540,8 @@ define('LABEL__ENABLE_COPY_CLICK','Enable button to copy terms to the clipboard.
 #v.3.2
 define('LABEL_order','order');
 define('LABEL_alias','alias');
-define('LEGEND_alias','enter a short alias');
-define('LABEL_src_note','source');
+define('LEGEND_alias','consigne un alias breve');
+define('LABEL_src_note','fonte');
 define('LEGEND_src_note','enter a bibliographic citation');
 define('LABEL_source','normalized sources of authority');
 define('LABEL_source4term','reference sources for terms');

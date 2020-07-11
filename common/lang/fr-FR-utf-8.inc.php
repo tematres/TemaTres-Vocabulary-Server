@@ -8,8 +8,8 @@
 ###############################################################################################################
 #
 // Translation versioning
-define('LABEL_i18n_MasterDate','2020-05-28'); /* Do not translate. Master language file creation date (YYYY-MM-DD). */
-define('LABEL_i18n_MasterVersion','3.2.0'); /* Do not translate. Master language file version. */
+define('LABEL_i18n_MasterDate','2020-06-18'); /* Do not translate. Master language file creation date (YYYY-MM-DD). */
+define('LABEL_i18n_MasterVersion','3.2.1'); /* Do not translate. Master language file version. */
 define('LABEL_i18n_TranslationVersion','01'); /* Translation language file version. Will be used as a sufix for the language master version number. Can be changed by translators to track minor changes to your translation file */
 define('LABEL_i18n_TranslationAuthor','Traduction collaborative pour TemaTres'); /* Can be changed by translators. Do not include emails or personal details */
 /* Strings to translate */
@@ -72,7 +72,7 @@ define("LABEL_TerminosUP","termes non-préférentiels");
 define("LABEL_BuscaTermino","Valeur");
 define("LABEL_Buscar","Chercher");
 define("LABEL_Enviar","Valider");
-define("LABEL_Cambiar","Save changes");
+define("LABEL_Cambiar","Enregistrer les modifications");
 define("LABEL_Anterior","◄ Page précédente");
 define("LABEL_AdminUser","Administration des utilisateurs");
 define("LABEL_DatosUser","Profil de l'utilisateur");
@@ -214,8 +214,8 @@ define("MSG_ERROR_ESTADO","non autorisée status");
 define("LABEL_Candidatos","termes candidats");
 define("LABEL_Aceptados","termes acceptés");
 define("LABEL_Rechazados","termes rejetés");
-define("LABEL_User_NoHabilitado","compte inactif");
-define("LABEL_User_Habilitado","compte actif");
+define("LABEL_User_NoHabilitado","inactif");
+define("LABEL_User_Habilitado","actif");
 
 define("LABEL_CandidatearTermino","Proposer le terme comme candidat");
 define("LABEL_AceptarTermino","Accepter le terme");
@@ -292,8 +292,8 @@ define('LABEL_tvocab_tag',"étiquette p");
 define('LABEL_tvocab_uri_service',"URL du service web");
 define('LABEL_targetTermsforUpdate',"termes à Mise à jour");
 define('LABEL_ShowTargetTermsforUpdate',"vérifier les mises à jour");
-define('LABEL_enable',"Autoriser");
-define('LABEL_disable',"Expirer");
+define('LABEL_enable',"actif");  /* web services status info: in use */
+define('LABEL_disable',"inactif");  /* web services status info: not in use */
 define('LABEL_notFound',"terme non trouvé");
 define('LABEL_termUpdated',"terme mis à jour");
 define('LABEL_ShowTargetTermforUpdate',"Mise à jour");
@@ -538,14 +538,14 @@ define('LABEL_prototypeTerms','termes centraux');
 define('LABEL_copy_click','copier le terme dans le presse-papier');
 define('LABEL__ENABLE_COPY_CLICK','Activer le bouton de copie des termes dans le presse-papier.');
 #v.3.2
-define('LABEL_order','order');
+define('LABEL_order','ordre');
 define('LABEL_alias','alias');
-define('LEGEND_alias','enter a short alias');
+define('LEGEND_alias','saisissez un alias court');
 define('LABEL_src_note','source');
-define('LEGEND_src_note','enter a bibliographic citation');
-define('LABEL_source','normalized sources of authority');
-define('LABEL_source4term','reference sources for terms');
-define('LABEL_add_new','add new');
-define('LABEL_sources4vocab','reference sources');
+define('LEGEND_src_note','Saisissez la référence bibliographique');
+define('LABEL_source','sources d\'autorité normalisées');
+define('LABEL_source4term','sources de référence pour les termes');
+define('LABEL_add_new','Ajouter');
+define('LABEL_sources4vocab','sources de référence');
 define('LABEL_update2_2x3_2','mise à jour 2.x -> 3.2');
 ?>
