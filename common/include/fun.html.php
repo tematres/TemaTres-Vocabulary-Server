@@ -357,7 +357,8 @@ function HTMLmenuCustumRel($tema_id, $arrayDataRelation)
 
 
 /** home page for term */
-function HTMLbodyTermino($array) {
+function HTMLbodyTermino($array)
+{
 
     global $MSG_ERROR_RELACION;
     global $CFG;
@@ -1791,6 +1792,7 @@ function getData4jtree($term_id = 0)
 function HTMLtermMetadata($arrayTerm, $arrayCantRelaciones)
 {
     global $CFG;
+
     $fecha_crea=do_fecha($arrayTerm["cuando"]);
     $fecha_estado=do_fecha($arrayTerm["cuando_estado"]);
     $body.='<dl class="dl-horizontal">';
@@ -1816,10 +1818,9 @@ function HTMLtermMetadata($arrayTerm, $arrayCantRelaciones)
     $body.='<dt>'.ucfirst(LABEL_totalTermsDescendants).'</dt>';
     $body.='<dd> '.cantChildTerms($arrayTerm["idTema"]).'</dd>';
 
-    if($_SESSION["CFG_ARK_NAAN"]) {
-        $ark=Parser_tema_id2ark($arrayTerm["idTema"]);
+    if ($_SESSION["CFG_ARK_NAAN"]) {
         $body.='<dt>ARK</dt>';
-        $body.='<dd> <a id="uri_ark" href="'.$_SESSION["CFGURL"].'?ark='.$ark.'">'.$ark.'</a> '.HTMLcopyClick("uri_ark" ,array("isMetaTerm"=>0,"isValidTerm"=>1,"copy_click"=>1)) .'</dd>';
+        $body.='<dd> <a id="uri_ark" href="'.$_SESSION["CFGURL"].'?ark='.'ark:/'.NAAN.$arrayTerm["tema_hash"].'">'.'ark:/'.NAAN.$arrayTerm["tema_hash"].'</a> '.HTMLcopyClick("uri_ark", array("isMetaTerm"=>0,"isValidTerm"=>1,"copy_click"=>1)) .'</dd>';
     }
 
     $body.='<dt>'.ucfirst(LABEL_narrowerTerms).'</dt>';
@@ -2497,7 +2498,7 @@ function HTMLsummary()
     }
       
     if ($_SESSION["CFG_ARK_NAAN"]) {
-        $rows.='<tr><th>NAAN</th><td>'.$_SESSION["CFG_ARK_NAAN"].'</td></tr>';
+        $rows.='<tr><th>NAAN</th><td>'.NAAN.'</td></tr>';
     }
       
 

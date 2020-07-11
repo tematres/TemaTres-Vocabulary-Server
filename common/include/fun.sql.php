@@ -620,6 +620,7 @@ function ARRAYverDatosTermino($tema_id)
         "tema.tema_id as idTema,
 	tema.code,
 	tema.tema,
+	tema.tema_hash,
 	if(relaciones.id is null,'TT','PT') as tipo_termino,
 	tema.cuando,
 	tema.uid,
@@ -647,6 +648,7 @@ function ARRAYverDatosTermino($tema_id)
         $arrayDatos["tema_id"]=$array["idTema"];
         $arrayDatos["code"]=$array["code"];
         $arrayDatos["titTema"]=$array["tema"];
+        $arrayDatos["tema_hash"]=$array["tema_hash"];
         $arrayDatos["descTema"]=$array["desc_tema"];
         $arrayDatos["tipoTema"]=$array["tipo_termino"];
         $arrayDatos["supraTema"]=$array["id_mayor"];
@@ -2820,8 +2822,8 @@ function SQLreCreateTermIndex()
     //1) code null
     $sql=SQL("update", " $DBCFG[DBprefix]tema set code=null where length(code)<1 ");
     //2) change date 0000
-    $sql=SQL("update", " $DBCFG[DBprefix]tema set cuando_final=null where cuando_final='0000-00-00' ");
-    $sql=SQL("update", " $DBCFG[DBprefix]tema set cuando=now() where cuando='0000-00-00' ");
+    $sql=SQL("update", " $DBCFG[DBprefix]tema set cuando_final=null where cuando_final='0000-00-00 00:00:00' ");
+    $sql=SQL("update", " $DBCFG[DBprefix]tema set cuando=now() where cuando='0000-00-00 00:00:00' ");
 
     $sqlNotes=SQL("select", "n.id,n.nota from $DBCFG[DBprefix]notas n ");
 
@@ -2863,6 +2865,9 @@ function SQLupdateTemaTresVersion($ver2ver)
     switch ($ver2ver) {
         case '2_2x3_2':
             $sql2_2x3_2a=SQL("ALTER", " TABLE `".$prefix."notas` ADD `src_id` int(22) NULL,ADD INDEX ( `src_id` );");
+            $sql2_2x3_2aa=SQL("update", " `".$prefix."tema` set cuando_final=NULL where  cuando_final='0000-00-00 00:00:00'");
+            $sql2_2x3_2aaa=SQL("ALTER", " TABLE `".$prefix."tema` ADD `tema_hash` VARCHAR(12) CHARACTER SET utf8 COLLATE utf8_general_ci NULL AFTER `tema`, ADD UNIQUE `ndx_hash` (`tema_hash`);");
+
 
             $sql2_2x3_2b=SQL(
                 "CREATE",
@@ -2883,13 +2888,23 @@ function SQLupdateTemaTresVersion($ver2ver)
 
             $ctrl=ARRAYfetchValue('METADATA', 'CFG_ARK_NAAN');
 
+            $local_naan=hashmaker(NAAN, $_SESSION["CFGURL"]);
+
             if (!$ctrl["value_id"]) {
                 $sqlvalue=SQL(
                     "insert",
                     "into `".$prefix."values` (`value_type`, `value`, `value_order`, `value_code`) VALUES
-				('METADATA', '', NULL, 'CFG_ARK_NAAN')"
+				('METADATA', '".$local_naan."', NULL, 'CFG_ARK_NAAN')"
                 );
-            }            
+            }
+
+            $sql_hash=SQL("select", "tema_id from ".$prefix."tema");
+
+            while ($array2hash=$sql_hash->FetchRow()) {
+                $hasterm=hashmaker($local_naan, $array2hash["tema_id"]);
+
+                $sql=SQL("update", " `".$prefix."tema` set tema_hash='".$hasterm."' where tema_id=$array2hash[tema_id]");
+            }
             break;
 
         case '1_6x1_7':
@@ -3210,7 +3225,7 @@ function SQLupdateTemaTresVersion($ver2ver)
 
 
         case '1x1_2':
-            //update to 1.1
+        //update to 1.1
             $result60=SQL("ALTER", " TABLE `".$prefix."tema` ADD `code` VARCHAR( 30 ) NULL COMMENT 'code_term' AFTER `tema_id`");
             $result601=SQL("ALTER", " TABLE `".$prefix."tema` ADD INDEX ( `code` )");
 
@@ -3275,11 +3290,10 @@ function SQLupdateTemaTresVersion($ver2ver)
 
 
         case '1x1_2':
-            //update to 1.1
+        //update to 1.1
             $result60 =SQL("ALTER", " TABLE `".$prefix."tema` ADD `code` VARCHAR( 20 ) NULL COMMENT 'code_term' AFTER `tema_id`");
             $result601 =SQL("ALTER", " TABLE `".$prefix."tema` ADD INDEX ( `code` )");
-
-
+            
 
             $result61 = SQL(
                 "CREATE",
@@ -3342,10 +3356,10 @@ function SQLupdateTemaTresVersion($ver2ver)
 
         default:
             return false;
-        break;
+                break;
     }
 
-    return $logTask;
+                return $logTask;
 }
 
 
@@ -3357,9 +3371,9 @@ function ARRAYtargetVocabulary($tvocab_id)
     return $sql->FetchRow();
 }
 
-/*
-data about target vocabularies providers
-*/
+                /*
+                data about target vocabularies providers
+                */
 function SQLtargetVocabulary($tvocab_status = "1", $tvocab_id = "0")
 {
     global $DBCFG;
@@ -3447,9 +3461,9 @@ function SQLtargetTermsVocabulary($tvocab_id, $from = "0", $limit = "20")
 }
 
 
-/*
-terms who arent mapped to specific external target vocabulary
-*/
+                /*
+                terms who arent mapped to specific external target vocabulary
+                */
 function SQLtermsNoMapped($tesauro_id, $tvocab_id)
 {
     global $DBCFG;
@@ -3473,10 +3487,10 @@ function SQLtermsNoMapped($tesauro_id, $tvocab_id)
 }
 
 
-/*
-* Search terms for specific foreign URI provided by target vocabulary
-*
-*/
+                /*
+                * Search terms for specific foreign URI provided by target vocabulary
+                *
+                */
 function SQLsourceTermsByURI($URI_term)
 {
     global $DBCFG;
@@ -3495,10 +3509,10 @@ function SQLsourceTermsByURI($URI_term)
     );
 }
 
-/*
-* Search terms for specific foreign term provided by ANY target vocabulary
-*
-*/
+                /*
+                * Search terms for specific foreign term provided by ANY target vocabulary
+                *
+                */
 function SQLsourceTermsByTerm($term)
 {
     global $DBCFG;
@@ -3518,9 +3532,9 @@ function SQLsourceTermsByTerm($term)
 }
 
 
-/*
-terms by status (only candidate or reject)
-*/
+                /*
+                terms by status (only candidate or reject)
+                */
 function SQLtermsXstatus($tesauro_id, $status_id)
 {
     global $DBCFG;
@@ -3535,7 +3549,7 @@ function SQLtermsXstatus($tesauro_id, $status_id)
 
 
 
-    //term no mapped and no UF or EQ
+//term no mapped and no UF or EQ
     return SQL(
         "select",
         "t.tema_id, $show_code t.tema,t.cuando,t.isMetaTerm, concat(u.APELLIDO,', ',u.NOMBRES) as user_data,v.value as status,t.cuando_estado
@@ -3552,9 +3566,9 @@ function SQLtermsXstatus($tesauro_id, $status_id)
 
 
 
-/*
-terms with more than one BT
-*/
+                /*
+                terms with more than one BT
+                */
 function SQLpoliBT()
 {
     global $DBCFG;
@@ -3573,9 +3587,9 @@ function SQLpoliBT()
 }
 
 
-/*
-preferred and accepted terms with the number of narrower terms
-*/
+                /*
+                preferred and accepted terms with the number of narrower terms
+                */
 function SQLtermsXcantNT()
 {
     global $DBCFG;
@@ -3597,9 +3611,9 @@ function SQLtermsXcantNT()
     );
 }
 
-/*
-preferred and accepted terms without hierarchical relationships
-*/
+                /*
+                preferred and accepted terms without hierarchical relationships
+                */
 function SQLtermsNoBT($tesauro_id)
 {
     global $DBCFG;
@@ -3627,9 +3641,9 @@ function SQLtermsNoBT($tesauro_id)
     );
 }
 
-/*
-preferred and accepted terms with words count
-*/
+                /*
+                preferred and accepted terms with words count
+                */
 function SQLtermsXcantWords($tesauro_id)
 {
     global $DBCFG;
@@ -3652,7 +3666,7 @@ function SQLtermsXcantWords($tesauro_id)
 
 
 
-//get term_id from string in notes
+                //get term_id from string in notes
 function fetchTermIdxNote($string)
 {
     global $DBCFG;
@@ -3674,7 +3688,7 @@ function fetchTermIdxNote($string)
 
 
 
-//get term_id from string
+                //get term_id from string
 function fetchTermId($string, $tesauro_id = "1")
 {
     global $DBCFG;
@@ -3697,7 +3711,7 @@ function fetchTermId($string, $tesauro_id = "1")
 }
 
 
-//get vocabulary config values
+                //get vocabulary config values
 function SQLconfigValues()
 {
     global $DBCFG;
@@ -3710,7 +3724,7 @@ function SQLconfigValues()
 }
 
 
-//get array data about one terminological relation
+                //get array data about one terminological relation
 function ARRAYdataRelation($rel_id)
 {
     global $DBCFG;
@@ -3739,7 +3753,7 @@ function ARRAYdataRelation($rel_id)
 }
 
 
-//data about extended type relations
+                //data about extended type relations
 function SQLtypeRelations($t_relation = 0, $rrel_type_id = 0, $cant = false)
 {
     global $DBCFG;
@@ -3778,7 +3792,7 @@ function SQLtypeRelations($t_relation = 0, $rrel_type_id = 0, $cant = false)
 }
 
 
-//data about extended type relations
+                //data about extended type relations
 function ARRAYtypeRelations($t_relation = 0, $rrel_type_id = 0)
 {
     $sql=SQLtypeRelations($t_relation, $rrel_type_id);
@@ -4746,4 +4760,21 @@ function SQLreportAllSources4Terms()
 		and t.tema_id=n.id_tema
 		order by t.tema"
     );
+}
+
+
+/**L term_id for ark */
+function ARRAYhash($hash)
+{
+    global $DBCFG;
+
+    $hash=secure_data($hash, "ADOsql");
+
+    $sql=SQL(
+        "select",
+        "t.tema_id,t.tema,t.tema_hash
+	from $DBCFG[DBprefix]tema t where t.tema_hash=$hash"
+    );
+
+    return $sql->FetchRow();
 }

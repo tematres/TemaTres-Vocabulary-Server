@@ -105,7 +105,8 @@ if ($_SESSION[$_SESSION["CFGURL"]]["ssuser_nivel"]>0) {
             if ($_POST["id_termino_sub"]) {
                 $proc=associateTerms($_POST["id_termino_sub"], doValue($_POST, FORM_LABEL_termino), "3", $_POST["t_rel_rel_id"]);
                 $tema=$proc["last_term_id"];
-                if (count($proc["arrayDupliTerms"])>0) {
+                //if (count($proc["arrayDupliTerms"])>0) {
+                if (@$proc["arrayDupliTerms"]) {
                     $MSG_PROC_ERROR=HTMLduplicatedTermsAlert($proc["arrayDupliTerms"]);
                 }
             }
@@ -783,6 +784,8 @@ function abm_tema($do, $titu_tema, $tema_id = "")
             $estado_id = (@$_POST["estado_id"]) ? $_POST["estado_id"] : '13';
 
             $tema_id=addTerm($titu_tema, $tesauro_id, $estado_id);
+
+            assignHash($_SESSION["CFG_ARK_NAAN"], $tema_id);
             break;
 
         case 'mod':
@@ -1369,7 +1372,6 @@ if ($_SESSION[$_SESSION["CFGURL"]]["ssuser_nivel"]=='1') {
                     $MODdccontributor=ABM_value("MOD_VALUE", array("value_type"=>'METADATA',"value_code"=>'dc:contributor',"value"=>$_POST["dccontributor"]));
                     $MODdcpublisher=ABM_value("MOD_VALUE", array("value_type"=>'METADATA',"value_code"=>'dc:publisher',"value"=>$_POST["dcpublisher"]));
                     $MODdcrights=ABM_value("MOD_VALUE", array("value_type"=>'METADATA',"value_code"=>'dc:rights',"value"=>$_POST["dcrights"]));
-                    $MODnaan=ABM_value("MOD_VALUE", array("value_type"=>'METADATA',"value_code"=>'CFG_ARK_NAAN',"value"=>$_POST["CFG_ARK_NAAN"]));
                 }
                 break;
 
@@ -1717,15 +1719,15 @@ function HTMLlistaVocabularios()
     $sql=SQLdatosVocabulario(1);
 
 
-    $rows='<div class=""><h2>'.ucfirst(LABEL_lcConfig).' &middot; '.strtolower(LABEL_Opciones).'</h2>';
-    $rows.='<p><ul class="">';
-    $rows.='<li><a title="'.LABEL_lcConfig.' ('.LABEL_metadatos.')" href="admin.php?vocabulario_id=1">'.ucfirst(LABEL_lcConfig).'</a></li>';
-    $rows.='<li><a title="'.LABEL_vocabulario_referencia.'" href="#ref_vocab">'.ucfirst(LABEL_vocabulario_referencia).'</a></li>';
-    $rows.='<li><a title="'.LABEL_vocabulario_referenciaWS.'" href="#target_vocab">'.ucfirst(LABEL_vocabulario_referenciaWS).'</a></li>';
-    $rows.='<li><a title="'.LABEL_configTypeNotes.'" href="#morenotas">'.ucfirst(LABEL_configTypeNotes).'</a></li>';
-    $rows.='<li><a title="'.LABEL_relationEditor.'" href="#morerelations">'.ucfirst(LABEL_relationEditor).'</a></li>';
-    $rows.='<li><a title="'.LABEL_URItypeEditor.'" href="#moreuri">'.ucfirst(LABEL_URItypeEditor).'</a></li>';
-    $rows.='<li><a title="'.LABEL_source.'" href="#source_list">'.ucfirst(LABEL_source).'</a></li>';
+    $rows='<div class="jumbotron jumbotron-fluid" id="list-config"><h2>'.ucfirst(LABEL_lcConfig).' &middot; '.strtolower(LABEL_Opciones).'</h2>';
+    $rows.='<p><ul class="list-group nobullet">';
+    $rows.='<li class=""><a class="list-group-item list-group-item-action" title="'.LABEL_lcConfig.' ('.LABEL_metadatos.')" href="admin.php?vocabulario_id=1">'.ucfirst(LABEL_lcConfig).'</a></li>';
+    $rows.='<li class=""><a class="list-group-item list-group-item-action" title="'.LABEL_vocabulario_referencia.'" href="#ref_vocab">'.ucfirst(LABEL_vocabulario_referencia).'</a></li>';
+    $rows.='<li class=""><a class="list-group-item list-group-item-action" title="'.LABEL_vocabulario_referenciaWS.'" href="#target_vocab">'.ucfirst(LABEL_vocabulario_referenciaWS).'</a></li>';
+    $rows.='<li class=""><a class="list-group-item list-group-item-action" title="'.LABEL_configTypeNotes.'" href="#morenotas">'.ucfirst(LABEL_configTypeNotes).'</a></li>';
+    $rows.='<li class=""><a class="list-group-item list-group-item-action" title="'.LABEL_relationEditor.'" href="#morerelations">'.ucfirst(LABEL_relationEditor).'</a></li>';
+    $rows.='<li class=""><a class="list-group-item list-group-item-action" title="'.LABEL_URItypeEditor.'" href="#moreuri">'.ucfirst(LABEL_URItypeEditor).'</a></li>';
+    $rows.='<li class=""><a class="list-group-item list-group-item-action" title="'.LABEL_source.'" href="#source_list">'.ucfirst(LABEL_source).'</a></li>';
     $rows.='</ul></p>';
     $rows.='</div><hr>';
 
@@ -1770,7 +1772,9 @@ function HTMLlistaInternalTargetVocabularios()
     $sql=SQLinternalTargetVocabs();
 
     $rows.='<div class="table-responsive" id="ref_vocab"> ';
-    $rows.='<h3>'.ucfirst(LABEL_vocabulario_referencia).' ('.SQLcount($sql).') <a class="btn btn-primary btn-xs" href="admin.php?vocabulario_id=0" title="'.LABEL_vocabulario_referencia.'">'.ucfirst(LABEL_Agregar.' '.LABEL_vocabulario_referencia).'</a></h3>';
+    $rows.='<h3>'.ucfirst(LABEL_vocabulario_referencia).' ('.SQLcount($sql).') <a class="btn btn-primary btn-xs" href="admin.php?vocabulario_id=0" title="'.LABEL_vocabulario_referencia.'">'.ucfirst(LABEL_Agregar.' '.LABEL_vocabulario_referencia).'</a> <a href="#list-config" title="'.ucfirst(LABEL_lcConfig).' &middot; '.strtolower(LABEL_Opciones).'"><svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-caret-up-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+  <path d="M7.247 4.86l-4.796 5.481c-.566.647-.106 1.659.753 1.659h9.592a1 1 0 0 0 .753-1.659l-4.796-5.48a1 1 0 0 0-1.506 0z"/>
+</svg></a></h3>';
 
     if (SQLcount($sql)>0) {
         $rows.='<table class="table table-striped table-bordered table-condensed table-hover"  summary="'.LABEL_lcConfig.'">';
@@ -1809,7 +1813,9 @@ function HTMLlistaTargetVocabularios()
 
 
     $rows.='<div class="table-responsive" id="target_vocab"> ';
-    $rows.='<h3>'.ucfirst(LABEL_vocabulario_referenciaWS).' ('.SQLcount($sql).') <a class="btn btn-primary btn-xs" href="admin.php?tvocabulario_id=0&doAdmin=seeformTargetVocabulary" title="'.ucfirst(LABEL_addTargetVocabulary).'">'.ucfirst(LABEL_addTargetVocabulary).'</a></h3>';
+    $rows.='<h3>'.ucfirst(LABEL_vocabulario_referenciaWS).' ('.SQLcount($sql).') <a class="btn btn-primary btn-xs" href="admin.php?tvocabulario_id=0&doAdmin=seeformTargetVocabulary" title="'.ucfirst(LABEL_addTargetVocabulary).'">'.ucfirst(LABEL_addTargetVocabulary).'</a> <a href="#list-config" title="'.ucfirst(LABEL_lcConfig).' &middot; '.strtolower(LABEL_Opciones).'"><svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-caret-up-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+  <path d="M7.247 4.86l-4.796 5.481c-.566.647-.106 1.659.753 1.659h9.592a1 1 0 0 0 .753-1.659l-4.796-5.48a1 1 0 0 0-1.506 0z"/>
+</svg></a></h3>';
 
     if (SQLcount($sql)>0) {
         $rows.='<table class="table table-striped table-bordered table-condensed table-hover"  summary="'.LABEL_lcConfig.'">';
@@ -3138,7 +3144,9 @@ function HTMLformUserNotes()
     $rows.=' <input type="hidden" name="valueid" id="valueid"> ';
 
     $rows.='<div class="table-responsive"> ';
-    $rows.='<h3>'.ucfirst(LABEL_configTypeNotes).' </h3>';
+    $rows.='<h3>'.ucfirst(LABEL_configTypeNotes).'  <a href="#list-config" title="'.ucfirst(LABEL_lcConfig).' &middot; '.strtolower(LABEL_Opciones).'"><svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-caret-up-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+  <path d="M7.247 4.86l-4.796 5.481c-.566.647-.106 1.659.753 1.659h9.592a1 1 0 0 0 .753-1.659l-4.796-5.48a1 1 0 0 0-1.506 0z"/>
+</svg></a></h3>';
     $rows.='<table class="table table-striped table-bordered table-condensed table-hover"  summary="'.ucfirst(LABEL_configTypeNotes).'">';
     $rows.='<thead>';
     $rows.='<tr>';
@@ -3246,7 +3254,9 @@ function HTMLformUserRelations()
     $rows.='<input type="hidden" name="rr_id" id="rr_id"> ';
 
     $rows.='<div class="table-responsive"> ';
-    $rows.='<h3>'.ucfirst(LABEL_relationEditor).' </h3>';
+    $rows.='<h3>'.ucfirst(LABEL_relationEditor).'  <a href="#list-config" title="'.ucfirst(LABEL_lcConfig).' &middot; '.strtolower(LABEL_Opciones).'"><svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-caret-up-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+  <path d="M7.247 4.86l-4.796 5.481c-.566.647-.106 1.659.753 1.659h9.592a1 1 0 0 0 .753-1.659l-4.796-5.48a1 1 0 0 0-1.506 0z"/>
+</svg></a></h3>';
     $rows.='<table class="table table-striped table-bordered table-condensed table-hover"  summary="'.ucfirst(LABEL_relationEditor).'">';
     $rows.='<thead>';
     $rows.='<tr>';
@@ -3334,12 +3344,14 @@ function HTMLformURIdefinition()
 
     $sql=SQLURIdefinition();
 
-    $rows.='<form id="moreURI" name="moreURI" method="POST" action="admin.php?vocabulario_id=list#moreuri">';
+    $rows.='<form id="moreuri" name="moreuri" method="POST" action="admin.php?vocabulario_id=list#moreuri">';
     $rows.='<input type="hidden" name="doAdminU" id="doAdminU" value=""> ';
     $rows.='<input type="hidden" name="uri_type_id" id="uri_type_id"> ';
 
     $rows.='<div class="table-responsive"> ';
-    $rows.='<h3>'.ucfirst(LABEL_URItypeEditor).' </h3>';
+    $rows.='<h3>'.ucfirst(LABEL_URItypeEditor).'  <a href="#list-config" title="'.ucfirst(LABEL_lcConfig).' &middot; '.strtolower(LABEL_Opciones).'"><svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-caret-up-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+  <path d="M7.247 4.86l-4.796 5.481c-.566.647-.106 1.659.753 1.659h9.592a1 1 0 0 0 .753-1.659l-4.796-5.48a1 1 0 0 0-1.506 0z"/>
+</svg></a></h3>';
     $rows.='<table class="table table-striped table-bordered table-condensed table-hover"  summary="'.ucfirst(LABEL_URItypeEditor).'">';
     $rows.='<thead>';
     $rows.='<tr>';
@@ -4373,3 +4385,15 @@ function abm_sources($do, $src_id = 0, $array = array())
 
     return $sql;
 };
+
+
+/** update term data with hash */
+function assignHash($seed, $tema_id)
+{
+    global $DBCFG;
+
+    $tema_id=secure_data($tema_id, "int");
+    $hash=hashmaker($seed, $tema_id);
+
+    return SQL("update", "$DBCFG[DBprefix]tema set tema_hash='$hash' where tema_id=$tema_id");
+}

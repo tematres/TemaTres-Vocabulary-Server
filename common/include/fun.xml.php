@@ -867,13 +867,15 @@ function do_meta_tag($arrayTermino = "")
     $_SESSION["CFGRights"]=$ARRAYfetchValues["dc:rights"]["value"];
     $_SESSION["CFGPublisher"]=$ARRAYfetchValues["dc:publisher"]["value"];
     
-    $naan=$ARRAYfetchValues["CFG_ARK_NAAN"]["value"];
-    $_SESSION["CFG_ARK_NAAN"]=(strlen($naan)>0) ? $naan : false;
+    $local_naan=$ARRAYfetchValues["CFG_ARK_NAAN"]["value"];
+    $_SESSION["CFG_ARK_NAAN"]=(strlen($local_naan)>0) ? $local_naan : false;
     $_SESSION["CFGlastMod"]=fetchlastMod();
 
     if (isset($_SESSION["CFG_ARK_NAAN"])) {
         if (@isset($_GET["ark"])) {
-            $tema=Parser_ark2term_id($_GET["ark"]);
+            $hash=ark2hash('ark:/'.NAAN, $_GET["ark"]);
+            $hash2tema=ARRAYhash($hash);
+            $tema=$hash2tema["tema_id"];
         }
     }
 
@@ -1663,17 +1665,21 @@ function ARRAYaboutness($term_id = 0)
 }
 
 
+
+
 /** ARK generator */
 function Parser_tema_id2ark($term_id)
 {
-    $naan=$_SESSION["CFG_ARK_NAAN"];
+    $local_naan=$_SESSION["CFG_ARK_NAAN"];
+
+    $naan=NAAN;
 
     $naan=(strpos($naan, "/")>0) ? $naan : $naan.'/';
 
     include_once T3_ABSPATH . 'common/include/Hashids/HashGenerator.php';
     include_once T3_ABSPATH . 'common/include/Hashids/Hashids.php';
 /* create the class object with minimum hashid length of 12 */
-    $hashids = new Hashids\Hashids($naan, 12, 'abcdefghijklmnopqrstuvwxyz0123456789');
+    $hashids = new Hashids\Hashids($local_naan, 12, 'abcdefghijklmnopqrstuvwxyz0123456789');
 
     return 'ark:/'.$naan.$hashids->encode($term_id);
 }
@@ -1681,15 +1687,15 @@ function Parser_tema_id2ark($term_id)
 /** ARK parser */
 function Parser_ark2term_id($ark)
 {
-    $naan=$_SESSION["CFG_ARK_NAAN"];
+    $local_naan=$_SESSION["CFG_ARK_NAAN"];
     $naan=(strpos($naan, "/")>0) ? $naan : $naan.'/';
 
     include_once T3_ABSPATH . 'common/include/Hashids/HashGenerator.php';
     include_once T3_ABSPATH . 'common/include/Hashids/Hashids.php';
-/* minimum hashid length of 12 */
-    $hashids = new Hashids\Hashids($naan, 12, 'abcdefghijklmnopqrstuvwxyz0123456789');
+/** minimum hashid length of 12 */
+    $hashids = new Hashids\Hashids($local_naan, 12, 'abcdefghijklmnopqrstuvwxyz0123456789');
     $ark=str_replace('ark:/'.$naan, "", $ark);
     $array_ark=$hashids->decode($ark);
-
+    
     return $array_ark[0];
 }

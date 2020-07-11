@@ -178,7 +178,9 @@ function checkInstall($lang)
 
 function SQLtematres($DBCFG, $DB, $arrayInstallData = array())
 {
-    /** Si se establecio un charset para la conexion */ 
+    include_once T3_ABSPATH . 'common/include/fun.gral.php';
+
+    /** Si se establecio un charset para la conexion */
     $dbcharset = (@$DBCFG["DBcharset"]) ? (@$DBCFG["DBcharset"]) : 'utf8';
     
     $DB->Execute("SET NAMES $dbcharset");
@@ -274,15 +276,17 @@ function SQLtematres($DBCFG, $DB, $arrayInstallData = array())
           `tema_id` int(10) NOT NULL auto_increment,
           `code` VARCHAR( 150 ) NULL COMMENT 'code_term' ,
           `tema` varchar(250) default NULL,
+          `tema_hash` varchar(12) DEFAULT NULL,          
           `tesauro_id` int(5) NOT NULL ,
           `uid` tinyint(3) unsigned NOT NULL ,
-          `cuando` datetime NOT NULL ,
+          `cuando` datetime NULL ,
           `uid_final` int(5) unsigned default NULL,
           `cuando_final` datetime default NULL,
           `estado_id` int(5) NOT NULL default 13,
           `cuando_estado` datetime NOT NULL ,
-            `isMetaTerm` BOOLEAN NOT NULL DEFAULT FALSE,
+          `isMetaTerm` BOOLEAN NOT NULL DEFAULT FALSE,
           PRIMARY KEY  (`tema_id`),
+          UNIQUE KEY `ndx_hash` (`tema_hash`),          
           KEY ( `code` ),
           KEY `tema` (`tema`),
           KEY `cuando` (`cuando`,`cuando_final`),
@@ -391,6 +395,10 @@ function SQLtematres($DBCFG, $DB, $arrayInstallData = array())
       ) ENGINE=$engine CHARSET=$dbcharset COMMENT='Normalized authority sources for notes';"
     );
 
+
+
+    $local_naan=hashmaker(NAAN, NAAN.getURLbaseInstall());
+
     $result10b = $DB->Execute(
         "INSERT INTO `".$prefix."values` (`value_id`, `value_type`, `value`, `value_order`, `value_code`) VALUES (2, 't_relacion', 'Termino relacionado', NULL, 'TR'),
         (3, 't_relacion', 'Termino superior', NULL, 'TG'),
@@ -443,7 +451,7 @@ function SQLtematres($DBCFG, $DB, $arrayInstallData = array())
         (50, 'config', 'CFG_ALLOW_DUPLICATED', NULL, '0'),
         (51, 't_nota', 'Example note', 6, 'EX'),
         (52, 'config', 'COPY_CLICK', NULL, '1'),
-        (53, 'METADATA', NULL, NULL, 'CFG_ARK_NAAN');"
+        (53, 'METADATA', '$local_naan', NULL, 'CFG_ARK_NAAN');"
     );
 
     //If create table --> insert data
@@ -617,13 +625,6 @@ function HTMLformInstall($lang_install)
 
   <script type="text/javascript" src="<?php echo T3_WEBPATH;?>forms/jquery.validate.min.js"></script>
 
-
-    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-    <![endif]-->
     <?php echo $metadata["metadata"]; ?>
   <link type="image/x-icon" href="<?php echo T3_WEBPATH;?>images/tematres.ico" rel="icon" />
   <link type="image/x-icon" href="<?php echo T3_WEBPATH;?>images/tematres.ico" rel="shortcut icon" />

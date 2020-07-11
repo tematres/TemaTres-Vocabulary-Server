@@ -12,7 +12,7 @@ if ((stristr($_SERVER['REQUEST_URI'], "session.php") ) || ( !defined('T3_ABSPATH
 
 $CFG["Version"]        = "TemaTres 3.2";
 
-$CFG["VersionWebService"]        = "1.8";
+$CFG["VersionWebService"]        = "1.9";
 
 // ID del Tesauro por DEFAULT
 $CFG["DFT_TESA"] ='1';
@@ -43,6 +43,10 @@ $CFG["REL_SYMBOLS"]=array("BT"=>'↑',"NT"=>'↓',"UF"=>'↸',"RT"=>'⇆');
 
 // Google Analytics  GA_TRACKING_ID, Default false=0
 $CFG["GA_TRACKING_ID"] ='0';
+
+// Default NAAN assigned by ARK agency https://n2t.net/e/pub/naan_table.html
+define('NAAN', '99152/t3');
+
 
 // Enable copy the string value of valid terms with on click. Default true=1
 //$CFG["COPY_CLICK"] ='1';
@@ -175,8 +179,7 @@ $CFG["SEARCH_URL_SITES_SINTAX"] = array(
         'favicon' => 'delicious.png',
         'leyenda' => 'del.icio.us',
         'url' => 'http://del.icio.us/search/?fr=del_icio_us&amp;p=STRING_BUSQUEDA&amp;type=all',
-        'encode'=>'utf8'
-    ),
+        'encode'=>'utf8'),
 
     'e-lis' => array(
         'favicon' => 'e-lis_mini.png',
@@ -250,9 +253,9 @@ $CFG["SEARCH_URL_SITES_SINTAX"] = array(
         'url' => 'http://www-biblio.inti.gob.ar/cgi-bin/wxis/wxis.exe?IsisScript=descri.xis&bool=STRING_BUSQUEDA&base=kardex&inf=1&sup=20',
         'encode'=>true
     )
-);
+    );
 
 //
 // Reporte de errores pero no de noticias (variables no inicializadas);
-error_reporting(E_ALL ^ E_NOTICE);
+    error_reporting(E_ALL ^ E_NOTICE);
 //

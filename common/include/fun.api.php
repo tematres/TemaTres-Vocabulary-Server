@@ -69,6 +69,42 @@ class XMLvocabularyServices
         return $result;
     }
 
+
+
+    function fetchSources()
+    {
+        $sql=SQLreportAllSources();
+
+        while ($array=$sql->FetchRow()) {
+                $result["result"][]= array(
+                 "src_id"=>$array["src_internal_id"],
+                 "alias"=>$array["alias"],
+                 "note"=>$array["source_note"],
+                 "url"=>$array["source_url"],
+                 "status"=>($array["status"]==1) ? "true" : "false",
+                 "created"=>$array["src_date"],
+                 "modified"=>$array["mod_date"],
+                 "assoc_notes"=>$array["cant_notes"]
+                );
+        }
+
+        return $result;
+    }
+
+    function fetchTerm4Source($src_id)
+    {
+        $sql=SQLterms4src($src_id);
+
+        while ($array=$sql->FetchRow()) {
+                $result["result"][]= array(
+                 "term_id"=>$array["tema_id"],
+                 "string"=>$array["tema"]
+                );
+        }
+
+        return $result;
+    }
+
     // Devuelve array de términos de búsqueda exacta
     // array(tema_id,string,no_term_string,relation_type_id,order)
     function fetchExactTerm($string)
@@ -848,10 +884,15 @@ class XMLvocabularyServices
         $array['termsSince']['arg'] = 'date from do you want to obtain data';
         $array['termsSince']['example'] = $_SESSION["CFGURL"].'services.php?task=termsSince&arg=2017-04-05';
 
-        $array['relationsSince']['action'] = 'Retrieve data about terminological relations who was created or modified since given date';
-        $array['relationsSince']['task'] = 'relationsSince';
-        $array['relationsSince']['arg'] = 'date from do you want to obtain data';
-        $array['relationsSince']['example'] = $_SESSION["CFGURL"].'services.php?task=relationsSince&arg=2017-04-05';
+        $array['sources']['action'] = 'List of normalized references registered in the vocabulary';
+        $array['sources']['task'] = 'sources';
+        $array['sources']['arg'] = 'none';
+        $array['sources']['example'] = $_SESSION["CFGURL"].'services.php?task=sources';
+
+        $array['source']['action'] = 'terms related to normalized reference';
+        $array['source']['task'] = 'resource';
+        $array['source']['arg'] = 'ID of the resource reference';
+        $array['source']['example'] = $_SESSION["CFGURL"].'services.php?task=source&arg=1';
 
         return $array;
     }
@@ -1050,6 +1091,14 @@ function fetchVocabularyService($task, $arg, $output = "xml")
                 $response = $service-> relationsSinceDate($arg);
                 break;
 
+            case 'sources':
+                $response = $service-> fetchSources();
+                break;
+
+            case 'source':
+                $response = $service-> fetchTerm4Source($arg);
+                break;
+
             default:
                 $response = $service-> describeService();
                 break;
@@ -1124,7 +1173,9 @@ function evalServiceParam($task, $arg)
     "randomTerm"=>"string",
     "letter"=>"string",
     "termsSince"=>"date",
-    "relationsSince"=>"date"
+    "relationsSince"=>"date",
+    "sources"=>"string",
+    "source"=>"string"
     );
 
     //eval task
@@ -1229,6 +1280,14 @@ function evalServiceParam($task, $arg)
 
         case 'relationsSince':
             $response = (is_string($arg)) ? array("task"=>$task,"arg"=>$arg) : array("error"=>"invalid input");
+            break;
+
+        case 'sources':
+            $response = array("task"=>$task,"arg"=>$arg);
+            break;
+
+        case 'source':
+            $response = (is_numeric($arg)) ? array("task"=>$task,"arg"=>$arg) : array("error"=>"invalid input");
             break;
 
         default:

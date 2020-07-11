@@ -97,7 +97,7 @@ $rows.='	<div class="row">
 
     //is main vocab
 if ($array_vocabulario["vocabulario_id"]==1) {
-	$ARRAYcontactMail=ARRAYfetchValue('CONTACT_MAIL');
+    $ARRAYcontactMail=ARRAYfetchValue('CONTACT_MAIL');
 
     $rows.='<div class="form-group">
 	           <label for="dia" class="col-sm-3 control-label">'.ucfirst(LABEL_Fecha).'</label>
@@ -180,18 +180,6 @@ if ($array_vocabulario["vocabulario_id"]==1) {
 		value="'.$array_vocabulario["keywords"].'">
 	                    </div>
 			 </div>';
-    $rows.='<div class="form-group">
-	           <label for="CFG_ARK_NAAN" class="col-sm-3 control-label">NAAN</label>
-	                    <div class="col-sm-9">
-	                        <input type="text" class="form-control"
-		 id="CFG_ARK_NAAN"
-		placeholder="NAAN ('.LABEL_optative.')"
-		name="CFG_ARK_NAAN"
-		value="'.$ARRAYfetchValues["CFG_ARK_NAAN"]["value"].'">
-		<a href="https://n2t.net/e/pub/naan_table.html" target="_blanck" title="Name Assigning Authority Number">Name Assigning Authority Number</a>
-	                    </div>
-			 </div>';
-			 
 
     $rows.='<div class="form-group">
 	           <label for="tipo_lang" class="col-sm-3 control-label">'.ucfirst(LABEL_TipoLenguaje).'</label>

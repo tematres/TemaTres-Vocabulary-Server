@@ -1664,3 +1664,24 @@ function extract4url($url)
   
     return array("url"=>$url,"tema_id"=>$tema_id,"letra"=>$char);
 }
+
+
+/** Unique hask for string */
+function hashmaker($seed, $string2hash)
+{
+    include_once T3_ABSPATH . 'common/include/Hashids/HashGenerator.php';
+    include_once T3_ABSPATH . 'common/include/Hashids/Hashids.php';
+/* create the class object with minimum hashid length of 12 */
+
+    $hashids = new Hashids\Hashids($seed, 12, 'abcdefghijklmnopqrstuvwxyz0123456789');
+
+    $string2hash=(is_numeric($string2hash)) ? $string2hash : abs(crc32(html2txt($string2hash)));
+ 
+    return $hashids->encode($string2hash);
+}
+
+/**exctract hash from ark */
+function ark2hash($seed, $string2hash)
+{
+    return str_replace($seed, "", $string2hash);
+}

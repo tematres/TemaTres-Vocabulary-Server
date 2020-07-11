@@ -44,8 +44,7 @@ $DBCFG["DBPass"] = "pass";
 /** Prefijo para tablas # Prefix for tables */
 $DBCFG["DBprefix"] = "lc_";
 
-
-/**  
+/**
  *  In almost cases, you don't need to touch nothing here!!
  */
 
@@ -58,8 +57,8 @@ $DBCFG["debugMode"] = "0";
 /** Persist connection to DB. TRUE = 1 // FALSE mode = 0. Default: TRUE */
 $DBCFG["DBpersist"] = "1";
 
-/** Config MySql engine type:  MyISAM / InnoDB */
-$DBCFG["DBengine"] = "InnoDB";
+/** Config MySql engine type:  MyISAM / InnoDB  (default MyISAM to maintain back compatibility)*/
+$DBCFG["DBengine"] = "MyISAM";
 
 
 /** Define if storage hashed passwords or not  (1 = Yes, 0 = No: default: 0) */
