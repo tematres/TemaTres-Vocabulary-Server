@@ -2822,8 +2822,8 @@ function SQLreCreateTermIndex()
     //1) code null
     $sql=SQL("update", " $DBCFG[DBprefix]tema set code=null where length(code)<1 ");
     //2) change date 0000
-    $sql=SQL("update", " $DBCFG[DBprefix]tema set cuando_final=null where cuando_final='0000-00-00 00:00:00' ");
-    $sql=SQL("update", " $DBCFG[DBprefix]tema set cuando=now() where cuando='0000-00-00 00:00:00' ");
+    $sql=SQL("update", " $DBCFG[DBprefix]tema set cuando_final=null where cuando_final=0 ");
+    $sql=SQL("update", " $DBCFG[DBprefix]tema set cuando=now() where cuando=0 ");
 
     $sqlNotes=SQL("select", "n.id,n.nota from $DBCFG[DBprefix]notas n ");
 
@@ -2864,8 +2864,9 @@ function SQLupdateTemaTresVersion($ver2ver)
 
     switch ($ver2ver) {
         case '2_2x3_2':
+            echo " `".$prefix."tema` set cuando_final=NULL where  cuando_final='0'";
             $sql2_2x3_2a=SQL("ALTER", " TABLE `".$prefix."notas` ADD `src_id` int(22) NULL,ADD INDEX ( `src_id` );");
-            $sql2_2x3_2aa=SQL("update", " `".$prefix."tema` set cuando_final=NULL where  cuando_final='0000-00-00 00:00:00'");
+            $sql2_2x3_2aa=SQL("update", " `".$prefix."tema` set cuando_final=NULL where  cuando_final=0");
             $sql2_2x3_2aaa=SQL("ALTER", " TABLE `".$prefix."tema` ADD `tema_hash` VARCHAR(12) CHARACTER SET utf8 COLLATE utf8_general_ci NULL AFTER `tema`, ADD UNIQUE `ndx_hash` (`tema_hash`);");
 
 
