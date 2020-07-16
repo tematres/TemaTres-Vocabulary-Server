@@ -41,7 +41,6 @@ function message($mess)
 }
 
 
-
 // Return base URL of the current URL or instance of vocabulary
 function getURLbaseInstall()
 {
@@ -56,6 +55,7 @@ function getURLbaseInstall()
 
     return $url_base;
 }
+
 
 //check install data
 function checkDataInstall($array = array())
@@ -211,7 +211,9 @@ function SQLtematres($DBCFG, $DB, $arrayInstallData = array())
     //If create table --> insert data
     if ($result1) {
         $today = date("Y-m-d");
-        $url =  str_replace("install.php", "", "http://".$_SERVER['SERVER_NAME'].$_SERVER['PHP_SELF']);
+        $http = ($_SERVER['HTTPS'] == 'on') ? 'https://' : 'http://';
+
+        $url =  str_replace("install.php", "", $http.$_SERVER['SERVER_NAME'].$_SERVER['PHP_SELF']);
         $title = ($arrayInstallData['title']) ? $DB->qstr(trim($arrayInstallData["title"]), get_magic_quotes_gpc()) : "'TemaTres'";
         $author = ($arrayInstallData['author']) ? $DB->qstr(trim($arrayInstallData["author"]), get_magic_quotes_gpc()) : "'TemaTres'";
         $tematres_lang=$DB->qstr(trim($arrayInstallData["lang"]), get_magic_quotes_gpc());
