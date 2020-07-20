@@ -666,7 +666,7 @@ function HTMLtermMenuX2($array_tema, $relacionesTermino)
     $row.='<li><a href="#" class="dropdown-toggle"  role="menu" data-toggle="dropdown">'.ucfirst(LABEL_Agregar).'<b class="caret"></b></a>';
     $row.='<ul class="dropdown-menu" id="menu_agregar">';
 
-    $row.='<li><a title="'.ucfirst(LABEL_nota).'" href="'.URL_BASE.'index.php?taskterm=editNote&amp;note_id=?&amp;editNota=?&amp;tema='.$array_tema["idTema"].'">'.ucfirst(LABEL_nota).'</a></li>';
+    $row.='<li><a title="'.ucfirst(LABEL_nota).'" href="'.URL_BASE.'index.php?taskterm=editNote&amp;note_id=?&amp;editNota=?&amp;tema='.$array_tema["idTema"].'"> '.$CFG["REL_SYMBOLS"]["NOTE"].' '.ucfirst(LABEL_nota).'</a></li>';
 
     $row.='<li role="separator" class="divider"></li>';
 

@@ -39,7 +39,7 @@ $CFG["IMP_TAG_SEPARATOR"]  =':';
 $CFG["IMP_TAG_TABULATOR"]  ='===';
 
 // Define symbols to type of relations
-$CFG["REL_SYMBOLS"]=array("BT"=>'↑',"NT"=>'↓',"UF"=>'↸',"RT"=>'⇆');
+$CFG["REL_SYMBOLS"]=array("BT"=>'↑',"NT"=>'↓',"UF"=>'↸',"RT"=>'⇆',"NOTE"=>'✎');
 
 // Google Analytics  GA_TRACKING_ID, Default false=0
 $CFG["GA_TRACKING_ID"] ='0';
