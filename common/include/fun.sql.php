@@ -2864,10 +2864,17 @@ function SQLupdateTemaTresVersion($ver2ver)
 
     switch ($ver2ver) {
         case '2_2x3_2':
-            echo " `".$prefix."tema` set cuando_final=NULL where  cuando_final='0'";
-            $sql2_2x3_2a=SQL("ALTER", " TABLE `".$prefix."notas` ADD `src_id` int(22) NULL,ADD INDEX ( `src_id` );");
-            $sql2_2x3_2aa=SQL("update", " `".$prefix."tema` set cuando_final=NULL where  cuando_final=0");
-            $sql2_2x3_2aaa=SQL("ALTER", " TABLE `".$prefix."tema` ADD `tema_hash` VARCHAR(12) CHARACTER SET utf8 COLLATE utf8_general_ci NULL AFTER `tema`, ADD UNIQUE `ndx_hash` (`tema_hash`);");
+            /**alter to support invalid or null dates */
+            $sql_invalid_dates=SQL("update", " `".$prefix."tema` set cuando_final=NULL where  cuando_final=0");
+
+            $sql_invalid_dates=SQL("ALTER", " TABLE `".$prefix."tema` CHANGE `cuando_final` `cuando_final` DATETIME NULL;");
+            $sql_invalid_dates=SQL("ALTER", " TABLE `".$prefix."tema` CHANGE `cuando` `cuando` DATETIME NULL DEFAULT NULL ;");
+            $sql_invalid_dates=SQL("ALTER", " TABLE `".$prefix."tema` CHANGE `cuando_estado` `cuando_estado` DATETIME NULL DEFAULT NULL ;");
+            $sql_invalid_dates=SQL("ALTER", " TABLE `".$prefix."notas` CHANGE `cuando` `cuando` DATETIME NULL DEFAULT NULL ;");
+
+            $sql_1=SQL("ALTER", " TABLE `".$prefix."notas` ADD `src_id` int(22) NULL,ADD INDEX ( `src_id` );");
+            $sql_2=SQL("ALTER", " TABLE `".$prefix."tema` ADD `tema_hash` VARCHAR(12) CHARACTER SET utf8 COLLATE utf8_general_ci NULL AFTER `tema`, ADD UNIQUE `ndx_hash` (`tema_hash`);");
+
 
 
             $sql2_2x3_2b=SQL(
