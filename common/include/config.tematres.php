@@ -10,6 +10,8 @@ if ((stristr($_SERVER['REQUEST_URI'], "session.php") ) || ( !defined('T3_ABSPATH
 //
 // ARCHIVO DE CONFIGURACION == CONFIG FILE #
 
+date_default_timezone_set("America/Argentina/Buenos_Aires");
+
 $CFG["Version"]        = "TemaTres 3.2";
 
 $CFG["VersionWebService"]        = "1.9";
@@ -152,9 +154,9 @@ $idiomas_disponibles = array(
 
 
 // Contantes
-define("id_TR", "2");//Tipo relacion término relacionado
-define("id_TG", "3");//Tipo relacion término superior
-define("id_UP", "4");//Tipo relacion término no preferido
+define("id_TR", "2"); //Tipo relacion término relacionado
+define("id_TG", "3"); //Tipo relacion término superior
+define("id_UP", "4"); //Tipo relacion término no preferido
 
 define("id_EQ", "6");//Tipo relacion término equivalente
 define("id_EQ_PARCIAL", "5");//Tipo relacion término equivalente parcialmente

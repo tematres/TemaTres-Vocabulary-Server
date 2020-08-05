@@ -4,21 +4,17 @@ if ((stristr($_SERVER['REQUEST_URI'], "session.php") ) || ( !defined('T3_ABSPATH
 }
 // TemaTres : aplicación para la gestión de lenguajes documentales #       #
 //
-// Copyright (C) 2004-2008 Diego Ferreyra tematres@r020.com.ar
+// Copyright (C) 2004-2020 Diego Ferreyra tematres@r020.com.ar
 // Distribuido bajo Licencia GNU Public License, versión 2 (de junio de 1.991) Free Software Foundation
 //
 //
 
 
-//
-// FUNCIONES GENERALES ###############################
-//
-//
-// Funcion tomada de PHPBB: http://www.phpbb.com/
-// addslashes to vars if magic_quotes_gpc is off
-// this is a security precaution to prevent someone
-// trying to break out of a SQL statement.
-//
+/** FUNCIONES GENERALES */
+
+/** addslashes to vars
+Funcion tomada de PHPBB: http://www.phpbb.com/
+*/
 $_GET=XSSpreventArray($_GET);
 
 function PHP_magic_quotes()
@@ -339,7 +335,7 @@ function secure_data($data, $type = "alnum")
         case "ADOsql":
             global $DB;
             $data = trim($data);
-            $data=$DB->qstr($data, get_magic_quotes_gpc());
+            $data=$DB->qstr($data);
             break ;
 
 
@@ -351,26 +347,17 @@ function secure_data($data, $type = "alnum")
             if (is_numeric($data)  || $data === null) {
                 return $data;
             }
-            // zappe le magic_quote d�pr�ci�
             $data = str_replace("''", "'", $data);
 
-            if (get_magic_quotes_gpc()) {
-                $data = stripslashes($data);
-            }
+            $data = stripslashes($data);
 
             $data= addslashes($data);
             break ;
 
         case "sqlhtml":
             //SQL secure with HTML tags
-            // zappe le magic_quote d�pr�ci�
-            if (get_magic_quotes_gpc()) {
-                if (ini_get('magic_quotes_sybase')) {
-                    $data = str_replace("''", "'", $data);
-                } else {
-                    $data = stripslashes($data);
-                }
-            }
+                $data = str_replace("''", "'", $data);
+                $data = stripslashes($data);
             $data = trim($data);
             break ;
 
@@ -817,8 +804,7 @@ function clean($val)
 }
 
 
-//
-//
+/** connect to database */
 function DBconnect()
 {
 
@@ -866,8 +852,7 @@ function DBconnect()
 function SQL($todo, $sql)
 {
 
-    global $DB;
-    global $DBCFG;
+    global $DB, $DBCFG;
 
 
     $sql=$todo.' '.$sql;
@@ -928,9 +913,9 @@ function SQLo($todo, $sql, $array)
 };
 
 
-//
-// Datos del Tesauro
-//
+
+
+/** Datos del Tesauro */
 function SQLdatosTesaruo($tesauro_id)
 {
     global $DBCFG;
@@ -1170,10 +1155,7 @@ function t3_parse_args($args, $defaults = '')
 /**
  * Parses a string into variables to be stored in an array.
  *
- * Uses {@link http://www.php.net/parse_str parse_str()} and stripslashes if
- * {@link http://www.php.net/magic_quotes magic_quotes_gpc} is on.
- *
- * @since 2.2.1
+ * @since 2.3.0
  * @uses  apply_filters() for the 'wp_parse_str' filter.
  *
  * @param string $string The string to be parsed.
@@ -1182,13 +1164,8 @@ function t3_parse_args($args, $defaults = '')
 function t3_parse_str($string, &$array)
 {
     parse_str($string, $array);
-    if (get_magic_quotes_gpc()) {
-        $array = stripslashes_deep($array);
-    }
     return $array;
 }
-
-
 
 /**
  * Navigates through an array and removes slashes from the values.
@@ -1678,8 +1655,30 @@ function hashmaker($seed, $string2hash)
     return $hashids->encode($string2hash);
 }
 
+
 /**exctract hash from ark */
 function ark2hash($seed, $string2hash)
 {
     return str_replace($seed, "", $string2hash);
+}
+
+
+
+/*Check for values and not null in a variable*/
+function configValue($value, $default = false, $defaultValues = array())
+{
+
+
+    if (strlen($value)<1) {
+        return $default;
+    }
+
+    //si es que ser uno de una lista de valores
+    if (count($defaultValues)>0) {
+        if (!in_array($value, $defaultValues)) {
+            return $default;
+        }
+    }
+
+    return $value;
 }

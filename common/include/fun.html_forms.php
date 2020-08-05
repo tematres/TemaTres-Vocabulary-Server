@@ -277,7 +277,7 @@ function HTMLformEditTerms($taskterm, $ARRAYtermino = "0")
         case 'editTerm'://Edici�n de un t�rmino $edit_id
             $nombre_pantalla=LABEL_editT.HTMLlinkTerm(array("tema_id"=>$ARRAYtermino["idTema"],"tema"=>$ARRAYtermino["titTema"]));
             $vista_titulo_tema=$ARRAYtermino["titTema"];
-            $vista_desc_tema=$ARRAYtermino[descTema];
+            $vista_desc_tema=$ARRAYtermino["descTema"];
             $hidden='<input type="hidden"  name="edit_id_tema" value="'.$ARRAYtermino["idTema"].'" />';
             break;
         case 'addNT':// add narowwer term

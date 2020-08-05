@@ -1426,7 +1426,7 @@ function HTMLadvancedSearchResult($array)
     //Ctrol lenght string
     $array["xstring"]=trim(XSSprevent($array["xstring"]));
 
-    if (strlen(trim($array[xstring]))>=CFG_MIN_SEARCH_SIZE) {
+    if (strlen(trim($array["xstring"]))>=CFG_MIN_SEARCH_SIZE) {
         $sql= SQLadvancedSearch($array);
 
 

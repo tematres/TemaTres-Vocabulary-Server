@@ -388,7 +388,7 @@ function SQLbuscaExacta($texto)
     global $DBCFG;
     global $DB;
     $texto=trim($texto);
-    $texto=$DB->qstr($texto, get_magic_quotes_gpc());
+    $texto=$DB->qstr($texto);
     $codUP=UP_acronimo;
 
     //Control de estados
@@ -2415,7 +2415,7 @@ function SQLadvancedSearch($array)
     global $DB;
 
     //sanitice string
-    $array["xstring"]=($array["isExactMatch"]=='1') ? $DB->qstr(trim($array["xstring"]), get_magic_quotes_gpc()) : $DB->qstr(trim("%$array[xstring]%"), get_magic_quotes_gpc());
+    $array["xstring"]=($array["isExactMatch"]=='1') ? $DB->qstr(trim($array["xstring"])) : $DB->qstr(trim("%$array[xstring]%"));
 
 
     // has top term X
@@ -2428,7 +2428,7 @@ function SQLadvancedSearch($array)
         $where.="	and left(tti.indice,$size_i)='|$array[hasTopTerm]|'";
     }
 
-    $array["hasNote"]=$DB->qstr(trim($array[hasNote]), get_magic_quotes_gpc());
+    $array["hasNote"]=$DB->qstr(trim($array["hasNote"]));
     if (strlen($array["hasNote"])>2) {
         $from.=",$DBCFG[DBprefix]notas n";
         $where.="		and n.id_tema=t.tema_id";
@@ -2539,7 +2539,7 @@ function SQLadvancedTermReport($array)
     }
 
     // has note type X
-    $array["hasNote"]=$DB->qstr(trim($array["hasNote"]), get_magic_quotes_gpc());
+    $array["hasNote"]=$DB->qstr(trim($array["hasNote"]));
 
     if (strlen($array["hasNote"])>2) {
         $from.="$DBCFG[DBprefix]notas n,";
@@ -3702,7 +3702,7 @@ function fetchTermId($string, $tesauro_id = "1")
     global $DBCFG;
     global $DB;
 
-    $string=$DB->qstr($string, get_magic_quotes_gpc());
+    $string=$DB->qstr($string);
 
     $sql=SQL(
         "select",
@@ -3913,7 +3913,7 @@ function SQLfetchValue($value_type, $value_code = "")
 
     if (in_array($value_type, $CFG["CONFIG_VAR"])) {
         if ($value_code) {
-            $value_code=$DB->qstr($value_code, get_magic_quotes_gpc());
+            $value_code=$DB->qstr($value_code);
 
             $where=($value_code) ? " and v.value_code=$value_code " : "";
         }
@@ -3941,8 +3941,8 @@ function ARRAYfetchValueXValue($value_type, $value)
     global $DB;
     global $DBCFG;
 
-    $value=$DB->qstr($value, get_magic_quotes_gpc());
-    $value_type=$DB->qstr($value_type, get_magic_quotes_gpc());
+    $value=$DB->qstr($value);
+    $value_type=$DB->qstr($value_type);
 
     $sql=SQL(
         "select",

@@ -732,20 +732,14 @@ function actualizaArbolxTema($tema_id)
 function addTerm($string, $tesauro_id, $estado_id = 13)
 {
 
-    global $DBCFG;
+    global $DBCFG, $DB;
 
-    global $DB;
-
-    $titu_tema=$DB->qstr($titu_tema, get_magic_quotes_gpc());
+    $string=$DB->qstr($string);
 
     $userId=$_SESSION[$_SESSION["CFGURL"]]["ssuser_id"];
 
-    $sql=SQLo(
-        "insert",
-        "into $DBCFG[DBprefix]tema (tema,tesauro_id,uid,cuando,estado_id,cuando_estado,cuando_final,uid_final)
-			values (?,?,?,now(),?,now(),null,null)",
-        array($string,$tesauro_id,$userId,$estado_id)
-    );
+    $sql=SQL("insert", "into $DBCFG[DBprefix]tema (tema,tesauro_id,uid,cuando,estado_id,cuando_estado,cuando_final,uid_final)
+			values ($string,$tesauro_id,$userId,now(),$estado_id,now(),null,null);");
 
     return $sql["cant"];
 };
@@ -759,15 +753,12 @@ function addTerm($string, $tesauro_id, $estado_id = 13)
 function abm_tema($do, $titu_tema, $tema_id = "")
 {
 
-    global $DBCFG;
-
-    global $DB;
+    global $DBCFG, $DB;
 
     $userId=$_SESSION[$_SESSION["CFGURL"]]["ssuser_id"];
 
     //Es un término del vocabulario o una referencia a un término mapeado de otro vocabulario.
     $tesauro_id = (secure_data($_POST["ref_vocabulario_id"], "int")) ? $_POST["ref_vocabulario_id"] : $_SESSION["id_tesa"];
-
 
     $titu_tema=trim($titu_tema);
 
@@ -778,11 +769,12 @@ function abm_tema($do, $titu_tema, $tema_id = "")
 
 
     $tesauro_id=secure_data($tesauro_id, "int");
+    $userId=secure_data($userId, "int");
+
 
     switch ($do) {
         case 'alta':
-            $estado_id = (@$_POST["estado_id"]) ? $_POST["estado_id"] : '13';
-
+            $estado_id=configValue($_POST["estado_id"], 13, array(12,13,14));
             $tema_id=addTerm($titu_tema, $tesauro_id, $estado_id);
 
             assignHash($_SESSION["CFG_ARK_NAAN"], $tema_id);
@@ -790,14 +782,8 @@ function abm_tema($do, $titu_tema, $tema_id = "")
 
         case 'mod':
             $tema_id=secure_data($tema_id, "int");
-            $titu_tema=$DB->qstr($titu_tema, get_magic_quotes_gpc());
-
-            $sql=SQLo(
-                "update",
-                "$DBCFG[DBprefix]tema set
-		tema=$titu_tema ,uid_final= ?,cuando_final=now() where tema_id= ?",
-                array($userId,$tema_id)
-            );
+            $titu_tema=$DB->qstr($titu_tema);
+            $sql=SQL("update", "$DBCFG[DBprefix]tema set tema=$titu_tema ,uid_final=$userId,cuando_final=now() where tema_id= $tema_id");
             break;
     };
 
@@ -850,7 +836,7 @@ function abm_target_tema($do, $tema_id, $tvocab_id, $tgetTerm_id, $tterm_id = "0
 
                 $arrayTterm["tterm_url"]=$arrayVocab["tvocab_url"].'?tema='.$tgetTerm_id;
 
-                $arrayTterm["tterm_string"]=$DB->qstr(trim((string) $dataTterm->result->term->string), get_magic_quotes_gpc());
+                $arrayTterm["tterm_string"]=$DB->qstr(trim((string) $dataTterm->result->term->string));
 
                 $sql=SQLo(
                     "insert",
@@ -876,7 +862,7 @@ function abm_target_tema($do, $tema_id, $tvocab_id, $tgetTerm_id, $tterm_id = "0
                 //obtener datos externos del término
                 $dataTterm=getURLdata($arrayTterm["tterm_uri"]);
 
-                $arrayTterm["tterm_string"]=$DB->qstr(trim((string) $dataTterm->result->term->string), get_magic_quotes_gpc());
+                $arrayTterm["tterm_string"]=$DB->qstr(trim((string) $dataTterm->result->term->string));
 
                 $sql=SQLo(
                     "update",
@@ -943,9 +929,9 @@ function abmNota($do, $idTema, $tipoNota, $langNota, $nota, $src_id = 0, $idNota
 
     $userId=$_SESSION[$_SESSION["CFGURL"]]["ssuser_id"];
 
-    $tipoNota=$DB->qstr(trim($tipoNota), get_magic_quotes_gpc());
-    $langNota=$DB->qstr(trim($langNota), get_magic_quotes_gpc());
-    $nota=$DB->qstr(trim($nota), get_magic_quotes_gpc());
+    $tipoNota=$DB->qstr(trim($tipoNota));
+    $langNota=$DB->qstr(trim($langNota));
+    $nota=$DB->qstr(trim($nota));
     $src_id=secure_data($src_id, "int");
 
     switch ($do) {
@@ -1002,7 +988,7 @@ function abmURI($do, $tema_id, $array = array(), $uri_id = 0)
             $parse_uri=parse_url($array["uri"]);
             //check if is a valid URI
             if (strlen($parse_uri["scheme"])>1) {
-                $uri=$DB->qstr($array["uri"], get_magic_quotes_gpc());
+                $uri=$DB->qstr($array["uri"]);
                 $sql=SQL(
                     "insert",
                     "into $DBCFG[DBprefix]uri
@@ -1051,7 +1037,7 @@ function edit_single_code($tema_id, $code)
         if (strlen($code)<1) {
             $sql=SQL("update", "$DBCFG[DBprefix]tema set code=NULL where tema_id=$tema_id");
         } else {
-            $code=$DB->qstr($code, get_magic_quotes_gpc());
+            $code=$DB->qstr($code);
             $sql=SQL("update", "$DBCFG[DBprefix]tema set code=$code where tema_id=$tema_id");
         }
 
@@ -1102,10 +1088,10 @@ function admin_users($do, $user_id = "")
             $POSTarrayUser["pass"]=trim($POSTarrayUser[pass]);
             $POSTarrayUser["orga"]=trim($POSTarrayUser[orga]);
 
-            $POSTarrayUser["apellido"]=$DB->qstr($POSTarrayUser[apellido], get_magic_quotes_gpc());
-            $POSTarrayUser["nombres"]=$DB->qstr($POSTarrayUser[nombres], get_magic_quotes_gpc());
-            $POSTarrayUser["mail"]=$DB->qstr($POSTarrayUser[mail], get_magic_quotes_gpc());
-            $POSTarrayUser["orga"]=$DB->qstr($POSTarrayUser[orga], get_magic_quotes_gpc());
+            $POSTarrayUser["apellido"]=$DB->qstr($POSTarrayUser[apellido]);
+            $POSTarrayUser["nombres"]=$DB->qstr($POSTarrayUser[nombres]);
+            $POSTarrayUser["mail"]=$DB->qstr($POSTarrayUser[mail]);
+            $POSTarrayUser["orga"]=$DB->qstr($POSTarrayUser[orga]);
             $POSTarrayUser["pass"]=trim($POSTarrayUser[pass]);
 
             $POSTarrayUser["status"]=($POSTarrayUser["isAlive"]=='ACTIVO') ? 'ACTIVO' : 'BAJA';
@@ -1190,10 +1176,10 @@ function admin_users($do, $user_id = "")
                 return;
             }
 
-            $POSTarrayUser["apellido"]=$DB->qstr($POSTarrayUser[apellido], get_magic_quotes_gpc());
-            $POSTarrayUser["nombres"]=$DB->qstr($POSTarrayUser[nombres], get_magic_quotes_gpc());
-            $POSTarrayUser["mail"]=$DB->qstr($POSTarrayUser[mail], get_magic_quotes_gpc());
-            $POSTarrayUser["orga"]=$DB->qstr($POSTarrayUser[orga], get_magic_quotes_gpc());
+            $POSTarrayUser["apellido"]=$DB->qstr($POSTarrayUser[apellido]);
+            $POSTarrayUser["nombres"]=$DB->qstr($POSTarrayUser[nombres]);
+            $POSTarrayUser["mail"]=$DB->qstr($POSTarrayUser[mail]);
+            $POSTarrayUser["orga"]=$DB->qstr($POSTarrayUser[orga]);
             $user_pass=(CFG_HASH_PASS==1) ? t3_hash_password($POSTarrayUser["pass"]) : $POSTarrayUser["pass"];
 
             $sql=SQLo(
@@ -1240,15 +1226,15 @@ if ($_SESSION[$_SESSION["CFGURL"]]["ssuser_nivel"]=='1') {
         $arrayTesa["cuando"]=trim($arrayTesa["cuando"]);
 
 
-        $POSTarrayUser["orga"]=$DB->qstr($POSTarrayUser[orga], get_magic_quotes_gpc());
-        $arrayTesa["titulo"]=$DB->qstr($arrayTesa[titulo], get_magic_quotes_gpc());
-        $arrayTesa["autor"]=$DB->qstr($arrayTesa[autor], get_magic_quotes_gpc());
-        $arrayTesa["idioma"]=$DB->qstr($arrayTesa[idioma], get_magic_quotes_gpc());
-        $arrayTesa["cobertura"]=$DB->qstr($arrayTesa[cobertura], get_magic_quotes_gpc());
-        $arrayTesa["keywords"]=$DB->qstr($arrayTesa[keywords], get_magic_quotes_gpc());
-        $arrayTesa["tipo"]=$DB->qstr($arrayTesa[tipo], get_magic_quotes_gpc());
+        $POSTarrayUser["orga"]=$DB->qstr($POSTarrayUser[orga]);
+        $arrayTesa["titulo"]=$DB->qstr($arrayTesa[titulo]);
+        $arrayTesa["autor"]=$DB->qstr($arrayTesa[autor]);
+        $arrayTesa["idioma"]=$DB->qstr($arrayTesa[idioma]);
+        $arrayTesa["cobertura"]=$DB->qstr($arrayTesa[cobertura]);
+        $arrayTesa["keywords"]=$DB->qstr($arrayTesa[keywords]);
+        $arrayTesa["tipo"]=$DB->qstr($arrayTesa[tipo]);
         $arrayTesa["polijerarquia"]= (in_array($arrayTesa["polijerarquia"], array("1","0"))) ? $arrayTesa["polijerarquia"] : 0;
-        $arrayTesa["url_base"]=(isset($arrayTesa["url_base"])) ? $DB->qstr($arrayTesa["url_base"], get_magic_quotes_gpc()) : $_SESSION["CFGURL"];
+        $arrayTesa["url_base"]=(isset($arrayTesa["url_base"])) ? $DB->qstr($arrayTesa["url_base"]) : $_SESSION["CFGURL"];
         $arrayTesa["cuando"]=(check2Date($arrayTesa["cuando"])) ? $arrayTesa["cuando"] : date("Y-m-d");
         $arrayTesa["contact_mail"]=XSSprevent($_POST["contact_mail"]);
 
@@ -1421,12 +1407,12 @@ if ($_SESSION[$_SESSION["CFGURL"]]["ssuser_nivel"]=='1') {
                         Check web services
                         */
                         if ($dataVocab->result->vocabulary_id=='1') {
-                              $array["tvocab_label"]=$DB->qstr(trim($_POST["tvocab_label"]), get_magic_quotes_gpc());
-                              $array["tvocab_tag"]=$DB->qstr(trim($_POST["tvocab_tag"]), get_magic_quotes_gpc());
-                              $array["tvocab_lang"]=$DB->qstr(trim($_POST["tvocab_lang"]), get_magic_quotes_gpc());
-                              $array["tvocab_title"]=$DB->qstr(trim($dataVocab->result->title), get_magic_quotes_gpc());
-                              $array["tvocab_uri"]=$DB->qstr(trim($dataVocab->result->uri), get_magic_quotes_gpc());
-                              $array["tvocab_uri_service"]=$DB->qstr(trim($_POST["tvocab_uri_service"]), get_magic_quotes_gpc());
+                              $array["tvocab_label"]=$DB->qstr(trim($_POST["tvocab_label"]));
+                              $array["tvocab_tag"]=$DB->qstr(trim($_POST["tvocab_tag"]));
+                              $array["tvocab_lang"]=$DB->qstr(trim($_POST["tvocab_lang"]));
+                              $array["tvocab_title"]=$DB->qstr(trim($dataVocab->result->title));
+                              $array["tvocab_uri"]=$DB->qstr(trim($dataVocab->result->uri));
+                              $array["tvocab_uri_service"]=$DB->qstr(trim($_POST["tvocab_uri_service"]));
                               $array["tvocab_status"]= ($_POST["tvocab_status"]==1) ? 1 : 0;
 
 
@@ -1461,12 +1447,12 @@ if ($_SESSION[$_SESSION["CFGURL"]]["ssuser_nivel"]=='1') {
                 Check web services
                 */
                 if ($dataVocab->result->vocabulary_id=='1') {
-                    $array["tvocab_label"]=$DB->qstr(trim($_POST["tvocab_label"]), get_magic_quotes_gpc());
-                    $array["tvocab_tag"]=$DB->qstr(trim($_POST["tvocab_tag"]), get_magic_quotes_gpc());
-                    $array["tvocab_lang"]=$DB->qstr(trim($_POST["tvocab_lang"]), get_magic_quotes_gpc());
-                    $array["tvocab_title"]=$DB->qstr(trim($dataVocab->result->title), get_magic_quotes_gpc());
-                    $array["tvocab_uri"]=$DB->qstr(trim($dataVocab->result->uri), get_magic_quotes_gpc());
-                    $array["tvocab_uri_service"]=$DB->qstr(trim($_POST["tvocab_uri_service"]), get_magic_quotes_gpc());
+                    $array["tvocab_label"]=$DB->qstr(trim($_POST["tvocab_label"]));
+                    $array["tvocab_tag"]=$DB->qstr(trim($_POST["tvocab_tag"]));
+                    $array["tvocab_lang"]=$DB->qstr(trim($_POST["tvocab_lang"]));
+                    $array["tvocab_title"]=$DB->qstr(trim($dataVocab->result->title));
+                    $array["tvocab_uri"]=$DB->qstr(trim($dataVocab->result->uri));
+                    $array["tvocab_uri_service"]=$DB->qstr(trim($_POST["tvocab_uri_service"]));
                     $array["tvocab_status"]= ($_POST["tvocab_status"]==1) ? 1 : 0;
 
 
@@ -1490,9 +1476,9 @@ if ($_SESSION[$_SESSION["CFGURL"]]["ssuser_nivel"]=='1') {
                     $array[tvocab_tag]=$DB->qstr($_POST[tvocab_tag]);
                     $array[tvocab_status]=$DB->qstr($_POST[tvocab_status]);
 
-                    $array[tvocab_label]=$DB->qstr($_POST[tvocab_label], get_magic_quotes_gpc());
-                    $array[tvocab_tag]=$DB->qstr($_POST[tvocab_tag], get_magic_quotes_gpc());
-                    $array[tvocab_status]=$DB->qstr($_POST[tvocab_status], get_magic_quotes_gpc());
+                    $array[tvocab_label]=$DB->qstr($_POST[tvocab_label]);
+                    $array[tvocab_tag]=$DB->qstr($_POST[tvocab_tag]);
+                    $array[tvocab_status]=$DB->qstr($_POST[tvocab_status]);
 
 
                     $sql=SQL(
@@ -1726,7 +1712,7 @@ function HTMLlistaVocabularios()
     $rows.='<li class=""><a class="list-group-item list-group-item-action" title="'.LABEL_vocabulario_referenciaWS.'" href="#target_vocab">'.ucfirst(LABEL_vocabulario_referenciaWS).'</a></li>';
     $rows.='<li class=""><a class="list-group-item list-group-item-action" title="'.LABEL_configTypeNotes.'" href="#morenotas">'.ucfirst(LABEL_configTypeNotes).'</a></li>';
     $rows.='<li class=""><a class="list-group-item list-group-item-action" title="'.LABEL_relationEditor.'" href="#morerelations">'.ucfirst(LABEL_relationEditor).'</a></li>';
-    $rows.='<li class=""><a class="list-group-item list-group-item-action" title="'.LABEL_URItypeEditor.'" href="#moreuri">'.ucfirst(LABEL_URItypeEditor).'</a></li>';
+    $rows.='<li class=""><a class="list-group-item list-group-item-action" title="'.LABEL_URItypeEditor.'" href="#moreURI">'.ucfirst(LABEL_URItypeEditor).'</a></li>';
     $rows.='<li class=""><a class="list-group-item list-group-item-action" title="'.LABEL_source.'" href="#source_list">'.ucfirst(LABEL_source).'</a></li>';
     $rows.='</ul></p>';
     $rows.='</div><hr>';
@@ -2798,8 +2784,8 @@ function abm_userNotes($do, $array, $value_id = "0")
     global $DBCFG;
     global $DB;
 
-    $array["value"]=$DB->qstr(trim($array["value"]), get_magic_quotes_gpc());
-    $array["alias"]=$DB->qstr(trim($array["alias"]), get_magic_quotes_gpc());
+    $array["value"]=$DB->qstr(trim($array["value"]));
+    $array["alias"]=$DB->qstr(trim($array["alias"]));
     $array["orden"]=secure_data(trim($array["orden"]), "int");
 
 
@@ -2955,8 +2941,8 @@ function abm_URIdefinition($do, $array, $value_id = "0")
     global $DBCFG;
     global $DB;
 
-    $array["uri_value"]=$DB->qstr(trim($array["uri_value"]), get_magic_quotes_gpc());
-    $array["uri_code"]=$DB->qstr(trim($array["uri_code"]), get_magic_quotes_gpc());
+    $array["uri_value"]=$DB->qstr(trim($array["uri_value"]));
+    $array["uri_code"]=$DB->qstr(trim($array["uri_code"]));
 
 
     //If MOD or DEL => get relation data
@@ -3018,9 +3004,9 @@ function ABM_value($do, $arrayValue)
     global $CFG;
 
 
-    $arrayValue["value_code"]=$DB->qstr(trim($arrayValue["value_code"]), get_magic_quotes_gpc());
+    $arrayValue["value_code"]=$DB->qstr(trim($arrayValue["value_code"]));
 
-    $arrayValue["value"]=$DB->qstr(trim($arrayValue["value"]), get_magic_quotes_gpc());
+    $arrayValue["value"]=$DB->qstr(trim($arrayValue["value"]));
 
     $arrayValues["value_type"]=(in_array($arrayValues["value_type"], $CFG["CONFIG_VAR"])) ? $arrayValues["value_type"]  : '';
 
@@ -3344,7 +3330,7 @@ function HTMLformURIdefinition()
 
     $sql=SQLURIdefinition();
 
-    $rows.='<form id="moreuri" name="moreuri" method="POST" action="admin.php?vocabulario_id=list#moreuri">';
+    $rows.='<form id="moreURI" name="moreURI" method="POST" action="admin.php?vocabulario_id=list#moreuri">';
     $rows.='<input type="hidden" name="doAdminU" id="doAdminU" value=""> ';
     $rows.='<input type="hidden" name="uri_type_id" id="uri_type_id"> ';
 
