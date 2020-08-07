@@ -191,6 +191,10 @@ function do_intervalDate($inicio, $fin, $tipo)
 //
 function doSelectForm($valores, $valor_selec)
 {
+    if (!is_array($valores)) {
+        return ;
+    }
+
     for ($i=0; $i<sizeof($valores); ++$i) {
         $valor=explode("#", $valores[$i]);
         if ($valor[0]) {

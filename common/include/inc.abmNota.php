@@ -78,7 +78,7 @@ $arrayNota["lang_nota"] = (!$arrayNota["lang_nota"]) ? $_SESSION["CFGIdioma"] : 
             <label for="<?php echo LABEL_tipoNota;?>" class="col-sm-3 control-label"><?php echo ucfirst(LABEL_tipoNota);?></label>
                 <div class="col-sm-9">
                     <select class="form-control" id="tipoNota" name="<?php echo FORM_LABEL_tipoNota;?>">
-                        <?php echo doSelectForm($arrayNoteType, $arrayNota["tipo_nota"]);?>
+                        <?php echo doSelectForm($arrayNoteType, $_SESSION[$_SESSION["CFGURL"]]["_GLOSS_NOTES"]);?>
                     </select>
                 </div>
             </div>
