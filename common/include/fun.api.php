@@ -889,10 +889,10 @@ class XMLvocabularyServices
         $array['sources']['arg'] = 'none';
         $array['sources']['example'] = $_SESSION["CFGURL"].'services.php?task=sources';
 
-        $array['source']['action'] = 'terms related to normalized reference';
-        $array['source']['task'] = 'resource';
-        $array['source']['arg'] = 'ID of the resource reference';
-        $array['source']['example'] = $_SESSION["CFGURL"].'services.php?task=source&arg=1';
+        $array['termsbysource']['action'] = 'terms related to normalized reference';
+        $array['termsbysource']['task'] = 'resource';
+        $array['termsbysource']['arg'] = 'ID of the resource reference';
+        $array['termsbysource']['example'] = $_SESSION["CFGURL"].'services.php?task=termsbysource&arg=1';
 
         return $array;
     }
@@ -1095,7 +1095,11 @@ function fetchVocabularyService($task, $arg, $output = "xml")
                 $response = $service-> fetchSources();
                 break;
 
-            case 'source':
+            case 'termsbysource':
+                $response = $service-> fetchTerm4Source($arg);
+                break;
+
+            case 'notesbysource':
                 $response = $service-> fetchTerm4Source($arg);
                 break;
 
@@ -1175,7 +1179,7 @@ function evalServiceParam($task, $arg)
     "termsSince"=>"date",
     "relationsSince"=>"date",
     "sources"=>"string",
-    "source"=>"string"
+    "termsbysource"=>"string"
     );
 
     //eval task
@@ -1286,7 +1290,7 @@ function evalServiceParam($task, $arg)
             $response = array("task"=>$task,"arg"=>$arg);
             break;
 
-        case 'source':
+        case 'termsbysource':
             $response = (is_numeric($arg)) ? array("task"=>$task,"arg"=>$arg) : array("error"=>"invalid input");
             break;
 
