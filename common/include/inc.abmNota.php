@@ -59,6 +59,10 @@ foreach ($CFG["ISO639-1"] as $langs) {
 };
 //idioma de la nota
 $arrayNota["lang_nota"] = (!$arrayNota["lang_nota"]) ? $_SESSION["CFGIdioma"] : $arrayNota["lang_nota"];
+
+//default value note type
+$type_note = (!$arrayNota["tipo_nota"]) ? $_SESSION[$_SESSION["CFGURL"]]["_GLOSS_NOTES"] : $arrayNota["tipo_nota"];
+
 ?>
 <div class="container" id="bodyText">
 <a class="topOfPage" href="<?php echo URL_BASE;?>index.php?tema=<?php echo $metadata["arraydata"]["tema_id"];?>" title="<?php echo LABEL_Anterior;?>"><?php echo LABEL_Anterior;?></a>
@@ -78,7 +82,7 @@ $arrayNota["lang_nota"] = (!$arrayNota["lang_nota"]) ? $_SESSION["CFGIdioma"] : 
             <label for="<?php echo LABEL_tipoNota;?>" class="col-sm-3 control-label"><?php echo ucfirst(LABEL_tipoNota);?></label>
                 <div class="col-sm-9">
                     <select class="form-control" id="tipoNota" name="<?php echo FORM_LABEL_tipoNota;?>">
-                        <?php echo doSelectForm($arrayNoteType, $_SESSION[$_SESSION["CFGURL"]]["_GLOSS_NOTES"]);?>
+                        <?php echo doSelectForm($arrayNoteType, $type_note);?>
                     </select>
                 </div>
             </div>
