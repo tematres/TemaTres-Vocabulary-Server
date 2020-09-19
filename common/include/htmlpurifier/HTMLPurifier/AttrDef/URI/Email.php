@@ -12,6 +12,7 @@ abstract class HTMLPurifier_AttrDef_URI_Email extends HTMLPurifier_AttrDef
     {
         // needs to be implemented
     }
+
 }
 
 // sub-implementations

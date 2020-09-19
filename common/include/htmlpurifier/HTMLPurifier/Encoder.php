@@ -159,7 +159,7 @@ class HTMLPurifier_Encoder
 
         $len = strlen($str);
         for ($i = 0; $i < $len; $i++) {
-            $in = ord($str{$i});
+            $in = ord($str[$i]);
             $char .= $str[$i]; // append byte to char
             if (0 == $mState) {
                 // When mState is zero we expect either a US-ASCII character
@@ -249,6 +249,7 @@ class HTMLPurifier_Encoder
                             // Codepoints outside the Unicode range are illegal
                             ($mUcs4 > 0x10FFFF)
                         ) {
+
                         } elseif (0xFEFF != $mUcs4 && // omit BOM
                             // check for valid Char unicode codepoints
                             (

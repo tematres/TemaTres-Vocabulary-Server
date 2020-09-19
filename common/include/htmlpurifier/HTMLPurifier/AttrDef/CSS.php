@@ -40,9 +40,7 @@ class HTMLPurifier_AttrDef_CSS extends HTMLPurifier_AttrDef
             $c = strcspn($css, ";'\"", $i);
             $accum .= substr($css, $i, $c);
             $i += $c;
-            if ($i == $len) {
-                break;
-            }
+            if ($i == $len) break;
             $d = $css[$i];
             if ($quoted) {
                 $accum .= $d;
@@ -59,9 +57,7 @@ class HTMLPurifier_AttrDef_CSS extends HTMLPurifier_AttrDef
                 }
             }
         }
-        if ($accum != "") {
-            $declarations[] = $accum;
-        }
+        if ($accum != "") $declarations[] = $accum;
 
         $propvalues = array();
         $new_declarations = '';
@@ -132,7 +128,9 @@ class HTMLPurifier_AttrDef_CSS extends HTMLPurifier_AttrDef
         }
 
         return $new_declarations ? $new_declarations : false;
+
     }
+
 }
 
 // vim: et sw=4 sts=4
