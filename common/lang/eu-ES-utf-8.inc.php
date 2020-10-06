@@ -228,8 +228,8 @@ define("LABEL_Cancelar","cancelar");
 define("LABEL_Guardar","guardar");
 /* v 1.033 */
 define("MENU_AgregarTEexist","Subordinar un término libre");
-define("MENU_AgregarUPexist","Asociar un término no-preferido (libre)");
-define("LABEL_existAgregarUP","Asociar un término no-preferido %s");
+define("MENU_AgregarUPexist","Asociar un término alternativo (libre)");
+define("LABEL_existAgregarUP","Asociar un término alternativo %s");
 define("LABEL_existAgregarTE","Subordinar un término libre %s ");
 define("MSG_minCharSerarch","La expresión de búsqueda <i>%s</i> tiene sólo <strong>%s</strong> caracteres. Debe ser mayor a <strong>%s</strong> caracteres");
 /* v 1.04 */
@@ -267,7 +267,7 @@ define('LABEL_TopTerm',"Tiene este término tope");
 define('LABEL_esFraseExacta',"con la frase exacta");
 define('LABEL_DesdeFecha',"creado en o después de");
 define('LABEL_ProfundidadTermino',"Ubicado en profundidad");
-define('LABEL_esNoPreferido',"término no preferido");
+define('LABEL_esNoPreferido',"término alternativo");
 define('LABEL_BusquedaAvanzada',"búsqueda avanzada");
 define('LABEL_Todos',"todos");
 define('LABEL_QueBuscar',"¿Qué buscar?");
@@ -412,7 +412,7 @@ define('LABEL_turnOnMetaTerm','es un meta-término');
 define('LABEL_meta_term','meta-término');
 define('LABEL_meta_terms','meta-términos');
 define('LABEL_relatedTerms','términos relacionados');
-define('LABEL_nonPreferedTerms','términos no preferidos');
+define('LABEL_nonPreferedTerms','términos alternativos');
 define('LABEL_update1_6x1_7','Actualizar (1.6 -> 2.2)');
 define('LABEL_include_data','incluir');
 define('LABEL_updateEndpoint','actualizar punto de consulta SPARQL');
@@ -456,7 +456,7 @@ define('LABEL_defaultEQmap','Utilice "eq" para indicar relación de equivalencia
 define("MSG_repass_error","las claves no coinciden");
 define("MSG_lengh_error","mínimo de %d caracteres");
 define("MSG_errorPostData","Ha ocurrido un error, por favor revise los datos correspondiente al campo ");
-define('LABEL_preferedTerms','términos preferidos');   /* Descriptor */
+define('LABEL_preferedTerms','términos alternativos');   /* Descriptor */
 define('LABEL_FORM_NULLnotesTermReport','términos SIN notas');
 define('MSG_FORM_NULLnotesTermReport','términos que no tienen notas de tipo');
 define('LABELnoNotes','términos sin ninguna nota');

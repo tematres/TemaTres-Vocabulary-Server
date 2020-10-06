@@ -1,12 +1,18 @@
 <?php
-#   TemaTres: open source thesaurus management #       #
-#                                                                        #
-#   Copyright (C) 2004-2018 Diego Ferreyra <tematres@r020.com.ar>
-#   Distribuido bajo Licencia GNU Public License, versión 2 (de junio de 1.991) Free Software Foundation
+#   TemaTres: open source thesaurus management
+#   Website http://www.vocabularyserver.com
+#   Copyright (C) 2004-2020 Diego Ferreyra <tematres@r020.com.ar>
+#   License: distributed under the GNU General Public License Version 2 (June 1991) Free Software Foundation
 #   Translation: Community collaborative translation https://crowdin.com/project/tematres
 #
 ###############################################################################################################
 #
+// Translation versioning
+define('LABEL_i18n_MasterDate','2020-06-18'); /* Do not translate. Master language file creation date (YYYY-MM-DD). */
+define('LABEL_i18n_MasterVersion','3.2.1'); /* Do not translate. Master language file version. */
+define('LABEL_i18n_TranslationVersion','01'); /* Translation language file version. Will be used as a sufix for the language master version number. Can be changed by translators to track minor changes to your translation file */
+define('LABEL_i18n_TranslationAuthor','Traducción de la comunidad de TemaTres'); /* Can be changed by translators. Do not include emails or personal details */
+/* Strings to translate */
 define("LANG","es");
 define("TR_acronimo","TR"); /* Related Term */
 define("TE_acronimo","TE"); /* Narrower term > Specific term */
@@ -222,8 +228,8 @@ define("LABEL_Cancelar","cancelar");
 define("LABEL_Guardar","guardar");
 /* v 1.033 */
 define("MENU_AgregarTEexist","Subordinar un término libre");
-define("MENU_AgregarUPexist","Asociar un término no-preferido (libre)");
-define("LABEL_existAgregarUP","Asociar un término no-preferido %s");
+define("MENU_AgregarUPexist","Asociar un término alternativo (libre)");
+define("LABEL_existAgregarUP","Asociar un término alternativo %s");
 define("LABEL_existAgregarTE","Subordinar un término a %s ");
 define("MSG_minCharSerarch","La expresión de búsqueda <i>%s</i> tiene sólo <strong>%s</strong> caracteres. Debe ser mayor a <strong>%s</strong> caracteres");
 /* v 1.04 */
@@ -261,7 +267,7 @@ define('LABEL_TopTerm',"Tiene este término tope");
 define('LABEL_esFraseExacta',"con la frase exacta");
 define('LABEL_DesdeFecha',"creado en o después de");
 define('LABEL_ProfundidadTermino',"Ubicado en profundidad");
-define('LABEL_esNoPreferido',"término no preferido");
+define('LABEL_esNoPreferido',"término alternativo");
 define('LABEL_BusquedaAvanzada',"búsqueda avanzada");
 define('LABEL_Todos',"todos");
 define('LABEL_QueBuscar',"¿Qué buscar?");
@@ -286,8 +292,8 @@ define('LABEL_tvocab_tag',"etiqueta de la referencia");
 define('LABEL_tvocab_uri_service',"URL del servicio web de referencia");
 define('LABEL_targetTermsforUpdate',"términos con actualizaciones pendientes");
 define('LABEL_ShowTargetTermsforUpdate',"actualizar términos");
-define('LABEL_enable',"habilitado");
-define('LABEL_disable',"deshabilitado");
+define('LABEL_enable',"habilitado");  /* web services status info: in use */
+define('LABEL_disable',"no habilitado");  /* web services status info: not in use */
 define('LABEL_notFound',"término no encontrado");
 define('LABEL_termUpdated',"término actualizado");
 define('LABEL_ShowTargetTermforUpdate',"actualizar");
@@ -406,7 +412,7 @@ define('LABEL_turnOnMetaTerm','es un meta-término');
 define('LABEL_meta_term','meta-término');
 define('LABEL_meta_terms','meta-términos');
 define('LABEL_relatedTerms','términos relacionados');
-define('LABEL_nonPreferedTerms','términos no preferidos');
+define('LABEL_nonPreferedTerms','términos alternativos');
 define('LABEL_update1_6x1_7','Actualizar (1.6 -> 2.2)');
 define('LABEL_include_data','incluir');
 define('LABEL_updateEndpoint','actualizar punto de consulta SPARQL');
@@ -489,7 +495,7 @@ define('LABEL_selectRelation','seleccionar relación');
 define('LABEL_withSelected','con los seleccionados:');
 define('LABEL_rejectTerms','rechazar términos');
 define('LABEL_doMetaTerm','convertir en meta-términos');
-define('LABEL_associateFreeTerms','vincular como UF,TE o TR');
+define('LABEL_associateFreeTerms','vincular como UF, TE o TR');
 define('MSG_associateFreeTerms','en el siguiente paso podrá seleccionar el tipo de relación.');
 define('MSG_termsSuccessTask','términos afectados en la operación');
 define('LABEL_TTTerms','términos tope');
@@ -522,12 +528,6 @@ define('LABEL_close','cerrar');
 define('LABEL_allTerms','todos los términos');
 define('LABEL_allNotes','todas las notas');
 define('LABEL_allRelations','todas las relaciones entre términos');
-// Translation versioning
-define('LABEL_i18n_MasterDate','2018-09-12'); /* Master language file creation date (YYYY-MM-DD). Do not translate */
-define('LABEL_i18n_MasterVersion','3.0.03'); /* Master language file version. Do not translate */
-define('LABEL_i18n_TranslationVersion','01'); /* Translation language file version. Will be used after the master version number. Can be changed to track minor changes to your translation file */
-define('LABEL_i18n_TranslationAuthor','Community translation for TemaTres.'); /* Do not include emails or personal details */
-
 #v.3.1
 define('LABEL_noResults','no se encontraron resultados parecidos');
 define('LABEL_globalOrganization','organización global del vocabulario');
@@ -545,7 +545,7 @@ define('LABEL_src_note','fuente');
 define('LEGEND_src_note','consigne la cita bibliográfica');
 define('LABEL_source','fuentes normalizadas');
 define('LABEL_source4term','fuentes según términos');
-define('LABEL_sources4vocab','fuentes de consulta');
 define('LABEL_add_new','agregar nuevo');
+define('LABEL_sources4vocab','fuentes de consulta');
 define('LABEL_update2_2x3_2','Actualizar (2.x -> 3.2)');
 ?>

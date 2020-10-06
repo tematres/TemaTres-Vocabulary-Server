@@ -228,8 +228,8 @@ define("LABEL_Cancelar","cancelar");
 define("LABEL_Guardar","guardar");
 /* v 1.033 */
 define("MENU_AgregarTEexist","Subordinar un término libre");
-define("MENU_AgregarUPexist","Asociar un término no-preferido (libre)");
-define("LABEL_existAgregarUP","Asociar un término no-preferido %s");
+define("MENU_AgregarUPexist","Asociar un término alternativo (libre)");
+define("LABEL_existAgregarUP","Asociar un término alternativo %s");
 define("LABEL_existAgregarTE","Subordinar un término a %s ");
 define("MSG_minCharSerarch","La expresión de búsqueda <i>%s</i> tiene sólo <strong>%s</strong> caracteres. Debe ser mayor a <strong>%s</strong> caracteres");
 /* v 1.04 */
@@ -267,7 +267,7 @@ define('LABEL_TopTerm',"Tiene este término tope");
 define('LABEL_esFraseExacta',"con la frase exacta");
 define('LABEL_DesdeFecha',"creado en o después de");
 define('LABEL_ProfundidadTermino',"Ubicado en profundidad");
-define('LABEL_esNoPreferido',"término no preferido");
+define('LABEL_esNoPreferido',"término alternativo");
 define('LABEL_BusquedaAvanzada',"búsqueda avanzada");
 define('LABEL_Todos',"todos");
 define('LABEL_QueBuscar',"¿Qué buscar?");
@@ -412,7 +412,7 @@ define('LABEL_turnOnMetaTerm','es un meta-término');
 define('LABEL_meta_term','meta-término');
 define('LABEL_meta_terms','meta-términos');
 define('LABEL_relatedTerms','términos relacionados');
-define('LABEL_nonPreferedTerms','términos no preferidos');
+define('LABEL_nonPreferedTerms','términos alternativos');
 define('LABEL_update1_6x1_7','Actualizar (1.6 -> 2.2)');
 define('LABEL_include_data','incluir');
 define('LABEL_updateEndpoint','actualizar punto de consulta SPARQL');
