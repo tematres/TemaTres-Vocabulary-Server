@@ -560,7 +560,7 @@ class XMLvocabularyServices
             "string"=>($array["termino_preferido"]) ? $array["termino_preferido"] : $array["tema"],
             "isMetaTerm"=>$array["isMetaTerm"],
             "no_term_string"=>($array["termino_preferido"]) ? $array["tema"] : false ,
-            "index"=>$array["indice"],
+            //"index"=>$array["indice"],
             "order" => $i
             );
         };

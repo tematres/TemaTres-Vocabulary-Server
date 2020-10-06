@@ -199,6 +199,9 @@ function SQLbuscaSimple($texto)
 
     $texto=trim($texto);
 
+	//$texto=secure_data(trim($texto),"ADOsql");
+
+
     $codUP=UP_acronimo;
 
     //Control de estados
@@ -216,7 +219,7 @@ function SQLbuscaSimple($texto)
 	relaciones.t_relacion,
 	temasPreferidos.tema as termino_preferido,
 	tema.isMetaTerm,
-	if(?=tema.tema,1,0) as rank,
+	if(?=tema.tema,1,0) as ranking,
 	i.indice,
 	v.value_id as rel_rel_id,
 	v.value as rr_value,
@@ -232,7 +235,7 @@ function SQLbuscaSimple($texto)
 	tema.tema like ?
 	$where
 	group by id_definitivo
-	order by rank desc,lower(tema.tema)",
+	order by ranking desc,lower(tema.tema)",
         array($texto,"%$texto%")
     );
 
@@ -293,14 +296,22 @@ function SQLsearchInNotes($texto, $params = array())
 //
 // Buscador términos que comienzan según string = terms beginning with string
 //
-function SQLstartWith($texto, $strict_mode = 1)
+function SQLstartWith($texto, $strict_mode = 1,$limit = 50)
 {
 
     global $DBCFG;
 
-    $texto=trim($texto);
+    $limit=($limit<51) ? $limit : 50;
 
-    $texto=(CFG_SUGGESTxWORD==1) ? secure_data("[[:<:]]$texto", "ADOsql") : secure_data("$texto%", "ADOsql");
+	$texto_like=secure_data(trim($texto),"ADOsql");
+
+	$texto_like=str_replace("'", "", $texto_like);
+
+    /* disable config option about limit words
+    $texto=(CFG_SUGGESTxWORD==1) ? "\\b$texto" : "$texto%";
+    $where_method=(CFG_SUGGESTxWORD==1) ? 'regexp' : 'like';
+	*/
+
 
     $codUP=UP_acronimo;
 
@@ -313,35 +324,33 @@ function SQLstartWith($texto, $strict_mode = 1)
 
     //Check is include or not meta terms
     $where.=(CFG_SEARCH_METATERM==0) ? " and tema.isMetaTerm=0 " : "";
+  
 
-
-    $where_method=(CFG_SUGGESTxWORD==1) ? 'regexp' : 'like';
-
-    $sql=SQL(
-        "select",
-        "if(temasPreferidos.tema_id is not null,relaciones.id_menor,tema.tema_id) id_definitivo,
+    $sql=SQL("select","if(temasPreferidos.tema_id is not null,relaciones.id_menor,tema.tema_id) id_definitivo,
 	tema.tema_id,
 	tema.tema,
 	tema.code,
 	tema.estado_id,
 	relaciones.t_relacion,
-	temasPreferidos.tema as termino_preferido,
-	i.indice,
-	v.value_id as rel_rel_id,
-	v.value as rr_value,
-	v.value_code as rr_code
+	temasPreferidos.tema as termino_preferido
+	#,
+	#i.indice,
+	#v.value_id as rel_rel_id,
+	#v.value as rr_value,
+	#v.value_code as rr_code
 	from $DBCFG[DBprefix]tema as tema
 	left join $DBCFG[DBprefix]tabla_rel as relaciones on relaciones.id_mayor=tema.tema_id
 	left join $DBCFG[DBprefix]tema as temasPreferidos on temasPreferidos.tema_id=relaciones.id_menor
 	and tema.tema_id=relaciones.id_mayor
 	and relaciones.t_relacion in (4,5,6,7)
-	left join $DBCFG[DBprefix]indice i on i.tema_id=tema.tema_id
-	left join $DBCFG[DBprefix]values v on v.value_id = relaciones.rel_rel_id
+	#left join $DBCFG[DBprefix]indice i on i.tema_id=tema.tema_id
+	#left join $DBCFG[DBprefix]values v on v.value_id = relaciones.rel_rel_id
 	where
-	tema.tema $where_method $texto
+	(tema.tema like '$texto_like%') OR (tema.tema LIKE '% $texto_like%')
 	$where
 	group by tema.tema_id
-	order by lower(tema.tema)"
+	order by lower(tema.tema)
+	limit $limit"
     );
     return $sql;
 };
