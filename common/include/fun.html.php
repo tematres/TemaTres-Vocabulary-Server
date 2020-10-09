@@ -674,7 +674,7 @@ function HTMLtermMenuX2($array_tema, $relacionesTermino)
     //solo acepta relaciones si el término esta aceptado
     if (($array_tema["estado_id"]=='13') && ($isValidTerm)) {
         //link agregar un UP
-        $row.='     <li><a title="'.MENU_AgregarUP.'" href="'.URL_BASE.'index.php?taskterm=addUF&amp;tema='.$array_tema["idTema"].'"> '.$CFG["REL_SYMBOLS"]["UF"].' '.ucfirst(LABEL_altTerms).'</a></li>';
+        $row.='     <li><a title="'.MENU_AgregarUP.'" href="'.URL_BASE.'index.php?taskterm=addUF&amp;tema='.$array_tema["idTema"].'"> '.$CFG["REL_SYMBOLS"]["UF"].' '.ucfirst(MENU_AgregarUP).'</a></li>';
 
         //link agregar un TE
         $row.='     <li><a title="'.MENU_AgregarTE.'" href="'.URL_BASE.'index.php?taskterm=addNT&amp;tema='.$array_tema["idTema"].'"> '.$CFG["REL_SYMBOLS"]["NT"].' '.ucfirst(MENU_AgregarTE).'</a></li>';
