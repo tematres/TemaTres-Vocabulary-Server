@@ -7,7 +7,10 @@ released under the licence GNU General Public License, Version 2 (GPLv2), June 1
 This is the file LEAME.TXT
 
 ## Update to 3.2
-To update from previous Tematres versions: Login as admin: Menu -> Administration -> Database maintenance -> Update from 2.x -> 3.2
+To update from previous Tematres versions:
+1. Make a backup of your data (Login as admin: Menu -> Administration -> Export: Select SQL (backup)
+2. Copy the code of Tematres 3.2 in the web path directory, config the database connection credentials in db.tematres.php or maintain the previous db.tematres.php
+3. Login as admin: Menu -> Administration -> Database maintenance -> Update from 2.x -> 3.2
 
 ## Documentation
 
