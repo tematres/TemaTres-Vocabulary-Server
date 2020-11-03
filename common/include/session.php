@@ -103,7 +103,8 @@ if ($_POST["id_correo_electronico"]) {
                 $add_param='?letra='.$url_data["letra"];
             };
 
-            header("Location: " . $_SESSION["CFGURL"].$add_param);
+            //header("Location: " . $_SESSION["CFGURL"].$add_param);
+            header("Location: index.php" .$add_param);
         }
     }
 }

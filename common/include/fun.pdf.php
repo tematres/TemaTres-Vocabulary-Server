@@ -229,12 +229,12 @@ class PDF extends FPDF
         $y=$this->GetY();
         $this->SetY($y+5);
  
-        $site_link=$this->WriteHTML('URL: <a href="'.URL_BASE.'">'.URL_BASE.'</a>');
+        $site_link=$this->WriteHTML('URL: <a href="'.$_SESSION["CFGURL"].'">'.$_SESSION["CFGURL"].'</a>');
         $this->MultiCell(0, 8, $site_link, 0, 'L');
 
         //are enable SPARQL
         if (CFG_ENABLE_SPARQL==1) {
-              $sparql_link=$this->WriteHTML(LABEL_SPARQLEndpoint.': <a href="'.URL_BASE.'sparql.php" title="'.LABEL_SPARQLEndpoint.'">'.URL_BASE.'sparql.php</a>');
+              $sparql_link=$this->WriteHTML(LABEL_SPARQLEndpoint.': <a href="'.$_SESSION["CFGURL"].'sparql.php" title="'.LABEL_SPARQLEndpoint.'">'.$_SESSION["CFGURL"].'sparql.php</a>');
               $this->MultiCell(0, 8, $sparql_link, 0, 'L');
         }
     
