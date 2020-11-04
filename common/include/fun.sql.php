@@ -199,7 +199,7 @@ function SQLbuscaSimple($texto)
 
     $texto=trim($texto);
 
-	//$texto=secure_data(trim($texto),"ADOsql");
+    //$texto=secure_data(trim($texto),"ADOsql");
 
 
     $codUP=UP_acronimo;
@@ -296,21 +296,21 @@ function SQLsearchInNotes($texto, $params = array())
 //
 // Buscador términos que comienzan según string = terms beginning with string
 //
-function SQLstartWith($texto, $strict_mode = 1,$limit = 50)
+function SQLstartWith($texto, $strict_mode = 1, $limit = 50)
 {
 
     global $DBCFG;
 
     $limit=($limit<51) ? $limit : 50;
 
-	$texto_like=secure_data(trim($texto),"ADOsql");
+    $texto_like=secure_data(trim($texto), "ADOsql");
 
-	$texto_like=str_replace("'", "", $texto_like);
+    $texto_like=str_replace("'", "", $texto_like);
 
     /* disable config option about limit words
     $texto=(CFG_SUGGESTxWORD==1) ? "\\b$texto" : "$texto%";
     $where_method=(CFG_SUGGESTxWORD==1) ? 'regexp' : 'like';
-	*/
+    */
 
 
     $codUP=UP_acronimo;
@@ -326,7 +326,7 @@ function SQLstartWith($texto, $strict_mode = 1,$limit = 50)
     $where.=(CFG_SEARCH_METATERM==0) ? " and tema.isMetaTerm=0 " : "";
   
 
-    $sql=SQL("select","if(temasPreferidos.tema_id is not null,relaciones.id_menor,tema.tema_id) id_definitivo,
+    $sql=SQL("select", "if(temasPreferidos.tema_id is not null,relaciones.id_menor,tema.tema_id) id_definitivo,
 	tema.tema_id,
 	tema.tema,
 	tema.code,
@@ -350,8 +350,7 @@ function SQLstartWith($texto, $strict_mode = 1,$limit = 50)
 	$where
 	group by tema.tema_id
 	order by lower(tema.tema)
-	limit $limit"
-    );
+	limit $limit");
     return $sql;
 };
 
@@ -2874,16 +2873,15 @@ function SQLupdateTemaTresVersion($ver2ver)
     switch ($ver2ver) {
         case '2_2x3_2':
             /**alter to support invalid or null dates */
-            $sql_invalid_dates=SQL("update", " `".$prefix."tema` set cuando_final=NULL where  cuando_final=0");
-
-            $sql_invalid_dates=SQL("ALTER", " TABLE `".$prefix."tema` CHANGE `cuando_final` `cuando_final` DATETIME NULL;");
-            $sql_invalid_dates=SQL("ALTER", " TABLE `".$prefix."tema` CHANGE `cuando` `cuando` DATETIME NULL DEFAULT NULL ;");
-            $sql_invalid_dates=SQL("ALTER", " TABLE `".$prefix."tema` CHANGE `cuando_estado` `cuando_estado` DATETIME NULL DEFAULT NULL ;");
-            $sql_invalid_dates=SQL("ALTER", " TABLE `".$prefix."notas` CHANGE `cuando` `cuando` DATETIME NULL DEFAULT NULL ;");
+            $sql_invalid_dates2=SQL("ALTER", " TABLE `".$prefix."tema` CHANGE `cuando` `cuando` DATETIME NULL DEFAULT NULL ");
+            $sql_invalid_dates1=SQL("ALTER", " TABLE `".$prefix."tema` CHANGE `cuando_final` `cuando_final` DATETIME NULL DEFAULT NULL ");
+            $sql_invalid_dates3=SQL("ALTER", " TABLE `".$prefix."tema` CHANGE `cuando_estado` `cuando_estado` DATETIME NULL DEFAULT NULL");
+            $sql_invalid_dates0=SQL("update", " `".$prefix."tema` set cuando_final=NULL where  cuando_final=0");
+            
+            $sql_invalid_dates4=SQL("ALTER", " TABLE `".$prefix."notas` CHANGE `cuando` `cuando` DATETIME NULL DEFAULT NULL ");
 
             $sql_1=SQL("ALTER", " TABLE `".$prefix."notas` ADD `src_id` int(22) NULL,ADD INDEX ( `src_id` );");
             $sql_2=SQL("ALTER", " TABLE `".$prefix."tema` ADD `tema_hash` VARCHAR(12) CHARACTER SET utf8 COLLATE utf8_general_ci NULL AFTER `tema`, ADD UNIQUE `ndx_hash` (`tema_hash`);");
-
 
 
             $sql2_2x3_2b=SQL(

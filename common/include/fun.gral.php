@@ -837,7 +837,8 @@ function DBconnect()
     //$DB->Connect($DBCFG["Server"], $DBCFG["DBLogin"], $DBCFG["DBPass"], $DBCFG["DBName"]);
 
 
-    $DB->Execute("SET SESSION sql_mode = 'TRADITIONAL'");
+    //$DB->Execute("SET SESSION sql_mode = 'TRADITIONAL'");
+    $DB->Execute("SET SESSION sql_mode = ' '");
 
     // Si se establecio un charset para la conexion
     if (@$DBCFG["DBcharset"]) {
