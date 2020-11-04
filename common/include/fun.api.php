@@ -784,7 +784,7 @@ class XMLvocabularyServices
         $array['fetchTopTerms']['example'] = $_SESSION["CFGURL"].'services.php?task=fetchTopTerms';
 
         $array['fetchCentralTerms']['action'] = ' Retrieve the vocabulary central terms (relation between depth and number of descendant terms)';
-        $array['fetchCentralTerms']['task'] = 'fetchTopTerms';
+        $array['fetchCentralTerms']['task'] = 'fetchCentralTerms';
         $array['fetchCentralTerms']['arg'] = ' none';
         $array['fetchCentralTerms']['example'] = $_SESSION["CFGURL"].'services.php?task=fetchCentralTerms';
 
