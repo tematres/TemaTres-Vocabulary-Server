@@ -348,6 +348,25 @@ class XMLvocabularyServices
         return $result;
     }
 
+    // Array de términos centrales
+    // array(tema_id,string)
+    function fetchCentralTerms($term_id = 0)
+    {
+
+        $sql=SQLprotoTerms(SQLcount(SQLTermDeep()), 30);
+
+
+        while ($array=$sql->FetchRow()) {
+            $result["result"][$array["tema_id"]]= array(
+            "term_id"=>$array["tema_id"],
+            "string"=>FixEncoding($array["tema"]),
+            "width"=>FixEncoding($array["cant_nt"])
+            //"depth"=>FixEncoding($array["tdeep"])
+            );
+        };
+        return $result;
+    }
+
     // Array de términos tope
     // array(tema_id,string)
     function fetchLast()
@@ -764,6 +783,11 @@ class XMLvocabularyServices
         $array['fetchTopTerms']['arg'] = ' none';
         $array['fetchTopTerms']['example'] = $_SESSION["CFGURL"].'services.php?task=fetchTopTerms';
 
+        $array['fetchCentralTerms']['action'] = ' Retrieve the vocabulary central terms (relation between depth and number of descendant terms)';
+        $array['fetchCentralTerms']['task'] = 'fetchTopTerms';
+        $array['fetchCentralTerms']['arg'] = ' none';
+        $array['fetchCentralTerms']['example'] = $_SESSION["CFGURL"].'services.php?task=fetchCentralTerms';
+
         $array['search']['action'] = 'Search and retrieve terms';
         $array['search']['task'] = 'search';
         $array['search']['arg'] = 'search expresion (string)';
@@ -1010,6 +1034,12 @@ function fetchVocabularyService($task, $arg, $output = "xml")
                 $response = $service-> fetchTopTerms($arg);
                 break;
 
+            case 'fetchCentralTerms':
+                // Array de términos tope
+                // array(tema_id,string)
+                $response = $service-> fetchCentralTerms($arg);
+                break;
+
             case 'fetchLast':
                 // Array de últimos términos creados
                 // array(tema_id,string)
@@ -1168,6 +1198,7 @@ function evalServiceParam($task, $arg)
     "fetchNotes"=>"int",
     "fetchURI"=>"int",
     "fetchTopTerms"=>"NULL",
+    "fetchCentralTerms"=>"NULL",
     "fetchLast"=>"NULL",
     "fetchVocabularyData"=>"NULL",
     "fetchTerms"=>"array_int",
@@ -1253,6 +1284,10 @@ function evalServiceParam($task, $arg)
             break;
 
         case 'fetchTopTerms':
+            $response = array("task"=>$task,"arg"=>$arg);
+            break;
+
+        case 'fetchCentralTerms':
             $response = array("task"=>$task,"arg"=>$arg);
             break;
 
