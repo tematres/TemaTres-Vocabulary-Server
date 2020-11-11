@@ -627,7 +627,7 @@ function borra_r($id_r)
 
     $dator=$sql_dator->FetchRow();
 
-    switch ($dator[t_relacion]) {
+    switch ($dator["t_relacion"]) {
         case '2':
             $sql_id_delete=SQL(
                 "select",
@@ -646,7 +646,7 @@ function borra_r($id_r)
 
         case '3':
             $delete=SQL("delete", "from $DBCFG[DBprefix]tabla_rel where id='$id_r'");
-            actualizaListaArbolAbajo($dator[id_menor]);
+            actualizaListaArbolAbajo($dator["id_menor"]);
             break;
 
 

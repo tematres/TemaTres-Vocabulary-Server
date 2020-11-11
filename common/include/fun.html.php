@@ -1903,7 +1903,7 @@ function HTMLshowCode($arrayTerm)
     if (($_SESSION[$_SESSION["CFGURL"]]["ssuser_id"]) && ($CFG["_USE_CODE"]=='1')) {
         $rows.='<div title="term code, click to edit" class="editable_textarea" id="code_tema'.$arrayTerm["tema_id"].'">'.$arrayTerm["code"].'</div>';
     } elseif ($CFG["_SHOW_CODE"]=='1') {
-        $rows.=' '.$arrayTerm[code].' ';
+        $rows.=' '.$arrayTerm["code"].' ';
     }
 
     return $rows;
