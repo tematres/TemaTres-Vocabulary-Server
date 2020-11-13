@@ -44,7 +44,7 @@ function message($mess)
 // Return base URL of the current URL or instance of vocabulary
 function getURLbaseInstall()
 {
-    $s = empty($_SERVER["HTTPS"]) ? '' : ($_SERVER["HTTPS"] == "on") ? "s" : "";
+    $s = empty($_SERVER["HTTPS"]) ? '' : (($_SERVER["HTTPS"] == "on") ? "s" : "");
     $protocol = substr(strtolower($_SERVER["SERVER_PROTOCOL"]), 0, strpos(strtolower($_SERVER["SERVER_PROTOCOL"]), "/")) . $s;
     $port = ($_SERVER["SERVER_PORT"] == "80") ? "" : (":".$_SERVER["SERVER_PORT"]);
     $uri = $protocol . "://" . $_SERVER['SERVER_NAME'] . $port . $_SERVER['REQUEST_URI'];
@@ -214,9 +214,9 @@ function SQLtematres($DBCFG, $DB, $arrayInstallData = array())
         $http = ($_SERVER['HTTPS'] == 'on') ? 'https://' : 'http://';
 
         $url =  str_replace("install.php", "", $http.$_SERVER['SERVER_NAME'].$_SERVER['PHP_SELF']);
-        $title = ($arrayInstallData['title']) ? $DB->qstr(trim($arrayInstallData["title"]), get_magic_quotes_gpc()) : "'TemaTres'";
-        $author = ($arrayInstallData['author']) ? $DB->qstr(trim($arrayInstallData["author"]), get_magic_quotes_gpc()) : "'TemaTres'";
-        $tematres_lang=$DB->qstr(trim($arrayInstallData["lang"]), get_magic_quotes_gpc());
+        $title = ($arrayInstallData['title']) ? $DB->qstr(trim($arrayInstallData["title"])) : "'TemaTres'";
+        $author = ($arrayInstallData['author']) ? $DB->qstr(trim($arrayInstallData["author"])) : "'TemaTres'";
+        $tematres_lang=$DB->qstr(trim($arrayInstallData["lang"]));
         $tematres_lang=($tematres_lang) ?  $tematres_lang : 'es';
 
         $comment = '';
@@ -458,9 +458,9 @@ function SQLtematres($DBCFG, $DB, $arrayInstallData = array())
 
     //If create table --> insert data
     if (is_object($result7)) {
-        $admin_mail=($arrayInstallData['mail']) ? $DB->qstr(trim($arrayInstallData['mail']), get_magic_quotes_gpc()) : "'admin@r020.com.ar'";
-        $admin_name=($arrayInstallData['name']) ? $DB->qstr(trim($arrayInstallData['name']), get_magic_quotes_gpc()) : "'admin name'";
-        $admin_surname=($arrayInstallData['s_name']) ? $DB->qstr(trim($arrayInstallData['s_name']), get_magic_quotes_gpc()) : "'admin sur name'";
+        $admin_mail=($arrayInstallData['mail']) ? $DB->qstr(trim($arrayInstallData['mail'])) : "'admin@r020.com.ar'";
+        $admin_name=($arrayInstallData['name']) ? $DB->qstr(trim($arrayInstallData['name'])) : "'admin name'";
+        $admin_surname=($arrayInstallData['s_name']) ? $DB->qstr(trim($arrayInstallData['s_name'])) : "'admin sur name'";
 
 
         $admin_pass=($arrayInstallData['password']) ? trim($arrayInstallData['password']) : "'admin'";
@@ -469,7 +469,7 @@ function SQLtematres($DBCFG, $DB, $arrayInstallData = array())
 
         $admin_pass_hash=(CFG_HASH_PASS==1) ? t3_hash_password($admin_pass) : $admin_pass;
 
-        $admin_pass_hash=($admin_pass_hash) ? $DB->qstr(trim($admin_pass_hash), get_magic_quotes_gpc()) : "'admin'";
+        $admin_pass_hash=($admin_pass_hash) ? $DB->qstr(trim($admin_pass_hash)) : "'admin'";
 
 
         $result8=$DB->Execute(
