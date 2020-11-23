@@ -81,6 +81,7 @@ $CFG["CONFIG_VAR"]=array('2','3','4','config','DATESTAMP','t_estado','t_nota','t
 $CFG["ISO639-1"]=array(
     "ab"=>array("ab","Abkhazian"),
     "ar"=>array("ar","Arabic"),
+    "hy"=>array("hy","Armenian"),
     "ay"=>array("ay","Aymara"),
     "eu"=>array("eu","Basque"),
     "ca"=>array("ca","Catalan"),
