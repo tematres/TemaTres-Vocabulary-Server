@@ -320,7 +320,7 @@ function SQLstartWith($texto, $strict_mode = 1, $limit = 50)
 
 
     //incluir sólo término de la lengua base (no lengua de referencia)
-    $where.=($strict_mode==1) ? " and tema.tesauro_id='1' " : "";
+    $where.=($strict_mode==1) ? " and tema.tesauro_id=1 " : "";
 
     //Check is include or not meta terms
     $where.=(CFG_SEARCH_METATERM==0) ? " and tema.isMetaTerm=0 " : "";
@@ -342,11 +342,12 @@ function SQLstartWith($texto, $strict_mode = 1, $limit = 50)
 	left join $DBCFG[DBprefix]tabla_rel as relaciones on relaciones.id_mayor=tema.tema_id
 	left join $DBCFG[DBprefix]tema as temasPreferidos on temasPreferidos.tema_id=relaciones.id_menor
 	and tema.tema_id=relaciones.id_mayor
-	and relaciones.t_relacion in (4,5,6,7)
+	#and relaciones.t_relacion in (4,5,6,7)
+	and relaciones.t_relacion= 4
 	#left join $DBCFG[DBprefix]indice i on i.tema_id=tema.tema_id
 	#left join $DBCFG[DBprefix]values v on v.value_id = relaciones.rel_rel_id
 	where
-	(tema.tema like '$texto_like%') OR (tema.tema LIKE '% $texto_like%')
+	((tema.tema like '$texto_like%') OR (tema.tema LIKE '% $texto_like%'))
 	$where
 	group by tema.tema_id
 	order by lower(tema.tema)
