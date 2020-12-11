@@ -506,8 +506,7 @@ function HTMLmainMenu()
 {
 
     $row.='<ul class="nav navbar-nav navbar-right">';
-    $row.='<li class="dropdown">
-	<a href="#" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-toggle="dropdown">'.ucfirst(LABEL_Menu).' <b class="caret"></b></a>';
+    $row.='<li class="dropdown"><a href="#" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-toggle="dropdown">'.ucfirst(LABEL_Menu).' <b class="caret"></b></a>';
 
     $row.='<ul class="dropdown-menu">';
     /**
@@ -568,9 +567,14 @@ function HTMLmainMenu()
     $row.='   </ul>';
     $row.='</li>';
 
-    $row.='<li><a role="button" title="'.ucfirst(MENU_AgregarT).'" href="'.URL_BASE.'index.php?taskterm=addTerm&amp;tema=0">'.ucfirst(MENU_AgregarT).'</a></li>';
+    $row.='<li class="dropdown"><a href="#" id="dropdownMenu3" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-toggle="dropdown">'.ucfirst(MENU_AgregarT).' <b class="caret"></b></a>';
 
-
+    $row.='<ul class="dropdown-menu">';
+    $row.='<li><a role="button" title="'.ucfirst(MENU_AgregarT).'" href="index.php?taskterm=addTerm&amp;tema=0">'.ucfirst(MENU_AgregarT).'</a></li>';
+    $row.='<li><a role="button" title="'.ucfirst(MENU_AgregarT).'" href="index.php?taskterm=addTermSuggested" title="'.ucfirst(LABEL__getForRecomendation).'">'.ucfirst(LABEL__getForRecomendation).'</a></li>';
+    $row.='<li><a role="button" title="'.ucfirst(MENU_AgregarT).'" href="index.php?taskterm=findTermNews" title="'.ucfirst(LABEL__getForTargetVocabularyNews).'">'.ucfirst(LABEL__getForTargetVocabularyNews).'</a></li>';
+    $row.='  </ul>';
+    
     $row.='</ul>';
 
 
@@ -715,7 +719,7 @@ function HTMLtermMenuX2($array_tema, $relacionesTermino)
 function HTMLNotasTermino($array, $editFlag = 0)
 {
 
-    if (count($array["notas"])==0) {
+    if (!is_array($array["notas"])) {
         return;
     }
 
@@ -2422,28 +2426,28 @@ function HTMLsimpleForeignTerm($arrayTerm, $URL_ttermData)
     $RTrows='';
     $UFrows='';
 
-    if (count($arrayTerm["ttermNT"])>0) {
+    if (is_array($arrayTerm["ttermNT"])) {
         foreach ($arrayTerm["ttermNT"] as $eachTerm) {
                       $row_NT.=' <li '.$css_class_MT.' id="t'.$eachTerm["term_id"].'"><abbr class="thesacronym"  title="'.TE_termino.' '.$eachTerm["rtype"].'">'.TE_acronimo.$eachTerm["rtype"].'</abbr> '.$eachTerm["string"].'</li>';
         }
         $NTrows='<h4>'.ucfirst(LABEL_narrowerTerms).'</h4><ul class="list-unstyled" id="nt_data">'.$row_NT.'</ul>';
     }
 
-    if (count($arrayTerm["ttermBT"])>0) {
+    if (is_array($arrayTerm["ttermBT"])) {
         foreach ($arrayTerm["ttermBT"] as $eachTerm) {
-                      $row_BT.=' <li '.$css_class_MT.' id="t'.$eachTerm["term_id"].'"><abbr class="thesacronym"  title="'.TG_acronimo.' '.$eachTerm["rtype"].'">'.TG_acronimo.$eachTerm["rtype"].'</abbr> '.$eachTerm[string].'</li>';
+                      $row_BT.=' <li '.$css_class_MT.' id="t'.$eachTerm["term_id"].'"><abbr class="thesacronym"  title="'.TG_acronimo.' '.$eachTerm["rtype"].'">'.TG_acronimo.$eachTerm["rtype"].'</abbr> '.$eachTerm["string"].'</li>';
         }
         $BTrows='<h4>'.ucfirst(LABEL_broatherTerms).'</h4><ul class="list-unstyled" id="bt_data">'.$row_BT.'</ul>';
     }
 
-    if (count($arrayTerm["ttermRT"])>0) {
+    if (is_array($arrayTerm["ttermRT"])) {
         foreach ($arrayTerm["ttermRT"] as $eachTerm) {
-                      $row_RT.=' <li '.$css_class_MT.' id="t'.$eachTerm["term_id"].'"><abbr class="thesacronym"  title="'.TR_acronimo.' '.$eachTerm["rtype"].'">'.TR_acronimo.$eachTerm["rtype"].'</abbr> '.$eachTerm[string].'</li>';
+                      $row_RT.=' <li '.$css_class_MT.' id="t'.$eachTerm["term_id"].'"><abbr class="thesacronym"  title="'.TR_acronimo.' '.$eachTerm["rtype"].'">'.TR_acronimo.$eachTerm["rtype"].'</abbr> '.$eachTerm["string"].'</li>';
         }
         $RTrows='<h4>'.ucfirst(LABEL_relatedTerms).'</h4><ul class="list-unstyled" id="rt_data">'.$row_RT.'</ul>';
     }
 
-    if (count($arrayTerm["ttermUF"])>0) {
+    if (is_array($arrayTerm["ttermUF"])) {
         foreach ($arrayTerm["ttermUF"] as $eachTerm) {
                       $row_UF.=' <li  id="t'.$eachTerm["term_id"].'"><abbr class="thesacronym"  title="'.UP_acronimo.' '.$eachTerm["rtype"].'">'.UP_acronimo.$eachTerm["rtype"].'</abbr> '.$eachTerm[string].'</li>';
         }

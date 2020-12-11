@@ -380,11 +380,11 @@ function HTMLformSuggestTerms($ARRAYtargetVocabulary = array())
         $string2search = XSSprevent(trim($_GET["string2search"]));
         $rows.='<form class="" role="form" name="alta_tt" id="alta_tt" action="index.php#suggestResult" method="get">';
         $rows.='	<div class="row">
-        <div class="col-sm-12">
+        <div>
             <legend>'.ucfirst(LABEL_EditorTermino).'</legend>
         </div>
         <!-- panel  -->
-        <div class="col-lg-7">
+        <div class="col-lg-10">
             <h4>'.ucfirst(LABEL__getForRecomendation).'</h4>
             <div class="panel panel-default">
                 <div class="panel-body form-horizontal">
@@ -402,12 +402,12 @@ function HTMLformSuggestTerms($ARRAYtargetVocabulary = array())
                             <input type="text" class="form-control" required autofocus type="search" id="string2search" name="string2search" value="'.$string2search.'">
                         </div>
                     </div>
-										<div class="form-group">
-										<input type="checkbox" name="searchType" id="searchType" value="1" alt="'.ucfirst(LABEL_esFraseExacta).'" '.do_check(1, $searchType, 'checked').'  />
-										<div class="col-sm-4">
-										<label for="searchType">'.ucfirst(LABEL_esFraseExacta).'</label>
-											</div>
-										</div>
+                    <div class="col-sm-3  control-label">
+                            <label for="searchType">'.ucfirst(LABEL_esFraseExacta).'</label>
+                    </div>
+					<div class="class="col-sm-9" form-group">
+					       <input type="checkbox" name="searchType" id="searchType" value="1" alt="'.ucfirst(LABEL_esFraseExacta).'" '.do_check(1, $searchType, 'checked').'  />
+					</div>
                     <div class="form-group">
                         <div class="col-sm-12 text-right">
 												 <button type="submit" class="btn btn-primary" value="'.LABEL_Buscar.'"/>'.ucfirst(LABEL_Buscar).'</button>
@@ -431,10 +431,12 @@ function HTMLformSuggestTerms($ARRAYtargetVocabulary = array())
                 $i=++$i;
                 $term_id=(int) $value->term_id;
                 $string=(string) $value->string;
+                $source_date= ($value->date_mod>0) ? $value->date_mod : $value->date_create ;
                 $arrayTtermData[$term_id]=array("term_id"=>$term_id,
                 "string"=>$string,
                 "source_string"=>$string,
-                "source_term_id"=>$term_id
+                "source_term_id"=>$term_id,
+                "source_date"=> $source_date
                 );
             };
         }
@@ -1329,14 +1331,25 @@ function HTMLformTargetVocabularySuggested($arrayTterm, $t_relation, $string_sea
 		<tr>
 			<th align="center"></th>
 			<th>'.ucfirst(LABEL_Termino).'</th>
+            <th>'.ucfirst(LABEL_lastChangeDate).'</th>
 		</tr>
 		</thead>
 		<tbody class="searchable">';
         foreach ($arrayTterm as $value) {
+            //check for duplicated term
+            $SQLcheck_term=SQLbuscaExacta($value["source_string"]);
+
             $rows.= '<tr>';
-            $rows.=  '     	<td align="center"><input type="checkbox" name="selectedTerms[]" id="tterm_'.$value["term_id"].'" title="'.$value["source_string"].' ('.$label_relation.')" value="'.$value["string"].'|tterm_|'.$value["term_id"].'" /> </td>';
-            $rows.=  '      <td><label class="check_label" title="'.$value["source_string"].' ('.$label_relation.')" for="tterm_'.$value["term_id"].'">'.$value["string"].' <span style="font-weight:normal;">[<a href="modal.php?tvocab_id='.$arrayVocab["tvocab_id"].'&term_id='.$value["source_term_id"].'" class="modalTrigger" title="'.$value["source_string"].' ('.$label_relation.')" target="_blank">'.LABEL_Detalle.'</a>]</span></label></td>';
-            $rows.=  '</tr>';
+            if (SQLcount($SQLcheck_term)==0) {
+                $rows.=  '     	<td align="center"><input type="checkbox" name="selectedTerms[]" id="tterm_'.$value["term_id"].'" title="'.$value["source_string"].' ('.$label_relation.')" value="'.$value["string"].'|tterm_|'.$value["term_id"].'" /> </td>';
+                $rows.=  '      <td><label class="check_label" title="'.$value["source_string"].' ('.$label_relation.')" for="tterm_'.$value["term_id"].'">'.$value["string"].' <span style="font-weight:normal;">[<a href="modal.php?tvocab_id='.$arrayVocab["tvocab_id"].'&term_id='.$value["source_term_id"].'" class="modalTrigger" title="'.$value["source_string"].' ('.$label_relation.')" target="_blank">'.LABEL_Detalle.'</a>]</span></label></td>';
+            } else {
+                $rows.=  '      <td align="center"> </td>';
+                $rows.=  '      <td><label class="check_label" title="'.$value["source_string"].' ('.$label_relation.')" for="tterm_'.$value["term_id"].'"><a href="index.php?_expresion_de_busqueda='.$value["source_string"].'&sgs=off" title="'.LABEL_Detalle.' '.$value["source_string"].'">'.$value["string"].'</a> <span style="font-weight:normal;">[<a href="modal.php?tvocab_id='.$arrayVocab["tvocab_id"].'&term_id='.$value["source_term_id"].'" class="modalTrigger" title="'.$value["source_string"].' ('.$label_relation.')" target="_blank">'.LABEL_Detalle.'</a>]</span></label></td>';
+            }
+                $rows.=  '      <td>'.$value["source_date"].'</td>';
+
+                $rows.=  '</tr>';
         };
         $rows.='        </tbody>		</table>';
         $rows.='        </div>';
@@ -2763,5 +2776,97 @@ function HTMLlistSources()
     $rows.='        </tbody>';
     $rows.='</table>	</div>';
     $rows.='</div>'; //end div
+    return $rows;
+}
+
+
+/*
+* Form for edit or add terms
+1 caso:
+- Alta de un t�rmino nuevo.
+*
+*/
+function HTMLformTermsNews($tvocab_id = 0)
+{
+    global $CFG;
+    //SEND_KEY to prevent duplicated
+    session_start();
+    $_SESSION['SEND_KEY']=md5(uniqid(rand(), true));
+    
+    $sql=SQLtargetVocabulary("1");
+
+    $rows='<div class="container" id="bodyText">';
+    if (SQLcount($sql)=='0') {
+        //No hay vocabularios de referencia, solo vocabulario principal
+        $rows.=HTMLalertNoTargetVocabulary();
+    } else {
+        //Hay vobularios de referencia
+        $array_vocabularios=array();
+        while ($array=$sql->FetchRow()) {
+            if ($array["vocabulario_id"]!=='1') {
+                //vocabularios que no sean el vocabulario principal
+                array_push($array_vocabularios, $array["tvocab_id"].'#'.FixEncoding($array["tvocab_label"].' - '.$CFG["ISO639-1"][$array["tvocab_lang"]][1]));
+            }
+        };
+        $searchType=(!$_GET["tvocab_id"]) ? 1 : $_GET["searchType"];
+        $string2search = XSSprevent(trim($_GET["string2search"]));
+        $rows.='<form class="" role="form" name="alta_tt" id="alta_tt" action="index.php#suggestResult" method="get">';
+        $rows.='    <div class="row">
+        <div>
+            <legend>'.ucfirst(LABEL__getForTargetVocabularyNews).'</legend>
+        </div>
+        <!-- panel  -->
+        <div class="col-lg-10">
+            <div class="panel panel-default">
+                <div class="panel-body form-horizontal">
+                                <div class="form-group">
+                                <label for="tvocab_id" class="col-sm-3 control-label">'.ucfirst(FORM_LABEL_nombre_vocabulario).'</label>
+                                        <div class="col-sm-9">
+                                                <select class="form-control" id="tvocab_id" name="tvocab_id">
+                                                '.doSelectForm($array_vocabularios, $_GET["tvocab_id"]).'
+                                                </select>
+                                        </div>
+                                </div>
+
+                    <div class="form-group">
+                        <div class="col-sm-12 text-right">
+                                                 <button type="submit" class="btn btn-primary" value="'.LABEL_Buscar.'"/>'.ucfirst(LABEL_Buscar).'</button>
+                                                  <button type="button" class="btn btn" name="cancelar" type="button" onClick="location.href=\'index.php\'" value="'.ucfirst(LABEL_Cancelar).'"/>'.ucfirst(LABEL_Cancelar).'</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div> <!-- / panel  -->';
+        $rows.='<input type="hidden" name="taskterm" value="findTermNews"/>';
+        $rows.='</form>';
+    }
+    if ($tvocab_id>0) {
+        include_once T3_ABSPATH . 'common/include/vocabularyservices.php'    ;
+      
+        $arrayVocab=ARRAYtargetVocabulary($_GET["tvocab_id"]);
+        $dataTterm=getURLdata($arrayVocab["tvocab_uri_service"].'?task=fetchLast');
+        if ($dataTterm->resume->cant_result > "0") {
+            $arrayTtermData = array();
+            foreach ($dataTterm->result->term as $value) {
+                $i=++$i;
+                $term_id=(int) $value->term_id;
+                $string=(string) $value->string;
+                $source_date= ($value->date_mod>0) ? $value->date_mod : $value->date_create ;
+
+                $arrayTtermData[$term_id]=array("term_id"=>$term_id,
+                "string"=>$string,
+                "source_string"=>$string,
+                "source_term_id"=>$term_id,
+                "source_date"=> $source_date
+                );
+            };
+        }
+        //null for t_relation
+        $t_relation=0;
+        $rows.='   </div>';//row
+        //$rows.=HTMLformTargetVocabluaryNews($arrayTtermData, $arrayVocab);
+                $rows.=HTMLformTargetVocabularySuggested($arrayTtermData, $t_relation, $string2search, $arrayVocab, $ARRAYtermino["idTema"]);
+    };//fin de if buscar
+    $rows.='   </div>';//container
     return $rows;
 }

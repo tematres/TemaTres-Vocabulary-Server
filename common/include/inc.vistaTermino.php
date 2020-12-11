@@ -72,6 +72,9 @@ if ($_SESSION[$_SESSION["CFGURL"]]["ssuser_id"]) {
         case 'addTermSuggested':
             echo HTMLformSuggestTerms($metadata["arraydata"]);
             break;
+        case 'findTermNews':
+            echo HTMLformTermsNews($_GET["tvocab_id"]);
+            break;
 
         case 'addURI':
             echo HTMLformURI4term($metadata["arraydata"]);

@@ -548,3 +548,4 @@ define('LABEL_source4term', 'sources de référence pour les termes');
 define('LABEL_add_new', 'Ajouter');
 define('LABEL_sources4vocab', 'sources de référence');
 define('LABEL_update2_2x3_2', 'mise à jour 2.x -> 3.2');
+define('LABEL__getForTargetVocabularyNews', 'get for news');

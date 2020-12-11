@@ -33,6 +33,7 @@ if ((strlen($letra)>0) && (strlen($letra)<5)) {
 elseif ((is_numeric($metadata["arraydata"]["tema_id"]))
     || ($_GET["taskterm"]=='addTerm')
     || ($_GET["taskterm"]=='addTermSuggested')
+    || ($_GET["taskterm"]=='findTermNews')
 ) {
     include_once T3_ABSPATH . 'common/include/inc.vistaTermino.php';
 } //Vista de términos según estados
