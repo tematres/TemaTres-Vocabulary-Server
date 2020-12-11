@@ -172,10 +172,12 @@ function getForeingStrings($tvocab_uri_service, $task, $array_terms)
                 $i=++$i;
                 $term_id=(int) $value->term_id;
                 $string=(string) $value->string;
+                $source_date= ($value->date_mod>0) ? $value->date_mod : $value->date_create ;
                 $arrayTtermData[$term_id]=array("term_id"=>$term_id,
                 "string"=>$string,
                 "source_string"=>$term["string"],
-                "source_term_id"=>$term["term_id"]
+                "source_term_id"=>$term["term_id"],
+                "source_date"=> $source_date
                 );
             };
         }

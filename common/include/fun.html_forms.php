@@ -1337,8 +1337,7 @@ function HTMLformTargetVocabularySuggested($arrayTterm, $t_relation, $string_sea
 		<tbody class="searchable">';
         foreach ($arrayTterm as $value) {
             //check for duplicated term
-            $SQLcheck_term=SQLbuscaExacta($value["source_string"]);
-
+            $SQLcheck_term=SQLbuscaExacta($value["string"]);
             $rows.= '<tr>';
             if (SQLcount($SQLcheck_term)==0) {
                 $rows.=  '     	<td align="center"><input type="checkbox" name="selectedTerms[]" id="tterm_'.$value["term_id"].'" title="'.$value["source_string"].' ('.$label_relation.')" value="'.$value["string"].'|tterm_|'.$value["term_id"].'" /> </td>';
@@ -2864,7 +2863,6 @@ function HTMLformTermsNews($tvocab_id = 0)
         //null for t_relation
         $t_relation=0;
         $rows.='   </div>';//row
-        //$rows.=HTMLformTargetVocabluaryNews($arrayTtermData, $arrayVocab);
                 $rows.=HTMLformTargetVocabularySuggested($arrayTtermData, $t_relation, $string2search, $arrayVocab, $ARRAYtermino["idTema"]);
     };//fin de if buscar
     $rows.='   </div>';//container
