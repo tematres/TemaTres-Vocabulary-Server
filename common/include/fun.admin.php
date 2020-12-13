@@ -1516,12 +1516,12 @@ if ($_SESSION[$_SESSION["CFGURL"]]["ssuser_nivel"]=='1') {
     {
 
         global $DBCFG;
-        $sql=SQLoptimizarTablas("`$DBCFG[DBprefix]notas` , `$DBCFG[DBprefix]tabla_rel` , `$DBCFG[DBprefix]tema`,`$DBCFG[DBprefix]indice`,`$DBCFG[DBprefix]term2tterm`,`$DBCFG[DBprefix]tvocab`");
+        $sql=SQLoptimizarTablas("`$DBCFG[DBprefix]notas` , `$DBCFG[DBprefix]tabla_rel` , `$DBCFG[DBprefix]tema`,`$DBCFG[DBprefix]indice`,`$DBCFG[DBprefix]term2tterm`,`$DBCFG[DBprefix]tvocab`,`$DBCFG[DBprefix]sources`");
 
         $rows.='<div id="NA">';
         $rows.='<dl>';
         while ($array=$sql->FetchRow()) {
-            $rows.='<dt>'.$array[Table].'</dt><dd> '.$array[Msg_text].'</dd>';
+            $rows.='<dt>'.$array["Table"].'</dt><dd> '.$array["Msg_text"].'</dd>';
         }
         $rows.='</dl>';
         $rows.='</div>';

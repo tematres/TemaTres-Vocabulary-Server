@@ -748,25 +748,25 @@ function HTMLNotasTermino($array, $editFlag = 0)
         $body_note[$tipoNota]["note_type"]=$array["notas"][$iNota]["tipoNota"];
     };// fin del for
     
-
-    $body='<div class="panel-group" id="notas_collap">';
-    foreach ($body_note as $note_type => $note) {
-        $i=++$i;
-        $display_note=($note["note_type"]==$_SESSION[$_SESSION["CFGURL"]]["_GLOSS_NOTES"]) ? ' in' : '' ;
-        $body.='<div class="panel panel-default">
+    if (is_array($body_note)) {
+        $body='<div class="panel-group" id="notas_collap">';
+        foreach ($body_note as $note_type => $note) {
+            $i=++$i;
+            $display_note=($note["note_type"]==$_SESSION[$_SESSION["CFGURL"]]["_GLOSS_NOTES"]) ? ' in' : '' ;
+            $body.='<div class="panel panel-default">
 				    <div class="panel-heading">
 				      <h5 class="panel-title"><a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseNote'.$i.'">'.$note_type.'</a>';
         
-        // for add copy button in notes: ' .HTMLcopyClick('collapseNote'.$i, array("isMetaTerm"=>0,"isValidTerm"=>1,"copy_click"=>1) ). '
-        if ($note["cant"]>1) {
-            $body.=' <span class="badge">'.$note["cant"].'</span>';
-        }
-        $body.='</h5></div>
+            // for add copy button in notes: ' .HTMLcopyClick('collapseNote'.$i, array("isMetaTerm"=>0,"isValidTerm"=>1,"copy_click"=>1) ). '
+            if ($note["cant"]>1) {
+                $body.=' <span class="badge">'.$note["cant"].'</span>';
+            }
+            $body.='</h5></div>
 				    <div id="collapseNote'.$i.'" class="panel-collapse collapse'.$display_note.'">'.$note["content"].' </div>
 				  </div>';
+        }
+        $body.='</div>';
     }
-    $body.='</div>';
-
     return $body;
 };
 

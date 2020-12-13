@@ -26,24 +26,10 @@ if ($_SESSION[$_SESSION["CFGURL"]]["ssuser_nivel"]=='1') {
     if (($_POST['taskAdmin']=='importXML') && (file_exists($_FILES["file"]["tmp_name"]))) {
         $src_txt= $_FILES["file"]["tmp_name"];
 
-
-        //tag separator
-        $separador=(isset($CFG["IMP_TAG_SEPARATOR"])) ? $CFG["IMP_TAG_SEPARATOR"]: ":";
-        //tabulator
-        $tabulador=(isset($CFG["IMP_TAG_TABULATOR"])) ? $CFG["IMP_TAG_TABULATOR"]: "===";
-        
-        $t_relacion='';
-        //get for notes tag
-        $sqlNotesTag=SQLcantNotas();
-        $arrayTiposNotas=array();
-        while ($arrayNotesTag=$sqlNotesTag->FetchRow()) {
-            array_push($arrayTiposNotas, $arrayNotesTag["value_code"]);
-        }
-
         //lang
         $thes_lang=$_SESSION["CFGIdioma"];
 
-        /*
+        /**
         Procesamiento del file
         */
         $doc = new DOMDocument();
@@ -62,6 +48,7 @@ if ($_SESSION[$_SESSION["CFGURL"]]["ssuser_nivel"]=='1') {
             $termosRT = getRTterms($record);
             $termosNT = getNTterms($record);
             $termosBT = getBTterms($record);
+            $termosNotes = getNotes($record);
 
             //es un término
             if ((strlen($termo)>0)) {
@@ -99,6 +86,16 @@ if ($_SESSION[$_SESSION["CFGURL"]]["ssuser_nivel"]=='1') {
                 foreach ($termosBT as $termoBT) {
                     $BTterm_id=resolveTerm_id($termoBT, "1");
                     ALTArelacionXId($BTterm_id, $term_id, "3");
+                }
+            }
+
+
+
+            //adiciona termos BT
+            if (count($termosNotes) > 0) {
+                foreach ($termosNotes as $termNotes) {
+                        $label=arrayReplace(array("677", "678", "680"," 678", "688","670"), array("DF", "NB", "NA"," NH", "NC", "NB"), $termNotes["note_type"]);
+                        abmNota("A", $term_id, $label, "$thes_lang", trim($termNotes["note"]));
                 }
             }
         }
@@ -277,4 +274,25 @@ function getSubfield($field, $subfield)
             }
         }
     }
+}
+
+
+function getNotes($record)
+{
+    $array_fields = array("677", "678", "680"," 678", "688","670");
+    $cont = 0;
+    $resultFields = array();
+
+    foreach ($array_fields as $nameField) {
+        $notes = getFieldList($record, $nameField);
+        foreach ($notes as $note) {
+            if (hasSubfield($note, "a")) {
+                $sf = getSubfield($note, "a");
+                if ($sf->textContent != "") {
+                    $resultFields[$cont++]= array("note_type"=>$nameField,"note"=>trim($sf->textContent));
+                }
+            }
+        }
+    }
+    return $resultFields;
 }
