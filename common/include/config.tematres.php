@@ -118,6 +118,7 @@ $CFG["ISO639-1"]=array(
     "ru"=>array("ru","Russian"),
     "sr"=>array("sr","Serbian"),
     "sh"=>array("sh","Serbo-Croatian"),
+    "si"=>array("si","සිංහල"),
     "sk"=>array("sk","Slovak"),
     "sl"=>array("sl","Slovenian"),
     "so"=>array("so","Somali"),
