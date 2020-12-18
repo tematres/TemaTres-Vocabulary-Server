@@ -549,3 +549,4 @@ define('LABEL_add_new', 'add new');
 define('LABEL_sources4vocab', 'reference sources');
 define('LABEL_update2_2x3_2', 'Actualitzar (2.x -> 3.2)');
 define('LABEL__getForTargetVocabularyNews', 'buscar novedades');
+define('LABEL__example', 'ejemplo');

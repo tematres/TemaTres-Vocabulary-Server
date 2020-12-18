@@ -210,7 +210,7 @@ if ($array_vocabulario["vocabulario_id"]==1) {
 	<input type="submit" class="btn btn-primary" id="boton" name="boton" value="'.ucfirst(LABEL_Guardar).'"/>
 	<a href="admin.php" class="btn btn-default" id="boton_cancelar" title="'.ucfirst(LABEL_Cancelar).'">'.ucfirst(LABEL_Cancelar).'</a>';
     //editor for target vocabularies
-if ($array_vocabulario["vocabulario_id"]!=='1') {
+if ($array_vocabulario["vocabulario_id"]>1) {
     $rows.='	<input type="button" class="btn btn-danger" id="boton" name="boton" onclick="document.getElementById(\'delete-tvocab\').submit();" value="'.ucfirst(LABEL_eliminar).'"/>';
 }
     $rows.='</div>

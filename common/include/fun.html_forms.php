@@ -1142,7 +1142,7 @@ function HTMLformTargetVocabulary($tvocab_id = "0")
 			             				</div>
 			             </div>
 									<div class="form-group">
-											<label for="tvocab_tag" accesskey="l" class="col-sm-3 control-label">'.ucfirst(LABEL_tvocab_tag).'</label>
+											<label for="tvocab_tag" accesskey="l" class="col-sm-3 control-label">'.ucfirst(LABEL_tvocab_tag).'a</label>
 			                <div class="col-sm-9">
 											<input type="text" class="form-control"  required placeholder="'.ucfirst(LABEL_tvocab_tag).'" name="tvocab_tag" id="tvocab_tag" value="'.$array["tvocab_tag"].'"/>
 											<span class="help-block">'.ucfirst(LABEL_defaultEQmap).'</span>
@@ -1155,6 +1155,7 @@ function HTMLformTargetVocabulary($tvocab_id = "0")
         $rows.='<span id="tvocab_uri_service">'.$array["tvocab_uri_service"].'</span>';
     } else {
         $rows.='<input type="url" required placeholder="'.LABEL_tvocab_uri_service.'"  class="form-control" name="tvocab_uri_service" id="tvocab_uri_service" value="'.$array["tvocab_uri_service"].'"/>';
+        $rows.='<span class="help-block">'.ucfirst(LABEL__example).' (demo): <a href="https://r020.com.ar/tematres/demo/services.php" target="_blanck">https://r020.com.ar/tematres/demo/services.php</span>';
         $rows.='<span class="help-block">'.ucfirst(LINK_publicKnownVocabularies).'</span>';
     };
                                     $rows.='    </div>
