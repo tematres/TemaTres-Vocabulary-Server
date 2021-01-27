@@ -507,3 +507,7 @@ display: inline;
 .tooltip-inner {
     text-align: left;
 }
+
+.nobullet{
+  list-style-type: none;
+}
