@@ -4306,7 +4306,7 @@ EOT;
         $txt .='</record>' . "\n";
     }
     $txt .='</collection>' . "\n";
-    $filname=string2url($_SESSION["CFGTitulo"].' '.marcXML).'.xml';
+    $filname=string2url($_SESSION["CFGTitulo"].' marcXML').'.xml';
     
     return sendFile("$txt", "$filname");
 };
