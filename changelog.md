@@ -27,8 +27,8 @@ To update from previous Tematres versions:
 - Support for InnoDB database type
 - Add config options to config type of charset in install process
 - Add support for Archival Resource Key (ARK)  persistent identifier . https://en.wikipedia.org/wiki/Archival_Resource_Key
-- Add Normalized manager for reference sources: now you can reuse references and discovery global survey about them
-- Add capabilities to assign reference sources for terms or notes as differentiates entities
+- Add Normalized manager for reference sources: now you can reuse references and discovery global surveys about them
+- Add capabilities to assign reference sources for terms or notes as differentiated entities
 - Add a new verb to Tematres API: fetchCentralTerms. The command retrieves the central terms of the vocabulary (relation between depth and number of descendant terms).
 
 
