@@ -1313,7 +1313,11 @@ function HTMLformTargetVocabularySuggested($arrayTterm, $t_relation, $string_sea
     //SEND_KEY to prevent duplicated
     session_start();
     $_SESSION['SEND_KEY']=md5(uniqid(rand(), true));
+
     $label_relation=ucfirst(arrayReplace(array('0','2','3','4'), array(LABEL_Termino,TR_termino,TE_termino,UP_termino), $t_relation));
+
+    $flag_allow_duplicated=($_SESSION[$_SESSION["CFGURL"]]["CFG_ALLOW_DUPLICATED"]==1) ?  1 : 0;
+
     $rows.='<h3 id="suggestResult">'.FixEncoding($arrayVocab["tvocab_title"]).' ('.$CFG["ISO639-1"][$arrayVocab["tvocab_lang"]][1].')</h3>';
     if (count($arrayTterm) > 0) {
         $rows.='<form role="form" name="select_multi_term" action="index.php" method="post">';
@@ -1330,7 +1334,7 @@ function HTMLformTargetVocabularySuggested($arrayTterm, $t_relation, $string_sea
         $rows.='<table class="table table-striped table-bordered table-condensed table-hover">
 		<thead>
 		<tr>
-			<th align="center"></th>
+			<th  class="text-center"><input name="checktodos" type="checkbox" title="'.LABEL_selectAll.'"/></th>
 			<th>'.ucfirst(LABEL_Termino).'</th>
             <th>'.ucfirst(LABEL_lastChangeDate).'</th>
 		</tr>
@@ -1339,17 +1343,28 @@ function HTMLformTargetVocabularySuggested($arrayTterm, $t_relation, $string_sea
         foreach ($arrayTterm as $value) {
             //check for duplicated term
             $SQLcheck_term=SQLbuscaExacta($value["string"]);
+            $is_duplicated=(SQLcount($SQLcheck_term)>0) ? true : false;
             $rows.= '<tr>';
-            if (SQLcount($SQLcheck_term)==0) {
-                $rows.=  '     	<td align="center"><input type="checkbox" name="selectedTerms[]" id="tterm_'.$value["term_id"].'" title="'.$value["source_string"].' ('.$label_relation.')" value="'.$value["string"].'|tterm_|'.$value["term_id"].'" /> </td>';
-                $rows.=  '      <td><label class="check_label" title="'.$value["source_string"].' ('.$label_relation.')" for="tterm_'.$value["term_id"].'">'.$value["string"].' <span style="font-weight:normal;">[<a href="modal.php?tvocab_id='.$arrayVocab["tvocab_id"].'&term_id='.$value["source_term_id"].'" class="modalTrigger" title="'.$value["source_string"].' ('.$label_relation.')" target="_blank">'.LABEL_Detalle.'</a>]</span></label></td>';
-            } else {
-                $rows.=  '      <td align="center"> </td>';
-                $rows.=  '      <td><label class="check_label" title="'.$value["source_string"].' ('.$label_relation.')" for="tterm_'.$value["term_id"].'"><a href="index.php?_expresion_de_busqueda='.$value["source_string"].'&sgs=off" title="'.LABEL_Detalle.' '.$value["source_string"].'">'.$value["string"].'</a> <span style="font-weight:normal;">[<a href="modal.php?tvocab_id='.$arrayVocab["tvocab_id"].'&term_id='.$value["source_term_id"].'" class="modalTrigger" title="'.$value["source_string"].' ('.$label_relation.')" target="_blank">'.LABEL_Detalle.'</a>]</span></label></td>';
-            }
-                $rows.=  '      <td>'.$value["source_date"].'</td>';
 
-                $rows.=  '</tr>';
+            //duplicated term & allowed duplicated
+            if (($is_duplicated) && ($flag_allow_duplicated==1)) {
+                $rows.=  '     	<td align="center"><input type="checkbox" name="selectedTerms[]" id="tterm_'.$value["term_id"].'" title="'.$value["source_string"].' ('.$label_relation.')" value="'.$value["string"].'|tterm_|'.$value["term_id"].'" /> </td>';
+
+                $rows.=  '      <td><label class="check_label" title="'.$value["source_string"].' ('.$label_relation.')" for="tterm_'.$value["term_id"].'">'.$value["string"].' <span style="font-weight:normal;">[<a href="modal.php?tvocab_id='.$arrayVocab["tvocab_id"].'&term_id='.$value["source_term_id"].'" class="modalTrigger" title="'.$value["source_string"].' ('.$label_relation.')" target="_blank">'.LABEL_Detalle.'</a>]</span>  <span style="color:red">'.LABEL_terminoExistente.'</span></label></td>';
+                $rows.=  '      <td>'.$value["source_date"].'</td>';
+            //duplicated term & nos allowed d
+            } elseif (($is_duplicated) && ($flag_allow_duplicated==0)) {
+                $rows.=  '      <td align="center"> </td>';
+
+                $rows.=  '      <td><label class="check_label" title="'.$value["source_string"].' ('.$label_relation.')" for="tterm_'.$value["term_id"].'">'.$value["string"].' <span style="font-weight:normal;">[<a href="modal.php?tvocab_id='.$arrayVocab["tvocab_id"].'&term_id='.$value["source_term_id"].'" class="modalTrigger" title="'.$value["source_string"].' ('.$label_relation.')" target="_blank">'.LABEL_Detalle.'</a>]</span>  <span style="color:red">'.LABEL_terminoExistente.'</span></label></td>';
+                $rows.=  '      <td>'.$value["source_date"].'</td>';
+            } else {
+                $rows.=  '      <td align="center"><input type="checkbox" name="selectedTerms[]" id="tterm_'.$value["term_id"].'" title="'.$value["source_string"].' ('.$label_relation.')" value="'.$value["string"].'|tterm_|'.$value["term_id"].'" /> </td>';
+
+                $rows.=  '      <td><label class="check_label" title="'.$value["source_string"].' ('.$label_relation.')" for="tterm_'.$value["term_id"].'">'.$value["string"].' <span style="font-weight:normal;">[<a href="modal.php?tvocab_id='.$arrayVocab["tvocab_id"].'&term_id='.$value["source_term_id"].'" class="modalTrigger" title="'.$value["source_string"].' ('.$label_relation.')" target="_blank">'.LABEL_Detalle.'</a>]</span>  </label></td>';
+                $rows.=  '      <td>'.$value["source_date"].'</td>';
+            }
+            $rows.=  '</tr>';
         };
         $rows.='        </tbody>		</table>';
         $rows.='        </div>';

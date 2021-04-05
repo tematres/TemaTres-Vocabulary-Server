@@ -85,7 +85,7 @@ define("LABEL_borraRelacion", "eliminar relación");
 define("MSG_ResultBusca", "termos atopados para a procura");
 define("MSG_ResultLetra", "Letra");
 define("MSG_ResultCambios", "Os cambios foron realizados con exito.");
-define("MSG_noUser", "Usuario non rexistrado");
+define("MSG_noUser", "Los datos de acceso son incorrectos. Por favor, vuelve a intentarlo.");
 define("FORM_JS_check", "Por favor revise os datos de ");
 define("FORM_JS_confirm", "¿Esta seguro de que desexa eliminar o termino ou a relación?");
 define("FORM_JS_pass", "_crave");

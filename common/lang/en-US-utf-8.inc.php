@@ -85,7 +85,7 @@ define("LABEL_borraRelacion", "delete relation");
 define("MSG_ResultBusca", "term/s found for search expression");
 define("MSG_ResultLetra", "Letter");
 define("MSG_ResultCambios", "The changes have been made successfully.");
-define("MSG_noUser", "Not a Registered User");
+define("MSG_noUser", "The login information is incorrect. Please try again.");
 define("FORM_JS_check", "Please check the data of ");
 define("FORM_JS_confirm", "eliminate this relationship?");
 define("FORM_JS_pass", "_pass");
