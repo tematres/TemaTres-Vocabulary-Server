@@ -1,11 +1,8 @@
 <?php
-// TemaTres : aplicación para la gestión de lenguajes documentales #       #
-//
-// Copyright (C) 2004-2015 Diego Ferreyra tematres@r020.com.ar
-// Distribuido bajo Licencia GNU Public License, versión 2 (de junio de 1.991) Free Software Foundation
-//
-//
-//
+/* TemaTres : aplicación para la gestión de lenguajes documentales #       #
+Copyright (C) 2004-2021 Diego Ferreyra tematres@r020.com.ar
+ Distribuido bajo Licencia GNU Public License, versión 2 (de junio de 1.991) Free Software Foundation
+*/
 require "config.tematres.php";
 $metadata=do_meta_tag();
 
@@ -189,7 +186,7 @@ function recovery($user_login)
 
     //El usuario no existe
     if (!$ARRAYuser["user_id"]) {
-        return array("result"=>false, "msg"=>t3_messages("no_user"));
+        return array("result"=>false, "msg"=>t3_messages("recovery_mail_send"));
     }
 
     if (empty($ARRAYuser["user_activation_key"])) {
@@ -203,12 +200,12 @@ function recovery($user_login)
 
     $message = LABEL_mail_recovery_pass1. "\r\n\r\n";
     $message .= $_SESSION["CFGURL"]. "\r\n\r\n";
-    $message .= sprintf(LABEL_mail_recovery_pass2, $ARRAYuser[mail]) . "\r\n\r\n";
+    $message .= sprintf(LABEL_mail_recovery_pass2, $ARRAYuser["mail"]) . "\r\n\r\n";
     $message .= LABEL_mail_recovery_pass3. "\r\n\r\n";
     $message .= LABEL_mail_recovery_pass4. "\r\n\r\n";
-    $message .= currentBasePage($_SESSION["CFGURL"]).'login.php?action=rp&key='.$ARRAYuser["user_activation_key"].'&login='.rawurlencode($ARRAYuser[mail])."\r\n";
+    $message .= currentBasePage($_SESSION["CFGURL"]).'login.php?action=rp&key='.$ARRAYuser["user_activation_key"].'&login='.rawurlencode($ARRAYuser["mail"])."\r\n";
 
-    $title = sprintf('[%s] '.LABEL_mail_recoveryTitle, $_SESSION[CFGTitulo]);
+    $title = sprintf('[%s] '.LABEL_mail_recoveryTitle, $_SESSION["CFGTitulo"]);
 
     $sendMail=sendMail($ARRAYuser["mail"], $title, $message);
 
