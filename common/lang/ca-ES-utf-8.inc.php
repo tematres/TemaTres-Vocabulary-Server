@@ -400,7 +400,7 @@ define('LABEL_mail_pass1', 'Nova clau per a ');
 define('LABEL_mail_pass2', 'Clau: ');
 define('LABEL_mail_pass3', 'Podeu modificar-la.');
 define('MSG_check_mail_link', 'Reviseu el correu electrònic per a obtenir l\'enllaç de confirmació.');
-define('MSG_check_mail', 'Sisplau, reviseu el correu electrònic.');
+define('MSG_check_mail', 'Si la dirección de correo consignada es correcta, sisplau, reviseu el correu electrònic.');
 define('MSG_no_mail', 'No s\'ha pogut enviar el correu.');
 define('LABEL_user_lost_password', 'Heu perdut la contrasenya?');
 ## v1.7

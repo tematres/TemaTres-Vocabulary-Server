@@ -400,7 +400,7 @@ define('LABEL_mail_pass1', 'Clave nueva for ');
 define('LABEL_mail_pass2', 'Clave: ');
 define('LABEL_mail_pass3', 'Usted puede modificarla.');
 define('MSG_check_mail_link', 'Revisa tu correo electrónico para obtener el enlace de confirmación.');
-define('MSG_check_mail', 'Por favor revisa tu correo electrónico.');
+define('MSG_check_mail', 'Si la dirección de correo consignada es correcta, por favor revisa tu correo electrónico.');
 define('MSG_no_mail', 'No se pudo enviar el correo.');
 define('LABEL_user_lost_password', '¿Has perdido tu contraseña?');
 ## v1.7

@@ -400,7 +400,7 @@ define('LABEL_mail_pass1', 'Nova senha para ');
 define('LABEL_mail_pass2', 'Senha: ');
 define('LABEL_mail_pass3', 'Você pode alterá-la.');
 define('MSG_check_mail_link', 'Verifique a sua conta de correio pela mensagem com a hiperligação de confirmação.');
-define('MSG_check_mail', 'Verifique a sua conta de correio.');
+define('MSG_check_mail', 'Si la dirección de correo consignada es correcta, verifique a sua conta de correio.');
 define('MSG_no_mail', 'Não foi possível enviar o email.');
 define('LABEL_user_lost_password', 'Perdeu a senha?');
 ## v1.7
