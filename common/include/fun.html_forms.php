@@ -1859,6 +1859,7 @@ function HTMLformUpdateEndpoit()
 
 function HTMLformLogin($task_result)
 {
+    $rows='';
     if (is_array($task_result)) {
         $rows='<div>'.$task_result["msg"].'</div>';
     }
@@ -1890,6 +1891,7 @@ function HTMLformLogin($task_result)
 
 function HTMLformRecoveryPassword($user_name = "")
 {
+
     $rows='<form class="form-horizontal" id="myRecovery" name="myRecovery" action="login.php" method="post">
 <fieldset>
 <legend>'.LABEL_user_recovery_password.'</legend>
