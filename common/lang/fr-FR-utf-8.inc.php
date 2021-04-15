@@ -400,7 +400,7 @@ define('LABEL_mail_pass1', 'Nouveau mot de passe pour ');
 define('LABEL_mail_pass2', 'Mot de passe : ');
 define('LABEL_mail_pass3', 'Il peut être changé.');
 define('MSG_check_mail_link', 'Un lien permettant de confirmer votre adresse électronique vous a été envoyé. Veuillez vérifier votre boîte de réception.');
-define('MSG_check_mail', 'Veuillez vérifier votre boîte de réception.');
+define('MSG_check_mail', 'If that email address is valid, we will send you an email to reset your password.');
 define('MSG_no_mail', 'L\'envoi du courrier électronique a échoué.');
 define('LABEL_user_lost_password', 'Mot de passe oublié ?');
 ## v1.7

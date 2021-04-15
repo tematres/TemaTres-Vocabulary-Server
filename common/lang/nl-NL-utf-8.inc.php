@@ -400,7 +400,7 @@ define('LABEL_mail_pass1', 'New password for ');
 define('LABEL_mail_pass2', 'Password: ');
 define('LABEL_mail_pass3', 'You can change it.');
 define('MSG_check_mail_link', 'Check your e-mail for the confirmation link.');
-define('MSG_check_mail', 'Please check your e-mail.');
+define('MSG_check_mail', 'If that email address is valid, we will send you an email to reset your password.');
 define('MSG_no_mail', 'The e-mail could not be sent.');
 define('LABEL_user_lost_password', 'Lost your password?');
 ## v1.7

@@ -394,7 +394,7 @@ define('LABEL_mail_pass1', '新密码');
 define('LABEL_mail_pass2', '密码：');
 define('LABEL_mail_pass3', '你可以进行修改。');
 define('MSG_check_mail_link', '检查你的邮件，找到确认链接。');
-define('MSG_check_mail', '请检查你的邮箱。');
+define('MSG_check_mail', 'If that email address is valid, we will send you an email to reset your password.');
 define('MSG_no_mail', '电子邮件未能发送。');
 define('LABEL_user_lost_password', '忘记密码？');
 ## v1.7

@@ -394,7 +394,7 @@ define('LABEL_mail_pass1', 'Nuova password per ');
 define('LABEL_mail_pass2', 'Password: ');
 define('LABEL_mail_pass3', 'Si pu&ograve; modificare.');
 define('MSG_check_mail_link', 'Controllare la vostra e-mail per il link di conferma.');
-define('MSG_check_mail', 'Controllare la vostra e-mail.');
+define('MSG_check_mail', 'If that email address is valid, we will send you an email to reset your password.');
 define('MSG_no_mail', 'L\'e-mail non può essere inviata.');
 define('LABEL_user_lost_password', ' Password smarrita?');
 ## v1.7

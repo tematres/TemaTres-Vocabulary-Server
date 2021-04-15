@@ -394,7 +394,7 @@ define('LABEL_mail_pass1', 'Neues Passwort für ');
 define('LABEL_mail_pass2', 'Passwort: ');
 define('LABEL_mail_pass3', 'Sie können es ändern.');
 define('MSG_check_mail_link', 'prüfen Sie den Link aus der E-Mail.');
-define('MSG_check_mail', 'Bitte prüfen Sie Ihre E-Mails.');
+define('MSG_check_mail', 'If that email address is valid, we will send you an email to reset your password.');
 define('MSG_no_mail', 'Е-Мail konnte nicht versendet werden.');
 define('LABEL_user_lost_password', ' Passwort vergessen? - ACHTUNG: FUNKTIONIERT NICHT IM BSPRA!');
 ## v1.7
