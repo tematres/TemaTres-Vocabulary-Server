@@ -2655,6 +2655,7 @@ function txt4term($tema_id, $params = array())
 
 function txtJerarquico()
 {
+    global $CFG;
 
     $txt=ucfirst(LABEL_Titulo).': '.$_SESSION["CFGTitulo"]."\r\n";
     $txt.=ucfirst(LABEL_Autor).': '.$_SESSION["CFGAutor"]."\r\n";
@@ -2676,7 +2677,8 @@ function txtJerarquico()
         };
         // es preferido
 
-        // $txt.="\n".$arrayTema[tema]."\r\n";
+        $txt.=(($CFG["_SHOW_CODE"]==1) && (strlen($arrayTema["code"])>0)) ? $arrayTema["code"]." " : "";
+
         $txt.=$arrayTema["tema"]."\r\n";
         //Terminos especificos
         $txt.=TXTverTE($arrayTema["id"], "0");
@@ -2704,12 +2706,15 @@ function TXTverTE($tema_id, $i_profundidad)
             $sangria.=' .'."\t";
         };
 
+
+        $txt.=$sangria;
+        $txt.=(($CFG["_SHOW_CODE"]==1) && (strlen($array["code"])>0)) ? $array["code"]." " : "";
         //si tiene TEs
         if ($array["id_te"]) {
-            $txt.=$sangria.$array["tema"]."\r\n";
+            $txt.=$array["tema"]."\r\n";
             $txt.=TXTverTE($array["id_tema"], $i_profundidad);
         } else {
-            $txt.=$sangria.$array["tema"]."\r\n";
+            $txt.=$array["tema"]."\r\n";
         };
     };
     return $txt;
@@ -2736,6 +2741,8 @@ function do_mysql_dump($encode = "utf8")
     }
     //get  the tables
     $tables =  explode(',', $tables);
+
+    $return= 'SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";'."\n\n";
 
     //cycle through
     foreach ($tables as $table) {
@@ -4078,7 +4085,7 @@ function TXTtreeList4term($term_id)
     //Terminos especificos
     $txt.=TXTverTE($arrayTema["tema_id"], "0");
 
-    $filname=string2url($_SESSION[CFGTitulo].' '.MENU_ListaSis).'.txt';
+    $filname=string2url($_SESSION["CFGTitulo"].' '.MENU_ListaSis).'.txt';
 
     return sendFile("$txt", "$filname");
 };
@@ -4151,6 +4158,9 @@ function do_pdfSist($params = array())
                 $time_start = $time_now;
                 header('X-pmaPing: Pong');
             }
+
+            $txt.=(($CFG["_SHOW_CODE"]==1) && (strlen($arrayTema["code"])>0)) ? $arrayTema["code"]." " : "";
+
             $txt.=$arrayTema["tema"]."\r\n";
             $txt.=TXTverTE($arrayTema["id"], "0");
         }

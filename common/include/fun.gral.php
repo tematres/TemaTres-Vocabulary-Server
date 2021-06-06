@@ -639,7 +639,7 @@ function outputCosas($line)
 {
        global $time_start;
 
-                $time_now = time();
+         $time_now = time();
 
     if ($time_start >= $time_now + 10) {
         $time_start = $time_now;
