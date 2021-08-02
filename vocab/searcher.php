@@ -63,6 +63,6 @@ if ($_SESSION[$_SESSION["CFGURL"]]["ssuser_id"]) {
         $labelRel=LABELrelTypeSYS($arrayRelData["t_relation"]);
 
         //reverse or not view of the relation
-        echo ($_POST[relativeLabel]=='X') ? $labelRel["rx_code"].$arrayRelData["rr_code"] : $labelRel["r_code"].$arrayRelData["rr_code"];
+        echo ($_POST["relativeLabel"]=='X') ? $labelRel["rx_code"].$arrayRelData["rr_code"] : $labelRel["r_code"].$arrayRelData["rr_code"];
     }
 }
