@@ -3434,7 +3434,7 @@ function SQLtargetTerms($tema_id, $tterm_id = "0")
 	where tv.tvocab_id=t2tt.tvocab_id
 	and t2tt.tema_id='$tema_id'
 	$where
-	order by tv.tvocab_tag,t2tt.tterm_string"
+	order by tv.tvocab_tag,tv.tvocab_lang, t2tt.tterm_string"
     );
 }
 
