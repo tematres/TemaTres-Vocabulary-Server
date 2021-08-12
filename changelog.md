@@ -16,55 +16,52 @@ For instruction, please visit: https://vocabularyserver.com/wiki/
 For examples, please visit: https://www.vocabularyserver.com/vocabularies.php
 
 
-## Update to 3.2
+
+## Changelog TemaTres 3.2:
+
+#### Added
+
+-  add option to look for terminological news in target vocabularies (references vocabularies via web services)
+- Support for Archival Resource Key (ARK)  persistent identifier . https://en.wikipedia.org/wiki/Archival_Resource_Key
+- Normalized manager for reference sources: now you can reuse references and discovery global surveys about them
+- Capabilities to assign reference sources for terms or notes as differentiated entities
+- New verb to Tematres API: fetchCentralTerms. The command retrieves the central terms of the vocabulary (relation between depth and number of descendant terms).
+- Support for InnoDB database type
+- Config options to config type of charset in install process
+- Optional config value in db.tematres.php to set connection mode (use or not DSN)
+-  add notation in hierarquical export for txt and pdf 
+-  add notes to import procedure from MARC21-XML 
+
+
+
+#### Update
+
+* Tinymce
+
+* fpdf library
+* adodb library
+* HTMLpurifier
+* language files
+* Improve php 7.x compability
+* Remove bootstrap-table
+
+
+
+
+
+## How to update to 3.2
+
 To update from previous Tematres versions:
+
 1. Make a backup of your data (Login as admin: Menu -> Administration -> Export: Select SQL (backup)
 2. Copy the code of Tematres 3.2 in the web path directory, config the database connection credentials in db.tematres.php or maintain the previous db.tematres.php
 3. Login as admin: Menu -> Administration -> Database maintenance -> Update from 2.x -> 3.2
 
 
-## Changelog TemaTres 3.2:
-- Support for InnoDB database type
-- Add config options to config type of charset in install process
-- Add support for Archival Resource Key (ARK)  persistent identifier . https://en.wikipedia.org/wiki/Archival_Resource_Key
-- Add Normalized manager for reference sources: now you can reuse references and discovery global surveys about them
-- Add capabilities to assign reference sources for terms or notes as differentiated entities
-- Add a new verb to Tematres API: fetchCentralTerms. The command retrieves the central terms of the vocabulary (relation between depth and number of descendant terms).
+## 
 
 
-
-
-## Changelog TemaTres 3.1:
-- Utility for importing vocabularies encoded in MARC-XML format
-- Utility for the mass export of vocabulary in MARC-XML format
-- New reports about global vocabulary structure
-	- Distribution of terms according to depth level
-	- Distribution of sum of preferred terms and the sum of alternative terms
-	- Distribution of sum of hierarchical relationships and sum of associative relationships
-- Report about terms with relevant degree of centrality in the vocabulary (according to prototypical conditions)
-- Presentation of terms with relevant degree of centrality in each facet
-- New options to config the presentation of notes: define specific types of note as prominent (the others note types will be presented in collapsed div). 
-- Button for Copy to clipboard the terms with indexing value (Copy-one-click button)
-- New user login scheme (login)
-- Allows to config and add Google Analytics tracking code (parameter in config.tematres.php file)
-- Improvements in standard exposure of metadata tags
-- Inclusion of the term notation or code in the search box predictive text
-- Compatibility with PHP 7.2
-
-Thanks about the contribution to:
--  IBICT Project (https://repositorio.enap.gov.br/handle/1/4199) 
-- Andreas Roussos (https://github.com/a-roussos)
-- Horus68 (https://github.com/horus68)
-
-
-Updates and minor bugs:
-    update glozariser, 
-    update TinyMCE
-    update PHPmailer class
-    update HTMLpurfier
-    update to jquery 3.4.1 and bootstrap 3.3.7
-    
-    
+​    
 
 Many thanks to the feedback provided by TemaTres community :)
 
