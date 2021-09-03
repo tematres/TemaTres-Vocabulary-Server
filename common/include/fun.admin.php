@@ -3777,6 +3777,7 @@ function associateTerms($term_id, $arrayStrings, $t_relacion, $t_rel_rel_id = 0)
     $ARRAYtema=ARRAYverTerminoBasico($term_id);
     $tema=$ARRAYtema["tema_id"];
 
+    $arrayDuplicateTerms=array();
 
     $arrayTerminos=explode("\n", $arrayStrings);
 

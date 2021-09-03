@@ -820,7 +820,11 @@ function DBconnect()
     global $DBCFG;
 
     //default driver
-    $DBCFG["DBdriver"] = (!$DBCFG["DBdriver"]) ? 'mysqli' : $DBCFG["DBdriver"];
+    $DBCFG["DBdriver"] = (@$DBCFG["DBdriver"]) ? $DBCFG["DBdriver"] : 'mysqli';
+
+    //valid driver
+    $DBCFG["DBdriver"] = configValue($DBCFG["DBdriver"], 'mysqli', array('mysqli','mysql'));
+
   
     //default value for type pesistence
     $DBCFG["DBpersist"] = (@$DBCFG["DBpersist"]==0) ? '' : '?persist';

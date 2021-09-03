@@ -2387,7 +2387,7 @@ function HTMLsimpleTerm($arrayTerm)
         switch ($datosTotalRelacionados["t_relacion"]) {
             case '3':// TG
                 $iBT=++$iBT;
-                $row_BT.='<li><abbr class="'.$classAcrnoyn.'" id="edit_rel_id'.$datosTotalRelacionados["rel_id"].'" style="display: inline" title="'.TG_termino.' '.$datosTotalRelacionados[rr_value].'" lang="'.LANG.'">'.TG_acronimo.$datosTotalRelacionados["rr_code"].'</abbr>  '.$datosTotalRelacionados["tema"].'</li>';
+                $row_BT.='<li><abbr class="'.$classAcrnoyn.'" id="edit_rel_id'.$datosTotalRelacionados["rel_id"].'" style="display: inline" title="'.TG_termino.' '.$datosTotalRelacionados["rr_value"].'" lang="'.LANG.'">'.TG_acronimo.$datosTotalRelacionados["rr_code"].'</abbr>  '.$datosTotalRelacionados["tema"].'</li>';
                 break;
 
             case '4':// UF
