@@ -14,7 +14,7 @@ if (CFG_ENABLE_SPARQL == 1) {
     include_once T3_ABSPATH . 'common/arc2/ARC2.php';
 
     /* config enalbes SPARQL commands */
-    $array_endpoint_features=($_SESSION[$_SESSION["CFGURL"]][ssuser_nivel]>0) ? array('select', 'construct', 'ask', 'describe', 'load','insert') : array('select', 'construct', 'ask', 'describe');
+    $array_endpoint_features=(configValue($_SESSION[$_SESSION["CFGURL"]]["ssuser_nivel"], 0)>0) ? array('select', 'construct', 'ask', 'describe', 'load','insert') : array('select', 'construct', 'ask', 'describe');
 
     /* MySQL and endpoint configuration */
     $config = array(

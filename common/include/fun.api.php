@@ -1390,10 +1390,7 @@ function array2xml($array, $name = 'vocabularyservices', $standalone = true, $be
 //read from array 2 skos
 function array2skos($array, $name = 'vocabularyservices')
 {
-
-    //GLOBAL $nested;
-    //$nodeChildName='term';
-
+$nodos_skos='';
     foreach ($array as $node) {
         if (is_array($node)) {
             foreach ($node as $root => $child) {

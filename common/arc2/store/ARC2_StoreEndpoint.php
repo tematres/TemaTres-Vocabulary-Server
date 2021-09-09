@@ -920,11 +920,11 @@ class ARC2_StoreEndpoint extends ARC2_Store {
   }
   
   function getHTMLDocTitle() {
-    return $this->v('endpoint_title', $_SESSION[CFGTitulo].' SPARQL+ Endpoint', $this->a);
+    return $this->v('endpoint_title', $_SESSION["CFGTitulo"].' SPARQL+ Endpoint', $this->a);
   }
   
   function getHTMLDocHeading() {
-    return $this->v('endpoint_heading', '<a href="'.$_SESSION[CFGURL].'" title="'.$_SESSION[CFGTitulo].'">'.$_SESSION[CFGTitulo].'</a>: SPARQL+ Endpoint', $this->a);
+    return $this->v('endpoint_heading', '<a href="'.$_SESSION["CFGURL"].'" title="'.$_SESSION["CFGTitulo"].'">'.$_SESSION["CFGTitulo"].'</a>: SPARQL+ Endpoint', $this->a);
   }
   
   function getHTMLDocCSS() {

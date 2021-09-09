@@ -118,7 +118,7 @@ function do_nodo_zthes($idTema)
                     break;
 
                 default:
-                    $meta_tag.='<termNote label="'.xmlentities($datosTermino["notas"][$iNota]["tipoNotaLabel"]).'">'.xmlentities($datosTermino["notas"][$iNota][nota].TXTsource4note($datosTermino["notas"][$iNota]["id"]), true).'</termNote>';
+                    $meta_tag.='<termNote label="'.xmlentities($datosTermino["notas"][$iNota]["tipoNotaLabel"]).'">'.xmlentities($datosTermino["notas"][$iNota]["nota"].TXTsource4note($datosTermino["notas"][$iNota]["id"]), true).'</termNote>';
                     break;
             }
         };

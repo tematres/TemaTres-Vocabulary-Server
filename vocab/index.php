@@ -11,8 +11,11 @@ require "config.tematres.php";
 $metadata = do_meta_tag();
 
  /* term reporter */
-if (($_GET["mod"] == 'csv') && (substr($_GET["task"], 0, 3) == 'csv') && ($_SESSION[$_SESSION["CFGURL"]]["ssuser_id"])) {
-    return wichReport($_GET["task"]);
+ $mod=configValue($_GET["mod"], false);
+ $task=configValue($_GET["task"], false);
+
+if (($mod == 'csv') && (substr($task, 0, 3) == 'csv') && (@$_SESSION[$_SESSION["CFGURL"]]["ssuser_id"])) {
+    return wichReport($task);
 }
 
 $search_string = '';
