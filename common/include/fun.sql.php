@@ -2872,6 +2872,10 @@ function SQLupdateTemaTresVersion($ver2ver)
     $prefix=$DBCFG['DBprefix'] ;
 
     switch ($ver2ver) {
+    	case 'tema2full_text':
+			$sql_full_Text=SQL("ALTER", " TABLE `".$prefix."tema` ADD FULLTEXT `tema` (`tema`), DROP INDEX `tema` ");
+    	break;
+
         case '2_2x3_2':
             /**alter to support invalid or null dates */
             $sql_invalid_dates2=SQL("ALTER", " TABLE `".$prefix."tema` CHANGE `cuando` `cuando` DATETIME NULL DEFAULT NULL ");
@@ -4793,4 +4797,54 @@ function ARRAYhash($hash)
     );
 
     return $sql->FetchRow();
+}
+
+
+
+
+function SQLmatchTerm($string,$limit="0"){
+    global $DBCFG;
+
+    $string=secure_data(trim($string),"ADOsql");
+	$string=str_replace("'", "", $string);
+
+    $codUP=UP_acronimo;
+
+    //Check is include or not meta terms
+    $where=(CFG_SEARCH_METATERM==0) ? " and tema.isMetaTerm=0 " : "";
+
+    $limit=($limit>0) ? ' limit '.$limit : '';
+
+    $sql=SQL("select","if(temasPreferidos.tema_id is not null,relaciones.id_menor,tema.tema_id) id_definitivo,
+	tema.tema_id,
+	tema.tema,
+	tema.estado_id,
+	relaciones.t_relacion,
+	temasPreferidos.tema as termino_preferido,
+	tema.isMetaTerm,
+	i.indice,
+	MATCH (tema.tema) AGAINST ('$string' IN NATURAL LANGUAGE MODE) AS score	
+	from $DBCFG[DBprefix]tema as tema
+	left join $DBCFG[DBprefix]tabla_rel as relaciones on relaciones.id_mayor=tema.tema_id
+	left join $DBCFG[DBprefix]tema as temasPreferidos on temasPreferidos.tema_id=relaciones.id_menor
+	and tema.tema_id=relaciones.id_mayor
+	and relaciones.t_relacion in (4,5,6,7)
+	left join $DBCFG[DBprefix]indice i on i.tema_id=tema.tema_id
+	where
+	MATCH(tema.tema ) AGAINST('$string' IN NATURAL LANGUAGE MODE)	
+	and tema.estado_id='13' 
+	$where
+	group by id_definitivo
+	ORDER BY score desc $limit");
+	
+	//FULLTEXT
+	if(!is_object($sql)){
+	    if(isset($sql["error"])){
+	    	
+	    	$update=SQLupdateTemaTresVersion('tema2full_text');
+	    	$sql=SQLmatchTerm($string,$limit);
+	    }		
+	}
+
+return $sql;
 }

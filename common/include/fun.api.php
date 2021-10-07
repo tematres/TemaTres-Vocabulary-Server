@@ -539,6 +539,34 @@ class XMLvocabularyServices
     }
 
 
+
+
+    /* Retrieve list of terms using fulltext aprouch
+     array(tema_id,string,no_term_string,relation_type_id,array(index),order, score)
+     */
+    function fetchTermsByMatch($string)
+    {
+
+        $limit=30; // limit number of terms for results
+        $sql=SQLmatchTerm($string,$limit);
+
+        while ($array=$sql->FetchRow()) {
+            $i=++$i;
+            $arrayIndex=explode('|', $array["indice"]);
+            $result["result"][$array["id_definitivo"]]= array(
+            "term_id"=>$array["id_definitivo"],
+            "string"=>($array["termino_preferido"]) ? $array["termino_preferido"] : $array["tema"],
+            "isMetaTerm"=>$array["isMetaTerm"],
+            "no_term_string"=>($array["termino_preferido"]) ? $array["tema"] : false ,
+            "index"=>$array["indice"],
+            "score"=>round($array["score"],5),//limit number of deciman in score
+            "order" => $i
+            );
+        };
+        return $result;
+    }
+
+
     // Devuelve lista de términos para una busqueda en notas
     // array(tema_id,string,no_term_string,relation_type_id,array(index),order)
     function fetchTermsBySearchNotes($string)
@@ -797,6 +825,11 @@ class XMLvocabularyServices
         $array['fetch']['task'] = 'fetch';
         $array['fetch']['arg'] = 'search expresion (string)';
         $array['fetch']['example'] = $_SESSION["CFGURL"].'services.php?task=fetch&arg=peace';
+
+        $array['match']['action'] = 'Search and retrieve terms using natural language matching approach';
+        $array['match']['task'] = 'match';
+        $array['match']['arg'] = 'search expresion (string)';
+        $array['match']['example'] = $_SESSION["CFGURL"].'services.php?task=match&arg=peace';
 
         $array['searchNotes']['action'] = 'Retrieve terms searching in notes';
         $array['searchNotes']['task'] = 'searchNotes';
@@ -1133,6 +1166,10 @@ function fetchVocabularyService($task, $arg, $output = "xml")
                 $response = $service-> fetchTerm4Source($arg);
                 break;
 
+            case 'match':
+                $response = $service-> fetchTermsByMatch($arg);
+                break;
+
             default:
                 $response = $service-> describeService();
                 break;
@@ -1210,7 +1247,8 @@ function evalServiceParam($task, $arg)
     "termsSince"=>"date",
     "relationsSince"=>"date",
     "sources"=>"string",
-    "termsbysource"=>"string"
+    "termsbysource"=>"string",
+    "match"=>"string"
     );
 
     //eval task

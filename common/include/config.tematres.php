@@ -14,7 +14,7 @@ date_default_timezone_set("America/Argentina/Buenos_Aires");
 
 $CFG["Version"]        = "TemaTres 3.2";
 
-$CFG["VersionWebService"]        = "1.9";
+$CFG["VersionWebService"]        = "2.0";
 
 // ID del Tesauro por DEFAULT
 $CFG["DFT_TESA"] ='1';
