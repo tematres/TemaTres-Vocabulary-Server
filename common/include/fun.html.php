@@ -2622,7 +2622,7 @@ function HTMLcloudTerms($level, $limit, $term_id = 0)
         $rows='<div class="contag" id="tagcloud">';
         $rows.='<h3>'.ucfirst(LABEL_prototypeTerms).'</h3>';
         while ($array_tag=$sql->FetchRow()) {
-            $rows.='<a href="'.URL_BASE.'index.php?tema='.$array_tag["tema_id"].'" role="button" title="'.ucfirst(LABEL_Detalle).' '.$array_tag["tema"].'"" rel="'.($array_tag["cant_nt"]).'">'.$array_tag["tema"].'</a>';
+            $rows.='<a href="'.URL_BASE.'index.php?tema='.$array_tag["tema_id"].'" role="button" title="'.ucfirst(LABEL_Detalle).' '.$array_tag["tema"].'" rel="'.$array_tag["cant_nt"].'">'.$array_tag["tema"].'</a>';
         }
         $rows.='</div>';
     }
