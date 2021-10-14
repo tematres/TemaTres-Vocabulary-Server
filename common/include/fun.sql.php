@@ -651,6 +651,8 @@ function ARRAYverDatosTermino($tema_id)
 	and v.value_id=tema.estado_id"
     );
 
+    if(!is_object($sql)) return false;
+    
     while ($array=$sql->FetchRow()) {
         $i=++$i;
         $arrayDatos["idTema"]=$array["idTema"];

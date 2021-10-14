@@ -1432,7 +1432,7 @@ $nodos_skos='';
     foreach ($array as $node) {
         if (is_array($node)) {
             foreach ($node as $root => $child) {
-                if ($child["term_id"]>0) {
+                if (isset($child["term_id"])) {
                     $nodos_skos .= do_nodo_skos($child["term_id"]);
                 }
             }

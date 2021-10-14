@@ -399,7 +399,7 @@ function HTMLformSuggestTerms($ARRAYtargetVocabulary = array())
                     <div class="form-group">
                         <label for="string2search" class="col-sm-3 control-label">'.ucfirst(LABEL_Buscar).'</label>
                         <div class="col-sm-9">
-                            <input type="text" class="form-control" required autofocus type="search" id="string2search" name="string2search" value="'.$string2search.'">
+                            <input type="text" class="form-control" required autofocus type="search" id="string2search" name="string2search" value="">
                         </div>
                     </div>
                     <div class="col-sm-3  control-label">
@@ -514,7 +514,7 @@ function HTMLformSuggestTermsXRelations($ARRAYtermino, $ARRAYtargetVocabulary = 
                     <div class="form-group">
                         <label for="string2search" class="col-sm-3 control-label">'.ucfirst(LABEL_Buscar).'</label>
                         <div class="col-sm-9">
-                            <input type="text" class="form-control"  type="search" required autofocus id="string2search" name="string2search" value="'.$string2search.'">
+                            <input type="text" class="form-control"  type="search" required autofocus id="string2search" name="string2search" value="">
                         </div>
                     </div>
 										<div class="form-group">
@@ -608,7 +608,7 @@ function HTMLformAdvancedSearch($array)
         $rows.='</div>';
     }
     $rows.='<div class="form-group"><label class="label_ln control-label" for="xstring" accesskey="s">'.ucfirst(LABEL_BuscaTermino).'</label>';
-    $rows.='<input name="xstring" class="input_ln form-control" required type="search" id="xstring" size="25" maxlength="50" value="'.$array["xstring"].'"/>';
+    $rows.='<input name="xstring" class="input_ln form-control" required type="search" id="xstring" size="25" maxlength="50" value=""/>';
     $rows.='	<div class="checkbox-inline" ><label class="btn btn-default" for="isExactMatch" accesskey="f">';
     $rows.='	<input name="isExactMatch" type="checkbox" id="isExactMatch" value="1" '.do_check('1', $_GET["isExactMatch"], "checked").'/>'.ucfirst(LABEL_esFraseExacta).'</label>';
     $rows.=' 	</div>';
@@ -1234,7 +1234,7 @@ function HTMLformAssociateTargetTerms($ARRAYtermino, $term_id = "0")
         $rows.='<div id="by_string" class="form-group" '.$display.'>
 		                    <label for="string2search" class="col-sm-3 control-label">'.ucfirst(LABEL_Buscar).'</label>
 		                    <div class="col-sm-9">
-		                        <input type="text" class="form-control" required type="search" required id="string2search" name="string2search" value="'.$string2search.'">
+		                        <input type="text" class="form-control" required type="search" required id="string2search" name="string2search" value="">
 		                    </div>
             </div>
 		                <div class="form-group">
@@ -2135,10 +2135,10 @@ function HTMLformBulkReplace($params = array())
         $rows.='</div>';
     }
     $rows.='<div class="form-group"><label class="label_ln control-label" for="search_string" accesskey="s">'.ucfirst(LABEL_searchFor).'</label>';
-    $rows.='<input name="search_string" class="input_ln form-control" placeholder="'.MSG_searchFor.'" required type="search" id="search_string" size="25" maxlength="50" value="'.$params["search_string"].'"/>';
+    $rows.='<input name="search_string" class="input_ln form-control" placeholder="'.MSG_searchFor.'" required type="search" id="search_string" size="25" maxlength="50" value=""/>';
     $rows.='</div>';
     $rows.='<div class="form-group"><label class="label_ln control-label" for="replace_string" accesskey="r">'.ucfirst(LABEL_replaceWith).'</label>';
-    $rows.='<input name="replace_string" class="input_ln form-control" placeholder="'.MSG_replaceWith.'" id="replace_string" size="25" maxlength="50" value="'.$params["replace_string"].'"/>';
+    $rows.='<input name="replace_string" class="input_ln form-control" placeholder="'.MSG_replaceWith.'" id="replace_string" size="25" maxlength="50" value=""/>';
     $rows.='</div>';
 
     $rows.='<div class="text-center">';
