@@ -290,12 +290,12 @@ function SQLtematres($DBCFG, $DB, $arrayInstallData = array())
           PRIMARY KEY  (`tema_id`),
           UNIQUE KEY `ndx_hash` (`tema_hash`),          
           KEY ( `code` ),
-          KEY `tema` (`tema`),
+          FULLTEXT KEY `tema` (`tema`),
           KEY `cuando` (`cuando`,`cuando_final`),
           KEY `uid` (`uid`,`uid_final`),
           KEY `tesauro_id` (`tesauro_id`),
           KEY `estado_id` (`estado_id`),
-            KEY `isMetaTerm` (`isMetaTerm`)
+          KEY `isMetaTerm` (`isMetaTerm`)
         ) DEFAULT CHARSET=$dbcharset ENGINE=$engine ;"
     );
 
