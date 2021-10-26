@@ -1671,7 +1671,8 @@ function HTMLListaUsers()
     while ($listaUsers=$sqlListaUsers->FetchRow()) {
         $fecha_alta=do_fecha($listaUsers["cuando"]);
         $rows.='<tr>';
-        $rows.='<td class="izq"><a href="admin.php?user_id='.$listaUsers["id"].'" title="'.LABEL_detallesUsuario.'">'.$listaUsers["apellido"].', '.$listaUsers["nombres"].'</a></td>';
+        $rows.='<td class="izq"><a href="admin.php?user_id='.$listaUsers["id"].'" title="'.LABEL_verDetalle.' '.$listaUsers["apellido"].', '.$listaUsers["nombres"].'">'.$listaUsers["apellido"].', '.$listaUsers["nombres"].'</a></td>';
+        
         $rows.='<td class="izq">'.$listaUsers["orga"].'</td>';
         $rows.='<td>'.$fecha_alta["dia"].'-'.$fecha_alta["descMes"].'-'.$fecha_alta["ano"].' ('.arrayReplace(array("ACTIVO","BAJA"), array(LABEL_User_Habilitado,LABEL_User_NoHabilitado), $listaUsers["estado"]). ')</td>';
         if ($listaUsers["cant_terminos"]>0) {

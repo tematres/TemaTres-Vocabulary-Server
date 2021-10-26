@@ -679,8 +679,10 @@ function ARRAYverDatosTermino($tema_id)
 
     $sqlNotas=SQLdatosTerminoNotas($tema_id);
 
-    while ($array=$sqlNotas->FetchRow()) {
-        if ($array["nota_id"]) {
+
+    if(is_object($sqlNotas))
+    {
+    	while ($array=$sqlNotas->FetchRow()) {
             array_push(
                 $arrayNotas,
                 array(
@@ -694,8 +696,9 @@ function ARRAYverDatosTermino($tema_id)
                 "user_id"=>$array["user_id"],
                 "nota"=>$array["nota"])
             );
-        };
-    };
+    	};
+    }
+
     $arrayDatos["notas"]=$arrayNotas;
     return $arrayDatos;
 }
@@ -2269,7 +2272,7 @@ function SQLsearchFreeTerms($search_term, $tema_id = "")
  for associate as  NT.
 
 */
-function SQLsearchTerms4NT($search_term, $term_id)
+function SQLsearchTerms4NT($search_term, $term_id,$polihieraquical_flag=0)
 {
 
     global $DBCFG;
@@ -2284,18 +2287,31 @@ function SQLsearchTerms4NT($search_term, $term_id)
 
     $search_term=secure_data("%$search_term%", "ADOsql");
 
+    #no tiene relaciones jerárquicas
+	$leftJoinExcludeNT=" left join $DBCFG[DBprefix]tabla_rel bt on bt.id_menor=t.tema_id and bt.t_relacion = 3 ";
+    $whereExcludeNT=' and bt.id is null ';
+
+
+    if($polihieraquical_flag==1){
+    	$leftJoinExcludeNT='';
+    	$whereExcludeNT='';
+    }
+
     return SQL(
         "select",
         "t.tema_id as id,t.code,t.tema,t.isMetaTerm,t.cuando,t.tema_id as tema_id
 	from $DBCFG[DBprefix]tema t
-	left join $DBCFG[DBprefix]indice i on (i.indice like '$TTterm_exclude' or i.indice like '|$term_id|%') and t.tema_id=i.tema_id
-	left join $DBCFG[DBprefix]tabla_rel uf on uf.id_mayor=t.tema_id and uf.t_relacion = 4
-	left join $DBCFG[DBprefix]tabla_rel r on r.id_mayor='$term_id' and r.t_relacion = 2
+	left join $DBCFG[DBprefix]indice i on (i.indice like '$TTterm_exclude' or i.indice like '|$term_id|%') and t.tema_id=i.tema_id # no esta en el mismo taxón
+	left join $DBCFG[DBprefix]tabla_rel uf on uf.id_mayor=t.tema_id and uf.t_relacion = 4 # excluir UF
+	left join $DBCFG[DBprefix]tabla_rel r on r.id_mayor='$term_id' and r.id_menor = t.tema_id #no relación directa de ningún tipo con el término
+	$leftJoinExcludeNT
 	where t.tema like $search_term
 	and i.tema_id is null
 	and r.id is null
 	and uf.id is null
+	$whereExcludeNT	
 	and t.tesauro_id='$_SESSION[id_tesa]'
+	and t.estado_id=13
 	order by t.tema"
     );
 };
@@ -4850,3 +4866,37 @@ function SQLmatchTerm($string,$limit="0"){
 
 return $sql;
 }
+
+
+
+/*
+* Search prefered terms for associate NT
+*
+*/
+function SQLsearch4NT($search_term, $tema_id = "")
+{
+
+    global $DBCFG;
+
+    $tema_id=secure_data($tema_id, "int");
+
+    $_SESSION["id_tesa"]=secure_data($_SESSION["id_tesa"], "int");
+
+    $search_term=secure_data("%$search_term%", "ADOsql");
+
+    $where = ($tema_id) ? " and t.tema_id!='$tema_id' " : "";
+
+    return SQL(
+        "select",
+        "t.tema,t.isMetaTerm,t.cuando,t.tema_id as tema_id
+	from $DBCFG[DBprefix]tema as t
+	left join $DBCFG[DBprefix]tabla_rel as r on r.id_menor=t.tema_id and r.t_relacion=4 
+	where
+	r.id is null
+	and t.estado_id='13'
+	and t.tesauro_id='$_SESSION[id_tesa]'
+	and t.tema like $search_term
+	$where
+	order by t.tema"
+    );
+};

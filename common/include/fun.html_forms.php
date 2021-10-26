@@ -145,7 +145,8 @@ function HTMLformAssociateExistTerms($taskterm, $ARRAYtermino, $term_id = "0")
 
             if (($taskterm=='addFreeNT') || ($taskterm=='addFreeUF')) {
                 //if enable polijerarquia
-                $sql_busca = ($array_vocabulario["polijerarquia"]==1) ? SQLsearchTerms4NT($expresBusca, $ARRAYtermino["idTema"]) : SQLsearchFreeTerms($expresBusca, $ARRAYtermino["idTema"]);
+                //$sql_busca = ($array_vocabulario["polijerarquia"]==1) ? SQLsearchTerms4NT($expresBusca, $ARRAYtermino["idTema"]) : SQLsearchFreeTerms($expresBusca, $ARRAYtermino["idTema"]);
+                $sql_busca = SQLsearchTerms4NT($expresBusca, $ARRAYtermino["idTema"],$_SESSION["CFGPolijerarquia"]);
                 $cant_result=SQLcount($sql_busca);
                 $search_leyenda='<h3>'.$cant_result.' '.MSG_ResultBusca.' <i>'.$expresBusca.'</i>.</h3>'."\n\r";
             } else {
