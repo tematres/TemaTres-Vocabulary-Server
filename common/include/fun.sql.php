@@ -2301,7 +2301,7 @@ function SQLsearchTerms4NT($search_term, $term_id,$polihieraquical_flag=0)
         "select",
         "t.tema_id as id,t.code,t.tema,t.isMetaTerm,t.cuando,t.tema_id as tema_id
 	from $DBCFG[DBprefix]tema t
-	left join $DBCFG[DBprefix]indice i on (i.indice like '$TTterm_exclude' or i.indice like '|$term_id|%') and t.tema_id=i.tema_id # no esta en el mismo taxón
+	left join $DBCFG[DBprefix]indice i on  (i.indice like '$TTterm_exclude' or i.tema_id=$ARRAYtopTerm[tema_id]) and t.tema_id=i.tema_id # no esta en el mismo taxón
 	left join $DBCFG[DBprefix]tabla_rel uf on uf.id_mayor=t.tema_id and uf.t_relacion = 4 # excluir UF
 	left join $DBCFG[DBprefix]tabla_rel r on r.id_mayor='$term_id' and r.id_menor = t.tema_id #no relación directa de ningún tipo con el término
 	$leftJoinExcludeNT
