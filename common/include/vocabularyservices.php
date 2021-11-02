@@ -159,7 +159,7 @@ function getForeingStrings($tvocab_uri_service, $task, $array_terms)
         return array();
     }
 
-    if (count($array_terms)<1) {
+    if (!is_array($array_terms)) {
         return array();
     }
 

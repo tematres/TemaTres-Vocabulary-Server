@@ -515,7 +515,7 @@ function HTMLformSuggestTermsXRelations($ARRAYtermino, $ARRAYtargetVocabulary = 
                     <div class="form-group">
                         <label for="string2search" class="col-sm-3 control-label">'.ucfirst(LABEL_Buscar).'</label>
                         <div class="col-sm-9">
-                            <input type="text" class="form-control"  type="search" required autofocus id="string2search" name="string2search" value="">
+                            <input type="text" class="form-control"  type="search" required autofocus id="string2search" name="string2search" value="'.$ARRAYtermino["titTema"].'">
                         </div>
                     </div>
 										<div class="form-group">
