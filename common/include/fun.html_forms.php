@@ -5,7 +5,7 @@ if ((stristr($_SERVER['REQUEST_URI'], "session.php") ) || ( !defined('T3_ABSPATH
 // TemaTres : aplicación para la gestión de vocabularios controlados#       #
 // TemaTres : web application to manage controlled vocabularies
 //
-// Copyright (C) 2004-2008 Diego Ferreyra tematres@r020.com.ar
+// Copyright (C) 2004-2021 Diego Ferreyra tematres@r020.com.ar
 // Distribuido bajo Licencia GNU Public License, versión 2 (de junio de 1.991) Free Software Foundation
 //
 //
@@ -2622,7 +2622,7 @@ function FORMtransterm4char4map($tvocab_id, $filterEQ, $letra)
 
         $min= ($pag-1)*$limit;
         //modificar => sólo debe traer términos preferidos. Los términos alternativos no se traducen
-        $sqlDatosLetra=SQLterms2map4char($letra, array("min"=>$min,"limit"=>$limit,"filterEQ"=>$filterEQ));
+        $sqlDatosLetra=SQLterms2map4char($ARRAYvocabulario["vocabulario_id"],$letra, array("min"=>$min,"limit"=>$limit,"filterEQ"=>$filterEQ));
 
         $num_terms=($min>0) ? $min+1 :0;
 

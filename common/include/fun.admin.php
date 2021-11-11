@@ -430,11 +430,13 @@ function addLocalTargetTerms($tvocab_id, $data = array())
     global $DBCFG;
 
     if ($ARRAYvocabulario["vocabulario_id"]>1) {
+        
+        if(is_array($data["remove_tterm_rel"])){
         //delete equivalences
-        for ($i=0; $i<sizeof($data["remove_tterm_rel"]); ++$i) {
-            borra_r($data["remove_tterm_rel"][$i]);
-        }
-
+            for ($i=0; $i<sizeof($data["remove_tterm_rel"]); ++$i) {
+                borra_r($data["remove_tterm_rel"][$i]);
+            }
+        };
         //add equivalences
         for ($i=0; $i<sizeof($data["term_id"]); ++$i) {
             if (strlen($data["tterm_string"][$i])>1) {

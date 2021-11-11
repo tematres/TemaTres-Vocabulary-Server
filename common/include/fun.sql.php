@@ -4443,12 +4443,14 @@ function SQLsrcnote($srcnote_id)
 //
 // Lista de términos preferentes (sin UF ni términos libres)
 //
-function SQLterms2map4char($char, $args = '')
+function SQLterms2map4char($target_tesauro_id, $char, $args = '')
 {
     global $DBCFG;
     global $CFG;
 
     $char=(ctype_digit($char)) ? $char : secure_data($char, "ADOsql");
+
+ 	$target_tesauro_id=secure_data($target_tesauro_id,"int");
 
     $defaults=array("min"=>0,"limit"=>CFG_NUM_SHOW_TERMSxTRAD);
 
@@ -4471,18 +4473,11 @@ function SQLterms2map4char($char, $args = '')
 
     $sql=SQL(
         "SELECT",
-        "t.tema_id,
-	t.tema,
-	t.estado_id,
-	t.isMetaTerm,
-	r.t_relacion,
-	tt.tema as tterm,
-	tt.tema_id as tterm_id,
-	r.id as r_id
+        "t.tema_id, t.tema,	t.estado_id, t.isMetaTerm, r.t_relacion, tt.tema as tterm, tt.tema_id as tterm_id, tt.tesauro_id,r.id as r_id
 	from $DBCFG[DBprefix]tema as t
 	left join $DBCFG[DBprefix]tabla_rel as uf on uf.id_mayor=t.tema_id and uf.t_relacion = 4
 	left join $DBCFG[DBprefix]tabla_rel as r on r.id_menor=t.tema_id and r.t_relacion in (5,6,7)
-	left join $DBCFG[DBprefix]tema as tt on r.id_mayor=tt.tema_id
+	left join $DBCFG[DBprefix]tema as tt on r.id_mayor=tt.tema_id and tt.tesauro_id=$target_tesauro_id
 	where $where
 	$whereFilter
 	and uf.id is null
