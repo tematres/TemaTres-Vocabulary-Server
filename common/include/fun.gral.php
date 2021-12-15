@@ -505,7 +505,9 @@ function wiki2link($wikitext)
     $inter_text    = $wikitext;
     while (strpos($inter_text, "[[") && strpos($inter_text, "]]")) {
         $link    = str_replace(array("[[", "]]"), "", substr($inter_text, strpos($inter_text, "[["), (strpos($inter_text, "]]")-strpos($inter_text, "[["))));
-        if (strpos($link, "|")) {
+
+    if (count(explode("|", $link))==2) {
+
             list($toSee,$string) = explode("|", $link);
             $inter_text = str_replace('[['.$toSee."|".$string.']]', string2gloss($string, $toSee, array($_SESSION[$_SESSION["CFGURL"]]["_GLOSS_NOTES"])), $inter_text);
         } else {
