@@ -469,9 +469,11 @@ function wiki2html($wikitext)
     if (!isset($wikitext) || $wikitext == "") {
         return false;
     }
-
+    $i=0;
     $inter_text = $wikitext;
     while (strpos($inter_text, "[[") && strpos($inter_text, "]]")) {
+        $i=++$i;
+        if($i==10) break; //prevent loop when there are a error in wiki sintax
         $link = str_replace(array("[[", "]]"), "", substr($inter_text, strpos($inter_text, "[["), (strpos($inter_text, "]]")-strpos($inter_text, "[["))));
         if (strpos($link, "|")) {
             list($href, $title) = explode("|", $link);
@@ -503,7 +505,11 @@ function wiki2link($wikitext)
     }
 
     $inter_text    = $wikitext;
+
+    $i=0;
     while (strpos($inter_text, "[[") && strpos($inter_text, "]]")) {
+        $i=++$i;
+        if($i==10) break; //prevent loop when there are a error in wiki sintax
         $link    = str_replace(array("[[", "]]"), "", substr($inter_text, strpos($inter_text, "[["), (strpos($inter_text, "]]")-strpos($inter_text, "[["))));
 
     if (count(explode("|", $link))==2) {
