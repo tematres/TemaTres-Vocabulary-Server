@@ -17,7 +17,7 @@ Tematres has the following system requirements:
 
 You can change the "vocab" directory to any name. To create other or many vocabularies,  copy "vocab" directory (eg: vocab2, etc) and change the params of db.tematres.php (eg: change the tables prefix).
 
-## Update Tematres to 3.2
+## Update Tematres to 3.3
 To update from previous Tematres versions:
 1. Make a backup of your data (Login as admin: Menu -> Administration -> Export: Select SQL (backup)
 2. Copy the code of Tematres 3.2 in the web path directory, config the database connection credentials in db.tematres.php or maintain the previous db.tematres.php
