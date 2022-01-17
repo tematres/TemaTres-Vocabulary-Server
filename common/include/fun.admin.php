@@ -2007,7 +2007,7 @@ function doTotalZthes($tipoEnvio)
             $sql=SQLIdTerminosValidos();
             while ($array=$sql->FetchRow()) {
                 $time_now = time();
-                if ($time_start >= $time_now + 10) {
+                if ($time_now >= $time_start + 10) {
                     $time_start = $time_now;
                     header('X-pmaPing: Pong');
                 };
@@ -2046,7 +2046,7 @@ function doTotalMADS($tipoEnvio)
             $sql=SQLIdTerminosValidos();
             while ($array=$sql->FetchRow()) {
                 $time_now = time();
-                if ($time_start >= $time_now + 10) {
+                if ($time_now >= $time_start + 10) {
                     $time_start = $time_now;
                     header('X-pmaPing: Pong');
                 };
@@ -2111,7 +2111,7 @@ function doTotalBS8723($tipoEnvio)
 
             while ($array=$sql->FetchRow()) {
                 $time_now = time();
-                if ($time_start >= $time_now + 10) {
+                if ($time_now >= $time_start + 10) {
                     $time_start = $time_now;
                     header('X-pmaPing: Pong');
                 };
@@ -2185,11 +2185,10 @@ function doTotalSkos($tipoEnvio, $params = array())
                 $sql=SQLIdTerminosValidos();
             }
 
-
             while ($array=$sql->FetchRow()) {
                 // Mantener vivo el navegador
                 $time_now = time();
-                if ($time_start >= $time_now + 10) {
+                if ($time_now >= $time_start + 10) {
                     $time_start = $time_now;
                     header('X-pmaPing: Pong');
                 };
@@ -2221,7 +2220,7 @@ function doTotalMoodle($params = array())
     while ($array=$sql->FetchRow()) {
         // Mantener vivo el navegador
         $time_now = time();
-        if ($time_start >= $time_now + 10) {
+        if ($time_now >= $time_start + 10) {
             $time_start = $time_now;
             header('X-pmaPing: Pong');
         };
@@ -2331,7 +2330,7 @@ function do_sitemap()
 
     while ($array=$sql->FetchRow()) {
         $time_now = time();
-        if ($time_start >= $time_now + 10) {
+        if ($time_now >= $time_start + 10) {
             $time_start = $time_now;
             header('X-pmaPing: Pong');
         };
@@ -2385,7 +2384,7 @@ function doTotalWXR($tipoEnvio = 'file')
     while ($arrayTema=$sql->FetchRow()) {
         // Mantener vivo el navegador
         $time_now = time();
-        if ($time_start >= $time_now + 10) {
+        if ($time_now >= $time_start + 10) {
             $time_start = $time_now;
             header('X-pmaPing: Pong');
         };
@@ -2466,7 +2465,7 @@ function txtAlfabetico($params = array())
     while ($arrayTema=$sql->FetchRow()) {
         // Mantener vivo el navegador
         $time_now = time();
-        if ($time_start >= $time_now + 10) {
+        if ($time_now >= $time_start + 10) {
             $time_start = $time_now;
             header('X-pmaPing: Pong');
         };
@@ -2674,7 +2673,7 @@ function txtJerarquico()
     while ($arrayTema=$sql->FetchRow()) {
         // Mantener vivo el navegador
         $time_now = time();
-        if ($time_start >= $time_now + 10) {
+        if ($time_now >= $time_start + 10) {
             $time_start = $time_now;
             header('X-pmaPing: Pong');
         };
@@ -3564,7 +3563,7 @@ function doSparqlEndpoint()
         $i==++$i;
         // Mantener vivo el navegador
         $time_now = time();
-        if ($time_start >= $time_now + 10) {
+        if ($time_now >= $time_start + 10) {
             $time_start = $time_now;
             header('X-pmaPing: Pong');
         };
@@ -3980,7 +3979,7 @@ function TXTalphaList4term($term_id, $params = array())
     while ($arrayTema=$sql->FetchRow()) {
         // Mantener vivo el navegador
         $time_now = time();
-        if ($time_start >= $time_now + 10) {
+        if ($time_now >= $time_start + 10) {
             $time_start = $time_now;
             header('X-pmaPing: Pong');
         };
@@ -4158,7 +4157,7 @@ function do_pdfSist($params = array())
         while ($arrayTema=$sql->FetchRow()) {
             // Mantener vivo el navegador
             $time_now = time();
-            if ($time_start >= $time_now + 10) {
+            if ($time_now >= $time_start + 10) {
                 $time_start = $time_now;
                 header('X-pmaPing: Pong');
             }
@@ -4225,7 +4224,7 @@ EOT;
     // pega termo do banco de dados, coluna por coluna
     while ($arrayTema=$sql->FetchRow()) { // mantem o navegador acordado
         $time_now = time();
-        if ($time_start >= $time_now + 10) {
+        if ($time_now >= $time_start + 10) {
             $time_start = $time_now;
             header('X-pmaPing: Pong');
         };
