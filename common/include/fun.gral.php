@@ -1481,11 +1481,27 @@ function isValidLetter($string)
     return $string;
 }
 
-// Return base URL of the current URL or instance of vocabulary
+/* 
+    Return base URL of the current URL or instance of vocabulary
+    source: https://stackoverflow.com/questions/1175096/how-to-find-out-if-youre-using-https-without-serverhttps/16076965#16076965
+    @Julia Neumann
+*/
 function getURLbase()
 {
-    $s = empty($_SERVER["HTTPS"]) ? '' : (($_SERVER["HTTPS"] == "on") ? "s" : "");
-    $protocol = substr(strtolower($_SERVER["SERVER_PROTOCOL"]), 0, strpos(strtolower($_SERVER["SERVER_PROTOCOL"]), "/")) . $s;
+    //$s = empty($_SERVER["HTTPS"]) ? '' : (($_SERVER["HTTPS"] == "on") ? "s" : "");
+    //$protocol = substr(strtolower($_SERVER["SERVER_PROTOCOL"]), 0, strpos(strtolower($_SERVER["SERVER_PROTOCOL"]), "/")) . $s;
+
+    $isSecure = false;
+    if (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on') {
+        $isSecure = true;
+    }
+    elseif (!empty($_SERVER['HTTP_X_FORWARDED_PROTO']) &&
+        $_SERVER['HTTP_X_FORWARDED_PROTO'] == 'https' ||
+        !empty($_SERVER['HTTP_X_FORWARDED_SSL']) &&
+        $_SERVER['HTTP_X_FORWARDED_SSL'] == 'on') {
+                $isSecure = true;
+    }
+    $protocol = $isSecure ? 'https' : 'http';    
     $port = ($_SERVER["SERVER_PORT"] == "80") ? "" : (":".$_SERVER["SERVER_PORT"]);
     $uri = $protocol . "://" . $_SERVER['SERVER_NAME'] . $port . $_SERVER['REQUEST_URI'];
     $segments = explode('?', $uri, 2);
