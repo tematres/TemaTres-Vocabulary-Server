@@ -2297,13 +2297,16 @@ function SQLsearchTerms4NT($search_term, $term_id,$polihieraquical_flag=0)
     	$whereExcludeNT='';
     }
 
+ # leftjoin1: no esta en el mismo taxón
+ # leftjoin2: excluir UF
+ # leftjoin3: no relación directa de ningún tipo con el término    
     return SQL(
         "select",
         "t.tema_id as id,t.code,t.tema,t.isMetaTerm,t.cuando,t.tema_id as tema_id
 	from $DBCFG[DBprefix]tema t
-	left join $DBCFG[DBprefix]indice i on  (i.indice like '$TTterm_exclude' or i.tema_id=$ARRAYtopTerm[tema_id]) and t.tema_id=i.tema_id # no esta en el mismo taxón
-	left join $DBCFG[DBprefix]tabla_rel uf on uf.id_mayor=t.tema_id and uf.t_relacion = 4 # excluir UF
-	left join $DBCFG[DBprefix]tabla_rel r on r.id_mayor='$term_id' and r.id_menor = t.tema_id #no relación directa de ningún tipo con el término
+	left join $DBCFG[DBprefix]indice i on  (i.indice like '$TTterm_exclude' or i.tema_id=$ARRAYtopTerm[tema_id]) and t.tema_id=i.tema_id
+	left join $DBCFG[DBprefix]tabla_rel uf on uf.id_mayor=t.tema_id and uf.t_relacion = 4 
+	left join $DBCFG[DBprefix]tabla_rel r on r.id_mayor='$term_id' and r.id_menor = t.tema_id 
 	$leftJoinExcludeNT
 	where t.tema like $search_term
 	and i.tema_id is null
