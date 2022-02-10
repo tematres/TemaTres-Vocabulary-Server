@@ -41,7 +41,7 @@ define("MENU_AgregarTR", "Related Term");
 define("MENU_AgregarUP", "Alternative Term");  /* Non-descriptor */
 define("MENU_MisDatos", "My account");
 define("MENU_Caducar", "disable");
-define("MENU_Habilitar", "available");
+define("MENU_Habilitar", "enable");
 define("MENU_Salir", "Logout");
 define("LABEL_Menu", "Menu");
 define("LABEL_Opciones", "Options");
@@ -214,8 +214,8 @@ define("MSG_ERROR_ESTADO", "illegal status");
 define("LABEL_Candidatos", "candidate terms");
 define("LABEL_Aceptados", "accepted terms");
 define("LABEL_Rechazados", "rejected terms");
-define("LABEL_User_NoHabilitado", "disable");
-define("LABEL_User_Habilitado", "enable");
+define("LABEL_User_NoHabilitado", "disabled");
+define("LABEL_User_Habilitado", "enabled");
 
 define("LABEL_CandidatearTermino", "candidate term");
 define("LABEL_AceptarTermino", "accept term");
@@ -292,8 +292,8 @@ define('LABEL_tvocab_tag', "tag for the reference");
 define('LABEL_tvocab_uri_service', "URL for the web services reference");
 define('LABEL_targetTermsforUpdate', "terms with pending update");
 define('LABEL_ShowTargetTermsforUpdate', "check terms update");
-define('LABEL_enable', "enable");  /* web services status info: in use */
-define('LABEL_disable', "disable");  /* web services status info: not in use */
+define('LABEL_enable', "enabled");  /* web services status info: in use */
+define('LABEL_disable', "disabled");  /* web services status info: not in use */
 define('LABEL_notFound', "term not found");
 define('LABEL_termUpdated', "term updated");
 define('LABEL_ShowTargetTermforUpdate', "update");
