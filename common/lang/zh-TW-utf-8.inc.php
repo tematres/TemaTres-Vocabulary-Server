@@ -1,16 +1,16 @@
 <?php
 #   TemaTres: open source thesaurus management
-#   Website http://www.vocabularyserver.com
-#   Copyright (C) 2004-2020 Diego Ferreyra <tematres@r020.com.ar>
+#   Website https://www.vocabularyserver.com
+#   Copyright (C) 2004-2022 Diego Ferreyra <tematres@r020.com.ar>
 #   License: distributed under the GNU General Public License Version 2 (June 1991) Free Software Foundation
 #   Translation: Community collaborative translation https://crowdin.com/project/tematres
 #
 ###############################################################################################################
 #
 // Translation versioning
-define('LABEL_i18n_MasterDate', '2020-06-18'); /* Do not translate. Master language file creation date (YYYY-MM-DD). */
-define('LABEL_i18n_MasterVersion', '3.2.1'); /* Do not translate. Master language file version. */
-define('LABEL_i18n_TranslationVersion', '01'); /* Translation language file version. Will be used as a sufix for the language master version number. Can be changed by translators to track minor changes to your translation file */
+define('LABEL_i18n_MasterDate', '2022-02-10'); /* Do not translate. Master language file creation date (YYYY-MM-DD). */
+define('LABEL_i18n_MasterVersion', '3.3.1'); /* Do not translate. Master language file version. */
+define('LABEL_i18n_TranslationVersion', '01'); /* Translation language file version. Will be used as a suffix for the language master version number. Can be changed by translators to track minor changes to your translation file */
 define('LABEL_i18n_TranslationAuthor', 'Community translation for TemaTres'); /* Can be changed by translators. Do not include emails or personal details */
 /* Strings to translate */
 define("LANG", "zh-TW");
@@ -41,7 +41,7 @@ define("MENU_AgregarTR", "相关词");
 define("MENU_AgregarUP", "非正式词");  /* Non-descriptor */
 define("MENU_MisDatos", "我的帐号");
 define("MENU_Caducar", "禁用");
-define("MENU_Habilitar", "可用");
+define("MENU_Habilitar", "启用");
 define("MENU_Salir", "注销");
 define("LABEL_Menu", "菜单");
 define("LABEL_Opciones", "选项");
@@ -85,7 +85,7 @@ define("LABEL_borraRelacion", "删除关系");
 define("MSG_ResultBusca", "检索式找到如下词条");
 define("MSG_ResultLetra", "字母");
 define("MSG_ResultCambios", "修改成功");
-define("MSG_noUser", "非注册用户");
+define("MSG_noUser", "The login information is incorrect. Please try again.");
 define("FORM_JS_check", "请检查数据 ");
 define("FORM_JS_confirm", "是否清除此关系？");
 define("FORM_JS_pass", "密码");
@@ -246,7 +246,7 @@ define("PARAM_DBLogin", "数据库用户") ;
 define("PARAM_DBPass", "数据库密码") ;
 define("PARAM_DBprefix", "前缀表") ;
 $install_message[101] = 'TemaTres Setup' ;
-$install_message[201] = 'Can not find the file configuration for the database connection (%s).';
+$install_message[201] = 'Cannot find the file configuration for the database connection (%s).';
 $install_message[202] = 'File configuration for the database connection found.';
 $install_message[203] = 'Unable to connect to database server <em>%s</em> with the user <em>%s</em>. Please check your file configuration for the database connection (%s).';
 $install_message[204] = 'Connection to Server <em>%s</em> successful ';
@@ -399,7 +399,7 @@ define('LABEL_mail_passTitle', '新密码 ');
 define('LABEL_mail_pass1', '新密码 ');
 define('LABEL_mail_pass2', '密码：');
 define('LABEL_mail_pass3', '你可以进行修改。');
-define('MSG_check_mail_link', '检查你的邮件，找到确认链接。');
+define('MSG_check_mail_link', 'If that email address is valid, we will send you an email for the confirmation link.');
 define('MSG_check_mail', 'If that email address is valid, we will send you an email to reset your password.');
 define('MSG_no_mail', '电子邮件未能发送。');
 define('LABEL_user_lost_password', '忘记密码？');
@@ -548,5 +548,5 @@ define('LABEL_source4term', 'reference sources for terms');
 define('LABEL_add_new', 'add new');
 define('LABEL_sources4vocab', 'reference sources');
 define('LABEL_update2_2x3_2', 'update (2.x -> 3.2)');
-define('LABEL__getForTargetVocabularyNews', 'get for news');
+define('LABEL__getForTargetVocabularyNews', 'get news');
 define('LABEL__example', 'example');

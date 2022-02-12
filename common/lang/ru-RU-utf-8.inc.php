@@ -1,16 +1,16 @@
 <?php
 #   TemaTres: open source thesaurus management
-#   Website http://www.vocabularyserver.com
-#   Copyright (C) 2004-2020 Diego Ferreyra <tematres@r020.com.ar>
+#   Website https://www.vocabularyserver.com
+#   Copyright (C) 2004-2022 Diego Ferreyra <tematres@r020.com.ar>
 #   License: distributed under the GNU General Public License Version 2 (June 1991) Free Software Foundation
 #   Translation: Community collaborative translation https://crowdin.com/project/tematres
 #
 ###############################################################################################################
 #
 // Translation versioning
-define('LABEL_i18n_MasterDate', '2020-06-18'); /* Do not translate. Master language file creation date (YYYY-MM-DD). */
-define('LABEL_i18n_MasterVersion', '3.2.1'); /* Do not translate. Master language file version. */
-define('LABEL_i18n_TranslationVersion', '01'); /* Translation language file version. Will be used as a sufix for the language master version number. Can be changed by translators to track minor changes to your translation file */
+define('LABEL_i18n_MasterDate', '2022-02-10'); /* Do not translate. Master language file creation date (YYYY-MM-DD). */
+define('LABEL_i18n_MasterVersion', '3.3.1'); /* Do not translate. Master language file version. */
+define('LABEL_i18n_TranslationVersion', '01'); /* Translation language file version. Will be used as a suffix for the language master version number. Can be changed by translators to track minor changes to your translation file */
 define('LABEL_i18n_TranslationAuthor', 'Community translation for TemaTres'); /* Can be changed by translators. Do not include emails or personal details */
 /* Strings to translate */
 define("LANG", "ru");
@@ -41,7 +41,7 @@ define("MENU_AgregarTR", "Взаимосвязанный термин");
 define("MENU_AgregarUP", "нежелательный термин");  /* Non-descriptor */
 define("MENU_MisDatos", "Моя учетная запись");
 define("MENU_Caducar", "отключить");
-define("MENU_Habilitar", "доступен");
+define("MENU_Habilitar", "включить");
 define("MENU_Salir", "Выход");
 define("LABEL_Menu", "Меню");
 define("LABEL_Opciones", "Опции");
@@ -85,7 +85,7 @@ define("LABEL_borraRelacion", "удалить взаимосвязь");
 define("MSG_ResultBusca", "термины, найденные для выражения поиска");
 define("MSG_ResultLetra", "Буква");
 define("MSG_ResultCambios", "замена выполнена успешно.");
-define("MSG_noUser", "Незарегистрированный пользователь");
+define("MSG_noUser", "The login information is incorrect. Please try again.");
 define("FORM_JS_check", "Проверьте данные ");
 define("FORM_JS_confirm", "удалить эту взаимосвязь?");
 define("FORM_JS_pass", "_пароль");
@@ -120,7 +120,7 @@ define("FORM_LABEL_TipoLenguaje", "тип_языка");
 define("FORM_LABEL_Cobertura", "область применения");
 define("FORM_LABEL_Terminos", "термины");
 define("FORM_LABEL_RelTerminos", "взаимосвязь между терминами");
-define("FORM_LABEL_TerminosUP", "Нежелательные термины");
+define("FORM_LABEL_TerminosUP", "нежелательные термины");
 define("FORM_LABEL_Guardar", "Сохранить");
 define("LABEL_verDetalle", "см. детали ");
 define("LABEL_verTerminosLetra", "см. термины, начинающиеся с ");
@@ -246,7 +246,7 @@ define("PARAM_DBLogin", "Пользователь базы данных") ;
 define("PARAM_DBPass", "Пароль базы данных") ;
 define("PARAM_DBprefix", "Таблицы префиксов") ;
 $install_message[101] = 'TemaTres Setup' ;
-$install_message[201] = 'Can not find the file configuration for the database connection (%s).';
+$install_message[201] = 'Cannot find the file configuration for the database connection (%s).';
 $install_message[202] = 'File configuration for the database connection found.';
 $install_message[203] = 'Unable to connect to database server <em>%s</em> with the user <em>%s</em>. Please check your file configuration for the database connection (%s).';
 $install_message[204] = 'Connection to Server <em>%s</em> successful ';
@@ -399,7 +399,7 @@ define('LABEL_mail_passTitle', 'Новый пароль ');
 define('LABEL_mail_pass1', 'Новый пароль для ');
 define('LABEL_mail_pass2', 'Пароль: ');
 define('LABEL_mail_pass3', 'Вы можете его изменить.');
-define('MSG_check_mail_link', 'Ссылка подтверждения отправлена Вам по электронной почте.');
+define('MSG_check_mail_link', 'If that email address is valid, we will send you an email for the confirmation link.');
 define('MSG_check_mail', 'If that email address is valid, we will send you an email to reset your password.');
 define('MSG_no_mail', 'Сообщение не было отправлено.');
 define('LABEL_user_lost_password', 'Забыли пароль?');
@@ -413,7 +413,7 @@ define('LABEL_meta_term', 'мета-термин');
 define('LABEL_meta_terms', 'мета-термины');
 define('LABEL_relatedTerms', 'взаимосвязанные термины');
 define('LABEL_nonPreferedTerms', 'нежелательные термины');
-define('LABEL_update1_6x1_7', 'Обновить TemaTres (1.6 -> 2.2)');
+define('LABEL_update1_6x1_7', 'Обновить (1.6 -> 2.2)');
 define('LABEL_include_data', 'включить');
 define('LABEL_updateEndpoint', 'обновить конечную точку SPARQL');
 define('MSG__updateEndpoint', 'Данные будут обновлены в указанной конечной точке SPARQL. Эта операция может занять несколько минут.');
@@ -445,7 +445,7 @@ define('MSG_termsDeleted', 'deleted terms');
 define('LABEL_selectAll', 'select all');
 define('LABEL_metadatos', 'metadata');
 define('LABEL_totalTermsDescendants', 'descendant terms');
-define('LABEL_altTerms', 'alternative terms');
+define('LABEL_altTerms', 'нежелательные термины');
 define('LABEL_narrowerTerms', 'more specific terms');
 define('LABEL_results', 'results');
 define('LABEL_showFreeTerms', 'free terms list');
@@ -455,7 +455,7 @@ define('LABEL_type2filter', 'type to filter the terms');
 define('LABEL_defaultEQmap', 'Type "eq" to define equivalence relationship');
 define("MSG_repass_error", "the passwords do not match");
 define("MSG_lengh_error", "please type at least %d characters");
-define("MSG_errorPostData", "A mistake was detected, Please review the data to the field ");
+define("MSG_errorPostData", "A mistake was detected, please review the data of the field ");
 define('LABEL_preferedTerms', 'preferred terms');   /* Descriptor */
 define('LABEL_FORM_NULLnotesTermReport', 'terms WITHOUT notes');
 define('MSG_FORM_NULLnotesTermReport', 'terms without note type');
@@ -506,7 +506,7 @@ define('MSG_includeNotes', 'use type note:');
 define('LABEL_SHOW_RANDOM_TERM', 'Show a randomly selected term on the home page.  You must select the type of term to show.');
 define('LABEL_opt_show_rando_term', 'show terms with type note:');
 define('MSG_helpNoteEditor', 'You can link terms using double brackets. Ex: Only [[love]] will save the world');
-define('LABEL_GLOSS_NOTES', 'Select which type note will be used to enrich (glossary) the terms who are marked with double brackets : [[glossary]]');
+define('LABEL_GLOSS_NOTES', 'Select which type note will be used to enrich (glossary) the terms who are marked with double brackets: [[glossary]]');
 define('LABEL_bulkGlossNotes', 'type note to gloss');
 define('MSG__autoGlossInfo', 'This process will create wiki links between terms from the vocabulary with the terms found in notes (Ex: Only [[love]] will save the world). Is <strong>case sensitive</strong> search and replace operation.');
 define('MSG__autoGlossDanger', 'This process is IRREVERSIBLE. Please create a backup before proceeding.');
@@ -548,5 +548,5 @@ define('LABEL_source4term', 'reference sources for terms');
 define('LABEL_add_new', 'add new');
 define('LABEL_sources4vocab', 'reference sources');
 define('LABEL_update2_2x3_2', 'Обновить (2.x -> 3.2)');
-define('LABEL__getForTargetVocabularyNews', 'get for news');
+define('LABEL__getForTargetVocabularyNews', 'get news');
 define('LABEL__example', 'example');

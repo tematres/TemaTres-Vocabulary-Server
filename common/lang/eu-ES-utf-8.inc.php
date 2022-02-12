@@ -1,16 +1,16 @@
 <?php
 #   TemaTres: open source thesaurus management
-#   Website http://www.vocabularyserver.com
-#   Copyright (C) 2004-2020 Diego Ferreyra <tematres@r020.com.ar>
+#   Website https://www.vocabularyserver.com
+#   Copyright (C) 2004-2022 Diego Ferreyra <tematres@r020.com.ar>
 #   License: distributed under the GNU General Public License Version 2 (June 1991) Free Software Foundation
 #   Translation: Community collaborative translation https://crowdin.com/project/tematres
 #
 ###############################################################################################################
 #
 // Translation versioning
-define('LABEL_i18n_MasterDate', '2020-06-18'); /* Do not translate. Master language file creation date (YYYY-MM-DD). */
-define('LABEL_i18n_MasterVersion', '3.2.1'); /* Do not translate. Master language file version. */
-define('LABEL_i18n_TranslationVersion', '01'); /* Translation language file version. Will be used as a sufix for the language master version number. Can be changed by translators to track minor changes to your translation file */
+define('LABEL_i18n_MasterDate', '2022-02-10'); /* Do not translate. Master language file creation date (YYYY-MM-DD). */
+define('LABEL_i18n_MasterVersion', '3.3.1'); /* Do not translate. Master language file version. */
+define('LABEL_i18n_TranslationVersion', '01'); /* Translation language file version. Will be used as a suffix for the language master version number. Can be changed by translators to track minor changes to your translation file */
 define('LABEL_i18n_TranslationAuthor', 'Community translation for TemaTres'); /* Can be changed by translators. Do not include emails or personal details */
 /* Strings to translate */
 define("LANG", "eu");
@@ -41,7 +41,7 @@ define("MENU_AgregarTR", "Erlazionatua terminoa");
 define("MENU_AgregarUP", "Alternatiboa terminoa");  /* Non-descriptor */
 define("MENU_MisDatos", "Nire datuak");
 define("MENU_Caducar", "Epea amaitzea");
-define("MENU_Habilitar", "Prestatzea");
+define("MENU_Habilitar", "Prestatuta");
 define("MENU_Salir", "Ateratzea");
 define("LABEL_Menu", "Menua");
 define("LABEL_Opciones", "Aukerak");
@@ -68,7 +68,7 @@ define("LABEL_TipoLenguaje", "HizkuntzarenTipoa");
 define("LABEL_Cobertura", "Estaldura");
 define("LABEL_Terminos", "Terminoak");
 define("LABEL_RelTerminos", "Terminoen arteanZerikusiak");
-define("LABEL_TerminosUP", "Baliokide terminoak");
+define("LABEL_TerminosUP", "términos alternativos");
 define("LABEL_BuscaTermino", "Terminoa bilatzea");
 define("LABEL_Buscar", "Bilatzea");
 define("LABEL_Enviar", "Bidaltzea");
@@ -85,7 +85,7 @@ define("LABEL_borraRelacion", "Zerikusia eliminatzea");
 define("MSG_ResultBusca", "BilaketarentzatAurkako terminoak");
 define("MSG_ResultLetra", "Letra");
 define("MSG_ResultCambios", "Kanbioak Arrakastarekin egin dute.");
-define("MSG_noUser", "Ez miatuta erabiltzailea");
+define("MSG_noUser", "The login information is incorrect. Please try again.");
 define("FORM_JS_check", "Mesedez datuak berrikusi ditzan ");
 define("FORM_JS_confirm", "Hau asegurua eliminatzea desiratzen duela edo zerikusia bukatzen dut?");
 define("FORM_JS_pass", "_Klabea");
@@ -229,7 +229,7 @@ define("LABEL_Guardar", "guardar");
 /* v 1.033 */
 define("MENU_AgregarTEexist", "Subordinar un término libre");
 define("MENU_AgregarUPexist", "Asociar un término alternativo (libre)");
-define("LABEL_existAgregarUP", "Asociar un término alternativo %s");
+define("LABEL_existAgregarUP", "Asociar un término alternativo a %s");
 define("LABEL_existAgregarTE", "Subordinar un término libre %s ");
 define("MSG_minCharSerarch", "La expresión de búsqueda <i>%s</i> tiene sólo <strong>%s</strong> caracteres. Debe ser mayor a <strong>%s</strong> caracteres");
 /* v 1.04 */
@@ -400,7 +400,7 @@ define('LABEL_mail_pass1', 'Clave nueva for ');
 define('LABEL_mail_pass2', 'Clave: ');
 define('LABEL_mail_pass3', 'Usted puede modificarla.');
 define('MSG_check_mail_link', 'Revisa tu correo electrónico para obtener el enlace de confirmación.');
-define('MSG_check_mail', 'Por favor revisa tu correo electrónico.');
+define('MSG_check_mail', 'If that email address is valid, we will send you an email to reset your password.');
 define('MSG_no_mail', 'No se pudo enviar el correo.');
 define('LABEL_user_lost_password', '¿Has perdido tu contraseña?');
 ## v1.7
@@ -530,23 +530,23 @@ define('LABEL_allNotes', 'todas las notas');
 define('LABEL_allRelations', 'todas las relaciones entre términos');
 #v.3.1
 define('LABEL_noResults', 'Perdón, no hay resultados');
-define('LABEL_globalOrganization', 'global organization of the vocabulary');
-define('LABEL_rel_associative', 'associative relationships');
-define('LABEL_rel_hierarchical', 'hierarchical relationships');
-define('LABEL_rel_synonymy', 'synonym relationships');
-define('LABEL_prototypeTerms', 'central terms');
-define('LABEL_copy_click', 'copy term to clipboard');
-define('LABEL__ENABLE_COPY_CLICK', 'Enable button to copy terms to the clipboard.');
+define('LABEL_globalOrganization', 'organización global del vocabulario');
+define('LABEL_rel_associative', 'relaciones asociativas');
+define('LABEL_rel_hierarchical', 'relaciones jerárquicas');
+define('LABEL_rel_synonymy', 'relaciones de sinonimia');
+define('LABEL_prototypeTerms', 'términos centrales');
+define('LABEL_copy_click', 'copiar término al portapapeles');
+define('LABEL__ENABLE_COPY_CLICK', 'Habilitar botón para copiar términos al portapapeles.');
 #v.3.2
-define('LABEL_order', 'order');
+define('LABEL_order', 'orden');
 define('LABEL_alias', 'alias');
-define('LEGEND_alias', 'enter a short alias');
-define('LABEL_src_note', 'source');
-define('LEGEND_src_note', 'enter a bibliographic citation');
-define('LABEL_source', 'normalized sources of authority');
-define('LABEL_source4term', 'reference sources for terms');
-define('LABEL_add_new', 'add new');
-define('LABEL_sources4vocab', 'reference sources');
+define('LEGEND_alias', 'consigne un alias breve');
+define('LABEL_src_note', 'fuente');
+define('LEGEND_src_note', 'consigne la cita bibliográfica');
+define('LABEL_source', 'fuentes normalizadas');
+define('LABEL_source4term', 'fuentes según términos');
+define('LABEL_add_new', 'agregar nuevo');
+define('LABEL_sources4vocab', 'fuentes de consulta');
 define('LABEL_update2_2x3_2', 'Actualizar (2.x -> 3.2)');
 define('LABEL__getForTargetVocabularyNews', 'buscar novedades');
 define('LABEL__example', 'ejemplo');

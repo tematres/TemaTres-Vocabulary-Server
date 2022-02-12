@@ -1,16 +1,16 @@
 <?php
 #   TemaTres: open source thesaurus management
-#   Website http://www.vocabularyserver.com
-#   Copyright (C) 2004-2020 Diego Ferreyra <tematres@r020.com.ar>
+#   Website https://www.vocabularyserver.com
+#   Copyright (C) 2004-2022 Diego Ferreyra <tematres@r020.com.ar>
 #   License: distributed under the GNU General Public License Version 2 (June 1991) Free Software Foundation
 #   Translation: Community collaborative translation https://crowdin.com/project/tematres
 #
 ###############################################################################################################
 #
 // Translation versioning
-define('LABEL_i18n_MasterDate', '2020-06-18'); /* Do not translate. Master language file creation date (YYYY-MM-DD). */
-define('LABEL_i18n_MasterVersion', '3.2.1'); /* Do not translate. Master language file version. */
-define('LABEL_i18n_TranslationVersion', '01'); /* Translation language file version. Will be used as a sufix for the language master version number. Can be changed by translators to track minor changes to your translation file */
+define('LABEL_i18n_MasterDate', '2022-02-10'); /* Do not translate. Master language file creation date (YYYY-MM-DD). */
+define('LABEL_i18n_MasterVersion', '3.3.1'); /* Do not translate. Master language file version. */
+define('LABEL_i18n_TranslationVersion', '01'); /* Translation language file version. Will be used as a suffix for the language master version number. Can be changed by translators to track minor changes to your translation file */
 define('LABEL_i18n_TranslationAuthor', 'Tradução pela comunidade para TemaTres'); /* Can be changed by translators. Do not include emails or personal details */
 /* Strings to translate */
 define("LANG", "pt-BR");
@@ -85,7 +85,7 @@ define("LABEL_borraRelacion", "eliminar relação");
 define("MSG_ResultBusca", "termo/s encontrados na busca");
 define("MSG_ResultLetra", "Letra");
 define("MSG_ResultCambios", "As alterações foram realizadas com sucesso.");
-define("MSG_noUser", "Usuário não registrado");
+define("MSG_noUser", "Suas informações de login não estão corretas. Por favor, tente novamente.");
 define("FORM_JS_check", "Por favor confira os dados de ");
 define("FORM_JS_confirm", "Tem certeza que quer excluir o termo ou a relação?");
 define("FORM_JS_pass", "_clave");
@@ -93,11 +93,11 @@ define("FORM_JS_confirmPass", "_repetir_clave");
 define("FORM_LABEL_termino", "_termo");
 define("FORM_LABEL_buscar", "_expressao_de_pesquisa");
 define("FORM_LABEL_buscarTermino", "_termo_relacionado");
-define("FORM_LABEL_nombre", "_nombre");
-define("FORM_LABEL_apellido", "_apellido");
-define("FORM_LABEL_mail", "_correo_electronico");
-define("FORM_LABEL_pass", "_clave");
-define("FORM_LABEL_repass", "_confirmar_clave");
+define("FORM_LABEL_nombre", "_nome");
+define("FORM_LABEL_apellido", "_apelido");
+define("FORM_LABEL_mail", "_correio");
+define("FORM_LABEL_pass", "_senha");
+define("FORM_LABEL_repass", "_confirmar_senha");
 define("FORM_LABEL_orga", "orga");
 define("LABEL_nombre", "nome");
 define("LABEL_apellido", "sobrenome");
@@ -108,8 +108,8 @@ define("LABEL_orga", "organização");
 define("LABEL_lcConfig", "Configuração do vocabulário");
 define("LABEL_lcDatos", "Dados do vocabulário");
 define("LABEL_Titulo", "Título");
-define("FORM_LABEL_Titulo", "_title");
-define("FORM_LABEL_Autor", "_author");
+define("FORM_LABEL_Titulo", "_titulo");
+define("FORM_LABEL_Autor", "_autor");
 define("FORM_LABEL_URI", "_URI");
 define("FORM_LABEL_Idioma", "Idioma");
 define("FORM_LABEL_FechaDia", "dia");
@@ -120,7 +120,7 @@ define("FORM_LABEL_TipoLenguaje", "language_type");
 define("FORM_LABEL_Cobertura", "escopo");
 define("FORM_LABEL_Terminos", "termos");
 define("FORM_LABEL_RelTerminos", "relações entre termos");
-define("FORM_LABEL_TerminosUP", "termos não preferidos");
+define("FORM_LABEL_TerminosUP", "termos não preferenciais");
 define("FORM_LABEL_Guardar", "Salvar");
 define("LABEL_verDetalle", "mostrar detalhes de ");
 define("LABEL_verTerminosLetra", "mostrar termos iniciados com ");
@@ -173,7 +173,7 @@ $MONTHS=array("01"=>"Jan",
 /* v 9.4 */
 define("LABEL_SI", "SIM");
 define("LABEL_NO", "NÃO");
-define("FORM_LABEL_jeraquico", "hierárquico");
+define("FORM_LABEL_jeraquico", "poli-hierárquico");
 define("LABEL_jeraquico", "Poli-hierárquico"); /* Polyhierarchical relationship */
 define("LABEL_terminoLibre", "termo livre");
 /* v 9.5 */
@@ -228,7 +228,7 @@ define("LABEL_Cancelar", "cancelar");
 define("LABEL_Guardar", "salvar");
 /* v 1.033 */
 define("MENU_AgregarTEexist", "Subordinar a um termo existente");
-define("MENU_AgregarUPexist", "Associar a um termo existente não preferido");
+define("MENU_AgregarUPexist", "Associar a um termo existente alternativo");
 define("LABEL_existAgregarUP", "Adicionar termo UF para %s");
 define("LABEL_existAgregarTE", "Adicionar termo específico para %s ");
 define("MSG_minCharSerarch", "A expressão de busca <i>%s</i> tem somente <strong>%s </strong> caracteres. Precisa ser maior que <strong>%s</strong> caracteres");
@@ -267,7 +267,7 @@ define('LABEL_TopTerm', "Tem este termo superior");
 define('LABEL_esFraseExacta', "frase exata");
 define('LABEL_DesdeFecha', "criado em ou após");
 define('LABEL_ProfundidadTermino', "está localizado no nível mais profundo");
-define('LABEL_esNoPreferido', "termo não preferido");
+define('LABEL_esNoPreferido', "termo não preferencial");
 define('LABEL_BusquedaAvanzada', "pesquisa avançada");
 define('LABEL_Todos', "todos");
 define('LABEL_QueBuscar', "o que buscar?");
@@ -399,8 +399,8 @@ define('LABEL_mail_passTitle', 'Nova senha ');
 define('LABEL_mail_pass1', 'Nova senha para ');
 define('LABEL_mail_pass2', 'Senha: ');
 define('LABEL_mail_pass3', 'Você pode alterá-la.');
-define('MSG_check_mail_link', 'Confira em seu e-mail o link de confirmação.');
-define('MSG_check_mail', 'Se o endereço registrado estiver correto, por favor confira seu e-mail.');
+define('MSG_check_mail_link', 'Se esse endereço de e-mail for válido, enviaremos um e-mail com o link de confirmação.');
+define('MSG_check_mail', 'Se esse endereço de e-mail for válido, enviaremos um e-mail para redefinir a sua senha.');
 define('MSG_no_mail', 'Não foi possível enviar o e-mail.');
 define('LABEL_user_lost_password', 'Perdeu sua senha?');
 ## v1.7
@@ -412,7 +412,7 @@ define('LABEL_turnOnMetaTerm', 'é um meta-termo');
 define('LABEL_meta_term', 'meta-termo');
 define('LABEL_meta_terms', 'meta-termos');
 define('LABEL_relatedTerms', 'termos relacionados');
-define('LABEL_nonPreferedTerms', 'termos não preferidos');
+define('LABEL_nonPreferedTerms', 'termos não preferenciais');
 define('LABEL_update1_6x1_7', 'Atualizar (1.6 -> 2.2)');
 define('LABEL_include_data', 'incluir');
 define('LABEL_updateEndpoint', 'Atualizar o ponto de consulta SPARQL');
@@ -445,7 +445,7 @@ define('MSG_termsDeleted', 'termos excluídos');
 define('LABEL_selectAll', 'selecionar tudo');
 define('LABEL_metadatos', 'metadados');
 define('LABEL_totalTermsDescendants', 'termos descendentes');
-define('LABEL_altTerms', 'termos alternativos');
+define('LABEL_altTerms', 'termos não preferenciais');
 define('LABEL_narrowerTerms', 'termos específicos');
 define('LABEL_results', 'resultados');
 define('LABEL_showFreeTerms', 'lista de termos livres');
@@ -456,7 +456,7 @@ define('LABEL_defaultEQmap', 'Utilize "eq" para indicar relação de equivalênc
 define("MSG_repass_error", "as chaves não coincidem");
 define("MSG_lengh_error", "mínimo de %d caracteres");
 define("MSG_errorPostData", "Ocorreu um erro, por favor revise os dados do campo ");
-define('LABEL_preferedTerms', 'termos preferidos');   /* Descriptor */
+define('LABEL_preferedTerms', 'termos preferenciais');   /* Descriptor */
 define('LABEL_FORM_NULLnotesTermReport', 'termos SEM notas');
 define('MSG_FORM_NULLnotesTermReport', 'termos sem notas de tipo');
 define('LABELnoNotes', 'termos sem nenhuma nota');

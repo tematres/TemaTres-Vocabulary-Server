@@ -1,16 +1,16 @@
 <?php
 #   TemaTres: open source thesaurus management
-#   Website http://www.vocabularyserver.com
-#   Copyright (C) 2004-2020 Diego Ferreyra <tematres@r020.com.ar>
+#   Website https://www.vocabularyserver.com
+#   Copyright (C) 2004-2022 Diego Ferreyra <tematres@r020.com.ar>
 #   License: distributed under the GNU General Public License Version 2 (June 1991) Free Software Foundation
 #   Translation: Community collaborative translation https://crowdin.com/project/tematres
 #
 ###############################################################################################################
 #
 // Translation versioning
-define('LABEL_i18n_MasterDate', '2020-06-18'); /* Do not translate. Master language file creation date (YYYY-MM-DD). */
-define('LABEL_i18n_MasterVersion', '3.2.1'); /* Do not translate. Master language file version. */
-define('LABEL_i18n_TranslationVersion', '01'); /* Translation language file version. Will be used as a sufix for the language master version number. Can be changed by translators to track minor changes to your translation file */
+define('LABEL_i18n_MasterDate', '2022-02-10'); /* Do not translate. Master language file creation date (YYYY-MM-DD). */
+define('LABEL_i18n_MasterVersion', '3.3.1'); /* Do not translate. Master language file version. */
+define('LABEL_i18n_TranslationVersion', '01'); /* Translation language file version. Will be used as a suffix for the language master version number. Can be changed by translators to track minor changes to your translation file */
 define('LABEL_i18n_TranslationAuthor', 'Tradução pela comunidade para TemaTres'); /* Can be changed by translators. Do not include emails or personal details */
 /* Strings to translate */
 define("LANG", "pt-PT");
@@ -38,7 +38,7 @@ define("MENU_BorrarT", "Eliminar termo");
 define("MENU_AgregarTG", "Subordinar a um termo (TG)");
 define("MENU_AgregarTE", "Termo subordinado (TE)");
 define("MENU_AgregarTR", "Termo associado (TA)");
-define("MENU_AgregarUP", "Termo alternativo (UP)");  /* Non-descriptor */
+define("MENU_AgregarUP", "Termo não preferencial (UP)");  /* Non-descriptor */
 define("MENU_MisDatos", "Minha conta");
 define("MENU_Caducar", "Desativar");
 define("MENU_Habilitar", "ativar");
@@ -85,7 +85,7 @@ define("LABEL_borraRelacion", "eliminar relação");
 define("MSG_ResultBusca", "termos encontrados");
 define("MSG_ResultLetra", "Letra");
 define("MSG_ResultCambios", "Alterações realizadas com sucesso.");
-define("MSG_noUser", "Utilizador não registrado");
+define("MSG_noUser", "As suas informações para autenticação estão incorretas. Por favor, tente novamente.");
 define("FORM_JS_check", "Por favor, verifique os dados de ");
 define("FORM_JS_confirm", "Pretende mesmo eliminar o termo ou a relação?");
 define("FORM_JS_pass", "_senha");
@@ -120,7 +120,7 @@ define("FORM_LABEL_TipoLenguaje", "tipo_idioma");
 define("FORM_LABEL_Cobertura", "Âmbito");
 define("FORM_LABEL_Terminos", "termos");
 define("FORM_LABEL_RelTerminos", "relações entre termos");
-define("FORM_LABEL_TerminosUP", "Termos não preferenciais");
+define("FORM_LABEL_TerminosUP", "termos não preferenciais");
 define("FORM_LABEL_Guardar", "Guardar");
 define("LABEL_verDetalle", "ver detalhes de ");
 define("LABEL_verTerminosLetra", "mostrar termos começados por ");
@@ -399,8 +399,8 @@ define('LABEL_mail_passTitle', 'Nova senha ');
 define('LABEL_mail_pass1', 'Nova senha para ');
 define('LABEL_mail_pass2', 'Senha: ');
 define('LABEL_mail_pass3', 'Você pode alterá-la.');
-define('MSG_check_mail_link', 'Verifique a sua conta de correio pela mensagem com a hiperligação de confirmação.');
-define('MSG_check_mail', 'Si la dirección de correo consignada es correcta, verifique a sua conta de correio.');
+define('MSG_check_mail_link', 'Se o endereço de email indicado for válido, enviaremos um email com a ligação para confirmação.');
+define('MSG_check_mail', 'Se o endereço de email indicado for válido, enviaremos um email para repor a sua senha.');
 define('MSG_no_mail', 'Não foi possível enviar o email.');
 define('LABEL_user_lost_password', 'Perdeu a senha?');
 ## v1.7
@@ -540,7 +540,7 @@ define('LABEL__ENABLE_COPY_CLICK', 'Ativar botão para copiar termos para a áre
 #v.3.2
 define('LABEL_order', 'Ordem');
 define('LABEL_alias', 'Alternativo');
-define('LEGEND_alias', 'Indicar um alternativo curto');
+define('LEGEND_alias', 'Indicar um nome curto');
 define('LABEL_src_note', 'Fonte');
 define('LEGEND_src_note', 'Inserir citação bibliográfica');
 define('LABEL_source', 'Fontes de autoridade normalizadas');
@@ -548,5 +548,5 @@ define('LABEL_source4term', 'Fontes de referência dos termos');
 define('LABEL_add_new', 'Adicionar nova');
 define('LABEL_sources4vocab', 'Fontes de referência');
 define('LABEL_update2_2x3_2', 'Atualizar (2x -> 3.2)');
-define('LABEL__getForTargetVocabularyNews', 'buscar novedades');
-define('LABEL__example', 'ejemplo');
+define('LABEL__getForTargetVocabularyNews', 'conhecer as novidades');
+define('LABEL__example', 'exemplo');

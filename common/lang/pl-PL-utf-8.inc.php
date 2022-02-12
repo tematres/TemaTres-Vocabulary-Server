@@ -1,16 +1,16 @@
 <?php
 #   TemaTres: open source thesaurus management
-#   Website http://www.vocabularyserver.com
-#   Copyright (C) 2004-2020 Diego Ferreyra <tematres@r020.com.ar>
+#   Website https://www.vocabularyserver.com
+#   Copyright (C) 2004-2022 Diego Ferreyra <tematres@r020.com.ar>
 #   License: distributed under the GNU General Public License Version 2 (June 1991) Free Software Foundation
 #   Translation: Community collaborative translation https://crowdin.com/project/tematres
 #
 ###############################################################################################################
 #
 // Translation versioning
-define('LABEL_i18n_MasterDate', '2020-06-18'); /* Do not translate. Master language file creation date (YYYY-MM-DD). */
-define('LABEL_i18n_MasterVersion', '3.2.1'); /* Do not translate. Master language file version. */
-define('LABEL_i18n_TranslationVersion', '01'); /* Translation language file version. Will be used as a sufix for the language master version number. Can be changed by translators to track minor changes to your translation file */
+define('LABEL_i18n_MasterDate', '2022-02-10'); /* Do not translate. Master language file creation date (YYYY-MM-DD). */
+define('LABEL_i18n_MasterVersion', '3.3.1'); /* Do not translate. Master language file version. */
+define('LABEL_i18n_TranslationVersion', '01'); /* Translation language file version. Will be used as a suffix for the language master version number. Can be changed by translators to track minor changes to your translation file */
 define('LABEL_i18n_TranslationAuthor', 'Community translation for TemaTres'); /* Can be changed by translators. Do not include emails or personal details */
 /* Strings to translate */
 define("LANG", "pl");
@@ -41,7 +41,7 @@ define("MENU_AgregarTR", "Termin powiązany");
 define("MENU_AgregarUP", "Termin alternatywny");  /* Non-descriptor */
 define("MENU_MisDatos", "Moje konto");
 define("MENU_Caducar", "Deaktywuj");
-define("MENU_Habilitar", "Dostępne");
+define("MENU_Habilitar", "włącz");
 define("MENU_Salir", "Wyloguj");
 define("LABEL_Menu", "Menu");
 define("LABEL_Opciones", "Opcje");
@@ -68,7 +68,7 @@ define("LABEL_TipoLenguaje", "Typ języka");
 define("LABEL_Cobertura", "Scope");
 define("LABEL_Terminos", "terminy");
 define("LABEL_RelTerminos", "relacje pomiędzy terminami");
-define("LABEL_TerminosUP", "terminy równoznaczne");
+define("LABEL_TerminosUP", "terminy alternatywne");
 define("LABEL_BuscaTermino", "Znajdź termin");
 define("LABEL_Buscar", "Szukaj");
 define("LABEL_Enviar", "Zatwierdź");
@@ -85,7 +85,7 @@ define("LABEL_borraRelacion", "Usuń relację");
 define("MSG_ResultBusca", "Znaleziono termin/ów");
 define("MSG_ResultLetra", "Liter");
 define("MSG_ResultCambios", "zatwierdzono zmianę.");
-define("MSG_noUser", "Niezarejestrowany użytkownik");
+define("MSG_noUser", "The login information is incorrect. Please try again.");
 define("FORM_JS_check", "Proszę sprawdzić datę ");
 define("FORM_JS_confirm", "Usunąć tę relację?");
 define("FORM_JS_pass", "_hasło");
@@ -120,7 +120,7 @@ define("FORM_LABEL_TipoLenguaje", "typ_języka");
 define("FORM_LABEL_Cobertura", "zakres");
 define("FORM_LABEL_Terminos", "terminy");
 define("FORM_LABEL_RelTerminos", "relacje pomiędzy terminami");
-define("FORM_LABEL_TerminosUP", "terminy równoznaczne");
+define("FORM_LABEL_TerminosUP", "terminy alternatywne");
 define("FORM_LABEL_Guardar", "Zapisz");
 define("LABEL_verDetalle", "zobacz szczególy z ");
 define("LABEL_verTerminosLetra", "zobacz terminy zaczynjące się z ");
@@ -343,7 +343,7 @@ define("FORM_LABEL_format_import", "choose format");
 define("LABEL_importTab", "tabulated text");
 define("LABEL_importTag", "tagged text");
 define("LABEL_importSkos", "Skos-core");
-define("LABEL_configTypeNotes", "configure types notes");
+define("LABEL_configTypeNotes", "configure notes types");
 define("LABEL_notes", "notes");
 define("LABEL_saved", "saved");
 define("FORM_JS_confirmDeleteTypeNote", "eliminate this type of note?");
@@ -399,20 +399,20 @@ define('LABEL_mail_passTitle', 'New Password ');
 define('LABEL_mail_pass1', 'New password for ');
 define('LABEL_mail_pass2', 'Password: ');
 define('LABEL_mail_pass3', 'You can change it.');
-define('MSG_check_mail_link', 'Check your e-mail for the confirmation link.');
+define('MSG_check_mail_link', 'If that email address is valid, we will send you an email for the confirmation link.');
 define('MSG_check_mail', 'If that email address is valid, we will send you an email to reset your password.');
 define('MSG_no_mail', 'The e-mail could not be sent.');
 define('LABEL_user_lost_password', 'Lost your password?');
 ## v1.7
 define('LABEL_includeMetaTerm', 'Include meta-terms');
 define('NOTE_isMetaTerm', 'Is a meta-term.');
-define('NOTE_isMetaTermNote', 'A Meta-term is a term that can\'t be used in the indexing process. It is a term to describe others terms. For example: Guide terms, Facets, Categories, etc.');
+define('NOTE_isMetaTermNote', 'A Meta-term is a term that can\'t be used in the indexing process. It is a term to describe other terms. For example: Guide terms, Facets, Categories, etc.');
 define('LABEL_turnOffMetaTerm', 'Is not a meta-term');
 define('LABEL_turnOnMetaTerm', 'Is a meta-term');
 define('LABEL_meta_term', 'meta-term');
 define('LABEL_meta_terms', 'meta-terms');
-define('LABEL_relatedTerms', 'related terms');
-define('LABEL_nonPreferedTerms', 'terminy równoznaczne');
+define('LABEL_relatedTerms', 'termin powiązany');
+define('LABEL_nonPreferedTerms', 'terminy alternatywne');
 define('LABEL_update1_6x1_7', 'Update (1.6 -> 2.2)');
 define('LABEL_include_data', 'include');
 define('LABEL_updateEndpoint', 'update SPARQL endpoint');
@@ -445,7 +445,7 @@ define('MSG_termsDeleted', 'deleted terms');
 define('LABEL_selectAll', 'select all');
 define('LABEL_metadatos', 'metadata');
 define('LABEL_totalTermsDescendants', 'descendant terms');
-define('LABEL_altTerms', 'alternative terms');
+define('LABEL_altTerms', 'terminy alternatywne');
 define('LABEL_narrowerTerms', 'more specific terms');
 define('LABEL_results', 'results');
 define('LABEL_showFreeTerms', 'free terms list');
@@ -455,7 +455,7 @@ define('LABEL_type2filter', 'type to filter the terms');
 define('LABEL_defaultEQmap', 'Type "eq" to define equivalence relationship');
 define("MSG_repass_error", "the passwords do not match");
 define("MSG_lengh_error", "please type at least %d characters");
-define("MSG_errorPostData", "A mistake was detected, Please review the data to the field ");
+define("MSG_errorPostData", "A mistake was detected, please review the data of the field ");
 define('LABEL_preferedTerms', 'preferred terms');   /* Descriptor */
 define('LABEL_FORM_NULLnotesTermReport', 'terms WITHOUT notes');
 define('MSG_FORM_NULLnotesTermReport', 'terms without note type');
@@ -506,7 +506,7 @@ define('MSG_includeNotes', 'use type note:');
 define('LABEL_SHOW_RANDOM_TERM', 'Show a randomly selected term on the home page.  You must select the type of term to show.');
 define('LABEL_opt_show_rando_term', 'show terms with type note:');
 define('MSG_helpNoteEditor', 'You can link terms using double brackets. Ex: Only [[love]] will save the world');
-define('LABEL_GLOSS_NOTES', 'Select which type note will be used to enrich (glossary) the terms who are marked with double brackets : [[glossary]]');
+define('LABEL_GLOSS_NOTES', 'Select which type note will be used to enrich (glossary) the terms who are marked with double brackets: [[glossary]]');
 define('LABEL_bulkGlossNotes', 'type note to gloss');
 define('MSG__autoGlossInfo', 'This process will create wiki links between terms from the vocabulary with the terms found in notes (Ex: Only [[love]] will save the world). Is <strong>case sensitive</strong> search and replace operation.');
 define('MSG__autoGlossDanger', 'This process is IRREVERSIBLE. Please create a backup before proceeding.');
@@ -548,5 +548,5 @@ define('LABEL_source4term', 'reference sources for terms');
 define('LABEL_add_new', 'add new');
 define('LABEL_sources4vocab', 'reference sources');
 define('LABEL_update2_2x3_2', 'update (2.x -> 3.2)');
-define('LABEL__getForTargetVocabularyNews', 'get for news');
+define('LABEL__getForTargetVocabularyNews', 'get news');
 define('LABEL__example', 'example');
