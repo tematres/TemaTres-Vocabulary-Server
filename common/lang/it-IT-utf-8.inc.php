@@ -463,7 +463,7 @@ define('LABELnoNotes', 'terms that have no note');
 define('LABEL_termsXdeepLevel', 'terms for each depth level');
 define('LABEL_deepLevel', 'deep level');
 define('LABEL_cantTerms', '# of terms');
-define('LINK_publicKnownVocabularies', '<a href="http://www.vocabularyserver.com/vocabularies/" title="List of enabled vocabularies" target="_blank">List of enabled vocabularies</a>');
+define('LINK_publicKnownVocabularies', '<a href="https://www.vocabularyserver.com/vocabularies/" title="List of enabled vocabularies" target="_blank">List of enabled vocabularies</a>');
 define('LABEL_showNewsTerm', 'show recent changes');
 define('LABEL_newsTerm', 'recent changes');
 define('MSG_contactAdmin', 'contact the administrator');

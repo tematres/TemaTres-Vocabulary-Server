@@ -463,7 +463,7 @@ define('LABELnoNotes', '无注释的词条');
 define('LABEL_termsXdeepLevel', '每个层级的词条');
 define('LABEL_deepLevel', '层级');
 define('LABEL_cantTerms', '#词条数量');
-define('LINK_publicKnownVocabularies', '<a href="http://www.vocabularyserver.com/vocabularies/" title="已启用的词表清单" target="_blank">已启用的词表清单</a>');
+define('LINK_publicKnownVocabularies', '<a href="https://www.vocabularyserver.com/vocabularies/" title="已启用的词表清单" target="_blank">已启用的词表清单</a>');
 define('LABEL_showNewsTerm', '显示最近更新');
 define('LABEL_newsTerm', '最近更新');
 define('MSG_contactAdmin', '联系管理员');

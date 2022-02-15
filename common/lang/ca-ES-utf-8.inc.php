@@ -463,7 +463,7 @@ define('LABELnoNotes', 'termes sense ninguna nota');
 define('LABEL_termsXdeepLevel', 'termes segon nivell de profunditat');
 define('LABEL_deepLevel', 'nivell');
 define('LABEL_cantTerms', '# de termes');
-define('LINK_publicKnownVocabularies', '<a href="http://www.vocabularyserver.com/vocabularies/" title="Llista de vocabularis controlats coneguts" target="_blank">Llista de vocabularis controlats coneguts</a>');
+define('LINK_publicKnownVocabularies', '<a href="https://www.vocabularyserver.com/vocabularies/" title="Llista de vocabularis controlats coneguts" target="_blank">Llista de vocabularis controlats coneguts</a>');
 define('LABEL_showNewsTerm', 'veure canvis recents');
 define('LABEL_newsTerm', 'canvis recents');
 define('MSG_contactAdmin', 'contacti amb l\'administrador');
