@@ -127,8 +127,8 @@ $CFG["IMP_TAG_TABULATOR"]  = '===';
 
  Example
  $CFG["HEADER_EXTRA"] =array(
-     "LINK_IMG"=>'http://vocabularyserver.com/img/tematres-logo.gif',
-    "LINK_URL"=>'http://vocabularyserver.com/',
+     "LINK_IMG"=>'https://vocabularyserver.com/img/tematres-logo.gif',
+    "LINK_URL"=>'https://vocabularyserver.com/',
     "LINK_TITLE"=>'TemaTres: open source way to manage formal representations of knowledge'
     );
  */
