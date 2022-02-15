@@ -193,8 +193,8 @@ $CFG["SEARCH_URL_SITES_SINTAX"] = array(
 
     'wikipedia' => array(
         'favicon' => 'wikipedia_mini.png',
-        'leyenda' => 'Wikipedia',
-        'url' => 'http://es.wikipedia.org/wiki/Especial:Search?search=STRING_BUSQUEDA&amp;fulltext=Buscar+en+texto',
+        'leyenda' => 'Wikipedia (ES)',
+        'url' => 'https://es.wikipedia.org/wiki/Especial:Search?search=STRING_BUSQUEDA&amp;fulltext=Buscar+en+texto',
         'encode'=>false
     ),
 
@@ -202,7 +202,7 @@ $CFG["SEARCH_URL_SITES_SINTAX"] = array(
     'cc' => array(
         'favicon' => 'cc.png',
         'leyenda' => 'CreativeCommon',
-        'url' => 'http://search.creativecommons.org/?q=STRING_BUSQUEDA',
+        'url' => 'https://search.creativecommons.org/?q=STRING_BUSQUEDA',
         'encode'=>'utf8'
     ),
 
@@ -210,7 +210,7 @@ $CFG["SEARCH_URL_SITES_SINTAX"] = array(
     'Google exacto' => array(
         'favicon' => 'google.gif',
         'leyenda' => 'Google b&uacute;squeda exacta',
-        'url' => 'http://www.google.com/search?as_epq=STRING_BUSQUEDA',
+        'url' => 'https://www.google.com/search?as_epq=STRING_BUSQUEDA',
         'encode'=>false
     ),
 
@@ -218,28 +218,28 @@ $CFG["SEARCH_URL_SITES_SINTAX"] = array(
     'Google' => array(
         'favicon' => 'google.gif',
         'leyenda' => 'Google',
-        'url' => 'http://www.google.com/search?channel=fs&q=STRING_BUSQUEDA',
+        'url' => 'https://www.google.com/search?channel=fs&q=STRING_BUSQUEDA',
         'encode'=>false
     ),
 
     'Google scholar' => array(
         'favicon' => 'goo_scholar.png',
         'leyenda' => 'Google scholar',
-        'url' => 'http://scholar.google.com/scholar?lr=&amp;ie=UTF-8&amp;q=%22STRING_BUSQUEDA%22&amp;btnG=Search&amp;oe=UTF-8',
+        'url' => 'https://scholar.google.com/scholar?lr=&amp;ie=UTF-8&amp;q=%22STRING_BUSQUEDA%22&amp;btnG=Search&amp;oe=UTF-8',
         'encode'=>false
     ),
 
     'Google images' => array(
         'favicon' => 'goo_images.png',
         'leyenda' => 'Google images',
-        'url' => 'http://images.google.com/images?q=STRING_BUSQUEDA',
+        'url' => 'https://images.google.com/images?q=%22STRING_BUSQUEDA%22',
         'encode'=>false
     ),
 
     'Google books' => array(
         'favicon' => 'goo_books.gif',
         'leyenda' => 'Google books',
-        'url' => 'http://books.google.com/?ie=UTF-8&amp;as_epq=%22STRING_BUSQUEDA%22&amp;btnG=Search',
+        'url' => 'https://books.google.com/?ie=UTF-8&amp;as_epq=%22STRING_BUSQUEDA%22&amp;btnG=Search',
         'encode'=>false
     ),
 
