@@ -1,19 +1,19 @@
 <?php
 #   TemaTres: open source thesaurus management
-#   Website http://www.vocabularyserver.com
-#   Copyright (C) 2004-2020 Diego Ferreyra <tematres@r020.com.ar>
+#   Website https://www.vocabularyserver.com
+#   Copyright (C) 2004-2022 Diego Ferreyra <tematres@r020.com.ar>
 #   License: distributed under the GNU General Public License Version 2 (June 1991) Free Software Foundation
 #   Translation: Community collaborative translation https://crowdin.com/project/tematres
 #
 ###############################################################################################################
 #
 // Translation versioning
-define('LABEL_i18n_MasterDate', '2020-06-18'); /* Do not translate. Master language file creation date (YYYY-MM-DD). */
-define('LABEL_i18n_MasterVersion', '3.2.1'); /* Do not translate. Master language file version. */
+define('LABEL_i18n_MasterDate', '2022-02-10'); /* Do not translate. Master language file creation date (YYYY-MM-DD). */
+define('LABEL_i18n_MasterVersion', '3.3.1'); /* Do not translate. Master language file version. */
 define('LABEL_i18n_TranslationVersion', '01'); /* Translation language file version. Will be used as a suffix for the language master version number. Can be changed by translators to track minor changes to your translation file */
 define('LABEL_i18n_TranslationAuthor', 'Community translation for TemaTres'); /* Can be changed by translators. Do not include emails or personal details */
 /* Strings to translate */
-define("LANG", "en-US");
+define("LANG", "en");
 define("TR_acronimo", "RT"); /* Related Term */
 define("TE_acronimo", "NT"); /* Narrower term > Specific term */
 define("TG_acronimo", "BT"); /* Broader term > Generic term */

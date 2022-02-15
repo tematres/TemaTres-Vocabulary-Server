@@ -1,16 +1,16 @@
 <?php
 #   TemaTres: open source thesaurus management
-#   Website http://www.vocabularyserver.com
-#   Copyright (C) 2004-2020 Diego Ferreyra <tematres@r020.com.ar>
+#   Website https://www.vocabularyserver.com
+#   Copyright (C) 2004-2022 Diego Ferreyra <tematres@r020.com.ar>
 #   License: distributed under the GNU General Public License Version 2 (June 1991) Free Software Foundation
 #   Translation: Community collaborative translation https://crowdin.com/project/tematres
 #
 ###############################################################################################################
 #
 // Translation versioning
-define('LABEL_i18n_MasterDate', '2020-06-18'); /* Do not translate. Master language file creation date (YYYY-MM-DD). */
-define('LABEL_i18n_MasterVersion', '3.2.1'); /* Do not translate. Master language file version. */
-define('LABEL_i18n_TranslationVersion', '01'); /* Translation language file version. Will be used as a sufix for the language master version number. Can be changed by translators to track minor changes to your translation file */
+define('LABEL_i18n_MasterDate', '2022-02-10'); /* Do not translate. Master language file creation date (YYYY-MM-DD). */
+define('LABEL_i18n_MasterVersion', '3.3.1'); /* Do not translate. Master language file version. */
+define('LABEL_i18n_TranslationVersion', '02'); /* Translation language file version. Will be used as a suffix for the language master version number. Can be changed by translators to track minor changes to your translation file */
 define('LABEL_i18n_TranslationAuthor', 'Community translation for TemaTres'); /* Can be changed by translators. Do not include emails or personal details */
 /* Strings to translate */
 define("LANG", "ca");
@@ -41,7 +41,7 @@ define("MENU_AgregarTR", "terme relacionat");
 define("MENU_AgregarUP", "terme alternatiu");  /* Non-descriptor */
 define("MENU_MisDatos", "Les meves dades");
 define("MENU_Caducar", "Caducar");
-define("MENU_Habilitar", "Habilitar");
+define("MENU_Habilitar", "habilitat");
 define("MENU_Salir", "Sortir");
 define("LABEL_Menu", "Menú");
 define("LABEL_Opciones", "Opcions");
@@ -85,7 +85,7 @@ define("LABEL_borraRelacion", "eliminar relació");
 define("MSG_ResultBusca", "terme/s trobats a la cerca");
 define("MSG_ResultLetra", "Lletra");
 define("MSG_ResultCambios", "Els canvis s'han fet amb èxit.");
-define("MSG_noUser", "Usuari no registrat");
+define("MSG_noUser", "The login information is incorrect. Please try again.");
 define("FORM_JS_check", "Si us plau reviseu les dades de ");
 define("FORM_JS_confirm", "Segur que voleu eliminar el terme o la relació?");
 define("FORM_JS_pass", "_clau");
@@ -399,8 +399,8 @@ define('LABEL_mail_passTitle', 'Nova clau ');
 define('LABEL_mail_pass1', 'Nova clau per a ');
 define('LABEL_mail_pass2', 'Clau: ');
 define('LABEL_mail_pass3', 'Podeu modificar-la.');
-define('MSG_check_mail_link', 'Reviseu el correu electrònic per a obtenir l\'enllaç de confirmació.');
-define('MSG_check_mail', 'Si la dirección de correo consignada es correcta, sisplau, reviseu el correu electrònic.');
+define('MSG_check_mail_link', 'If that email address is valid, we will send you an email for the confirmation link.');
+define('MSG_check_mail', 'If that email address is valid, we will send you an email to reset your password.');
 define('MSG_no_mail', 'No s\'ha pogut enviar el correu.');
 define('LABEL_user_lost_password', 'Heu perdut la contrasenya?');
 ## v1.7
@@ -510,7 +510,7 @@ define('LABEL_GLOSS_NOTES', 'Seleccionar tipus de nota per a glossar termes marc
 define('LABEL_bulkGlossNotes', 'type note to gloss');
 define('MSG__autoGlossInfo', 'This process will create wiki links between terms from the vocabulary with the terms found in notes(Ex: Only [[love]] will save the world). Is <strong>case sensitive</strong> search and replace operation.');
 define('MSG__autoGlossDanger', 'This process is IRREVERSIBLE. Please create a backup before proceeding.');
-define('LABEL_replaceBinary', 'case sensitive');
+define('LABEL_replaceBinary', 'Sensible a majúscules');
 define('MSG_notesAffected', 'affected notes');
 define('MSG_cantTermsFound', 'terms found');
 define('MENU_glossConfig', 'config auto-gloss'); /* Used as menu entry. Keep it short */
@@ -528,7 +528,6 @@ define('LABEL_close', 'tancar');
 define('LABEL_allTerms', 'tots els termes');
 define('LABEL_allNotes', 'totes les notes');
 define('LABEL_allRelations', 'totes les relacions entre termes');
-
 #v.3.1
 define('LABEL_noResults', 'No se han trobat resultats');
 define('LABEL_globalOrganization', 'organització global del vocabulari');
@@ -546,8 +545,8 @@ define('LABEL_src_note', 'font');
 define('LEGEND_src_note', 'consigni la cita bibliogràfica');
 define('LABEL_source', 'fonts normalitzades');
 define('LABEL_source4term', 'fonts segons termes');
-define('LABEL_sources4vocab', 'fonts de consulta');
 define('LABEL_add_new', 'agregar nou');
-define('LABEL_update2_2x3_2', 'Actualitzar(2.x -> 3.2)');
+define('LABEL_sources4vocab', 'fonts de consulta');
+define('LABEL_update2_2x3_2', 'Actualitzar (2.x -> 3.2)');
 define('LABEL__getForTargetVocabularyNews', 'cercar novetats');
 define('LABEL__example', 'exemple');

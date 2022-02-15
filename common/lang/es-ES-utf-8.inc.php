@@ -1,16 +1,16 @@
 <?php
 #   TemaTres: open source thesaurus management
-#   Website http://www.vocabularyserver.com
-#   Copyright (C) 2004-2020 Diego Ferreyra <tematres@r020.com.ar>
+#   Website https://www.vocabularyserver.com
+#   Copyright (C) 2004-2022 Diego Ferreyra <tematres@r020.com.ar>
 #   License: distributed under the GNU General Public License Version 2 (June 1991) Free Software Foundation
 #   Translation: Community collaborative translation https://crowdin.com/project/tematres
 #
 ###############################################################################################################
 #
 // Translation versioning
-define('LABEL_i18n_MasterDate', '2020-06-18'); /* Do not translate. Master language file creation date (YYYY-MM-DD). */
-define('LABEL_i18n_MasterVersion', '3.2.1'); /* Do not translate. Master language file version. */
-define('LABEL_i18n_TranslationVersion', '01'); /* Translation language file version. Will be used as a sufix for the language master version number. Can be changed by translators to track minor changes to your translation file */
+define('LABEL_i18n_MasterDate', '2022-02-10'); /* Do not translate. Master language file creation date (YYYY-MM-DD). */
+define('LABEL_i18n_MasterVersion', '3.3.1'); /* Do not translate. Master language file version. */
+define('LABEL_i18n_TranslationVersion', '01'); /* Translation language file version. Will be used as a suffix for the language master version number. Can be changed by translators to track minor changes to your translation file */
 define('LABEL_i18n_TranslationAuthor', 'Traducción de la comunidad de TemaTres'); /* Can be changed by translators. Do not include emails or personal details */
 /* Strings to translate */
 define("LANG", "es");
@@ -41,7 +41,7 @@ define("MENU_AgregarTR", "término relacionado");
 define("MENU_AgregarUP", "término alternativo");  /* Non-descriptor */
 define("MENU_MisDatos", "Mis datos");
 define("MENU_Caducar", "Caducar");
-define("MENU_Habilitar", "Habilitar");
+define("MENU_Habilitar", "habilitar");
 define("MENU_Salir", "Salir");
 define("LABEL_Menu", "Menú");
 define("LABEL_Opciones", "Opciones");
@@ -68,7 +68,7 @@ define("LABEL_TipoLenguaje", "Tipo de lenguaje");
 define("LABEL_Cobertura", "Cobertura");
 define("LABEL_Terminos", "términos");
 define("LABEL_RelTerminos", "relaciones entre términos");
-define("LABEL_TerminosUP", "términos equivalentes");
+define("LABEL_TerminosUP", "términos alternativos");
 define("LABEL_BuscaTermino", "Buscar término");
 define("LABEL_Buscar", "Buscar");
 define("LABEL_Enviar", "Enviar");
@@ -120,7 +120,7 @@ define("FORM_LABEL_TipoLenguaje", "language_type");
 define("FORM_LABEL_Cobertura", "scope");
 define("FORM_LABEL_Terminos", "términos");
 define("FORM_LABEL_RelTerminos", "relaciones entre términos");
-define("FORM_LABEL_TerminosUP", "términos equivalentes");
+define("FORM_LABEL_TerminosUP", "términos alternativos");
 define("FORM_LABEL_Guardar", "Guardar");
 define("LABEL_verDetalle", "ver detalles de ");
 define("LABEL_verTerminosLetra", "ver términos iniciados con ");
@@ -229,7 +229,7 @@ define("LABEL_Guardar", "guardar");
 /* v 1.033 */
 define("MENU_AgregarTEexist", "Subordinar un término libre");
 define("MENU_AgregarUPexist", "Asociar un término alternativo (libre)");
-define("LABEL_existAgregarUP", "Asociar un término alternativo %s");
+define("LABEL_existAgregarUP", "Asociar un término alternativo a %s");
 define("LABEL_existAgregarTE", "Subordinar un término a %s ");
 define("MSG_minCharSerarch", "La expresión de búsqueda <i>%s</i> tiene sólo <strong>%s</strong> caracteres. Debe ser mayor a <strong>%s</strong> caracteres");
 /* v 1.04 */

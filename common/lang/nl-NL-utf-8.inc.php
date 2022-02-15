@@ -1,16 +1,16 @@
 <?php
 #   TemaTres: open source thesaurus management
-#   Website http://www.vocabularyserver.com
-#   Copyright (C) 2004-2020 Diego Ferreyra <tematres@r020.com.ar>
+#   Website https://www.vocabularyserver.com
+#   Copyright (C) 2004-2022 Diego Ferreyra <tematres@r020.com.ar>
 #   License: distributed under the GNU General Public License Version 2 (June 1991) Free Software Foundation
 #   Translation: Community collaborative translation https://crowdin.com/project/tematres
 #
 ###############################################################################################################
 #
 // Translation versioning
-define('LABEL_i18n_MasterDate', '2020-06-18'); /* Do not translate. Master language file creation date (YYYY-MM-DD). */
-define('LABEL_i18n_MasterVersion', '3.2.1'); /* Do not translate. Master language file version. */
-define('LABEL_i18n_TranslationVersion', '01'); /* Translation language file version. Will be used as a sufix for the language master version number. Can be changed by translators to track minor changes to your translation file */
+define('LABEL_i18n_MasterDate', '2022-02-10'); /* Do not translate. Master language file creation date (YYYY-MM-DD). */
+define('LABEL_i18n_MasterVersion', '3.3.1'); /* Do not translate. Master language file version. */
+define('LABEL_i18n_TranslationVersion', '01'); /* Translation language file version. Will be used as a suffix for the language master version number. Can be changed by translators to track minor changes to your translation file */
 define('LABEL_i18n_TranslationAuthor', 'Community translation for TemaTres'); /* Can be changed by translators. Do not include emails or personal details */
 /* Strings to translate */
 define("LANG", "nl");
@@ -41,7 +41,7 @@ define("MENU_AgregarTR", "Gerelateerde term");
 define("MENU_AgregarUP", "Niet geprefereerde term");  /* Non-descriptor */
 define("MENU_MisDatos", "Mijn account");
 define("MENU_Caducar", "uitschakelen");
-define("MENU_Habilitar", "Activeer");
+define("MENU_Habilitar", "actief");
 define("MENU_Salir", "Uitloggen");
 define("LABEL_Menu", "Menu");
 define("LABEL_Opciones", "Opties");
@@ -85,7 +85,7 @@ define("LABEL_borraRelacion", "verwijder relatie");
 define("MSG_ResultBusca", "term(en) gevonden voor zoekexpressie");
 define("MSG_ResultLetra", "Letter");
 define("MSG_ResultCambios", "wijziging succesvol.");
-define("MSG_noUser", "Geen geregistreerde gebruiker");
+define("MSG_noUser", "The login information is incorrect. Please try again.");
 define("FORM_JS_check", "AUB, controleer de invoer van ");
 define("FORM_JS_confirm", "deze relatie elimineren?");
 define("FORM_JS_pass", "_wachtwoord");
@@ -228,7 +228,7 @@ define("LABEL_Cancelar", "stop");
 define("LABEL_Guardar", "exporteren");
 /* v 1.033 */
 define("MENU_AgregarTEexist", "Subordinate An Existing Term");
-define("MENU_AgregarUPexist", "Associate An Existing Non-Preferred Term");
+define("MENU_AgregarUPexist", "Associate an existing alternative term");
 define("LABEL_existAgregarUP", "Add UF term to %s");
 define("LABEL_existAgregarTE", "Add narrower term to %s ");
 define("MSG_minCharSerarch", "The search expression <i>%s</i> has only <strong>%s </strong> characters. Must be greater than <strong>%s</strong> characters");
@@ -246,7 +246,7 @@ define("PARAM_DBLogin", "Database User") ;
 define("PARAM_DBPass", "Database Password") ;
 define("PARAM_DBprefix", "Prefix tables") ;
 $install_message[101] = 'TemaTres Setup' ;
-$install_message[201] = 'Can not find the file configuration for the database connection (%s).';
+$install_message[201] = 'Cannot find the file configuration for the database connection (%s).';
 $install_message[202] = 'File configuration for the database connection found.';
 $install_message[203] = 'Unable to connect to database server <em>%s</em> with the user <em>%s</em>. Please check your file configuration for the database connection (%s).';
 $install_message[204] = 'Connection to Server <em>%s</em> successful ';
@@ -267,7 +267,7 @@ define('LABEL_TopTerm', "Has this top term");
 define('LABEL_esFraseExacta', "exact phrase");
 define('LABEL_DesdeFecha', "created on or after");
 define('LABEL_ProfundidadTermino', "is located in the level of deep");
-define('LABEL_esNoPreferido', "non preferred term");
+define('LABEL_esNoPreferido', "alternative term");
 define('LABEL_BusquedaAvanzada', "advanced search");
 define('LABEL_Todos', "alle");
 define('LABEL_QueBuscar', "what to search?");
@@ -296,7 +296,7 @@ define('LABEL_enable', "actief");  /* web services status info: in use */
 define('LABEL_disable', "niet actief");  /* web services status info: not in use */
 define('LABEL_notFound', "term not found");
 define('LABEL_termUpdated', "term updated");
-define('LABEL_ShowTargetTermforUpdate', "update");
+define('LABEL_ShowTargetTermforUpdate', "wijzig");
 define('LABEL_relbetweenVocabularies', "relations between vocabularies");
 define('LABEL_update1_1x1_2', "Update (1.1 -> 1.3)");
 define('LABEL_update1x1_2', "Update (1.0x -> 1.3)");
@@ -343,7 +343,7 @@ define("FORM_LABEL_format_import", "choose format");
 define("LABEL_importTab", "tabulated text");
 define("LABEL_importTag", "tagged text");
 define("LABEL_importSkos", "Skos-core");
-define("LABEL_configTypeNotes", "configure types notes");
+define("LABEL_configTypeNotes", "configure notes types");
 define("LABEL_notes", "notes");
 define("LABEL_saved", "saved");
 define("FORM_JS_confirmDeleteTypeNote", "eliminate this type of note?");
@@ -399,14 +399,14 @@ define('LABEL_mail_passTitle', 'New Password ');
 define('LABEL_mail_pass1', 'New password for ');
 define('LABEL_mail_pass2', 'Password: ');
 define('LABEL_mail_pass3', 'You can change it.');
-define('MSG_check_mail_link', 'Check your e-mail for the confirmation link.');
+define('MSG_check_mail_link', 'If that email address is valid, we will send you an email for the confirmation link.');
 define('MSG_check_mail', 'If that email address is valid, we will send you an email to reset your password.');
 define('MSG_no_mail', 'The e-mail could not be sent.');
 define('LABEL_user_lost_password', 'Lost your password?');
 ## v1.7
 define('LABEL_includeMetaTerm', 'Include meta-terms');
 define('NOTE_isMetaTerm', 'Is a meta-term.');
-define('NOTE_isMetaTermNote', 'A Meta-term is a term that can\'t be used in the indexing process. It is a term to describe others terms. For example: Guide terms, Facets, Categories, etc.');
+define('NOTE_isMetaTermNote', 'A Meta-term is a term that can\'t be used in the indexing process. It is a term to describe other terms. For example: Guide terms, Facets, Categories, etc.');
 define('LABEL_turnOffMetaTerm', 'Is not a meta-term');
 define('LABEL_turnOnMetaTerm', 'Is a meta-term');
 define('LABEL_meta_term', 'meta-term');
@@ -445,7 +445,7 @@ define('MSG_termsDeleted', 'deleted terms');
 define('LABEL_selectAll', 'select all');
 define('LABEL_metadatos', 'metadata');
 define('LABEL_totalTermsDescendants', 'descendant terms');
-define('LABEL_altTerms', 'alternative terms');
+define('LABEL_altTerms', 'niet geprefereerde termen');
 define('LABEL_narrowerTerms', 'more specific terms');
 define('LABEL_results', 'results');
 define('LABEL_showFreeTerms', 'free terms list');
@@ -455,7 +455,7 @@ define('LABEL_type2filter', 'type to filter the terms');
 define('LABEL_defaultEQmap', 'Type "eq" to define equivalence relationship');
 define("MSG_repass_error", "the passwords do not match");
 define("MSG_lengh_error", "please type at least %d characters");
-define("MSG_errorPostData", "A mistake was detected, Please review the data to the field ");
+define("MSG_errorPostData", "A mistake was detected, please review the data of the field ");
 define('LABEL_preferedTerms', 'preferred terms');   /* Descriptor */
 define('LABEL_FORM_NULLnotesTermReport', 'terms WITHOUT notes');
 define('MSG_FORM_NULLnotesTermReport', 'terms without note type');
@@ -506,7 +506,7 @@ define('MSG_includeNotes', 'use type note:');
 define('LABEL_SHOW_RANDOM_TERM', 'Show a randomly selected term on the home page.  You must select the type of term to show.');
 define('LABEL_opt_show_rando_term', 'show terms with type note:');
 define('MSG_helpNoteEditor', 'You can link terms using double brackets. Ex: Only [[love]] will save the world');
-define('LABEL_GLOSS_NOTES', 'Select which type note will be used to enrich (glossary) the terms who are marked with double brackets : [[glossary]]');
+define('LABEL_GLOSS_NOTES', 'Select which type note will be used to enrich (glossary) the terms who are marked with double brackets: [[glossary]]');
 define('LABEL_bulkGlossNotes', 'type note to gloss');
 define('MSG__autoGlossInfo', 'This process will create wiki links between terms from the vocabulary with the terms found in notes (Ex: Only [[love]] will save the world). Is <strong>case sensitive</strong> search and replace operation.');
 define('MSG__autoGlossDanger', 'This process is IRREVERSIBLE. Please create a backup before proceeding.');
@@ -548,5 +548,5 @@ define('LABEL_source4term', 'reference sources for terms');
 define('LABEL_add_new', 'add new');
 define('LABEL_sources4vocab', 'reference sources');
 define('LABEL_update2_2x3_2', 'update (2.x -> 3.2)');
-define('LABEL__getForTargetVocabularyNews', 'get for news');
+define('LABEL__getForTargetVocabularyNews', 'get news');
 define('LABEL__example', 'example');
