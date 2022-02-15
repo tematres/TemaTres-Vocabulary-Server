@@ -1720,3 +1720,22 @@ function configValue($value, $default = false, $defaultValues = array())
 
     return $value;
 }
+
+
+/* Return path and metadata about labels localization file*/
+function selectLangLabels($lang_code,$langs){
+    $lang_default="en-EN";
+    /*prevent empt data */
+    $lang_code=(strlen($lang_code)>1) ? $lang_code : $lang_default;
+
+    /*legacy lang_code with 2 letters */
+    if(strlen($lang_code)==2){
+        $lang_code=strtolower(substr($lang_code, 0,2)).'-'.strtoupper(substr($lang_code, 0,2));
+    }
+
+    if(is_array($langs["$lang_code"])) return $langs["$lang_code"];
+
+
+    return $langs["$lang_default"];
+
+}

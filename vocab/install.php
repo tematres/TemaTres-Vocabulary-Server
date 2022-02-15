@@ -18,9 +18,9 @@ header('Content-type: text/html; charset='.$page_encode.'');
 //Config lang
 $lang='';
 $tematres_lang='';
-$lang_install=(isset($_GET["lang_install"])) ? $_GET["lang_install"] : 'es';
+$lang_install=(isset($_GET["lang_install"])) ? $_GET["lang_install"] : 'es-ES';
 
-$lang = $tematres_lang=(in_array($lang_install, array('ca','de','en','es','fr','it','nl','pt-PT','pt-BR'))) ? $lang_install : 'es';
+$lang = $tematres_lang=(in_array($lang_install, array('ca-ES','de-DE','en-EN','es-ES','fr-FR','it-IT','nl-NL','pt-PT','pt-BR'))) ? $lang_install : 'es-ES';
 
   //1. check if config file exist
 if (!file_exists('db.tematres.php')) {
@@ -655,10 +655,10 @@ function HTMLformInstall($lang_install)
           <div class="col-md-4">
             <select id="lang_install" name="lang_install" onChange="document.lang.submit()" class="form-control">
               <option><?php echo LABEL_Idioma;?></option>
-              <option value="ca">català</option>
-              <option value="en">english</option>
-              <option value="es">español</option>
-              <option value="fr">fran&ccedil;ais</option>
+              <option value="ca-ES">català</option>
+              <option value="en-EN">english</option>
+              <option value="es-ES">español</option>
+              <option value="fr-FR">fran&ccedil;ais</option>
               <option value="pt-PT">portugu&ecirc;s (Portugal)</option>
               <option value="pt-BR">portugu&ecirc;s (Brasil)</option>
             </select>
@@ -681,9 +681,9 @@ function HTMLformInstall($lang_install)
 <!-- ###### Footer ###### -->
 <div id="footer" class="footer">
       <div class="container">
-    <a href="http://www.vocabularyserver.com/" title="TemaTres: vocabulary server"><img src="<?php echo T3_WEBPATH;?>/images/tematres-logo.gif"  alt="TemaTres"/></a>
+    <a href="https://vocabularyserver.com/" title="TemaTres: vocabulary server"><img src="<?php echo T3_WEBPATH;?>/images/tematres-logo.gif"  alt="TemaTres"/></a>
     <strong><?php echo LABEL_Version ?>: </strong>
-    <span class="footerCol2"><a href="http://www.vocabularyserver.com/" title="TemaTres: vocabulary server"><?php echo $CFG["Version"];?></a></span>
+    <span class="footerCol2"><a href="https://vocabularyserver.com/" title="TemaTres: vocabulary server"><?php echo $CFG["Version"];?></a></span>
       </div>
   </div>
     </body>
