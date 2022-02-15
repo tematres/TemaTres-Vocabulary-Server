@@ -463,7 +463,7 @@ define('LABELnoNotes', 'términos sin ninguna nota');
 define('LABEL_termsXdeepLevel', 'términos según nivel de profundidad');
 define('LABEL_deepLevel', 'nivel');
 define('LABEL_cantTerms', '# de términos');
-define('LINK_publicKnownVocabularies', '<a href="http://www.vocabularyserver.com/vocabularies/" title="Lista de vocabularios controlados conocidos" target="_blank">Lista de vocabularios controlados conocidos</a>');
+define('LINK_publicKnownVocabularies', '<a href="https://www.vocabularyserver.com/vocabularies/" title="Lista de vocabularios controlados conocidos" target="_blank">Lista de vocabularios controlados conocidos</a>');
 define('LABEL_showNewsTerm', 'ver cambios recientes');
 define('LABEL_newsTerm', 'cambios recientes');
 define('MSG_contactAdmin', 'contacte al administardor');
