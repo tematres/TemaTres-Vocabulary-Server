@@ -187,7 +187,7 @@ $CFG["SEARCH_URL_SITES_SINTAX"] = array(
     'e-lis' => array(
         'favicon' => 'e-lis_mini.png',
         'leyenda' => 'e-lis',
-        'url' => 'https://eprints.rclis.org/perl/search/simple?title%2Fabstract%2Fkeywords=STRING_BUSQUEDA&amp;_action_search=Submit&amp;_order=bytitle&amp;title%2Fabstract%2Fkeywords_srchtype=ALL&amp;_satisfyall=ALL',
+        'url' => 'http://eprints.rclis.org/perl/search/simple?title%2Fabstract%2Fkeywords=STRING_BUSQUEDA&amp;_action_search=Submit&amp;_order=bytitle&amp;title%2Fabstract%2Fkeywords_srchtype=ALL&amp;_satisfyall=ALL',
         'encode'=>'utf8'
     ),
 
