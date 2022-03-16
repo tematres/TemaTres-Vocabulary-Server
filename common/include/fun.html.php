@@ -2021,17 +2021,26 @@ function HTMLheader($metadata)
 
     $rows='<meta charset="utf-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1">';
     //    <!-- Latest compiled and minified CSS -->
-    $rows.='<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">';
-    //<!-- Optional theme -->
-    $rows.='<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">';
-    //<!-- Latest compiled and minified JavaScript -->
+    if ($CFG["USE_CDN"]==1) {    
+        $rows.='<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">';
+        //<!-- Optional theme -->
+        $rows.='<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">';
+        //<!-- Latest compiled and minified JavaScript -->
+        //<!--[if lt IE 9]>
+        $rows.='<script src="https://oss.maxcdn.com/js/html5shiv.min.js"></script><script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>';
+        //<![endif]-->
+    } else {
+        $rows.='<link rel="stylesheet" href="'.T3_WEBPATH.'bootstrap/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">';
+        //<!-- Optional theme -->
+        $rows.='<link rel="stylesheet" href="'.T3_WEBPATH.'bootstrap/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">';
+        //<!-- Latest compiled and minified JavaScript -->
 
-
+        //<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+        //<!--[if lt IE 9]>
+        $rows.='<script src="'.T3_WEBPATH.'jq/html5shiv.min.js"></script><script src="'.T3_WEBPATH.'jq/respond.min.js"></script>';
+        //<![endif]-->
+    }
     $rows.='<link href="'.T3_WEBPATH.'css/t3style.css" rel="stylesheet">';
-    //<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-    //<!--[if lt IE 9]>
-    $rows.='<script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script><script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>';
-    //<![endif]-->
     $rows.=$metadata["metadata"];
     $rows.=' <link type="image/x-icon" href="'.T3_WEBPATH.'images/tematres.ico" rel="icon" /><link type="image/x-icon" href="'.T3_WEBPATH.'images/tematres.ico" rel="shortcut icon" />';
     return $rows;
@@ -2119,7 +2128,12 @@ function HTMLjsInclude()
 
     // <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     $rows='<script type="text/javascript" src="'.T3_WEBPATH.'jq/lib/jquery-3.4.1.min.js"></script>';
-    $rows.='<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>';
+
+    if ($CFG["USE_CDN"]==1) {
+        $rows.='<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>';
+    } else {
+        $rows.='<script src="'.T3_WEBPATH.'bootstrap/js/bootstrap.min.js"></script>';
+    }
     // <!-- Include all compiled plugins (below), or include individual files as needed -->
     $rows.='<script type="text/javascript" src="'.T3_WEBPATH.'jq/jquery.autocomplete.min.js"></script>
 		 <script type="text/javascript" src="'.T3_WEBPATH.'jq/jquery.mockjax.js"></script>
@@ -2146,7 +2160,7 @@ function HTMLjsInclude()
 		<script type="text/javascript" src="'.T3_WEBPATH.'jq/tagcloud.js"></script>
 		<script type="text/javascript" src="'.T3_WEBPATH.'bootstrap/js/validator.min.js"></script>';
 
-    if ($_SESSION[$_SESSION["CFGURL"]]["lang"][2]!=='en') {
+    if (strtolower(substr($_SESSION[$_SESSION["CFGURL"]]["lang"][2], 0,2))!=='en') {
         $rows.='<script src="'.T3_WEBPATH.'forms/localization/messages_'.$_SESSION[$_SESSION["CFGURL"]]["lang"][2].'.js" type="text/javascript"></script>';
     }
 
