@@ -2030,9 +2030,9 @@ function HTMLheader($metadata)
         $rows.='<script src="https://oss.maxcdn.com/js/html5shiv.min.js"></script><script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>';
         //<![endif]-->
     } else {
-        $rows.='<link rel="stylesheet" href="'.T3_WEBPATH.'bootstrap/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">';
+        $rows.='<link rel="stylesheet" href="'.T3_WEBPATH.'bootstrap/css/bootstrap.min.css">';
         //<!-- Optional theme -->
-        $rows.='<link rel="stylesheet" href="'.T3_WEBPATH.'bootstrap/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">';
+        $rows.='<link rel="stylesheet" href="'.T3_WEBPATH.'bootstrap/css/bootstrap-theme.min.css">';
         //<!-- Latest compiled and minified JavaScript -->
 
         //<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
