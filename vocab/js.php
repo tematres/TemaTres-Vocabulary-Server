@@ -155,6 +155,11 @@ function expand( id ) {
     var details = document.getElementById('masTE' + id );
     var enlaceMas= document.getElementById( 'expandTE' + id );
     var enlaceMenos= document.getElementById( 'contraeTE' + id );
+
+    var current = document.activeElement;
+    var details = current.nextElementSibling;
+    var enlaceMas= current.childNodes[0];
+    var enlaceMenos= current.childNodes[1];
     details.style.display = ( details.style.display == 'block' ) ? 'none' : 'block';
     enlaceMas.style.display = ( details.style.display == 'block' ) ? 'none' : 'inline';
     enlaceMenos.style.display = ( details.style.display == 'block' ) ? 'inline' : 'none';
