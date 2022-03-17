@@ -48,18 +48,22 @@ $_SESSION["CFGVersion"]   =$CFG["Version"];
 //Load config values
 loadConfigValues(1);
 
-$lang_labels=selectLangLabels($_SESSION["CFGIdioma"],$idiomas_disponibles);
+$lang_labels=selectLangLabels($_SESSION["CFGIdioma"], $idiomas_disponibles);
+
+//$_SESSION[$_SESSION["CFGURL"]]["lang"]=$lang_labels;
     
 if ($_GET["setLang"]) {
     //$_SESSION[$_SESSION["CFGURL"]]["lang"]=$idiomas_disponibles[$_GET["setLang"]];
-    $lang_labels=selectLangLabels($_GET["setLang"],$idiomas_disponibles);
+    $lang_labels=selectLangLabels($_GET["setLang"], $idiomas_disponibles);
+    $_SESSION[$_SESSION["CFGURL"]]["lang"]=$lang_labels;
 }
 
 $_SESSION["CFGIdioma"] = ($_SESSION["CFGIdioma"]) ? $_SESSION["CFGIdioma"] : $idiomas_disponibles[0][2];
 
-$_SESSION[$_SESSION["CFGURL"]]["lang"]=$lang_labels;
-
-include_once T3_ABSPATH . 'common/lang/'.$_SESSION[$_SESSION["CFGURL"]]["lang"][1];
+if(!isset($_SESSION[$_SESSION["CFGURL"]]["lang"])){
+    $_SESSION[$_SESSION["CFGURL"]]["lang"]=$lang_labels;
+}
+require_once T3_ABSPATH . 'common/lang/'.$_SESSION[$_SESSION["CFGURL"]]["lang"][1];
 
 
 if ($_GET["cmdlog"]==substr(md5(date("Ymd")), "5", "10")) {
