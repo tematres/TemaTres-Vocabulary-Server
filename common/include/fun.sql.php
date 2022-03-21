@@ -2905,6 +2905,8 @@ function SQLupdateTemaTresVersion($ver2ver)
             $sql_invalid_dates0=SQL("update", " `".$prefix."tema` set cuando_final=NULL where  cuando_final=0");
             
             $sql_invalid_dates4=SQL("ALTER", " TABLE `".$prefix."notas` CHANGE `cuando` `cuando` DATETIME NULL DEFAULT NULL ");
+            
+            $sql_lang_code=SQL("ALTER", " TABLE `".$prefix."config` CHANGE `idioma` `idioma` CHAR(6) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT 'es-ES'");
 
             $sql_1=SQL("ALTER", " TABLE `".$prefix."notas` ADD `src_id` int(22) NULL,ADD INDEX ( `src_id` );");
             $sql_2=SQL("ALTER", " TABLE `".$prefix."tema` ADD `tema_hash` VARCHAR(12) CHARACTER SET utf8 COLLATE utf8_general_ci NULL AFTER `tema`, ADD UNIQUE `ndx_hash` (`tema_hash`);");
