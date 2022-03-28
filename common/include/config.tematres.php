@@ -1,4 +1,5 @@
 <?php
+namespace Tematres;
 if ((stristr($_SERVER['REQUEST_URI'], "session.php") ) || ( !defined('T3_ABSPATH') )) {
     die("no access");
 }

@@ -2,12 +2,14 @@
 if ((stristr($_SERVER['REQUEST_URI'], "session.php") ) || ( !defined('T3_ABSPATH') )) {
     die("no access");
 }
+use PHPMailer\PHPMailer\PHPMailer;
 // TemaTres : aplicación para la gestión de lenguajes documentales #       #
 //
 // Copyright (C) 2004-2020 Diego Ferreyra tematres@r020.com.ar
 // Distribuido bajo Licencia GNU Public License, versión 2 (de junio de 1.991) Free Software Foundation
 //
 //
+
 
 
 /** FUNCIONES GENERALES */
@@ -1233,11 +1235,12 @@ function currentBasePage($url)
     return substr($url, 0, strripos($url, "/")+1);
 }
 
-
 function sendMail($to_address, $subject, $message, $extra = array())
 {
     global $DBCFG;
-    include_once "mailer/PHPMailerAutoload.php";
+    require 'mailer/PHPMailer.php';
+    require 'mailer/SMTP.php';
+    require 'mailer/Exception.php';
     $mail = new PHPMailer();
 
     /* Exmple with SMTP from gmail **/

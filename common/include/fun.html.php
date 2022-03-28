@@ -2044,6 +2044,9 @@ GLOBAL $CFG;
     $rows.='<link href="'.T3_WEBPATH.'css/t3style.css" rel="stylesheet">';
     $rows.=$metadata["metadata"];
     $rows.=' <link type="image/x-icon" href="'.T3_WEBPATH.'images/tematres.ico" rel="icon" /><link type="image/x-icon" href="'.T3_WEBPATH.'images/tematres.ico" rel="shortcut icon" />';
+    /* define url BASE to links and cross origin 
+        $rows.='   <base href="'.getURLbase().'">';
+    */
     return $rows;
 }
 
