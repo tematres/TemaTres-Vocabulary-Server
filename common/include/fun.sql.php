@@ -2281,21 +2281,24 @@ function SQLsearchTerms4NT($search_term, $term_id,$polihieraquical_flag=0)
 
     $ARRAYtopTerm=ARRAYmyTopTerm($term_id);
 
-    $TTterm_exclude='%|'.$ARRAYtopTerm["tema_id"].'|%';
+    // excluir cualquier término que esté en el árbol
+    $TTterm_exclude=($ARRAYtopTerm["tema_id"]>0) ? ' (i.indice like \"%|'.$ARRAYtopTerm["tema_id"].'|%\" or i.tema_id='.$ARRAYtopTerm["tema_id"].') and ' : '';
 
     $_SESSION["id_tesa"]=secure_data($_SESSION["id_tesa"], "int");
 
     $search_term=secure_data("%$search_term%", "ADOsql");
 
-    #no tiene relaciones jerárquicas
+	#no tiene relaciones jerárquicas
 	$leftJoinExcludeNT=" left join $DBCFG[DBprefix]tabla_rel bt on bt.id_menor=t.tema_id and bt.t_relacion = 3 ";
-    $whereExcludeNT=' and bt.id is null ';
+	$whereExcludeNT=' and bt.id is null ';
 
 
-    if($polihieraquical_flag==1){
-    	$leftJoinExcludeNT='';
-    	$whereExcludeNT='';
+    if ($polihieraquical_flag==1) {
+		$leftJoinExcludeNT='';
+		$whereExcludeNT='';
     }
+
+ 
 
  # leftjoin1: no esta en el mismo taxón
  # leftjoin2: excluir UF
@@ -2304,7 +2307,7 @@ function SQLsearchTerms4NT($search_term, $term_id,$polihieraquical_flag=0)
         "select",
         "t.tema_id as id,t.code,t.tema,t.isMetaTerm,t.cuando,t.tema_id as tema_id
 	from $DBCFG[DBprefix]tema t
-	left join $DBCFG[DBprefix]indice i on  (i.indice like '$TTterm_exclude' or i.tema_id=$ARRAYtopTerm[tema_id]) and t.tema_id=i.tema_id
+	left join $DBCFG[DBprefix]indice i on  $TTterm_exclude t.tema_id=i.tema_id
 	left join $DBCFG[DBprefix]tabla_rel uf on uf.id_mayor=t.tema_id and uf.t_relacion = 4 
 	left join $DBCFG[DBprefix]tabla_rel r on r.id_mayor='$term_id' and r.id_menor = t.tema_id 
 	$leftJoinExcludeNT

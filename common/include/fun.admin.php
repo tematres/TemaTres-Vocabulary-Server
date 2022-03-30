@@ -937,33 +937,30 @@ function abmNota($do, $idTema, $tipoNota, $langNota, $nota, $src_id = 0, $idNota
     $src_id=secure_data($src_id, "int");
 
     switch ($do) {
-        case 'A':
+    case 'A':
             $sql=SQL(
-                "insert",
-                "into $DBCFG[DBprefix]notas
-	(id_tema,tipo_nota,lang_nota,nota,cuando,uid,src_id)
-	values ($idTema,$tipoNota,$langNota,$nota,now(),$userId,$src_id)"
+                "insert", "into $DBCFG[DBprefix]notas (id_tema,tipo_nota,lang_nota,nota,cuando,uid,src_id) 
+                values ($idTema,$tipoNota,$langNota,$nota,now(),$userId,$src_id)"
             );
-            break;
+        break;
 
-        case 'M':
+    case 'M':
             $sql=SQL(
-                "update",
-                "$DBCFG[DBprefix]notas
-	set tipo_nota=$tipoNota,
-	lang_nota=$langNota,
-	nota=$nota,
-	cuando=now() ,
-	uid=$userId,
-	src_id=$src_id
-	where id=$idNota"
+                "update", "$DBCFG[DBprefix]notas
+                	set tipo_nota=$tipoNota,
+                	lang_nota=$langNota,
+                	nota=$nota,
+                	cuando=now() ,
+                	uid=$userId,
+                	src_id=$src_id
+                	where id=$idNota"
             );
-            break;
+        break;
 
-        case 'B':
+    case 'B':
             $idNota=secure_data($idNota, "int");
             $sql=SQL("delete", "from $DBCFG[DBprefix]notas where id='$idNota'");
-            break;
+        break;
     };
 
     return $idTema;
