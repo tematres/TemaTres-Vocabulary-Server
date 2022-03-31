@@ -1667,18 +1667,13 @@ if (!function_exists('boolval')) {
 function extract4url($url)
 {
 
+    $output=array("tema"=>false,"letra"=>false);
+
     $url_parser=parse_url($url);
 
-    parse_str($url_parser["query"]);
+    parse_str($url_parser["query"],$output);
  
-    if (@$tema) {
-        $tema_id=$tema;
-    }
-    if (@$letra) {
-        $char=$letra;
-    }
-  
-    return array("url"=>$url,"tema_id"=>$tema_id,"letra"=>$char);
+    return array("url"=>$url,"tema_id"=>$output["tema"],"letra"=>$output["letra"]);
 }
 
 
