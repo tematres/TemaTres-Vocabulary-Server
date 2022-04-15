@@ -11,8 +11,15 @@ if ((stristr($_SERVER['REQUEST_URI'], "session.php") ) || ( !defined('T3_ABSPATH
 // funciones XML #
 //
 
-/*compose node for dspace xml export format*/
-function do_dspace_node($tema_id)
+
+/**
+ * Compose node for dspace xml export format
+ * 
+ * @param Integer $tema_id the id of the term
+ * 
+ * @return file to browser
+ */
+function Do_Dspace_node($tema_id)
 {
 
     global $CFG;
@@ -44,8 +51,13 @@ function do_dspace_node($tema_id)
 };
 
 
-/* Compose dspace native export */
-function do_dspace(){
+/**
+ * Compose dspace native export 
+
+ * @return file to browser
+ */
+function Do_Dspace()
+{
 
     global $CFG;
 
@@ -71,7 +83,7 @@ function do_dspace(){
 
         $xml_tags.='<node id="'.$arrayTema["id"].'" label="'.xmlentities($arrayTema["tema"]).'">';
         //Terminos especificos
-        $xml_tags.=do_dspace_node($arrayTema["id"]);
+        $xml_tags.=Do_Dspace_node($arrayTema["id"]);
         $xml_tags.='</node>';
     };
     $xml_tags.='</node>';

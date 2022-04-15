@@ -2326,22 +2326,22 @@ function HTMLformExportGlossary()
 
 function HTMLformExport()
 {
-    $array_export_options=array('jtxt#'.MENU_ListaSis.' (txt)',
-                                'txt#'.MENU_ListaAbc.' (txt)',
+    $array_export_options=array('jtxt#'.MENU_ListaSis.' (TXT)',
+                                'txt#'.MENU_ListaAbc.' (TXT)',
                                 'spdf#'.LABEL_SystPDF,
                                 'rpdf#'.LABEL_AlphaPDF,
-                                "fdspace#Dspace Taxonomy",
-                                "moodfile#Moodle",
-                                "zline#Zthes",
-                                "rfile#Skos-Core",
-                                "rxtm#TopicMap",
-                                "BSfile#BS8723",
-                                "madsFile#Metadata Authority Description Schema (MADS)",
+                                "fdspace#Dspace Taxonomy (XML)",
+                                "moodfile#Moodle (XML)",
+                                "zline#Zthes (XML)",
+                                "rfile#Skos-Core (XML)",
+                                "rxtm#TopicMap (XML)",
+                                "BSfile#BS8723 (XML)",
+                                "madsFile#Metadata Authority Description Schema (MADS XML)",
                                 "marc#MARC 21 XML Schema (MarcXML)",
-                                "vfile#IMS Vocabulary Definition Exchange (VDEX)",
+                                "vfile#IMS Vocabulary Definition Exchange (VDEX XML)",
                                 "wxr#WXR (Wordpress XML)",
-                                "siteMap#SiteMap",
-                                "rsql#SQL (Backup)");
+                                "siteMap#SiteMap  (XML)",
+                                "rsql#Backup (SQL)");
 
     $rows.='<form class="" role="form"  name="export" action="xml.php" method="get">';
     $rows.='<div class="row">

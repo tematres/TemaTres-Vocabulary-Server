@@ -157,7 +157,7 @@ if (($_SESSION[$_SESSION["CFGURL"]]["ssuser_nivel"] == '1') && ($_GET["dis"])) {
         break;
 
         case 'fdspace':
-            echo do_dspace();
+            echo Do_Dspace();
         break;
     }
 };
