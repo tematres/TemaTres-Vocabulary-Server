@@ -153,9 +153,11 @@ if (($_SESSION[$_SESSION["CFGURL"]]["ssuser_nivel"] == '1') && ($_GET["dis"])) {
         case 'jglossary':
             header('Content-type: application/json');
             $filname = string2url($_SESSION["CFGTitulo"]).'.json';
-
-            //echo makeGlossary($_GET["note4gloss"],array("altTerms"=>$_GET["includeAltLabel"]));
             return sendFile(makeGlossary($_GET["note4gloss"], array("altTerms" => $_GET["includeAltLabel"])), "$filname");
+        break;
+
+        case 'fdspace':
+            echo do_dspace();
         break;
     }
 };
