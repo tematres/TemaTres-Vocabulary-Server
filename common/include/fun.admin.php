@@ -1225,13 +1225,13 @@ if ($_SESSION[$_SESSION["CFGURL"]]["ssuser_nivel"]=='1') {
         $arrayTesa["cuando"]=trim($arrayTesa["cuando"]);
 
 
-        $POSTarrayUser["orga"]=$DB->qstr($POSTarrayUser[orga]);
-        $arrayTesa["titulo"]=$DB->qstr($arrayTesa[titulo]);
-        $arrayTesa["autor"]=$DB->qstr($arrayTesa[autor]);
-        $arrayTesa["idioma"]=$DB->qstr($arrayTesa[idioma]);
-        $arrayTesa["cobertura"]=$DB->qstr($arrayTesa[cobertura]);
-        $arrayTesa["keywords"]=$DB->qstr($arrayTesa[keywords]);
-        $arrayTesa["tipo"]=$DB->qstr($arrayTesa[tipo]);
+        $POSTarrayUser["orga"]=$DB->qstr($POSTarrayUser["orga"]);
+        $arrayTesa["titulo"]=$DB->qstr($arrayTesa["titulo"]);
+        $arrayTesa["autor"]=$DB->qstr($arrayTesa["autor"]);
+        $arrayTesa["idioma"]=$DB->qstr($arrayTesa["idioma"]);
+        $arrayTesa["cobertura"]=$DB->qstr($arrayTesa["cobertura"]);
+        $arrayTesa["keywords"]=$DB->qstr($arrayTesa["keywords"]);
+        $arrayTesa["tipo"]=$DB->qstr($arrayTesa["tipo"]);
         $arrayTesa["polijerarquia"]= (in_array($arrayTesa["polijerarquia"], array("1","0"))) ? $arrayTesa["polijerarquia"] : 0;
         $arrayTesa["url_base"]=(isset($arrayTesa["url_base"])) ? $DB->qstr($arrayTesa["url_base"]) : $_SESSION["CFGURL"];
         $arrayTesa["cuando"]=(check2Date($arrayTesa["cuando"])) ? $arrayTesa["cuando"] : date("Y-m-d");

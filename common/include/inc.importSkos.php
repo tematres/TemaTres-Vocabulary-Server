@@ -21,6 +21,8 @@ if ($_SESSION[$_SESSION["CFGURL"]]["ssuser_nivel"]=='1') {
         /*    fectch hidden label ID*/
         $ARRAYhiddenLabelCode=ARRAYfetchValue("4", "H");
 
+        $langVocab=normalizeLangCode($_SESSION["CFGIdioma"]);
+
 
         // Preferred label
         $prefLabels = $skos->xpath->query('./skos:prefLabel', $node);
@@ -39,10 +41,10 @@ if ($_SESSION[$_SESSION["CFGURL"]]["ssuser_nivel"]=='1') {
 
                 $node_stringPreferedTerm = $value["value"];
 
-                $node_stringPreferedTermLang = $value["lang"];
+                $node_stringPreferedTermLang = normalizeLangCode($value["lang"]);
 
                 //add term
-                if ($node_stringPreferedTermLang==$_SESSION["CFGIdioma"]) {
+                if ($node_stringPreferedTermLang==$langVocab) {
                     $ARRAYterm = ARRAYCode($source_uri);
                     if ($ARRAYterm["tema_id"]) {
                           $term_id = $ARRAYterm["tema_id"];
@@ -72,7 +74,7 @@ if ($_SESSION[$_SESSION["CFGURL"]]["ssuser_nivel"]=='1') {
                 $value = setI18nValue($skos, $altLabel);
 
                 //the same language
-                if ((isset($value) && ($_SESSION["CFGIdioma"]==$value["lang"]))) {
+                if ((isset($value) && ($langVocab==normalizeLangCode($value["lang"])))) {
                     $node_alt_term[] = $value;
                     $alt_term_id=ALTAtema($value["value"], "1", "13");
                     ALTArelacionXId($alt_term_id, $term_id, "4");
@@ -84,7 +86,7 @@ if ($_SESSION[$_SESSION["CFGURL"]]["ssuser_nivel"]=='1') {
                 $value = setI18nValue($skos, $altLabel);
 
                 //the same language
-                if ((isset($value) && ($_SESSION["CFGIdioma"]==$value["lang"]))) {
+                if ((isset($value) && ($langVocab==$value["lang"]))) {
                     $node_alt_term[] = $value;
                     $alt_term_id=ALTAtema($value["value"], "1", "13");
 
@@ -100,7 +102,7 @@ if ($_SESSION[$_SESSION["CFGURL"]]["ssuser_nivel"]=='1') {
                 if ((isset($value["value"])) && (is_string($value["value"]))) {
                     $node_notes[] = $value;
 
-                    $lang_nota=($value["lang"]) ? $value["lang"]: $node_stringPreferedTermLang;
+                    $lang_nota=($value["lang"]) ? normalizeLangCode($value["lang"]): $node_stringPreferedTermLang;
 
                     ALTAnota($term_id, "NA", $lang_nota, $value["value"]);
                 }
@@ -113,7 +115,7 @@ if ($_SESSION[$_SESSION["CFGURL"]]["ssuser_nivel"]=='1') {
                 if (isset($value["value"])) {
                     $node_defnotes[] = $value;
 
-                    $lang_nota=($value["lang"]) ? $value["lang"]: $node_stringPreferedTermLang;
+                    $lang_nota=($value["lang"]) ? normalizeLangCode($value["lang"]): $node_stringPreferedTermLang;
 
                     ALTAnota($term_id, "NA", $lang_nota, $value["value"]);
                 }
@@ -127,7 +129,7 @@ if ($_SESSION[$_SESSION["CFGURL"]]["ssuser_nivel"]=='1') {
                 if (isset($value["value"])) {
                     $node_defnotes[] = $value;
 
-                    $lang_nota=($value["lang"]) ? $value["lang"]: $node_stringPreferedTermLang;
+                    $lang_nota=($value["lang"]) ? normalizeLangCode($value["lang"]): $node_stringPreferedTermLang;
 
                     ALTAnota($term_id, "EX", $lang_nota, $value["value"]);
                 }
@@ -140,7 +142,7 @@ if ($_SESSION[$_SESSION["CFGURL"]]["ssuser_nivel"]=='1') {
                 if (isset($value["value"])) {
                     $node_defnotes[] = $value;
 
-                    $lang_nota=($value["lang"]) ? $value["lang"]: $node_stringPreferedTermLang;
+                    $lang_nota=($value["lang"]) ? normalizeLangCode($value["lang"]): $node_stringPreferedTermLang;
 
                     ALTAnota($term_id, "NH", $lang_nota, $value["value"]);
                 }
