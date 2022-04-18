@@ -201,7 +201,7 @@ function doSelectForm($valores, $valor_selec)
         $valor=explode("#", $valores[$i]);
         if ($valor[0]) {
             if ($valor[0]==$valor_selec) {
-                $selec_values.='<option value="'.$valor[0].'" selected="selected">'.$valor[1].'</option>'."\n\r";
+                $selec_values.='<option value="'.$valor[0].'" selected>'.$valor[1].'</option>'."\n\r";
             } else {
                 $selec_values.='<option value="'.$valor[0].'">'.$valor[1].'</option>'."\n\r";
             };
@@ -1720,20 +1720,41 @@ function configValue($value, $default = false, $defaultValues = array())
 }
 
 
-/* Return path and metadata about labels localization file*/
+/**
+ * Path and metadata about localization labels file
+ * 
+ * @param string    lang code
+ * @param array     array with enable langs
+ * 
+ * @return array with path and metadata about selected lang
+ */
 function selectLangLabels($lang_code,$langs){
     $lang_default="en-EN";
     /*prevent empt data */
     $lang_code=(strlen($lang_code)>1) ? $lang_code : $lang_default;
 
     /*legacy lang_code with 2 letters */
-    if(strlen($lang_code)==2){
-        $lang_code=strtolower(substr($lang_code, 0,2)).'-'.strtoupper(substr($lang_code, 0,2));
-    }
+    $lang_code=normalizeLangCode($lang_code);
+
 
     if(is_array($langs["$lang_code"])) return $langs["$lang_code"];
 
 
     return $langs["$lang_default"];
 
+}
+
+
+/** 
+* Normalize lang code from 2 to 4 letters
+*
+* @param chars lang code to normalize
+*
+* @return 4 letters lang code in xx-XX format
+*/
+function normalizeLangCode($lang_code){
+    if(strlen($lang_code)==2){
+        $lang_code=strtolower(substr($lang_code, 0,2)).'-'.strtoupper(substr($lang_code, 0,2));
+    }
+    return $lang_code;
 }
