@@ -24,9 +24,11 @@ function Do_Dspace_node($tema_id)
 
     global $CFG;
 
-    $node='';
     $noteNote='';
     $sql=SQLverTerminosE($tema_id);
+
+    $node='<isComposedBy>';
+
 
     while ($array=$sql->FetchRow()) {
         $sqlNotes=SQLdatosTerminoNotas($array["id_tema"],array("NA"));
@@ -35,18 +37,18 @@ function Do_Dspace_node($tema_id)
         }
 
         if ($array["id_te"]) {
-            $node.='<isComposedBy>';
             $node.='<node id="'.$array["id_tema"].'" label="'.xmlentities($array["tema"]).'">';
             $node.=$noteNote;
             $node.=do_dspace_node($array["id_tema"]);
             $node.='</node>';
-            $node.='</isComposedBy>';
         } else {
             $node.='<node id="'.$array["id_tema"].'" label="'.xmlentities($array["tema"]).'">';
             $node.=$noteNote;
             $node.='</node>';
         };
     };
+    $node.='</isComposedBy>';
+
     return $node;
 };
 
