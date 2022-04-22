@@ -1766,6 +1766,7 @@ function selectLangLabels($lang_code,$langs){
 * @return 4 letters lang code in xx-XX format
 */
 function normalizeLangCode($lang_code){
+    
     if(strlen($lang_code)==2){
         $lang_code=strtolower(substr($lang_code, 0,2)).'-'.strtoupper(substr($lang_code, 0,2));
     }
