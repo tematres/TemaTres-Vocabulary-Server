@@ -818,7 +818,11 @@ function clean($val)
 }
 
 
-/** connect to database */
+/** 
+ * Connect to database 
+ *
+ * @return conection object
+ */
 function DBconnect()
 {
     include_once 'adodb5/adodb.inc.php';
@@ -1700,7 +1704,16 @@ function ark2hash($seed, $string2hash)
 
 
 
-/*Check for values and not null in a variable*/
+
+/**
+ * Check for values and not null in a variable
+ *
+ * @param string $value         value name to evaluete
+ * @param string $default       default value to asign if value is null
+ * @param array  $defaultValues array values to asign if value and default is null
+ * 
+ * @return if value is null, return defaul, else return value
+ */
 function configValue($value, $default = false, $defaultValues = array())
 {
 
