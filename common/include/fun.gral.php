@@ -1766,9 +1766,15 @@ function selectLangLabels($lang_code,$langs){
 * @return 4 letters lang code in xx-XX format
 */
 function normalizeLangCode($lang_code){
-    
-    if(strlen($lang_code)==2){
-        $lang_code=strtolower(substr($lang_code, 0,2)).'-'.strtoupper(substr($lang_code, 0,2));
+ 
+    $array_code=explode("-",$lang_code);
+
+    if(count($array_code)==2){
+    }elseif(strlen($lang_code)==2){
+        $lang_code=normalizeLangCode(strtolower(substr($lang_code, 0,2)).'-'.strtoupper(substr($lang_code, 0,2)));
+    }else{
+        $lang_code=configValue(null,"en-EN");
     }
+
     return $lang_code;
 }

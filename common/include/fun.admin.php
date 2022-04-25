@@ -3040,7 +3040,7 @@ function ABM_value($do, $arrayValue)
         case 'ADD_VALUE':
             $sql=SQL(
                 "insert",
-                "into `".$DBCFG[DBprefix]."values` (`value_type`, `value`, `value_order`, `value_code`) VALUES
+                "into ".$DBCFG['DBprefix']."values (`value_type`, `value`, `value_order`, `value_code`) VALUES
 					('$arrayValue[value_type]', $arrayValue[value], NULL, $arrayValue[value_code])"
             );
 
