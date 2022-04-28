@@ -18,9 +18,9 @@ header('Content-type: text/html; charset='.$page_encode.'');
 //Config lang
 $lang='';
 $tematres_lang='';
-$lang_install=(isset($_GET["lang_install"])) ? $_GET["lang_install"] : 'es-ES';
+$lang_install=(isset($_GET["lang_install"])) ? $_GET["lang_install"] : 'en-EN';
 
-$lang = $tematres_lang=(in_array($lang_install, array('ca-ES','de-DE','en-EN','es-ES','fr-FR','it-IT','nl-NL','pt-PT','pt-BR'))) ? $lang_install : 'es-ES';
+$lang = $tematres_lang=(in_array($lang_install, array('ca-ES','de-DE','en-EN','es-ES','fr-FR','it-IT','nl-NL','pt-PT','pt-BR'))) ? $lang_install : 'en-EN';
 
   //1. check if config file exist
 if (!file_exists('db.tematres.php')) {
@@ -154,9 +154,10 @@ function checkInstall($lang)
 
     //4. check tables
 
-    $sql=$DB->Execute('SHOW TABLES from `'.$DBCFG["DBName"].'` where `tables_in_'.$DBCFG["DBName"].'` in (\''.$DBCFG["DBprefix"].'config\',\''.$DBCFG["DBprefix"].'indice\',\''.$DBCFG["DBprefix"].'notas\',\''.$DBCFG["DBprefix"].'tabla_rel\',\''.$DBCFG["DBprefix"].'tema\',\''.$DBCFG["DBprefix"].'usuario\',\''.$DBCFG["DBprefix"].'values\')');
+    $sqlCantTables=$DB->Execute('SHOW TABLES from `'.$DBCFG["DBName"].'` where `tables_in_'.$DBCFG["DBName"].'` in (\''.$DBCFG["DBprefix"].'config\',\''.$DBCFG["DBprefix"].'indice\',\''.$DBCFG["DBprefix"].'notas\',\''.$DBCFG["DBprefix"].'tabla_rel\',\''.$DBCFG["DBprefix"].'tema\',\''.$DBCFG["DBprefix"].'usuario\',\''.$DBCFG["DBprefix"].'values\')');
+    $cantTables=(is_object($sqlCantTables)) ? $sqlCantTables->RecordCount() : 0;
 
-    if ($DB->Affected_Rows()=='7') {
+    if ($cantTables=='7') {
         return message('<div class="alert alert-danger" role="alert">'.$install_message["301"].'</div>');
     } else {
         //Final step: dump or form
