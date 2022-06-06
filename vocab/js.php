@@ -152,10 +152,6 @@ if ($_SESSION[$_SESSION["CFGURL"]]["ssuser_nivel"] > 0) {
 ?>
 
 function expand( id ) {
-    var details = document.getElementById('masTE' + id );
-    var enlaceMas= document.getElementById( 'expandTE' + id );
-    var enlaceMenos= document.getElementById( 'contraeTE' + id );
-
     var current = document.activeElement;
     var details = current.nextElementSibling;
     var enlaceMas= current.childNodes[0];
