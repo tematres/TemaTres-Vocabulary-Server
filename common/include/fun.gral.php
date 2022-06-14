@@ -1139,14 +1139,6 @@ function ARRAYlastNoteMod()
 
 
 
-/*Check if a prefered term in the object language of the voca*/
-function isValidTerm($term_id)
-{
-    $sqlcheckIsValidTerm=SQLcheckIsValidTerm($term_id);
-    return (SQLcount($sqlcheckIsValidTerm)==0) ? true : false;
-}
-
-
 // SOME GENERAL FUNCTIOS FROM WordPress #################################
 // http://codex.wordpress.org/Function_Reference/  #########################
 

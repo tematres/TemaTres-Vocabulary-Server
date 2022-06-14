@@ -26,9 +26,9 @@ function SQLcantTR($tipo = "G", $idUser = "")
     $sql=SQL(
         "select",
         "relaciones.t_relacion,count(relaciones.id) as cant
-	from $DBCFG[DBprefix]tabla_rel as relaciones
-	$clausula
-	group by relaciones.t_relacion"
+    from $DBCFG[DBprefix]tabla_rel as relaciones
+    $clausula
+    group by relaciones.t_relacion"
     );
     return $sql;
 };
@@ -51,18 +51,22 @@ function SQLcantTerminos($tipo = "G", $idUser = "")
         "select",
         "count(tema.tema_id) as cant,count(c.tema_id) as cant_candidato,count(r.tema_id) as cant_rechazado,
 count(a.tema_id) as cant_aceptados
-	from $DBCFG[DBprefix]tema as tema
-	left join $DBCFG[DBprefix]tema as c on tema.tema_id=c.tema_id and c.estado_id='12'
-	left join $DBCFG[DBprefix]tema as r on tema.tema_id=r.tema_id and r.estado_id='14'
-	left join $DBCFG[DBprefix]tema as a on tema.tema_id=a.tema_id and a.estado_id='13'
-	where tema.tesauro_id=1 $clausula"
+    from $DBCFG[DBprefix]tema as tema
+    left join $DBCFG[DBprefix]tema as c on tema.tema_id=c.tema_id and c.estado_id='12'
+    left join $DBCFG[DBprefix]tema as r on tema.tema_id=r.tema_id and r.estado_id='14'
+    left join $DBCFG[DBprefix]tema as a on tema.tema_id=a.tema_id and a.estado_id='13'
+    where tema.tesauro_id=1 $clausula"
     );
 };
 
 
-//
-// Cantidad de términos generales aprobados y tesauro
-//
+/** 
+ * Cantidad de términos generales aprobados y tesauro
+ * 
+ * @param int $tesauro_id vocab_id to limit the scope of terms (target or object vocab)
+ * 
+ * @return object
+ */
 function ARRAYcantTerms4Thes($tesauro_id)
 {
 
@@ -73,9 +77,9 @@ function ARRAYcantTerms4Thes($tesauro_id)
     $sql=SQL(
         "select",
         "count(*) as cant
-	from $DBCFG[DBprefix]tema t
-	where t.estado_id='13'
-	and t.tesauro_id='$tesauro_id'"
+    from $DBCFG[DBprefix]tema t
+    where t.estado_id='13'
+    and t.tesauro_id='$tesauro_id'"
     );
 
     $array=(is_object($sql)) ? $sql->FetchRow() : array("cant"=>0);
@@ -99,13 +103,13 @@ function SQLcantNotas($user_id = "0")
     $sql=SQL(
         "select",
         "count(n.id) as cant, n.tipo_nota,
-	v.value_id,v.value_type,v.value,v.value_order,v.value_code
-	from $DBCFG[DBprefix]values v
-	left join $DBCFG[DBprefix]notas n on v.value_code=n.tipo_nota
-	where v.value_type='t_nota'
-	$w
-	group by v.value_id
-	order by v.value_order,v.value_code"
+    v.value_id,v.value_type,v.value,v.value_order,v.value_code
+    from $DBCFG[DBprefix]values v
+    left join $DBCFG[DBprefix]notas n on v.value_code=n.tipo_nota
+    where v.value_type='t_nota'
+    $w
+    group by v.value_id
+    order by v.value_order,v.value_code"
     );
     return $sql;
 };
@@ -128,8 +132,8 @@ function ARRAYcant_term2tterm($tvocab_id = "0", $user_id = "0")
     $sql=SQL(
         "select",
         "count(*) as cant
-	from $DBCFG[DBprefix]term2tterm
-	where 1=1 $w"
+    from $DBCFG[DBprefix]term2tterm
+    where 1=1 $w"
     );
 
     return $sql->FetchRow();
@@ -147,15 +151,15 @@ function SQLbucleArriba($tema_id)
     $sql=SQL(
         "select",
         "rel_abajo.id_mayor as id_abajo,
-	tema.tema_id as id_tema,tema.tema as Ttema,relaciones.id
-	from $DBCFG[DBprefix]tabla_rel as relaciones,$DBCFG[DBprefix]tema as tema
-	left join $DBCFG[DBprefix]tabla_rel as rel_abajo on rel_abajo.id_menor=tema.tema_id
-	and rel_abajo.t_relacion='3'
-	where
-	relaciones.id_menor=tema.tema_id
-	and relaciones.id_menor='$tema_id'
-	group by id_tema
-	order by lower(tema.tema)"
+    tema.tema_id as id_tema,tema.tema as Ttema,relaciones.id
+    from $DBCFG[DBprefix]tabla_rel as relaciones,$DBCFG[DBprefix]tema as tema
+    left join $DBCFG[DBprefix]tabla_rel as rel_abajo on rel_abajo.id_menor=tema.tema_id
+    and rel_abajo.t_relacion='3'
+    where
+    relaciones.id_menor=tema.tema_id
+    and relaciones.id_menor='$tema_id'
+    group by id_tema
+    order by lower(tema.tema)"
     );
     return $sql;
 };
@@ -176,15 +180,15 @@ function SQLbucleAbajo($tema_id)
     $sql=SQL(
         "select",
         "rel_abajo.id_menor as id_abajo,
-	tema.tema_id as id_tema,tema.tema as Ttema,relaciones.id
-	from $DBCFG[DBprefix]tabla_rel as relaciones,$DBCFG[DBprefix]tema as tema
-	left join $DBCFG[DBprefix]tabla_rel as rel_abajo on rel_abajo.id_mayor=tema.tema_id
-	and rel_abajo.t_relacion='3'
-	where
-	relaciones.id_menor=tema.tema_id
-	and relaciones.id_mayor='$tema_id'
-	group by id_tema
-	order by id_abajo desc"
+    tema.tema_id as id_tema,tema.tema as Ttema,relaciones.id
+    from $DBCFG[DBprefix]tabla_rel as relaciones,$DBCFG[DBprefix]tema as tema
+    left join $DBCFG[DBprefix]tabla_rel as rel_abajo on rel_abajo.id_mayor=tema.tema_id
+    and rel_abajo.t_relacion='3'
+    where
+    relaciones.id_menor=tema.tema_id
+    and relaciones.id_mayor='$tema_id'
+    group by id_tema
+    order by id_abajo desc"
     );
     return $sql;
 };
@@ -213,29 +217,29 @@ function SQLbuscaSimple($texto)
     $sql=SQLo(
         "select",
         "if(temasPreferidos.tema_id is not null,relaciones.id_menor,tema.tema_id) id_definitivo,
-	tema.tema_id,
-	tema.tema,
-	tema.estado_id,
-	relaciones.t_relacion,
-	temasPreferidos.tema as termino_preferido,
-	tema.isMetaTerm,
-	if(?=tema.tema,1,0) as ranking,
-	i.indice,
-	v.value_id as rel_rel_id,
-	v.value as rr_value,
-	v.value_code as rr_code
-	from $DBCFG[DBprefix]tema as tema
-	left join $DBCFG[DBprefix]tabla_rel as relaciones on relaciones.id_mayor=tema.tema_id
-	left join $DBCFG[DBprefix]tema as temasPreferidos on temasPreferidos.tema_id=relaciones.id_menor
-	and tema.tema_id=relaciones.id_mayor
-	and relaciones.t_relacion in (4,5,6,7)
-	left join $DBCFG[DBprefix]indice i on i.tema_id=tema.tema_id
-	left join $DBCFG[DBprefix]values v on v.value_id = relaciones.rel_rel_id
-	where
-	tema.tema like ?
-	$where
-	group by id_definitivo
-	order by ranking desc,lower(tema.tema)",
+    tema.tema_id,
+    tema.tema,
+    tema.estado_id,
+    relaciones.t_relacion,
+    temasPreferidos.tema as termino_preferido,
+    tema.isMetaTerm,
+    if(?=tema.tema,1,0) as ranking,
+    i.indice,
+    v.value_id as rel_rel_id,
+    v.value as rr_value,
+    v.value_code as rr_code
+    from $DBCFG[DBprefix]tema as tema
+    left join $DBCFG[DBprefix]tabla_rel as relaciones on relaciones.id_mayor=tema.tema_id
+    left join $DBCFG[DBprefix]tema as temasPreferidos on temasPreferidos.tema_id=relaciones.id_menor
+    and tema.tema_id=relaciones.id_mayor
+    and relaciones.t_relacion in (4,5,6,7)
+    left join $DBCFG[DBprefix]indice i on i.tema_id=tema.tema_id
+    left join $DBCFG[DBprefix]values v on v.value_id = relaciones.rel_rel_id
+    where
+    tema.tema like ?
+    $where
+    group by id_definitivo
+    order by ranking desc,lower(tema.tema)",
         array($texto,"%$texto%")
     );
 
@@ -262,31 +266,31 @@ function SQLsearchInNotes($texto, $params = array())
     $sql=SQLo(
         "select",
         "if(temasPreferidos.tema_id is not null,relaciones.id_menor,tema.tema_id) id_definitivo,
-	tema.tema_id,
-	tema.tema,
-	tema.estado_id,
-	relaciones.t_relacion,
-	temasPreferidos.tema as termino_preferido,
-	i.indice,
-	v.value_id as rel_rel_id,
-	v.value as rr_value,
-	v.value_code as rr_code,
-	MATCH (n.nota) AGAINST (?) AS relevance
-	from $DBCFG[DBprefix]notas as n,
-	$DBCFG[DBprefix]tema as tema
-	left join $DBCFG[DBprefix]tabla_rel as relaciones on relaciones.id_mayor=tema.tema_id
-	left join $DBCFG[DBprefix]tema as temasPreferidos on temasPreferidos.tema_id=relaciones.id_menor
-	and tema.tema_id=relaciones.id_mayor
-	and relaciones.t_relacion in (4,5,6,7)
-	left join $DBCFG[DBprefix]indice i on i.tema_id=tema.tema_id
-	left join $DBCFG[DBprefix]values v on v.value_id = relaciones.rel_rel_id
-	where
-	n.id_tema=tema.tema_id
-	and MATCH (tema.tema,n.nota)
-	AGAINST (? IN BOOLEAN MODE)
-	$where
-	group by tema.tema_id
-	order by relevance desc,lower(tema.tema)",
+    tema.tema_id,
+    tema.tema,
+    tema.estado_id,
+    relaciones.t_relacion,
+    temasPreferidos.tema as termino_preferido,
+    i.indice,
+    v.value_id as rel_rel_id,
+    v.value as rr_value,
+    v.value_code as rr_code,
+    MATCH (n.nota) AGAINST (?) AS relevance
+    from $DBCFG[DBprefix]notas as n,
+    $DBCFG[DBprefix]tema as tema
+    left join $DBCFG[DBprefix]tabla_rel as relaciones on relaciones.id_mayor=tema.tema_id
+    left join $DBCFG[DBprefix]tema as temasPreferidos on temasPreferidos.tema_id=relaciones.id_menor
+    and tema.tema_id=relaciones.id_mayor
+    and relaciones.t_relacion in (4,5,6,7)
+    left join $DBCFG[DBprefix]indice i on i.tema_id=tema.tema_id
+    left join $DBCFG[DBprefix]values v on v.value_id = relaciones.rel_rel_id
+    where
+    n.id_tema=tema.tema_id
+    and MATCH (tema.tema,n.nota)
+    AGAINST (? IN BOOLEAN MODE)
+    $where
+    group by tema.tema_id
+    order by relevance desc,lower(tema.tema)",
         array($texto,$texto)
     );
 
@@ -327,31 +331,31 @@ function SQLstartWith($texto, $strict_mode = 1, $limit = 50)
   
 
     $sql=SQL("select", "if(temasPreferidos.tema_id is not null,relaciones.id_menor,tema.tema_id) id_definitivo,
-	tema.tema_id,
-	tema.tema,
-	tema.code,
-	tema.estado_id,
-	relaciones.t_relacion,
-	temasPreferidos.tema as termino_preferido
-	#,
-	#i.indice,
-	#v.value_id as rel_rel_id,
-	#v.value as rr_value,
-	#v.value_code as rr_code
-	from $DBCFG[DBprefix]tema as tema
-	left join $DBCFG[DBprefix]tabla_rel as relaciones on relaciones.id_mayor=tema.tema_id
-	left join $DBCFG[DBprefix]tema as temasPreferidos on temasPreferidos.tema_id=relaciones.id_menor
-	and tema.tema_id=relaciones.id_mayor
-	#and relaciones.t_relacion in (4,5,6,7)
-	and relaciones.t_relacion= 4
-	#left join $DBCFG[DBprefix]indice i on i.tema_id=tema.tema_id
-	#left join $DBCFG[DBprefix]values v on v.value_id = relaciones.rel_rel_id
-	where
-	((tema.tema like '$texto_like%') OR (tema.tema LIKE '% $texto_like%'))
-	$where
-	group by tema.tema_id
-	order by lower(tema.tema)
-	limit $limit");
+    tema.tema_id,
+    tema.tema,
+    tema.code,
+    tema.estado_id,
+    relaciones.t_relacion,
+    temasPreferidos.tema as termino_preferido
+    #,
+    #i.indice,
+    #v.value_id as rel_rel_id,
+    #v.value as rr_value,
+    #v.value_code as rr_code
+    from $DBCFG[DBprefix]tema as tema
+    left join $DBCFG[DBprefix]tabla_rel as relaciones on relaciones.id_mayor=tema.tema_id
+    left join $DBCFG[DBprefix]tema as temasPreferidos on temasPreferidos.tema_id=relaciones.id_menor
+    and tema.tema_id=relaciones.id_mayor
+    #and relaciones.t_relacion in (4,5,6,7)
+    and relaciones.t_relacion= 4
+    #left join $DBCFG[DBprefix]indice i on i.tema_id=tema.tema_id
+    #left join $DBCFG[DBprefix]values v on v.value_id = relaciones.rel_rel_id
+    where
+    ((tema.tema like '$texto_like%') OR (tema.tema LIKE '% $texto_like%'))
+    $where
+    group by tema.tema_id
+    order by lower(tema.tema)
+    limit $limit");
     return $sql;
 };
 
@@ -370,22 +374,22 @@ function SQLSimpleSearchTrueTerms($texto, $limit = "20")
     return SQLo(
         "select",
         "t.tema as id_definitivo,
-	t.tema_id,
-	t.tema,
-	t.isMetaTerm,
-	if(?=t.tema,1,0) as rank,
-	i.indice
-	from $DBCFG[DBprefix]indice i,$DBCFG[DBprefix]tema t
-	left join $DBCFG[DBprefix]tabla_rel r on r.t_relacion in ('4','5','6','7')
-	and r.id_mayor=t.tema_id
-	where
-	t.tema like ?
-	and t.estado_id='13'
-	and i.tema_id=t.tema_id
-	and r.id is null
-	$where
-	order by rank desc,lower(t.tema)
-	limit 0,$limit",
+    t.tema_id,
+    t.tema,
+    t.isMetaTerm,
+    if(?=t.tema,1,0) as rank,
+    i.indice
+    from $DBCFG[DBprefix]indice i,$DBCFG[DBprefix]tema t
+    left join $DBCFG[DBprefix]tabla_rel r on r.t_relacion in ('4','5','6','7')
+    and r.id_mayor=t.tema_id
+    where
+    t.tema like ?
+    and t.estado_id='13'
+    and i.tema_id=t.tema_id
+    and r.id is null
+    $where
+    order by rank desc,lower(t.tema)
+    limit 0,$limit",
         array($texto,"%$texto%")
     );
 };
@@ -409,18 +413,18 @@ function SQLbuscaExacta($texto)
     $sql=SQL(
         "select",
         "if(relaciones.t_relacion=4,relaciones.id_menor,tema.tema_id) as id_definitivo,
-		tema.tema_id,tema.isMetaTerm,
-		if(relaciones.t_relacion=4,concat(tema.tema,' ($codUP)'),tema.tema) as tema,tema.estado_id,
-		tema.code,
-		relaciones.t_relacion,if(relaciones.id is null and relacionesMenor.id is null,'SI','NO') as esTerminoLibre
-	from $DBCFG[DBprefix]tema as tema
-	left join $DBCFG[DBprefix]tabla_rel as relaciones on relaciones.id_mayor=tema.tema_id
-	left join $DBCFG[DBprefix]tabla_rel as relacionesMenor on relacionesMenor.id_menor=tema.tema_id
-	where
-	tema.tema = $texto
-	$where
-	group by tema.tema_id
-	order by lower(tema.tema),relaciones.t_relacion desc"
+        tema.tema_id,tema.isMetaTerm,
+        if(relaciones.t_relacion=4,concat(tema.tema,' ($codUP)'),tema.tema) as tema,tema.estado_id,
+        tema.code,
+        relaciones.t_relacion,if(relaciones.id is null and relacionesMenor.id is null,'SI','NO') as esTerminoLibre
+    from $DBCFG[DBprefix]tema as tema
+    left join $DBCFG[DBprefix]tabla_rel as relaciones on relaciones.id_mayor=tema.tema_id
+    left join $DBCFG[DBprefix]tabla_rel as relacionesMenor on relacionesMenor.id_menor=tema.tema_id
+    where
+    tema.tema = $texto
+    $where
+    group by tema.tema_id
+    order by lower(tema.tema),relaciones.t_relacion desc"
     );
     return $sql;
 };
@@ -444,22 +448,22 @@ function ARRAYverTerminoBasico($tema_id)
     $sql=SQL(
         "select",
         "tema.tema_id, tema.tema_id as idTema,
-	tema.code,
-	tema.tema titTema,
-	tema.tema,
-	tema.estado_id,
-	tema.cuando_estado,
-	tema.cuando,
-	tema.cuando_final,
-	tema.isMetaTerm,
-	c.idioma,
-	c.titulo
-	from $DBCFG[DBprefix]tema as tema,
-	$DBCFG[DBprefix]config as c
-	where
-	tema.tema_id='$tema_id'
-	and c.id=tema.tesauro_id
-	$where"
+    tema.code,
+    tema.tema titTema,
+    tema.tema,
+    tema.estado_id,
+    tema.cuando_estado,
+    tema.cuando,
+    tema.cuando_final,
+    tema.isMetaTerm,
+    c.idioma,
+    c.titulo
+    from $DBCFG[DBprefix]tema as tema,
+    $DBCFG[DBprefix]config as c
+    where
+    tema.tema_id='$tema_id'
+    and c.id=tema.tesauro_id
+    $where"
     );
 
     return $sql->FetchRow();
@@ -480,13 +484,13 @@ function ARRAYdatosNota($idNota)
     $sql=SQL(
         "select",
         "notas.id as idNota, notas.tipo_nota,notas.nota,notas.lang_nota,
-	tema.tema_id as idTema,tema.tema,
-	s.src_id,s.src_alias,s.src_note,s.src_url,s.src_uri,s.create_date as src_date,s.mod_date as src_mod_date
-	from $DBCFG[DBprefix]tema as tema,$DBCFG[DBprefix]notas as notas
-	left join $DBCFG[DBprefix]sources s on s.src_id=notas.src_id
-	where
-	notas.id_tema=tema.tema_id
-	and notas.id='$idNota'"
+    tema.tema_id as idTema,tema.tema,
+    s.src_id,s.src_alias,s.src_note,s.src_url,s.src_uri,s.create_date as src_date,s.mod_date as src_mod_date
+    from $DBCFG[DBprefix]tema as tema,$DBCFG[DBprefix]notas as notas
+    left join $DBCFG[DBprefix]sources s on s.src_id=notas.src_id
+    where
+    notas.id_tema=tema.tema_id
+    and notas.id='$idNota'"
     );
 
     return $sql->FetchRow();
@@ -524,18 +528,18 @@ function SQLdatosTerminoNotas($tema_id, $array_tipo_nota = array())
     return SQL(
         "select",
         "notas.id as nota_id, notas.tipo_nota,notas.nota,notas.lang_nota,notas.cuando,
-	tema.tema_id as tema_id,tema.tema,tema.estado_id,tema.cuando_estado,tema.isMetaTerm,
-	v.value as ntype, v.value_code as ntype_code,v.value_id as ntype_id,
-	u.id as user_id,u.nombres,u.apellido
-	from $DBCFG[DBprefix]values as v,$DBCFG[DBprefix]notas as notas,$DBCFG[DBprefix]tema as tema,$DBCFG[DBprefix]usuario as u
-	where
-	notas.id_tema=tema.tema_id
-	and notas.tipo_nota=v.value_code
-	and v.value_type='t_nota'
-	and tema.tema_id='$tema_id'
-	and u.id=notas.uid
-	$where
-	order by v.value_order,notas.tipo_nota,notas.cuando"
+    tema.tema_id as tema_id,tema.tema,tema.estado_id,tema.cuando_estado,tema.isMetaTerm,
+    v.value as ntype, v.value_code as ntype_code,v.value_id as ntype_id,
+    u.id as user_id,u.nombres,u.apellido
+    from $DBCFG[DBprefix]values as v,$DBCFG[DBprefix]notas as notas,$DBCFG[DBprefix]tema as tema,$DBCFG[DBprefix]usuario as u
+    where
+    notas.id_tema=tema.tema_id
+    and notas.tipo_nota=v.value_code
+    and v.value_type='t_nota'
+    and tema.tema_id='$tema_id'
+    and u.id=notas.uid
+    $where
+    order by v.value_order,notas.tipo_nota,notas.cuando"
     );
 };
 
@@ -557,22 +561,22 @@ function SQLbuscaTR($tema_id, $string)
     return SQL(
         "select",
         "if(terminosUP.id is not null,terminosUP.id_menor,tema.tema_id) as tema_id,tema.cuando,
-	tema.tema,
-	tema.isMetaTerm,
-	relaciones.id as idRel
-	FROM $DBCFG[DBprefix]tema as tema
-	left join $DBCFG[DBprefix]tabla_rel as terminosUP on terminosUP.id_mayor=tema.tema_id
-	and terminosUP.t_relacion='4'
-	left join $DBCFG[DBprefix]tabla_rel as relaciones on '$tema_id' in (relaciones.id_menor,relaciones.id_mayor)
-	and tema.tema_id in (relaciones.id_menor,relaciones.id_mayor)
-	WHERE tema.tema
-	LIKE $string
-	and tema.tema_id!= '$tema_id'
-	and tema.estado_id='13'
-	and tema.tesauro_id= '$_SESSION[id_tesa]'
-	and relaciones.id is null
-	and terminosUP.id is null
-	ORDER BY lower(tema.tema)"
+    tema.tema,
+    tema.isMetaTerm,
+    relaciones.id as idRel
+    FROM $DBCFG[DBprefix]tema as tema
+    left join $DBCFG[DBprefix]tabla_rel as terminosUP on terminosUP.id_mayor=tema.tema_id
+    and terminosUP.t_relacion='4'
+    left join $DBCFG[DBprefix]tabla_rel as relaciones on '$tema_id' in (relaciones.id_menor,relaciones.id_mayor)
+    and tema.tema_id in (relaciones.id_menor,relaciones.id_mayor)
+    WHERE tema.tema
+    LIKE $string
+    and tema.tema_id!= '$tema_id'
+    and tema.estado_id='13'
+    and tema.tesauro_id= '$_SESSION[id_tesa]'
+    and relaciones.id is null
+    and terminosUP.id is null
+    ORDER BY lower(tema.tema)"
     );
 };
 
@@ -594,18 +598,18 @@ function fetchTermId2RT($string, $tema_id)
     $sql=SQL(
         "select",
         "if(terminosUP.id is not null,terminosUP.id_menor,tema.tema_id) as tema_id,tema.tema,tema.isMetaTerm
-	FROM $DBCFG[DBprefix]tema as tema
-	left join $DBCFG[DBprefix]tabla_rel as terminosUP on terminosUP.id_mayor=tema.tema_id
-	and terminosUP.t_relacion='4'
-	left join $DBCFG[DBprefix]tabla_rel as terminosTG on '$tema_id' in (terminosTG.id_menor,terminosTG.id_mayor)
-	and tema.tema_id in (terminosTG.id_menor,terminosTG.id_mayor)
-	and terminosTG.t_relacion='3'
-	WHERE tema.tema=$string
-	and tema.tema_id!= '$tema_id'
-	and tema.estado_id='13'
-	and tema.tesauro_id= '$thes_id'
-	and terminosTG.id is null
-	and terminosUP.id is null"
+    FROM $DBCFG[DBprefix]tema as tema
+    left join $DBCFG[DBprefix]tabla_rel as terminosUP on terminosUP.id_mayor=tema.tema_id
+    and terminosUP.t_relacion='4'
+    left join $DBCFG[DBprefix]tabla_rel as terminosTG on '$tema_id' in (terminosTG.id_menor,terminosTG.id_mayor)
+    and tema.tema_id in (terminosTG.id_menor,terminosTG.id_mayor)
+    and terminosTG.t_relacion='3'
+    WHERE tema.tema=$string
+    and tema.tema_id!= '$tema_id'
+    and tema.estado_id='13'
+    and tema.tesauro_id= '$thes_id'
+    and terminosTG.id is null
+    and terminosUP.id is null"
     );
 
     return $sql->FetchRow();
@@ -627,28 +631,28 @@ function ARRAYverDatosTermino($tema_id)
     $sql=SQL(
         "select",
         "tema.tema_id as idTema,
-	tema.code,
-	tema.tema,
-	tema.tema_hash,
-	if(relaciones.id is null,'TT','PT') as tipo_termino,
-	tema.cuando,
-	tema.uid,
-	tema.cuando_final,
-	tema.uid_final,
-	tema.isMetaTerm,
-	relaciones.id_mayor,
-	tema.estado_id,
-	v.value_code as estado_code,
-	tema.cuando_estado,
-	c.idioma
-	from $DBCFG[DBprefix]values v,$DBCFG[DBprefix]config c, $DBCFG[DBprefix]tema as tema
-	left join $DBCFG[DBprefix]tabla_rel as relaciones on tema.tema_id=relaciones.id_menor
-	and relaciones.t_relacion='3'
-	where
-	tema.tema_id='$tema_id'
-	and v.value_type='t_estado'
-	and tema.tesauro_id=c.id
-	and v.value_id=tema.estado_id"
+    tema.code,
+    tema.tema,
+    tema.tema_hash,
+    if(relaciones.id is null,'TT','PT') as tipo_termino,
+    tema.cuando,
+    tema.uid,
+    tema.cuando_final,
+    tema.uid_final,
+    tema.isMetaTerm,
+    relaciones.id_mayor,
+    tema.estado_id,
+    v.value_code as estado_code,
+    tema.cuando_estado,
+    c.idioma
+    from $DBCFG[DBprefix]values v,$DBCFG[DBprefix]config c, $DBCFG[DBprefix]tema as tema
+    left join $DBCFG[DBprefix]tabla_rel as relaciones on tema.tema_id=relaciones.id_menor
+    and relaciones.t_relacion='3'
+    where
+    tema.tema_id='$tema_id'
+    and v.value_type='t_estado'
+    and tema.tesauro_id=c.id
+    and v.value_id=tema.estado_id"
     );
 
     if(!is_object($sql)) return false;
@@ -682,7 +686,7 @@ function ARRAYverDatosTermino($tema_id)
 
     if(is_object($sqlNotas))
     {
-    	while ($array=$sqlNotas->FetchRow()) {
+        while ($array=$sqlNotas->FetchRow()) {
             array_push(
                 $arrayNotas,
                 array(
@@ -696,7 +700,7 @@ function ARRAYverDatosTermino($tema_id)
                 "user_id"=>$array["user_id"],
                 "nota"=>$array["nota"])
             );
-    	};
+        };
     }
 
     $arrayDatos["notas"]=$arrayNotas;
@@ -720,30 +724,30 @@ function SQLverTerminoRelaciones($tema_id)
     return SQL(
         "select",
         "r.t_relacion,
-		BT.tema_id as tema_id,
-		BT.tema,
-		BT.code,
-		BT.cuando as t1_cuando,
-		tema.tema_id as id_tema,
-		tema.isMetaTerm,
-		BT.isMetaTerm as BT_isMetaTerm,
-		r.id as id_relacion,
-		c.titulo,c.autor,c.idioma,
-		r.id as rel_id,
-		r.rel_rel_id,
-		trr.value as rr_value,
-		trr.value_code as rr_code
-		from $DBCFG[DBprefix]config c,
-		$DBCFG[DBprefix]tema as tema,
-		$DBCFG[DBprefix]tema as BT,
-		$DBCFG[DBprefix]tabla_rel as r
-		left join $DBCFG[DBprefix]values trr on trr.value_id=r.rel_rel_id
-		where
-		r.id_menor=tema.tema_id
-		and r.id_menor='$tema_id'
-		and BT.tema_id=r.id_mayor
-		and c.id=BT.tesauro_id
-		order by r.t_relacion,lower(BT.code),trr.value_order,lower(BT.tema)"
+        BT.tema_id as tema_id,
+        BT.tema,
+        BT.code,
+        BT.cuando as t1_cuando,
+        tema.tema_id as id_tema,
+        tema.isMetaTerm,
+        BT.isMetaTerm as BT_isMetaTerm,
+        r.id as id_relacion,
+        c.titulo,c.autor,c.idioma,
+        r.id as rel_id,
+        r.rel_rel_id,
+        trr.value as rr_value,
+        trr.value_code as rr_code
+        from $DBCFG[DBprefix]config c,
+        $DBCFG[DBprefix]tema as tema,
+        $DBCFG[DBprefix]tema as BT,
+        $DBCFG[DBprefix]tabla_rel as r
+        left join $DBCFG[DBprefix]values trr on trr.value_id=r.rel_rel_id
+        where
+        r.id_menor=tema.tema_id
+        and r.id_menor='$tema_id'
+        and BT.tema_id=r.id_mayor
+        and c.id=BT.tesauro_id
+        order by r.t_relacion,lower(BT.code),trr.value_order,lower(BT.tema)"
     );
 };
 
@@ -763,7 +767,7 @@ function SQLdirectTerms($tema_id)
     return SQL(
         "select",
         "if(uf.tema_id is not null,0,if(bt.tema_id is not null,1,if(nt.tema_id is not null,2,3))) as rel_order,
-	uf.tema_id as uf_tema_id,uf.code as uf_code,uf.tema as uf_tema,uf.isMetaTerm as uf_isMetaTerm,
+    uf.tema_id as uf_tema_id,uf.code as uf_code,uf.tema as uf_tema,uf.isMetaTerm as uf_isMetaTerm,
 nt.tema_id as nt_tema_id,nt.code as nt_code,nt.tema as nt_tema,nt.isMetaTerm as nt_isMetaTerm,
 bt.tema_id as bt_tema_id,bt.code as bt_code,bt.tema as bt_tema,bt.isMetaTerm as bt_isMetaTerm,
 rt.tema_id as rt_tema_id,rt.code as rt_code,rt.tema as rt_tema,rt.isMetaTerm as rt_isMetaTerm,
@@ -797,18 +801,18 @@ function SQLTerminoRelacionesIDs($tema_id = "")
     $sql=SQL(
         "select",
         "t1.tema_id as id1,
-		t1.tema as tema1,
-		t2.tema_id as id2,
-		t2.tema as t2,
-		rel.t_relacion
-		FROM
-		$DBCFG[DBprefix]tema t1,$DBCFG[DBprefix]tema t2,$DBCFG[DBprefix]tabla_rel rel
-		where t1.tema_id=rel.id_mayor
-		and t2.tema_id=rel.id_menor
-		and rel.t_relacion in(2,3,4)
-		$where
-		group by id1,id2
-		order by t1.tema_id,rel.t_relacion"
+        t1.tema as tema1,
+        t2.tema_id as id2,
+        t2.tema as t2,
+        rel.t_relacion
+        FROM
+        $DBCFG[DBprefix]tema t1,$DBCFG[DBprefix]tema t2,$DBCFG[DBprefix]tabla_rel rel
+        where t1.tema_id=rel.id_mayor
+        and t2.tema_id=rel.id_menor
+        and rel.t_relacion in(2,3,4)
+        $where
+        group by id1,id2
+        order by t1.tema_id,rel.t_relacion"
     );
 
     return $sql;
@@ -827,16 +831,16 @@ function SQLverTerminoRelacionesTipo($tema_id)
     $sql=SQL(
         "select",
         "relaciones.t_relacion,BT.tema_id as id_tema,BT.tema,
-		relaciones.id as id_relacion,if(tipo_term.id is null,'TT','PT') as tipo_termino,
-		BT.isMetaTerm
-		from $DBCFG[DBprefix]tema as tema,$DBCFG[DBprefix]tabla_rel as relaciones,$DBCFG[DBprefix]tema as BT
-		left join $DBCFG[DBprefix]tabla_rel as tipo_term on tipo_term.id_menor=BT.tema_id
-		where
-		relaciones.id_menor=tema.tema_id
-		and relaciones.id_menor='$tema_id'
-		and BT.tema_id=relaciones.id_mayor
-		group by BT.tema_id
-		order by relaciones.t_relacion"
+        relaciones.id as id_relacion,if(tipo_term.id is null,'TT','PT') as tipo_termino,
+        BT.isMetaTerm
+        from $DBCFG[DBprefix]tema as tema,$DBCFG[DBprefix]tabla_rel as relaciones,$DBCFG[DBprefix]tema as BT
+        left join $DBCFG[DBprefix]tabla_rel as tipo_term on tipo_term.id_menor=BT.tema_id
+        where
+        relaciones.id_menor=tema.tema_id
+        and relaciones.id_menor='$tema_id'
+        and BT.tema_id=relaciones.id_mayor
+        group by BT.tema_id
+        order by relaciones.t_relacion"
     );
 
     return $sql;
@@ -845,7 +849,7 @@ function SQLverTerminoRelacionesTipo($tema_id)
 
     /*
     Buscador de términos aceptados UF,TR y TG directo de tema_id == retrive accepted UF,TR and direct TG for tema_id
-    * Changelog v 1.1: no traÃ­a los tema_id que están a la derecha de tabla_rel
+    * Changelog v 1.1: no traé a los tema_id que están a la derecha de tabla_rel
     */
 function SQLterminosDirectos($tema_id)
 {
@@ -858,21 +862,21 @@ function SQLterminosDirectos($tema_id)
     return SQL(
         "select",
         "if(t1.tema_id='$tema_id',t2.tema_id,t1.tema_id) as tema_id,
-		if(t1.tema_id='$tema_id',t2.tema,t1.tema) as tema,
-		if(t1.tema_id='$tema_id',t2.isMetaTerm,t1.isMetaTerm) as isMetaTerm,
-		rel.t_relacion
-		FROM
-		$DBCFG[DBprefix]tabla_rel rel
-		left join $DBCFG[DBprefix]tema t1 on t1.tema_id=rel.id_menor
-		left join $DBCFG[DBprefix]tema t2 on t2.tema_id=rel.id_mayor
-		where
-		rel.t_relacion in(2,3,4)
-		and '$tema_id' in (rel.id_mayor,rel.id_menor)
-		and rel.t_relacion in(2,3,4)
-		and t1.estado_id='13'
-		and t2.estado_id='13'
-		group by t1.tema_id,t2.tema_id
-		order by rel.t_relacion,lower(t1.tema)"
+        if(t1.tema_id='$tema_id',t2.tema,t1.tema) as tema,
+        if(t1.tema_id='$tema_id',t2.isMetaTerm,t1.isMetaTerm) as isMetaTerm,
+        rel.t_relacion
+        FROM
+        $DBCFG[DBprefix]tabla_rel rel
+        left join $DBCFG[DBprefix]tema t1 on t1.tema_id=rel.id_menor
+        left join $DBCFG[DBprefix]tema t2 on t2.tema_id=rel.id_mayor
+        where
+        rel.t_relacion in(2,3,4)
+        and '$tema_id' in (rel.id_mayor,rel.id_menor)
+        and rel.t_relacion in(2,3,4)
+        and t1.estado_id='13'
+        and t2.estado_id='13'
+        group by t1.tema_id,t2.tema_id
+        order by rel.t_relacion,lower(t1.tema)"
     );
 };
 
@@ -890,8 +894,8 @@ function SQLlistaTemas($top_term_id = "0")
     if ($top_term_id>0) {
         $size_i=strlen($top_term_id)+2;
         $from="$DBCFG[DBprefix]indice tti,";
-        $where="	and tema.tema_id=tti.tema_id";
-        $where.="	and left(tti.indice,$size_i)='|$top_term_id|'";
+        $where="    and tema.tema_id=tti.tema_id";
+        $where.="    and left(tti.indice,$size_i)='|$top_term_id|'";
     }
     //Control de estados
     // (!$_SESSION[$_SESSION["CFGURL"]]["ssuser_id"]) ? $where=" where tema.estado_id='13' " : $where="";
@@ -899,13 +903,13 @@ function SQLlistaTemas($top_term_id = "0")
     $sql=SQL(
         "select",
         "tema.tema_id as id,tema.tema,tema.code,tema.cuando,tema.uid,tema.cuando_final,tema.isMetaTerm,r.t_relacion,r.id_menor as tema_id_referido
-		from $from $DBCFG[DBprefix]tema as tema
-		left join $DBCFG[DBprefix]tabla_rel as r on tema.tema_id = r.id_mayor
-		and r.t_relacion in (4,5,6,7)
-		where tema.estado_id='13'
-		$where
-		group by tema.tema_id
-		order by lower(tema.tema)"
+        from $from $DBCFG[DBprefix]tema as tema
+        left join $DBCFG[DBprefix]tabla_rel as r on tema.tema_id = r.id_mayor
+        and r.t_relacion in (4,5,6,7)
+        where tema.estado_id='13'
+        $where
+        group by tema.tema_id
+        order by lower(tema.tema)"
     );
     return $sql;
 };
@@ -925,23 +929,25 @@ function SQLterm2down($term_id)
     $sql=SQL(
         "select",
         "tema.tema_id as id,tema.tema,tema.code,tema.cuando,tema.uid,tema.cuando_final,tema.isMetaTerm,r.t_relacion,r.id_menor as tema_id_referido
-		from $DBCFG[DBprefix]indice tti, $DBCFG[DBprefix]tema as tema
-		left join $DBCFG[DBprefix]tabla_rel as r on tema.tema_id = r.id_mayor
-		and r.t_relacion in (4,5,6,7)
-		where tema.estado_id='13'
-		and tema.tema_id=tti.tema_id
-		$where
-		group by tema.tema_id
-		order by lower(tema.tema)"
+        from $DBCFG[DBprefix]indice tti, $DBCFG[DBprefix]tema as tema
+        left join $DBCFG[DBprefix]tabla_rel as r on tema.tema_id = r.id_mayor
+        and r.t_relacion in (4,5,6,7)
+        where tema.estado_id='13'
+        and tema.tema_id=tti.tema_id
+        $where
+        group by tema.tema_id
+        order by lower(tema.tema)"
     );
     return $sql;
 };
 
 
 
-    //
-    // TERMINOS TOPES
-    //
+/** 
+ * List of top terms
+ * 
+ * @return object
+ */
 function SQLverTopTerm()
 {
     global $DBCFG;
@@ -952,19 +958,19 @@ function SQLverTopTerm()
     $sql=SQL(
         "select",
         "TT.tema_id as id,TT.tema,TT.code,TT.tema_id,TT.isMetaTerm,c.idioma,c.titulo
-		from $DBCFG[DBprefix]tabla_rel as relaciones,
-		$DBCFG[DBprefix]config as c,
-		$DBCFG[DBprefix]tema as TT
-		left join $DBCFG[DBprefix]tabla_rel as no_menor on no_menor.id_menor=TT.tema_id
-		and no_menor.t_relacion='3'
-		where
-		TT.tema_id=relaciones.id_mayor
-		$where
-		and relaciones.t_relacion='3'
-		and no_menor.id is null
-		and c.id=TT.tesauro_id
-		group by TT.tema_id
-		order by lower(TT.code),lower(TT.tema)"
+        from $DBCFG[DBprefix]tabla_rel as relaciones,
+        $DBCFG[DBprefix]config as c,
+        $DBCFG[DBprefix]tema as TT
+        left join $DBCFG[DBprefix]tabla_rel as no_menor on no_menor.id_menor=TT.tema_id
+        and no_menor.t_relacion='3'
+        where
+        TT.tema_id=relaciones.id_mayor
+        $where
+        and relaciones.t_relacion='3'
+        and no_menor.id is null
+        and c.id=TT.tesauro_id
+        group by TT.tema_id
+        order by lower(TT.code),lower(TT.tema)"
     );
     return $sql;
 };
@@ -993,16 +999,16 @@ function SQLverTerminosLibres($tema_id = 0)
     $sql=SQL(
         "select",
         "TT.tema_id, $show_code TT.tema,TT.estado_id,TT.cuando,TT.isMetaTerm
-		from $DBCFG[DBprefix]tema as TT
-		left join $DBCFG[DBprefix]tabla_rel as no_menor on no_menor.id_menor=TT.tema_id
-		left join $DBCFG[DBprefix]tabla_rel as no_mayor on no_mayor.id_mayor=TT.tema_id
-		where
-		no_menor.id is null
-		and no_mayor.id is null
-		and TT.estado_id='13'
-		and TT.tesauro_id='$thes_id'
-		$where
-		order by lower(TT.tema)"
+        from $DBCFG[DBprefix]tema as TT
+        left join $DBCFG[DBprefix]tabla_rel as no_menor on no_menor.id_menor=TT.tema_id
+        left join $DBCFG[DBprefix]tabla_rel as no_mayor on no_mayor.id_mayor=TT.tema_id
+        where
+        no_menor.id is null
+        and no_mayor.id is null
+        and TT.estado_id='13'
+        and TT.tesauro_id='$thes_id'
+        $where
+        order by lower(TT.tema)"
     );
     return $sql;
 };
@@ -1025,14 +1031,14 @@ function SQLcheckFreeTerm($tema_id)
     $sql=SQL(
         "select",
         "TT.tema_id, $show_code TT.tema,TT.estado_id,TT.cuando,TT.isMetaTerm
-		from $DBCFG[DBprefix]tema as TT
-		left join $DBCFG[DBprefix]tabla_rel as no_menor on no_menor.id_menor=TT.tema_id
-		left join $DBCFG[DBprefix]tabla_rel as no_mayor on no_mayor.id_mayor=TT.tema_id
-		where
-		no_menor.id is null
-		and no_mayor.id is null
-		and TT.tema_id='$tema_id'
-		order by lower(TT.tema)"
+        from $DBCFG[DBprefix]tema as TT
+        left join $DBCFG[DBprefix]tabla_rel as no_menor on no_menor.id_menor=TT.tema_id
+        left join $DBCFG[DBprefix]tabla_rel as no_mayor on no_mayor.id_mayor=TT.tema_id
+        where
+        no_menor.id is null
+        and no_mayor.id is null
+        and TT.tema_id='$tema_id'
+        order by lower(TT.tema)"
     );
     return $sql;
 };
@@ -1048,13 +1054,13 @@ function SQLverTerminosRepetidos($tesauro_id = 1)
     $sql=SQL(
         "select",
         "tema.tema as string_term,count(*) as cant,tema2.tema,tema2.tema_id,tema2.isMetaTerm
-		from $DBCFG[DBprefix]tema as tema, $DBCFG[DBprefix]tema as tema2
-		where tema2.tema=tema.tema
-		and tema.tesauro_id='$tesauro_id'
-		and tema2.tesauro_id='$tesauro_id'
-		group by tema.tema,tema2.tema_id
-		having cant >1
-		order by cant desc,lower(tema.tema),tema2.isMetaTerm"
+        from $DBCFG[DBprefix]tema as tema, $DBCFG[DBprefix]tema as tema2
+        where tema2.tema=tema.tema
+        and tema.tesauro_id='$tesauro_id'
+        and tema2.tesauro_id='$tesauro_id'
+        group by tema.tema,tema2.tema_id
+        having cant >1
+        order by cant desc,lower(tema.tema),tema2.isMetaTerm"
     );
     return $sql;
 };
@@ -1070,18 +1076,18 @@ function SQLverTerminosRepetidosSimple($tesauro_id = 1)
     return SQL(
         "select",
         "tema.tema as string_term,count(*) as occurrences
-		from $DBCFG[DBprefix]tema as tema
-		where tema.tesauro_id='$tesauro_id'
-#		and tema.isMetaTerm=0
-		group by tema.tema
-		having cant_occur >1
-		order by cant_occur desc,lower(tema.tema)"
+        from $DBCFG[DBprefix]tema as tema
+        where tema.tesauro_id='$tesauro_id'
+#        and tema.isMetaTerm=0
+        group by tema.tema
+        having cant_occur >1
+        order by cant_occur desc,lower(tema.tema)"
     );
 };
 
 
     //
-    // BUSCADOR DE TERMINOS especÃ­ficos de un término general
+    // BUSCADOR DE TERMINOS específicos de un término general
     //
 function SQLverTerminosE($tema_id)
 {
@@ -1098,26 +1104,26 @@ function SQLverTerminosE($tema_id)
     $sql=SQL(
         "select",
         "tema.tema_id,tema.tema_id as id_tema,
-		tema.code,
-		tema.tema,
-		tema.isMetaTerm,
-		relaciones.id as id_relacion,
-		relaciones.id as rel_id,
-		rel_abajo.id as id_te,
-		relaciones.t_relacion,
-		trr.value_id as rr_id,
-		trr.value_code as rr_code,
-		trr.value as rr_value
-		from $DBCFG[DBprefix]tema as tema,$DBCFG[DBprefix]tabla_rel as relaciones
-		left join $DBCFG[DBprefix]tabla_rel as rel_abajo on rel_abajo.id_mayor=relaciones.id_menor
-		and rel_abajo.t_relacion='3'
-		left join $DBCFG[DBprefix]values trr on trr.value_id=relaciones.rel_rel_id
-		where relaciones.t_relacion='3'
-		and relaciones.id_mayor='$tema_id'
-		and relaciones.id_menor=tema.tema_id
-		$where
-		group by tema.tema_id
-		order by $orderBy trr.value_order,lower(tema.tema)"
+        tema.code,
+        tema.tema,
+        tema.isMetaTerm,
+        relaciones.id as id_relacion,
+        relaciones.id as rel_id,
+        rel_abajo.id as id_te,
+        relaciones.t_relacion,
+        trr.value_id as rr_id,
+        trr.value_code as rr_code,
+        trr.value as rr_value
+        from $DBCFG[DBprefix]tema as tema,$DBCFG[DBprefix]tabla_rel as relaciones
+        left join $DBCFG[DBprefix]tabla_rel as rel_abajo on rel_abajo.id_mayor=relaciones.id_menor
+        and rel_abajo.t_relacion='3'
+        left join $DBCFG[DBprefix]values trr on trr.value_id=relaciones.rel_rel_id
+        where relaciones.t_relacion='3'
+        and relaciones.id_mayor='$tema_id'
+        and relaciones.id_menor=tema.tema_id
+        $where
+        group by tema.tema_id
+        order by $orderBy trr.value_order,lower(tema.tema)"
     );
     return $sql;
 };
@@ -1152,13 +1158,13 @@ function SQLlistaABC($letra = "")
     return SQL(
         "select",
         "ucase(LEFT(tema.tema,1)) as letra_orden,
-		if(LEFT(tema.tema,1)=$letra, 1,0) as letra
-		from $DBCFG[DBprefix]tema as tema
-		left join $DBCFG[DBprefix]tabla_rel as relaciones on relaciones.id_mayor=tema.tema_id
-		$leftJoin
-		$where
-		group by letra_orden
-		order by letra_orden"
+        if(LEFT(tema.tema,1)=$letra, 1,0) as letra
+        from $DBCFG[DBprefix]tema as tema
+        left join $DBCFG[DBprefix]tabla_rel as relaciones on relaciones.id_mayor=tema.tema_id
+        $leftJoin
+        $where
+        group by letra_orden
+        order by letra_orden"
     );
     ;
 };
@@ -1185,8 +1191,8 @@ function SQLterms4char($letra, $top_term_id = 0)
     if ($top_term_id>0) {
         $size_i=strlen($top_term_id)+2;
         $from="$DBCFG[DBprefix]indice tti,";
-        $where="	and tema.tema_id=tti.tema_id";
-        $where.="	and left(tti.indice,$size_i)='|$top_term_id|'";
+        $where="    and tema.tema_id=tti.tema_id";
+        $where.="    and left(tti.indice,$size_i)='|$top_term_id|'";
     }
 
     //hide hidden equivalent terms
@@ -1200,25 +1206,25 @@ function SQLterms4char($letra, $top_term_id = 0)
     $sql=SQL(
         "select",
         "if(relaciones.id is not null,relaciones.id_menor,tema.tema_id) id_definitivo,
-	tema.tema_id,
-	tema.tema,
-	tema.cuando,
-	tema.cuando_final,
-	tema.estado_id,
-	tema.isMetaTerm,
-	relaciones.t_relacion,
-	temasPreferidos.tema as termino_preferido
-	from $from $DBCFG[DBprefix]tema as tema
-	left join $DBCFG[DBprefix]tabla_rel as relaciones on relaciones.id_mayor=tema.tema_id and relaciones.t_relacion in (4,5,6,7)
-	left join $DBCFG[DBprefix]tema as temasPreferidos on temasPreferidos.tema_id=relaciones.id_menor
-	and tema.tema_id=relaciones.id_mayor
-	$leftJoin
-	where
-	$where_letter
-	$where
-	and tema.estado_id='13'
-	group by tema.tema_id
-	order by lower(tema.tema)"
+    tema.tema_id,
+    tema.tema,
+    tema.cuando,
+    tema.cuando_final,
+    tema.estado_id,
+    tema.isMetaTerm,
+    relaciones.t_relacion,
+    temasPreferidos.tema as termino_preferido
+    from $from $DBCFG[DBprefix]tema as tema
+    left join $DBCFG[DBprefix]tabla_rel as relaciones on relaciones.id_mayor=tema.tema_id and relaciones.t_relacion in (4,5,6,7)
+    left join $DBCFG[DBprefix]tema as temasPreferidos on temasPreferidos.tema_id=relaciones.id_menor
+    and tema.tema_id=relaciones.id_mayor
+    $leftJoin
+    where
+    $where_letter
+    $where
+    and tema.estado_id='13'
+    group by tema.tema_id
+    order by lower(tema.tema)"
     );
 
     return $sql;
@@ -1264,23 +1270,23 @@ function SQLmenuABCpages($letra, $args = '')
     $sql=SQL(
         "select",
         "if(relaciones.id is not null,relaciones.id_menor,tema.tema_id) id_definitivo,
-	tema.tema_id,
-	tema.tema,
-	tema.estado_id,
-	tema.isMetaTerm,
-	relaciones.t_relacion,
-	temasPreferidos.tema as termino_preferido
-	from $DBCFG[DBprefix]tema as tema
-	left join $DBCFG[DBprefix]tabla_rel as relaciones on relaciones.id_mayor=tema.tema_id and relaciones.t_relacion in (4,5,6,7)
-	left join $DBCFG[DBprefix]tema as temasPreferidos on temasPreferidos.tema_id=relaciones.id_menor
-	and tema.tema_id=relaciones.id_mayor
-	$leftJoin
-	where
-	$where_letter
-	$where
-	group by tema.tema_id
-	order by lower(tema.tema)
-	limit $min,$limit"
+    tema.tema_id,
+    tema.tema,
+    tema.estado_id,
+    tema.isMetaTerm,
+    relaciones.t_relacion,
+    temasPreferidos.tema as termino_preferido
+    from $DBCFG[DBprefix]tema as tema
+    left join $DBCFG[DBprefix]tabla_rel as relaciones on relaciones.id_mayor=tema.tema_id and relaciones.t_relacion in (4,5,6,7)
+    left join $DBCFG[DBprefix]tema as temasPreferidos on temasPreferidos.tema_id=relaciones.id_menor
+    and tema.tema_id=relaciones.id_mayor
+    $leftJoin
+    where
+    $where_letter
+    $where
+    group by tema.tema_id
+    order by lower(tema.tema)
+    limit $min,$limit"
     );
 
     return $sql;
@@ -1305,10 +1311,10 @@ function numTerms2Letter($letra)
     $sql=SQL(
         "select",
         "count(*) as cant
-	from $DBCFG[DBprefix]tema as tema
-	where
-	$where_letter
-	$where"
+    from $DBCFG[DBprefix]tema as tema
+    where
+    $where_letter
+    $where"
     );
 
     if (is_object($sql)) {
@@ -1339,25 +1345,28 @@ function SQLbuscaTerminosSimple($string, $limit = "20")
     return SQL(
         "select",
         "t.tema_id,
-	t.tema,
-	r.t_relacion
-	from $DBCFG[DBprefix]tema as t
-	left join $DBCFG[DBprefix]tabla_rel as r on t.tema_id=r.id_mayor
-	and r.t_relacion='4'
-	where
-	t.tema like $string
-	$where
-	group by t.tema
-	order by lower(t.tema)
-	limit 0,$limit"
+    t.tema,
+    r.t_relacion
+    from $DBCFG[DBprefix]tema as t
+    left join $DBCFG[DBprefix]tabla_rel as r on t.tema_id=r.id_mayor
+    and r.t_relacion='4'
+    where
+    t.tema like $string
+    $where
+    group by t.tema
+    order by lower(t.tema)
+    limit 0,$limit"
     );
     return $sql;
 };
 
 
-//
-// Lista de Ids de términos válidos y aceptados (sin UF ni términos libres)
-//
+
+/** 
+ * Lista de Ids de términos válidos y aceptados (sin UF ni términos libres)
+ * 
+ * @return object
+ */
 function SQLIdTerminosValidos()
 {
     global $DBCFG;
@@ -1367,15 +1376,15 @@ function SQLIdTerminosValidos()
     $sql=SQL(
         "select",
         "tema.tema_id as id,tema.cuando,tema.uid,tema.cuando_final,tema.isMetaTerm
-	from $DBCFG[DBprefix]tema as tema
-	left join $DBCFG[DBprefix]tabla_rel as relaciones on tema.tema_id =relaciones.id_mayor
-	and relaciones.t_relacion='4'
-	where
-	relaciones.id is null
-	and tema.tesauro_id='$thes_id'
-	and tema.estado_id='13'
-	group by tema.tema_id
-	order by lower(tema.tema)"
+    from $DBCFG[DBprefix]tema as tema
+    left join $DBCFG[DBprefix]tabla_rel as relaciones on tema.tema_id =relaciones.id_mayor
+    and relaciones.t_relacion='4'
+    where
+    relaciones.id is null
+    and tema.tesauro_id='$thes_id'
+    and tema.estado_id='13'
+    group by tema.tema_id
+    order by lower(tema.tema)"
     );
 
     return $sql;
@@ -1402,22 +1411,23 @@ function SQLTerminosValidos($tema_id = "")
     $sql=SQL(
         "SELECT",
         "tema.tema_id as id,tema.tema,tema.cuando,tema.uid,tema.cuando_final,tema.isMetaTerm
-	from $DBCFG[DBprefix]tema as tema,$DBCFG[DBprefix]tabla_rel as relaciones
-	where
-	tema.tema_id in (relaciones.id_menor,relaciones.id_mayor)
-	and relaciones.t_relacion!='4'
-	$where
-	group by tema.tema_id
-	order by $orderBy lower(tema.tema)"
+    from $DBCFG[DBprefix]tema as tema,$DBCFG[DBprefix]tabla_rel as relaciones
+    where
+    tema.tema_id in (relaciones.id_menor,relaciones.id_mayor)
+    and relaciones.t_relacion!='4'
+    $where
+    group by tema.tema_id
+    order by $orderBy lower(tema.tema)"
     );
     return $sql;
 };
 
 
-
-//
-// Lista de Ids de términos válidos y aceptados (sin UF ni términos libres) y con TE
-//
+/** 
+ * Lista de Ids de términos válidos y aceptados (sin UF ni términos libres) y con TE
+ * 
+ * @return object
+ */
 function SQLIdTerminosIndice()
 {
     global $DBCFG;
@@ -1428,10 +1438,10 @@ function SQLIdTerminosIndice()
     $sql=SQL(
         "SELECT",
         "t.tema_id as id,t.tema_id as tema_id,t.cuando,t.uid,t.cuando_final,t.isMetaTerm,i.indice
-	from $DBCFG[DBprefix]tema as t,$DBCFG[DBprefix]indice as i
-	where
-	t.tema_id =i.tema_id
-	$where"
+    from $DBCFG[DBprefix]tema as t,$DBCFG[DBprefix]indice as i
+    where
+    t.tema_id =i.tema_id
+    $where"
     );
     return $sql;
 };
@@ -1440,13 +1450,13 @@ function SQLIdTerminosIndice()
 //
 // Lista de términos válidos (sin UF )
 //
-function SQLTerminosPreferidos($tema_id = "")
+function SQLTerminosPreferidos($tema_id = 0)
 {
     global $DBCFG;
 
     $tema_id=secure_data($tema_id, "int");
 
-    (@$tema_id) ? $where=" and tema.tema_id='$tema_id' " : $where="";
+    $where = ($tema_id>0) ? " and tema.tema_id='$tema_id' " : "";
 
     $tesauro_id= $_SESSION["id_tesa"];
 
@@ -1456,24 +1466,25 @@ function SQLTerminosPreferidos($tema_id = "")
     $sql=SQL(
         "select",
         "tema.tema_id as id,tema.tema,tema.cuando,tema.uid,tema.cuando_final,tema.isMetaTerm
-	from $DBCFG[DBprefix]tema as tema
-	left join $DBCFG[DBprefix]tabla_rel as relaciones on tema.tema_id = relaciones.id_mayor
-	and relaciones.t_relacion='4'
-	where
-	relaciones.id is null
-	and tema.tesauro_id='$tesauro_id'
-	$where
-	group by tema.tema_id
-	order by lower(tema.tema)"
+    from $DBCFG[DBprefix]tema as tema
+    left join $DBCFG[DBprefix]tabla_rel as relaciones on tema.tema_id = relaciones.id_mayor
+    and relaciones.t_relacion='4'
+    where
+    relaciones.id is null
+    and tema.tesauro_id='$tesauro_id'
+    $where
+    group by tema.tema_id
+    order by lower(tema.tema)"
     );
     return $sql;
 };
 
 
-
-//
-// XLS de términos válidos (sin UF )
-//
+/** 
+ * XLS de términos válidos (sin UF )
+ * 
+ * @return object
+ */
 function SQLreportTerminosPreferidos()
 {
     global $DBCFG;
@@ -1483,15 +1494,15 @@ function SQLreportTerminosPreferidos()
     $sql=SQL(
         "select",
         "tema.tema_id as id,tema.tema,tema.cuando,tema.uid,tema.cuando_final,tema.isMetaTerm
-	from $DBCFG[DBprefix]tema as tema
-	left join $DBCFG[DBprefix]tabla_rel as relaciones on tema.tema_id = relaciones.id_mayor
-	and relaciones.t_relacion='4'
-	where
-	relaciones.id is null
-	and tema.tesauro_id='$tesauro_id'
- 	and tema.estado_id='13'
- 	group by tema.tema_id
-	order by lower(tema.tema)"
+    from $DBCFG[DBprefix]tema as tema
+    left join $DBCFG[DBprefix]tabla_rel as relaciones on tema.tema_id = relaciones.id_mayor
+    and relaciones.t_relacion='4'
+    where
+    relaciones.id is null
+    and tema.tesauro_id='$tesauro_id'
+     and tema.estado_id='13'
+     group by tema.tema_id
+    order by lower(tema.tema)"
     );
     return $sql;
 };
@@ -1515,11 +1526,11 @@ function SQLreportAllTerms($vocab_id)
     $sql=SQL(
         "select",
         "tema.tema_id as term_id,tema.tema as term,tema.cuando as created,tema.uid as user_id,tema.cuando_final as modified,tema.isMetaTerm
-	from $DBCFG[DBprefix]tema as tema
-	where
-	tema.tesauro_id='$vocab_id'
- 	and tema.estado_id='13'
-	order by lower(tema.tema)"
+    from $DBCFG[DBprefix]tema as tema
+    where
+    tema.tesauro_id='$vocab_id'
+     and tema.estado_id='13'
+    order by lower(tema.tema)"
     );
     return $sql;
 };
@@ -1548,17 +1559,17 @@ function SQLreportAllRelations($vocab_id)
 if(r.t_relacion=2,'$r2',if(r.t_relacion=3,'$r3','$r4')) as relType,
 v.value_code as relSubType,
 r.uid as user_id,r.cuando as created
-	from $DBCFG[DBprefix]tema as t,
-	$DBCFG[DBprefix]tema as t2,
-	$DBCFG[DBprefix]tabla_rel as r
-	left join $DBCFG[DBprefix]values v on v.value_id=r.rel_rel_id
-	where
-	t.tesauro_id='$vocab_id'
- 	and t.estado_id='13'
- 	and t.tema_id=r.id_mayor
- 	and t2.tema_id=r.id_menor
- 	and r.t_relacion in (2,3,4)
- 	order by r.id desc"
+    from $DBCFG[DBprefix]tema as t,
+    $DBCFG[DBprefix]tema as t2,
+    $DBCFG[DBprefix]tabla_rel as r
+    left join $DBCFG[DBprefix]values v on v.value_id=r.rel_rel_id
+    where
+    t.tesauro_id='$vocab_id'
+     and t.estado_id='13'
+     and t.tema_id=r.id_mayor
+     and t2.tema_id=r.id_menor
+     and r.t_relacion in (2,3,4)
+     order by r.id desc"
     );
 
     return $sql;
@@ -1584,16 +1595,16 @@ function SQLreportAllNotes($vocab_id)
         "t.tema_id as term_id,
 n.id as note_id,n.tipo_nota as note_type,n.lang_nota as note_lang,n.nota as note,
 n.cuando as modified,u.id as user_id, concat(u.apellido,', ',u.nombres) as user
-	from $DBCFG[DBprefix]tema as t,
-	$DBCFG[DBprefix]notas n,
-	$DBCFG[DBprefix]usuario u
-	where
-	t.tesauro_id='$vocab_id'
- 	and t.estado_id='13'
- 	and t.tema_id=n.id_tema
- 	and n.uid=u.id
- 	and tipo_nota!='NP'
- 	order by t.tema_id"
+    from $DBCFG[DBprefix]tema as t,
+    $DBCFG[DBprefix]notas n,
+    $DBCFG[DBprefix]usuario u
+    where
+    t.tesauro_id='$vocab_id'
+     and t.estado_id='13'
+     and t.tema_id=n.id_tema
+     and n.uid=u.id
+     and tipo_nota!='NP'
+     order by t.tema_id"
     );
 
     return $sql;
@@ -1629,17 +1640,17 @@ function SQLlistTermsfromDate($month, $year, $ord = "")
     $sql=SQLo(
         "select",
         "if(relaciones.t_relacion=4,relaciones.id_menor,tema.tema_id) as tema_id,tema.isMetaTerm,
-	if(relaciones.t_relacion=4,concat(tema.tema,' ($codUP)'),tema.tema) as tema,
-	tema.cuando,
-	usuario.id as id_usuario,usuario.apellido,usuario.nombres,usuario.orga
-	from $DBCFG[DBprefix]usuario as usuario,$DBCFG[DBprefix]tema as tema
-	left join $DBCFG[DBprefix]tabla_rel as relaciones on relaciones.id_mayor=tema.tema_id
-	where
-	tema.uid=usuario.id
-	and month(tema.cuando) =?
-	and year(tema.cuando) =?
-	group by tema.tema_id
-	$orderBy",
+    if(relaciones.t_relacion=4,concat(tema.tema,' ($codUP)'),tema.tema) as tema,
+    tema.cuando,
+    usuario.id as id_usuario,usuario.apellido,usuario.nombres,usuario.orga
+    from $DBCFG[DBprefix]usuario as usuario,$DBCFG[DBprefix]tema as tema
+    left join $DBCFG[DBprefix]tabla_rel as relaciones on relaciones.id_mayor=tema.tema_id
+    where
+    tema.uid=usuario.id
+    and month(tema.cuando) =?
+    and year(tema.cuando) =?
+    group by tema.tema_id
+    $orderBy",
         array($month,$year)
     );
 
@@ -1667,18 +1678,18 @@ function SQLlastTerms($limit = "50")
     $sql=SQL(
         "select",
         "c.idioma,if(relaciones.t_relacion=4,relaciones.id_menor,tema.tema_id) as tema_id,tema.code,
-	if(relaciones.t_relacion=4,concat(tema.tema,' ($codUP)'),tema.tema) as tema,
-	tema.cuando,tema.cuando_final,tema.isMetaTerm,
-	if(tema.cuando_final is not null,tema.cuando_final,tema.cuando) as lastdate
-	from $DBCFG[DBprefix]config c, $DBCFG[DBprefix]tema as tema
-	left join $DBCFG[DBprefix]tabla_rel as relaciones on relaciones.id_mayor=tema.tema_id
-	left join $DBCFG[DBprefix]values vrr on relaciones.rel_rel_id = vrr.value_id and vrr.value_code in ($hidden_labels)
-	where c.id=tema.tesauro_id
-	and tema.estado_id='13'
-	and vrr.value_id is null
-	group by tema.tema_id
-	order by lastdate desc
-	limit $limit"
+    if(relaciones.t_relacion=4,concat(tema.tema,' ($codUP)'),tema.tema) as tema,
+    tema.cuando,tema.cuando_final,tema.isMetaTerm,
+    if(tema.cuando_final is not null,tema.cuando_final,tema.cuando) as lastdate
+    from $DBCFG[DBprefix]config c, $DBCFG[DBprefix]tema as tema
+    left join $DBCFG[DBprefix]tabla_rel as relaciones on relaciones.id_mayor=tema.tema_id
+    left join $DBCFG[DBprefix]values vrr on relaciones.rel_rel_id = vrr.value_id and vrr.value_code in ($hidden_labels)
+    where c.id=tema.tesauro_id
+    and tema.estado_id='13'
+    and vrr.value_id is null
+    group by tema.tema_id
+    order by lastdate desc
+    limit $limit"
     );
 
     return $sql;
@@ -1705,21 +1716,24 @@ function SQLterminosEstado($estado_id, $limite = "")
     return SQL(
         "select",
         "if(relaciones.t_relacion=4,relaciones.id_menor,tema.tema_id) as tema_id,
-	if(relaciones.t_relacion=4,concat(tema.tema,' ($codUP)'),tema.tema) as tema,tema.estado_id,
-	tema.cuando,tema.cuando_final,tema.isMetaTerm
-	from $DBCFG[DBprefix]tema as tema
-	left join $DBCFG[DBprefix]tabla_rel as relaciones on relaciones.id_mayor=tema.tema_id
-	where tema.estado_id=$estado_id
-	group by tema.tema_id
-	order by tema.cuando_final,tema.cuando desc
-	limit 0,$limite"
+    if(relaciones.t_relacion=4,concat(tema.tema,' ($codUP)'),tema.tema) as tema,tema.estado_id,
+    tema.cuando,tema.cuando_final,tema.isMetaTerm
+    from $DBCFG[DBprefix]tema as tema
+    left join $DBCFG[DBprefix]tabla_rel as relaciones on relaciones.id_mayor=tema.tema_id
+    where tema.estado_id=$estado_id
+    group by tema.tema_id
+    order by tema.cuando_final,tema.cuando desc
+    limit 0,$limite"
     );
 };
 
 
-//
-// Lista de términos según meses y aÃ±os
-//
+
+/** 
+ * Lista de términos según meses y años
+ * 
+ * @return object
+ */
 function SQLtermsByDate()
 {
 
@@ -1728,9 +1742,9 @@ function SQLtermsByDate()
     $sql=SQL(
         "select",
         "year(tema.cuando) as years,month(tema.cuando) as months,tema.cuando,count(*) as cant
-	from $DBCFG[DBprefix]tema as tema
-	group by year(tema.cuando),month(tema.cuando)
-	order by tema.cuando desc"
+    from $DBCFG[DBprefix]tema as tema
+    group by year(tema.cuando),month(tema.cuando)
+    order by tema.cuando desc"
     );
     return $sql;
 };
@@ -1747,11 +1761,11 @@ function SQLdatosUsuarios($user_id = "")
     $sql=SQL(
         "select",
         "usuario.id,usuario.apellido,usuario.nombres,usuario.orga,usuario.mail,usuario.cuando,usuario.hasta,usuario.estado,usuario.pass,if(usuario.estado=1,'caducar','habilitar') as enlace, count(tema.tema_id) as cant_terminos
-	from $DBCFG[DBprefix]usuario as usuario
-	left join $DBCFG[DBprefix]tema as tema on tema.uid=usuario.id
-	$where
-	group by usuario.id
-	order by usuario.apellido"
+    from $DBCFG[DBprefix]usuario as usuario
+    left join $DBCFG[DBprefix]tema as tema on tema.uid=usuario.id
+    $where
+    group by usuario.id
+    order by usuario.apellido"
     );
     return $sql;
 };
@@ -1785,16 +1799,16 @@ function SQLlistTermsfromUser($id_user, $ord = "")
     $sql=SQL(
         "select",
         "if(relaciones.t_relacion=4,relaciones.id_menor,tema.tema_id) as id_tema,
-	if(relaciones.t_relacion=4,concat(tema.tema,' ($codUP)'),tema.tema) as tema,
-	tema.cuando,tema.isMetaTerm,
-	usuario.id as id_usuario,usuario.apellido,usuario.nombres,usuario.orga
-	from $DBCFG[DBprefix]usuario as usuario,$DBCFG[DBprefix]tema as tema
-	left join $DBCFG[DBprefix]tabla_rel as relaciones on relaciones.id_mayor=tema.tema_id
-	where
-	tema.uid=usuario.id
-	and usuario.id ='$id_user'
-	group by tema.tema_id
-	$orderBy"
+    if(relaciones.t_relacion=4,concat(tema.tema,' ($codUP)'),tema.tema) as tema,
+    tema.cuando,tema.isMetaTerm,
+    usuario.id as id_usuario,usuario.apellido,usuario.nombres,usuario.orga
+    from $DBCFG[DBprefix]usuario as usuario,$DBCFG[DBprefix]tema as tema
+    left join $DBCFG[DBprefix]tabla_rel as relaciones on relaciones.id_mayor=tema.tema_id
+    where
+    tema.uid=usuario.id
+    and usuario.id ='$id_user'
+    group by tema.tema_id
+    $orderBy"
     );
     return $sql;
 }
@@ -1869,9 +1883,9 @@ function SQLarbolTema($tema_id)
         $sql=SQL(
             "select",
             "t.tema_id as tema_id,t.tema,t.isMetaTerm
-		from $DBCFG[DBprefix]tema t
-		where t.tema_id in ($temas_ids)
-		order by FIELD(t.tema_id, $temas_ids)"
+        from $DBCFG[DBprefix]tema t
+        where t.tema_id in ($temas_ids)
+        order by FIELD(t.tema_id, $temas_ids)"
         );
         return $sql;
     };
@@ -1925,12 +1939,12 @@ function SQLexpansionTema($tema_id)
     return SQL(
         "select",
         "t.tema_id as tema_id,t.tema,t.isMetaTerm, i.indice,
-	LENGTH(i.indice) - LENGTH(REPLACE(i.indice, '|', '')) AS tdeep
-	from $DBCFG[DBprefix]indice i,$DBCFG[DBprefix]tema t
-	where i.indice like '%|$tema_id%'
-	and i.tema_id=t.tema_id
-	$where
-	order by tdeep"
+    LENGTH(i.indice) - LENGTH(REPLACE(i.indice, '|', '')) AS tdeep
+    from $DBCFG[DBprefix]indice i,$DBCFG[DBprefix]tema t
+    where i.indice like '%|$tema_id%'
+    and i.tema_id=t.tema_id
+    $where
+    order by tdeep"
     );
 };
 
@@ -1952,15 +1966,15 @@ function SQLexpansionTR($lista_temas_id)
     return SQL(
         "select",
         "t.tema_id as tema_id,t.tema, t.isMetaTerm,count(t.tema_id) as cant_rel
-	from $DBCFG[DBprefix]tema t, $DBCFG[DBprefix]tabla_rel tr
-	where
-	tr.id_menor in ($csv_temas_id)
-	and tr.id_mayor=t.tema_id
-	and t.tema_id not in ($csv_temas_id)
-	and tr.t_relacion='$id_TR'
-	$where
-	group by t.tema_id
-	order by cant_rel,t.tema"
+    from $DBCFG[DBprefix]tema t, $DBCFG[DBprefix]tabla_rel tr
+    where
+    tr.id_menor in ($csv_temas_id)
+    and tr.id_mayor=t.tema_id
+    and t.tema_id not in ($csv_temas_id)
+    and tr.t_relacion='$id_TR'
+    $where
+    group by t.tema_id
+    order by cant_rel,t.tema"
     );
 };
 
@@ -2006,13 +2020,13 @@ function SQLinternalTargetVocabs($vocabulario_id = "")
     return SQL(
         "select",
         "tv.id as tvocab_id,tv.titulo,tv.autor,tv.idioma,tv.cobertura,tv.keywords,tv.tipo,tv.cuando,tv.url_base ,
-		count(tt.tema_id) as cant
-		from $DBCFG[DBprefix]config tv
-		 left join  $DBCFG[DBprefix]tema tt on tt.tesauro_id=tv.id
-		where tv.id!=1
-		$where
-		group by tv.id
-		order by tv.titulo"
+        count(tt.tema_id) as cant
+        from $DBCFG[DBprefix]config tv
+         left join  $DBCFG[DBprefix]tema tt on tt.tesauro_id=tv.id
+        where tv.id!=1
+        $where
+        group by tv.id
+        order by tv.titulo"
     );
 };
 
@@ -2046,29 +2060,29 @@ function SQLterminosValidosUF($tema_id = "0")
     return SQL(
         "select",
         "relaciones.t_relacion,
-	t1.tema_id as tema_pref_id,
-	t1.tema as tema_pref,
-	t2.tema_id as tema_id,
-	t2.tema,
-	vrr.value_code as rr_code,
-	vrr.value as rr_value,
-	relaciones.rel_rel_id,
-	c.id as vocabulario_id,
-	c.titulo,c.autor,c.idioma
-	from $DBCFG[DBprefix]config c,
-	$DBCFG[DBprefix]tema as t1,
-	$DBCFG[DBprefix]tema as t2,
-	$DBCFG[DBprefix]tabla_rel as relaciones
-	left join $DBCFG[DBprefix]values vrr on relaciones.rel_rel_id = vrr.value_id
+    t1.tema_id as tema_pref_id,
+    t1.tema as tema_pref,
+    t2.tema_id as tema_id,
+    t2.tema,
+    vrr.value_code as rr_code,
+    vrr.value as rr_value,
+    relaciones.rel_rel_id,
+    c.id as vocabulario_id,
+    c.titulo,c.autor,c.idioma
+    from $DBCFG[DBprefix]config c,
+    $DBCFG[DBprefix]tema as t1,
+    $DBCFG[DBprefix]tema as t2,
+    $DBCFG[DBprefix]tabla_rel as relaciones
+    left join $DBCFG[DBprefix]values vrr on relaciones.rel_rel_id = vrr.value_id
 
-	where
-	relaciones.id_menor=t1.tema_id
-	$where
-	and t2.tema_id=relaciones.id_mayor
-	and c.id=t2.tesauro_id
-	and t_relacion in ('4','5','6','7')
-	group by t2.tema_id
-	order by relaciones.t_relacion,tema"
+    where
+    relaciones.id_menor=t1.tema_id
+    $where
+    and t2.tema_id=relaciones.id_mayor
+    and c.id=t2.tesauro_id
+    and t_relacion in ('4','5','6','7')
+    group by t2.tema_id
+    order by relaciones.t_relacion,tema"
     );
 };
 
@@ -2079,7 +2093,7 @@ function ARRAYdatosUser($user_id)
     $sql=SQL(
         "select",
         "u.id,u.id as user_id,u.apellido,u.nombres,u.orga,u.mail,u.cuando,u.hasta,u.estado,u.pass, if(u.estado=1,'caducar','habilitar') as enlace,u.nivel
-		from $DBCFG[DBprefix]usuario u where u.id='$user_id'"
+        from $DBCFG[DBprefix]usuario u where u.id='$user_id'"
     );
     return $sql->FetchRow();
 };
@@ -2095,7 +2109,7 @@ function ARRAYdatosUserXmail($user_login)
     $sql=SQLo(
         "select",
         "u.id,u.id as user_id,u.apellido,u.nombres,u.orga,u.mail,u.cuando,u.hasta,u.estado,u.pass, if(u.estado=1,'caducar','habilitar') as enlace,u.nivel,user_activation_key
-	from $DBCFG[DBprefix]usuario u where u.mail= ?",
+    from $DBCFG[DBprefix]usuario u where u.mail= ?",
         array($user_login)
     );
 
@@ -2113,7 +2127,7 @@ function ARRAYdatosUserXkey($user_login, $key)
     $sql=SQLo(
         "select",
         "u.id,u.id as user_id,u.apellido,u.nombres,u.orga,u.mail,u.cuando,u.hasta,u.estado,u.pass, if(u.estado=1,'caducar','habilitar') as enlace,u.nivel,user_activation_key
-	from $DBCFG[DBprefix]usuario u where u.mail= ? and user_activation_key= ?",
+    from $DBCFG[DBprefix]usuario u where u.mail= ? and user_activation_key= ?",
         array($user_login,$key)
     );
     return (is_object) ? $sql->FetchRow() : false;
@@ -2142,7 +2156,7 @@ function SQLsimiliar($texto, $lista_temas_id = "0")
     if (count(explode("|", $lista_temas_id))>1) {
         $lista_temas_id=str_replace("|", ",", $lista_temas_id);
         $lista_temas_id=substr($lista_temas_id, 0, -1);
-        $where = " 	and t.tema_id not in ($lista_temas_id) ";
+        $where = "     and t.tema_id not in ($lista_temas_id) ";
     } else {
         $where = "";
     }
@@ -2153,12 +2167,12 @@ function SQLsimiliar($texto, $lista_temas_id = "0")
     $sql=SQL(
         "select",
         "t.tema,length(t.tema) as largo
-	from $DBCFG[DBprefix]tema as t
-	where
-	length(t.tema) between $minstrlen and $maxstrlen
-	and t.estado_id ='13'
-	$where
-	order by tema,largo",
+    from $DBCFG[DBprefix]tema as t
+    where
+    length(t.tema) between $minstrlen and $maxstrlen
+    and t.estado_id ='13'
+    $where
+    order by tema,largo",
         "1"
     );
     return $sql;
@@ -2183,7 +2197,7 @@ function SQLsimiliarSound($texto, $lista_temas_id = "0")
     if (count(explode("|", $lista_temas_id))>1) {
         $lista_temas_id=str_replace("|", ",", $lista_temas_id);
         $lista_temas_id=substr($lista_temas_id, 0, -1);
-        $where = " 	and t.tema_id not in ($lista_temas_id) ";
+        $where = "     and t.tema_id not in ($lista_temas_id) ";
     } else {
         $where = "";
     }
@@ -2194,12 +2208,12 @@ function SQLsimiliarSound($texto, $lista_temas_id = "0")
     $sql=SQL(
         "select",
         "lower(t.tema),length(t.tema) as largo
-	from $DBCFG[DBprefix]tema as t
-	where
-	SOUNDEX(t.tema) = SOUNDEX('$texto')
-	and t.estado_id ='13'
-	$where
-	order by tema,largo"
+    from $DBCFG[DBprefix]tema as t
+    where
+    SOUNDEX(t.tema) = SOUNDEX('$texto')
+    and t.estado_id ='13'
+    $where
+    order by tema,largo"
     );
     return $sql;
 };
@@ -2218,12 +2232,12 @@ function SQLcheckIsValidTerm($tema_id)
     return SQL(
         "select",
         "id,
-	id_mayor,
-	id_menor,
-	t_relacion
-	from $DBCFG[DBprefix]tabla_rel
-	where t_relacion in ('4','5','6','7')
-	and id_mayor='$tema_id'"
+    id_mayor,
+    id_menor,
+    t_relacion
+    from $DBCFG[DBprefix]tabla_rel
+    where t_relacion in ('4','5','6','7')
+    and id_mayor='$tema_id'"
     );
 };
 
@@ -2248,17 +2262,17 @@ function SQLsearchFreeTerms($search_term, $tema_id = "")
     return SQL(
         "select",
         "TT.tema_id as id,TT.tema,TT.isMetaTerm,TT.cuando,TT.tema_id as tema_id
-	from $DBCFG[DBprefix]tema as TT
-	left join $DBCFG[DBprefix]tabla_rel as no_menor on no_menor.id_menor=TT.tema_id
-	left join $DBCFG[DBprefix]tabla_rel as no_mayor on no_mayor.id_mayor=TT.tema_id
-	where
-	no_menor.id is null
-	and no_mayor.id is null
-	and TT.estado_id='13'
-	and TT.tesauro_id='$_SESSION[id_tesa]'
-	and TT.tema like $search_term
-	$where
-	order by TT.tema"
+    from $DBCFG[DBprefix]tema as TT
+    left join $DBCFG[DBprefix]tabla_rel as no_menor on no_menor.id_menor=TT.tema_id
+    left join $DBCFG[DBprefix]tabla_rel as no_mayor on no_mayor.id_mayor=TT.tema_id
+    where
+    no_menor.id is null
+    and no_mayor.id is null
+    and TT.estado_id='13'
+    and TT.tesauro_id='$_SESSION[id_tesa]'
+    and TT.tema like $search_term
+    $where
+    order by TT.tema"
     );
 };
 
@@ -2288,14 +2302,14 @@ function SQLsearchTerms4NT($search_term, $term_id,$polihieraquical_flag=0)
 
     $search_term=secure_data("%$search_term%", "ADOsql");
 
-	#no tiene relaciones jerárquicas
-	$leftJoinExcludeNT=" left join $DBCFG[DBprefix]tabla_rel bt on bt.id_menor=t.tema_id and bt.t_relacion = 3 ";
-	$whereExcludeNT=' and bt.id is null ';
+    #no tiene relaciones jerárquicas
+    $leftJoinExcludeNT=" left join $DBCFG[DBprefix]tabla_rel bt on bt.id_menor=t.tema_id and bt.t_relacion = 3 ";
+    $whereExcludeNT=' and bt.id is null ';
 
 
     if ($polihieraquical_flag==1) {
-		$leftJoinExcludeNT='';
-		$whereExcludeNT='';
+        $leftJoinExcludeNT='';
+        $whereExcludeNT='';
     }
 
  
@@ -2306,19 +2320,19 @@ function SQLsearchTerms4NT($search_term, $term_id,$polihieraquical_flag=0)
     return SQL(
         "select",
         "t.tema_id as id,t.code,t.tema,t.isMetaTerm,t.cuando,t.tema_id as tema_id
-	from $DBCFG[DBprefix]tema t
-	left join $DBCFG[DBprefix]indice i on  $TTterm_exclude t.tema_id=i.tema_id
-	left join $DBCFG[DBprefix]tabla_rel uf on uf.id_mayor=t.tema_id and uf.t_relacion = 4 
-	left join $DBCFG[DBprefix]tabla_rel r on r.id_mayor='$term_id' and r.id_menor = t.tema_id 
-	$leftJoinExcludeNT
-	where t.tema like $search_term
-	and i.tema_id is null
-	and r.id is null
-	and uf.id is null
-	$whereExcludeNT	
-	and t.tesauro_id='$_SESSION[id_tesa]'
-	and t.estado_id=13
-	order by t.tema"
+    from $DBCFG[DBprefix]tema t
+    left join $DBCFG[DBprefix]indice i on  $TTterm_exclude t.tema_id=i.tema_id
+    left join $DBCFG[DBprefix]tabla_rel uf on uf.id_mayor=t.tema_id and uf.t_relacion = 4 
+    left join $DBCFG[DBprefix]tabla_rel r on r.id_mayor='$term_id' and r.id_menor = t.tema_id 
+    $leftJoinExcludeNT
+    where t.tema like $search_term
+    and i.tema_id is null
+    and r.id is null
+    and uf.id is null
+    $whereExcludeNT    
+    and t.tesauro_id='$_SESSION[id_tesa]'
+    and t.estado_id=13
+    order by t.tema"
     );
 };
 
@@ -2352,14 +2366,14 @@ function fetchSearchExactFreeTerms($string, $tema_id)
     $sql=SQL(
         "select",
         "t.tema_id as tema_id,t.tema,t.isMetaTerm
-	from $DBCFG[DBprefix]tema as t
-	left join $DBCFG[DBprefix]tabla_rel r on t.tema_id in (r.id_mayor,r.id_menor)
-	where
-	r.id is null
-	and t.estado_id='13'
-	and t.tesauro_id='$thes_id'
-	and t.tema=$string
-	and t.tema_id!='$tema_id'"
+    from $DBCFG[DBprefix]tema as t
+    left join $DBCFG[DBprefix]tabla_rel r on t.tema_id in (r.id_mayor,r.id_menor)
+    where
+    r.id is null
+    and t.estado_id='13'
+    and t.tesauro_id='$thes_id'
+    and t.tema=$string
+    and t.tema_id!='$tema_id'"
     );
 
     return $sql->FetchRow();
@@ -2377,7 +2391,7 @@ function ARRAYCode($code)
     $sql=SQL(
         "select",
         "t.tema_id,t.tema,t.code
-	from $DBCFG[DBprefix]tema t where t.code=$code"
+    from $DBCFG[DBprefix]tema t where t.code=$code"
     );
 
     return $sql->FetchRow();
@@ -2397,22 +2411,22 @@ function ARRAYCodeDetailed($code)
     $sql=SQL(
         "select",
         "tema.tema_id, tema.tema_id as idTema,
-	tema.code,
-	tema.tema titTema,
-	tema.tema,
-	tema.estado_id,
-	tema.cuando_estado,
-	tema.cuando,
-	tema.cuando_final,
-	tema.isMetaTerm,
-	c.idioma,
-	c.titulo
-	from $DBCFG[DBprefix]tema as tema,
-	$DBCFG[DBprefix]config as c
-	where
-	tema.code=$code
-	and c.id=tema.tesauro_id
-	$where"
+    tema.code,
+    tema.tema titTema,
+    tema.tema,
+    tema.estado_id,
+    tema.cuando_estado,
+    tema.cuando,
+    tema.cuando_final,
+    tema.isMetaTerm,
+    c.idioma,
+    c.titulo
+    from $DBCFG[DBprefix]tema as tema,
+    $DBCFG[DBprefix]config as c
+    where
+    tema.code=$code
+    and c.id=tema.tesauro_id
+    $where"
     );
 
     return $sql->FetchRow();
@@ -2430,12 +2444,12 @@ function SQLTermDeep($tema_id = 0)
     return SQL(
         "select",
         "LENGTH(i.indice) - LENGTH(REPLACE(i.indice, '|', '')) AS tdeep, count(*) as cant
-	from $DBCFG[DBprefix]tema t , $DBCFG[DBprefix]indice i
-	where t.tema_id=i.tema_id
-	and t.tesauro_id=1 and t.estado_id=13
-	$w
-	group by tdeep
-	order by tdeep"
+    from $DBCFG[DBprefix]tema t , $DBCFG[DBprefix]indice i
+    where t.tema_id=i.tema_id
+    and t.tesauro_id=1 and t.estado_id=13
+    $w
+    group by tdeep
+    order by tdeep"
     );
 }
 
@@ -2457,22 +2471,22 @@ function SQLadvancedSearch($array)
     if ($array["hasTopTerm"]>0) {
         $size_i=strlen($array["hasTopTerm"])+2;
         $from=",$DBCFG[DBprefix]indice tti";
-        $where="	and t.tema_id=tti.tema_id";
-        $where.="	and left(tti.indice,$size_i)='|$array[hasTopTerm]|'";
+        $where="    and t.tema_id=tti.tema_id";
+        $where.="    and left(tti.indice,$size_i)='|$array[hasTopTerm]|'";
     }
 
     $array["hasNote"]=$DB->qstr(trim($array["hasNote"]));
     if (strlen($array["hasNote"])>2) {
         $from.=",$DBCFG[DBprefix]notas n";
-        $where.="		and n.id_tema=t.tema_id";
-        $where.="		and n.tipo_nota=$array[hasNote]";
+        $where.="        and n.id_tema=t.tema_id";
+        $where.="        and n.tipo_nota=$array[hasNote]";
     }
 
     // time filter
     $array["fromDate"]=secure_data($array["fromDate"], "int");
     if ($array["fromDate"]) {
         $array["fromDate"]=date_format(date_create($array["fromDate"].'01'), 'Y-m-d');
-        $where.="		and (t.cuando between '$array[fromDate]' and now())";
+        $where.="        and (t.cuando between '$array[fromDate]' and now())";
     }
 
 
@@ -2480,9 +2494,9 @@ function SQLadvancedSearch($array)
     $array["termDeep"]=secure_data($array["termDeep"], "int");
     if ($array["termDeep"]>0) {
         $select=",LENGTH(i.indice) - LENGTH(REPLACE(i.indice, '|', '')) AS tdeep";
-        $from.=    "	,$DBCFG[DBprefix]indice i";
-        $where.="	and t.tema_id=i.tema_id";
-        $having.="	having tdeep='$array[termDeep]'";
+        $from.=    "    ,$DBCFG[DBprefix]indice i";
+        $where.="    and t.tema_id=i.tema_id";
+        $having.="    having tdeep='$array[termDeep]'";
     }
 
 
@@ -2504,11 +2518,11 @@ function SQLadvancedSearch($array)
             $initial_where=($array["isExactMatch"]=='1') ? " binary UFt.tema= $array[xstring] " : " UFt.tema like $array[xstring] ";
 
             $select.=",UFt.tema_id as uf_tema_id,UFt.tema as uf_tema,r.t_relacion";
-            $from.=    "	,$DBCFG[DBprefix]tabla_rel r";
-            $from.=    "	,$DBCFG[DBprefix]tema UFt";
-            $where.="	and r.id_menor=t.tema_id";
-            $where.="	and r.id_mayor=UFt.tema_id";
-            $where.="	and r.t_relacion='4'";
+            $from.=    "    ,$DBCFG[DBprefix]tabla_rel r";
+            $from.=    "    ,$DBCFG[DBprefix]tema UFt";
+            $where.="    and r.id_menor=t.tema_id";
+            $where.="    and r.id_mayor=UFt.tema_id";
+            $where.="    and r.t_relacion='4'";
             break;
 
         case 'c':// code
@@ -2518,16 +2532,16 @@ function SQLadvancedSearch($array)
         case 'n':
             $array["xstring4html"]='<p>'.str_replace("'", "", $array["xstring"]).'</p>';
 
-            $from.=    "	,$DBCFG[DBprefix]notas ns";
-            $where.="	and t.tema_id=ns.id_tema";
+            $from.=    "    ,$DBCFG[DBprefix]notas ns";
+            $where.="    and t.tema_id=ns.id_tema";
 
             $initial_where.=($array["isExactMatch"]=='1') ? " (ns.nota=$array[xstring] or ns.nota='$array[xstring4html]')  " : " ns.nota like $array[xstring] ";
             break;
 
         case 'tgt':// target term from target vocabulary (foreign term)
             $initial_where=($array["isExactMatch"]=='1') ? " tt.tterm_string= $array[xstring] " : " tt.tterm_string like $array[xstring] ";
-            $from.=    "	,$DBCFG[DBprefix]term2tterm tt";
-            $where.="	and t.tema_id=tt.tema_id";
+            $from.=    "    ,$DBCFG[DBprefix]term2tterm tt";
+            $where.="    and t.tema_id=tt.tema_id";
             break;
 
         default://term
@@ -2539,14 +2553,14 @@ function SQLadvancedSearch($array)
     return SQL(
         "select",
         "t.tema_id,t.tema,t.cuando,t.cuando_final,t.estado_id,t.isMetaTerm $select
-	from $DBCFG[DBprefix]tema t
-	$from
-	where
-	$initial_where
-	$where
-	group by t.tema_id
-	$having
-	order by t.tema"
+    from $DBCFG[DBprefix]tema t
+    $from
+    where
+    $initial_where
+    $where
+    group by t.tema_id
+    $having
+    order by t.tema"
     );
 }
 
@@ -2567,8 +2581,8 @@ function SQLadvancedTermReport($array)
     if ($array["hasTopTerm"]>0) {
         $size_i=strlen($array["hasTopTerm"])+2;
         $from="$DBCFG[DBprefix]indice tti,";
-        $where="	and t.tema_id=tti.tema_id";
-        $where.="	and left(tti.indice,$size_i)='|$array[hasTopTerm]|'";
+        $where="    and t.tema_id=tti.tema_id";
+        $where.="    and left(tti.indice,$size_i)='|$array[hasTopTerm]|'";
     }
 
     // has note type X
@@ -2576,8 +2590,8 @@ function SQLadvancedTermReport($array)
 
     if (strlen($array["hasNote"])>2) {
         $from.="$DBCFG[DBprefix]notas n,";
-        $where.="		and n.id_tema=t.tema_id";
-        $where.="		and n.tipo_nota=$array[hasNote]";
+        $where.="        and n.id_tema=t.tema_id";
+        $where.="        and n.tipo_nota=$array[hasNote]";
     }
 
     // time filter
@@ -2588,7 +2602,7 @@ function SQLadvancedTermReport($array)
 
     if (($yearDate>0) && ($monthDate>0)) {
         $fromDate=$yearDate.'-'.$monthDate.'-01';
-        $where.="		and (t.cuando between '$fromDate' and now())";
+        $where.="        and (t.cuando between '$fromDate' and now())";
     }
     // time update filter
     // and (cuando_final between '2010-05-19' and now())
@@ -2597,7 +2611,7 @@ function SQLadvancedTermReport($array)
     $array["byuser_id"]=secure_data($array["byuser_id"], "int");
 
     if (($array["byuser_id"]) && ($_SESSION[$_SESSION["CFGURL"]]["ssuser_nivel"]=='1')) {
-        $where.="		and '$array[byuser_id]' in (t.uid,t.uid_final)";
+        $where.="        and '$array[byuser_id]' in (t.uid,t.uid_final)";
     }
 
     // string filter
@@ -2614,7 +2628,7 @@ function SQLadvancedTermReport($array)
                 /*
                 * rlike way query
                 */
-                $where.="		and t.tema rlike ? ";
+                $where.="        and t.tema rlike ? ";
                 $array_where.="[[:<:]]$array[csvstring]";
                 break;
 
@@ -2627,7 +2641,7 @@ function SQLadvancedTermReport($array)
                 /*
                 * rlike way query
                 */
-                $where.="		and t.tema rlike ?";
+                $where.="        and t.tema rlike ?";
                 $array_where.="$array[csvstring][[:>:]]";
                 break;
 
@@ -2637,12 +2651,12 @@ function SQLadvancedTermReport($array)
                 $where.="        and (t.tema like '% $array[csvstring]%') or (t.tema like '%$array[csvstring] %') or (t.tema ='$array[csvstring]')";
                 $array[csvstring]=utf8(prepare2sqlregexp($array[csvstring]));
                 */
-                $where.="		and t.tema rlike ?";
+                $where.="        and t.tema rlike ?";
                 $array_where.="[[:<:]]$array[csvstring][[:>:]]";
                 break;
 
             default:
-                $where.="		and t.tema rlike ?";
+                $where.="        and t.tema rlike ?";
                 $array_where.="[[:<:]]$array[csvstring][[:>:]]";
                 break;
         }
@@ -2699,23 +2713,23 @@ function SQLadvancedTermReport($array)
     return SQLo(
         "select",
         "c.titulo as vocab,c.idioma as lang,t.tema_id, $show_code t.tema,t.isMetaTerm,t.cuando as created_date,
-		concat(u.APELLIDO,', ',u.NOMBRES) as user_data,
-		if(t.cuando_final is null,t.cuando,t.cuando_final) last_change,
-		concat(umod.APELLIDO,', ',umod.NOMBRES) as user_data,
-	elt(field(t.estado_id,'12','13','14'),'$LABEL_Candidato','$LABEL_Aceptado','$LABEL_Rechazado') as status
-	$select
-	from $from $DBCFG[DBprefix]config c, $DBCFG[DBprefix]values v,$DBCFG[DBprefix]usuario u, $DBCFG[DBprefix]tema t
-	left join $DBCFG[DBprefix]usuario umod on t.uid_final=umod.id
-	$leftJoin
-	where t.uid=u.id
-	and t.estado_id=v.value_id
-	and t.tesauro_id=c.id
-	and v.value_type='t_estado'
-	$initial_where
-	$where
-	group by t.tema_id
-	$having
-	order by t.tema",
+        concat(u.APELLIDO,', ',u.NOMBRES) as user_data,
+        if(t.cuando_final is null,t.cuando,t.cuando_final) last_change,
+        concat(umod.APELLIDO,', ',umod.NOMBRES) as user_data,
+    elt(field(t.estado_id,'12','13','14'),'$LABEL_Candidato','$LABEL_Aceptado','$LABEL_Rechazado') as status
+    $select
+    from $from $DBCFG[DBprefix]config c, $DBCFG[DBprefix]values v,$DBCFG[DBprefix]usuario u, $DBCFG[DBprefix]tema t
+    left join $DBCFG[DBprefix]usuario umod on t.uid_final=umod.id
+    $leftJoin
+    where t.uid=u.id
+    and t.estado_id=v.value_id
+    and t.tesauro_id=c.id
+    and v.value_type='t_estado'
+    $initial_where
+    $where
+    group by t.tema_id
+    $having
+    order by t.tema",
         array($array_where)
     );
 }
@@ -2749,15 +2763,15 @@ function SQLreportTargetTerms($tvocab_ids = array())
         $sql=SQL(
             "select",
             "t.tema_id as internal_term_id,t.tema as $svocab_title
-	$select
-	from $DBCFG[DBprefix]tema t
-	$leftjoin
-	left join $DBCFG[DBprefix]tabla_rel as r on t.tema_id =r.id_mayor
-	and r.t_relacion='4'
-	where
-	t.tesauro_id=1
-	and t.estado_id=13
-	and r.id is null"
+    $select
+    from $DBCFG[DBprefix]tema t
+    $leftjoin
+    left join $DBCFG[DBprefix]tabla_rel as r on t.tema_id =r.id_mayor
+    and r.t_relacion='4'
+    where
+    t.tesauro_id=1
+    and t.estado_id=13
+    and r.id is null"
         );
     } else {
         //empy set
@@ -2778,14 +2792,14 @@ function SQLreportNullNotes($t_note)
         $sql=SQL(
             "select",
             "c.titulo as vocab,c.idioma as lang,t.tema_id, t.tema as term, t.cuando as date_created, t.cuando_final as date_modicated,t.isMetaTerm,
-						e.value as status_term
-						from $DBCFG[DBprefix]config c,$DBCFG[DBprefix]values e,$DBCFG[DBprefix]tema t
-						left join $DBCFG[DBprefix]notas n on n.id_tema=t.tema_id
-						where
-						e.value_id=t.estado_id
-						and c.id=t.tesauro_id
-						and n.id is null
-						order by t.tema"
+                        e.value as status_term
+                        from $DBCFG[DBprefix]config c,$DBCFG[DBprefix]values e,$DBCFG[DBprefix]tema t
+                        left join $DBCFG[DBprefix]notas n on n.id_tema=t.tema_id
+                        where
+                        e.value_id=t.estado_id
+                        and c.id=t.tesauro_id
+                        and n.id is null
+                        order by t.tema"
         );
     } else {
         //check if is valid note type
@@ -2800,15 +2814,15 @@ function SQLreportNullNotes($t_note)
             $sql=SQL(
                 "select",
                 "c.titulo as vocab,c.idioma as lang,t.tema_id, t.tema as term, t.cuando as date_created, t.cuando_final as date_modicated,t.isMetaTerm,
-							e.value as status_term
-							from $DBCFG[DBprefix]config c,$DBCFG[DBprefix]values e,$DBCFG[DBprefix]tema t
-							left join $DBCFG[DBprefix]notas n on n.id_tema=t.tema_id
-							and n.tipo_nota='$t_note'
-							where
-							e.value_id=t.estado_id
-							and c.id=t.tesauro_id
-							and n.id is null
-							order by t.tema"
+                            e.value as status_term
+                            from $DBCFG[DBprefix]config c,$DBCFG[DBprefix]values e,$DBCFG[DBprefix]tema t
+                            left join $DBCFG[DBprefix]notas n on n.id_tema=t.tema_id
+                            and n.tipo_nota='$t_note'
+                            where
+                            e.value_id=t.estado_id
+                            and c.id=t.tesauro_id
+                            and n.id is null
+                            order by t.tema"
             );
         } else {
             //empy set
@@ -2817,9 +2831,12 @@ function SQLreportNullNotes($t_note)
     }
     return $sql;
 }
-/*
-regenerate indice table => only in case of corrupt database or import thesaurus vÃ­a dump
-*/
+
+/** 
+ * Regenerate indice table => only in case of corrupt database or import thesaurus va dump
+ * 
+ * @return object
+ */
 function SQLreCreateTermIndex()
 {
 
@@ -2896,9 +2913,9 @@ function SQLupdateTemaTresVersion($ver2ver)
     $prefix=$DBCFG['DBprefix'] ;
 
     switch ($ver2ver) {
-    	case 'tema2full_text':
-			$sql_full_Text=SQL("ALTER", " TABLE `".$prefix."tema` ADD FULLTEXT `tema` (`tema`), DROP INDEX `tema` ");
-    	break;
+        case 'tema2full_text':
+            $sql_full_Text=SQL("ALTER", " TABLE `".$prefix."tema` ADD FULLTEXT `tema` (`tema`), DROP INDEX `tema` ");
+        break;
 
         case '2_2x3_2':
             /**alter to support invalid or null dates */
@@ -2918,18 +2935,18 @@ function SQLupdateTemaTresVersion($ver2ver)
             $sql2_2x3_2b=SQL(
                 "CREATE",
                 " TABLE IF NOT EXISTS `".$prefix."sources` (
-			  `src_id` int(11) NOT NULL AUTO_INCREMENT,
-			  `src_alias` varchar(50) NOT NULL,
-			  `src_note` tinytext,
-			  `src_url` tinytext,
-			  `src_uri` varchar(255) DEFAULT NULL,
-			  `src_status` tinyint(1) DEFAULT NULL,
-			  `create_date` datetime NOT NULL,
-			  `mod_date` datetime DEFAULT NULL,
-			  `user_id` int(5) NOT NULL DEFAULT '0',
-			  PRIMARY KEY (`src_id`),
-  			  KEY `src_alias` (`src_alias`)			  
-			) ENGINE=MyISAM CHARSET=utf8 COMMENT='Normalized authority sources for notes';"
+              `src_id` int(11) NOT NULL AUTO_INCREMENT,
+              `src_alias` varchar(50) NOT NULL,
+              `src_note` tinytext,
+              `src_url` tinytext,
+              `src_uri` varchar(255) DEFAULT NULL,
+              `src_status` tinyint(1) DEFAULT NULL,
+              `create_date` datetime NOT NULL,
+              `mod_date` datetime DEFAULT NULL,
+              `user_id` int(5) NOT NULL DEFAULT '0',
+              PRIMARY KEY (`src_id`),
+                KEY `src_alias` (`src_alias`)              
+            ) ENGINE=MyISAM CHARSET=utf8 COMMENT='Normalized authority sources for notes';"
             );
 
             $ctrl=ARRAYfetchValue('METADATA', 'CFG_ARK_NAAN');
@@ -2940,7 +2957,7 @@ function SQLupdateTemaTresVersion($ver2ver)
                 $sqlvalue=SQL(
                     "insert",
                     "into `".$prefix."values` (`value_type`, `value`, `value_order`, `value_code`) VALUES
-				('METADATA', '".$local_naan."', NULL, 'CFG_ARK_NAAN')"
+                ('METADATA', '".$local_naan."', NULL, 'CFG_ARK_NAAN')"
                 );
             }
 
@@ -2961,7 +2978,7 @@ function SQLupdateTemaTresVersion($ver2ver)
                 $sql1_6x1_7a=SQL(
                     "insert",
                     "into `".$prefix."values` (`value_type`, `value`, `value_order`, `value_code`) VALUES
-			('config', 'CFG_SEARCH_METATERM', NULL, '0')"
+            ('config', 'CFG_SEARCH_METATERM', NULL, '0')"
                 );
             }
             $ctrl=ARRAYfetchValueXValue('config', 'CFG_ENABLE_SPARQL');
@@ -2969,7 +2986,7 @@ function SQLupdateTemaTresVersion($ver2ver)
                 $sql1_6x1_7b=SQL(
                     "insert",
                     "into `".$prefix."values` (`value_type`, `value`, `value_order`, `value_code`) VALUES
-			('config', 'CFG_ENABLE_SPARQL', NULL, '0')"
+            ('config', 'CFG_ENABLE_SPARQL', NULL, '0')"
                 );
             }
 
@@ -2978,7 +2995,7 @@ function SQLupdateTemaTresVersion($ver2ver)
                 $sql1_6x1_7c=SQL(
                     "insert",
                     "into `".$prefix."values` (`value_type`, `value`, `value_order`, `value_code`) VALUES
-			('config', 'CFG_SUGGESTxWORD', NULL, '1')"
+            ('config', 'CFG_SUGGESTxWORD', NULL, '1')"
                 );
             }
 
@@ -3008,15 +3025,15 @@ function SQLupdateTemaTresVersion($ver2ver)
             $sql1_4x1_5d=SQL(
                 "CREATE",
                 " TABLE IF NOT EXISTS `".$prefix."uri` (
-		`uri_id` int(22) NOT NULL AUTO_INCREMENT,
-		`tema_id` int(22) NOT NULL,
-		`uri_type_id` int(22) NOT NULL,
-		`uri` tinytext NOT NULL,
-		`uid` int(22) NOT NULL,
-		`cuando` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-		PRIMARY KEY (`uri_id`),
-		KEY `tema_id` (`tema_id`)
-		) DEFAULT CHARSET=utf8 ENGINE=MyISAM  COMMENT='external URIs associated to terms';"
+        `uri_id` int(22) NOT NULL AUTO_INCREMENT,
+        `tema_id` int(22) NOT NULL,
+        `uri_type_id` int(22) NOT NULL,
+        `uri` tinytext NOT NULL,
+        `uid` int(22) NOT NULL,
+        `cuando` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+        PRIMARY KEY (`uri_id`),
+        KEY `tema_id` (`tema_id`)
+        ) DEFAULT CHARSET=utf8 ENGINE=MyISAM  COMMENT='external URIs associated to terms';"
             );
 
             if ($sql1_4x1_5c) {
@@ -3025,7 +3042,7 @@ function SQLupdateTemaTresVersion($ver2ver)
                     $sqlvalue=SQL(
                         "insert",
                         "into `".$prefix."values` (`value_type`, `value`, `value_order`, `value_code`) VALUES
-				('4', 'Spelling variant', NULL, 'SP')"
+                ('4', 'Spelling variant', NULL, 'SP')"
                     );
                 }
 
@@ -3034,7 +3051,7 @@ function SQLupdateTemaTresVersion($ver2ver)
                     $sqlvalue=SQL(
                         "insert",
                         "into `".$prefix."values` (`value_type`, `value`, `value_order`, `value_code`) VALUES
-				('4', 'MisSpelling', NULL, 'MS')"
+                ('4', 'MisSpelling', NULL, 'MS')"
                     );
                 }
 
@@ -3043,7 +3060,7 @@ function SQLupdateTemaTresVersion($ver2ver)
                     $sqlvalue=SQL(
                         "insert",
                         "into `".$prefix."values` (`value_type`, `value`, `value_order`, `value_code`) VALUES
-				('3', 'Partitive', NULL, 'P')"
+                ('3', 'Partitive', NULL, 'P')"
                     );
                 }
 
@@ -3052,7 +3069,7 @@ function SQLupdateTemaTresVersion($ver2ver)
                     $sqlvalue=SQL(
                         "insert",
                         "into `".$prefix."values` (`value_type`, `value`, `value_order`, `value_code`) VALUES
-				('3', 'Instance', NULL, 'I')"
+                ('3', 'Instance', NULL, 'I')"
                     );
                 }
 
@@ -3061,7 +3078,7 @@ function SQLupdateTemaTresVersion($ver2ver)
                     $sqlvalue=SQL(
                         "insert",
                         "into `".$prefix."values` (`value_type`, `value`, `value_order`, `value_code`) VALUES
-				('4', 'Hidden label', NULL, 'H')"
+                ('4', 'Hidden label', NULL, 'H')"
                     );
                 }
 
@@ -3070,7 +3087,7 @@ function SQLupdateTemaTresVersion($ver2ver)
                     $sqlvalue=SQL(
                         "insert",
                         "into `".$prefix."values` (`value_type`, `value`, `value_order`, `value_code`) VALUES
-				('4', 'Abbreviation', NULL, 'AB')"
+                ('4', 'Abbreviation', NULL, 'AB')"
                     );
                 }
 
@@ -3079,7 +3096,7 @@ function SQLupdateTemaTresVersion($ver2ver)
                     $sqlvalue=SQL(
                         "insert",
                         "into `".$prefix."values` (`value_type`, `value`, `value_order`, `value_code`) VALUES
-				('4', 'Full form of the term', NULL, 'FT')"
+                ('4', 'Full form of the term', NULL, 'FT')"
                     );
                 }
 
@@ -3088,7 +3105,7 @@ function SQLupdateTemaTresVersion($ver2ver)
                     $sqlvalue=SQL(
                         "insert",
                         "into `".$prefix."values` (`value_type`, `value`, `value_order`, `value_code`) VALUES
-				('URI_TYPE', 'broadMatch', NULL, 'broadMatch')"
+                ('URI_TYPE', 'broadMatch', NULL, 'broadMatch')"
                     );
                 }
 
@@ -3097,7 +3114,7 @@ function SQLupdateTemaTresVersion($ver2ver)
                     $sqlvalue=SQL(
                         "insert",
                         "into `".$prefix."values` (`value_type`, `value`, `value_order`, `value_code`) VALUES
-				('URI_TYPE', 'closeMatch', NULL, 'closeMatch')"
+                ('URI_TYPE', 'closeMatch', NULL, 'closeMatch')"
                     );
                 }
 
@@ -3106,7 +3123,7 @@ function SQLupdateTemaTresVersion($ver2ver)
                     $sqlvalue=SQL(
                         "insert",
                         "into `".$prefix."values` (`value_type`, `value`, `value_order`, `value_code`) VALUES
-				('URI_TYPE', 'exactMatch', NULL, 'exactMatch')"
+                ('URI_TYPE', 'exactMatch', NULL, 'exactMatch')"
                     );
                 }
 
@@ -3115,7 +3132,7 @@ function SQLupdateTemaTresVersion($ver2ver)
                     $sqlvalue=SQL(
                         "insert",
                         "into `".$prefix."values` (`value_type`, `value`, `value_order`, `value_code`) VALUES
-				('URI_TYPE', 'relatedMatch', NULL, 'relatedMatch')"
+                ('URI_TYPE', 'relatedMatch', NULL, 'relatedMatch')"
                     );
                 }
 
@@ -3124,7 +3141,7 @@ function SQLupdateTemaTresVersion($ver2ver)
                     $sqlvalue=SQL(
                         "insert",
                         "into `".$prefix."values` (`value_type`, `value`, `value_order`, `value_code`) VALUES
-				('URI_TYPE', 'narrowMatch', NULL, 'narrowMatch')"
+                ('URI_TYPE', 'narrowMatch', NULL, 'narrowMatch')"
                     );
                 }
 
@@ -3133,7 +3150,7 @@ function SQLupdateTemaTresVersion($ver2ver)
                     $sqlvalue=SQL(
                         "insert",
                         "into `".$prefix."values` (`value_type`, `value`, `value_order`, `value_code`) VALUES
-				('DATESTAMP', now(), NULL, 'NOTE_CHANGE')"
+                ('DATESTAMP', now(), NULL, 'NOTE_CHANGE')"
                     );
                 }
 
@@ -3142,7 +3159,7 @@ function SQLupdateTemaTresVersion($ver2ver)
                     $sqlvalue=SQL(
                         "insert",
                         "into `".$prefix."values` (`value_type`, `value`, `value_order`, `value_code`) VALUES
-				('DATESTAMP', now(), NULL, 'TERM_CHANGE')"
+                ('DATESTAMP', now(), NULL, 'TERM_CHANGE')"
                     );
                 }
 
@@ -3151,7 +3168,7 @@ function SQLupdateTemaTresVersion($ver2ver)
                     $sqlvalue=SQL(
                         "insert",
                         "into `".$prefix."values` (`value_type`, `value`, `value_order`, `value_code`) VALUES
-				('DATESTAMP', now(), NULL, 'TTERM_CHANGE')"
+                ('DATESTAMP', now(), NULL, 'TTERM_CHANGE')"
                     );
                 }
 
@@ -3160,7 +3177,7 @@ function SQLupdateTemaTresVersion($ver2ver)
                     $sqlvalue=SQL(
                         "insert",
                         "into `".$prefix."values` (`value_type`, `value`, `value_order`, `value_code`) VALUES
-				('DATESTAMP', now(), NULL, 'THES_CHANGE')"
+                ('DATESTAMP', now(), NULL, 'THES_CHANGE')"
                     );
                 }
 
@@ -3169,7 +3186,7 @@ function SQLupdateTemaTresVersion($ver2ver)
                     $sqlvalue=SQL(
                         "insert",
                         "into `".$prefix."values` (`value_type`, `value`, `value_order`, `value_code`) VALUES
-				('METADATA', NULL, 2, 'dc:contributor')"
+                ('METADATA', NULL, 2, 'dc:contributor')"
                     );
                 }
 
@@ -3178,7 +3195,7 @@ function SQLupdateTemaTresVersion($ver2ver)
                     $sqlvalue=SQL(
                         "insert",
                         "into `".$prefix."values` (`value_type`, `value`, `value_order`, `value_code`) VALUES
-				('METADATA', NULL, 5, 'dc:publisher')"
+                ('METADATA', NULL, 5, 'dc:publisher')"
                     );
                 }
 
@@ -3187,7 +3204,7 @@ function SQLupdateTemaTresVersion($ver2ver)
                     $sqlvalue=SQL(
                         "insert",
                         "into `".$prefix."values` (`value_type`, `value`, `value_order`, `value_code`) VALUES
-				('METADATA', NULL, 9, 'dc:rights')"
+                ('METADATA', NULL, 9, 'dc:rights')"
                     );
                 }
             };
@@ -3195,16 +3212,16 @@ function SQLupdateTemaTresVersion($ver2ver)
             $result5 = SQL(
                 "insert",
                 "into `".$prefix."values` (`value_id`, `value_type`, `value`, `value_order`, `value_code`) VALUES
-		(15, 't_nota', 'Nota catalográfica', 5, 'NC'),
-		(16, 'config', '_USE_CODE', 1, '1'),
-		(17, 'config', '_SHOW_CODE', 1, '1'),
-		(18, 'config', 'CFG_MAX_TREE_DEEP', NULL, '3'),
-		(19, 'config', 'CFG_VIEW_STATUS', NULL, '0'),
-		(20, 'config', 'CFG_SIMPLE_WEB_SERVICE', NULL, '1'),
-		(21, 'config', 'CFG_NUM_SHOW_TERMSxSTATUS', NULL, '200'),
-		(22, 'config', 'CFG_MIN_SEARCH_SIZE', NULL, '2'),
-		(23, 'config', '_SHOW_TREE', '1', '1'),
-		(24, 'config', '_PUBLISH_SKOS', '1', '0')"
+        (15, 't_nota', 'Nota catalográfica', 5, 'NC'),
+        (16, 'config', '_USE_CODE', 1, '1'),
+        (17, 'config', '_SHOW_CODE', 1, '1'),
+        (18, 'config', 'CFG_MAX_TREE_DEEP', NULL, '3'),
+        (19, 'config', 'CFG_VIEW_STATUS', NULL, '0'),
+        (20, 'config', 'CFG_SIMPLE_WEB_SERVICE', NULL, '1'),
+        (21, 'config', 'CFG_NUM_SHOW_TERMSxSTATUS', NULL, '200'),
+        (22, 'config', 'CFG_MIN_SEARCH_SIZE', NULL, '2'),
+        (23, 'config', '_SHOW_TREE', '1', '1'),
+        (24, 'config', '_PUBLISH_SKOS', '1', '0')"
             );
 
             $logTask["1_3x1_4"] = SQLcount($result5);
@@ -3214,39 +3231,39 @@ function SQLupdateTemaTresVersion($ver2ver)
             $result61 = SQL(
                 "CREATE",
                 " TABLE IF NOT EXISTS `".$prefix."term2tterm` (
-		`tterm_id` int(22) NOT NULL AUTO_INCREMENT,
-		`tvocab_id` int(22) NOT NULL,
-		`tterm_url` varchar(200) NOT NULL,
-		`tterm_uri` varchar(200) NOT NULL,
-		`tterm_string` varchar(250) NOT NULL,
-		`cuando` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-		`cuando_last` timestamp NULL DEFAULT NULL,
-		`uid` int(22) NOT NULL,
-		`tema_id` int(22) NOT NULL,
-		PRIMARY KEY (`tterm_id`),
-		KEY `tvocab_id` (`tvocab_id`,`cuando`,`cuando_last`,`uid`),
-		KEY `tema_id` (`tema_id`),
-		KEY `tterm_string` (`tterm_string`)
-		) DEFAULT CHARSET=utf8 ENGINE=MyISAM"
+        `tterm_id` int(22) NOT NULL AUTO_INCREMENT,
+        `tvocab_id` int(22) NOT NULL,
+        `tterm_url` varchar(200) NOT NULL,
+        `tterm_uri` varchar(200) NOT NULL,
+        `tterm_string` varchar(250) NOT NULL,
+        `cuando` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+        `cuando_last` timestamp NULL DEFAULT NULL,
+        `uid` int(22) NOT NULL,
+        `tema_id` int(22) NOT NULL,
+        PRIMARY KEY (`tterm_id`),
+        KEY `tvocab_id` (`tvocab_id`,`cuando`,`cuando_last`,`uid`),
+        KEY `tema_id` (`tema_id`),
+        KEY `tterm_string` (`tterm_string`)
+        ) DEFAULT CHARSET=utf8 ENGINE=MyISAM"
             );
 
             $result62 = SQL(
                 "CREATE",
                 " TABLE IF NOT EXISTS `".$prefix."tvocab` (
-		`tvocab_id` int(22) NOT NULL AUTO_INCREMENT,
-		`tvocab_label` varchar(150) NOT NULL,
-		`tvocab_tag` varchar(5) NOT NULL,
-		`tvocab_lang` VARCHAR( 5 ),
-		`tvocab_title` varchar(200) NOT NULL,
-		`tvocab_url` varchar(250) NOT NULL,
-		`tvocab_uri_service` varchar(250) NOT NULL,
-		`tvocab_status` tinyint(1) NOT NULL,
-		`cuando` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-		`uid` int(22) NOT NULL,
-		PRIMARY KEY (`tvocab_id`),
-		KEY `uid` (`uid`),
-		KEY `status` (`tvocab_status`)
-		) DEFAULT CHARSET=utf8 ENGINE=MyISAM ;"
+        `tvocab_id` int(22) NOT NULL AUTO_INCREMENT,
+        `tvocab_label` varchar(150) NOT NULL,
+        `tvocab_tag` varchar(5) NOT NULL,
+        `tvocab_lang` VARCHAR( 5 ),
+        `tvocab_title` varchar(200) NOT NULL,
+        `tvocab_url` varchar(250) NOT NULL,
+        `tvocab_uri_service` varchar(250) NOT NULL,
+        `tvocab_status` tinyint(1) NOT NULL,
+        `cuando` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+        `uid` int(22) NOT NULL,
+        PRIMARY KEY (`tvocab_id`),
+        KEY `uid` (`uid`),
+        KEY `status` (`tvocab_status`)
+        ) DEFAULT CHARSET=utf8 ENGINE=MyISAM ;"
             );
 
             $result622 = SQL("ALTER", " TABLE `".$prefix."notas` ADD FULLTEXT `notas` (`nota`);");
@@ -3254,16 +3271,16 @@ function SQLupdateTemaTresVersion($ver2ver)
             $result5 = SQL(
                 "insert",
                 "into `".$prefix."values` (`value_id`, `value_type`, `value`, `value_order`, `value_code`) VALUES
-		(15, 't_nota', 'Nota catalográfica', 5, 'NC'),
-		(16, 'config', '_USE_CODE', 1, '1'),
-		(17, 'config', '_SHOW_CODE', 1, '1'),
-		(18, 'config', 'CFG_MAX_TREE_DEEP', NULL, '3'),
-		(19, 'config', 'CFG_VIEW_STATUS', NULL, '0'),
-		(20, 'config', 'CFG_SIMPLE_WEB_SERVICE', NULL, '1'),
-		(21, 'config', 'CFG_NUM_SHOW_TERMSxSTATUS', NULL, '200'),
-		(22, 'config', 'CFG_MIN_SEARCH_SIZE', NULL, '2'),
-		(23, 'config', '_SHOW_TREE', '1', '1'),
-		(24, 'config', '_PUBLISH_SKOS', '1', '0')"
+        (15, 't_nota', 'Nota catalográfica', 5, 'NC'),
+        (16, 'config', '_USE_CODE', 1, '1'),
+        (17, 'config', '_SHOW_CODE', 1, '1'),
+        (18, 'config', 'CFG_MAX_TREE_DEEP', NULL, '3'),
+        (19, 'config', 'CFG_VIEW_STATUS', NULL, '0'),
+        (20, 'config', 'CFG_SIMPLE_WEB_SERVICE', NULL, '1'),
+        (21, 'config', 'CFG_NUM_SHOW_TERMSxSTATUS', NULL, '200'),
+        (22, 'config', 'CFG_MIN_SEARCH_SIZE', NULL, '2'),
+        (23, 'config', '_SHOW_TREE', '1', '1'),
+        (24, 'config', '_PUBLISH_SKOS', '1', '0')"
             );
 
             $logTask["1_1x1_2"] = $result61+$result62+$result622;
@@ -3278,39 +3295,39 @@ function SQLupdateTemaTresVersion($ver2ver)
             $result61 = SQL(
                 "CREATE",
                 " TABLE IF NOT EXISTS `".$prefix."term2tterm` (
-		`tterm_id` int(22) NOT NULL AUTO_INCREMENT,
-		`tvocab_id` int(22) NOT NULL,
-		`tterm_url` varchar(200) NOT NULL,
-		`tterm_uri` varchar(200) NOT NULL,
-		`tterm_string` varchar(250) NOT NULL,
-		`cuando` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-		`cuando_last` timestamp NULL DEFAULT NULL,
-		`uid` int(22) NOT NULL,
-		`tema_id` int(22) NOT NULL,
-		PRIMARY KEY (`tterm_id`),
-		KEY `tvocab_id` (`tvocab_id`,`cuando`,`cuando_last`,`uid`),
-		KEY `tema_id` (`tema_id`),
-		KEY `tterm_string` (`tterm_string`)
-		) DEFAULT CHARSET=utf8 ENGINE=MyISAM"
+        `tterm_id` int(22) NOT NULL AUTO_INCREMENT,
+        `tvocab_id` int(22) NOT NULL,
+        `tterm_url` varchar(200) NOT NULL,
+        `tterm_uri` varchar(200) NOT NULL,
+        `tterm_string` varchar(250) NOT NULL,
+        `cuando` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+        `cuando_last` timestamp NULL DEFAULT NULL,
+        `uid` int(22) NOT NULL,
+        `tema_id` int(22) NOT NULL,
+        PRIMARY KEY (`tterm_id`),
+        KEY `tvocab_id` (`tvocab_id`,`cuando`,`cuando_last`,`uid`),
+        KEY `tema_id` (`tema_id`),
+        KEY `tterm_string` (`tterm_string`)
+        ) DEFAULT CHARSET=utf8 ENGINE=MyISAM"
             );
 
             $result62 = SQL(
                 "CREATE",
                 " TABLE IF NOT EXISTS `".$prefix."tvocab` (
-		`tvocab_id` int(22) NOT NULL AUTO_INCREMENT,
-		`tvocab_label` varchar(150) NOT NULL,
-		`tvocab_tag` varchar(5) NOT NULL,
-		`tvocab_lang` VARCHAR( 5 ),
-		`tvocab_title` varchar(200) NOT NULL,
-		`tvocab_url` varchar(250) NOT NULL,
-		`tvocab_uri_service` varchar(250) NOT NULL,
-		`tvocab_status` tinyint(1) NOT NULL,
-		`cuando` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-		`uid` int(22) NOT NULL,
-		PRIMARY KEY (`tvocab_id`),
-		KEY `uid` (`uid`),
-		KEY `status` (`tvocab_status`)
-		) DEFAULT CHARSET=utf8 ENGINE=MyISAM ;"
+        `tvocab_id` int(22) NOT NULL AUTO_INCREMENT,
+        `tvocab_label` varchar(150) NOT NULL,
+        `tvocab_tag` varchar(5) NOT NULL,
+        `tvocab_lang` VARCHAR( 5 ),
+        `tvocab_title` varchar(200) NOT NULL,
+        `tvocab_url` varchar(250) NOT NULL,
+        `tvocab_uri_service` varchar(250) NOT NULL,
+        `tvocab_status` tinyint(1) NOT NULL,
+        `cuando` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+        `uid` int(22) NOT NULL,
+        PRIMARY KEY (`tvocab_id`),
+        KEY `uid` (`uid`),
+        KEY `status` (`tvocab_status`)
+        ) DEFAULT CHARSET=utf8 ENGINE=MyISAM ;"
             );
 
             $result622 = SQL("ALTER", " TABLE `".$prefix."notas` ADD FULLTEXT `notas` (`nota`);");
@@ -3318,16 +3335,16 @@ function SQLupdateTemaTresVersion($ver2ver)
             $result5 = SQL(
                 "insert",
                 "into `".$prefix."values` (`value_id`, `value_type`, `value`, `value_order`, `value_code`) VALUES
-		(15, 't_nota', 'Nota catalográfica', 5, 'NC'),
-		(16, 'config', '_USE_CODE', 1, '1'),
-		(17, 'config', '_SHOW_CODE', 1, '1'),
-		(18, 'config', 'CFG_MAX_TREE_DEEP', NULL, '3'),
-		(19, 'config', 'CFG_VIEW_STATUS', NULL, '0'),
-		(20, 'config', 'CFG_SIMPLE_WEB_SERVICE', NULL, '1'),
-		(21, 'config', 'CFG_NUM_SHOW_TERMSxSTATUS', NULL, '200'),
-		(22, 'config', 'CFG_MIN_SEARCH_SIZE', NULL, '2'),
-		(23, 'config', '_SHOW_TREE', '1', '1'),
-		(24, 'config', '_PUBLISH_SKOS', '1', '0')"
+        (15, 't_nota', 'Nota catalográfica', 5, 'NC'),
+        (16, 'config', '_USE_CODE', 1, '1'),
+        (17, 'config', '_SHOW_CODE', 1, '1'),
+        (18, 'config', 'CFG_MAX_TREE_DEEP', NULL, '3'),
+        (19, 'config', 'CFG_VIEW_STATUS', NULL, '0'),
+        (20, 'config', 'CFG_SIMPLE_WEB_SERVICE', NULL, '1'),
+        (21, 'config', 'CFG_NUM_SHOW_TERMSxSTATUS', NULL, '200'),
+        (22, 'config', 'CFG_MIN_SEARCH_SIZE', NULL, '2'),
+        (23, 'config', '_SHOW_TREE', '1', '1'),
+        (24, 'config', '_PUBLISH_SKOS', '1', '0')"
             );
 
 
@@ -3344,54 +3361,54 @@ function SQLupdateTemaTresVersion($ver2ver)
             $result61 = SQL(
                 "CREATE",
                 " TABLE IF NOT EXISTS `".$prefix."term2tterm` (
-		`tterm_id` int(22) NOT NULL AUTO_INCREMENT,
-		`tvocab_id` int(22) NOT NULL,
-		`tterm_url` varchar(200) NOT NULL,
-		`tterm_uri` varchar(200) NOT NULL,
-		`tterm_string` varchar(250) NOT NULL,
-		`cuando` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-		`cua
-		` int(22) NOT NULL,
-		`tema_id` int(22) NOT NULL,
-		PRIMARY KEY (`tterm_id`),
-		KEY `tvocab_id` (`tvocab_id`,`cuando`,`cuando_last`,`uid`),
-		KEY `tema_id` (`tema_id`),
-		KEY `tterm_string` (`tterm_string`)
-		) DEFAULT CHARSET=utf8 ENGINE=MyISAM"
+        `tterm_id` int(22) NOT NULL AUTO_INCREMENT,
+        `tvocab_id` int(22) NOT NULL,
+        `tterm_url` varchar(200) NOT NULL,
+        `tterm_uri` varchar(200) NOT NULL,
+        `tterm_string` varchar(250) NOT NULL,
+        `cuando` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+        `cua
+        ` int(22) NOT NULL,
+        `tema_id` int(22) NOT NULL,
+        PRIMARY KEY (`tterm_id`),
+        KEY `tvocab_id` (`tvocab_id`,`cuando`,`cuando_last`,`uid`),
+        KEY `tema_id` (`tema_id`),
+        KEY `tterm_string` (`tterm_string`)
+        ) DEFAULT CHARSET=utf8 ENGINE=MyISAM"
             );
 
             $result62 = SQL(
                 "CREATE",
                 " TABLE IF NOT EXISTS `".$prefix."tvocab` (
-		`tvocab_id` int(22) NOT NULL AUTO_INCREMENT,
-		`tvocab_label` varchar(150) NOT NULL,
-		`tvocab_tag` varchar(5) NOT NULL,
-		`tvocab_lang` VARCHAR( 5 ),
-		`tvocab_title` varchar(200) NOT NULL,
-		`tvocab_url` varchar(250) NOT NULL,
-		`tvocab_uri_service` varchar(250) NOT NULL,
-		`tvocab_status` tinyint(1) NOT NULL,
-		`cuando` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-		`uid` int(22) NOT NULL,
-		PRIMARY KEY (`tvocab_id`),
-		KEY `uid` (`uid`),
-		KEY `status` (`tvocab_status`)
-		) DEFAULT CHARSET=utf8 ENGINE=MyISAM ;"
+        `tvocab_id` int(22) NOT NULL AUTO_INCREMENT,
+        `tvocab_label` varchar(150) NOT NULL,
+        `tvocab_tag` varchar(5) NOT NULL,
+        `tvocab_lang` VARCHAR( 5 ),
+        `tvocab_title` varchar(200) NOT NULL,
+        `tvocab_url` varchar(250) NOT NULL,
+        `tvocab_uri_service` varchar(250) NOT NULL,
+        `tvocab_status` tinyint(1) NOT NULL,
+        `cuando` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+        `uid` int(22) NOT NULL,
+        PRIMARY KEY (`tvocab_id`),
+        KEY `uid` (`uid`),
+        KEY `status` (`tvocab_status`)
+        ) DEFAULT CHARSET=utf8 ENGINE=MyISAM ;"
             );
 
             $result5 = SQL(
                 "insert",
                 "into `".$prefix."values` (`value_id`, `value_type`, `value`, `value_order`, `value_code`) VALUES
-		(15, 't_nota', 'Nota catalográfica', 5, 'NC'),
-		(16, 'config', '_USE_CODE', 1, '1'),
-		(17, 'config', '_SHOW_CODE', 1, '1'),
-		(18, 'config', 'CFG_MAX_TREE_DEEP', NULL, '3'),
-		(19, 'config', 'CFG_VIEW_STATUS', NULL, '0'),
-		(20, 'config', 'CFG_SIMPLE_WEB_SERVICE', NULL, '1'),
-		(21, 'config', 'CFG_NUM_SHOW_TERMSxSTATUS', NULL, '200'),
-		(22, 'config', 'CFG_MIN_SEARCH_SIZE', NULL, '2'),
-		(23, 'config', '_SHOW_TREE', '1', '1'),
-		(24, 'config', '_PUBLISH_SKOS', '1', '0')"
+        (15, 't_nota', 'Nota catalográfica', 5, 'NC'),
+        (16, 'config', '_USE_CODE', 1, '1'),
+        (17, 'config', '_SHOW_CODE', 1, '1'),
+        (18, 'config', 'CFG_MAX_TREE_DEEP', NULL, '3'),
+        (19, 'config', 'CFG_VIEW_STATUS', NULL, '0'),
+        (20, 'config', 'CFG_SIMPLE_WEB_SERVICE', NULL, '1'),
+        (21, 'config', 'CFG_NUM_SHOW_TERMSxSTATUS', NULL, '200'),
+        (22, 'config', 'CFG_MIN_SEARCH_SIZE', NULL, '2'),
+        (23, 'config', '_SHOW_TREE', '1', '1'),
+        (24, 'config', '_PUBLISH_SKOS', '1', '0')"
             );
 
 
@@ -3435,13 +3452,13 @@ function SQLtargetVocabulary($tvocab_status = "1", $tvocab_id = "0")
     return SQL(
         "select",
         "tv.tvocab_id,tv.tvocab_label,tv.tvocab_tag,tv.tvocab_lang,
-	tv.tvocab_title,tv.tvocab_url,tv.tvocab_uri_service,tv.tvocab_status,tv.cuando,tv.uid,
-	count(t2t.tterm_id) as cant
-	from $DBCFG[DBprefix]tvocab tv
-	left join $DBCFG[DBprefix]term2tterm t2t on tv.tvocab_id=t2t.tvocab_id
-	$where
-	group by tv.tvocab_id
-	order by tv.tvocab_tag,tv.tvocab_title"
+    tv.tvocab_title,tv.tvocab_url,tv.tvocab_uri_service,tv.tvocab_status,tv.cuando,tv.uid,
+    count(t2t.tterm_id) as cant
+    from $DBCFG[DBprefix]tvocab tv
+    left join $DBCFG[DBprefix]term2tterm t2t on tv.tvocab_id=t2t.tvocab_id
+    $where
+    group by tv.tvocab_id
+    order by tv.tvocab_tag,tv.tvocab_title"
     );
 }
 
@@ -3458,13 +3475,13 @@ function SQLtargetTerms($tema_id, $tterm_id = "0")
     return SQL(
         "select",
         "tv.tvocab_id,tv.tvocab_label,tv.tvocab_tag,tv.tvocab_lang,
-	tv.tvocab_title,tv.tvocab_url,tv.tvocab_uri_service,tv.cuando as tvoacb_cuando,tv.uid,
-	t2tt.tema_id,t2tt.tterm_id,t2tt.tterm_url,t2tt.tterm_uri,t2tt.tterm_string,t2tt.cuando,t2tt.cuando_last
-	from $DBCFG[DBprefix]tvocab tv,$DBCFG[DBprefix]term2tterm t2tt
-	where tv.tvocab_id=t2tt.tvocab_id
-	and t2tt.tema_id='$tema_id'
-	$where
-	order by tv.tvocab_tag,tv.tvocab_lang, t2tt.tterm_string"
+    tv.tvocab_title,tv.tvocab_url,tv.tvocab_uri_service,tv.cuando as tvoacb_cuando,tv.uid,
+    t2tt.tema_id,t2tt.tterm_id,t2tt.tterm_url,t2tt.tterm_uri,t2tt.tterm_string,t2tt.cuando,t2tt.cuando_last
+    from $DBCFG[DBprefix]tvocab tv,$DBCFG[DBprefix]term2tterm t2tt
+    where tv.tvocab_id=t2tt.tvocab_id
+    and t2tt.tema_id='$tema_id'
+    $where
+    order by tv.tvocab_tag,tv.tvocab_lang, t2tt.tterm_string"
     );
 }
 
@@ -3494,15 +3511,15 @@ function SQLtargetTermsVocabulary($tvocab_id, $from = "0", $limit = "20")
     return SQL(
         "select",
         "tv.tvocab_id,tv.tvocab_label,tv.tvocab_tag,tv.tvocab_lang,
-	tv.tvocab_title,tv.tvocab_url,tv.tvocab_uri_service,tv.cuando,tv.uid,
-	t2tt.tterm_id,t2tt.tterm_url,t2tt.tterm_uri,t2tt.tterm_string,t2tt.cuando,t2tt.cuando_last,
-	t.tema_id,t.tema
-	from $DBCFG[DBprefix]tvocab tv,$DBCFG[DBprefix]term2tterm t2tt,$DBCFG[DBprefix]tema t
-	where tv.tvocab_id=t2tt.tvocab_id
-	and t2tt.tema_id=t.tema_id
-	and tv.tvocab_id='$tvocab_id'
-	order by tv.tvocab_tag,t2tt.tterm_string
-	limit $from,$limit"
+    tv.tvocab_title,tv.tvocab_url,tv.tvocab_uri_service,tv.cuando,tv.uid,
+    t2tt.tterm_id,t2tt.tterm_url,t2tt.tterm_uri,t2tt.tterm_string,t2tt.cuando,t2tt.cuando_last,
+    t.tema_id,t.tema
+    from $DBCFG[DBprefix]tvocab tv,$DBCFG[DBprefix]term2tterm t2tt,$DBCFG[DBprefix]tema t
+    where tv.tvocab_id=t2tt.tvocab_id
+    and t2tt.tema_id=t.tema_id
+    and tv.tvocab_id='$tvocab_id'
+    order by tv.tvocab_tag,t2tt.tterm_string
+    limit $from,$limit"
     );
 }
 
@@ -3519,16 +3536,16 @@ function SQLtermsNoMapped($tesauro_id, $tvocab_id)
     return SQL(
         "select",
         "t.tema_id,t.tema,t.cuando,t.cuando_final,t.isMetaTerm
-	from $DBCFG[DBprefix]tema as t
-	left join $DBCFG[DBprefix]term2tterm tt on tt.tema_id=t.tema_id and tt.tvocab_id='$tvocab_id'
-	left join $DBCFG[DBprefix]tabla_rel as r on t.tema_id in (r.id_menor,r.id_mayor)
-	and r.t_relacion in (4,5,6,7)
-	where
-	r.id is null
-	and tt.tterm_id is null
-	and t.tesauro_id='$tesauro_id'
-	group by t.tema_id
-	order by lower(t.tema)"
+    from $DBCFG[DBprefix]tema as t
+    left join $DBCFG[DBprefix]term2tterm tt on tt.tema_id=t.tema_id and tt.tvocab_id='$tvocab_id'
+    left join $DBCFG[DBprefix]tabla_rel as r on t.tema_id in (r.id_menor,r.id_mayor)
+    and r.t_relacion in (4,5,6,7)
+    where
+    r.id is null
+    and tt.tterm_id is null
+    and t.tesauro_id='$tesauro_id'
+    group by t.tema_id
+    order by lower(t.tema)"
     );
 }
 
@@ -3546,12 +3563,12 @@ function SQLsourceTermsByURI($URI_term)
     return SQL(
         "select",
         "t.tema_id,t.tema,t.code,c.idioma,t.cuando,t.cuando_final,t.isMetaTerm
-	from $DBCFG[DBprefix]tvocab tv,$DBCFG[DBprefix]term2tterm t2tt,$DBCFG[DBprefix]tema t,$DBCFG[DBprefix]config c
-	where tv.tvocab_id=t2tt.tvocab_id
-	and t.tema_id=t2tt.tema_id
-	and c.id=t.tesauro_id
-	and t2tt.tterm_uri =$URI_term
-	order by t.tema"
+    from $DBCFG[DBprefix]tvocab tv,$DBCFG[DBprefix]term2tterm t2tt,$DBCFG[DBprefix]tema t,$DBCFG[DBprefix]config c
+    where tv.tvocab_id=t2tt.tvocab_id
+    and t.tema_id=t2tt.tema_id
+    and c.id=t.tesauro_id
+    and t2tt.tterm_uri =$URI_term
+    order by t.tema"
     );
 }
 
@@ -3568,12 +3585,12 @@ function SQLsourceTermsByTerm($term)
     return SQL(
         "select",
         "t.tema_id,t.tema,t.code,c.idioma,t.cuando,t.cuando_final,t.isMetaTerm
-	from $DBCFG[DBprefix]tvocab tv,$DBCFG[DBprefix]term2tterm t2tt,$DBCFG[DBprefix]tema t,$DBCFG[DBprefix]config c
-	where tv.tvocab_id=t2tt.tvocab_id
-	and t.tema_id=t2tt.tema_id
-	and c.id=t.tesauro_id
-	and t2tt.tterm_string =$term
-	order by t.tema"
+    from $DBCFG[DBprefix]tvocab tv,$DBCFG[DBprefix]term2tterm t2tt,$DBCFG[DBprefix]tema t,$DBCFG[DBprefix]config c
+    where tv.tvocab_id=t2tt.tvocab_id
+    and t.tema_id=t2tt.tema_id
+    and c.id=t.tesauro_id
+    and t2tt.tterm_string =$term
+    order by t.tema"
     );
 }
 
@@ -3599,22 +3616,24 @@ function SQLtermsXstatus($tesauro_id, $status_id)
     return SQL(
         "select",
         "t.tema_id, $show_code t.tema,t.cuando,t.isMetaTerm, concat(u.APELLIDO,', ',u.NOMBRES) as user_data,v.value as status,t.cuando_estado
-	from $DBCFG[DBprefix]usuario u,$DBCFG[DBprefix]values v,$DBCFG[DBprefix]tema as t
-	where
-	t.tesauro_id='$tesauro_id'
-	and u.id=t.uid
-	and v.value_id=t.estado_id
-	and v.value_type='t_estado'
-	and t.estado_id='$status_id'
-	order by lower(t.tema)"
+    from $DBCFG[DBprefix]usuario u,$DBCFG[DBprefix]values v,$DBCFG[DBprefix]tema as t
+    where
+    t.tesauro_id='$tesauro_id'
+    and u.id=t.uid
+    and v.value_id=t.estado_id
+    and v.value_type='t_estado'
+    and t.estado_id='$status_id'
+    order by lower(t.tema)"
     );
 }
 
 
 
-                /*
-                terms with more than one BT
-                */
+/** 
+ * Terms with more than one BT
+ * 
+ * @return object
+ */
 function SQLpoliBT()
 {
     global $DBCFG;
@@ -3622,20 +3641,22 @@ function SQLpoliBT()
     return SQL(
         "select",
         "t.tema_id,t.tema,t.cuando,t.isMetaTerm, count(t.tema_id) as cantBT
-	from $DBCFG[DBprefix]tema t,$DBCFG[DBprefix]usuario u, $DBCFG[DBprefix]tabla_rel r
-	where t.uid=u.id
-	and t.tema_id=r.id_menor
-	and t_relacion='3'
-	group by t.tema_id
-	having cantBT>1
-	order by t.tema"
+   from $DBCFG[DBprefix]tema t,$DBCFG[DBprefix]usuario u, $DBCFG[DBprefix]tabla_rel r
+    where t.uid=u.id
+    and t.tema_id=r.id_menor
+    and t_relacion='3'
+    group by t.tema_id
+    having cantBT>1
+    order by t.tema"
     );
 }
 
 
-                /*
-                preferred and accepted terms with the number of narrower terms
-                */
+/** 
+ * Preferred and accepted terms with the number of narrower terms
+ * 
+ * @return object
+ */
 function SQLtermsXcantNT()
 {
     global $DBCFG;
@@ -3645,21 +3666,26 @@ function SQLtermsXcantNT()
     return SQL(
         "select",
         "t.tema_id,t.tema,t.isMetaTerm, LENGTH(i.indice) - LENGTH(REPLACE(i.indice, '|', '')) as deepLevel,count(r.id_menor) as cant,
-	t.cuando,concat(u.APELLIDO,', ',u.NOMBRES) as user_data
-	FROM $DBCFG[DBprefix]tema t, $DBCFG[DBprefix]usuario u,$DBCFG[DBprefix]tabla_rel r,$DBCFG[DBprefix]indice i
-	where
-	t.tema_id=r.id_mayor
-	and r.t_relacion='3'
-	and i.tema_id=t.tema_id
-	and u.id=t.uid
-	group by t.tema_id
-	order by cant desc,t.tema"
+    t.cuando,concat(u.APELLIDO,', ',u.NOMBRES) as user_data
+    FROM $DBCFG[DBprefix]tema t, $DBCFG[DBprefix]usuario u,$DBCFG[DBprefix]tabla_rel r,$DBCFG[DBprefix]indice i
+    where
+    t.tema_id=r.id_mayor
+    and r.t_relacion='3'
+    and i.tema_id=t.tema_id
+    and u.id=t.uid
+    group by t.tema_id
+    order by cant desc,t.tema"
     );
 }
 
-                /*
-                preferred and accepted terms without hierarchical relationships
-                */
+
+/** 
+ * Preferred and accepted terms without hierarchical relationships
+ * 
+ * @param int $tesauro_id vocab_id to limit the scope of terms (target or object vocab)
+ * 
+ * @return object
+ */                
 function SQLtermsNoBT($tesauro_id)
 {
     global $DBCFG;
@@ -3669,27 +3695,32 @@ function SQLtermsNoBT($tesauro_id)
     return SQL(
         "select",
         "t.tema_id,t.tema,t.cuando,t.isMetaTerm,count(rt.id) cant_RT,count(uf.id) cant_UF
-	from
-	$DBCFG[DBprefix]tema t
-	left join $DBCFG[DBprefix]tabla_rel rt on t.tema_id=rt.id_mayor and rt.t_relacion='2'
-	left join $DBCFG[DBprefix]tabla_rel uf on t.tema_id=uf.id_menor and uf.t_relacion='4'
-	left join $DBCFG[DBprefix]tabla_rel uf1 on t.tema_id=uf1.id_mayor and uf1.t_relacion='4'
-	left join $DBCFG[DBprefix]tabla_rel bt on t.tema_id =bt.id_menor and bt.t_relacion='3'
-	left join $DBCFG[DBprefix]tabla_rel nt on t.tema_id =nt.id_mayor and nt.t_relacion='3'
-	where
-	bt.id is null
-	and nt.id is null
-	and uf1.id is null
-	and t.estado_id='13'
-	and t.tesauro_id='$tesauro_id'
-	group by t.tema_id
-	order by t.tema"
+    from
+    $DBCFG[DBprefix]tema t
+    left join $DBCFG[DBprefix]tabla_rel rt on t.tema_id=rt.id_mayor and rt.t_relacion='2'
+    left join $DBCFG[DBprefix]tabla_rel uf on t.tema_id=uf.id_menor and uf.t_relacion='4'
+    left join $DBCFG[DBprefix]tabla_rel uf1 on t.tema_id=uf1.id_mayor and uf1.t_relacion='4'
+    left join $DBCFG[DBprefix]tabla_rel bt on t.tema_id =bt.id_menor and bt.t_relacion='3'
+    left join $DBCFG[DBprefix]tabla_rel nt on t.tema_id =nt.id_mayor and nt.t_relacion='3'
+    where
+    bt.id is null
+    and nt.id is null
+    and uf1.id is null
+    and t.estado_id='13'
+    and t.tesauro_id='$tesauro_id'
+    group by t.tema_id
+    order by t.tema"
     );
 }
 
-                /*
-                preferred and accepted terms with words count
-                */
+
+/** 
+ * Preferred and accepted terms with words count
+ * 
+ * @param int $tesauro_id vocab_id to limit the scope of terms (target or object vocab)
+ * 
+ * @return object
+ */                            
 function SQLtermsXcantWords($tesauro_id)
 {
     global $DBCFG;
@@ -3699,14 +3730,14 @@ function SQLtermsXcantWords($tesauro_id)
     return SQL(
         "select",
         "t.tema_id,t.tema,t.isMetaTerm, SUM( LENGTH(t.tema) - LENGTH(REPLACE(t.tema, ' ', ''))+1) as cant,
-	t.cuando,concat(u.APELLIDO,', ',u.NOMBRES) as user_data,t.cuando_estado
-	FROM $DBCFG[DBprefix]usuario u,$DBCFG[DBprefix]tema t
-	left join $DBCFG[DBprefix]tabla_rel uf on t.tema_id=uf.id_mayor and uf.t_relacion='4'
-	where t.tesauro_id='$tesauro_id'
-	and uf.id is null
-	and u.id=t.uid
-	group by tema_id
-	order by cant desc"
+    t.cuando,concat(u.APELLIDO,', ',u.NOMBRES) as user_data,t.cuando_estado
+    FROM $DBCFG[DBprefix]usuario u,$DBCFG[DBprefix]tema t
+    left join $DBCFG[DBprefix]tabla_rel uf on t.tema_id=uf.id_mayor and uf.t_relacion='4'
+    where t.tesauro_id='$tesauro_id'
+    and uf.id is null
+    and u.id=t.uid
+    group by tema_id
+    order by cant desc"
     );
 }
 
@@ -3722,9 +3753,9 @@ function fetchTermIdxNote($string)
     $sql=SQL(
         "select",
         "t.tema_id
-	from $DBCFG[DBprefix]notas n,$DBCFG[DBprefix]tema t
-	where n.nota=$string
-	and t.tema_id=n.id_tema"
+    from $DBCFG[DBprefix]notas n,$DBCFG[DBprefix]tema t
+    where n.nota=$string
+    and t.tema_id=n.id_tema"
     );
 
     $array=$sql->FetchRow();
@@ -3745,10 +3776,10 @@ function fetchTermId($string, $tesauro_id = "1")
     $sql=SQL(
         "select",
         "tema_id
-	from $DBCFG[DBprefix]tema t
-	where t.estado_id ='13'
-	and t.tesauro_id='$tesauro_id'
-	and t.tema=$string"
+    from $DBCFG[DBprefix]tema t
+    where t.estado_id ='13'
+    and t.tesauro_id='$tesauro_id'
+    and t.tema=$string"
     );
 
     $array=$sql->FetchRow();
@@ -3757,15 +3788,20 @@ function fetchTermId($string, $tesauro_id = "1")
 }
 
 
-                //get vocabulary config values
+
+/** 
+ * Get vocabulary config values
+ * 
+ * @return object
+ */
 function SQLconfigValues()
 {
     global $DBCFG;
     return SQL(
         "select",
         "v.value_id,v.value_type,v.value,v.value_code,v.value_order
-	from $DBCFG[DBprefix]values v
-	where v.value_type='config'"
+    from $DBCFG[DBprefix]values v
+    where v.value_type='config'"
     );
 }
 
@@ -3778,22 +3814,22 @@ function ARRAYdataRelation($rel_id)
     $sql=SQL(
         "select",
         "r.id as rel_id,
-	r.id_mayor,
-	r.id_menor,
-	r.t_relacion,
-	r.t_relacion as t_relation,
-	vr.value_code as r_code,
-	vr.value as r_value,
-	r.rel_rel_id,
-	vrr.value_code as rr_code,
-	vrr.value as rr_value
-	from $DBCFG[DBprefix]values vr ,$DBCFG[DBprefix]tabla_rel r
-	left join $DBCFG[DBprefix]values vrr on r.rel_rel_id = vrr.value_id
-	where
-	r.t_relacion=vr.value_id
-	and vr.value_type='t_relacion'
-	and r.id='$rel_id'
-	group by r.id"
+    r.id_mayor,
+    r.id_menor,
+    r.t_relacion,
+    r.t_relacion as t_relation,
+    vr.value_code as r_code,
+    vr.value as r_value,
+    r.rel_rel_id,
+    vrr.value_code as rr_code,
+    vrr.value as rr_value
+    from $DBCFG[DBprefix]values vr ,$DBCFG[DBprefix]tabla_rel r
+    left join $DBCFG[DBprefix]values vrr on r.rel_rel_id = vrr.value_id
+    where
+    r.t_relacion=vr.value_id
+    and vr.value_type='t_relacion'
+    and r.id='$rel_id'
+    group by r.id"
     );
     return $sql->FetchRow();
 }
@@ -3820,20 +3856,20 @@ function SQLtypeRelations($t_relation = 0, $rrel_type_id = 0, $cant = false)
     return SQL(
         "select",
         "tr.value_id as t_relation,
-	tr.value_code as r_code,
-	tr.value as r_value,
-	trr.value_id as rel_rel_id,
-	trr.value_code as rr_code,
-	trr.value_order as rr_ord,
-	trr.value as rr_value
-	$select
-	from $DBCFG[DBprefix]values tr, $DBCFG[DBprefix]values trr
-	$from
-	where tr.value_id=trr.value_type
-	and tr.value_type='t_relacion'
-	$where
-	group by trr.value_id
-	order by tr.value_order,tr.value_id, trr.value_order,trr.value_id"
+    tr.value_code as r_code,
+    tr.value as r_value,
+    trr.value_id as rel_rel_id,
+    trr.value_code as rr_code,
+    trr.value_order as rr_ord,
+    trr.value as rr_value
+    $select
+    from $DBCFG[DBprefix]values tr, $DBCFG[DBprefix]values trr
+    $from
+    where tr.value_id=trr.value_type
+    and tr.value_type='t_relacion'
+    $where
+    group by trr.value_id
+    order by tr.value_order,tr.value_id, trr.value_order,trr.value_id"
     );
 }
 
@@ -3871,16 +3907,16 @@ function SQLURIdefinition($uri_type_id = 0)
     return SQL(
         "select",
         "v.value_id as uri_type_id,
-	v.value as uri_value,
-	v.value_code as uri_code,
-	v.value_order,
-	count(u.uri_id) as uri_cant
-	from $DBCFG[DBprefix]values v
-	left join $DBCFG[DBprefix]uri u on v.value_id=u.uri_type_id
-	where v.value_type='URI_TYPE'
-	$where
-	group by v.value_id
-	order by v.value_order,v.value_code"
+    v.value as uri_value,
+    v.value_code as uri_code,
+    v.value_order,
+    count(u.uri_id) as uri_cant
+    from $DBCFG[DBprefix]values v
+    left join $DBCFG[DBprefix]uri u on v.value_id=u.uri_type_id
+    where v.value_type='URI_TYPE'
+    $where
+    group by v.value_id
+    order by v.value_order,v.value_code"
     );
 }
 
@@ -3896,19 +3932,19 @@ function SQLURIxterm($tema_id)
     return SQL(
         "select",
         "t.tema_id,t.tema,t.code,v.value_id as uri_type_id,
-	v.value as uri_value,
-	v.value_code as uri_code,
-	v.value_order,
-	u.uri_id,
-	u.uri
-	from $DBCFG[DBprefix]values v,
-	$DBCFG[DBprefix]uri u,
-	$DBCFG[DBprefix]tema t
-	where v.value_type='URI_TYPE'
-	and v.value_id=u.uri_type_id
-	and u.tema_id=t.tema_id
-	and u.tema_id='$tema_id'
-	order by v.value_order,v.value_code"
+    v.value as uri_value,
+    v.value_code as uri_code,
+    v.value_order,
+    u.uri_id,
+    u.uri
+    from $DBCFG[DBprefix]values v,
+    $DBCFG[DBprefix]uri u,
+    $DBCFG[DBprefix]tema t
+    where v.value_type='URI_TYPE'
+    and v.value_id=u.uri_type_id
+    and u.tema_id=t.tema_id
+    and u.tema_id='$tema_id'
+    order by v.value_order,v.value_code"
     );
 }
 
@@ -3922,17 +3958,17 @@ function ARRAY_URI($uri_id)
     $sql=SQL(
         "select",
         "t.tema_id,t.tema,t.code,v.value_id as uri_type_id,
-	v.value as uri_value,
-	v.value_code as uri_code,
-	v.value_order
-	from $DBCFG[DBprefix]values v,
-	$DBCFG[DBprefix]uri u,
-	$DBCFG[DBprefix]tema t
-	where v.value_type='URI_TYPE'
-	and v.value_id=u.uri_type_id
-	and u.tema_id=t.tema_id
-	and u.uri_id='$uri_id'
-	order by v.value_order,v.value_code"
+    v.value as uri_value,
+    v.value_code as uri_code,
+    v.value_order
+    from $DBCFG[DBprefix]values v,
+    $DBCFG[DBprefix]uri u,
+    $DBCFG[DBprefix]tema t
+    where v.value_type='URI_TYPE'
+    and v.value_id=u.uri_type_id
+    and u.tema_id=t.tema_id
+    and u.uri_id='$uri_id'
+    order by v.value_order,v.value_code"
     );
 
     if ($sql) {
@@ -3959,14 +3995,14 @@ function SQLfetchValue($value_type, $value_code = "")
         return SQL(
             "select",
             "v.value_id,
-		v.value_type,
-		v.value,
-		v.value_code,
-		v.value_order
-		from $DBCFG[DBprefix]values v
-		where value_type='$value_type'
-		$where
-		order by value_order,value_code,value"
+        v.value_type,
+        v.value,
+        v.value_code,
+        v.value_order
+        from $DBCFG[DBprefix]values v
+        where value_type='$value_type'
+        $where
+        order by value_order,value_code,value"
         );
     };
 }
@@ -3985,14 +4021,14 @@ function ARRAYfetchValueXValue($value_type, $value)
     $sql=SQL(
         "select",
         "v.value_id,
-	v.value_type,
-	v.value,
-	v.value_code,
-	v.value_order
-	from $DBCFG[DBprefix]values v
-	where value=$value
-	and value_type=$value_type
-	order by value_order,value_code,value"
+    v.value_type,
+    v.value,
+    v.value_code,
+    v.value_order
+    from $DBCFG[DBprefix]values v
+    where value=$value
+    and value_type=$value_type
+    order by value_order,value_code,value"
     );
 
     return (is_object($sql)) ? $sql->FetchRow() : array();
@@ -4033,8 +4069,8 @@ function fetchlastMod($value_code = "")
     $sql=SQL(
         "select",
         "max(v.value) last from $DBCFG[DBprefix]values v
-	where v.value_type='DATESTAMP'
-	$where"
+    where v.value_type='DATESTAMP'
+    $where"
     );
 
     $array= $sql->FetchRow();
@@ -4042,7 +4078,12 @@ function fetchlastMod($value_code = "")
     return $array["last"];
 }
 
-//Retrieve last update of SPARQL endpoint
+
+/** 
+ * Retrieve last update of SPARQL endpoint
+ * 
+ * @return object
+ */
 function fetchlastUpdateEndpoint()
 {
     return ARRAYfetchValue('DATESTAMP', 'ENDPOINT_CHANGE');
@@ -4060,21 +4101,28 @@ function ARRAYtargetVocabularyXuri($tvocab_uri)
         $sql=SQL(
             "select",
             "tv.tvocab_id,tv.tvocab_label,tv.tvocab_tag,tv.tvocab_lang,
-		tv.tvocab_title,tv.tvocab_url,tv.tvocab_uri_service,tv.tvocab_status,tv.cuando,tv.uid,
-		count(t2t.tterm_id) as cant
-		from $DBCFG[DBprefix]tvocab tv
-		left join $DBCFG[DBprefix]term2tterm t2t on tv.tvocab_id=t2t.tvocab_id
-		where tv.tvocab_uri_service='$tvocab_uri'
-		group by tv.tvocab_id
-		order by tv.tvocab_tag,tv.tvocab_title"
+        tv.tvocab_title,tv.tvocab_url,tv.tvocab_uri_service,tv.tvocab_status,tv.cuando,tv.uid,
+        count(t2t.tterm_id) as cant
+        from $DBCFG[DBprefix]tvocab tv
+        left join $DBCFG[DBprefix]term2tterm t2t on tv.tvocab_id=t2t.tvocab_id
+        where tv.tvocab_uri_service='$tvocab_uri'
+        group by tv.tvocab_id
+        order by tv.tvocab_tag,tv.tvocab_title"
         );
         return $sql->FetchRow();
     } else {
         return array();
     }
-}
+};
 
-//retrieve data about meta terms
+
+/** 
+ * Retrieve data about meta terms
+ * 
+ * @param int $tesauro_id vocab_id to limit the scope of terms (target or object vocab)
+ * 
+ * @return object
+ */
 function SQLtermsIsMetaTerms($tesauro_id)
 {
     global $DBCFG;
@@ -4087,14 +4135,14 @@ function SQLtermsIsMetaTerms($tesauro_id)
     return SQL(
         "select",
         "t.tema_id, $show_code t.tema,t.cuando,t.isMetaTerm, concat(u.APELLIDO,', ',u.NOMBRES) as user_data,v.value as status,t.cuando_estado
-	from $DBCFG[DBprefix]usuario u,$DBCFG[DBprefix]values v,$DBCFG[DBprefix]tema as t
-	where
-	t.tesauro_id='$tesauro_id'
-	and u.id=t.uid
-	and v.value_id=t.estado_id
-	and v.value_type='t_estado'
-	and t.isMetaTerm=1
-	order by lower(t.tema)"
+    from $DBCFG[DBprefix]usuario u,$DBCFG[DBprefix]values v,$DBCFG[DBprefix]tema as t
+    where
+    t.tesauro_id='$tesauro_id'
+    and u.id=t.uid
+    and v.value_id=t.estado_id
+    and v.value_type='t_estado'
+    and t.isMetaTerm=1
+    order by lower(t.tema)"
     );
 }
 
@@ -4114,20 +4162,20 @@ function SQLtermsXrelatedTerms($tesauro_id, $tema_id = 0)
     return SQL(
         "select",
         "t.tema_id ,t.tema,t.cuando,t.isMetaTerm,
-	'$r_label' as type, v.value as sub_type,
-	t2.tema_id as rt_tema_id ,t2.tema as rt_tema,t2.cuando as rt_cuando,t2.isMetaTerm as rt_isMetaTerm
-	from
-	$DBCFG[DBprefix]tema as t,
-	$DBCFG[DBprefix]tema as t2,
-	$DBCFG[DBprefix]tabla_rel as r
-	left join $DBCFG[DBprefix]values v on v.value_id=r.rel_rel_id and v.value_type=r.t_relacion
-	where
-	t.tesauro_id='$tesauro_id'
-	$where
-	and r.id_mayor=t.tema_id
-	and r.id_menor=t2.tema_id
-	and r.t_relacion=2
-	order by lower(t.tema)"
+    '$r_label' as type, v.value as sub_type,
+    t2.tema_id as rt_tema_id ,t2.tema as rt_tema,t2.cuando as rt_cuando,t2.isMetaTerm as rt_isMetaTerm
+    from
+    $DBCFG[DBprefix]tema as t,
+    $DBCFG[DBprefix]tema as t2,
+    $DBCFG[DBprefix]tabla_rel as r
+    left join $DBCFG[DBprefix]values v on v.value_id=r.rel_rel_id and v.value_type=r.t_relacion
+    where
+    t.tesauro_id='$tesauro_id'
+    $where
+    and r.id_mayor=t.tema_id
+    and r.id_menor=t2.tema_id
+    and r.t_relacion=2
+    order by lower(t.tema)"
     );
 }
 
@@ -4147,20 +4195,20 @@ function SQLtermsXNonPreferedTerms($tesauro_id, $tema_id = 0)
     return SQL(
         "select",
         "t.tema_id ,t.tema,t.cuando,t.isMetaTerm,
-	'$r_label' as type, v.value as sub_type,
-	t2.tema_id as uf_tema_id ,t2.tema as uf_tema,t2.cuando as uf_cuando
-	from
-	$DBCFG[DBprefix]tema as t,
-	$DBCFG[DBprefix]tema as t2,
-	$DBCFG[DBprefix]tabla_rel as r
-	left join $DBCFG[DBprefix]values v on v.value_id=r.rel_rel_id and v.value_type=r.t_relacion
-	where
-	t.tesauro_id='$tesauro_id'
-	$where
-	and r.id_menor=t.tema_id
-	and r.id_mayor=t2.tema_id
-	and r.t_relacion=4
-	order by lower(t.tema)"
+    '$r_label' as type, v.value as sub_type,
+    t2.tema_id as uf_tema_id ,t2.tema as uf_tema,t2.cuando as uf_cuando
+    from
+    $DBCFG[DBprefix]tema as t,
+    $DBCFG[DBprefix]tema as t2,
+    $DBCFG[DBprefix]tabla_rel as r
+    left join $DBCFG[DBprefix]values v on v.value_id=r.rel_rel_id and v.value_type=r.t_relacion
+    where
+    t.tesauro_id='$tesauro_id'
+    $where
+    and r.id_menor=t.tema_id
+    and r.id_mayor=t2.tema_id
+    and r.t_relacion=4
+    order by lower(t.tema)"
     );
 }
 
@@ -4208,12 +4256,12 @@ function ARRAYuserData4term($term_id, $user_id = 0)
     $sql=SQL(
         "select",
         "c.id as c_id,c.apellido as c_apellido,c.nombres as c_nombres,
-				m.id as m_id,m.apellido as m_apellido,m.nombres as m_nombres
-				from $DBCFG[DBprefix]usuario c ,$DBCFG[DBprefix]tema t
-				left join $DBCFG[DBprefix]usuario m on t.uid_final=m.id
-				where t.tema_id=$term_id
-				and c.id=t.uid
-				group by t.tema_id"
+                m.id as m_id,m.apellido as m_apellido,m.nombres as m_nombres
+                from $DBCFG[DBprefix]usuario c ,$DBCFG[DBprefix]tema t
+                left join $DBCFG[DBprefix]usuario m on t.uid_final=m.id
+                where t.tema_id=$term_id
+                and c.id=t.uid
+                group by t.tema_id"
     );
 
     return (is_object($sql)) ? $sql->FetchRow() : array();
@@ -4235,12 +4283,12 @@ function SQLcheckDuplicateTerm($string, $isMetaTerm, $tesauro_id)
     return SQL(
         "select",
         "t.tema_id,t.tema
-		from $DBCFG[DBprefix]tema as t
-		where
-		t.tesauro_id='$tesauro_id'
-		and t.tema=$string
-		and t.isMetaTerm='$isMetaTerm'
-		"
+        from $DBCFG[DBprefix]tema as t
+        where
+        t.tesauro_id='$tesauro_id'
+        and t.tema=$string
+        and t.isMetaTerm='$isMetaTerm'
+        "
     );
 };
 //
@@ -4267,11 +4315,11 @@ function SQLbulkReplaceTermTest($from, $to, $where)
     return SQL(
         "select",
         "t.tema_id,t.tema,replace(t.tema, $from_string, $to_string) tema_mod
-						from $DBCFG[DBprefix]tema t
-						where t.tema like BINARY $where_string
-						and t.tesauro_id=1
-						and length(replace(t.tema, $from_string, $to_string))>0
-						order by t.tema"
+                        from $DBCFG[DBprefix]tema t
+                        where t.tema like BINARY $where_string
+                        and t.tesauro_id=1
+                        and length(replace(t.tema, $from_string, $to_string))>0
+                        order by t.tema"
     );
 }
 
@@ -4287,11 +4335,11 @@ function SQLbulkReplaceNoteTest($from, $to, $where)
     return SQL(
         "select",
         "t.tema_id,t.tema,n.id nota_id,n.nota,replace(n.nota, $from_string, $to_string) nota_mod
-						from $DBCFG[DBprefix]tema t,$DBCFG[DBprefix]notas n
-						where n.nota like BINARY $where_string
-						and t.tema_id=n.id_tema
-						and length(replace(n.nota, $from_string, $to_string))>0
-						order by t.tema"
+                        from $DBCFG[DBprefix]tema t,$DBCFG[DBprefix]notas n
+                        where n.nota like BINARY $where_string
+                        and t.tema_id=n.id_tema
+                        and length(replace(n.nota, $from_string, $to_string))>0
+                        order by t.tema"
     );
 }
 
@@ -4311,17 +4359,17 @@ function SQLsearchPrefTermsNotInList($list_id, $string)
     $sql=SQL(
         "select",
         "tema.tema_id ,tema.tema,tema.cuando,tema.uid,tema.cuando_final,tema.isMetaTerm
-	from $DBCFG[DBprefix]tema as tema
-	left join $DBCFG[DBprefix]tabla_rel as relaciones on tema.tema_id = relaciones.id_mayor
-	and relaciones.t_relacion='4'
-	where
-	relaciones.id is null
-	and tema.tesauro_id='$tesauro_id'
- 	and tema.estado_id='13'
-	and tema.tema like $string
-	and tema.tema_id not in ($list_id)
- 	group by tema.tema_id
-	order by lower(tema.tema)"
+    from $DBCFG[DBprefix]tema as tema
+    left join $DBCFG[DBprefix]tabla_rel as relaciones on tema.tema_id = relaciones.id_mayor
+    and relaciones.t_relacion='4'
+    where
+    relaciones.id is null
+    and tema.tesauro_id='$tesauro_id'
+     and tema.estado_id='13'
+    and tema.tema like $string
+    and tema.tema_id not in ($list_id)
+     group by tema.tema_id
+    order by lower(tema.tema)"
     );
 
 
@@ -4357,18 +4405,18 @@ function SQLrandomTerms($note_type = "")
     return SQL(
         "select",
         "tema.tema_id as term_id,tema.code,tema.tema,tema.cuando,tema.uid,tema.cuando_final,tema.isMetaTerm,c.idioma
-			from $from $DBCFG[DBprefix]config c,$DBCFG[DBprefix]tema as tema
-			left join $DBCFG[DBprefix]tabla_rel as relaciones on tema.tema_id = relaciones.id_mayor
-			and relaciones.t_relacion='4'
-			where
-			relaciones.id is null
-			and tema.tesauro_id=c.id
-			and c.id=1
-			and tema.estado_id='13'
-			$where
-			group by tema.tema_id
-			order by rand()
-			limit 0,1"
+            from $from $DBCFG[DBprefix]config c,$DBCFG[DBprefix]tema as tema
+            left join $DBCFG[DBprefix]tabla_rel as relaciones on tema.tema_id = relaciones.id_mayor
+            and relaciones.t_relacion='4'
+            where
+            relaciones.id is null
+            and tema.tesauro_id=c.id
+            and c.id=1
+            and tema.estado_id='13'
+            $where
+            group by tema.tema_id
+            order by rand()
+            limit 0,1"
     );
 };
 
@@ -4405,16 +4453,16 @@ function SQLtermsInternalMapped($tema_id, $tesauro_id = "")
     return SQL(
         "select",
         "c.titulo,c.idioma,t.tema_id,t.tema,t.cuando,t.cuando_final,t.isMetaTerm,
-		r.t_relacion,
-		v.value_code
-	from $DBCFG[DBprefix]config c, $DBCFG[DBprefix]values v,$DBCFG[DBprefix]tema as t,$DBCFG[DBprefix]tabla_rel r
-	where
-	r.t_relacion in (5,6,7)
-	and t.tema_id=r.id_mayor
-	and t.tesauro_id=c.id
-	and v.value_id=r.t_relacion
-	and r.id_menor=$tema_id
-	order by c.titulo,lower(t.tema)"
+        r.t_relacion,
+        v.value_code
+    from $DBCFG[DBprefix]config c, $DBCFG[DBprefix]values v,$DBCFG[DBprefix]tema as t,$DBCFG[DBprefix]tabla_rel r
+    where
+    r.t_relacion in (5,6,7)
+    and t.tema_id=r.id_mayor
+    and t.tesauro_id=c.id
+    and v.value_id=r.t_relacion
+    and r.id_menor=$tema_id
+    order by c.titulo,lower(t.tema)"
     );
 }
 
@@ -4429,21 +4477,21 @@ function SQLsrcnote($srcnote_id)
 
     return SQL(
         "select select srcn.scrnote_id,
-		 srcn.scrnote_tag ,
-		 srcn.scrnote_note,
-		 srcn.scrnote_time,
-		 srcn.scrnote_time_last,
-		 u.id as user_id,
-		 u.nombres,u.apellido,
-		 u2.id as user_id_last,
-		 u2.nombres as nombre_last,u2.apellido as apellido_last,
-		 count(srcn.scrnote_id) as cant_notas
-		from
-		$DBCFG[DBprefix]usuario u,
-		$DBCFG[DBprefix]sourcenote srcn
-		left join $DBCFG[DBprefix]usuario u2 on u2.id=srcn.scrnote_last_uid
-		left join $DBCFG[DBprefix]src_relation r on srcn.scrnote_id=r.src_id
-		group by srcn.scrnote_id"
+         srcn.scrnote_tag ,
+         srcn.scrnote_note,
+         srcn.scrnote_time,
+         srcn.scrnote_time_last,
+         u.id as user_id,
+         u.nombres,u.apellido,
+         u2.id as user_id_last,
+         u2.nombres as nombre_last,u2.apellido as apellido_last,
+         count(srcn.scrnote_id) as cant_notas
+        from
+        $DBCFG[DBprefix]usuario u,
+        $DBCFG[DBprefix]sourcenote srcn
+        left join $DBCFG[DBprefix]usuario u2 on u2.id=srcn.scrnote_last_uid
+        left join $DBCFG[DBprefix]src_relation r on srcn.scrnote_id=r.src_id
+        group by srcn.scrnote_id"
     );
 };
 
@@ -4458,7 +4506,7 @@ function SQLterms2map4char($target_tesauro_id, $char, $args = '')
 
     $char=(ctype_digit($char)) ? $char : secure_data($char, "ADOsql");
 
- 	$target_tesauro_id=secure_data($target_tesauro_id,"int");
+     $target_tesauro_id=secure_data($target_tesauro_id,"int");
 
     $defaults=array("min"=>0,"limit"=>CFG_NUM_SHOW_TERMSxTRAD);
 
@@ -4481,18 +4529,18 @@ function SQLterms2map4char($target_tesauro_id, $char, $args = '')
 
     $sql=SQL(
         "SELECT",
-        "t.tema_id, t.tema,	t.estado_id, t.isMetaTerm, r.t_relacion, tt.tema as tterm, tt.tema_id as tterm_id, tt.tesauro_id,r.id as r_id
-	from $DBCFG[DBprefix]tema as t
-	left join $DBCFG[DBprefix]tabla_rel as uf on uf.id_mayor=t.tema_id and uf.t_relacion = 4
-	left join $DBCFG[DBprefix]tabla_rel as r on r.id_menor=t.tema_id and r.t_relacion in (5,6,7)
-	left join $DBCFG[DBprefix]tema as tt on r.id_mayor=tt.tema_id and tt.tesauro_id=$target_tesauro_id
-	where $where
-	$whereFilter
-	and uf.id is null
-	and t.tesauro_id=1
-	group by t.tema_id,tt.tema_id
-	order by lower(t.tema),lower(tt.tema)
-	limit $min,$limit"
+        "t.tema_id, t.tema,    t.estado_id, t.isMetaTerm, r.t_relacion, tt.tema as tterm, tt.tema_id as tterm_id, tt.tesauro_id,r.id as r_id
+    from $DBCFG[DBprefix]tema as t
+    left join $DBCFG[DBprefix]tabla_rel as uf on uf.id_mayor=t.tema_id and uf.t_relacion = 4
+    left join $DBCFG[DBprefix]tabla_rel as r on r.id_menor=t.tema_id and r.t_relacion in (5,6,7)
+    left join $DBCFG[DBprefix]tema as tt on r.id_mayor=tt.tema_id and tt.tesauro_id=$target_tesauro_id
+    where $where
+    $whereFilter
+    and uf.id is null
+    and t.tesauro_id=1
+    group by t.tema_id,tt.tema_id
+    order by lower(t.tema),lower(tt.tema)
+    limit $min,$limit"
     );
     return $sql;
 };
@@ -4510,14 +4558,14 @@ function SQLlistaABCPreferedTerms($letra = "")
     return SQL(
         "select",
         "ucase(LEFT(tema.tema,1)) as letra_orden,
-		if(LEFT(tema.tema,1)=$letra, 1,0) as letra
-		from $DBCFG[DBprefix]tema as tema
-		left join $DBCFG[DBprefix]tabla_rel as uf on uf.id_mayor=tema.tema_id and uf.t_relacion = 4
-		where tema.estado_id='13'
-		and tema.tesauro_id=1
-		and uf.id is null
-		group by letra_orden
-		order by letra_orden"
+        if(LEFT(tema.tema,1)=$letra, 1,0) as letra
+        from $DBCFG[DBprefix]tema as tema
+        left join $DBCFG[DBprefix]tabla_rel as uf on uf.id_mayor=tema.tema_id and uf.t_relacion = 4
+        where tema.estado_id='13'
+        and tema.tesauro_id=1
+        and uf.id is null
+        group by letra_orden
+        order by letra_orden"
     );
     ;
 }
@@ -4542,17 +4590,17 @@ function numPrefTerms2Letter($tvocab_id, $letra)
     $sql=SQL(
         "select",
         "count(distinct tema.tema_id) as cant ,
-	count(tterm.tema_id) as cant_eq
-	from $DBCFG[DBprefix]tema as tema
-	left join $DBCFG[DBprefix]tabla_rel as uf on uf.id_mayor=tema.tema_id and uf.t_relacion = 4
-	left join $DBCFG[DBprefix]tabla_rel as eq on eq.id_menor=tema.tema_id
-	left join $DBCFG[DBprefix]tema as tterm on eq.id_mayor=tterm.tema_id
-	and tterm.tesauro_id=$tvocab_id
-	where
-	$where_letter
-	and uf.id is null
-	and tema.tesauro_id=$tesauro_id
-	and tema.estado_id='13'"
+    count(tterm.tema_id) as cant_eq
+    from $DBCFG[DBprefix]tema as tema
+    left join $DBCFG[DBprefix]tabla_rel as uf on uf.id_mayor=tema.tema_id and uf.t_relacion = 4
+    left join $DBCFG[DBprefix]tabla_rel as eq on eq.id_menor=tema.tema_id
+    left join $DBCFG[DBprefix]tema as tterm on eq.id_mayor=tterm.tema_id
+    and tterm.tesauro_id=$tvocab_id
+    where
+    $where_letter
+    and uf.id is null
+    and tema.tesauro_id=$tesauro_id
+    and tema.estado_id='13'"
     );
 
     if (is_object($sql)) {
@@ -4585,19 +4633,19 @@ function SQLrelationsSinceDate($sinceDate, $limit = 50)
 if(r.t_relacion=2,'$r2',if(r.t_relacion=3,'$r3','$r4')) as relType,
 v.value_code as relSubType,
 r.cuando as created
-	from $DBCFG[DBprefix]tema as t,
-	$DBCFG[DBprefix]tema as t2,
-	$DBCFG[DBprefix]tabla_rel as r
-	left join $DBCFG[DBprefix]values v on v.value_id=r.rel_rel_id
-	where
-	t.tesauro_id='$vocab_id'
- 	and t.estado_id='13'
- 	and t.tema_id=r.id_mayor
- 	and t2.tema_id=r.id_menor
- 	and r.t_relacion in (2,3,4)
-	and r.cuando >='$sinceDate'
- 	order by r.cuando desc
-	limit $limit"
+    from $DBCFG[DBprefix]tema as t,
+    $DBCFG[DBprefix]tema as t2,
+    $DBCFG[DBprefix]tabla_rel as r
+    left join $DBCFG[DBprefix]values v on v.value_id=r.rel_rel_id
+    where
+    t.tesauro_id='$vocab_id'
+     and t.estado_id='13'
+     and t.tema_id=r.id_mayor
+     and t2.tema_id=r.id_menor
+     and r.t_relacion in (2,3,4)
+    and r.cuando >='$sinceDate'
+     order by r.cuando desc
+    limit $limit"
     );
 
     return $sql;
@@ -4619,12 +4667,12 @@ function SQLtermsSinceDate($sinceDate, $limit = "50")
     $sql=SQL(
         "select",
         "t.tema_id,t.code,t.tema,v.idioma,t.isMetaTerm,t.cuando ,t.cuando_final
-	from $DBCFG[DBprefix]tema as t,$DBCFG[DBprefix]config v
-	where t.estado_id='13'
-	and t.tesauro_id='$vocab_id'
-	and if(t.cuando_final is not null,t.cuando_final,t.cuando)>='$sinceDate'
-	order by t.cuando_final,t.cuando desc
-	limit $limit"
+    from $DBCFG[DBprefix]tema as t,$DBCFG[DBprefix]config v
+    where t.estado_id='13'
+    and t.tesauro_id='$vocab_id'
+    and if(t.cuando_final is not null,t.cuando_final,t.cuando)>='$sinceDate'
+    order by t.cuando_final,t.cuando desc
+    limit $limit"
     );
 
     return $sql;
@@ -4646,23 +4694,23 @@ function SQLprotoTerms($max_deep, $limit = 10, $term_id = 0)
     if ($term_id>0) {
         $size_i=strlen($term_id)+2;
         $from=",$DBCFG[DBprefix]indice tti";
-        $where="	and t.tema_id=tti.tema_id";
-        $where.="	and left(tti.indice,$size_i)='|$term_id|'";
+        $where="    and t.tema_id=tti.tema_id";
+        $where.="    and left(tti.indice,$size_i)='|$term_id|'";
     }
 
     return SQL(
         "select",
         "t.tema_id,t.tema,
-			LENGTH(i.indice) - LENGTH(REPLACE(i.indice, '|', '')) AS tdeep,
-			count(r.id_menor) as cant_nt
-			from $DBCFG[DBprefix]indice i,$DBCFG[DBprefix]tema t,$DBCFG[DBprefix]tabla_rel r $from
-			where t.tema_id=i.tema_id
-			and r.id_mayor=t.tema_id
-			$where
-			group by t.tema_id
-			having tdeep=$having
-			order by cant_nt desc
-			limit $limit"
+            LENGTH(i.indice) - LENGTH(REPLACE(i.indice, '|', '')) AS tdeep,
+            count(r.id_menor) as cant_nt
+            from $DBCFG[DBprefix]indice i,$DBCFG[DBprefix]tema t,$DBCFG[DBprefix]tabla_rel r $from
+            where t.tema_id=i.tema_id
+            and r.id_mayor=t.tema_id
+            $where
+            group by t.tema_id
+            having tdeep=$having
+            order by cant_nt desc
+            limit $limit"
     );
 }
 
@@ -4681,16 +4729,20 @@ function SQLlistSources($status_id, $ord = "alias")
     return SQL(
         "select",
         "s.src_id,s.src_alias,s.src_note,s.src_url,s.src_uri,s.src_status,s.create_date as src_date,s.mod_date as mod_date,
-		count(n.src_id) as src_cant
-		from $DBCFG[DBprefix]sources s
-		left join $DBCFG[DBprefix]notas n on n.src_id=s.src_id
-		$where_status_id
-		group by s.src_id
-		order by s.$order"
+        count(n.src_id) as src_cant
+        from $DBCFG[DBprefix]sources s
+        left join $DBCFG[DBprefix]notas n on n.src_id=s.src_id
+        $where_status_id
+        group by s.src_id
+        order by s.$order"
     );
 }
 
-/*report of sources*/
+/** 
+ * Report of sources
+ * 
+ * @return object
+ */
 function SQLreportAllSources()
 {
     global $DBCFG;
@@ -4698,11 +4750,11 @@ function SQLreportAllSources()
     return SQL(
         "select",
         "s.src_id as src_internal_id,s.src_alias as alias,s.src_note as source_note,s.src_url as source_url,s.src_status as status,s.create_date as src_date,s.mod_date as mod_date,
-		count(n.src_id) as cant_notes
-		from $DBCFG[DBprefix]sources s
-		left join $DBCFG[DBprefix]notas n on n.src_id=s.src_id
-		group by s.src_id
-		order by s.src_alias"
+        count(n.src_id) as cant_notes
+        from $DBCFG[DBprefix]sources s
+        left join $DBCFG[DBprefix]notas n on n.src_id=s.src_id
+        group by s.src_id
+        order by s.src_alias"
     );
 }
 
@@ -4717,12 +4769,12 @@ function SQLsource4note($note_id)
     return SQL(
         "select",
         "s.src_id,s.src_alias,s.src_note,s.src_url,s.src_uri,s.src_status,s.create_date as src_date,s.mod_date as mod_date,
-				n.id as note_id
-				from $DBCFG[DBprefix]sources s,$DBCFG[DBprefix]notas n
-				where
-				n.src_id=s.src_id
-				and n.id=$note_id
-				order by s.src_alias"
+                n.id as note_id
+                from $DBCFG[DBprefix]sources s,$DBCFG[DBprefix]notas n
+                where
+                n.src_id=s.src_id
+                and n.id=$note_id
+                order by s.src_alias"
     );
 }
 
@@ -4735,11 +4787,11 @@ function SQLsource($source_id)
     return SQL(
         "select",
         "s.src_id,s.src_alias,s.src_note,s.src_url,s.src_uri,s.src_status,s.create_date as src_date,s.mod_date as mod_date,
-		count(n.src_id) as src_cant
-		from $DBCFG[DBprefix]sources s
-		left join $DBCFG[DBprefix]notas n on n.src_id=s.src_id
-		where s.src_id=$source_id
-		group by s.src_id"
+        count(n.src_id) as src_cant
+        from $DBCFG[DBprefix]sources s
+        left join $DBCFG[DBprefix]notas n on n.src_id=s.src_id
+        where s.src_id=$source_id
+        group by s.src_id"
     );
 }
 
@@ -4776,17 +4828,21 @@ function SQLterms4src($src_id)
     return SQL(
         "select",
         "t.tema_id,t.tema,
-		s.src_id,s.src_note,count(t.tema_id) as cant
-		from $DBCFG[DBprefix]tema t,$DBCFG[DBprefix]sources s,$DBCFG[DBprefix]notas n
-		where s.src_id=n.src_id
-		and t.tema_id=n.id_tema
-		and s.src_id=$source_id
-		group by t.tema_id
-		order by t.tema"
+        s.src_id,s.src_note,count(t.tema_id) as cant
+        from $DBCFG[DBprefix]tema t,$DBCFG[DBprefix]sources s,$DBCFG[DBprefix]notas n
+        where s.src_id=n.src_id
+        and t.tema_id=n.id_tema
+        and s.src_id=$source_id
+        group by t.tema_id
+        order by t.tema"
     );
 }
 
-/*list terms with sources*/
+/** 
+ * List terms with sources
+ * 
+ * @return object
+ */
 function SQLreportAllSources4Terms()
 {
     global $DBCFG;
@@ -4794,12 +4850,12 @@ function SQLreportAllSources4Terms()
     return SQL(
         "select",
         "t.tema_id as term_id,t.tema as term,t.cuando as created,t.uid as user_id,t.cuando_final as modified,t.isMetaTerm,
-		s.src_id as src_internal_id,s.src_alias as alias,s.src_note as source_note,s.src_url as source_url,s.src_status as status,
-		n.id as note_id,n.tipo_nota as note_type,n.lang_nota as note_lang,n.nota as note
-		from $DBCFG[DBprefix]tema t,$DBCFG[DBprefix]sources s,$DBCFG[DBprefix]notas n
-		where s.src_id=n.src_id
-		and t.tema_id=n.id_tema
-		order by t.tema"
+        s.src_id as src_internal_id,s.src_alias as alias,s.src_note as source_note,s.src_url as source_url,s.src_status as status,
+        n.id as note_id,n.tipo_nota as note_type,n.lang_nota as note_lang,n.nota as note
+        from $DBCFG[DBprefix]tema t,$DBCFG[DBprefix]sources s,$DBCFG[DBprefix]notas n
+        where s.src_id=n.src_id
+        and t.tema_id=n.id_tema
+        order by t.tema"
     );
 }
 
@@ -4814,7 +4870,7 @@ function ARRAYhash($hash)
     $sql=SQL(
         "select",
         "t.tema_id,t.tema,t.tema_hash
-	from $DBCFG[DBprefix]tema t where t.tema_hash=$hash"
+    from $DBCFG[DBprefix]tema t where t.tema_hash=$hash"
     );
 
     return $sql->FetchRow();
@@ -4827,7 +4883,7 @@ function SQLmatchTerm($string,$limit="0"){
     global $DBCFG;
 
     $string=secure_data(trim($string),"ADOsql");
-	$string=str_replace("'", "", $string);
+    $string=str_replace("'", "", $string);
 
     $codUP=UP_acronimo;
 
@@ -4837,35 +4893,35 @@ function SQLmatchTerm($string,$limit="0"){
     $limit=($limit>0) ? ' limit '.$limit : '';
 
     $sql=SQL("select","if(temasPreferidos.tema_id is not null,relaciones.id_menor,tema.tema_id) id_definitivo,
-	tema.tema_id,
-	tema.tema,
-	tema.estado_id,
-	relaciones.t_relacion,
-	temasPreferidos.tema as termino_preferido,
-	tema.isMetaTerm,
-	i.indice,
-	MATCH (tema.tema) AGAINST ('$string' IN NATURAL LANGUAGE MODE) AS score	
-	from $DBCFG[DBprefix]tema as tema
-	left join $DBCFG[DBprefix]tabla_rel as relaciones on relaciones.id_mayor=tema.tema_id
-	left join $DBCFG[DBprefix]tema as temasPreferidos on temasPreferidos.tema_id=relaciones.id_menor
-	and tema.tema_id=relaciones.id_mayor
-	and relaciones.t_relacion in (4,5,6,7)
-	left join $DBCFG[DBprefix]indice i on i.tema_id=tema.tema_id
-	where
-	MATCH(tema.tema ) AGAINST('$string' IN NATURAL LANGUAGE MODE)	
-	and tema.estado_id='13' 
-	$where
-	group by id_definitivo
-	ORDER BY score desc $limit");
-	
-	//FULLTEXT
-	if(!is_object($sql)){
-	    if(isset($sql["error"])){
-	    	
-	    	$update=SQLupdateTemaTresVersion('tema2full_text');
-	    	$sql=SQLmatchTerm($string,$limit);
-	    }		
-	}
+    tema.tema_id,
+    tema.tema,
+    tema.estado_id,
+    relaciones.t_relacion,
+    temasPreferidos.tema as termino_preferido,
+    tema.isMetaTerm,
+    i.indice,
+    MATCH (tema.tema) AGAINST ('$string' IN NATURAL LANGUAGE MODE) AS score    
+    from $DBCFG[DBprefix]tema as tema
+    left join $DBCFG[DBprefix]tabla_rel as relaciones on relaciones.id_mayor=tema.tema_id
+    left join $DBCFG[DBprefix]tema as temasPreferidos on temasPreferidos.tema_id=relaciones.id_menor
+    and tema.tema_id=relaciones.id_mayor
+    and relaciones.t_relacion in (4,5,6,7)
+    left join $DBCFG[DBprefix]indice i on i.tema_id=tema.tema_id
+    where
+    MATCH(tema.tema ) AGAINST('$string' IN NATURAL LANGUAGE MODE)    
+    and tema.estado_id='13' 
+    $where
+    group by id_definitivo
+    ORDER BY score desc $limit");
+    
+    //FULLTEXT
+    if(!is_object($sql)){
+        if(isset($sql["error"])){
+            
+            $update=SQLupdateTemaTresVersion('tema2full_text');
+            $sql=SQLmatchTerm($string,$limit);
+        }        
+    }
 
 return $sql;
 }
@@ -4892,14 +4948,209 @@ function SQLsearch4NT($search_term, $tema_id = "")
     return SQL(
         "select",
         "t.tema,t.isMetaTerm,t.cuando,t.tema_id as tema_id
-	from $DBCFG[DBprefix]tema as t
-	left join $DBCFG[DBprefix]tabla_rel as r on r.id_menor=t.tema_id and r.t_relacion=4 
-	where
-	r.id is null
-	and t.estado_id='13'
-	and t.tesauro_id='$_SESSION[id_tesa]'
-	and t.tema like $search_term
-	$where
-	order by t.tema"
+    from $DBCFG[DBprefix]tema as t
+    left join $DBCFG[DBprefix]tabla_rel as r on r.id_menor=t.tema_id and r.t_relacion=4 
+    where
+    r.id is null
+    and t.estado_id='13'
+    and t.tesauro_id='$_SESSION[id_tesa]'
+    and t.tema like $search_term
+    $where
+    order by t.tema"
     );
 };
+
+
+
+
+
+/** 
+ * Armado de un tema_id acumula los tema_ids hacia arriba
+ *
+ * @param int $indice_temas acumulación de term_id que conforman el árbol
+ * @param int $idTema nuevo term_id 
+ *
+ * @return string
+ */
+function bucle_arriba($indice_temas, $idTema)
+{
+    $sql=SQLbucleArriba($idTema);
+    $indice_temas.=otro_bucle_arriba($sql);
+    return $indice_temas;
+};
+
+/** 
+ * Consulta para armar la concatenación de term_id que conformar el árbol de un términos 
+ *
+ * @param obj $sql consulta de términos superiores
+ *
+ * @return string
+ */
+function otro_bucle_arriba($sql)
+{
+    while ($lista=$sql->FetchRow()) {
+        if ($lista[0]>0) {
+            $indice_temas.=bucle_arriba($lista[0].'|', $lista[0]);
+        }
+    }
+
+    return $indice_temas;
+};
+
+
+/** 
+ * Segundo paso para revisión del array de términos de un árbol
+ * para asegurar que un término NO está incluído. Esto evita relaciones ciruclares
+ *
+ * @param obj $sql            consulta de los términos involucrados en el árbol
+ * @param int $i              iteración o posición en el árbol
+ * @param int $idTemaEvaluado term_id que será evaluado 
+ *
+ * @return boolean
+ */
+function evalSubordina($sql, $i, $idTemaEvaluado)
+{
+
+    while ($lista=$sql->FetchRow()) {
+        if (($idTemaEvaluado==$lista[1])||($idTemaEvaluado==$lista[0])) {
+            return false;
+        } elseif ($lista[0]>1) {
+            return evalRelacionSuperior($lista[0], $i+1, $idTemaEvaluado);
+        } else {
+            return true;
+        }
+    };
+};
+
+
+/** 
+ * Primer paso de la revisión del array de términos de un árbol
+ * para asegurar que un término NO está incluído. 
+ * Esto evita relaciones ciruclares
+ *
+ * @param int $idTema         term_id de partida para analizar
+ * @param int $i              iteración o posición en el árbol
+ * @param int $idTemaEvaluado term_id que será evaluado 
+ *
+ * @return boolean
+ */
+
+function evalRelacionSuperior($idTema, $i, $idTemaEvaluado)
+{
+   $sql=SQLbucleArriba($idTema);
+
+    if (SQLcount($sql)==0) {
+        return "TRUE";
+    } else {
+        return evalSubordina($sql, $i, $idTemaEvaluado);
+    };
+};
+
+
+
+
+/** 
+ * Si un término se encuentra en alguna posición descendiente dentro del mismo árbol de un término
+ * 
+ * @param int $term_id          term_id base para evaluar
+ * @param int $relative_term_id term_id relativo para evaluar
+ * 
+ * @return boolean
+ */
+function inTree($term_id, $relative_term_id)
+{
+    $sql=SQLverTerminosE($term_id);
+    while ($array=$sql->FetchRow()) {
+
+        $sqlNT=SQLterm2down($array["tema_id"]);
+        while ($arrayNT=$sqlNT->FetchRow()) {
+            $array_tema_indice=ARRAYIndexTema($arrayNT["id"]);
+            $array_terms_id=explode('|', $array_tema_indice["indice"]);
+            if (in_array($relative_term_id, $array_terms_id)){
+                return 1;
+            } 
+
+        }        
+    }
+
+  return 0;   
+}
+
+/** 
+ * Si existe una relación directa entre 2 términos
+ * 
+ * @param int $term_id          term_id base para evaluar
+ * @param int $relative_term_id term_id relativo para evaluar
+ * 
+ * @return boolean
+ */
+function inDirectRelation($term_id,$relative_term_id)
+{
+    $sql=SQLterminosDirectos($term_id);
+    while ($array=$sql->FetchRow()) {
+        if ($relative_term_id==$term_id) {
+            return 1;
+        };
+    };    
+    return 0;
+}
+
+
+/** 
+ * Evalúa si el término es preferente (que no se alternativo)
+ * 
+ * @param int $term_id term_id base para evaluar
+ * 
+ * @return boolean
+ */
+function isPreferedTerm($term_id)
+{
+    $sql=SQLTerminosPreferidos($term_id);
+     return SQLcount($sql);
+}
+
+/** 
+ * Evalúa si el término es un términos libre (que no se alternativo)
+ * 
+ * @param int $term_id term_id base para evaluar
+ * 
+ * @return boolean
+ */
+function isFreeTerm($term_id)
+{
+    $sql=SQLcheckFreeTerm($term_id);
+     return SQLcount($sql);
+}
+
+
+/** 
+ * Check if a prefered term is the object language of the vocab
+ * 
+ * @param int $term_id term_id base para evaluar
+ * 
+ * @return boolean
+ */
+
+function isValidTerm($term_id)
+{
+    $sqlcheckIsValidTerm=SQLcheckIsValidTerm($term_id);
+    return (SQLcount($sqlcheckIsValidTerm)==0) ? true : false;
+}
+
+/** 
+ * Check if a prefered term is NT of other term
+ * 
+ * @param int $term_id term_id base para evaluar
+ * 
+ * @return boolean
+ */
+function isNarrowerTerm($term_id)
+{
+    global $DBCFG;
+    $sql=SQL("select r.id","from $DBCFG[DBprefix]tabla_rel r where r.id_menor=$term_id and t_relacion=3");
+   
+    return (SQLcount($sql)==0) ? false : true;
+}
+
+
+

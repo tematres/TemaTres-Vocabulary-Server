@@ -818,61 +818,6 @@ function ver_txt($datos, $i)
 
 
 
-//
-// //// armado de un tema_id acumula los tema_ids hacia arriba
-//
-function bucle_arriba($indice_temas, $idTema)
-{
-    $sql=SQLbucleArriba($idTema);
-    $indice_temas.=otro_bucle_arriba($sql);
-    return $indice_temas;
-};
-
-function otro_bucle_arriba($sql)
-{
-    while ($lista=$sql->FetchRow()) {
-        if ($lista[0]>0) {
-            $indice_temas.=bucle_arriba($lista[0].'|', $lista[0]);
-        }
-    }
-
-    return $indice_temas;
-};
-
-
-/**BUCLE HACIA ABAJO */
-function evalRelacionSuperior($idTema, $i, $idTemaEvaluado)
-{
-
-    $sql=SQLbucleArriba($idTema);
-
-    if (SQLcount($sql)==0) {
-        return "TRUE";
-    } else {
-        return evalSubordina($sql, $i, $idTemaEvaluado);
-    };
-};
-
-
-
-/** PROCESAMIENTO ARRAY DEL BUCLE HACIA abajo  */
-function evalSubordina($datos, $i, $idTemaEvaluado)
-{
-
-    while ($lista=$datos->FetchRow()) {
-        if (($idTemaEvaluado==$lista[1])||($idTemaEvaluado==$lista[0])) {
-            return false;
-        } elseif ($lista[0]>1) {
-            return evalRelacionSuperior($lista[0], $i+1, $idTemaEvaluado);
-        } else {
-            return true;
-        }
-    };
-};
-
-
-
-
 /** Armado del menú de cambio de idioma  */
 function doMenuLang($tema_id = "0")
 {

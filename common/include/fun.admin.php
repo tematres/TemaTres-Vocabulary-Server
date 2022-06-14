@@ -535,28 +535,24 @@ function do_r($id_mayor, $id_menor, $t_relacion, $rel_rel_id = 0)
 
     $userId=$_SESSION[$_SESSION["CFGURL"]]["ssuser_id"];
 
-    // Evaluar recursividad
-    $evalRecursividad=evalRelacionSuperior($id_mayor, '0', $id_menor);
+    $rel_rel_id=(is_numeric($rel_rel_id)) ? $rel_rel_id : 0;
 
     // Evaluar si son valores numericos
-    if ((is_numeric($id_menor) &&     is_numeric($id_mayor) && is_numeric($t_relacion) )) {
-        $okValues = true;
+    if (!( (is_numeric($id_menor) && is_numeric($id_mayor) &&is_numeric($t_relacion) ))) {
+        return array("id_tema"=>$tema_id,"msg_error"=>'<p class="error">'.MSGL_relacionIlegal.'</p>',"log"=>"false");
     };
+
     //si es una relación consigo mismo
     if ($id_mayor==$id_menor) {
         return array("id_tema"=>$id_mayor,"msg_error"=>'<p class="error">'.MSGL_relacionIlegal.'</p>',"log"=>"false");
     }
 
-
     // NO es una relacion recursiva
-    if (($evalRecursividad == true) && ($okValues == true)) {
-        $rel_rel_id=(is_numeric($rel_rel_id)) ? $rel_rel_id : 0;
-
-        $sql=SQL(
-            "insert",
+    if (evalRelacionSuperior($id_mayor, '0', $id_menor)) {
+        
+        $sql=SQL("insert",
             "into $DBCFG[DBprefix]tabla_rel (id_mayor,id_menor,t_relacion,rel_rel_id,uid,cuando)
-			values
-			('$id_mayor','$id_menor','$t_relacion','$rel_rel_id','$userId',now())"
+			values ('$id_mayor','$id_menor','$t_relacion','$rel_rel_id','$userId',now())"
         );
         //es TG y hay que actualizar el arbol
         if ($t_relacion=='3') {
@@ -575,6 +571,9 @@ function do_r($id_mayor, $id_menor, $t_relacion, $rel_rel_id = 0)
                         "id_menor"=>$id_menor,
                          "msg_error"=>$msg,"log"=>$log);
 };
+
+
+
 
 
 
@@ -3784,9 +3783,47 @@ function associateTerms($term_id, $arrayStrings, $t_relacion, $t_rel_rel_id = 0)
         //duplicate check policies => there are disable
         if ($_SESSION[$_SESSION["CFGURL"]]["CFG_ALLOW_DUPLICATED"]==0) {
             $fetchTerm=checkDuplicateTerm($arrayTerminos[$i]);
-
+            /* If the term is duplicated */    
             if ($fetchTerm["tema_id"]) {
-                 $arrayDuplicateTerms[$fetchTerm["tema_id"]].=$fetchTerm["tema"];
+                /* Check if there are any direct relation between term_id and new term */
+                $inDirectRelation=inDirectRelation($ARRAYtema["tema_id"], $fetchTerm["tema_id"]);
+                /* Check if is a preferedTerm */
+                $isValidTerm=isPreferedTerm($fetchTerm["tema_id"]);
+                /* Is not a valid term and there are direct relation */
+                if (($isValidTerm==0) || ($inDirectRelation!==0)) {
+                    $arrayDuplicateTerms[$fetchTerm["tema_id"]].=$fetchTerm["tema"];   
+                } else {
+
+                    switch ($t_relacion) {
+                        case '3':
+                        /** Check if there are ilegal relation: 
+                            1. do not allowed recursive relations
+                            2. if the term have BT, polihiraquical must be enable 
+                        */
+                            if ((isNarrowerTerm($term_id) && ($_SESSION["CFGPolijerarquia"]!=='1') )
+                                || (inTree($ARRAYtema["tema_id"], $fetchTerm["tema_id"])!==0 )
+                            ) {
+                                $arrayDuplicateTerms[$fetchTerm["tema_id"]].=$fetchTerm["tema"];
+                            } else {
+                                $new_relacion=doHieraquicalRelation($ARRAYtema["tema_id"], $fetchTerm["tema_id"], $t_rel_rel_id);
+                            }
+                            break;
+                        case '2':
+                            $new_relacion=do_terminos_relacionados($ARRAYtema["tema_id"], $fetchTerm["tema_id"], $t_rel_rel_id);
+                            break;
+                        case '4':
+                            $isFreeTerm=isFreeTerm($fetchTerm["tema_id"]);
+                            if ($isFreeTerm==1) {
+                                $new_relacion=doAltRelation($ARRAYtema["tema_id"], $fetchTerm["tema_id"], $t_rel_rel_id);    
+                            }
+                            
+                            break;
+                        
+                        default:
+                                $arrayDuplicateTerms[$fetchTerm["tema_id"]].=$fetchTerm["tema"];
+                            break;
+                    }
+                } 
             } else {
                 //fetch already exist related term candidate
                 $relative_term_id=resolve2FreeTerms($arrayTerminos[$i], $ARRAYtema["tema_id"]);
@@ -4393,3 +4430,4 @@ function assignHash($seed, $tema_id)
 
     return SQL("update", "$DBCFG[DBprefix]tema set tema_hash='$hash' where tema_id=$tema_id");
 }
+
