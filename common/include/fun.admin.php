@@ -718,7 +718,7 @@ function actualizaArbolxTema($tema_id)
 
     $sql=SQL("insert", "into $DBCFG[DBprefix]indice values ('$tema_id','$esteindice')");
 
-    if (@$sql[error]) {
+    if (@$sql["error"]) {
         $sql=SQL("update", "$DBCFG[DBprefix]indice set indice='$esteindice' where tema_id='$tema_id'");
     }
 
