@@ -1767,7 +1767,7 @@ function HTMLtermMetadata($arrayTerm, $arrayCantRelaciones)
     $body.='<dt>'.ucfirst(LABEL_totalTermsDescendants).'</dt>';
     $body.='<dd> '.cantChildTerms($arrayTerm["idTema"]).'</dd>';
 
-    if ($_SESSION["CFG_ARK_NAAN"]) {
+    if (isset($_SESSION["CFG_ARK_NAAN"])) {
         $body.='<dt>ARK</dt>';
         $body.='<dd> <a id="uri_ark" href="'.$_SESSION["CFGURL"].'?ark='.'ark:/'.NAAN.$arrayTerm["tema_hash"].'">'.'ark:/'.NAAN.$arrayTerm["tema_hash"].'</a> '.HTMLcopyClick("uri_ark", array("isMetaTerm"=>0,"isValidTerm"=>1,"copy_click"=>1)) .'</dd>';
     }
