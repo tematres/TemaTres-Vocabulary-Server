@@ -1190,6 +1190,11 @@ function HTMLformAssociateTargetTerms($ARRAYtermino, $term_id = "0")
 {
     global $CFG;
     $sql=SQLtargetVocabulary("1");
+
+    $arrayOptions=(strlen($ARRAYtermino["code"])>0) ? array('string#'.ucfirst(LABEL_string2search),'reverse#'.ucfirst(LABEL_reverseMappign),'code#'.LABEL_CODE) : array('string#'.ucfirst(LABEL_string2search),'reverse#'.ucfirst(LABEL_reverseMappign));
+        
+    //$display=(in_array($_GET["search_by"], array('reverse','code'))) ? 'style="display: none;"' : '';
+
     $rows='<div class="container" id="bodyText">';
     $rows.='<a class="topOfPage" href="'.URL_BASE.'index.php?tema='.$ARRAYtermino["idTema"].'" title="'.LABEL_Anterior.'">'.LABEL_Anterior.'</a>';
     if (SQLcount($sql)=='0') {
@@ -1203,9 +1208,6 @@ function HTMLformAssociateTargetTerms($ARRAYtermino, $term_id = "0")
                 $array_vocabularios[]=$array["tvocab_id"].'#'.FixEncoding($array["tvocab_label"].' - '.$CFG["ISO639-1"][$array["tvocab_lang"]][1]);
             }
         };
-        $arrayOptions=(strlen($ARRAYtermino["code"])>0) ? array('string#'.ucfirst(LABEL_string2search),'reverse#'.ucfirst(LABEL_reverseMappign),'code#'.LABEL_CODE) : array('string#'.ucfirst(LABEL_string2search),'reverse#'.ucfirst(LABEL_reverseMappign));
-        $display=(in_array($_GET["search_by"], array('reverse','code'))) ? 'style="display: none;"' : '';
-        $string2search = ($_GET["string2search"]) ? XSSprevent($_GET["string2search"]) : $ARRAYtermino["titTema"];
         $rows.='<form class="" role="form" name="alta_tt" id="alta_tt" action="index.php" method="get">';
         $rows.='	<div class="row">
 		    <div class="col-sm-12">
@@ -1235,7 +1237,7 @@ function HTMLformAssociateTargetTerms($ARRAYtermino, $term_id = "0")
         $rows.='<div id="by_string" class="form-group" '.$display.'>
 		                    <label for="string2search" class="col-sm-3 control-label">'.ucfirst(LABEL_Buscar).'</label>
 		                    <div class="col-sm-9">
-		                        <input type="text" class="form-control" required type="search" required id="string2search" name="string2search" value="">
+		                        <input type="text" class="form-control" type="search" id="string2search" name="string2search" value="">
 		                    </div>
             </div>
 		                <div class="form-group">
@@ -1253,9 +1255,13 @@ function HTMLformAssociateTargetTerms($ARRAYtermino, $term_id = "0")
     }
     $rows.='</div>';
 
+    $string2search = ($_GET["string2search"]) ? XSSprevent($_GET["string2search"]) : $ARRAYtermino["titTema"];
+
     $string2search = toASCII($string2search);
 
     if (($string2search) && ($_GET["tvocab_id"])) {
+
+        echo 'aaaa';
         include_once T3_ABSPATH . 'common/include/vocabularyservices.php'    ;
         $arrayVocab=ARRAYtargetVocabulary($_GET["tvocab_id"]);
         switch ($_GET["search_by"]) {
