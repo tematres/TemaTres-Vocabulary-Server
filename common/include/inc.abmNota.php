@@ -57,7 +57,6 @@ while ($array_srcs=$sqlNoteSrc->FetchRow()) {
 foreach ($CFG["ISO639-1"] as $langs) {
     $arrayLang[]=$langs[0].'#'.$langs[1];
 };
-echo normalizeLangCode($_SESSION["CFGIdioma"]);
 //idioma de la nota
 $arrayNota["lang_nota"] = (!$arrayNota["lang_nota"]) ? normalizeLangCode($_SESSION["CFGIdioma"]) : normalizeLangCode($arrayNota["lang_nota"]);
 
