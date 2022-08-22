@@ -468,7 +468,7 @@ function doArrayDatosUser($array)
     "orga"=> doValue($array, FORM_LABEL_orga),
     "isAdmin"=> doValue($array, "isAdmin"),
     "isAlive"=> doValue($array, "isAlive"),
-    "id"=>doValue($array, FORM_LABEL_idUser)
+    "id"=>doValue($array, "useactua")
     );
     return $arrayDatos;
 };
