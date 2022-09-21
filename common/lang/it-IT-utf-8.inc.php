@@ -550,3 +550,17 @@ define('LABEL_sources4vocab', 'reference sources');
 define('LABEL_update2_2x3_2', 'Aggiorna (2.x -> 3.2)');
 define('LABEL__getForTargetVocabularyNews', 'get news');
 define('LABEL__example', 'example');
+#3.4
+ define('KOS_categorization_scheme','categorization scheme');
+ define('KOS_classification_scheme','classification scheme');
+ define('KOS_dictionary','dictionary');
+ define('KOS_gazetteer','gazetteer');
+ define('KOS_glossary','glossary');
+ define('KOS_list','list');
+ define('KOS_name_authority_list','name authority list');
+ define('KOS_ontology','ontology');
+ define('KOS_semantic_network','semantic network');
+ define('KOS_subject_heading_scheme','subject heading scheme');
+ define('KOS_taxonomy','taxonomy');
+ define('KOS_terminology','terminology');
+ define('KOS_thesaurus','thesaurus');

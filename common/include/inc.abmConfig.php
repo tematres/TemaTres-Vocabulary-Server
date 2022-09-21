@@ -35,6 +35,7 @@ if ($array_vocabulario["vocabulario_id"]==1) {
 $array_ano=do_intervalDate("1998", date("Y"), FORM_LABEL_FechaAno);
 $array_dia=do_intervalDate("1", "31", FORM_LABEL_FechaDia);
 $array_mes=do_intervalDate("1", "12", FORM_LABEL_FechaMes);
+$array_kos_types=array(KOS_categorization_scheme.'#'.KOS_categorization_scheme,KOS_classification_scheme.'#'.KOS_classification_scheme,KOS_dictionary.'#'.KOS_dictionary,KOS_gazetteer.'#'.KOS_gazetteer,KOS_glossary.'#'.KOS_glossary,KOS_list.'#'.KOS_list,KOS_name_authority_list.'#'.KOS_name_authority_list,KOS_ontology.'#'.KOS_ontology,KOS_semantic_network.'#'.KOS_semantic_network,KOS_subject_heading_scheme.'#'.KOS_subject_heading_scheme,KOS_taxonomy.'#'.KOS_taxonomy,KOS_terminology.'#'.KOS_terminology,KOS_thesaurus.'#'.KOS_thesaurus);
 
 $rows.='<form role="form" id="config-vocab" name="abm_config"  data-toggle="validator" action="admin.php" method="post">';
 $rows.='	<div class="row">
@@ -184,11 +185,9 @@ if ($array_vocabulario["vocabulario_id"]==1) {
     $rows.='<div class="form-group">
 	           <label for="tipo_lang" class="col-sm-3 control-label">'.ucfirst(LABEL_TipoLenguaje).'</label>
 	                    <div class="col-sm-9">
-	                        <input type="text" class="form-control"
-		 id="tipo_lang"
-		placeholder="'.LABEL_TipoLenguaje.'"
-		name="'.FORM_LABEL_TipoLenguaje.'"
-		value="'.$array_vocabulario["tipo"].'">
+							<select id="tipo_lang" name="tipo">
+									'.doSelectForm($array_kos_types, $array_vocabulario["tipo"]).'
+							</select>	                    
 	                    </div>
 	         </div>';
     $rows.='<div class="form-group">

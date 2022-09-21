@@ -550,3 +550,17 @@ define('LABEL_sources4vocab', 'fontes de referência');
 define('LABEL_update2_2x3_2', 'Atualizar (2x -> 3.2)');
 define('LABEL__getForTargetVocabularyNews', 'buscar novidades');
 define('LABEL__example', 'exemplo');
+#3.4
+ define('KOS_categorization_scheme','esquema de categrización');
+ define('KOS_classification_scheme','esquema de clasificación');
+ define('KOS_dictionary','diccionario');
+ define('KOS_gazetteer','diccionario geográfico');
+ define('KOS_glossary','glosario');
+ define('KOS_list','lista');
+ define('KOS_name_authority_list','lista de autoridades');
+ define('KOS_ontology','ontología');
+ define('KOS_semantic_network','red semántica');
+ define('KOS_subject_heading_scheme','lista de encabezamientos de materia');
+ define('KOS_taxonomy','taxonomía');
+ define('KOS_terminology','terminología ');
+ define('KOS_thesaurus','tesauro');

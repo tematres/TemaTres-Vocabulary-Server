@@ -486,7 +486,7 @@ function doArrayDatosTesauro($array)
     "idioma"=>doValue($array, FORM_LABEL_Idioma),
     "cobertura"=>doValue($array, FORM_LABEL_Cobertura),
     "keywords"=> doValue($array, FORM_LABEL_Keywords),
-    "tipo"=> doValue($array, FORM_LABEL_TipoLenguaje),
+    "tipo"=> doValue($array, "tipo"),
     "url_base"=> doValue($array, FORM_LABEL_URI),
     "polijerarquia"=> doValue($array, FORM_LABEL_jeraquico),
     "cuando"=>doValue($array, FORM_LABEL_FechaAno).'-'.doValue($array, FORM_LABEL_FechaMes).'-'.doValue($array, FORM_LABEL_FechaDia),
@@ -1163,21 +1163,21 @@ function admin_users($do, $user_id = "")
 
 
         case 'alta':
-            $POSTarrayUser["apellido"]=trim($POSTarrayUser[apellido]);
-            $POSTarrayUser["nombres"]=trim($POSTarrayUser[nombres]);
-            $POSTarrayUser["mail"]=trim($POSTarrayUser[mail]);
-            $POSTarrayUser["pass"]=trim($POSTarrayUser[pass]);
-            $POSTarrayUser["orga"]=trim($POSTarrayUser[orga]);
+            $POSTarrayUser["apellido"]=trim($POSTarrayUser["apellido"]);
+            $POSTarrayUser["nombres"]=trim($POSTarrayUser["nombres"]);
+            $POSTarrayUser["mail"]=trim($POSTarrayUser["mail"]);
+            $POSTarrayUser["pass"]=trim($POSTarrayUser["pass"]);
+            $POSTarrayUser["orga"]=trim($POSTarrayUser["orga"]);
 
             //prevent empty password
             if (strlen($POSTarrayUser["pass"])<5) {
                 return;
             }
 
-            $POSTarrayUser["apellido"]=$DB->qstr($POSTarrayUser[apellido]);
-            $POSTarrayUser["nombres"]=$DB->qstr($POSTarrayUser[nombres]);
-            $POSTarrayUser["mail"]=$DB->qstr($POSTarrayUser[mail]);
-            $POSTarrayUser["orga"]=$DB->qstr($POSTarrayUser[orga]);
+            $POSTarrayUser["apellido"]=$DB->qstr($POSTarrayUser["apellido"]);
+            $POSTarrayUser["nombres"]=$DB->qstr($POSTarrayUser["nombres"]);
+            $POSTarrayUser["mail"]=$DB->qstr($POSTarrayUser["mail"]);
+            $POSTarrayUser["orga"]=$DB->qstr($POSTarrayUser["orga"]);
             $user_pass=(CFG_HASH_PASS==1) ? t3_hash_password($POSTarrayUser["pass"]) : $POSTarrayUser["pass"];
 
             $sql=SQLo(

@@ -97,6 +97,7 @@ function checkDataInstall($array = array())
         $instalChk["error_msg"].='<p class="alert alert-danger" role="alert">'.MSG_errorPostData.': <strong>'.LABEL_pass.'</strong></p>';
     }
       $installData["lang"]=$array["lang"];
+      $installData["kos_type"]=$array["kos_type"];
 
     if ($instalChk["error_msg"]) {
         return $instalChk;
@@ -164,7 +165,7 @@ function checkInstall($lang)
         if (isset($_POST['send'])) {
             $arrayInstallData=checkDataInstall($_POST);
 
-            if (count($arrayInstallData)==7) {
+            if (count($arrayInstallData)==8) {
                 SQLtematres($DBCFG, $DB, $arrayInstallData);
             } else {
                 echo $arrayInstallData["error_msg"];
@@ -217,8 +218,10 @@ function SQLtematres($DBCFG, $DB, $arrayInstallData = array())
         $url =  str_replace("install.php", "", $http.$_SERVER['SERVER_NAME'].$_SERVER['PHP_SELF']);
         $title = ($arrayInstallData['title']) ? $DB->qstr(trim($arrayInstallData["title"])) : "'TemaTres'";
         $author = ($arrayInstallData['author']) ? $DB->qstr(trim($arrayInstallData["author"])) : "'TemaTres'";
+        $kos_type = ($arrayInstallData['kos_type']) ? $DB->qstr(trim($arrayInstallData["kos_type"])) : "'list'";
         $tematres_lang=$DB->qstr(trim($arrayInstallData["lang"]));
         $tematres_lang=($tematres_lang) ?  $tematres_lang : 'es';
+        
 
         $comment = '';
 
@@ -226,7 +229,7 @@ function SQLtematres($DBCFG, $DB, $arrayInstallData = array())
         $result2 = $DB->Execute(
             "INSERT INTO `".$prefix."config`
       (`id`, `titulo`, `autor`, `idioma`,  `tipo`, `polijerarquia`, `cuando`, `observa`, `url_base`)
-      VALUES (1, $title, $author, $tematres_lang, 'Controlled vocabulary', '2', '$today', NULL, '$url');"
+      VALUES (1, $title, $author, $tematres_lang, $kos_type, '2', '$today', NULL, '$url');"
         );
     }
     $result3 = $DB->Execute(
@@ -489,9 +492,6 @@ function SQLtematres($DBCFG, $DB, $arrayInstallData = array())
             $return_true = '<div>';
             $return_true .= '<h3>'.ucfirst(LABEL_bienvenida).'</h3>' ;
             $return_true .= '<p class="alert alert-success" role="alert">'.$install_message["306"].'</p>' ;
-            //~ Not echo for security
-            //~ $return_true .='<li>'.ucfirst(LABEL_mail).': '.$admin_mail.'</li>' ;
-            //~ $return_true .= '<li>'.ucfirst(LABEL_pass).' : '.$admin_pass.'</li>' ;
             $return_true .='</div>';
 
             message($return_true);
@@ -507,6 +507,8 @@ function HTMLformInstall($lang_install)
     include_once T3_ABSPATH . 'common/include/config.tematres.php';
     include_once T3_ABSPATH . 'common/include/fun.gral.php';
 
+
+
     global $CFG;
 
     $arrayLang=array();
@@ -514,6 +516,9 @@ function HTMLformInstall($lang_install)
     foreach ($CFG["ISO639-1"] as $langs) {
         array_push($arrayLang, "$langs[0]#$langs[1]");
     };
+
+    $array_kos_types=array(KOS_categorization_scheme.'#'.KOS_categorization_scheme,KOS_classification_scheme.'#'.KOS_classification_scheme,KOS_dictionary.'#'.KOS_dictionary,KOS_gazetteer.'#'.KOS_gazetteer,KOS_glossary.'#'.KOS_glossary,KOS_list.'#'.KOS_list,KOS_name_authority_list.'#'.KOS_name_authority_list,KOS_ontology.'#'.KOS_ontology,KOS_semantic_network.'#'.KOS_semantic_network,KOS_subject_heading_scheme.'#'.KOS_subject_heading_scheme,KOS_taxonomy.'#'.KOS_taxonomy,KOS_terminology.'#'.KOS_terminology,KOS_thesaurus.'#'.KOS_thesaurus);
+
 
     $rows='<form class="form-horizontal" id="formulaire" name="formulaire" method="post" action="install.php">
     <fieldset>
@@ -537,13 +542,25 @@ function HTMLformInstall($lang_install)
 
     <!-- Select Basic -->
     <div class="form-group">
-      <label class="col-md-4 control-label" for="lang">'.LABEL_Idioma.'</label>
+      <label class="col-md-4 control-label" for="lang">'.ucfirst(LABEL_Idioma).'</label>
       <div class="col-md-4">
         <select id="lang" name="lang" class="form-control">
         '.doSelectForm($arrayLang, $lang_install).'
         </select>
       </div>
     </div>
+
+
+    <!-- Select Basic -->
+    <div class="form-group">
+      <label class="col-md-4 control-label" for="tipo">'.ucfirst(LABEL_TipoLenguaje).'</label>
+      <div class="col-md-4">
+        <select id="tipo_lang" name="kos_type" class="form-control">
+        '.doSelectForm($array_kos_types, $array_vocabulario["tipo"]).'
+        </select>                       
+        </div>
+    </div>
+
     </fieldset>
 
     <fieldset>
