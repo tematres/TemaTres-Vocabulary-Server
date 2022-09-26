@@ -728,6 +728,10 @@ function HTMLformAdvancedTermReport($array)
     $LABEL_equalThisWord=LABEL_equalThisWord;
     $arrayVocabStats=ARRAYresumen($_SESSION["id_tesa"], "G", "");
 
+    $array_mes=do_intervalDate("1", "12", FORM_LABEL_FechaMes);
+
+    $array_ano=do_intervalDate(date('Y', strtotime($_SESSION["CFGCreacion"])), date("Y"), FORM_LABEL_FechaAno);
+
     $arrayWS=array("t#$LABEL_Termino");
     if ($arrayVocabStats["cant_up"]>0) {
         array_push($arrayWS, "uf#$LABEL_esNoPreferido");
@@ -811,7 +815,7 @@ function HTMLformAdvancedTermReport($array)
   <div class="col-md-4">
     <select id="hasNote" name="hasNote" class="form-control">
 		<option value="">'.ucfirst(LABEL_FORM_nullValue).'</option>
-		'.doSelectForm($arrayNoteType, $_GET["hasNote"]).'
+		'.doSelectForm($arrayNoteType, "").'
     </select>
   </div>
 </div>';
@@ -822,8 +826,22 @@ function HTMLformAdvancedTermReport($array)
   <div class="col-md-3">
     <select id="fromDate" name="fromDate" class="form-control">
 		<option value="">'.ucfirst(LABEL_FORM_nullValue).'</option>
-		'.doSelectForm($formSelectByDate, $_GET["fromDate"]).'    </select>
+		'.doSelectForm(array('create#'.ucfirst(LABEL_DesdeFecha),'mod#'.ucfirst(LABEL_fecha_modificacion)), "").'    </select>
   </div>
+  <div class="form-group col-sm-1">
+        <select class="form-control" id="fromDateMonth" name="fromDateMonth">
+        <optgroup label="'.ucfirst(LABEL_mes).'">
+        '.doSelectForm($array_mes, $fecha_crea["mes"]).'
+        </optgroup>
+        </select>
+  </div>      
+  <div class="form-group col-sm-1">
+        <select class="form-control" id="fromDateYear" name="fromDateYear">
+        <optgroup label="'.ucfirst(LABEL_ano).'">
+        '.doSelectForm($array_ano, $fecha_crea["ano"]).'
+        </optgroup>
+        </select>
+  </div>  
 </div>';
     //target vocabularies
     if ($arrayVocabStats["cant_term2tterm"]) {
@@ -833,12 +851,12 @@ function HTMLformAdvancedTermReport($array)
   <div class="col-md-3">
     <select id="csv_tvocab_id" name="csv_tvocab_id" class="form-control">
 		<option value="">'.ucfirst(LABEL_FORM_nullValue).'</option>
-		'.doSelectForm($array_vocabularios, $_GET["csv_tvocab_id"]).'
+		'.doSelectForm($array_vocabularios, "").'
     </select>
   </div>
   <div class="col-md-3">
     <select id="mapped" name="mapped" class="form-control">
-		'.doSelectForm(array("y#$LABEL_haveEQ","n#$LABEL_nohaveEQ"), $_GET["mapped"]).'
+		'.doSelectForm(array("y#$LABEL_haveEQ","n#$LABEL_nohaveEQ"), "").'
     </select>
   </div>
 </div>';
@@ -850,12 +868,12 @@ function HTMLformAdvancedTermReport($array)
   <div class="col-md-3">
     <select id="csv_itvocab_id" name="csv_itvocab_id" class="form-control">
 		<option value="">'.ucfirst(LABEL_FORM_nullValue).'</option>
-		'.doSelectForm($array_ivocabularios, $_GET["csv_itvocab_id"]).'
+		'.doSelectForm($array_ivocabularios, "").'
     </select>
   </div>
 	<div class="col-md-3">
     <select id="int_mapped" name="int_mapped" class="form-control">
-		'.doSelectForm(array("y#$LABEL_haveEQ","n#$LABEL_nohaveEQ"), $_GET["int_mapped"]).'
+		'.doSelectForm(array("y#$LABEL_haveEQ","n#$LABEL_nohaveEQ"), "").'
     </select>
   </div>
 </div>';
@@ -873,7 +891,7 @@ function HTMLformAdvancedTermReport($array)
 		  <div class="col-md-4">
 		    <select id="user_id" name="byuser_id" class="form-control">
 				<option value="">'.ucfirst(LABEL_FORM_nullValue).'</option>
-				'.doSelectForm($formSelectUsers, $_GET["byuser_id"]).'
+				'.doSelectForm($formSelectUsers, "").'
 		    </select>
 		  </div>
 		</div>';
@@ -883,7 +901,7 @@ function HTMLformAdvancedTermReport($array)
   <label class="col-md-4 control-label" for="w_string">'.ucfirst(LABEL_haveWords).'</label>
   <div class="col-md-3">
     <select id="w_string" name="w_string" class="form-control">
-		'.doSelectForm(array("x#$LABEL_equalThisWord","s#$LABEL_start","e#$LABEL_end"), $_GET["w_string"]).'
+		'.doSelectForm(array("x#$LABEL_equalThisWord","s#$LABEL_start","e#$LABEL_end"), "").'
     </select>
   </div>
 	<div class="col-md-3">

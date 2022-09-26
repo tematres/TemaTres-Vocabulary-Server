@@ -2596,13 +2596,15 @@ function SQLadvancedTermReport($array)
 
     // time filter
     // sanitice
-    $arrayDates=explode("-", $array["fromDate"]);
-    $yearDate=secure_data($arrayDates[0], "int");
-    $monthDate=secure_data($arrayDates[1], "int");
+    $yearDate=secure_data($array["fromDateYear"], "int");
+    $monthDate=secure_data($array["fromDateMonth"], "int");
 
-    if (($yearDate>0) && ($monthDate>0)) {
+    if (in_array($array["fromDate"], array("create","mod"))) {
+
+        $tag_date= ($array["fromDate"]=='create') ? 't.cuando' : 't.cuando_final';
+
         $fromDate=$yearDate.'-'.$monthDate.'-01';
-        $where.="        and (t.cuando between '$fromDate' and now())";
+        $where.="        and ($tag_date between '$fromDate' and now())";
     }
     // time update filter
     // and (cuando_final between '2010-05-19' and now())
