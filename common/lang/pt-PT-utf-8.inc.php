@@ -564,3 +564,9 @@ define('LABEL__example', 'exemplo');
  define('KOS_taxonomy','taxonomía');
  define('KOS_terminology','terminología ');
  define('KOS_thesaurus','tesauro');
+ #3.4.1
+ define('LABEL_userIsAdmin','administador');
+ define('LABEL_userIsEditor','editor');
+ define('LABEL_userIsColab','colaborador');
+ define('LABEL_userType','tipo de usuario');
+ 
