@@ -461,11 +461,11 @@ function doArrayNota($array)
 function doArrayDatosUser($array)
 {
 
-    $arrayDatos=array("nombres"=> doValue($array, FORM_LABEL_nombre),
-    "apellido"=> doValue($array, FORM_LABEL_apellido),
-    "mail"=>doValue($array, FORM_LABEL_mail),
-    "pass"=> doValue($array, FORM_LABEL_pass),
-    "orga"=> doValue($array, FORM_LABEL_orga),
+    $arrayDatos=array("nombres"=> doValue($array, "nombres"),
+    "apellido"=> doValue($array, "apellido"),
+    "mail"=>doValue($array, "mail"),
+    "pass"=> doValue($array, "pass"),
+    "orga"=> doValue($array, "orga"),
     "isAdmin"=> doValue($array, "isAdmin"),
     "isAlive"=> doValue($array, "isAlive"),
     "id"=>doValue($array, "useactua")
@@ -1658,7 +1658,7 @@ function HTMLListaUsers()
     $rows.='</tr>';
     $rows.='<tr>';
     $rows.='<th>'.ucfirst(LABEL_apellido).', '.ucfirst(LABEL_nombre).'</th>';
-    $rows.='<th>'.ucfirst(LABEL_orga).'</th>';
+    $rows.='<th>'.ucfirst(LABEL_userType).'</th>';
     $rows.='<th>'.ucfirst(LABEL_Fecha).'</th>';
     $rows.='<th>'.ucfirst(LABEL_Terminos).'</th>';
     $rows.='</tr>';
@@ -1671,7 +1671,7 @@ function HTMLListaUsers()
         $rows.='<tr>';
         $rows.='<td class="izq"><a href="admin.php?user_id='.$listaUsers["id"].'" title="'.LABEL_verDetalle.' '.$listaUsers["apellido"].', '.$listaUsers["nombres"].'">'.$listaUsers["apellido"].', '.$listaUsers["nombres"].'</a></td>';
         
-        $rows.='<td class="izq">'.$listaUsers["orga"].'</td>';
+        $rows.='<td class="izq">'.arrayReplace(array("1","2","3"), array(ucfirst(LABEL_userIsAdmin),ucfirst(LABEL_userIsEditor),ucfirst(LABEL_userIsColab)), $listaUsers["nivel"]).'</td>';
         $rows.='<td>'.$fecha_alta["dia"].'-'.$fecha_alta["descMes"].'-'.$fecha_alta["ano"].' ('.arrayReplace(array("ACTIVO","BAJA"), array(LABEL_User_Habilitado,LABEL_User_NoHabilitado), $listaUsers["estado"]). ')</td>';
         if ($listaUsers["cant_terminos"]>0) {
             $rows.='<td><a href="sobre.php?user_id='.$listaUsers["id"].'" title="'.LABEL_Detalle.'">'.$listaUsers["cant_terminos"].'</a></td>';

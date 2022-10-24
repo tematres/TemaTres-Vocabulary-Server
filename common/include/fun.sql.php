@@ -1760,7 +1760,7 @@ function SQLdatosUsuarios($user_id = "")
     };
     $sql=SQL(
         "select",
-        "usuario.id,usuario.apellido,usuario.nombres,usuario.orga,usuario.mail,usuario.cuando,usuario.hasta,usuario.estado,usuario.pass,if(usuario.estado=1,'caducar','habilitar') as enlace, count(tema.tema_id) as cant_terminos
+        "usuario.id,usuario.apellido,usuario.nombres,usuario.orga,usuario.mail,usuario.cuando,usuario.hasta,usuario.estado,usuario.pass,usuario.nivel,if(usuario.estado=1,'caducar','habilitar') as enlace, count(tema.tema_id) as cant_terminos
     from $DBCFG[DBprefix]usuario as usuario
     left join $DBCFG[DBprefix]tema as tema on tema.uid=usuario.id
     $where
