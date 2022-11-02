@@ -1757,9 +1757,10 @@ function HTMLlistaInternalTargetVocabularios()
     $sql=SQLinternalTargetVocabs();
 
     $rows.='<div class="table-responsive" id="ref_vocab"> ';
-    $rows.='<h3>'.ucfirst(LABEL_vocabulario_referencia).' ('.SQLcount($sql).') <a class="btn btn-primary btn-xs" href="admin.php?vocabulario_id=0" title="'.LABEL_vocabulario_referencia.'">'.ucfirst(LABEL_Agregar.' '.LABEL_vocabulario_referencia).'</a> <a href="#list-config" title="'.ucfirst(LABEL_lcConfig).' &middot; '.strtolower(LABEL_Opciones).'"><svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-caret-up-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+    $rows.='<a href="#list-config" title="'.ucfirst(LABEL_lcConfig).' &middot; '.strtolower(LABEL_Opciones).'"><svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-caret-up-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
   <path d="M7.247 4.86l-4.796 5.481c-.566.647-.106 1.659.753 1.659h9.592a1 1 0 0 0 .753-1.659l-4.796-5.48a1 1 0 0 0-1.506 0z"/>
-</svg></a></h3>';
+</svg></a>';
+    $rows.='<h3>'.ucfirst(LABEL_vocabulario_referencia).' ('.SQLcount($sql).') <a class="btn btn-primary btn-xs" href="admin.php?vocabulario_id=0" title="'.LABEL_vocabulario_referencia.'">'.ucfirst(LABEL_Agregar.' '.LABEL_vocabulario_referencia).'</a></h3>';
 
     if (SQLcount($sql)>0) {
         $rows.='<table class="table table-striped table-bordered table-condensed table-hover"  summary="'.LABEL_lcConfig.'">';
@@ -1798,9 +1799,10 @@ function HTMLlistaTargetVocabularios()
 
 
     $rows.='<div class="table-responsive" id="target_vocab"> ';
-    $rows.='<h3>'.ucfirst(LABEL_vocabulario_referenciaWS).' ('.SQLcount($sql).') <a class="btn btn-primary btn-xs" href="admin.php?tvocabulario_id=0&doAdmin=seeformTargetVocabulary" title="'.ucfirst(LABEL_addTargetVocabulary).'">'.ucfirst(LABEL_addTargetVocabulary).'</a> <a href="#list-config" title="'.ucfirst(LABEL_lcConfig).' &middot; '.strtolower(LABEL_Opciones).'"><svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-caret-up-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+    $rows.='<a href="#list-config" title="'.ucfirst(LABEL_lcConfig).' &middot; '.strtolower(LABEL_Opciones).'"><svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-caret-up-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
   <path d="M7.247 4.86l-4.796 5.481c-.566.647-.106 1.659.753 1.659h9.592a1 1 0 0 0 .753-1.659l-4.796-5.48a1 1 0 0 0-1.506 0z"/>
-</svg></a></h3>';
+</svg></a>';
+    $rows.='<h3>'.ucfirst(LABEL_vocabulario_referenciaWS).' ('.SQLcount($sql).') <a class="btn btn-primary btn-xs" href="admin.php?tvocabulario_id=0&doAdmin=seeformTargetVocabulary" title="'.ucfirst(LABEL_addTargetVocabulary).'">'.ucfirst(LABEL_addTargetVocabulary).'</a></h3>';
 
     if (SQLcount($sql)>0) {
         $rows.='<table class="table table-striped table-bordered table-condensed table-hover"  summary="'.LABEL_lcConfig.'">';
@@ -3135,9 +3137,9 @@ function HTMLformUserNotes()
     $rows.=' <input type="hidden" name="valueid" id="valueid"> ';
 
     $rows.='<div class="table-responsive"> ';
-    $rows.='<h3>'.ucfirst(LABEL_configTypeNotes).'  <a href="#list-config" title="'.ucfirst(LABEL_lcConfig).' &middot; '.strtolower(LABEL_Opciones).'"><svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-caret-up-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+    $rows.='  <a href="#list-config" title="'.ucfirst(LABEL_lcConfig).' &middot; '.strtolower(LABEL_Opciones).'"><svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-caret-up-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
   <path d="M7.247 4.86l-4.796 5.481c-.566.647-.106 1.659.753 1.659h9.592a1 1 0 0 0 .753-1.659l-4.796-5.48a1 1 0 0 0-1.506 0z"/>
-</svg></a></h3>';
+</svg></a><h3>'.ucfirst(LABEL_configTypeNotes).'</h3>';
     $rows.='<table class="table table-striped table-bordered table-condensed table-hover"  summary="'.ucfirst(LABEL_configTypeNotes).'">';
     $rows.='<thead>';
     $rows.='<tr>';
@@ -3245,9 +3247,10 @@ function HTMLformUserRelations()
     $rows.='<input type="hidden" name="rr_id" id="rr_id"> ';
 
     $rows.='<div class="table-responsive"> ';
-    $rows.='<h3>'.ucfirst(LABEL_relationEditor).'  <a href="#list-config" title="'.ucfirst(LABEL_lcConfig).' &middot; '.strtolower(LABEL_Opciones).'"><svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-caret-up-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+    $rows.='<a href="#list-config" title="'.ucfirst(LABEL_lcConfig).' &middot; '.strtolower(LABEL_Opciones).'"><svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-caret-up-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
   <path d="M7.247 4.86l-4.796 5.481c-.566.647-.106 1.659.753 1.659h9.592a1 1 0 0 0 .753-1.659l-4.796-5.48a1 1 0 0 0-1.506 0z"/>
-</svg></a></h3>';
+</svg></a>';
+    $rows.='<h3>'.ucfirst(LABEL_relationEditor).'</h3>';
     $rows.='<table class="table table-striped table-bordered table-condensed table-hover"  summary="'.ucfirst(LABEL_relationEditor).'">';
     $rows.='<thead>';
     $rows.='<tr>';
@@ -3340,9 +3343,10 @@ function HTMLformURIdefinition()
     $rows.='<input type="hidden" name="uri_type_id" id="uri_type_id"> ';
 
     $rows.='<div class="table-responsive"> ';
-    $rows.='<h3>'.ucfirst(LABEL_URItypeEditor).'  <a href="#list-config" title="'.ucfirst(LABEL_lcConfig).' &middot; '.strtolower(LABEL_Opciones).'"><svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-caret-up-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+    $rows.='  <a href="#list-config" title="'.ucfirst(LABEL_lcConfig).' &middot; '.strtolower(LABEL_Opciones).'"><svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-caret-up-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
   <path d="M7.247 4.86l-4.796 5.481c-.566.647-.106 1.659.753 1.659h9.592a1 1 0 0 0 .753-1.659l-4.796-5.48a1 1 0 0 0-1.506 0z"/>
-</svg></a></h3>';
+</svg></a>';
+    $rows.='<h3>'.ucfirst(LABEL_URItypeEditor).'</h3>';
     $rows.='<table class="table table-striped table-bordered table-condensed table-hover"  summary="'.ucfirst(LABEL_URItypeEditor).'">';
     $rows.='<thead>';
     $rows.='<tr>';
