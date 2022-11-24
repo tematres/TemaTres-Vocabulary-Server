@@ -182,7 +182,7 @@ function HTMLformAssociateExistTerms($taskterm, $ARRAYtermino, $term_id = "0")
                 } else {
                     $rows_busca.= '<tr>';
                     $rows_busca.=  '     <td align="center"><input type="checkbox" name="rema_id[]" id="rema_'.$resulta_busca["tema_id"].'" title="'.$resulta_busca["tema"].'" value="'.$resulta_busca["tema_id"].'" /> </td>';
-                    $rows_busca.=  '     <td><label class="check_label" for="rema_'.$resulta_busca["tema_id"].'" '.$css_class_MT.'> '.$resulta_busca["tema"].'</label>  '.$alert_MT.'  </td>';
+                    $rows_busca.=  '     <td><label class="check_label" for="rema_'.$resulta_busca["tema_id"].'" '.$css_class_MT.'>'.$resulta_busca["code"] .' '.$resulta_busca["tema"].'</label>  '.$alert_MT.'  </td>';
                     $rows_busca.=  '      <td>'.$resulta_busca["cuando"].'</td>';
                     $rows_busca.=  '  </tr>';
                 }
@@ -1538,7 +1538,7 @@ function HTMLformConfigValues($array_vocabulario)
     $rows.='<label class="col-sm-3 control-label" for="'.FORM_LABEL_jeraquico.'">'.ucfirst(FORM_LABEL_jeraquico).'</label>';
     $rows.='<div class="col-sm-9">    <select id="'.FORM_LABEL_jeraquico.'" name="'.FORM_LABEL_jeraquico.'">';
     $rows.=    doSelectForm(array('1#'.LABEL_SI,'00#'.LABEL_NO), $array_vocabulario["polijerarquia"]);
-    $rows.='</select><span class="help-block">'.ucfirst(LABEL_jeraquico).'</span></div>';
+    $rows.='</select><span class="help-block">'.ucfirst(LABEL_jeraquico).'</span>'.$array_vocabulario["polijerarquia"].'</div>';
     $rows.='</div>';
 
     foreach ($arrayCFGs as $key => $value) {
@@ -1992,7 +1992,7 @@ function HTMLformVerTerminosLibres($taskterm = 'null', $freeTerms_id = array())
             $alert_MT=($resulta_busca["isMetaTerm"]==1) ? ' ('.LABEL_meta_term.') ' : '';
             $rows.= '<tr>';
             $rows.=  '     	<td align="center"><input type="checkbox" name="deleteFreeTerms_id[]" id="freeTerm_'.$array["tema_id"].'" title="'.ucfirst(MENU_BorrarT).' '.$array["tema"].' " value="'.$array["tema_id"].'" /></td>';
-            $rows.=  '     	<td><label class="check_label" value="'.$value["tema_id"].'  title="'.$value["tema"].' " for="freeTerm_'.$array["tema_id"].'">'.HTMLlinkTerm($array, array("modal"=>1)).'</label> '.$alert_MT.' </td>';
+            $rows.=  '     	<td><label class="check_label" value="'.$value["tema_id"].'  title="'.$value["tema"].' " for="freeTerm_'.$array["tema_id"].'">'.$array["code"].' '.HTMLlinkTerm($array, array("modal"=>1)).'</label> '.$alert_MT.' </td>';
             $rows.=  '      <td>'.$array["cuando"].'</td>';
             $rows.=  '  </tr>';
         };
