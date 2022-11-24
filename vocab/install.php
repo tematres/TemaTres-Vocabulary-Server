@@ -229,7 +229,7 @@ function SQLtematres($DBCFG, $DB, $arrayInstallData = array())
         $result2 = $DB->Execute(
             "INSERT INTO `".$prefix."config`
       (`id`, `titulo`, `autor`, `idioma`,  `tipo`, `polijerarquia`, `cuando`, `observa`, `url_base`)
-      VALUES (1, $title, $author, $tematres_lang, $kos_type, '2', '$today', NULL, '$url');"
+      VALUES (1, $title, $author, $tematres_lang, $kos_type, '1', '$today', NULL, '$url');"
         );
     }
     $result3 = $DB->Execute(
