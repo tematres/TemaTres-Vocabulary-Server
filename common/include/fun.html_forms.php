@@ -1,4 +1,4 @@
-<?php
+ec<?php
 if ((stristr($_SERVER['REQUEST_URI'], "session.php") ) || ( !defined('T3_ABSPATH') )) {
     die("no access");
 }
@@ -1279,7 +1279,6 @@ function HTMLformAssociateTargetTerms($ARRAYtermino, $term_id = "0")
 
     if (($string2search) && ($_GET["tvocab_id"])) {
 
-        echo 'aaaa';
         include_once T3_ABSPATH . 'common/include/vocabularyservices.php'    ;
         $arrayVocab=ARRAYtargetVocabulary($_GET["tvocab_id"]);
         switch ($_GET["search_by"]) {
@@ -1538,7 +1537,7 @@ function HTMLformConfigValues($array_vocabulario)
     $rows.='<label class="col-sm-3 control-label" for="'.FORM_LABEL_jeraquico.'">'.ucfirst(FORM_LABEL_jeraquico).'</label>';
     $rows.='<div class="col-sm-9">    <select id="'.FORM_LABEL_jeraquico.'" name="'.FORM_LABEL_jeraquico.'">';
     $rows.=    doSelectForm(array('1#'.LABEL_SI,'00#'.LABEL_NO), $array_vocabulario["polijerarquia"]);
-    $rows.='</select><span class="help-block">'.ucfirst(LABEL_jeraquico).'</span>'.$array_vocabulario["polijerarquia"].'</div>';
+    $rows.='</select><span class="help-block">'.ucfirst(LABEL_jeraquico).'</span></div>';
     $rows.='</div>';
 
     foreach ($arrayCFGs as $key => $value) {
