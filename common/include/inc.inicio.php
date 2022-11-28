@@ -37,7 +37,7 @@ elseif ((is_numeric($metadata["arraydata"]["tema_id"]))
 ) {
     include_once T3_ABSPATH . 'common/include/inc.vistaTermino.php';
 } //Vista de términos según estados
-elseif (is_numeric($_GET["estado_id"]) && ($_SESSION[$_SESSION["CFGURL"]]["ssuser_id"])) {
+elseif (is_numeric($_GET["estado_id"]) && (evalUserLevel($_SESSION[$_SESSION["CFGURL"]])>0)) {
     echo '<div class="container" id="bodyText">';
     echo HTMLlistaTerminosEstado($_GET["estado_id"], CFG_NUM_SHOW_TERMSxSTATUS);
     echo '</div>';
@@ -57,7 +57,7 @@ elseif (($_GET["src_id"]>0)) {
     echo HTMLterms4source($_GET["src_id"]);
     echo '</div>';
 } //Vista de reporteador
-elseif (($_GET["mod"]=='csv') && ($_SESSION[$_SESSION["CFGURL"]]["ssuser_id"])) {
+elseif (($_GET["mod"]=='csv') && (evalUserLevel($_SESSION[$_SESSION["CFGURL"]])>0)) {
     echo '<div id="bodyText">';
     echo HTMLformSimpleTermReport($_GET);
 
@@ -69,7 +69,7 @@ elseif (($_GET["mod"]=='csv') && ($_SESSION[$_SESSION["CFGURL"]]["ssuser_id"])) 
 
     echo '</div>';
 } //esta login y mod traductor
-elseif (($_SESSION[$_SESSION["CFGURL"]]["ssuser_id"])&&($_GET["mod"]=='trad')) {
+elseif ((evalUserLevel($_SESSION[$_SESSION["CFGURL"]])>0)&&($_GET["mod"]=='trad')) {
     if ($_POST["task"]=='map4localTargetVocab') {
         $tasks=addLocalTargetTerms($_POST["tvocab_id"], $_POST);
     }
@@ -88,7 +88,7 @@ elseif (($_SESSION[$_SESSION["CFGURL"]]["ssuser_id"])&&($_GET["mod"]=='trad')) {
         echo HTMLselectTargetVocabulary();
     }
 } //Esta login y mostrar terminios libres o repetidos
-elseif (($_SESSION[$_SESSION["CFGURL"]]["ssuser_id"])&&($_GET["verT"])) {
+elseif ((evalUserLevel($_SESSION[$_SESSION["CFGURL"]])>0)&&($_GET["verT"])) {
     echo '<div class="container" id="bodyText">';
     switch ($_GET["verT"]) {
         case 'L':

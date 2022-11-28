@@ -1533,7 +1533,7 @@ function loadPage($page)
 function checkAllowPublication($file)
 {
 
-    if (($_SESSION[$_SESSION["CFGURL"]]["ssuser_nivel"]<1)
+    if ((!isset($_SESSION[$_SESSION["CFGURL"]]["ssuser_nivel"]))
         && ($_SESSION[$_SESSION["CFGURL"]]["CFG_PUBLISH"]==0)
         && ($file!=='login.php')
     ) {
@@ -1770,3 +1770,37 @@ function normalizeLangCode($lang_code){
 
     return $lang_code;
 }
+
+/**
+ * Create value from key array
+ *
+ * @param string key       key in array to assign
+ * @param array  array     array to use as source value, if the value is null, the value is null.
+ * 
+ * @return return $value as value
+ */
+ function array2value($key,$array=array()){
+    $array=(is_array($array)) ? $array : array();
+
+    return (isset($array["$key"])) ? $array["$key"] : null;
+
+ }
+
+
+ /**
+ * eval user rights
+ *
+ * @param SESSION 
+ * 
+ * @return return level of rights for the user
+ */
+ function evalUserLevel($user_session){
+
+    if(!is_array($user_session)) { return 0; };
+
+    if(!isset($user_session["ssuser_nivel"])) {return 0;};
+
+    if(!in_array($user_session["ssuser_nivel"], array(1,2))) {return 0;};
+
+    return $user_session["ssuser_nivel"];
+ }

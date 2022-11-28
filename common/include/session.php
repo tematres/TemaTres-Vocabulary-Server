@@ -51,6 +51,12 @@ loadConfigValues(1);
 $lang_labels=selectLangLabels($_SESSION["CFGIdioma"], $idiomas_disponibles);
 
 //$_SESSION[$_SESSION["CFGURL"]]["lang"]=$lang_labels;
+
+$_GET["setLang"]=array2value("setLang",$_GET);
+$_GET["cmdlog"]=array2value("cmdlog",$_GET);
+$_POST["id_correo_electronico"]=array2value("id_correo_electronico",$_POST);
+
+
     
 if ($_GET["setLang"]) {
     //$_SESSION[$_SESSION["CFGURL"]]["lang"]=$idiomas_disponibles[$_GET["setLang"]];
