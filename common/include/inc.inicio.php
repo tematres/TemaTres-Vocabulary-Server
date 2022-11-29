@@ -12,17 +12,27 @@ if ((stristr($_SERVER['REQUEST_URI'], "session.php") ) || ( !defined('T3_ABSPATH
 
 //Antes de desplegar cotenidos => Echo mensajes de error
 echo @$MSG_PROC_ERROR["html"];
-$letra=isValidLetter(array2value("letra",$_GET));
-$_GET["taskterm"]=array2value("taskterm",$_GET);
-$_GET["xsearch"]=array2value("xsearch",$_GET);
-$_GET["s"]=array2value("s",$_GET);
-$_GET["estado_id"]=array2value("estado_id",$_GET);
-$_GET["src_id"]=array2value("src_id",$_GET);
-$_GET["mod"]=array2value("mod",$_GET);
-$_GET["tvocab_id"]=array2value("tvocab_id",$_GET);
-$_GET["verT"]=array2value("verT",$_GET);
-$_GET["letra2trad"]=array2value("letra2trad",$_GET);
-$_GET["filterEQ"]=array2value("filterEQ",$_GET);
+$letra=isValidLetter(array2value("letra", $_GET));
+$_GET["taskterm"]=array2value("taskterm", $_GET);
+$_GET["xsearch"]=array2value("xsearch", $_GET);
+$_GET["s"]=array2value("s", $_GET);
+$_GET["estado_id"]=array2value("estado_id", $_GET);
+$_GET["src_id"]=array2value("src_id", $_GET);
+$_GET["mod"]=array2value("mod", $_GET);
+$_GET["tvocab_id"]=array2value("tvocab_id", $_GET);
+$_GET["verT"]=array2value("verT", $_GET);
+$_GET["letra2trad"]=array2value("letra2trad", $_GET);
+$_GET["filterEQ"]=array2value("filterEQ", $_GET);
+
+$_POST["task"]=array2value("task", $_POST);
+$_POST["map4localTargetVocab"]=array2value("map4localTargetVocab", $_POST);
+$_POST["tvocab_id"]=array2value("tvocab_id", $_POST);
+$_POST["deleteFreeTerms_id"]=array2value("deleteFreeTerms_id", $_POST);
+$_POST["massive_task_freeterms"]=array2value("massive_task_freeterms", $_POST);
+$_POST["freeTerms_id"]=array2value("freeTerms_id", $_POST);
+$_POST["deleteTerms_id"]=array2value("deleteTerms_id", $_POST);
+$_POST["taskterm"]=array2value("taskterm", $_POST);
+
 
 if ((strlen($letra)>0) && (strlen($letra)<5)) {
     echo '<div class="container" id="bodyText">';
@@ -34,7 +44,7 @@ if ((strlen($letra)>0) && (strlen($letra)<5)) {
 } elseif (strlen($search_string)>0) {
     //check again
     $search_string=XSSprevent($search_string);
-    echo resultaBusca($search_string, array2value("tipo",$_GET));
+    echo resultaBusca($search_string, array2value("tipo", $_GET));
 } //Mostrar ficha de termino o crear término
 elseif ((is_numeric(@$metadata["arraydata"]["tema_id"]))
     || ($_GET["taskterm"]=='addTerm')
@@ -76,15 +86,6 @@ elseif (($_GET["mod"]=='csv') && (evalUserLevel($_SESSION[$_SESSION["CFGURL"]])>
     echo '</div>';
 } //esta login y mod traductor
 elseif ((evalUserLevel($_SESSION[$_SESSION["CFGURL"]])>0)&&($_GET["mod"]=='trad')) {
-
-    $_POST["task"]=array2value("task",$_POST);
-    $_POST["map4localTargetVocab"]=array2value("map4localTargetVocab",$_POST);
-    $_POST["tvocab_id"]=array2value("tvocab_id",$_POST);
-    $_POST["deleteFreeTerms_id"]=array2value("deleteFreeTerms_id",$_POST);
-    $_POST["massive_task_freeterms"]=array2value("massive_task_freeterms",$_POST);
-    $_POST["freeTerms_id"]=array2value("freeTerms_id",$_POST);
-    $_POST["deleteTerms_id"]=array2value("deleteTerms_id",$_POST);
-    $_POST["taskterm"]=array2value("taskterm",$_POST);
 
     if ($_POST["task"]=='map4localTargetVocab') {
         $tasks=addLocalTargetTerms($_POST["tvocab_id"], $_POST);

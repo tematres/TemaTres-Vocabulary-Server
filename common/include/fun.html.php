@@ -635,7 +635,9 @@ function HTMLtermMenuX2($array_tema, $relacionesTermino)
         && ($isValidTerm)
     ) {
         $link_subordinar='<li><a title="'.MENU_AgregarTG.'" href="'.URL_BASE.'index.php?taskterm=addBT&amp;tema='.$array_tema["idTema"].'"> '.$CFG["REL_SYMBOLS"]["BT"].' '.ucfirst(MENU_AgregarTG).'</a></li>' ;
-    };
+    } else {
+        $link_subordinar='';
+    }
 
     $row='<li><a href="#" class="dropdown-toggle" data-toggle="dropdown">'.ucfirst(LABEL_Opciones).'<b class="caret"></b></a>' ;
     $row.='<ul class="dropdown-menu" role="menu">' ;
@@ -1806,6 +1808,7 @@ function HTMLtermMetadata($arrayTerm, $arrayCantRelaciones)
         $termMod=' ('.$ARRAYuserData4term["m_nombres"].' '.$ARRAYuserData4term["m_apellido"].')' ;
     } else {
         $termCreator='';
+        $termMod='';
     }
 
     $body.='<dt>'.ucfirst(LABEL_Fecha).'</dt>' ;
