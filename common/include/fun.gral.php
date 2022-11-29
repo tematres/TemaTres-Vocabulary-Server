@@ -116,7 +116,7 @@ function doValue($array, $nombreValor)
     }
   
     if (count($array)>'0') {
-        return $array[$nombreValor];
+        return @$array[$nombreValor];
     }
         
     return false;
@@ -162,6 +162,7 @@ function do_fecha($fecha)
 //
 function do_intervalDate($inicio, $fin, $tipo)
 {
+    $listInterval='';
     for ($interval="$inicio"; $interval<="$fin"; ++$interval) {
         if ($tipo=='MES') {
             $meses=array("1"=>Ene,
@@ -196,7 +197,7 @@ function doSelectForm($valores, $valor_selec)
     if (!is_array($valores)) {
         return ;
     }
-
+    $selec_values='';
     for ($i=0; $i<sizeof($valores); ++$i) {
         $valor=explode("#", $valores[$i]);
         if ($valor[0]) {
@@ -218,6 +219,7 @@ function doSelectForm($valores, $valor_selec)
 function SqlSelectForm($sql)
 {
     $sqlDos=SQL("select", "$sql");
+    $array='';
     while ($cons=$sqlDos->FetchRow()) {
         $array.=$cons[0].'#'.$cons[1].'&';
     };
@@ -227,26 +229,13 @@ function SqlSelectForm($sql)
     return $array;
 }
 
-//
-// alternador de colores en filas
-//
-function do_color_row($i, $selec_color1, $selec_color2)
-{
-         $color_row=$selec_color1;
-    if (is_int($i/2)) {
-        $color_row=$selec_color2;
-    }
-
-         return $color_row;
-};
-
 
 //
 // Abre y cierra un c�digo html
 //
 function doListaTag($i, $tag, $contenidoTag, $id = "", $class = "")
 {
-
+    $rows='';
     $class=(strlen($class)>0) ? ' class="'.$class.'" ' : '';
     if ($i>0) {
         if (@$id) {
@@ -311,7 +300,6 @@ function sql2csv($sql, $filename, $encode = "utf8")
     header('Expires: Mon, 1 Jan 1990 00:00:00 GMT');
     header('Last-Modified: '.gmdate("D,d M Y H:i:s").' GMT');
     header('Pragma: no-cache');
-    //header('Content-type: text/csv;charset=latin1');
     header('Content-Disposition: attachment; filename='.$filename);
 
     // print the final contents of .csv file
@@ -1774,33 +1762,40 @@ function normalizeLangCode($lang_code){
 /**
  * Create value from key array
  *
- * @param string key       key in array to assign
- * @param array  array     array to use as source value, if the value is null, the value is null.
+ * @param string $key   key in array to assign
+ * @param array  $array array to use as source value, if the value is null, the value is null.
  * 
  * @return return $value as value
  */
- function array2value($key,$array=array()){
+function array2value($key,$array=array())
+{
     $array=(is_array($array)) ? $array : array();
 
     return (isset($array["$key"])) ? $array["$key"] : null;
+}
 
- }
 
-
- /**
- * eval user rights
+/**
+ * Eval user rights
  *
- * @param SESSION 
+ * @param array $user_session session data  
  * 
  * @return return level of rights for the user
  */
- function evalUserLevel($user_session){
+function evalUserLevel($user_session)
+{
 
-    if(!is_array($user_session)) { return 0; };
+    if (!is_array($user_session)) { 
+        return 0; 
+    };
 
-    if(!isset($user_session["ssuser_nivel"])) {return 0;};
+    if (!isset($user_session["ssuser_nivel"])) {
+        return 0;
+    };
 
-    if(!in_array($user_session["ssuser_nivel"], array(1,2))) {return 0;};
+    if (!in_array($user_session["ssuser_nivel"], array(1,2))) {
+        return 0;
+    };
 
     return $user_session["ssuser_nivel"];
- }
+}

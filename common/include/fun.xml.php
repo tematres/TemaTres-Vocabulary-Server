@@ -941,6 +941,8 @@ function do_meta_tag($arrayTermino = "")
     //Si hay algún tema de proveniente de algún proceso
     global $tema;
 
+    $relMeta='';
+
     //Si hay cambio de idioma... para que no dé duplicado
     $labelChangeLang= ($_GET["setLang"]) ? '. '.ucfirst($_SESSION[$_SESSION["CFGURL"]]["lang"][0]) : '';
     $ARRAYfetchValues=ARRAYfetchValues('METADATA');
@@ -963,17 +965,20 @@ function do_meta_tag($arrayTermino = "")
 
     if (secure_data($tema, "digit")) {
         //Si hay tema_id desde GET o POST
-        $tema_id = ($_POST["tema"]) ? secure_data($_POST["tema"], "digit") : secure_data($_GET["tema"], "digit");
+        $tema_id=(isset($_POST["tema"])) ? array2value("tema", $_POST) : array2value("tema", $_GET) ;
+        
+        $tema_id = secure_data($tema_id, "digit") ;
 
         //Si hay tema_id desde algún proceso
-        $tema_id = ($tema) ? $tema : $tema_id;
+        $tema_id = (isset($tema)) ? $tema : $tema_id;
     }
 
-    $letra=isValidLetter($_GET["letra"]);
+    $letra=isValidLetter(array2value("letra",$_GET));
     $meta_url=$_SESSION["CFGURL"];
 
     //Si hay tema_id
-    if (secure_data($tema_id, "digit")) {
+    if (isset($tema_id)) {
+        $tema_id=secure_data($tema_id, "digit");
         $ARRAYdatosTermino=ARRAYverDatosTermino($tema_id);
 
         $aboutness=ARRAYaboutness($ARRAYdatosTermino["idTema"]);
@@ -982,11 +987,11 @@ function do_meta_tag($arrayTermino = "")
         $meta_url=$_SESSION["CFGURL"].'?tema='.$ARRAYdatosTermino["idTema"];
         $titleParts[]=xmlentities($ARRAYdatosTermino["titTema"]);
 
-        $relMeta='<link rel="Dublin Core metadata" type="application/xml" href="'.$_SESSION["CFGURL"].'xml.php?dcTema='.$ARRAYdatosTermino["idTema"].'" title="Dublin Core '.xmlentities($datosTermino["titTema"]).'" />';
-        $relMeta.='<link rel="MADS metadata" type="application/xml" href="'.$_SESSION["CFGURL"].'xml.php?madsTema='.$ARRAYdatosTermino["idTema"].'" title="MADS '.xmlentities($datosTermino["titTema"]).'" />';
-        $relMeta.='<link rel="Zthes metadata" type="application/xml" href="'.$_SESSION["CFGURL"].'xml.php?zthesTema='.$ARRAYdatosTermino["idTema"].'" title="Zthes '.xmlentities($datosTermino["titTema"]).'" />';
-        $relMeta.='<link rel="Skos metadata" type="application/rdf+xml" href="'.$_SESSION["CFGURL"].'xml.php?skosTema='.$ARRAYdatosTermino["idTema"].'" title="Skos Core '.xmlentities($datosTermino["titTema"]).'" />';
-        $relMeta.='<link rel="TopicMap metadata" type="application/xml" href="'.$_SESSION["CFGURL"].'xml.php?xtmTema='.$ARRAYdatosTermino["idTema"].'" title="TopicMap '.xmlentities($datosTermino["titTema"]).'" />';
+        $relMeta='<link rel="Dublin Core metadata" type="application/xml" href="'.$_SESSION["CFGURL"].'xml.php?dcTema='.$ARRAYdatosTermino["idTema"].'" title="Dublin Core '.xmlentities($ARRAYdatosTermino["titTema"]).'" />';
+        $relMeta.='<link rel="MADS metadata" type="application/xml" href="'.$_SESSION["CFGURL"].'xml.php?madsTema='.$ARRAYdatosTermino["idTema"].'" title="MADS '.xmlentities($ARRAYdatosTermino["titTema"]).'" />';
+        $relMeta.='<link rel="Zthes metadata" type="application/xml" href="'.$_SESSION["CFGURL"].'xml.php?zthesTema='.$ARRAYdatosTermino["idTema"].'" title="Zthes '.xmlentities($ARRAYdatosTermino["titTema"]).'" />';
+        $relMeta.='<link rel="Skos metadata" type="application/rdf+xml" href="'.$_SESSION["CFGURL"].'xml.php?skosTema='.$ARRAYdatosTermino["idTema"].'" title="Skos Core '.xmlentities($ARRAYdatosTermino["titTema"]).'" />';
+        $relMeta.='<link rel="TopicMap metadata" type="application/xml" href="'.$_SESSION["CFGURL"].'xml.php?xtmTema='.$ARRAYdatosTermino["idTema"].'" title="TopicMap '.xmlentities($ARRAYdatosTermino["titTema"]).'" />';
         $itempropMeta= '<meta itemprop="inDefinedTermSet" content="'.$_SESSION["CFGURL"].'">';
     } elseif (strlen($letra)>0) {
         $titleParts[]=MSG_ResultLetra.' '.xmlentities($letra);
@@ -1080,7 +1085,7 @@ function do_meta_tag($arrayTermino = "")
 
     //    header ('Content-type: text/html; charset='.$page_encode.'');
 
-    return array("metadata"=>$meta_tag,"arraydata"=>$ARRAYdatosTermino);
+    return array("metadata"=>$meta_tag,"arraydata"=>@$ARRAYdatosTermino);
 };
 //
 
