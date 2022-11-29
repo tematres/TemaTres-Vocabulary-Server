@@ -1683,7 +1683,7 @@ function SQLlastTerms($limit = "50")
         "select",
         "c.idioma,if(relaciones.t_relacion=4,relaciones.id_menor,tema.tema_id) as tema_id,tema.code,
     if(relaciones.t_relacion=4,concat(tema.tema,' ($codUP)'),tema.tema) as tema,
-    tema.cuando,tema.cuando_final,tema.isMetaTerm,
+    tema.cuando,tema.cuando_final,tema.isMetaTerm,tema.estado_id,
     if(tema.cuando_final is not null,tema.cuando_final,tema.cuando) as lastdate
     from $DBCFG[DBprefix]config c, $DBCFG[DBprefix]tema as tema
     left join $DBCFG[DBprefix]tabla_rel as relaciones on relaciones.id_mayor=tema.tema_id

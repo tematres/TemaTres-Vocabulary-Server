@@ -14,7 +14,7 @@ if ((stristr($_SERVER['REQUEST_URI'], "session.php") ) || ( !defined('T3_ABSPATH
 $arrayTaskExistTerms=array("addBT","addRT","addFreeUF","addFreeNT");
 
 //verificar que hay datos de un termino y que hubiera session
-if ($_SESSION[$_SESSION["CFGURL"]]["ssuser_id"]) {
+if (evalUserLevel($_SESSION[$_SESSION["CFGURL"]])>0) {
     switch ($_GET["taskterm"]) {
         case 'addBT':
             echo HTMLformAssociateExistTerms($_GET["taskterm"], $metadata["arraydata"], $term_id);

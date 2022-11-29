@@ -57,7 +57,7 @@ define('NAAN', '99152/t3');
 //Define specific excluded characters from the alphabetic menu
 $CFG["_EXCLUDED_CHARS"]=array("<",">","[","]","(",")",'"',"'","|");
 
-//Define is use or not CDN to bootstrap and other external libraries, default == false (0)
+//Define is use or not CDN to bootstrap and other external libraries, default == false (1)
 $CFG["USE_CDN"]=1;
 
 //default values for config

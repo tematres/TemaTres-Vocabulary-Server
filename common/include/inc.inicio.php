@@ -34,7 +34,7 @@ if ((strlen($letra)>0) && (strlen($letra)<5)) {
 } elseif (strlen($search_string)>0) {
     //check again
     $search_string=XSSprevent($search_string);
-    echo resultaBusca($search_string, $_GET["tipo"]);
+    echo resultaBusca($search_string, array2value("tipo",$_GET));
 } //Mostrar ficha de termino o crear término
 elseif ((is_numeric(@$metadata["arraydata"]["tema_id"]))
     || ($_GET["taskterm"]=='addTerm')
