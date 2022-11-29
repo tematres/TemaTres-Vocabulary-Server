@@ -85,7 +85,7 @@ if (($_POST["doAdmin"] == 'updateEndpointNow')) {
     <div class="container">
 
 <?php
-if ($_SESSION[$_SESSION["CFGURL"]]["ssuser_id"]) {
+if (evalUserLevel($_SESSION[$_SESSION["CFGURL"]])==1) {
     if ($_GET["opTbl"] == 'TRUE') {
         echo optimizarTablas();
     }
@@ -222,6 +222,7 @@ if ($_SESSION[$_SESSION["CFGURL"]]["ssuser_id"]) {
 <div id="footer" class="footer">
     <div class="container">
         <?php
+        $_GET["letra"]=array2value("letra", $_GET);
         if (!$_GET["letra"]) {
             echo HTMLlistaAlfabeticaUnica();
         }

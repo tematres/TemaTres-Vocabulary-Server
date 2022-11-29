@@ -11,16 +11,16 @@ require "config.tematres.php";
 $metadata = do_meta_tag();
 
  /* term reporter */
- $mod=configValue($_GET["mod"], false);
- $task=configValue($_GET["task"], false);
-
+ $mod=array2value("mod", $_GET);
+ $task=array2value("task", $_GET);
+ 
 if (($mod == 'csv') && (substr($task, 0, 3) == 'csv') && (@$_SESSION[$_SESSION["CFGURL"]]["ssuser_id"])) {
     return wichReport($task);
 }
 
 $search_string = '';
 $search_string = (doValue($_GET, FORM_LABEL_buscar)) ? XSSprevent(doValue($_GET, FORM_LABEL_buscar)) : '';
-
+$_GET["letra"]=array2value("letra", $_GET);
 echo HEADdocType($metadata);
 ?>
     <body>
@@ -55,7 +55,7 @@ echo HEADdocType($metadata);
         echo '  <a class="label label-info" href="'.URL_BASE.'index.php?s=n" title="'.ucfirst(LABEL_showNewsTerm).'"><span class="glyphicon glyphicon-fire"></span> '.ucfirst(LABEL_showNewsTerm).'</a>';
         ?>
     </p>
-        <?php echo doMenuLang($metadata["arraydata"]["tema_id"]); ?>
+        <?php echo doMenuLang(array2value("tema_id",$metadata["arraydata"])); ?>
     </div>
 </div>
 <?php echo HTMLjsInclude();?>

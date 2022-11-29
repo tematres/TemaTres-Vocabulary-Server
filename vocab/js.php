@@ -12,7 +12,7 @@ require "config.tematres.php";
 /*
  * Load tinyMCE only if there are login
  */
-if ($_SESSION[$_SESSION["CFGURL"]]["ssuser_nivel"] > 0) {
+if (evalUserLevel($_SESSION[$_SESSION["CFGURL"]])>0) {
     ?>
     <!-- Load TinyMCE -->
     tinymce.init({

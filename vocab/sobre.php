@@ -49,9 +49,9 @@ $metadata=do_meta_tag();
 
     echo HTMLsummary();
 
-    if ($_SESSION[$_SESSION["CFGURL"]]["ssuser_id"]) {
+    if (evalUserLevel($_SESSION[$_SESSION["CFGURL"]])>0) {
         //es admin y quiere ver un usuario
-        if (($_GET["user_id"])    &&    ($_SESSION[$_SESSION["CFGURL"]]["ssuser_nivel"]==1)) {
+        if (($_GET["user_id"])    &&    (evalUserLevel($_SESSION[$_SESSION["CFGURL"]])==1)) {
             echo doBrowseTermsFromUser(secure_data($_GET["user_id"], $_GET["ord"]));
         } elseif ($_GET["user_id"]) {//no es admin y quiere verse a si mismo
             echo doBrowseTermsFromUser(secure_data($_SESSION[$_SESSION["CFGURL"]]["ssuser_id"], "sql"), secure_data($_GET["ord"], "sql"));
@@ -86,7 +86,7 @@ $metadata=do_meta_tag();
           echo '  <a class="label label-info" href="'.URL_BASE.'index.php?s=n" title="'.ucfirst(LABEL_showNewsTerm).'"><span class="glyphicon glyphicon-fire"></span> '.ucfirst(LABEL_showNewsTerm).'</a>';
         ?>
       </p>
-        <?php echo doMenuLang($metadata["arraydata"]["tema_id"]); ?>
+        <?php echo doMenuLang(); ?>
         </div>
     </div>
 

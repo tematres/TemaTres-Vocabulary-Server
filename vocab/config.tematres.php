@@ -120,6 +120,10 @@ $CFG["IMP_TAG_SEPARATOR"]  = ':';
 // Define char to recognice as tabulator, tabulator is char used in txt import procedure to asig to the term the same relation as previous relation. default = "==="
 $CFG["IMP_TAG_TABULATOR"]  = '===';
 
+//Define is use or not CDN to bootstrap and other external libraries, default == false (1)
+$CFG["USE_CDN"]=1;
+
+
 /* Config here to publish image and fixed link in header:
 
     URL_IMG= URL for the image.
@@ -153,6 +157,6 @@ require_once T3_ABSPATH . 'common/include/fun.html.php';
 require_once T3_ABSPATH . 'common/include/fun.html_forms.php';
 
 //////////////////// ADMINISTRACION y GESTION ////////////////////////////
-if ($_SESSION[$_SESSION["CFGURL"]]["ssuser_id"]) {
+if (evalUserLevel($_SESSION[$_SESSION["CFGURL"]])>0) {
     include_once T3_ABSPATH . 'common/include/fun.admin.php';
 }

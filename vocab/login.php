@@ -5,7 +5,8 @@ Copyright (C) 2004-2021 Diego Ferreyra tematres@r020.com.ar
 */
 require "config.tematres.php";
 $metadata=do_meta_tag();
-
+$_GET["action"]=array2value("action", $_GET) ;
+$_GET["key"]=array2value("key", $_GET) ;
 if (($_GET["action"]=='rp') && ($_GET["key"])) {
     $chek_key=check_password_reset_key($_GET["key"], urldecode($_GET["login"]));
 
@@ -88,7 +89,9 @@ if (($_GET["action"]=='rp') && ($_GET["key"])) {
 <div class="container">
 
 <?php
-if ($_SESSION[$_SESSION["CFGURL"]]["ssuser_id"]) {
+$_POST["task"]=array2value("task", $_POST) ;
+$_GET["task"]=array2value("task", $_GET) ;
+if (evalUserLevel($_SESSION[$_SESSION["CFGURL"]])>0) {
            include_once T3_ABSPATH . 'common/include/inc.misTerminos.php';
 } else {
     if ($_POST["task"]=='user_recovery') {
@@ -96,13 +99,13 @@ if ($_SESSION[$_SESSION["CFGURL"]]["ssuser_id"]) {
     }
 
 
-    if ((@$_GET["task"])&&($_GET["task"]=='recovery')) {
+    if ($_GET["task"]=='recovery') {
         echo HTMLformRecoveryPassword();
     } else {
-        if (($_POST["task"]=='login') && (!$_SESSION[$_SESSION["CFGURL"]]["ssuser_id"])) {
+        if (($_POST["task"]=='login') && (evalUserLevel($_SESSION[$_SESSION["CFGURL"]])==0)) {
             $task_result=array("msg"=>t3_messages('no_user'));
         }
-        echo HTMLformLogin($task_result);
+        echo HTMLformLogin(@$task_result);
     };
 }// if session
 ?>
@@ -113,6 +116,7 @@ if ($_SESSION[$_SESSION["CFGURL"]]["ssuser_id"]) {
 <div id="footer" class="footer">
           <div class="container">
                 <?php
+                $_GET["letra"]=array2value("letra", $_GET);
                 if (!@$_GET["letra"]) {
                     echo HTMLlistaAlfabeticaUnica();
                 }
@@ -133,7 +137,7 @@ if ($_SESSION[$_SESSION["CFGURL"]]["ssuser_id"]) {
                     echo '  <a class="label label-info" href="'.URL_BASE.'index.php?s=n" title="'.ucfirst(LABEL_showNewsTerm).'"><span class="glyphicon glyphicon-fire"></span> '.ucfirst(LABEL_showNewsTerm).'</a>';
                 ?>
             </p>
-                <?php echo doMenuLang($metadata["arraydata"]["tema_id"]); ?>
+                <?php echo doMenuLang(); ?>
           </div>
 
 </div>
@@ -288,9 +292,8 @@ function wp_generate_password($length = 12, $special_chars = true, $extra_specia
   */
 function wp_rand($min = 0, $max = 0)
 {
-
     //sustitución de un valor global
-    $rnd_value==3;
+    $rnd_value=3;
 
     // Reset $rnd_value after 14 uses
     // 32(md5) + 40(sha1) + 40(sha1) / 8 = 14 random numbers from $rnd_value
