@@ -16,6 +16,7 @@ if ((stristr($_SERVER['REQUEST_URI'], "session.php") ) || ( !defined('T3_ABSPATH
 
   $hidden='<input type="hidden"  name="idTema" value="'.$metadata["arraydata"]["tema_id"].'" />';
   $hidden.='<input type="hidden"  name="ks" id="ks" value="'.$_SESSION["SEND_KEY"].'"/>';
+  $buttons='';
 
 if ($editNota) {
     $arrayNota=ARRAYdatosNota($editNota);

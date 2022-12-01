@@ -81,7 +81,8 @@ function HTMLformAssociateFreeTerms($ARRAYterm_id = array(), $taskterm = "")
         }//if cant
         $rows_busca.='</div>';
     };//fin de if buscar
-    $rows.='<div class="container" id="bodyText">
+
+    $rows='<div class="container" id="bodyText">
 	<a class="topOfPage" href="'.URL_BASE.'index.php?verT=L" title="'.LABEL_Anterior.'">'.LABEL_Anterior.'</a>
 	<h3>'.LABEL_EditorTermino.'</h3>';
     if ($new_relacion["log"]==true) {
@@ -106,6 +107,8 @@ function HTMLformAssociateFreeTerms($ARRAYterm_id = array(), $taskterm = "")
 function HTMLformAssociateExistTerms($taskterm, $ARRAYtermino, $term_id = "0")
 {
     global $new_relacion;
+
+    $rows='';
     $link_term=HTMLlinkTerm(array("tema_id"=>$ARRAYtermino["tema_id"],"tema"=>$ARRAYtermino["titTema"]));
     switch ($taskterm) {
         case 'addRT':
@@ -263,6 +266,12 @@ function HTMLformEditTerms($taskterm, $ARRAYtermino = "0")
     //SEND_KEY to prevent duplicated
     session_start();
     $_SESSION['SEND_KEY']=md5(uniqid(rand(), true));
+
+    $extra_button='';
+    $help_rows='';
+
+    $t_relation= 0;
+
     switch ($taskterm) {
         case 'addTerm':// add term
             $nombre_pantalla=LABEL_AgregarT;
@@ -306,7 +315,7 @@ function HTMLformEditTerms($taskterm, $ARRAYtermino = "0")
             $t_relation='2';
             break;
     };
-    $rows.='<div class="container" id="bodyText">';
+    $rows='<div class="container" id="bodyText">';
     $rows.='<div class="row">';
     $rows.='<a class="topOfPage" href="'.URL_BASE.'index.php?tema='.$ARRAYtermino["idTema"].'" title="'.LABEL_Anterior.'">'.LABEL_Anterior.'</a>
 		<h3>'.LABEL_EditorTermino .'</h3>';
@@ -318,7 +327,7 @@ function HTMLformEditTerms($taskterm, $ARRAYtermino = "0")
 		'.$extra_button.'
 		<textarea class="form-control" type="text" required autofocus rows="2" cols="60" name="'.FORM_LABEL_termino.'" id="addTerms">'.$vista_titulo_tema.'</textarea>';
     $rows.=$help_rows;
-    $rows.=$extra_tag;
+
     $rows.='</div>';
 
     if (in_array($t_relation, array(2,3,4))) {
@@ -1446,7 +1455,7 @@ function HTMLformAltaEquivalenciaTermino($ARRAYTermino)
     $_SESSION['SEND_KEY']=md5(uniqid(rand(), true));
     $rows='<div class="container" id="bodyText">';
     $rows.='<script type="text/javascript">$("#form-tvocab").validate({});</script>';
-    $rows.='<a class="topOfPage" href="'.URL_BASE.'index.php?tema='.$ARRAYtermino["idTema"].'" title="'.LABEL_Anterior.'">'.LABEL_Anterior.'</a>';
+    $rows.='<a class="topOfPage" href="'.URL_BASE.'index.php?tema='.$ARRAYTermino["idTema"].'" title="'.LABEL_Anterior.'">'.LABEL_Anterior.'</a>';
     if (SQLcount($sql)=='1') {
         //No hay vocabularios de referencia, solo vocabulario principal
         $rows.=HTMLalertNoTargetVocabularyPivotModel();
@@ -1743,7 +1752,7 @@ function HTMLformURI4term($ARRAYtermino)
             }
         }
 
-        $rows.='<div class="container" id="bodyText">';
+        $rows='<div class="container" id="bodyText">';
         $rows.='<a class="topOfPage" href="'.URL_BASE.'index.php?tema='.$ARRAYtermino["idTema"].'" title="'.LABEL_Anterior.'">'.LABEL_Anterior.'</a>';
         $rows.='<form class="" role="form" name="altaURI" id="altaURI" action="index.php" method="post">';
         $rows.='	<div class="row">
@@ -1790,7 +1799,7 @@ function HTMLformURI4term($ARRAYtermino)
 function HTMLconfirmDeleteTerm($ARRAYtermino)
 {
 
-    $rows.='<form class="form-inline" role="form" name="deleteTerm" action="index.php" method="post">';
+    $rows='<form class="form-inline" role="form" name="deleteTerm" action="index.php" method="post">';
     $rows.='  <fieldset id="borrart" style="display:none;">';
     $rows.='	<legend>'.ucfirst(MENU_BorrarT).'</legend>';
     $rows.= '<p class="alert alert-danger" role="alert">'.sprintf(MSG__warningDeleteTerm, $ARRAYtermino["titTema"]).'</p>';
@@ -2812,7 +2821,7 @@ function HTMLlistSources()
     $cant_result=SQLcount($sql);
 
     $rows='<div class="table-responsive" id="source_list">';
-    $rows='<a href="#list-config" title="'.ucfirst(LABEL_lcConfig).' &middot; '.strtolower(LABEL_Opciones).'"><svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-caret-up-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+    $rows.='<a href="#list-config" title="'.ucfirst(LABEL_lcConfig).' &middot; '.strtolower(LABEL_Opciones).'"><svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-caret-up-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
   <path d="M7.247 4.86l-4.796 5.481c-.566.647-.106 1.659.753 1.659h9.592a1 1 0 0 0 .753-1.659l-4.796-5.48a1 1 0 0 0-1.506 0z"/>
 </svg></a>';
     $rows.='<h3>'.ucfirst(LABEL_source).' ('.$cant_result.') <a type="button" class="btn btn-primary btn-xs" name="crear" type="button" href="admin.php?editsrc_id=0" title="'.ucfirst(LABEL_add_new).'">'.ucfirst(LABEL_add_new).'</a></h3> ';

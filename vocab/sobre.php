@@ -50,6 +50,10 @@ $metadata=do_meta_tag();
     echo HTMLsummary();
 
     if (evalUserLevel($_SESSION[$_SESSION["CFGURL"]])>0) {
+
+        $_GET["ord"]=array2value("ord", $_GET);
+        $_GET["y"]=array2value("y", $_GET);
+        $_GET["user_id"]=array2value("user_id", $_GET);
         //es admin y quiere ver un usuario
         if (($_GET["user_id"])    &&    (evalUserLevel($_SESSION[$_SESSION["CFGURL"]])==1)) {
             echo doBrowseTermsFromUser(secure_data($_GET["user_id"], $_GET["ord"]));

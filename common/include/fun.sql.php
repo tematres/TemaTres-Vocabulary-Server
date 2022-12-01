@@ -208,7 +208,7 @@ function SQLbuscaSimple($texto)
 
     $codUP=UP_acronimo;
     //Control de estados
-    $where=(evalUserLevel($_SESSION[$_SESSION["CFGURL"]])==0) ? " and tema.estado_id='13' " : "";
+    $where=(evalUserLevel($_SESSION[$_SESSION["CFGURL"]])=='0') ? " and tema.estado_id='13' " : "";
 
     //Check is include or not meta terms
     $where.=(CFG_SEARCH_METATERM==0) ? " and tema.isMetaTerm=0 " : "";
@@ -257,7 +257,7 @@ function SQLsearchInNotes($texto, $params = array())
     $codUP=UP_acronimo;
 
     //Control de estados
-    $where=(evalUserLevel($_SESSION[$_SESSION["CFGURL"]])==0) ? " and tema.estado_id='13' " : "";
+    $where=(evalUserLevel($_SESSION[$_SESSION["CFGURL"]])=='0') ? " and tema.estado_id='13' " : "";
 
     //Check is include or not meta terms
     $where.=(CFG_SEARCH_METATERM==0) ? " and tema.isMetaTerm=0 " : "";
@@ -319,7 +319,7 @@ function SQLstartWith($texto, $strict_mode = 1, $limit = 50)
     $codUP=UP_acronimo;
 
     //Control de estados
-    $where=(evalUserLevel($_SESSION[$_SESSION["CFGURL"]])==0) ? " and tema.estado_id='13' " : "";
+    $where=(evalUserLevel($_SESSION[$_SESSION["CFGURL"]])=='0') ? " and tema.estado_id='13' " : "";
 
 
     //incluir sólo término de la lengua base (no lengua de referencia)
@@ -404,7 +404,7 @@ function SQLbuscaExacta($texto)
     $codUP=UP_acronimo;
 
     //Control de estados
-    $where=(evalUserLevel($_SESSION[$_SESSION["CFGURL"]])==0) ? " and tema.estado_id='13' " : "";
+    $where=(evalUserLevel($_SESSION[$_SESSION["CFGURL"]])=='0') ? " and tema.estado_id='13' " : "";
 
     //Check is include or not meta terms
     $where.=(CFG_SEARCH_METATERM==0) ? " and tema.isMetaTerm=0 " : "";
@@ -442,7 +442,7 @@ function ARRAYverTerminoBasico($tema_id)
     $tema_id=secure_data($tema_id, "int");
 
     //Control de estados
-    $where=(evalUserLevel($_SESSION[$_SESSION["CFGURL"]])==0) ? " and tema.estado_id='13' " : "";
+    $where=(evalUserLevel($_SESSION[$_SESSION["CFGURL"]])=='0') ? " and tema.estado_id='13' " : "";
 
     $sql=SQL(
         "select",
@@ -524,7 +524,7 @@ function SQLdatosTerminoNotas($tema_id, $array_tipo_nota = array())
     }
 
 
-    if (evalUserLevel($_SESSION[$_SESSION["CFGURL"]])==0) {        
+    if (evalUserLevel($_SESSION[$_SESSION["CFGURL"]])=='0') {        
         $where.=" and notas.tipo_nota!='NP' ";
     }
 
@@ -1101,7 +1101,7 @@ function SQLverTerminosE($tema_id)
     $orderBy=($CFG["_USE_CODE"]=='1') ? "lower(tema.code)," : "" ;
 
     //Control de estados
-    $where= (evalUserLevel($_SESSION[$_SESSION["CFGURL"]])==0) ? " and tema.estado_id='13' " : "";
+    $where= (evalUserLevel($_SESSION[$_SESSION["CFGURL"]])=='0') ? " and tema.estado_id='13' " : "";
 
     $sql=SQL(
         "select",
@@ -1142,7 +1142,7 @@ function SQLlistaABC($letra = "")
     global $CFG;
     $where='';
     $leftJoin='';
-    if (evalUserLevel($_SESSION[$_SESSION["CFGURL"]])==0) {
+    if (evalUserLevel($_SESSION[$_SESSION["CFGURL"]])=='0') {
         //Control de estados
         $where=" where tema.estado_id='13' ";
 
@@ -1258,7 +1258,7 @@ function SQLmenuABCpages($letra, $args = '')
 
     $where="";
 
-    if (evalUserLevel($_SESSION[$_SESSION["CFGURL"]])==0) {
+    if (evalUserLevel($_SESSION[$_SESSION["CFGURL"]])=='0') {
         //Control de estados
         $where=" and tema.estado_id='13' ";
 
@@ -1310,7 +1310,7 @@ function numTerms2Letter($letra)
     $where_letter=(!ctype_digit($letra)) ? " LEFT(tema.tema,1)=$letra_sanitizada " : " LEFT(tema.tema,1) REGEXP '[[:digit:]]' " ;
 
     //Control de estados
-    $where=(evalUserLevel($_SESSION[$_SESSION["CFGURL"]])==0) ? " and tema.estado_id='13' " : "" ;
+    $where=(evalUserLevel($_SESSION[$_SESSION["CFGURL"]])=='0') ? " and tema.estado_id='13' " : "" ;
 
     $sql=SQL(
         "select",
@@ -1339,7 +1339,7 @@ function SQLbuscaTerminosSimple($string, $limit = "20")
     $limit=(is_int($limit)) ? $limit : "20";
 
     //Control de estados
-    $where=(evalUserLevel($_SESSION[$_SESSION["CFGURL"]])==0) ? " and t.estado_id='13' " : "";
+    $where=(evalUserLevel($_SESSION[$_SESSION["CFGURL"]])=='0') ? " and t.estado_id='13' " : "";
 
     //Check is include or not meta terms
     $where.=(CFG_SEARCH_METATERM==0) ? " and t.isMetaTerm=0 " : "";
@@ -1410,7 +1410,7 @@ function SQLTerminosValidos($tema_id = "")
     $where=(@$tema_id) ? " and tema.tema_id='$tema_id' " : "";
 
     //Control de estados
-    $where.=(evalUserLevel($_SESSION[$_SESSION["CFGURL"]])==0) ? " and tema.estado_id='13' " : $where ;
+    $where.=(evalUserLevel($_SESSION[$_SESSION["CFGURL"]])=='0') ? " and tema.estado_id='13' " : $where ;
     $sql=SQL(
         "SELECT",
         "tema.tema_id as id,tema.tema,tema.cuando,tema.uid,tema.cuando_final,tema.isMetaTerm
@@ -1464,7 +1464,7 @@ function SQLTerminosPreferidos($tema_id = 0)
     $tesauro_id= $_SESSION["id_tesa"];
 
     //Control de estados
-    $where.=(evalUserLevel($_SESSION[$_SESSION["CFGURL"]])==0) ? " and tema.estado_id='13' " : $where ;
+    $where.=(evalUserLevel($_SESSION[$_SESSION["CFGURL"]])=='0') ? " and tema.estado_id='13' " : $where ;
 
 
     $sql=SQL(
@@ -1759,7 +1759,11 @@ function SQLtermsByDate()
 function SQLdatosUsuarios($user_id = "")
 {
     global $DBCFG;
-    if (isset($user_id)) {
+
+    $user_id=secure_data($user_id, "int");
+    $where='';
+
+    if (($user_id)>0) {
         $where=" where usuario.id='$user_id'";
     };
     $sql=SQL(
@@ -1938,7 +1942,7 @@ function SQLexpansionTema($tema_id)
     $tema_id=secure_data($tema_id, "int");
 
     //Control de estados
-    $where=(evalUserLevel($_SESSION[$_SESSION["CFGURL"]])==0) ? " and t.estado_id='13' " : "" ;
+    $where=(evalUserLevel($_SESSION[$_SESSION["CFGURL"]])=='0') ? " and t.estado_id='13' " : "" ;
 
     return SQL(
         "select",
@@ -1965,7 +1969,7 @@ function SQLexpansionTR($lista_temas_id)
     $csv_temas_id=string2array4ID($lista_temas_id);
 
     //Control de estados
-    $where=(evalUserLevel($_SESSION[$_SESSION["CFGURL"]])==0) ? " and t.estado_id='13' " : "" ;
+    $where=(evalUserLevel($_SESSION[$_SESSION["CFGURL"]])=='0') ? " and t.estado_id='13' " : "" ;
 
     return SQL(
         "select",
@@ -1992,7 +1996,7 @@ function SQLlistaTema_id($lista_temas_id)
     global $DBCFG;
 
     //Control de estados
-    $where=(evalUserLevel($_SESSION[$_SESSION["CFGURL"]])==0) ? " and t.estado_id='13' " : "" ;
+    $where=(evalUserLevel($_SESSION[$_SESSION["CFGURL"]])=='0') ? " and t.estado_id='13' " : "" ;
 
     $csv_temas_id=string2array4ID($lista_temas_id);
 
@@ -2005,8 +2009,9 @@ function SQLlistaTema_id($lista_temas_id)
 function SQLdatosVocabulario($vocabulario_id = "")
 {
     global $DBCFG;
+    $vocabulario_id=secure_data($vocabulario_id, "int");
     $where='';
-    if (isset($vocabulario_id)) {
+    if ($vocabulario_id>0) {
         $where=" where id='$vocabulario_id'";
     }
     return SQL("select", "id as vocabulario_id,titulo,autor,idioma,cobertura,keywords,tipo,cuando,url_base,polijerarquia from $DBCFG[DBprefix]config $where order by vocabulario_id");
@@ -2018,8 +2023,9 @@ function SQLdatosVocabulario($vocabulario_id = "")
 function SQLinternalTargetVocabs($vocabulario_id = "")
 {
     global $DBCFG;
-
-    if (@$vocabulario_id) {
+    $vocabulario_id=secure_data($vocabulario_id, "int");
+    $where='';
+    if ($vocabulario_id>0) {
         $where=" and tv.id='$vocabulario_id'";
     }
     return SQL(
@@ -2120,7 +2126,7 @@ function ARRAYdatosUserXmail($user_login)
 
     return $sql->FetchRow();
 
-    return (is_object) ? $sql->FetchRow() : array();
+    return (is_object($sql)) ? $sql->FetchRow() : array();
 };
 
 
@@ -2135,7 +2141,7 @@ function ARRAYdatosUserXkey($user_login, $key)
     from $DBCFG[DBprefix]usuario u where u.mail= ? and user_activation_key= ?",
         array($user_login,$key)
     );
-    return (is_object) ? $sql->FetchRow() : false;
+    return (is_object($sql)) ? $sql->FetchRow() : false;
 };
 
 
@@ -2411,7 +2417,7 @@ function ARRAYCodeDetailed($code)
     $code=secure_data($code, "ADOsql");
 
     //Control de estados
-    $where= (evalUserLevel($_SESSION[$_SESSION["CFGURL"]])==0) ? " and tema.estado_id='13' " : "" ;
+    $where= (evalUserLevel($_SESSION[$_SESSION["CFGURL"]])=='0') ? " and tema.estado_id='13' " : "" ;
 
     $sql=SQL(
         "select",
@@ -2617,7 +2623,7 @@ function SQLadvancedTermReport($array)
     // user filter
     $array["byuser_id"]=secure_data($array["byuser_id"], "int");
 
-    if (($array["byuser_id"]) && ((evalUserLevel($_SESSION[$_SESSION["CFGURL"]])==1))) {
+    if (($array["byuser_id"]) && ((evalUserLevel($_SESSION[$_SESSION["CFGURL"]])=='1'))) {
         $where.="        and '$array[byuser_id]' in (t.uid,t.uid_final)";
     }
 

@@ -628,6 +628,8 @@ function HTMLtermMenuX2($array_tema, $relacionesTermino)
 
     $isValidTerm=isValidTerm($array_tema["tema_id"]);
 
+    $link_estado='';
+
 
     // PERMITIR O NO POLIJERARQUIAS//
     if (( ($relacionesTermino["cantTG"]==0) || ($_SESSION["CFGPolijerarquia"]=='1') )
@@ -945,9 +947,10 @@ function doBrowseTermsByDate()
 {
     global $MONTHS;
     $sql=SQLtermsByDate();
-    $rows.='<div class="table-responsive"> ' ;
-    $rows.='<table id="termaudit" class="table table-striped table-bordered table-condensed table-hover" summary="'.ucfirst(LABEL_auditoria).'">' ;
+    $TotalTerminos=0;
 
+    $rows='<div class="table-responsive"> ' ;
+    $rows.='<table id="termaudit" class="table table-striped table-bordered table-condensed table-hover" summary="'.ucfirst(LABEL_auditoria).'">' ;
     $rows.='<thead>' ;
 
     $rows.='<tr>' ;
@@ -1494,6 +1497,8 @@ function HTMLtargetTerms($tema_id)
 {
     $sql=SQLtargetTerms($tema_id);
 
+    $_GET["taskEdit"]=array2value("taskEdit", $_GET) ;
+
     if (SQLcount($sql)>0) {
         $rows='<ul class="list-unstyled">' ;
 
@@ -1889,7 +1894,7 @@ function HTMLdeepStats()
 
     $sql=SQLTermDeep();
 
-    $rows.='<div class="table-responsive col-xs-6 col-md-4">
+    $rows='<div class="table-responsive col-xs-6 col-md-4">
 	  <table class="table  table-bordered table-condensed table-hover" summary="'.LABEL_termsXdeepLevel.'">
 	  <thead><tr><tr><th>'.ucfirst(LABEL_deepLevel).'</th><th>'.ucfirst(LABEL_cantTerms).'</th></tr></thead>
 	  <tbody>' ;
@@ -1949,18 +1954,18 @@ function HTMLlinkTerm($arrayTerm, $arg = array())
     $class.=(array2value("isMetaTerm",$arrayTerm)==1) ? ' metaTerm' : '' ;
 
 
-    $url_parts=parse_url($_SESSION["CFGURL"]);
+    $url_parts=parse_url($_SESSION["CFGURL"]) ;
 
-
+    $arg["modal"]=array2value("modal", $arg) ;
     //if is modal link
     if ($arg["modal"]==1) {
         return '<a href="'.$url_parts['scheme'] . '://' . $url_parts['host'] . ':' . @$url_parts['port'] . @$url_parts['path'].'modal.php?tema='.$arrayTerm["tema_id"].'" class="modalTrigger '.$class.'">'.$arrayTerm["tema"].'</a>' ;
     }
 
-    $urlTerm=$url_parts['scheme'] . '://' . $url_parts['host'] . ':' . $url_parts['port'] . $url_parts['path'].'index.php?tema='.$arrayTerm["tema_id"].'&amp;/'.string2url($arrayTerm["tema"]);
+    $urlTerm=$url_parts['scheme'] . '://' . $url_parts['host'] . ':' . @$url_parts['port'] . $url_parts['path'].'index.php?tema='.$arrayTerm["tema_id"].'&amp;/'.string2url($arrayTerm["tema"]);
 
 
-    return '<a class="'.$class.'" href="'.$urlTerm.'" title="'.LABEL_verDetalle.$arrayTerm["tema"].'" lang="'.$arrayTerm["lang"].'">'.$arrayTerm["tema"].'</a>' ;
+    return '<a class="'.$class.'" href="'.$urlTerm.'" title="'.LABEL_verDetalle.$arrayTerm["tema"].'" lang="'.@$arrayTerm["lang"].'">'.$arrayTerm["tema"].'</a>' ;
 }
 
 
@@ -2657,6 +2662,8 @@ function HTMLcloudTerms($level, $limit, $term_id = 0)
             $rows.='<a href="'.URL_BASE.'index.php?tema='.$array_tag["tema_id"].'" role="button" title="'.ucfirst(LABEL_Detalle).' '.$array_tag["tema"].'" rel="'.$array_tag["cant_nt"].'">'.$array_tag["tema"].'</a>' ;
         }
         $rows.='</div>' ;
+    } else {
+        return false;
     }
 
     return $rows;

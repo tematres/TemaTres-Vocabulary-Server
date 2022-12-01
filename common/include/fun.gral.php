@@ -1797,5 +1797,5 @@ function evalUserLevel($user_session)
         return 0;
     };
 
-    return $user_session["ssuser_nivel"];
+    return (int) $user_session["ssuser_nivel"];
 }

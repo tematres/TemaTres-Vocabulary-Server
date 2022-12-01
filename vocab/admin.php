@@ -5,9 +5,23 @@ require "config.tematres.php";
 
 $metadata=do_meta_tag();
 
-if ($_SESSION[$_SESSION["CFGURL"]]["ssuser_nivel"]!=='1') {
+if (evalUserLevel($_SESSION[$_SESSION["CFGURL"]])!==1) {
     loadPage('login.php');
 };
+
+
+$_GET["opTbl"]=array2value("opTbl", $_GET);
+$_GET["user_id"]=array2value("user_id", $_GET);
+$_GET["usestado"]=array2value("usestado", $_GET);
+$_GET["doAdmin"]=array2value("doAdmin", $_GET);
+$_GET["vocabulario_id"]=array2value("vocabulario_id", $_GET);
+$_GET["editsrc_id"]=array2value("editsrc_id", $_GET);
+    
+$_POST["userTask"]=array2value("userTask", $_POST);
+$_POST["useactua"]=array2value("useactua", $_POST);
+$_POST["task_config"]=array2value("task_config", $_POST);
+$_POST["doAdmin"]=array2value("doAdmin", $_POST);
+$_POST["taskAdmin"]=array2value("taskAdmin", $_POST);
 
 //Acciones de gestion de usuarios
 if ($_POST["userTask"] == 'A') {
@@ -243,7 +257,7 @@ if (evalUserLevel($_SESSION[$_SESSION["CFGURL"]])==1) {
         echo '  <a class="label label-info" href="'.URL_BASE.'index.php?s=n" title="'.ucfirst(LABEL_showNewsTerm).'"><span class="glyphicon glyphicon-fire"></span> '.ucfirst(LABEL_showNewsTerm).'</a>';
         ?>
     </p>
-        <?php echo doMenuLang($metadata["arraydata"]["tema_id"]); ?>
+        <?php echo doMenuLang(); ?>
     </div>
 </div>
 <?php echo HTMLjsInclude();?>

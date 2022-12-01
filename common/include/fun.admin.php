@@ -10,7 +10,29 @@ if ((stristr($_SERVER['REQUEST_URI'], "session.php") ) || ( !defined('T3_ABSPATH
 
 /*llamada de funciones de gestion de terminos*/
 
-if ($_SESSION[$_SESSION["CFGURL"]]["ssuser_nivel"]>0) {
+if (evalUserLevel($_SESSION[$_SESSION["CFGURL"]])>0) {
+
+    $_GET["tcode"]=array2value("code", $_GET);
+    $_GET["tema_id"]=array2value("tema_id", $_GET);
+    $_GET["tvocab_id"]=array2value("tvocab_id", $_GET);
+    $_GET["taskrelations"]=array2value("taskrelations", $_GET);
+    $_GET["sel_idtr"]=array2value("sel_idtr", $_GET);
+    $_GET["sel_idsuptr"]=array2value("sel_idsuptr", $_GET);
+    $_GET["ridelete"]=array2value("ridelete", $_GET);
+    $_GET["taskNota"]=array2value("taskNota", $_GET);
+    $_GET["estado_id"]=array2value("estado_id", $_GET);
+    $_GET["taskterm"]=array2value("taskterm", $_GET);
+    $_GET["taskterm"]=array2value("taskterm", $_GET);
+    $_GET["rema_id"]=array2value("rema_id", $_GET);
+    
+    $_POST["task"]=array2value("task", $_POST);
+    $_POST["tema"]=array2value("tema", $_POST);
+    $_POST["tema_id"]=array2value("tema_id", $_POST);
+    $_POST["edit_id_tema"]=array2value("edit_id_tema", $_POST);
+    $_POST["taskNota"]=array2value("taskNota", $_POST);
+    $_POST["id_termino_sub"]=array2value("id_termino_sub", $_POST);
+    $_POST["t_rel_rel_id"]=array2value("t_rel_rel_id", $_POST);
+
     //prevent duplicate in create terms functions
     if ($_GET["tcode"]) {
         do_target_temaXcode($_GET["tema_id"], $_GET["tcode"], $_GET["tvocab_id"]);
@@ -35,7 +57,9 @@ if ($_SESSION[$_SESSION["CFGURL"]]["ssuser_nivel"]>0) {
     // resend control ###
     //
     if (isset($_SESSION['SEND_KEY'])) {
-        $sendkey=$_POST['ks'];
+
+
+        $sendkey=array2value('ks',$_POST) ;
         if (strcasecmp($sendkey, $_SESSION['SEND_KEY'])===0) {
             // alta de términos sugeridos
             if ($_POST["taskterm"]=='addSuggestedTerms') {
@@ -1080,17 +1104,17 @@ function admin_users($do, $user_id = "")
     
     switch ($do) {
         case 'actua':
-            $POSTarrayUser["apellido"]=trim($POSTarrayUser[apellido]);
-            $POSTarrayUser["nombres"]=trim($POSTarrayUser[nombres]);
-            $POSTarrayUser["mail"]=trim($POSTarrayUser[mail]);
-            $POSTarrayUser["pass"]=trim($POSTarrayUser[pass]);
-            $POSTarrayUser["orga"]=trim($POSTarrayUser[orga]);
+            $POSTarrayUser["apellido"]=trim($POSTarrayUser["apellido"]);
+            $POSTarrayUser["nombres"]=trim($POSTarrayUser["nombres"]);
+            $POSTarrayUser["mail"]=trim($POSTarrayUser["mail"]);
+            $POSTarrayUser["pass"]=trim($POSTarrayUser["pass"]);
+            $POSTarrayUser["orga"]=trim($POSTarrayUser["orga"]);
 
-            $POSTarrayUser["apellido"]=$DB->qstr($POSTarrayUser[apellido]);
-            $POSTarrayUser["nombres"]=$DB->qstr($POSTarrayUser[nombres]);
-            $POSTarrayUser["mail"]=$DB->qstr($POSTarrayUser[mail]);
-            $POSTarrayUser["orga"]=$DB->qstr($POSTarrayUser[orga]);
-            $POSTarrayUser["pass"]=trim($POSTarrayUser[pass]);
+            $POSTarrayUser["apellido"]=$DB->qstr($POSTarrayUser["apellido"]);
+            $POSTarrayUser["nombres"]=$DB->qstr($POSTarrayUser["nombres"]);
+            $POSTarrayUser["mail"]=$DB->qstr($POSTarrayUser["mail"]);
+            $POSTarrayUser["orga"]=$DB->qstr($POSTarrayUser["orga"]);
+            $POSTarrayUser["pass"]=trim($POSTarrayUser["pass"]);
 
             $POSTarrayUser["status"]=($POSTarrayUser["isAlive"]=='ACTIVO') ? 'ACTIVO' : 'BAJA';
 
@@ -1118,8 +1142,8 @@ function admin_users($do, $user_id = "")
             );
 
             //set password
-            if (strlen($POSTarrayUser[pass])>0) {
-                setPassword($arrayUserData["user_id"], $POSTarrayUser[pass], CFG_HASH_PASS);
+            if (strlen($POSTarrayUser["pass"])>0) {
+                setPassword($arrayUserData["user_id"], $POSTarrayUser["pass"], CFG_HASH_PASS);
             }
 
             //only admin
@@ -1601,7 +1625,7 @@ function doBrowseTermsFromUser($user_id, $ord = "")
 
     $sql=SQLlistTermsfromUser($user_id, $ord);
 
-    $rows.='<div class="table-responsive"> ';
+    $rows='<div class="table-responsive"> ';
     $rows.='<table id="termaudit" class="table table-striped table-bordered table-condensed table-hover" summary="'.ucfirst(LABEL_auditoria).'">';
 
     $rows.='<tbody>';
@@ -1611,7 +1635,7 @@ function doBrowseTermsFromUser($user_id, $ord = "")
         $nombres=$array["nombres"];
         $fecha_termino=do_fecha($array["cuando"]);
         $rows.='<tr>';
-        $rows.='<td class="izq"><a href="index.php?tema='.$array["id_tema"].'" title="'.LABEL_verDetalle.LABEL_Termino.'">'.$array[tema].'</a></td>';
+        $rows.='<td class="izq"><a href="index.php?tema='.$array["id_tema"].'" title="'.LABEL_verDetalle.LABEL_Termino.'">'.$array["tema"].'</a></td>';
         $rows.='<td>'.$fecha_termino["dia"].' / '.$fecha_termino["descMes"].' / '.$fecha_termino["ano"].'</td>';
         $rows.='</tr>';
     };
@@ -1649,7 +1673,7 @@ function HTMLListaUsers()
 
     $sqlListaUsers=SQLdatosUsuarios();
 
-    $rows.='<div class="table-responsive"> ';
+    $rows='<div class="table-responsive"> ';
     $rows.='<table id="tableusers" class="table table-striped table-bordered table-condensed table-hover" summary="'.MENU_Usuarios.'">';
 
     $rows.='<thead>';
@@ -1730,7 +1754,7 @@ function HTMLlistaVocabularios()
     $rows.='<tbody>';
 
     while ($array=$sql->FetchRow()) {
-        $fecha_alta=do_fecha($listaUsers["cuando"]);
+
         $rows.='<tr>';
         $rows.='<td class="izq" id="config_form"><a href="admin.php?vocabulario_id='.$array["vocabulario_id"].'" title="'.MENU_DatosTesauro.' '.$array["titulo"].'">'.$array["titulo"].'</a> / '.$array["idioma"].'</td>';
         $rows.='<td class="izq">'.$array["autor"].'</td>';
@@ -1756,7 +1780,7 @@ function HTMLlistaInternalTargetVocabularios()
 
     $sql=SQLinternalTargetVocabs();
 
-    $rows.='<div class="table-responsive" id="ref_vocab"> ';
+    $rows='<div class="table-responsive" id="ref_vocab"> ';
     $rows.='<a href="#list-config" title="'.ucfirst(LABEL_lcConfig).' &middot; '.strtolower(LABEL_Opciones).'"><svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-caret-up-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
   <path d="M7.247 4.86l-4.796 5.481c-.566.647-.106 1.659.753 1.659h9.592a1 1 0 0 0 .753-1.659l-4.796-5.48a1 1 0 0 0-1.506 0z"/>
 </svg></a>';
@@ -1798,7 +1822,7 @@ function HTMLlistaTargetVocabularios()
     $sql=SQLtargetVocabulary("0");
 
 
-    $rows.='<div class="table-responsive" id="target_vocab"> ';
+    $rows='<div class="table-responsive" id="target_vocab"> ';
     $rows.='<a href="#list-config" title="'.ucfirst(LABEL_lcConfig).' &middot; '.strtolower(LABEL_Opciones).'"><svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-caret-up-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
   <path d="M7.247 4.86l-4.796 5.481c-.566.647-.106 1.659.753 1.659h9.592a1 1 0 0 0 .753-1.659l-4.796-5.48a1 1 0 0 0-1.506 0z"/>
 </svg></a>';
@@ -1816,7 +1840,6 @@ function HTMLlistaTargetVocabularios()
         $rows.='<tbody>';
 
         while ($array=$sql->FetchRow()) {
-            $fecha_alta=do_fecha($listaUsers["cuando"]);
 
             $label_tvocab_status=($array["tvocab_status"]=='1') ? ucfirst(LABEL_enable) : ucfirst(LABEL_disable);
 
@@ -3095,6 +3118,11 @@ function abm_rel_rel($do, $rel_id, $rel_type_id)
 //View notes type and edit/create/delete user-defined notes
 function HTMLformUserNotes()
 {
+    $_POST["value"]=array2value("value", $_POST);
+    $_POST["orden"]=array2value("orden", $_POST);
+    $_POST["alias"]=array2value("alias", $_POST);
+    $_POST["doAdmin"]=array2value("doAdmin", $_POST);
+    $_POST["valueid"]=array2value("valueid", $_POST);
 
 
     //ALTA
@@ -3132,7 +3160,7 @@ function HTMLformUserNotes()
 
     $sql=SQLcantNotas();
 
-    $rows.='<form id="morenotas" name="morenotas" method="POST" action="admin.php?vocabulario_id=list#morenotas">';
+    $rows='<form id="morenotas" name="morenotas" method="POST" action="admin.php?vocabulario_id=list#morenotas">';
     $rows.='<input type="hidden" name="doAdmin" id="doAdmin" value="">  ';
     $rows.=' <input type="hidden" name="valueid" id="valueid"> ';
 
@@ -3159,7 +3187,7 @@ function HTMLformUserNotes()
 
     $rows.=' </thead>';
     $rows.=' <tbody>';
-
+    $i=0;
     while ($array=$sql->FetchRow()) {
         $i=++$i;
         if (in_array($array["value_id"], array(8,9,10,11,15))) { // not can be SYSTEM default notes
@@ -3194,6 +3222,14 @@ function HTMLformUserNotes()
 //View relations type and edit/create/delete user-defined relations
 function HTMLformUserRelations()
 {
+    $_POST["rr_value"]=array2value("rr_value", $_POST);
+    $_POST["rr_code"]=array2value("rr_code", $_POST);
+    $_POST["rr_id"]=array2value("rr_id", $_POST);
+    $_POST["t_relacion"]=array2value("t_relacion", $_POST);
+    $_POST["rr_ord"]=array2value("rr_ord", $_POST);
+    $_POST["doAdminR"]=array2value("doAdminR", $_POST);
+    $_POST["t_relation"]=array2value("t_relation", $_POST);
+    $_GET["t_relation"]=array2value("t_relation", $_GET);
 
     //ALTA
     if ($_POST['rr_value']!='' and $_POST['t_relacion']!='' and $_POST['rr_code']!='' and $_POST['rr_id']=='') {
@@ -3242,7 +3278,7 @@ function HTMLformUserRelations()
 
     $arrayLABEL=array("2"=>$LABEL_RT,"3"=>$LABEL_BT,"4"=>$LABEL_UP);
 
-    $rows.='<form id="morerelations" name="morerelations" method="POST" action="admin.php?vocabulario_id=list#morerelations">';
+    $rows='<form id="morerelations" name="morerelations" method="POST" action="admin.php?vocabulario_id=list#morerelations">';
     $rows.='<input type="hidden" name="doAdminR" id="doAdminR" value=""> ';
     $rows.='<input type="hidden" name="rr_id" id="rr_id"> ';
 
@@ -3277,7 +3313,7 @@ function HTMLformUserRelations()
 
 
 
-
+    $i=0;
     while ($array=$sql->FetchRow()) {
         $i=++$i;
         $rows.='<tr>';
@@ -3304,6 +3340,11 @@ function HTMLformUserRelations()
 //View relations types for URIS associated to terms and edit/create/delete user-defined URIs relations
 function HTMLformURIdefinition()
 {
+    $_POST["uri_value"]=array2value("uri_value", $_POST);
+    $_POST["uri_code"]=array2value("uri_code", $_POST);
+    $_POST["uri_type_id"]=array2value("uri_type_id", $_POST);
+    $_POST["doAdminU"]=array2value("doAdminU", $_POST);
+
 
     //ALTA
     if ($_POST['uri_value']!='' and  $_POST['uri_code']!='' and $_POST['uri_type_id']=='') {
@@ -3338,7 +3379,7 @@ function HTMLformURIdefinition()
 
     $sql=SQLURIdefinition();
 
-    $rows.='<form id="moreURI" name="moreURI" method="POST" action="admin.php?vocabulario_id=list#moreuri">';
+    $rows='<form id="moreURI" name="moreURI" method="POST" action="admin.php?vocabulario_id=list#moreuri">';
     $rows.='<input type="hidden" name="doAdminU" id="doAdminU" value=""> ';
     $rows.='<input type="hidden" name="uri_type_id" id="uri_type_id"> ';
 
@@ -3365,7 +3406,7 @@ function HTMLformURIdefinition()
 
 
 
-
+    $i=0;
     while ($array=$sql->FetchRow()) {
         $i=++$i;
         $rows.='<tr>';

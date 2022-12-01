@@ -16,7 +16,7 @@ if (is_numeric($_GET["user_id"])) {
 
 if ($dato_user["id"]) {
     $resumen=ARRAYresumen($_SESSION["id_tesa"], "U", $dato_user["id"]);
-    $row_resumen.='<div id="cajaAncha">'."\n\r";
+    $row_resumen='<div id="cajaAncha">'."\n\r";
     $row_resumen.='  <div><strong>'.LABEL_Acciones.'</strong></div><dl class="dosCol">'."\n\r";
 
     if ($resumen["cant_total"]>0) {
@@ -29,7 +29,7 @@ if ($dato_user["id"]) {
     $row_resumen.='</dl></div>';
 };
 
-$rows.='<form role="form" name="login" id="form-users" data-toggle="validator" action="admin.php" method="post">';
+$rows='<form role="form" name="login" id="form-users" data-toggle="validator" action="admin.php" method="post">';
 $rows.='	<div class="row">
 		<div class="col-sm-12">
 				<legend><a href="admin.php?user_id=list" title="'.LABEL_AdminUser.'">'.LABEL_AdminUser.'</a></legend>
