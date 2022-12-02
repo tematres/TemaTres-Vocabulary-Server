@@ -10,7 +10,7 @@ if ((stristr($_SERVER['REQUEST_URI'], "session.php") ) || ( !defined('T3_ABSPATH
 //
 // Include para actualizacion de datos propios. #
 
-$user_id = '0';
+$user_id = 0;
 
 $user_id = $_SESSION[$_SESSION["CFGURL"]]["ssuser_id"];
 
@@ -25,6 +25,8 @@ $row_resumen.='<dt>'.ucfirst(LABEL_RelTerminos).'</dt><dd>'.$resumen["cant_rel"]
 $row_resumen.='<dt>'.ucfirst(LABEL_TerminosUP).'</dt><dd> '.$resumen["cant_up"]."&nbsp;</dd>\n\r";
 $row_resumen.='</dl></div>';
 
+   
+$_POST["taskUser"]=array2value("taskUser", $_POST);
 
 if ($_POST["taskUser"]=='actuaDatos') {
     $user_id=admin_users("actua", secure_data($user_id, "sql"));
@@ -49,25 +51,25 @@ $rows.='	<div class="row">
             $rows.='<div class="form-group">
 			           <label for="nombre" class="col-sm-3 control-label">'.ucfirst(LABEL_nombre).'</label>
 			                    <div class="col-sm-9">
-			                        <input type="text" class="form-control" required id="nombre" placeholder="'.LABEL_nombre.'" name="'.FORM_LABEL_nombre.'" value="'.$dato_user["nombres"].'">
+			                        <input type="text" class="form-control" required id="nombre" placeholder="'.LABEL_nombre.'" name="nombres" value="'.$dato_user["nombres"].'">
 			                    </div>
 			         </div>';
             $rows.='<div class="form-group">
 			           <label for="apellido" class="col-sm-3 control-label">'.ucfirst(LABEL_apellido).'</label>
 			                    <div class="col-sm-9">
-			                        <input type="text" class="form-control"  id="apellido" required placeholder="'.LABEL_apellido.'" name="'.FORM_LABEL_apellido.'" value="'.$dato_user["apellido"].'">
+			                        <input type="text" class="form-control"  id="apellido" required placeholder="'.LABEL_apellido.'" name="apellido" value="'.$dato_user["apellido"].'">
 			                    </div>
 			         </div>';
             $rows.='<div class="form-group">
 			           <label for="mail" class="col-sm-3 control-label">'.ucfirst(LABEL_mail).'</label>
 			                    <div class="col-sm-9">
-			                        <input required class="form-control" type="email" id="mail" placeholder="'.LABEL_mail.'" name="'.FORM_LABEL_mail.'" value="'.$dato_user["mail"].'">
+			                        <input required class="form-control" type="email" id="mail" placeholder="'.LABEL_mail.'" name="mail" value="'.$dato_user["mail"].'">
 			                    </div>
 			         </div>';
             $rows.='<div class="form-group">
 			           <label for="orga" class="col-sm-3 control-label">'.ucfirst(LABEL_orga).'</label>
 			                    <div class="col-sm-9">
-			                        <input type="text" required class="form-control" id="orga" placeholder="'.LABEL_orga.'" name="'.FORM_LABEL_orga.'" value="'.$dato_user["orga"].'">
+			                        <input type="text" required class="form-control" id="orga" placeholder="'.LABEL_orga.'" name="orga" value="'.$dato_user["orga"].'">
 			                    </div>
 			         </div>';
 
@@ -75,7 +77,7 @@ $rows.='	<div class="row">
             $rows.='<div class="form-group">
 			           <label for="clave" class="col-sm-3 control-label">'.ucfirst(LABEL_pass).'</label>
 			                    <div class="col-sm-9">
-			                        <input data-minlength="4" '.$fillRulePass.' class="form-control" id="clave" placeholder="'.LABEL_pass.'" type="password" id="clave" name="'.FORM_LABEL_pass.'" value="">
+			                        <input data-minlength="4" '.$fillRulePass.' class="form-control" id="clave" placeholder="'.LABEL_pass.'" type="password" id="clave" name="pass" value="">
 															<span class="help-block">'.ucfirst(sprintf(MSG_lengh_error, 4)).'</span>
 			                    </div>
 			         </div>';
@@ -83,7 +85,7 @@ $rows.='	<div class="row">
             $rows.='<div class="form-group">
 			           <label for="reclave" class="col-sm-3 control-label">'.ucfirst(LABEL_repass).'</label>
 			                    <div class="col-sm-9">
-			                        <input data-match="#clave" '.$fillRulePass.' data-match-error="'.ucfirst(MSG_repass_error).'" placeholder="'.LABEL_repass.'" class="form-control" type="password" id="reclave" name="'.FORM_LABEL_repass.'" value="">
+			                        <input data-match="#clave" '.$fillRulePass.' data-match-error="'.ucfirst(MSG_repass_error).'" placeholder="'.LABEL_repass.'" class="form-control" type="password" id="reclave" name="reclave" value="">
 															<div class="help-block with-errors"></div>
 													</div>
 			         </div>';

@@ -89,14 +89,8 @@ $rows.='	<div class="row">
 															<div class="help-block with-errors"></div>
 													</div>
 			         </div>';
-            /*
-            $rows.='<div class="form-group">
-							<input type="checkbox" name="isAdmin" id="isAdmin" value="1" '.arrayReplace(array("1","2"), array("checked",""), $dato_user["nivel"]).'/>
-							<div class="col-sm-4">
-							<label for="isAdmin">'.ucfirst(LABEL_esSuperUsuario).'</label>
-								</div>
-							</div>';
-			*/
+
+
 if (isset($dato_user["id"])) {
     $isAlive=($dato_user["estado"]=='ACTIVO') ? 'checked': '';
     $rows.='<div class="form-group">
