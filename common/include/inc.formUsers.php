@@ -29,7 +29,7 @@ if ($dato_user["id"]) {
     $row_resumen.='</dl></div>';
 };
 
-$rows='<form role="form" name="login" id="form-users" data-toggle="validator" action="admin.php" method="post">';
+$rows='<form role="form" name="login" id="form-users" data-toggle="validator" action="admin.php?user_id=list" method="post">';
 $rows.='	<div class="row">
 		<div class="col-sm-12">
 				<legend><a href="admin.php?user_id=list" title="'.LABEL_AdminUser.'">'.LABEL_AdminUser.'</a></legend>
