@@ -353,7 +353,7 @@ class ADODB_DataDict {
 	function nameQuote($name = NULL,$allowBrackets=false)
 	{
 		if (!is_string($name)) {
-			return FALSE;
+			return false;
 		}
 
 		$name = trim($name);
@@ -427,6 +427,15 @@ class ADODB_DataDict {
 
 	function actualType($meta)
 	{
+		$meta = strtoupper($meta);
+
+		/*
+		* Add support for custom meta types. We do this
+		* first, that allows us to override existing types
+		*/
+		if (isset($this->connection->customMetaTypes[$meta]))
+			return $this->connection->customMetaTypes[$meta]['actual'];
+
 		return $meta;
 	}
 
@@ -498,7 +507,7 @@ class ADODB_DataDict {
 	 * @param string $tabname table-name
 	 * @param string $flds column-name and type for the changed column
 	 * @param string $tableflds='' complete definition of the new table, eg. for postgres, default ''
-	 * @param array/string $tableoptions='' options for the new table see createTableSQL, default ''
+	 * @param array|string $tableoptions='' options for the new table see createTableSQL, default ''
 	 * @return array with SQL strings
 	 */
 	function alterColumnSQL($tabname, $flds, $tableflds='',$tableoptions='')
@@ -553,7 +562,7 @@ class ADODB_DataDict {
 	 * @param string $tabname table-name
 	 * @param string $flds column-name and type for the changed column
 	 * @param string $tableflds='' complete definition of the new table, eg. for postgres, default ''
-	 * @param array/string $tableoptions='' options for the new table see createTableSQL, default ''
+	 * @param array|string $tableoptions='' options for the new table see createTableSQL, default ''
 	 * @return array with SQL strings
 	 */
 	function dropColumnSQL($tabname, $flds, $tableflds='',$tableoptions='')
@@ -695,16 +704,25 @@ class ADODB_DataDict {
 				case '0':
 				case 'NAME': 	$fname = $v; break;
 				case '1':
-				case 'TYPE': 	$ty = $v; $ftype = $this->actualType(strtoupper($v)); break;
+				case 'TYPE':
+
+					$ty = $v;
+					$ftype = $this->actualType(strtoupper($v));
+					break;
 
 				case 'SIZE':
-								$dotat = strpos($v,'.'); if ($dotat === false) $dotat = strpos($v,',');
-								if ($dotat === false) $fsize = $v;
-								else {
-									$fsize = substr($v,0,$dotat);
-									$fprec = substr($v,$dotat+1);
-								}
-								break;
+					$dotat = strpos($v,'.');
+					if ($dotat === false)
+						$dotat = strpos($v,',');
+					if ($dotat === false)
+						$fsize = $v;
+					else {
+
+						$fsize = substr($v,0,$dotat);
+						$fprec = substr($v,$dotat+1);
+
+					}
+					break;
 				case 'UNSIGNED': $funsigned = true; break;
 				case 'AUTOINCREMENT':
 				case 'AUTO':	$fautoinc = true; $fnotnull = true; break;
@@ -989,11 +1007,17 @@ class ADODB_DataDict {
 	}
 
 	/**
-	"Florian Buzin [ easywe ]" <florian.buzin#easywe.de>
-
-	This function changes/adds new fields to your table. You don't
-	have to know if the col is new or not. It will check on its own.
-	*/
+	 * This function changes/adds new fields to your table.
+	 *
+	 * You don't have to know if the col is new or not. It will check on its own.
+	 *
+	 * @param string   $tablename
+	 * @param string   $flds
+	 * @param string[] $tableoptions
+	 * @param bool     $dropOldFlds
+	 *
+	 * @return string[] Array of SQL Commands
+	 */
 	function changeTableSQL($tablename, $flds, $tableoptions = false, $dropOldFlds=false)
 	{
 	global $ADODB_FETCH_MODE;
@@ -1052,37 +1076,14 @@ class ADODB_DataDict {
 			$flds = $holdflds;
 		}
 
-
-		// already exists, alter table instead
-		list($lines,$pkey,$idxs) = $this->_genFields($flds);
-		// genfields can return FALSE at times
-		if ($lines == null) $lines = array();
-		$alter = 'ALTER TABLE ' . $this->tableName($tablename);
-		$sql = array();
-
-		foreach ( $lines as $id => $v ) {
-			if ( isset($cols[$id]) && is_object($cols[$id]) ) {
-
-				$flds = lens_ParseArgs($v,',');
-
-				//  We are trying to change the size of the field, if not allowed, simply ignore the request.
-				// $flds[1] holds the type, $flds[2] holds the size -postnuke addition
-				if ($flds && in_array(strtoupper(substr($flds[0][1],0,4)),$this->invalidResizeTypes4)
-				 && (isset($flds[0][2]) && is_numeric($flds[0][2]))) {
-					if ($this->debug) ADOConnection::outp(sprintf("<h3>%s cannot be changed to %s currently</h3>", $flds[0][0], $flds[0][1]));
-					#echo "<h3>$this->alterCol cannot be changed to $flds currently</h3>";
-					continue;
-	 			}
-				$sql[] = $alter . $this->alterCol . ' ' . $v;
-			} else {
-				$sql[] = $alter . $this->addCol . ' ' . $v;
-			}
-		}
+		$sql = $this->alterColumnSql($tablename, $flds);
 
 		if ($dropOldFlds) {
-			foreach ( $cols as $id => $v )
-			    if ( !isset($lines[$id]) )
-					$sql[] = $alter . $this->dropCol . ' ' . $v->name;
+			foreach ($cols as $id => $v) {
+				if (!isset($lines[$id])) {
+					$sql[] = $this->dropColumnSQL($tablename, $flds);
+				}
+			}
 		}
 		return $sql;
 	}
