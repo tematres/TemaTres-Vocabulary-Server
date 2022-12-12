@@ -21,7 +21,6 @@ $tematres_lang='';
 $lang_install=(isset($_GET["lang_install"])) ? $_GET["lang_install"] : 'en-EN';
 
 $lang = $tematres_lang=(in_array($lang_install, array('ca-ES','de-DE','en-EN','es-ES','fr-FR','it-IT','nl-NL','pt-PT','pt-BR'))) ? $lang_install : 'en-EN';
-
   //1. check if config file exist
 if (!file_exists('db.tematres.php')) {
     return message('<div class="error">Configuration file <code>db.tematres.php</code> not found!</div><br/>');
@@ -161,10 +160,10 @@ function checkInstall($lang)
     if ($cantTables=='7') {
         return message('<div class="alert alert-danger" role="alert">'.$install_message["301"].'</div>');
     } else {
+
         //Final step: dump or form
         if (isset($_POST['send'])) {
             $arrayInstallData=checkDataInstall($_POST);
-
             if (count($arrayInstallData)==8) {
                 SQLtematres($DBCFG, $DB, $arrayInstallData);
             } else {
@@ -502,14 +501,10 @@ function SQLtematres($DBCFG, $DB, $arrayInstallData = array())
 
 function HTMLformInstall($lang_install)
 {
-    global $install_message;
+    global $CFG,$install_message;
 
     include_once T3_ABSPATH . 'common/include/config.tematres.php';
     include_once T3_ABSPATH . 'common/include/fun.gral.php';
-
-
-
-    global $CFG;
 
     $arrayLang=array();
 
@@ -556,7 +551,7 @@ function HTMLformInstall($lang_install)
       <label class="col-md-4 control-label" for="tipo">'.ucfirst(LABEL_TipoLenguaje).'</label>
       <div class="col-md-4">
         <select id="tipo_lang" name="kos_type" class="form-control">
-        '.doSelectForm($array_kos_types, $array_vocabulario["tipo"]).'
+        '.doSelectForm($array_kos_types, "").'
         </select>                       
         </div>
     </div>
@@ -645,7 +640,6 @@ function HTMLformInstall($lang_install)
 
   <script type="text/javascript" src="<?php echo T3_WEBPATH;?>forms/jquery.validate.min.js"></script>
 
-    <?php echo $metadata["metadata"]; ?>
   <link type="image/x-icon" href="<?php echo T3_WEBPATH;?>images/tematres.ico" rel="icon" />
   <link type="image/x-icon" href="<?php echo T3_WEBPATH;?>images/tematres.ico" rel="shortcut icon" />
 </head>

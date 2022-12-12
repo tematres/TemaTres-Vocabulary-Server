@@ -532,7 +532,7 @@ function do_nodo_skos($idTema)
     $meta_tag.='<skos:prefLabel xml:lang="'.$_SESSION["CFGIdioma"].'">'.xmlentities($datosTermino["titTema"]).'</skos:prefLabel>';
 
     //Use or not term code / notation tag in Skos
-    if (($CFG["_USE_CODE"]=='1') && (strlen($datosTermino["code"])>0)) {
+    if (($CFG["_USE_CODE"]=='1') && (strlen((string) $datosTermino["code"])>0)) {
         $meta_tag.='<skos:notation>'.xmlentities($datosTermino["code"]).'</skos:notation>';
     }
 
@@ -952,7 +952,7 @@ function do_meta_tag($arrayTermino = "")
     $_SESSION["CFGPublisher"]=$ARRAYfetchValues["dc:publisher"]["value"];
     
     $local_naan=$ARRAYfetchValues["CFG_ARK_NAAN"]["value"];
-    $_SESSION["CFG_ARK_NAAN"]=(strlen($local_naan)>0) ? $local_naan : false;
+    $_SESSION["CFG_ARK_NAAN"]=(strlen((string) $local_naan)>0) ? $local_naan : false;
     $_SESSION["CFGlastMod"]=fetchlastMod();
 
     if (isset($_SESSION["CFG_ARK_NAAN"])) {
@@ -993,7 +993,7 @@ function do_meta_tag($arrayTermino = "")
         $relMeta.='<link rel="Skos metadata" type="application/rdf+xml" href="'.$_SESSION["CFGURL"].'xml.php?skosTema='.$ARRAYdatosTermino["idTema"].'" title="Skos Core '.xmlentities($ARRAYdatosTermino["titTema"]).'" />';
         $relMeta.='<link rel="TopicMap metadata" type="application/xml" href="'.$_SESSION["CFGURL"].'xml.php?xtmTema='.$ARRAYdatosTermino["idTema"].'" title="TopicMap '.xmlentities($ARRAYdatosTermino["titTema"]).'" />';
         $itempropMeta= '<meta itemprop="inDefinedTermSet" content="'.$_SESSION["CFGURL"].'">';
-    } elseif (strlen($letra)>0) {
+    } elseif (strlen((string) $letra)>0) {
         $titleParts[]=MSG_ResultLetra.' '.xmlentities($letra);
         $titleParts[]=MENU_ListaAbc.': '.xmlentities($letra);
     }
@@ -1007,7 +1007,7 @@ function do_meta_tag($arrayTermino = "")
     $aboutness=substr(implode(", ", $aboutness), 0, 325);
     
     //descripction filled with aboutness of the vocabualry or term at
-    $meta_description= (isset($term_note)) ? $term_note : ((strlen($_SESSION["CFGCobertura"])>5) ? $_SESSION["CFGCobertura"] : $aboutness);
+    $meta_description= (isset($term_note)) ? $term_note : ((strlen((string) $_SESSION["CFGCobertura"])>5) ? $_SESSION["CFGCobertura"] : $aboutness);
     
     $page_encode = (in_array($CFG["_CHAR_ENCODE"], array('utf-8','iso-8859-1'))) ? $CFG["_CHAR_ENCODE"] : 'utf-8';
     $titleParts[]=$labelChangeLang;
@@ -1657,7 +1657,7 @@ function do_jsonld($tema_id)
 
 
     //Use or not term code / notation tag in Skos
-    if (($CFG["_USE_CODE"]=='1') && (strlen($datosTermino["code"])>0)) {
+    if (($CFG["_USE_CODE"]=='1') && (strlen((string) $datosTermino["code"])>0)) {
         $ARRAY_json=array_merge($ARRAY_json, array("skos:notation"=>$datosTermino["code"]));
     }
 

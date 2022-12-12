@@ -1276,7 +1276,6 @@ function HTMLtopTerms($letra = "")
     $_TOP_TERMS_BROWSER=(in_array($CFG["_TOP_TERMS_BROWSER"], array(1,0))) ? $CFG["_TOP_TERMS_BROWSER"] : 0;
 
     $rows='<div class="clearer-top"></div>' ;
-
     if ($_TOP_TERMS_BROWSER==1) {
         //Top terms
         $sql=SQLverTopTerm();
@@ -1773,7 +1772,8 @@ function getData4jtree($term_id = 0)
         $load_on_demand=($array["id_te"]==0) ? false : true;
 
         //is top terms
-        $load_on_demand=($term_id==0) ? true : $load_on_demand;
+        $load_on_demand=($term_id=='TT') ? true : $load_on_demand;
+
 
         if ((evalUserLevel($_SESSION[$_SESSION["CFGURL"]])>0) && ($CFG["_USE_CODE"]=='1')) {
             $pre_link=' '.$array["code"].' ' ;
@@ -2040,7 +2040,7 @@ GLOBAL $CFG;
         $rows.='<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">' ;
         //<!-- Latest compiled and minified JavaScript -->
         //<!--[if lt IE 9]>
-        $rows.='<script src="https://oss.maxcdn.com/js/html5shiv.min.js"></script><script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>' ;
+        $rows.='<script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js"></script><script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>' ;
         //<![endif]-->
     } else {
         $rows.='<link rel="stylesheet" href="'.T3_WEBPATH.'bootstrap/css/bootstrap.min.css">' ;

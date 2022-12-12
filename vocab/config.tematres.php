@@ -38,7 +38,9 @@ require_once T3_ABSPATH . 'common/include/fun.gral.php';
 // Conexión con la BD || => proceso de instalación
 $DB = DBconnect();
 
-if (!$DB) {
+$checkInstall=checkT3instance();
+
+if ($checkInstall["cantTables"]!==7) {
     loadPage('install.php');
 }
 
@@ -121,7 +123,7 @@ $CFG["IMP_TAG_SEPARATOR"]  = ':';
 $CFG["IMP_TAG_TABULATOR"]  = '===';
 
 //Define is use or not CDN to bootstrap and other external libraries, default == false (1)
-$CFG["USE_CDN"]=1;
+$CFG["USE_CDN"]=0;
 
 
 /* Config here to publish image and fixed link in header:

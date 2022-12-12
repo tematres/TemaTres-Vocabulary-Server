@@ -895,7 +895,7 @@ function SQLlistaTemas($top_term_id = "0")
     $where='';
 
     if ($top_term_id>0) {
-        $size_i=strlen($top_term_id)+2;
+        $size_i=strlen((string) $top_term_id)+2;
         $from="$DBCFG[DBprefix]indice tti,";
         $where="    and tema.tema_id=tti.tema_id";
         $where.="    and left(tti.indice,$size_i)='|$top_term_id|'";
@@ -1191,7 +1191,7 @@ function SQLterms4char($letra, $top_term_id = 0)
 
 
     if ($top_term_id>0) {
-        $size_i=strlen($top_term_id)+2;
+        $size_i=strlen((string) $top_term_id)+2;
         $from="$DBCFG[DBprefix]indice tti,";
         $where="    and tema.tema_id=tti.tema_id";
         $where.="    and left(tti.indice,$size_i)='|$top_term_id|'";
@@ -2160,8 +2160,8 @@ function SQLsimiliar($texto, $lista_temas_id = "0")
     $texto=trim($texto);
 
 
-    $maxstrlen = strlen($texto)+2;
-    $minstrlen = strlen($texto)-2;
+    $maxstrlen = strlen((string) $texto)+2;
+    $minstrlen = strlen((string) $texto)-2;
 
     //Hubo resultados de búsqueda
     if (count(explode("|", $lista_temas_id))>1) {
@@ -2480,14 +2480,14 @@ function SQLadvancedSearch($array)
     $array["hasTopTerm"]=secure_data($array["hasTopTerm"], "int");
 
     if ($array["hasTopTerm"]>0) {
-        $size_i=strlen($array["hasTopTerm"])+2;
+        $size_i=strlen((string) $array["hasTopTerm"])+2;
         $from=",$DBCFG[DBprefix]indice tti";
         $where="    and t.tema_id=tti.tema_id";
         $where.="    and left(tti.indice,$size_i)='|$array[hasTopTerm]|'";
     }
 
     $array["hasNote"]=$DB->qstr(trim($array["hasNote"]));
-    if (strlen($array["hasNote"])>2) {
+    if (strlen((string) $array["hasNote"])>2) {
         $from.=",$DBCFG[DBprefix]notas n";
         $where.="        and n.id_tema=t.tema_id";
         $where.="        and n.tipo_nota=$array[hasNote]";
@@ -2590,7 +2590,7 @@ function SQLadvancedTermReport($array)
     // has top term X
     $array["hasTopTerm"]=secure_data($array["hasTopTerm"], "int");
     if ($array["hasTopTerm"]>0) {
-        $size_i=strlen($array["hasTopTerm"])+2;
+        $size_i=strlen((string) $array["hasTopTerm"])+2;
         $from="$DBCFG[DBprefix]indice tti,";
         $where="    and t.tema_id=tti.tema_id";
         $where.="    and left(tti.indice,$size_i)='|$array[hasTopTerm]|'";
@@ -2599,7 +2599,7 @@ function SQLadvancedTermReport($array)
     // has note type X
     $array["hasNote"]=$DB->qstr(trim($array["hasNote"]));
 
-    if (strlen($array["hasNote"])>2) {
+    if (strlen((string) $array["hasNote"])>2) {
         $from.="$DBCFG[DBprefix]notas n,";
         $where.="        and n.id_tema=t.tema_id";
         $where.="        and n.tipo_nota=$array[hasNote]";
@@ -2630,7 +2630,7 @@ function SQLadvancedTermReport($array)
     // string filter
     //$array[csvstring]=secure_data(trim($array[csvstring]),"sql");
 
-    if ((strlen($array["csvstring"])>0) && (in_array($array["w_string"], array('x','s','e')))) {
+    if ((strlen((string) $array["csvstring"])>0) && (in_array($array["w_string"], array('x','s','e')))) {
         switch ($array["w_string"]) {
             case 's'://start term
                 /*
@@ -4402,7 +4402,7 @@ function SQLrandomTerms($note_type = "")
     $where='';
 
     //if there are value for note_type filter
-    if (strlen($note_type)>0) {
+    if (strlen((string) $note_type)>0) {
         $sqlNoteType=SQLcantNotas();
         $arrayNoteType=array();
         while ($array=$sqlNoteType->FetchRow()) {
@@ -4708,7 +4708,7 @@ function SQLprotoTerms($max_deep, $limit = 10, $term_id = 0)
     global $DBCFG;
     $where='';
     if ($term_id>0) {
-        $size_i=strlen($term_id)+2;
+        $size_i=strlen((string) $term_id)+2;
         $from=",$DBCFG[DBprefix]indice tti";
         $where="    and t.tema_id=tti.tema_id";
         $where.="    and left(tti.indice,$size_i)='|$term_id|'";

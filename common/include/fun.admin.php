@@ -60,7 +60,8 @@ if (evalUserLevel($_SESSION[$_SESSION["CFGURL"]])>0) {
 
 
         $sendkey=array2value('ks',$_POST) ;
-        if (strcasecmp($sendkey, $_SESSION['SEND_KEY'])===0) {
+        //$sendkey=(is_null($sendkey)) ? 0 : $sendkey;
+        if (strcasecmp((string) $sendkey, $_SESSION['SEND_KEY'])===0) {
             // alta de términos sugeridos
             if ($_POST["taskterm"]=='addSuggestedTerms') {
                     $ARRAYtema=ARRAYverTerminoBasico($_POST["tema"]);
@@ -463,7 +464,7 @@ function addLocalTargetTerms($tvocab_id, $data = array())
         };
         //add equivalences
         for ($i=0; $i<sizeof($data["term_id"]); ++$i) {
-            if (strlen($data["tterm_string"][$i])>1) {
+            if (strlen((string) $data["tterm_string"][$i])>1) {
                 $tterm_id=addTerm($data["tterm_string"][$i], $ARRAYvocabulario["vocabulario_id"], '13');
                 $tterm_rel=do_r($tterm_id, $data["term_id"][$i], $data["tipo_equivalencia"][$i], "");
             }
@@ -502,7 +503,7 @@ function doArrayDatosTesauro($array)
 {
 
     if (!doValue($array, FORM_LABEL_URI)) {
-        $array[FORM_LABEL_URI]="http://" . $_SERVER['HTTP_HOST']. rtrim(dirname($_SERVER['PHP_SELF']), '/\\');
+        $array[FORM_LABEL_URI]="http://" . $_SERVER['HTTP_HOST']. rtrim((string) dirname($_SERVER['PHP_SELF']), '/\\');
     };
 
     $arrayDatos=array("titulo"=>doValue($array, FORM_LABEL_Titulo),
@@ -785,10 +786,10 @@ function abm_tema($do, $titu_tema, $tema_id = "")
     //Es un término del vocabulario o una referencia a un término mapeado de otro vocabulario.
     $tesauro_id = (secure_data($_POST["ref_vocabulario_id"], "int")) ? $_POST["ref_vocabulario_id"] : $_SESSION["id_tesa"];
 
-    $titu_tema=trim($titu_tema);
+    $titu_tema=trim((string) $titu_tema);
 
     //no string
-    if (strlen($titu_tema)<1) {
+    if (strlen((string) $titu_tema)<1) {
         return ;
     }
 
@@ -954,9 +955,9 @@ function abmNota($do, $idTema, $tipoNota, $langNota, $nota, $src_id = 0, $idNota
 
     $userId=$_SESSION[$_SESSION["CFGURL"]]["ssuser_id"];
 
-    $tipoNota=$DB->qstr(trim($tipoNota));
-    $langNota=$DB->qstr(trim($langNota));
-    $nota=$DB->qstr(trim($nota));
+    $tipoNota=$DB->qstr(trim((string) $tipoNota));
+    $langNota=$DB->qstr(trim((string) $langNota));
+    $nota=$DB->qstr(trim((string) $nota));
     $src_id=secure_data($src_id, "int");
 
     switch ($do) {
@@ -1009,7 +1010,7 @@ function abmURI($do, $tema_id, $array = array(), $uri_id = 0)
         case 'A':
             $parse_uri=parse_url($array["uri"]);
             //check if is a valid URI
-            if (strlen($parse_uri["scheme"])>1) {
+            if (strlen((string) $parse_uri["scheme"])>1) {
                 $uri=$DB->qstr($array["uri"]);
                 $sql=SQL(
                     "insert",
@@ -1038,7 +1039,7 @@ function edit_single_code($tema_id, $code)
     global $DBCFG;
     global $DB;
 
-    $code=trim($code);
+    $code=trim((string) $code);
     $tema_id=secure_data($tema_id, "int");
 
 
@@ -1056,7 +1057,7 @@ function edit_single_code($tema_id, $code)
     } else {
         //cambios
 
-        if (strlen($code)<1) {
+        if (strlen((string) $code)<1) {
             $sql=SQL("update", "$DBCFG[DBprefix]tema set code=NULL where tema_id=$tema_id");
         } else {
             $code=$DB->qstr($code);
@@ -1104,17 +1105,17 @@ function admin_users($do, $user_id = "")
     
     switch ($do) {
         case 'actua':
-            $POSTarrayUser["apellido"]=trim($POSTarrayUser["apellido"]);
-            $POSTarrayUser["nombres"]=trim($POSTarrayUser["nombres"]);
-            $POSTarrayUser["mail"]=trim($POSTarrayUser["mail"]);
-            $POSTarrayUser["pass"]=trim($POSTarrayUser["pass"]);
-            $POSTarrayUser["orga"]=trim($POSTarrayUser["orga"]);
+            $POSTarrayUser["apellido"]=trim((string) $POSTarrayUser["apellido"]);
+            $POSTarrayUser["nombres"]=trim((string) $POSTarrayUser["nombres"]);
+            $POSTarrayUser["mail"]=trim((string) $POSTarrayUser["mail"]);
+            $POSTarrayUser["pass"]=trim((string) $POSTarrayUser["pass"]);
+            $POSTarrayUser["orga"]=trim((string) $POSTarrayUser["orga"]);
 
             $POSTarrayUser["apellido"]=$DB->qstr($POSTarrayUser["apellido"]);
             $POSTarrayUser["nombres"]=$DB->qstr($POSTarrayUser["nombres"]);
             $POSTarrayUser["mail"]=$DB->qstr($POSTarrayUser["mail"]);
             $POSTarrayUser["orga"]=$DB->qstr($POSTarrayUser["orga"]);
-            $POSTarrayUser["pass"]=trim($POSTarrayUser["pass"]);
+            $POSTarrayUser["pass"]=trim((string) $POSTarrayUser["pass"]);
 
             $POSTarrayUser["status"]=($POSTarrayUser["isAlive"]=='ACTIVO') ? 'ACTIVO' : 'BAJA';
 
@@ -1142,7 +1143,7 @@ function admin_users($do, $user_id = "")
             );
 
             //set password
-            if (strlen($POSTarrayUser["pass"])>0) {
+            if (strlen((string) $POSTarrayUser["pass"])>0) {
                 setPassword($arrayUserData["user_id"], $POSTarrayUser["pass"], CFG_HASH_PASS);
             }
 
@@ -1187,14 +1188,14 @@ function admin_users($do, $user_id = "")
 
 
         case 'alta':
-            $POSTarrayUser["apellido"]=trim($POSTarrayUser["apellido"]);
-            $POSTarrayUser["nombres"]=trim($POSTarrayUser["nombres"]);
-            $POSTarrayUser["mail"]=trim($POSTarrayUser["mail"]);
-            $POSTarrayUser["pass"]=trim($POSTarrayUser["pass"]);
-            $POSTarrayUser["orga"]=trim($POSTarrayUser["orga"]);
+            $POSTarrayUser["apellido"]=trim((string) $POSTarrayUser["apellido"]);
+            $POSTarrayUser["nombres"]=trim((string) $POSTarrayUser["nombres"]);
+            $POSTarrayUser["mail"]=trim((string) $POSTarrayUser["mail"]);
+            $POSTarrayUser["pass"]=trim((string) $POSTarrayUser["pass"]);
+            $POSTarrayUser["orga"]=trim((string) $POSTarrayUser["orga"]);
 
             //prevent empty password
-            if (strlen($POSTarrayUser["pass"])<5) {
+            if (strlen((string) $POSTarrayUser["pass"])<5) {
                 return;
             }
 
@@ -1236,16 +1237,16 @@ if ($_SESSION[$_SESSION["CFGURL"]]["ssuser_nivel"]=='1') {
 
         $arrayTesa=doArrayDatosTesauro($_POST);
 
-        $POSTarrayUser["orga"]=trim($POSTarrayUser["orga"]);
-        $arrayTesa["titulo"]=trim($arrayTesa["titulo"]);
-        $arrayTesa["autor"]=trim($arrayTesa["autor"]);
-        $arrayTesa["idioma"]=trim($arrayTesa["idioma"]);
-        $arrayTesa["cobertura"]=trim($arrayTesa["cobertura"]);
-        $arrayTesa["keywords"]=trim($arrayTesa["keywords"]);
-        $arrayTesa["tipo"]=trim($arrayTesa["tipo"]);
-        $arrayTesa["polijerarquia"]=trim($arrayTesa["polijerarquia"]);
-        $arrayTesa["url_base"]=trim($arrayTesa["url_base"]);
-        $arrayTesa["cuando"]=trim($arrayTesa["cuando"]);
+        $POSTarrayUser["orga"]=trim((string) $POSTarrayUser["orga"]);
+        $arrayTesa["titulo"]=trim((string) $arrayTesa["titulo"]);
+        $arrayTesa["autor"]=trim((string) $arrayTesa["autor"]);
+        $arrayTesa["idioma"]=trim((string) $arrayTesa["idioma"]);
+        $arrayTesa["cobertura"]=trim((string) $arrayTesa["cobertura"]);
+        $arrayTesa["keywords"]=trim((string) $arrayTesa["keywords"]);
+        $arrayTesa["tipo"]=trim((string) $arrayTesa["tipo"]);
+        $arrayTesa["polijerarquia"]=trim((string) $arrayTesa["polijerarquia"]);
+        $arrayTesa["url_base"]=trim((string) $arrayTesa["url_base"]);
+        $arrayTesa["cuando"]=trim((string) $arrayTesa["cuando"]);
 
 
         $POSTarrayUser["orga"]=$DB->qstr($POSTarrayUser["orga"]);
@@ -1419,7 +1420,7 @@ if ($_SESSION[$_SESSION["CFGURL"]]["ssuser_nivel"]=='1') {
                 $sendkey=$_POST['ks'];
 
                 if (isset($_SESSION['TGET_SEND_KEY'])) {
-                    if (strcasecmp($sendkey, $_SESSION['TGET_SEND_KEY'])===0) {
+                    if (strcasecmp((string) $sendkey, $_SESSION['TGET_SEND_KEY'])===0) {
                         include_once T3_ABSPATH . 'common/include/vocabularyservices.php'    ;
                         $arrayVocab["tvocab_uri_service"]=$_POST["tvocab_uri_service"];
 
@@ -1429,12 +1430,12 @@ if ($_SESSION[$_SESSION["CFGURL"]]["ssuser_nivel"]=='1') {
                         Check web services
                         */
                         if ($dataVocab->result->vocabulary_id=='1') {
-                              $array["tvocab_label"]=$DB->qstr(trim($_POST["tvocab_label"]));
-                              $array["tvocab_tag"]=$DB->qstr(trim($_POST["tvocab_tag"]));
-                              $array["tvocab_lang"]=$DB->qstr(trim($_POST["tvocab_lang"]));
-                              $array["tvocab_title"]=$DB->qstr(trim($dataVocab->result->title));
-                              $array["tvocab_uri"]=$DB->qstr(trim($dataVocab->result->uri));
-                              $array["tvocab_uri_service"]=$DB->qstr(trim($_POST["tvocab_uri_service"]));
+                              $array["tvocab_label"]=$DB->qstr(trim((string) $_POST["tvocab_label"]));
+                              $array["tvocab_tag"]=$DB->qstr(trim((string) $_POST["tvocab_tag"]));
+                              $array["tvocab_lang"]=$DB->qstr(trim((string) $_POST["tvocab_lang"]));
+                              $array["tvocab_title"]=$DB->qstr(trim((string) $dataVocab->result->title));
+                              $array["tvocab_uri"]=$DB->qstr(trim((string) $dataVocab->result->uri));
+                              $array["tvocab_uri_service"]=$DB->qstr(trim((string) $_POST["tvocab_uri_service"]));
                               $array["tvocab_status"]= ($_POST["tvocab_status"]==1) ? 1 : 0;
 
 
@@ -1469,12 +1470,12 @@ if ($_SESSION[$_SESSION["CFGURL"]]["ssuser_nivel"]=='1') {
                 Check web services
                 */
                 if ($dataVocab->result->vocabulary_id=='1') {
-                    $array["tvocab_label"]=$DB->qstr(trim($_POST["tvocab_label"]));
-                    $array["tvocab_tag"]=$DB->qstr(trim($_POST["tvocab_tag"]));
-                    $array["tvocab_lang"]=$DB->qstr(trim($_POST["tvocab_lang"]));
-                    $array["tvocab_title"]=$DB->qstr(trim($dataVocab->result->title));
-                    $array["tvocab_uri"]=$DB->qstr(trim($dataVocab->result->uri));
-                    $array["tvocab_uri_service"]=$DB->qstr(trim($_POST["tvocab_uri_service"]));
+                    $array["tvocab_label"]=$DB->qstr(trim((string) $_POST["tvocab_label"]));
+                    $array["tvocab_tag"]=$DB->qstr(trim((string) $_POST["tvocab_tag"]));
+                    $array["tvocab_lang"]=$DB->qstr(trim((string) $_POST["tvocab_lang"]));
+                    $array["tvocab_title"]=$DB->qstr(trim((string) $dataVocab->result->title));
+                    $array["tvocab_uri"]=$DB->qstr(trim((string) $dataVocab->result->uri));
+                    $array["tvocab_uri_service"]=$DB->qstr(trim((string) $_POST["tvocab_uri_service"]));
                     $array["tvocab_status"]= ($_POST["tvocab_status"]==1) ? 1 : 0;
 
 
@@ -2013,7 +2014,7 @@ function doTotalZthes($tipoEnvio)
             header('content-type: text/xml');
             outputCosas('<?xml version="1.0" encoding="'.$CFG["_CHAR_ENCODE"].'"?>');
             outputCosas('<!DOCTYPE Zthes SYSTEM "http://zthes.z3950.org/xml/zthes-05.dtd">');
-            outputCosas('<?xml-stylesheet href="http://'.$_SERVER['HTTP_HOST']. rtrim(dirname($_SERVER['PHP_SELF']), '/\\').'/../common/css/zthes.xsl" type="text/xsl"?>');
+            outputCosas('<?xml-stylesheet href="http://'.$_SERVER['HTTP_HOST']. rtrim((string) dirname($_SERVER['PHP_SELF']), '/\\').'/../common/css/zthes.xsl" type="text/xsl"?>');
             outputCosas('        <Zthes>');
 
             while ($array=$sql->FetchRow()) {
@@ -2508,7 +2509,7 @@ function txtAlfabetico($params = array())
             $txt.="\n".$arrayTema["tema"]."\r\n";
 
             //show code
-            $txt.=(($CFG["_SHOW_CODE"]==1) && (strlen($arrayTema["code"])>0)) ? '	'.ucfirst(LABEL_CODE).': '.$arrayTema["code"]."\r\n" : "";
+            $txt.=(($CFG["_SHOW_CODE"]==1) && (strlen((string) $arrayTema["code"])>0)) ? '	'.ucfirst(LABEL_CODE).': '.$arrayTema["code"]."\r\n" : "";
 
 
             $label_target_vocabulary='';
@@ -2700,7 +2701,7 @@ function txtJerarquico()
         };
         // es preferido
 
-        $txt.=(($CFG["_SHOW_CODE"]==1) && (strlen($arrayTema["code"])>0)) ? $arrayTema["code"]." " : "";
+        $txt.=(($CFG["_SHOW_CODE"]==1) && (strlen((string) $arrayTema["code"])>0)) ? $arrayTema["code"]." " : "";
 
         $txt.=$arrayTema["tema"]."\r\n";
         //Terminos especificos
@@ -2731,7 +2732,7 @@ function TXTverTE($tema_id, $i_profundidad)
 
 
         $txt.=$sangria;
-        $txt.=(($CFG["_SHOW_CODE"]==1) && (strlen($array["code"])>0)) ? $array["code"]." " : "";
+        $txt.=(($CFG["_SHOW_CODE"]==1) && (strlen((string) $array["code"])>0)) ? $array["code"]." " : "";
         //si tiene TEs
         if ($array["id_te"]) {
             $txt.=$array["tema"]."\r\n";
@@ -2814,16 +2815,16 @@ function abm_userNotes($do, $array, $value_id = "0")
     global $DBCFG;
     global $DB;
 
-    $array["value"]=$DB->qstr(trim($array["value"]));
-    $array["alias"]=$DB->qstr(trim($array["alias"]));
-    $array["orden"]=secure_data(trim($array["orden"]), "int");
+    $array["value"]=$DB->qstr(trim((string) $array["value"]));
+    $array["alias"]=$DB->qstr(trim((string) $array["alias"]));
+    $array["orden"]=secure_data(trim((string) $array["orden"]), "int");
 
 
     switch ($do) {
         case 'A':
-            if (strlen($array["value"])>0) {
+            if (strlen((string) $array["value"])>0) {
                 //default type no is scope note
-                $array["alias"]= (strlen($array["alias"])>0) ? $array["alias"] : 'NA';
+                $array["alias"]= (strlen((string) $array["alias"])>0) ? $array["alias"] : 'NA';
                 //default order 10
                 $array["orden"]= ($array["orden"]>0) ? $array["orden"] : '10' ;
 
@@ -2843,12 +2844,12 @@ function abm_userNotes($do, $array, $value_id = "0")
         case 'M':
             $value_id=secure_data($value_id, "int");
 
-            if ((strlen($array["value"])>0) // must be  string
+            if ((strlen((string) $array["value"])>0) // must be  string
             && (!in_array($value_id, array(8,9,10,11,15))) // not can be SYSTEM default notes
             && ($value_id>0) // must be int
             ) {
                 //default type no is scope note
-                $array["alias"]= (strlen($array["alias"])>0) ? $array["alias"] : 'NA';
+                $array["alias"]= (strlen((string) $array["alias"])>0) ? $array["alias"] : 'NA';
                 //default order 10
                 $array["orden"]= ($array["orden"]>0) ? $array["orden"] : '10' ;
 
@@ -2900,14 +2901,14 @@ function abm_userRelations($do, $array, $value_id = "0")
 
     $array["rr_value"]=secure_data($array["rr_value"], "ADOsql");
     $array["rr_code"]=secure_data($array["rr_code"], "ADOsql");
-    //$array["rel_id"]=secure_data(trim($array["rel_id"]),"int");
+    //$array["rel_id"]=secure_data(trim((string) $array["rel_id"]),"int");
     $array["t_relacion"]=(in_array($array["t_relacion"], array(2,3,4))) ? $array["t_relacion"] : '0';
 
 
     //Default value (RT|some relation)
-    $array["rr_value"]=(strlen($array["rr_value"])>0) ? $array["rr_value"] : 'some relation';
-    $array["rr_code"]=(strlen($array["rr_code"])>0) ? $array["rr_code"] : 'S';
-    $array["rr_ord"]=    secure_data(trim($array["rr_ord"]), "int");
+    $array["rr_value"]=(strlen((string) $array["rr_value"])>0) ? $array["rr_value"] : 'some relation';
+    $array["rr_code"]=(strlen((string) $array["rr_code"])>0) ? $array["rr_code"] : 'S';
+    $array["rr_ord"]=    secure_data(trim((string) $array["rr_ord"]), "int");
 
 
     //If MOD or DEL => get relation data
@@ -2971,8 +2972,8 @@ function abm_URIdefinition($do, $array, $value_id = "0")
     global $DBCFG;
     global $DB;
 
-    $array["uri_value"]=$DB->qstr(trim($array["uri_value"]));
-    $array["uri_code"]=$DB->qstr(trim($array["uri_code"]));
+    $array["uri_value"]=$DB->qstr(trim((string) $array["uri_value"]));
+    $array["uri_code"]=$DB->qstr(trim((string) $array["uri_code"]));
 
 
     //If MOD or DEL => get relation data
@@ -3034,9 +3035,9 @@ function ABM_value($do, $arrayValue)
     global $CFG;
 
 
-    $arrayValue["value_code"]=$DB->qstr(trim($arrayValue["value_code"]));
+    $arrayValue["value_code"]=$DB->qstr(trim((string) $arrayValue["value_code"]));
 
-    $arrayValue["value"]=$DB->qstr(trim($arrayValue["value"]));
+    $arrayValue["value"]=$DB->qstr(trim((string) $arrayValue["value"]));
 
     $arrayValues["value_type"]=(in_array($arrayValues["value_type"], $CFG["CONFIG_VAR"])) ? $arrayValues["value_type"]  : '';
 
@@ -4076,7 +4077,7 @@ function TXTalphaList4term($term_id, $params = array())
         } else {    // Si es preferido: mostar notas y relaciones
             $txt.="\n".$arrayTema["tema"]."\r\n";
             //show code
-            $txt.=(($CFG["_SHOW_CODE"]=='1') && (strlen($arrayTema["code"])>0)) ? '	'.ucfirst(LABEL_CODE).': '.$arrayTema["code"]."\r\n" : "";
+            $txt.=(($CFG["_SHOW_CODE"]=='1') && (strlen((string) $arrayTema["code"])>0)) ? '	'.ucfirst(LABEL_CODE).': '.$arrayTema["code"]."\r\n" : "";
 
             $label_target_vocabulary='';
 
@@ -4205,7 +4206,7 @@ function do_pdfAlpha($params = array())
         }
     }
     foreach ($ARRAYletras as $key => $value) {
-        if (strlen($value)>0) {
+        if (strlen((string) $value)>0) {
             $pdf->PrintChapter(ucwords($key), $value, $params);
         }
     }
@@ -4241,7 +4242,7 @@ function do_pdfSist($params = array())
                 header('X-pmaPing: Pong');
             }
 
-            $txt.=(($CFG["_SHOW_CODE"]==1) && (strlen($arrayTema["code"])>0)) ? $arrayTema["code"]." " : "";
+            $txt.=(($CFG["_SHOW_CODE"]==1) && (strlen((string) $arrayTema["code"])>0)) ? $arrayTema["code"]." " : "";
 
             $txt.=$arrayTema["tema"]."\r\n";
             $txt.=TXTverTE($arrayTema["id"], "0");

@@ -11,7 +11,6 @@ use PHPMailer\PHPMailer\PHPMailer;
 //
 
 
-
 /** FUNCIONES GENERALES */
 
 /** addslashes to vars
@@ -236,7 +235,7 @@ function SqlSelectForm($sql)
 function doListaTag($i, $tag, $contenidoTag, $id = "", $class = "")
 {
     $rows='';
-    $class=(strlen($class)>0) ? ' class="'.$class.'" ' : '';
+    $class=(strlen((string) $class)>0) ? ' class="'.$class.'" ' : '';
     if ($i>0) {
         if (@$id) {
             $idTag=' id="'.$id.'"';
@@ -328,13 +327,13 @@ function secure_data($data, $type = "alnum")
 
         case "ADOsql":
             global $DB;
-            $data = trim($data);
+            $data = trim((string) $data);
             $data=$DB->qstr($data);
             break ;
 
 
         case "sql":
-            $data = trim($data);
+            $data = trim((string) $data);
             // vire les balises
             $data = strip_tags($data);
 
@@ -350,13 +349,13 @@ function secure_data($data, $type = "alnum")
 
         case "sqlhtml":
             //SQL secure with HTML tags
-                $data = str_replace("''", "'", $data);
+                $data = str_replace("''", "'", (string) $data);
                 $data = stripslashes($data);
-            $data = trim($data);
+            $data = trim((string) $data);
             break ;
 
         case "int": // int
-            $data =(int)preg_replace('|[^0-9.]|i', '', $data);
+            $data =(int) preg_replace('|[^0-9.]|i', '',(int) $data);
 
             if ($data == "") {
                 $data = 0 ;
@@ -364,7 +363,7 @@ function secure_data($data, $type = "alnum")
             break ;
 
         default: // int
-            $data =(int)preg_replace('|[^0-9.]|i', '', $data);
+            $data =(int) preg_replace('|[^0-9.]|i', '',(int) $data);
 
             if ($data == "") {
                 $data = 0 ;
@@ -679,7 +678,7 @@ function fixEncoding($input, $output_encoding = "UTF-8")
  */
 function seems_utf8($str)
 {
-    $length = strlen($str);
+    $length = strlen((string) $str);
     for ($i=0; $i < $length; $i++) {
         $c = ord($str[$i]);
         if ($c < 0x80) {
@@ -764,7 +763,7 @@ function clean($val)
     $search .= 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
     $search .= '1234567890!@#$%^&*()';
     $search .= '~`";:?+/={}[]-_|\'\\';
-    for ($i = 0; $i < strlen($search); $i++) {
+    for ($i = 0; $i < strlen((string) $search); $i++) {
         // ;? matches the ;, which is optional
         // 0{0,7} matches any padded zeros, which are optional and go up to 8 chars
 
@@ -784,7 +783,7 @@ function clean($val)
         $val_before = $val;
         for ($i = 0; $i < sizeof($ra); $i++) {
             $pattern = '/';
-            for ($j = 0; $j < strlen($ra[$i]); $j++) {
+            for ($j = 0; $j < strlen((string) $ra[$i]); $j++) {
                 if ($j > 0) {
                     $pattern .= '(';
                     $pattern .= '(&#[x|X]0{0,8}([9][a][b]);?)?';
@@ -1458,7 +1457,7 @@ function isValidLetter($string)
 
     global $CFG;
 
-    $string=trim($string);
+    $string=trim((string) $string);
 
     $string=(in_array($string, $CFG["_EXCLUDED_CHARS"])) ?   '' : $string;
 
@@ -1698,7 +1697,7 @@ function configValue($value, $default = false, $defaultValues = array())
 {
 
 
-    if (strlen($value)<1) {
+    if (strlen((string) $value)<1) {
         return $default;
     }
 
@@ -1724,7 +1723,7 @@ function configValue($value, $default = false, $defaultValues = array())
 function selectLangLabels($lang_code,$langs){
     $lang_default="en-EN";
     /*prevent empt data */
-    $lang_code=(strlen($lang_code)>1) ? $lang_code : $lang_default;
+    $lang_code=(strlen((string) $lang_code)>1) ? $lang_code : $lang_default;
 
     /*legacy lang_code with 2 letters */
     $lang_code=normalizeLangCode($lang_code);
@@ -1750,7 +1749,7 @@ function normalizeLangCode($lang_code){
     $array_code=explode("-",$lang_code);
 
     if(count($array_code)==2){
-    }elseif(strlen($lang_code)==2){
+    }elseif(strlen((string) $lang_code)==2){
         $lang_code=normalizeLangCode(strtolower(substr($lang_code, 0,2)).'-'.strtoupper(substr($lang_code, 0,2)));
     }else{
         $lang_code=configValue(null,"en-EN");
@@ -1798,4 +1797,37 @@ function evalUserLevel($user_session)
     };
 
     return (int) $user_session["ssuser_nivel"];
+}
+
+/** 
+ * Check if there are already a tematres instance
+ * 
+ * 
+ * @return boolean
+ */
+
+function checkT3instance(){
+
+    global $DBCFG,$CFG;
+
+    //default driver
+    $DBCFG["DBdriver"]=($DBCFG["DBdriver"]) ? $DBCFG["DBdriver"] : "mysqli";
+
+    $DB = NewADOConnection($DBCFG["DBdriver"]);
+
+    if (!$DB->Connect($DBCFG["Server"], $DBCFG["DBLogin"], $DBCFG["DBPass"])) {
+        return array("version"=>$CFG["Version"],
+                    "dbconnect"=>0,
+                    "cantTables"=>0);
+    };
+
+    $sqlCantTables=$DB->Execute('SHOW TABLES from `'.$DBCFG["DBName"].'` where `tables_in_'.$DBCFG["DBName"].'` in (\''.$DBCFG["DBprefix"].'config\',\''.$DBCFG["DBprefix"].'indice\',\''.$DBCFG["DBprefix"].'notas\',\''.$DBCFG["DBprefix"].'tabla_rel\',\''.$DBCFG["DBprefix"].'tema\',\''.$DBCFG["DBprefix"].'usuario\',\''.$DBCFG["DBprefix"].'values\')');
+    $cantTables=(is_object($sqlCantTables)) ? $sqlCantTables->RecordCount() : 0;
+
+    //7 tables = pre-3.2 version 
+
+    return array("version"=>"",
+                    "dbconnect"=>0,
+                    "cantTables"=>$cantTables);
+
 }

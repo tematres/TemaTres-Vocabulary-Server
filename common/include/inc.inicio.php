@@ -34,14 +34,14 @@ $_POST["deleteTerms_id"]=array2value("deleteTerms_id", $_POST);
 $_POST["taskterm"]=array2value("taskterm", $_POST);
 
 
-if ((strlen($letra)>0) && (strlen($letra)<5)) {
+if ((strlen((string) $letra)>0) && (strlen((string) $letra)<5)) {
     echo '<div class="container" id="bodyText">';
     echo '<div class="row">';
     echo HTMLlistaAlfabeticaUnica($letra);
     echo HTMLterminosLetra($letra);
     echo '</div>';
     echo '</div>';
-} elseif (strlen($search_string)>0) {
+} elseif (strlen((string) $search_string)>0) {
     //check again
     $search_string=XSSprevent($search_string);
     echo resultaBusca($search_string, array2value("tipo", $_GET));
