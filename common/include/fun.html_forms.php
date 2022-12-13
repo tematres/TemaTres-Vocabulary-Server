@@ -1139,7 +1139,7 @@ function HTMLformTargetVocabulary($tvocab_id = "0")
     //SEND_KEY to prevent duplicated
     session_start();
     $_SESSION['TGET_SEND_KEY']=md5(uniqid(rand(), true));
-    $rows.='<form role="form" id="form-tvocab" data-toggle="validator" name="abmTargetVocabulary" action="admin.php" method="post">';
+    $rows.='<form role="form" id="form-tvocab" data-toggle="validator" name="abmTargetVocabulary" action="admin.php?vocabulario_id=list" method="post">';
     $rows.='	<div class="row">
 			    <div class="col-sm-12">
 					<legend><a href="admin.php?vocabulario_id=list">'.ucfirst(LABEL_lcConfig).'</a> &middot; '.ucfirst(LABEL_TargetVocabularyWS).'</legend>
@@ -2749,7 +2749,7 @@ function HTMLformSource($source_id = "0")
 
 
 
-    $rows.='<form role="form" id="form-sources" data-toggle="validator" name="abm_sources" action="admin.php#source_list" method="post">';
+    $rows.='<form role="form" id="form-sources" data-toggle="validator" name="abm_sources" action="admin.php?vocabulario_id=list#source_list" method="post">';
     $rows.='	<div class="row">
 			    <div class="col-sm-12">
 					<legend><a href="admin.php?vocabulario_id=list">'.ucfirst(LABEL_lcConfig).'</a> &middot; '.ucfirst(LABEL_source).'</legend>
