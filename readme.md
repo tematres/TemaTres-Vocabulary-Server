@@ -8,7 +8,8 @@
 Tematres has the following system requirements:
  * HTTP server (with mod_rewrite enabled)
  * MySQL version 5.0 or greater (or mariaDB)
- * PHP scripting language version 5.4 or higher (7.4 tested)
+ * PHP scripting language version from 5.4 to 8.0 (8.1 tested)
+ * PHP modules: cURL, php-xml
 
 ### Installation
 1. Unpack TemaTres in your web document root (i.e. /var/www/tematres/)
@@ -17,11 +18,16 @@ Tematres has the following system requirements:
 
 You can change the "vocab" directory to any name. To create other or many vocabularies,  copy "vocab" directory (eg: vocab2, etc) and change the params of db.tematres.php (eg: change the tables prefix).
 
-## Update Tematres to 3.3
+## Update from a previous version of Tematres
 To update from previous Tematres versions:
 1. Make a backup of your data (Login as admin: Menu -> Administration -> Export: Select SQL (backup)
 2. Copy the code of Tematres 3.2 in the web path directory, config the database connection credentials in db.tematres.php or maintain the previous db.tematres.php
 3. Login as admin: Menu -> Administration -> Database maintenance -> Update from 2.x -> 3.2
+
+
+## How to enable SPARQL endpoint:
+1) Login as admin and go to Menu -> Administration -> Configuration -> Click in your vocabulary: Set as ENABLE SPARQL endpoint (by default is disable).
+2) Login as admin and Goto: Menu -> Administration -> Database maintance -> Update SPARQL endpoint.
 
 
 ## Help and contact
