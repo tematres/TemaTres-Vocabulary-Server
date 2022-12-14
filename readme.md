@@ -8,7 +8,7 @@
 Tematres has the following system requirements:
  * HTTP server (with mod_rewrite enabled)
  * MySQL version 5.0 or greater (or mariaDB)
- * PHP scripting language version from 5.4 to 8.0 (8.1 tested)
+ * PHP scripting language 7.4 or greater is required
  * PHP modules: cURL, php-xml
 
 ### Installation
@@ -36,13 +36,13 @@ or just didn't plain work, please let me know at tematres@r020.com.ar
 
 For tutorials and documentation, please visit:
 
-https://vocabularyserver.com/wiki/ or (in spanish) https://r020.com.ar/tematres/manual/
+https://vocabularyserver.com/wiki/ or Manuals section https://vocabularyserver.com/web/items/browse?collection=3
 
 ## Examples and known cases
 Visit: https://www.vocabularyserver.com/vocabularies/
 
 ## Documentation
-Main site: https://www.vocabularyserver.com/
+Main site: https://vocabularyserver.com/
 
 ## Translation
 Community translations available here: https://crowdin.com/project/tematres
