@@ -1371,11 +1371,13 @@ function SQLbuscaTerminosSimple($string, $limit = "20")
  * 
  * @return object
  */
-function SQLIdTerminosValidos()
+function SQLIdTerminosValidos($orderBy="tema_id")
 {
     global $DBCFG;
 
     $thes_id=secure_data($_SESSION["id_tesa"], "int");
+
+    $orderBy=($orderBy=='tema_id') ? "tema.tema_id": "lower(tema.tema)";
 
     $sql=SQL(
         "select",
@@ -1388,7 +1390,7 @@ function SQLIdTerminosValidos()
     and tema.tesauro_id='$thes_id'
     and tema.estado_id='13'
     group by tema.tema_id
-    order by lower(tema.tema)"
+    order by $orderBy"
     );
 
     return $sql;

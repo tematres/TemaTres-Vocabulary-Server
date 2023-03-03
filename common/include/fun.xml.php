@@ -880,7 +880,7 @@ function do_rss($limit = "30")
 
     while ($array=$sql->FetchRow()) {
         $xml_seq.='<li xmlns:dc="http://purl.org/dc/elements/1.1/" rdf:resource="index.php?tema='.$array["tema_id"].'"/>';
-        $xml_item.='<item xmlns:dc="http://purl.org/dc/elements/1.1/" rdf:about="'.$_SESSION["CFGURL"].'?tema='.$arrayTT["tema_id"].'">';
+        $xml_item.='<item xmlns:dc="http://purl.org/dc/elements/1.1/" rdf:about="'.$_SESSION["CFGURL"].'?tema='.$array["tema_id"].'">';
         $xml_item.='<title>'.$array["tema"].'</title>';
         $xml_item.='<link>'.$_SESSION["CFGURL"].'?tema='.$array["tema_id"].'</link>';
         $xml_item.='</item>';
