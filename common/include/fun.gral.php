@@ -1836,7 +1836,15 @@ function checkT3instance(){
 
 }
 
-
+/**
+ * Create value from key array 
+ * source: https://stackoverflow.com/a/8680364
+ *
+ * @param string $index   key in array to assign
+ * @param array  $var array to use as source value, if the value is null, the value is null.
+ * 
+ * @return return $value as value
+ */
 function ifexistsidx($var,$index)
 {
   return(isset($var[$index]) ? $var[$index] : null);
