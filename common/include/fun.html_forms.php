@@ -1139,7 +1139,7 @@ function HTMLformTargetVocabulary($tvocab_id = "0")
     //SEND_KEY to prevent duplicated
     session_start();
     $_SESSION['TGET_SEND_KEY']=md5(uniqid(rand(), true));
-    $rows.='<form role="form" id="form-tvocab" data-toggle="validator" name="abmTargetVocabulary" action="admin.php?vocabulario_id=list" method="post">';
+    $rows='<form role="form" id="form-tvocab" data-toggle="validator" name="abmTargetVocabulary" action="admin.php?vocabulario_id=list" method="post">';
     $rows.='	<div class="row">
 			    <div class="col-sm-12">
 					<legend><a href="admin.php?vocabulario_id=list">'.ucfirst(LABEL_lcConfig).'</a> &middot; '.ucfirst(LABEL_TargetVocabularyWS).'</legend>
@@ -1148,7 +1148,7 @@ function HTMLformTargetVocabulary($tvocab_id = "0")
 			    <div class="col-lg-7">
 			        <div class="panel panel-default">
 			            <div class="panel-body form-horizontal">';
-    if ($array["tvocab_id"]) {
+    if (array2value("tvocab_id",$array)>0) {
         $link2tterms='(<a href="admin.php?doAdmin=seeTermsTargetVocabulary&amp;tvocab_id='.$array["tvocab_id"].'">'.$array["cant"].' '.LABEL_Terminos.'</a>)';
         $rows.='<div class="form-group"><label class="col-sm-3 control-label" for="tvocab_label">'.ucfirst(LABEL_Titulo).'</label>';
         $rows.='	<div class="col-sm-9"><a id="tvocab_title" href="'.$array["tvocab_url"].'">'.$array["tvocab_title"].'</a> '.$link2tterms.' ';
@@ -1197,7 +1197,7 @@ function HTMLformTargetVocabulary($tvocab_id = "0")
 			                <div class="form-group">
 			                    <div class="col-sm-12 text-right">
 			                     <button type="submit" class="btn btn-primary" id="boton" name="botonTargetVocabulary" value="'.LABEL_Enviar.'"/>'.ucfirst(LABEL_Enviar).'</button>
-			                      <a type="button" class="btn btn" name="cancelar" type="button" href="admin.php" title="'.ucfirst(LABEL_Cancelar).'">'.ucfirst(LABEL_Cancelar).'</a>
+			                      <a type="button" class="btn btn" name="cancelar" type="button" href="admin.php?vocabulario_id=list" title="'.ucfirst(LABEL_Cancelar).'">'.ucfirst(LABEL_Cancelar).'</a>
 			                    </div>
 			                </div>
 			            </div>
@@ -1542,7 +1542,7 @@ function HTMLformConfigValues($array_vocabulario)
         $NEWarrayCFGs[$array["value"]]= $array["value_code"];
     }
 
-    $rows.='<div class="form-group">';
+    $rows='<div class="form-group">';
     $rows.='<label class="col-sm-3 control-label" for="'.FORM_LABEL_jeraquico.'">'.ucfirst(FORM_LABEL_jeraquico).'</label>';
     $rows.='<div class="col-sm-9">    <select id="'.FORM_LABEL_jeraquico.'" name="'.FORM_LABEL_jeraquico.'">';
     $rows.=    doSelectForm(array('1#'.LABEL_SI,'00#'.LABEL_NO), $array_vocabulario["polijerarquia"]);
@@ -1573,14 +1573,14 @@ function HTMLformConfigValues($array_vocabulario)
 
             case '_SHOW_RANDOM_TERM':
                 $ARRAYnoteType=ARRAYnoteTypes(array('NP'));
-
+                $noteOption='';
                 foreach ($ARRAYnoteType as $noteType => $noteData) {
                     //exclude private notes
                     $flagSelected=($NEWarrayCFGs[$key]==$noteData["value_code"]) ? 'SELECTED':"";
                     $noteOption.='<option value="'.$noteData["value_code"].'" '.$flagSelected.'>'.$noteData["value"].' ('.$noteData["cant"].')</option>';
                 };
 
-                $noteSelect.='<option value="00">'.LABEL_NO.'</option>';
+                $noteSelect='<option value="00">'.LABEL_NO.'</option>';
                 $noteSelect.=' <optgroup label="'.ucfirst(LABEL_opt_show_rando_term).'">'.$noteOption.'</optgroup>';
 
                 $rows.='<div class="form-group">';
@@ -1596,6 +1596,7 @@ function HTMLformConfigValues($array_vocabulario)
                 break;
 
             case '_GLOSS_NOTES':
+                $_GLOSS_NOTESOptions='';
                 foreach ($ARRAYnoteType as $noteType => $noteData) {
                     //exclude private notes
                     $flagSelected=($NEWarrayCFGs[$key]==$noteData["value_code"]) ? 'SELECTED':"";
@@ -1677,7 +1678,7 @@ function HTMLformImport()
     $LABEL_importTab=ucfirst(LABEL_importTab);
     $LABEL_importTag=ucfirst(LABEL_importTag);
     $LABEL_importSkos=ucfirst(LABEL_importSkos);
-    $rows.='<form enctype="multipart/form-data" role="form" method="post" action="admin.php?doAdmin=import">';
+    $rows='<form enctype="multipart/form-data" role="form" method="post" action="admin.php?doAdmin=import">';
     $rows.='	<div class="row">
 	    <div class="col-sm-12">
 	        <legend>'.ucfirst(IMPORT_form_legend).'</legend>
@@ -2789,7 +2790,7 @@ function HTMLformSource($source_id = "0")
 			             </div>
 			                <div class="form-group">
 			                    <div class="col-sm-12 text-right">
-			                      <a type="button" class="btn btn" name="cancelar" type="button" href="admin.php" title="'.ucfirst(LABEL_Cancelar).'">'.ucfirst(LABEL_Cancelar).'</a>
+			                      <a type="button" class="btn btn" name="cancelar" type="button" href="admin.php?vocabulario_id=list" title="'.ucfirst(LABEL_Cancelar).'">'.ucfirst(LABEL_Cancelar).'</a>
 
 			                     <button type="submit" class="btn btn-primary" id="boton" name="boton_src" value="'.LABEL_Guardar.'"/>'.ucfirst(LABEL_Guardar).'</button>';
     if (($array["src_id"]>0) && ($array["src_cant"]==0)) {
@@ -2807,7 +2808,7 @@ function HTMLformSource($source_id = "0")
     $rows.='</form>';
     $rows.='</div>';
 
-    $rows.='<form id="delete-src_note" name="delete-src_note" action="admin.php" method="post"><input type="hidden" name="rem_src_id" id="rem_src_id" value="'.$array["src_id"].'"/><input type="hidden"  name="doAdmin" id="doAdmin" value="remSourceNote"/></form>';
+    $rows.='<form id="delete-src_note" name="delete-src_note" action="admin.php?vocabulario_id=list" method="post"><input type="hidden" name="rem_src_id" id="rem_src_id" value="'.$array["src_id"].'"/><input type="hidden"  name="doAdmin" id="doAdmin" value="remSourceNote"/></form>';
 
     return $rows;
 }

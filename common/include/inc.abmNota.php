@@ -59,7 +59,7 @@ foreach ($CFG["ISO639-1"] as $langs) {
     $arrayLang[]=$langs[0].'#'.$langs[1];
 };
 //idioma de la nota
-$arrayNota["lang_nota"] = (!$arrayNota["lang_nota"]) ? normalizeLangCode($_SESSION["CFGIdioma"]) : normalizeLangCode($arrayNota["lang_nota"]);
+$arrayNota["lang_nota"] = (!$arrayNota["lang_nota"]) ? $_SESSION["CFGIdioma"] : $arrayNota["lang_nota"];
 
 //default value note type
 $type_note = (!$arrayNota["tipo_nota"]) ? $_SESSION[$_SESSION["CFGURL"]]["_GLOSS_NOTES"] : $arrayNota["tipo_nota"];

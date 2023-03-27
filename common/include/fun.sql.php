@@ -4447,12 +4447,13 @@ function ARRAYnoteTypes($excludeTypeNotes = array())
     $arrayNoteType=array();
     while ($array=$sqlNoteType->FetchRow()) {
         if (!in_array($array["value_code"], $excludeTypeNotes)) {
-            $arrayNoteType["$array[value_code]"]["value_code"].=$array["value_code"];
-            $arrayNoteType["$array[value_code]"]["value"].=$array["value"];
-            $arrayNoteType["$array[value_code]"]["value_id"].=$array["value_id"];
-            $arrayNoteType["$array[value_code]"]["value_order"].=$array["value_order"];
-            $arrayNoteType["$array[value_code]"]["tipo_nota"].=$array["tipo_nota"];
-            $arrayNoteType["$array[value_code]"]["cant"].=$array["cant"];
+            $value_code=array2value("value_code", $array);
+            @$arrayNoteType[$value_code]["value_code"].=$value_code;
+            @$arrayNoteType[$value_code]["value"].=array2value("value", $array);
+            @$arrayNoteType[$value_code]["value_id"].=array2value("value_id", $array);
+            @$arrayNoteType[$value_code]["value_order"].=array2value("value_order", $array);
+            @$arrayNoteType[$value_code]["tipo_nota"].=array2value("tipo_nota", $array);
+            @$arrayNoteType[$value_code]["cant"].=array2value("cant", $array);
         }
     };
     return $arrayNoteType;

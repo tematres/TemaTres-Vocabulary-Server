@@ -37,7 +37,7 @@ $array_dia=do_intervalDate("1", "31", FORM_LABEL_FechaDia);
 $array_mes=do_intervalDate("1", "12", FORM_LABEL_FechaMes);
 $array_kos_types=array(KOS_categorization_scheme.'#'.KOS_categorization_scheme,KOS_classification_scheme.'#'.KOS_classification_scheme,KOS_dictionary.'#'.KOS_dictionary,KOS_gazetteer.'#'.KOS_gazetteer,KOS_glossary.'#'.KOS_glossary,KOS_list.'#'.KOS_list,KOS_name_authority_list.'#'.KOS_name_authority_list,KOS_ontology.'#'.KOS_ontology,KOS_semantic_network.'#'.KOS_semantic_network,KOS_subject_heading_scheme.'#'.KOS_subject_heading_scheme,KOS_taxonomy.'#'.KOS_taxonomy,KOS_terminology.'#'.KOS_terminology,KOS_thesaurus.'#'.KOS_thesaurus);
 
-$rows.='<form role="form" id="config-vocab" name="abm_config"  data-toggle="validator" action="admin.php" method="post">';
+$rows='<form role="form" id="config-vocab" name="abm_config"  data-toggle="validator" action="admin.php" method="post">';
 $rows.='	<div class="row">
 	<div class="col-sm-12">
 	<legend><a href="admin.php" title="'.ucfirst(LABEL_lcConfig).' '.$titulo_formulario.'">'.ucfirst(LABEL_lcConfig).'</a> &middot;  '.ucfirst($titulo_formulario).'</legend>
@@ -207,7 +207,7 @@ if ($array_vocabulario["vocabulario_id"]==1) {
     $rows.='<div class="form-group">
 	<div class="col-sm-12 text-right">
 	<input type="submit" class="btn btn-primary" id="boton" name="boton" value="'.ucfirst(LABEL_Guardar).'"/>
-	<a href="admin.php" class="btn btn-default" id="boton_cancelar" title="'.ucfirst(LABEL_Cancelar).'">'.ucfirst(LABEL_Cancelar).'</a>';
+	<a href="admin.php?vocabulario_id=list" class="btn btn-default" id="boton_cancelar" title="'.ucfirst(LABEL_Cancelar).'">'.ucfirst(LABEL_Cancelar).'</a>';
     //editor for target vocabularies
 if ($array_vocabulario["vocabulario_id"]>1) {
     $rows.='	<input type="button" class="btn btn-danger" id="boton" name="boton" onclick="document.getElementById(\'delete-tvocab\').submit();" value="'.ucfirst(LABEL_eliminar).'"/>';

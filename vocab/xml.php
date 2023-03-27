@@ -7,7 +7,7 @@
  */
 require "config.tematres.php";
 
-if ($_GET["zthesTema"]) {
+if (@$_GET["zthesTema"]) {
     header('Content-Type: text/xml');
     echo do_zthes(do_nodo_zthes($_GET["zthesTema"]));
 } elseif ($_GET["skosTema"]) {
@@ -45,7 +45,7 @@ if ($_GET["zthesTema"]) {
     return do_rss();
 }
 
-if (($_SESSION[$_SESSION["CFGURL"]]["ssuser_nivel"] == '1') && ($_GET["dis"])) {
+if ((evalUserLevel($_SESSION[$_SESSION["CFGURL"]])==1) && ($_GET["dis"])) {
     switch ($_GET["dis"]) {
         case 'zline':
             return doTotalZthes("line");

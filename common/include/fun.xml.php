@@ -322,16 +322,16 @@ function do_skos($nodos_skos, $top_terms = "false")
     */
     $_URI_SEPARATOR_ID = ($CFG["_URI_SEPARATOR_ID"]) ? $CFG["_URI_SEPARATOR_ID"] : 'xml.php?skosTema=';
 
+    $skos_TT='';
     if ($top_terms=='true') {
         // Top term del esquema
         $sqlTT=SQLverTopTerm();
-
         while ($arrayTT=$sqlTT->FetchRow()) {
             $skos_TT.='<skos:hasTopConcept rdf:resource="'.$_URI_BASE_ID.$_URI_SEPARATOR_ID.$arrayTT["id"].'"/>';
         };
     };//fin top terms
     header('content-type: text/xml');
-    $meta_tag.='<?xml version="1.0" encoding="'.$CFG["_CHAR_ENCODE"].'"?>';
+    $meta_tag='<?xml version="1.0" encoding="'.$CFG["_CHAR_ENCODE"].'"?>';
     $meta_tag.='<rdf:RDF';
     $meta_tag.='  xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"';
     $meta_tag.='  xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"';
@@ -411,7 +411,7 @@ function do_skosNode($nodos_skos, $top_terms = "false")
 //
 function do_nodo_skos($idTema)
 {
-
+    $skos_altLabel=$skos_broader=$skos_related=$skos_narrower=$skos_map=$meta_tag=$skos_TT='';
     global $CFG;
 
     $_URI_BASE_ID = ($CFG["_URI_BASE_ID"]) ? $CFG["_URI_BASE_ID"] : $_SESSION["CFGURL"];
@@ -494,7 +494,7 @@ function do_nodo_skos($idTema)
     for ($iNota=0; $iNota<(count($datosTermino["notas"])); ++$iNota) {
         if ($datosTermino["notas"][$iNota]["id"]) {
             $note_content=html2txt($datosTermino["notas"][$iNota]["nota"].' '.TXTsource4note($datosTermino["notas"][$iNota]["id"]));
-
+            $skos_notes='';
             switch ($datosTermino["notas"][$iNota]["tipoNota"]) {
                 case 'NH':
                     $skos_notes.=' <skos:historyNote xml:lang="'.$datosTermino["notas"][$iNota]["lang_nota"].'">'.$note_content.'</skos:historyNote>';
@@ -527,7 +527,7 @@ function do_nodo_skos($idTema)
         };
     };
 
-    $meta_tag.='  <skos:Concept rdf:about="'.$_URI_BASE_ID.$_URI_SEPARATOR_ID.$datosTermino["idTema"].'">';
+    $meta_tag='  <skos:Concept rdf:about="'.$_URI_BASE_ID.$_URI_SEPARATOR_ID.$datosTermino["idTema"].'">';
 
     $meta_tag.='<skos:prefLabel xml:lang="'.$_SESSION["CFGIdioma"].'">'.xmlentities($datosTermino["titTema"]).'</skos:prefLabel>';
 

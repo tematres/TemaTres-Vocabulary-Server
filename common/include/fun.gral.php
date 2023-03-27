@@ -442,6 +442,8 @@ function html2txt($html)
     include_once 'htmlpurifier/HTMLPurifier.auto.php';
 
     $config = HTMLPurifier_Config::createDefault();
+    //$config->set('Core.DefinitionCache', null);
+    $config->set('Cache.DefinitionImpl', null);
     $config->set('HTML.Allowed', '');
     $purifier = new HTMLPurifier($config);
     $txt = $purifier->purify($ret);
@@ -742,7 +744,8 @@ function XSSprevent($string)
 
     include_once 'htmlpurifier/HTMLPurifier.auto.php';
     $config = HTMLPurifier_Config::createDefault();
-    //$config->set('HTML.Allowed', '');
+    //$config->set('Core.DefinitionCache', null);
+    $config->set('Cache.DefinitionImpl', null);
     $purifier = new HTMLPurifier($config);
     $clean_string = $purifier->purify($string);
 
@@ -1742,7 +1745,7 @@ function selectLangLabels($lang_code,$langs){
 *
 * @param chars lang code to normalize
 *
-* @return 4 letters lang code in xx-XX format
+* @return check format of lang code (xx-XX or xx)
 */
 function normalizeLangCode($lang_code){
  
@@ -1754,6 +1757,7 @@ function normalizeLangCode($lang_code){
     }else{
         $lang_code=configValue(null,"en-EN");
     }
+    configValue(null,$lang_code);
 
     return $lang_code;
 }
@@ -1830,4 +1834,10 @@ function checkT3instance(){
                     "dbconnect"=>0,
                     "cantTables"=>$cantTables);
 
+}
+
+
+function ifexistsidx($var,$index)
+{
+  return(isset($var[$index]) ? $var[$index] : null);
 }
