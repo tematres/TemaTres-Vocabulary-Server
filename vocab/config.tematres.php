@@ -64,8 +64,8 @@ $CFG["HIDDEN_EQ"] = array("MS","SP","H");
 // Config URI base for XML URI as identifiers. If null, use URI vocabulary
 $CFG["_URI_BASE_ID"] = '';
 
-// Config char beween _URI_BASE_ID and term ID. If null, use '?tema=' for HTTP response
-$CFG["_URI_SEPARATOR_ID"] = 'xml.php?skosTema=';
+// Config char between _URI_BASE_ID and term ID. If null, use '?tema=' for HTTP response
+$CFG["_URI_SEPARATOR_ID"] = 'skos/';
 
 // Config char encode (only can be: utf-8 or iso-8859-1)
 $CFG["_CHAR_ENCODE"] = 'utf-8';

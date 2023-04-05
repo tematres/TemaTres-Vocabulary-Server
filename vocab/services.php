@@ -11,4 +11,4 @@ require "config.tematres.php";
 // XML tiny web services
 require_once T3_ABSPATH .'common/include/fun.api.php';
 
-echo fetchVocabularyService($_GET["task"], $_GET["arg"], $_GET["output"]);
+echo fetchVocabularyService(array2value("task",$_GET),array2value("arg",$_GET), array2value("output",$_GET));

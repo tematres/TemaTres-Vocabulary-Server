@@ -312,7 +312,6 @@ class XMLvocabularyServices
 
         while ($array=$sql->FetchRow()) {
             $i=++$i;
-
             $note_text=($CFG["_HTMLinDATA"]==0) ? html2txt($array["nota"]) : wiki2xml($array["nota"]);
 
             $result["result"][$array["nota_id"]]= array(
@@ -333,9 +332,8 @@ class XMLvocabularyServices
     // array(tema_id,string)
     function fetchTopTerms($arrayCfg)
     {
-
         $sql=SQLverTopTerm();
-
+        $result=array();
         while ($array=$sql->FetchRow()) {
             $result["result"][$array["id"]]= array(
             "term_id"=>$array["id"],
@@ -595,10 +593,8 @@ class XMLvocabularyServices
     // array(tema_id,string,no_term_string,relation_type_id,array(index),order)
     function fetchSuggestedDetails($string)
     {
-
-
         $sql=SQLstartWith($string);
-
+        $result=array();
         while ($array=$sql->FetchRow()) {
             $i=++$i;
             $arrayIndex=explode('|', $array["indice"]);
@@ -1395,6 +1391,7 @@ function array2xml($array, $name = 'vocabularyservices', $standalone = true, $be
 
     $encode =($CFG["_CHAR_ENCODE"]=='latin1') ? "iso-8859-1" : "utf-8";
 
+    $output='';
     if ($beginning) {
         if ($standalone) {
             header("content-type:text/xml;$encode");
@@ -1404,6 +1401,7 @@ function array2xml($array, $name = 'vocabularyservices', $standalone = true, $be
         $output .= '<' . $name . '>';
         $nested = 0;
     }
+    $nested=0;
     foreach ($array as $root => $child) {
         if (is_array($child)) {
             $output .= str_repeat(" ", (2 * $nested)) . '  <' . (is_string($root) ? $root : $nodeChildName) . '>';
