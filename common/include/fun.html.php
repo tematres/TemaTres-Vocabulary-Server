@@ -2540,11 +2540,11 @@ function HTMLsummary()
     $rows.=' <a class="label label-info" href="'.URL_BASE.'index.php?s=n" title="'.ucfirst(LABEL_showNewsTerm).'"><span class="glyphicon glyphicon-fire"></span> '.ucfirst(LABEL_showNewsTerm).'</a>' ;
     $rows.='<ul>' ;
     if ($_SESSION[$_SESSION["CFGURL"]]["CFG_VIEW_STATUS"]==1) {
-        if ($resumen[cant_candidato]>0) {
+        if ($resumen["cant_candidato"]>0) {
             $rows.='<li><a href="'.URL_BASE.'index.php?estado_id=12">'.ucfirst(LABEL_Candidato).': '.$resumen["cant_candidato"].'</a></li>' ;
         }
 
-        if ($resumen[cant_rechazado]>0) {
+        if ($resumen["cant_rechazado"]>0) {
             $rows.= '<li><a href="'.URL_BASE.'index.php?estado_id=14">'.ucfirst(LABEL_Rechazado).': '.$resumen["cant_rechazado"].'</a></li>' ;
         }
     }
