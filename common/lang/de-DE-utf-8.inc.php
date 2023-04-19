@@ -190,7 +190,7 @@ define("LABEL_tipo_vocabulario", "Typ");
 define("LABEL_termino_equivalente", "Volläquivalenz");
 define("LABEL_termino_parcial_equivalente", "Teiläquivalenz");
 define("LABEL_termino_no_equivalente", "Nichtäquivalenz");
-define("EQ_acronimo", "Volläquivanlenz"); /* Exact equivalence > inter-language synonymy */
+define("EQ_acronimo", "Volläquivalenz"); /* Exact equivalence > inter-language synonymy */
 define("EQP_acronimo", "Teiläqivalenz"); /* Partial equivalence > inter-language quasi-synonymy with a difference in specificity*/
 define("NEQ_acronimo", "Nichtäquivalenz"); /*  Non-equivalence */
 define("LABEL_NC", "Sonstiges");
