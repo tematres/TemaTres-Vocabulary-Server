@@ -1070,6 +1070,8 @@ function do_meta_tag($arrayTermino = "")
     }
     $meta_tag.='<meta itemprop="identifier" content="'.$meta_url.'">';
 
+    $meta_tag.='<script type="application/ld+json">{"@context":"https://schema.org","@type":"ItemPage","name":'.json_encode($title_page).',"description":'.json_encode($meta_description, true).',"accessMode":"textual, visual","url":"'.$meta_url.'"}</script>';
+
 
     $meta_tag.='<link rel="'.MENU_Inicio.'" href="'.URL_BASE.'index.php" title="'.MENU_Inicio.'" />';
     $meta_tag.='<link rel="'.MENU_ListaSis.'" href="'.URL_BASE.'index.php" title="'.MENU_ListaSis.'" />';
