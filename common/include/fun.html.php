@@ -75,7 +75,7 @@ function resultaBusca($texto, $tipo = "")
 
             $leyendaTerminoLibre=(@$resulta_busca["esTerminoLibre"]=='SI') ? ' ('.LABEL_terminoLibre.')' : '' ;
 
-            $styleClassLink= ($resulta_busca["estado_id"]!==13) ? 'estado_termino'.$resulta_busca["estado_id"] : '' ;
+            $styleClassLink= (intval($resulta_busca["estado_id"])!==13) ? 'estado_termino'.$resulta_busca["estado_id"] : '' ;
             $styleClassLinkMetaTerm= ($resulta_busca["isMetaTerm"]=='1') ? 'metaTerm' : '' ;
 
             //Si no es un término preferido
