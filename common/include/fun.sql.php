@@ -4701,7 +4701,7 @@ function SQLtermsSinceDate($sinceDate, $limit = "50")
 /*middle terms in the vocab or tax*/
 function SQLprotoTerms($max_deep, $limit = 10, $term_id = 0)
 {
-
+    $from='';
     $max_deep=(secure_data($max_deep, "int")) ? $max_deep : 0;
     $limit=(secure_data($limit, "int")) ? $limit : 10;
     $term_id=(secure_data($term_id, "int")) ? $term_id : 0;
