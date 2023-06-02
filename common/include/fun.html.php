@@ -2516,9 +2516,8 @@ function HTMLsummary()
     if (isset($ARRAYmailContact["value"])) {
         $rows.='<tr><th>'.ucfirst(FORM_LABEL__contactMail).'</th><td>'.$ARRAYmailContact["value"].'</td></tr>' ;
     }
-
+    $rows.='<tr><th>'.ucfirst(LABEL_TipoLenguaje).'</th><td>'.ucfirst($_SESSION["CFGTipo"]).'</td></tr>' ;
     $rows.='<tr><th>'.ucfirst(LABEL_Keywords).'</th><td>'.$_SESSION["CFGKeywords"].'</td></tr>' ;
-
     $rows.='<tr><th>'.ucfirst(LABEL_Cobertura).'</th><td>'.$_SESSION["CFGCobertura"].'</td></tr>' ;
 
     if ($_SESSION["CFGPublisher"]) {
