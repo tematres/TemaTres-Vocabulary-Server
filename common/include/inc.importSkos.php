@@ -117,10 +117,23 @@ if ($_SESSION[$_SESSION["CFGURL"]]["ssuser_nivel"]=='1') {
 
                     $lang_nota=($value["lang"]) ? $value["lang"] : $node_stringPreferedTermLang;
 
-                    ALTAnota($term_id, "NA", $lang_nota, $value["value"]);
+                    ALTAnota($term_id, "DF", $lang_nota, $value["value"]);
                 }
             }
 
+
+			// Bibliographic notes
+			foreach ($skos->xpath->query('./skos:note', $node) as $defNote) {
+				$value = setI18nValue($skos, $defNote);
+
+				if (isset($value["value"])) {
+					$node_defnotes[] = $value;
+
+					$lang_nota=($value["lang"]) ? normalizeLangCode($value["lang"]): $node_stringPreferedTermLang;
+
+					ALTAnota($term_id, "NB", $lang_nota, $value["value"]);
+				}
+			}
 
             // exampleNote
             foreach ($skos->xpath->query('./skos:example', $node) as $defNote) {
@@ -148,19 +161,17 @@ if ($_SESSION[$_SESSION["CFGURL"]]["ssuser_nivel"]=='1') {
                 }
             }
 
-
-
-            //~ // exactMatch
-            $sqlMatchTypes=SQLfetchValue('URI_TYPE');
-            while ($arrayMatchTypes=$sqlMatchTypes->FetchRow()) {
-                foreach ($skos->xpath->query("./skos:$arrayMatchTypes[value]", $node) as $matchNode) {
-                    // find URI
-                     $uri_match = $matchNode->getAttributeNodeNS('http://www.w3.org/1999/02/22-rdf-syntax-ns#', 'resource');
-                    if ($uri_match instanceof DOMAttr) {
-                        abmURI("A", $term_id, array("uri"=>$uri_match->nodeValue,"uri_type_id"=>$arrayMatchTypes["value_id"]));
-                    };
-                }
-            }
+            // exactMatch
+			$sqlMatchTypes=SQLfetchValue('URI_TYPE');
+			while ($arrayMatchTypes=$sqlMatchTypes->FetchRow()) {
+				foreach ($skos->xpath->query("./skos:$arrayMatchTypes[value]/skos:Concept", $node) as $matchNode) {
+					// find URI
+					$uri_match = $matchNode->getAttributeNS('http://www.w3.org/1999/02/22-rdf-syntax-ns#', 'about');
+					if ($uri_match) {
+						abmURI("A", $term_id, array("uri"=>$uri_match,"uri_type_id"=>$arrayMatchTypes["value_id"]));
+					};
+				}
+			}
 
             // Find and add narrow terms
             // TODO: Merge broader/narrower relations for this term, as defining
