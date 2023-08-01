@@ -1255,7 +1255,9 @@ function sendMail($to_address, $subject, $message, $extra = array())
     $mail->IsHTML(false);                                  // set email format to HTML
     $mail->Subject = $subject;
     $mail->Body    = $message;
-    $mail->Send();
+    
+
+    $mailcheck=$mail->Send();
 
 
 
@@ -1273,7 +1275,7 @@ function sendMail($to_address, $subject, $message, $extra = array())
         echo "DEBUG DATA:". $mail->ErrorInfo;
     }
 
-    return ($mail->Send()) ? true  : false;
+    return ($mailcheck) ? true  : false;
 }
 
 
