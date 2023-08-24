@@ -1949,7 +1949,7 @@ function HTMLduplicatedTermsAlert($arrayDuplicatedTerms)
 function HTMLlinkTerm($arrayTerm, $arg = array())
 {
 
-    $class=(strlen(array2value("style", $arg)>0)) ? $arg["style"] : '' ;
+    $class=(strlen(array2value("style", $arg))>0) ? $arg["style"] : '' ;
 
     $class.=(array2value("isMetaTerm",$arrayTerm)==1) ? ' metaTerm' : '' ;
 
