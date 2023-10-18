@@ -1,0 +1,84 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Cabecera, pie, salto de página e imagen</title>
+<link type="text/css" rel="stylesheet" href="../fpdf.css">
+</head>
+<body>
+<h1>Cabecera, pie, salto de página e imagen</h1>
+Aquí tenemos un ejemplo de dos páginas con cabacera, pie de página y logotipo:
+<div class="source">
+<pre><code>&lt;?php
+<span class="kw">require(</span><span class="str">'fpdf.php'</span><span class="kw">);
+
+class </span>PDF <span class="kw">extends </span>FPDF
+<span class="kw">{
+</span><span class="cmt">// Cabecera de página
+</span><span class="kw">function </span>Header<span class="kw">()
+{
+    </span><span class="cmt">// Logo
+    </span>$<span class="kw">this-&gt;</span>Image<span class="kw">(</span><span class="str">'logo.png'</span><span class="kw">,</span>10<span class="kw">,</span>8<span class="kw">,</span>33<span class="kw">);
+    </span><span class="cmt">// Arial bold 15
+    </span>$<span class="kw">this-&gt;</span>SetFont<span class="kw">(</span><span class="str">'Arial'</span><span class="kw">,</span><span class="str">'B'</span><span class="kw">,</span>15<span class="kw">);
+    </span><span class="cmt">// Movernos a la derecha
+    </span>$<span class="kw">this-&gt;</span>Cell<span class="kw">(</span>80<span class="kw">);
+    </span><span class="cmt">// Título
+    </span>$<span class="kw">this-&gt;</span>Cell<span class="kw">(</span>30<span class="kw">,</span>10<span class="kw">,</span><span class="str">'Title'</span><span class="kw">,</span>1<span class="kw">,</span>0<span class="kw">,</span><span class="str">'C'</span><span class="kw">);
+    </span><span class="cmt">// Salto de línea
+    </span>$<span class="kw">this-&gt;</span>Ln<span class="kw">(</span>20<span class="kw">);
+}
+
+</span><span class="cmt">// Pie de página
+</span><span class="kw">function </span>Footer<span class="kw">()
+{
+    </span><span class="cmt">// Posición: a 1,5 cm del final
+    </span>$<span class="kw">this-&gt;</span>SetY<span class="kw">(-</span>15<span class="kw">);
+    </span><span class="cmt">// Arial italic 8
+    </span>$<span class="kw">this-&gt;</span>SetFont<span class="kw">(</span><span class="str">'Arial'</span><span class="kw">,</span><span class="str">'I'</span><span class="kw">,</span>8<span class="kw">);
+    </span><span class="cmt">// Número de página
+    </span>$<span class="kw">this-&gt;</span>Cell<span class="kw">(</span>0<span class="kw">,</span>10<span class="kw">,</span><span class="str">'Page '</span><span class="kw">.</span>$<span class="kw">this-&gt;</span>PageNo<span class="kw">().</span><span class="str">'/{nb}'</span><span class="kw">,</span>0<span class="kw">,</span>0<span class="kw">,</span><span class="str">'C'</span><span class="kw">);
+}
+}
+
+</span><span class="cmt">// Creación del objeto de la clase heredada
+</span>$pdf <span class="kw">= new </span>PDF<span class="kw">();
+</span>$pdf<span class="kw">-&gt;</span>AliasNbPages<span class="kw">();
+</span>$pdf<span class="kw">-&gt;</span>AddPage<span class="kw">();
+</span>$pdf<span class="kw">-&gt;</span>SetFont<span class="kw">(</span><span class="str">'Times'</span><span class="kw">,</span><span class="str">''</span><span class="kw">,</span>12<span class="kw">);
+for(</span>$i<span class="kw">=</span>1<span class="kw">;</span>$i<span class="kw">&lt;=</span>40<span class="kw">;</span>$i<span class="kw">++)
+    </span>$pdf<span class="kw">-&gt;</span>Cell<span class="kw">(</span>0<span class="kw">,</span>10<span class="kw">,</span><span class="str">'Imprimiendo línea número '</span><span class="kw">.</span>$i<span class="kw">,</span>0<span class="kw">,</span>1<span class="kw">);
+</span>$pdf<span class="kw">-&gt;</span>Output<span class="kw">();
+</span>?&gt;</code></pre>
+</div>
+<p class='demo'><a href='tuto2.php' target='_blank' class='demo'>[Ejecutar]</a></p>
+Este ejemplo hace uso de los métodos <a href='../doc/header.htm'>Header()</a> y <a href='../doc/footer.htm'>Footer()</a> para procesar las
+cabeceras y pies de páginas. Se llaman automáticamente. Ya existen en la clase FPDF
+origuinal, pero no hacen nada. Por ello, tenemos que heredar la clase y sobreescribirlos.
+<br>
+<br>
+El logotipo se imprime con el método <a href='../doc/image.htm'>Image()</a> especificando su esquina superior
+izquierda y su anchura. La altura se calcula automáticamente respetando las proporciones
+de la imagen.
+<br>
+<br>
+Para imprimir el número de página, se le pasa un valor nulo (null) como ancho de la celda. Eso
+significa que la celda se extenderá hasta el margen derecho de la página; puede ser útil centrar
+el texto. El número actual de la página se devuelve por el métodos <a href='../doc/pageno.htm'>PageNo()</a>;
+mientras que el número total de páginas se obtiene mediante un valor especial de
+<code>{nb}</code> que será sustituido cuando se cierre el documento (suponiendo que
+usted antes utilizara <a href='../doc/aliasnbpages.htm'>AliasNbPages()</a>).
+<br>
+Observe el uso del método <a href='../doc/sety.htm'>SetY()</a> que le permite especificar la posición en una
+ubicación absoluta respecto del origen de coordenadas de la página, empezando por
+el principio o por el final.
+<br>
+<br>
+Otra característica interesante se usa en el ejemplo: el salto automático de página. Tan
+pronto como una celda cruza el límite máximo de la página (a 2 cm del final, por defecto),
+se ejecuta un salto y se recupera la fuente. Aunque la cabecera y el pie usan su propia fuente
+(Arial), el cuerpo del documento continua con Times. Este mecanismo automático de recuperación
+también se aplica a los colores y al ancho de línea. El límite que fuerza los saltos de página
+puede establecerse con <a href='../doc/setautopagebreak.htm'>SetAutoPageBreak()</a>.
+</body>
+</html>

@@ -1,0 +1,72 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>SetFont</title>
+<link type="text/css" rel="stylesheet" href="../fpdf.css">
+</head>
+<body>
+<h1>SetFont</h1>
+<code>SetFont(<b>string</b> family [, <b>string</b> style [, <b>float</b> size]])</code>
+<h2>Descripción</h2>
+Establece la fuente usada para imprimir cadenas de carácteres. Es obligatorio invocar este método por lo menos una vez antes de imprimir texto.<br>
+<br>
+La fuente puede ser una estándar o una adicionada via el método AddFont(). La fuentes estándar usan codificación cp1252 (Western Europe) de Windows.<br>
+<br>
+El método puede ser invocado antes que la primera página sea creada y es mantenido de página a página.<br>
+<br>
+Si sólo desea cambiar el tamaño de la fuente actual, es más simple invocar SetFontSize().
+<h2>Parámetros</h2>
+<dl class="param">
+<dt><code>family</code></dt>
+<dd>
+Familia de fuente. Puede ser un nombre definido por AddFont() o una de las familias estándar (no sensible a mayúsculas o minúsculas):
+<ul>
+<li><code>Courier</code> (fixed-width)
+<li><code>Helvetica</code> o <code>Arial</code> (sinónimo; sans serif)
+<li><code>Times</code> (serif)
+<li><code>Symbol</code> (symbolic)
+<li><code>ZapfDingbats</code> (symbolic)
+</ul>
+Tambien es posible pasar un cadena vacia. En este caso, se mantiene la familia actual.
+</dd>
+<dt><code>style</code></dt>
+<dd>
+Estilo de fuente. Los valores posibles son (no sensible a mayúsculas o minúsculas):
+<ul>
+<li>cadena vacia: regular
+<li><code>B</code>: bold
+<li><code>I</code>: italic
+<li><code>U</code>: underline
+</ul>
+o cualquier combinación. El valor por defecto es regular.
+Los estilos Bold e italic no aplican para <code>Symbol</code> y <code>ZapfDingbats</code>.
+</dd>
+<dt><code>size</code></dt>
+<dd>
+Tamaño de fuente en puntos.
+<br>
+El valor por defecto es el tamaño actual. Si ningún tamaño ha sido especificado desde el comienzo del documento, toma el valor de 12.
+</dd>
+</dl>
+<h2>Ejemplo</h2>
+<div class="doc-source">
+<pre><code>// Times regular 12
+$pdf-&gt;SetFont('Times');
+// Arial bold 14
+$pdf-&gt;SetFont('Arial', 'B', 14);
+// Elimina bold
+$pdf-&gt;SetFont('');
+// Times bold, italic y underlined 14
+$pdf-&gt;SetFont('Times', 'BIU');</code></pre>
+</div>
+<h2>Vea además</h2>
+<a href="addfont.htm">AddFont</a>,
+<a href="setfontsize.htm">SetFontSize</a>,
+<a href="cell.htm">Cell</a>,
+<a href="multicell.htm">MultiCell</a>,
+<a href="write.htm">Write</a>
+<hr style="margin-top:1.5em">
+<div style="text-align:center"><a href="index.htm">Inicio</a></div>
+</body>
+</html>

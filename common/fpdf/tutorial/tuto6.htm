@@ -1,0 +1,159 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Enlaces y texto flotante</title>
+<link type="text/css" rel="stylesheet" href="../fpdf.css">
+</head>
+<body>
+<h1>Enlaces y texto flotante</h1>
+Este tutorial explica cómo incluir enlaces (internos y externos) y muestra una nueva
+manera de imprimir texto. También incluye un intérprete rudimentario de HTML.
+<div class="source">
+<pre><code>&lt;?php
+<span class="kw">require(</span><span class="str">'fpdf.php'</span><span class="kw">);
+
+class </span>PDF <span class="kw">extends </span>FPDF
+<span class="kw">{
+protected </span>$B <span class="kw">= </span>0<span class="kw">;
+protected </span>$I <span class="kw">= </span>0<span class="kw">;
+protected </span>$U <span class="kw">= </span>0<span class="kw">;
+protected </span>$HREF <span class="kw">= </span><span class="str">''</span><span class="kw">;
+
+function </span>WriteHTML<span class="kw">(</span>$html<span class="kw">)
+{
+    </span><span class="cmt">// Intérprete de HTML
+    </span>$html <span class="kw">= </span>str_replace<span class="kw">(</span><span class="str">"\n"</span><span class="kw">,</span><span class="str">' '</span><span class="kw">,</span>$html<span class="kw">);
+    </span>$a <span class="kw">= </span>preg_split<span class="kw">(</span><span class="str">'/&lt;(.*)&gt;/U'</span><span class="kw">,</span>$html<span class="kw">,-</span>1<span class="kw">,</span>PREG_SPLIT_DELIM_CAPTURE<span class="kw">);
+    foreach(</span>$a <span class="kw">as </span>$i<span class="kw">=&gt;</span>$e<span class="kw">)
+    {
+        if(</span>$i<span class="kw">%</span>2<span class="kw">==</span>0<span class="kw">)
+        {
+            </span><span class="cmt">// Text
+            </span><span class="kw">if(</span>$<span class="kw">this-&gt;</span>HREF<span class="kw">)
+                </span>$<span class="kw">this-&gt;</span>PutLink<span class="kw">(</span>$<span class="kw">this-&gt;</span>HREF<span class="kw">,</span>$e<span class="kw">);
+            else
+                </span>$<span class="kw">this-&gt;</span>Write<span class="kw">(</span>5<span class="kw">,</span>$e<span class="kw">);
+        }
+        else
+        {
+            </span><span class="cmt">// Etiqueta
+            </span><span class="kw">if(</span>$e<span class="kw">[</span>0<span class="kw">]==</span><span class="str">'/'</span><span class="kw">)
+                </span>$<span class="kw">this-&gt;</span>CloseTag<span class="kw">(</span>strtoupper<span class="kw">(</span>substr<span class="kw">(</span>$e<span class="kw">,</span>1<span class="kw">)));
+            else
+            {
+                </span><span class="cmt">// Extraer atributos
+                </span>$a2 <span class="kw">= </span>explode<span class="kw">(</span><span class="str">' '</span><span class="kw">,</span>$e<span class="kw">);
+                </span>$tag <span class="kw">= </span>strtoupper<span class="kw">(</span>array_shift<span class="kw">(</span>$a2<span class="kw">));
+                </span>$attr <span class="kw">= array();
+                foreach(</span>$a2 <span class="kw">as </span>$v<span class="kw">)
+                {
+                    if(</span>preg_match<span class="kw">(</span><span class="str">'/([^=]*)=["\']?([^"\']*)/'</span><span class="kw">,</span>$v<span class="kw">,</span>$a3<span class="kw">))
+                        </span>$attr<span class="kw">[</span>strtoupper<span class="kw">(</span>$a3<span class="kw">[</span>1<span class="kw">])] = </span>$a3<span class="kw">[</span>2<span class="kw">];
+                }
+                </span>$<span class="kw">this-&gt;</span>OpenTag<span class="kw">(</span>$tag<span class="kw">,</span>$attr<span class="kw">);
+            }
+        }
+    }
+}
+
+function </span>OpenTag<span class="kw">(</span>$tag<span class="kw">, </span>$attr<span class="kw">)
+{
+    </span><span class="cmt">// Etiqueta de apertura
+    </span><span class="kw">if(</span>$tag<span class="kw">==</span><span class="str">'B' </span><span class="kw">|| </span>$tag<span class="kw">==</span><span class="str">'I' </span><span class="kw">|| </span>$tag<span class="kw">==</span><span class="str">'U'</span><span class="kw">)
+        </span>$<span class="kw">this-&gt;</span>SetStyle<span class="kw">(</span>$tag<span class="kw">,</span>true<span class="kw">);
+    if(</span>$tag<span class="kw">==</span><span class="str">'A'</span><span class="kw">)
+        </span>$<span class="kw">this-&gt;</span>HREF <span class="kw">= </span>$attr<span class="kw">[</span><span class="str">'HREF'</span><span class="kw">];
+    if(</span>$tag<span class="kw">==</span><span class="str">'BR'</span><span class="kw">)
+        </span>$<span class="kw">this-&gt;</span>Ln<span class="kw">(</span>5<span class="kw">);
+}
+
+function </span>CloseTag<span class="kw">(</span>$tag<span class="kw">)
+{
+    </span><span class="cmt">// Etiqueta de cierre
+    </span><span class="kw">if(</span>$tag<span class="kw">==</span><span class="str">'B' </span><span class="kw">|| </span>$tag<span class="kw">==</span><span class="str">'I' </span><span class="kw">|| </span>$tag<span class="kw">==</span><span class="str">'U'</span><span class="kw">)
+        </span>$<span class="kw">this-&gt;</span>SetStyle<span class="kw">(</span>$tag<span class="kw">,</span>false<span class="kw">);
+    if(</span>$tag<span class="kw">==</span><span class="str">'A'</span><span class="kw">)
+        </span>$<span class="kw">this-&gt;</span>HREF <span class="kw">= </span><span class="str">''</span><span class="kw">;
+}
+
+function </span>SetStyle<span class="kw">(</span>$tag<span class="kw">, </span>$enable<span class="kw">)
+{
+    </span><span class="cmt">// Modificar estilo y escoger la fuente correspondiente
+    </span>$<span class="kw">this-&gt;</span>$tag <span class="kw">+= (</span>$enable <span class="kw">? </span>1 <span class="kw">: -</span>1<span class="kw">);
+    </span>$style <span class="kw">= </span><span class="str">''</span><span class="kw">;
+    foreach(array(</span><span class="str">'B'</span><span class="kw">, </span><span class="str">'I'</span><span class="kw">, </span><span class="str">'U'</span><span class="kw">) as </span>$s<span class="kw">)
+    {
+        if(</span>$<span class="kw">this-&gt;</span>$s<span class="kw">&gt;</span>0<span class="kw">)
+            </span>$style <span class="kw">.= </span>$s<span class="kw">;
+    }
+    </span>$<span class="kw">this-&gt;</span>SetFont<span class="kw">(</span><span class="str">''</span><span class="kw">,</span>$style<span class="kw">);
+}
+
+function </span>PutLink<span class="kw">(</span>$URL<span class="kw">, </span>$txt<span class="kw">)
+{
+    </span><span class="cmt">// Escribir un hiper-enlace
+    </span>$<span class="kw">this-&gt;</span>SetTextColor<span class="kw">(</span>0<span class="kw">,</span>0<span class="kw">,</span>255<span class="kw">);
+    </span>$<span class="kw">this-&gt;</span>SetStyle<span class="kw">(</span><span class="str">'U'</span><span class="kw">,</span>true<span class="kw">);
+    </span>$<span class="kw">this-&gt;</span>Write<span class="kw">(</span>5<span class="kw">,</span>$txt<span class="kw">,</span>$URL<span class="kw">);
+    </span>$<span class="kw">this-&gt;</span>SetStyle<span class="kw">(</span><span class="str">'U'</span><span class="kw">,</span>false<span class="kw">);
+    </span>$<span class="kw">this-&gt;</span>SetTextColor<span class="kw">(</span>0<span class="kw">);
+}
+}
+
+</span>$html <span class="kw">= </span><span class="str">'Ahora puede imprimir fácilmente texto mezclando diferentes estilos: &lt;b&gt;negrita&lt;/b&gt;, &lt;i&gt;itálica&lt;/i&gt;,
+&lt;u&gt;subrayado&lt;/u&gt;, o ¡ &lt;b&gt;&lt;i&gt;&lt;u&gt;todos a la vez&lt;/u&gt;&lt;/i&gt;&lt;/b&gt;!&lt;br&gt;&lt;br&gt;También puede incluir enlaces en el
+texto, como &lt;a href="http://www.fpdf.org"&gt;www.fpdf.org&lt;/a&gt;, o en una imagen: pulse en el logotipo.'</span><span class="kw">;
+
+</span>$pdf <span class="kw">= new </span>PDF<span class="kw">();
+</span><span class="cmt">// Primera página
+</span>$pdf<span class="kw">-&gt;</span>AddPage<span class="kw">();
+</span>$pdf<span class="kw">-&gt;</span>SetFont<span class="kw">(</span><span class="str">'Arial'</span><span class="kw">,</span><span class="str">''</span><span class="kw">,</span>20<span class="kw">);
+</span>$pdf<span class="kw">-&gt;</span>Write<span class="kw">(</span>5<span class="kw">,</span><span class="str">'Para saber qué hay de nuevo en este tutorial, pulse '</span><span class="kw">);
+</span>$pdf<span class="kw">-&gt;</span>SetFont<span class="kw">(</span><span class="str">''</span><span class="kw">,</span><span class="str">'U'</span><span class="kw">);
+</span>$link <span class="kw">= </span>$pdf<span class="kw">-&gt;</span>AddLink<span class="kw">();
+</span>$pdf<span class="kw">-&gt;</span>Write<span class="kw">(</span>5<span class="kw">,</span><span class="str">'aquí'</span><span class="kw">,</span>$link<span class="kw">);
+</span>$pdf<span class="kw">-&gt;</span>SetFont<span class="kw">(</span><span class="str">''</span><span class="kw">);
+</span><span class="cmt">// Segunda página
+</span>$pdf<span class="kw">-&gt;</span>AddPage<span class="kw">();
+</span>$pdf<span class="kw">-&gt;</span>SetLink<span class="kw">(</span>$link<span class="kw">);
+</span>$pdf<span class="kw">-&gt;</span>Image<span class="kw">(</span><span class="str">'logo.png'</span><span class="kw">,</span>10<span class="kw">,</span>12<span class="kw">,</span>30<span class="kw">,</span>0<span class="kw">,</span><span class="str">''</span><span class="kw">,</span><span class="str">'http://www.fpdf.org'</span><span class="kw">);
+</span>$pdf<span class="kw">-&gt;</span>SetLeftMargin<span class="kw">(</span>45<span class="kw">);
+</span>$pdf<span class="kw">-&gt;</span>SetFontSize<span class="kw">(</span>14<span class="kw">);
+</span>$pdf<span class="kw">-&gt;</span>WriteHTML<span class="kw">(</span>$html<span class="kw">);
+</span>$pdf<span class="kw">-&gt;</span>Output<span class="kw">();
+</span>?&gt;</code></pre>
+</div>
+<p class='demo'><a href='tuto6.php' target='_blank' class='demo'>[Ejecutar]</a></p>
+El nuevo método para imprimir texto es  <a href='../doc/write.htm'>Write()</a>.
+Se parece mucho a <a href='../doc/multicell.htm'>MultiCell()</a>; las diferencias son:
+<ul>
+<li>El límite de la línea está en el margen derecho y la siguiente línea
+empieza en el izquierdo</li>
+<li>La posición actual se establece al final del texto</li>
+</ul>
+Así que le permite escribir un texto, alterar el estilo de la fuente, y continuar
+en el punto exacto donde lo dejó. Sin embargo, no puede justificar el texto simultáneamente
+a derecha y a izquierda.
+<br>
+<br>
+Este método se usa en la primera página para añadir un enlace que apunta a la segunda página.
+El principio de la frase se escribe en un estilo normal, después cambiamos a subrayado y la
+terminamos. El enlace se crea con <a href='../doc/addlink.htm'>AddLink()</a>, que devuelve el identificador del enlace.
+El identificador se pasa como tercer parámetro a Write(). Una vez que la segunda página se
+ha creado, usamos <a href='../doc/setlink.htm'>SetLink()</a> para hacer que el enlace apunte al principio de la
+página actual.
+<br>
+<br>
+Deespués ponemos una imagen con un enlace en ella. Un enlace externo apunta a una URL.
+La URL se pasa como el último parámetro de <a href='../doc/image.htm'>Image()</a>.
+<br>
+<br>
+Finalmente, el margen izquierdo se modifica después de la imagen con <a href='../doc/setleftmargin.htm'>SetLeftMargin()</a> y se
+escribe texto en formato HTML. Se utiliza un intérprete HTML para esto, basado en les expresiones
+regulares. Las etiquetas reconocidas son &lt;b&gt;, &lt;i&gt;, &lt;u&gt;, &lt;a&gt; y &lt;br&gt;;
+las demás se ignoran. El intérprete también usa el método Write(). Se pone un enlace externo de la
+misma manera que uno interno (como tercer parámetro de Write()). Observe que <a href='../doc/cell.htm'>Cell()</a> también
+permite incluir enlaces.
+</body>
+</html>

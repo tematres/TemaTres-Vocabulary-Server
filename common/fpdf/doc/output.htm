@@ -1,0 +1,47 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Output</title>
+<link type="text/css" rel="stylesheet" href="../fpdf.css">
+</head>
+<body>
+<h1>Output</h1>
+<code><b>string</b> Output([<b>string</b> dest [, <b>string</b> name [, <b>boolean</b> isUTF8]]])</code>
+<h2>Descripción</h2>
+Envía el documento a un destino dado: una cadena, un fichero local o al navegador. En el
+último caso, puede utilizarse la extensión -plug in- (si existe) o forzarse un cuadro
+de diálogo de descarga.
+<br>
+El método invoca ante todo a Close() si es necesario cerrar el documento.
+<h2>Parámetros</h2>
+<dl class="param">
+<dt><code>dest</code></dt>
+<dd>
+Destino al que enviar el documento. Puede tener uno de los siguientes valores:
+<ul>
+<li><code>I</code>: envía el fichero al navegador de forma que se usa la extensión (plug in) si está disponible.</li>
+<li><code>D</code>: envía el fichero al navegador y fuerza la descarga del fichero con el nombre especificado por <code>name</code>.</li>
+<li><code>F</code>: guarda el fichero en un fichero local de nombre <code>name</code>.</li>
+<li><code>S</code>: devuelve el documento como una cadena.</li>
+</ul>
+El valor por defecto es <code>I</code>.
+</dd>
+<dt><code>name</code></dt>
+<dd>
+El nombre del fichero. Éste es ignorado en caso de destino <code>S</code>.<br>
+El valor por defecto es <code>doc.pdf</code>.
+</dd>
+<dt><code>isUTF8</code></dt>
+<dd>
+Indica si <code>name</code> es codificado en ISO-8859-1 (<code>false</code>) ó UTF-8 (<code>true</code>).
+Solo usa destinos <code>I</code> y <code>D</code>.<br>
+El valor por defecto es <code>false</code>.
+</dd>
+</dl>
+<h2>Vea además</h2>
+<a href="close.htm">Close</a>
+<hr style="margin-top:1.5em">
+<div style="text-align:center"><a href="index.htm">Inicio</a></div>
+</body>
+</html>

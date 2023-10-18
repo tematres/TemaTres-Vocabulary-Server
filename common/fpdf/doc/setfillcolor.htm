@@ -1,0 +1,40 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>SetFillColor</title>
+<link type="text/css" rel="stylesheet" href="../fpdf.css">
+</head>
+<body>
+<h1>SetFillColor</h1>
+<code>SetFillColor(<b>int</b> r [, <b>int</b> g, <b>int</b> b])</code>
+<h2>Descripción</h2>
+Define el color usado por todas las operaciones de relleno (rectángulos rellenos y fondos de celdas). Este puede ser
+expresado en componentes RGB o escala de grises. El método puede ser invocado antes que la primera página sea creada
+y el valor es conservado de página a página.
+<h2>Parámetros</h2>
+<dl class="param">
+<dt><code>r</code></dt>
+<dd>
+Si <code>g</code> y <code>b</code> se establecen, componente rojo; si no, indica el nivel de gris.
+Valor entre 0 y 255.
+</dd>
+<dt><code>g</code></dt>
+<dd>
+Componente verde (entre 0 y 255).
+</dd>
+<dt><code>b</code></dt>
+<dd>
+Componente azul (entre 0 y 255).
+</dd>
+</dl>
+<h2>Vea además</h2>
+<a href="setdrawcolor.htm">SetDrawColor</a>,
+<a href="settextcolor.htm">SetTextColor</a>,
+<a href="rect.htm">Rect</a>,
+<a href="cell.htm">Cell</a>,
+<a href="multicell.htm">MultiCell</a>
+<hr style="margin-top:1.5em">
+<div style="text-align:center"><a href="index.htm">Inicio</a></div>
+</body>
+</html>
