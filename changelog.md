@@ -20,7 +20,8 @@ TemaTres se distribuye bajo licencia GNU Public License (GPL==Pública General d
 
 ## Changelog TemaTres 3.4.2:
 
-* PHP 8.0 support 
+* Improve PHP 8.0+ support 
+* Fixed bugs that triggered deprecation notices in some situations when running on PHP 8.0+
 * update to Adodb5 5.22.4
 * update to tree.jquery to 1.6.3
 

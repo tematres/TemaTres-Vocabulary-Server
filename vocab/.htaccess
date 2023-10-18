@@ -10,3 +10,4 @@ RewriteRule ^zthes/(\w+)/?$ xml.php?zthesTema=$1
 RewriteRule ^xtm/(\w+)/?$ xml.php?xtmTema=$1
 RewriteRule ^bs8723/(\w+)/?$ xml.php?bs8723Tema=$1 [L]
 </IfModule>
+
