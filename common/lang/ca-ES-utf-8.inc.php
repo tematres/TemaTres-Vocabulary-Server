@@ -551,7 +551,7 @@ define('LABEL_update2_2x3_2', 'Actualitzar (2.x -> 3.2)');
 define('LABEL__getForTargetVocabularyNews', 'cercar novetats');
 define('LABEL__example', 'exemple');
 #3.4
- define('KOS_categorization_scheme','esquema de categrización');
+ define('KOS_categorization_scheme','esquema de categorización');
  define('KOS_classification_scheme','esquema de clasificación');
  define('KOS_dictionary','diccionario');
  define('KOS_gazetteer','diccionario geográfico');
