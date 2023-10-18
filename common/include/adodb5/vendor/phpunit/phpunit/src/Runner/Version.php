@@ -16,6 +16,9 @@ use function implode;
 use function strpos;
 use SebastianBergmann\Version as VersionId;
 
+/**
+ * @no-named-arguments Parameter names are not covered by the backward compatibility promise for PHPUnit
+ */
 final class Version
 {
     /**
@@ -38,7 +41,7 @@ final class Version
         }
 
         if (self::$version === '') {
-            self::$version = (new VersionId('8.5.29', dirname(__DIR__, 2)))->getVersion();
+            self::$version = (new VersionId('9.5.26', dirname(__DIR__, 2)))->getVersion();
         }
 
         return self::$version;
@@ -57,15 +60,6 @@ final class Version
 
     public static function getVersionString(): string
     {
-        return 'PHPUnit ' . self::id() . ' #StandWithUkraine';
-    }
-
-    public static function getReleaseChannel(): string
-    {
-        if (strpos(self::$pharVersion, '-') !== false) {
-            return '-snapshot';
-        }
-
-        return '';
+        return 'PHPUnit ' . self::id() . ' by Sebastian Bergmann and contributors.';
     }
 }

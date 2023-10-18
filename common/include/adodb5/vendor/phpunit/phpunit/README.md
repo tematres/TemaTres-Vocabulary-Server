@@ -1,10 +1,12 @@
+<h1 align="center">🇺🇦 <a href="https://phpunit.de/stand-with-ukraine.html">UKRAINE NEEDS YOUR HELP NOW!</a></h1>
+
 # PHPUnit
 
 PHPUnit is a programmer-oriented testing framework for PHP. It is an instance of the xUnit architecture for unit testing frameworks.
 
 [![Latest Stable Version](https://img.shields.io/packagist/v/phpunit/phpunit.svg?style=flat-square)](https://packagist.org/packages/phpunit/phpunit)
-[![Minimum PHP Version](https://img.shields.io/badge/php-%3E%3D%207.2-8892BF.svg?style=flat-square)](https://php.net/)
-[![CI Status](https://github.com/sebastianbergmann/phpunit/workflows/CI/badge.svg?branch=8.5&event=push)](https://phpunit.de/build-status.html)
+[![Minimum PHP Version](https://img.shields.io/badge/php-%3E%3D%207.3-8892BF.svg?style=flat-square)](https://php.net/)
+[![CI Status](https://github.com/sebastianbergmann/phpunit/workflows/CI/badge.svg?branch=9.5&event=push)](https://phpunit.de/build-status.html)
 [![Type Coverage](https://shepherd.dev/github/sebastianbergmann/phpunit/coverage.svg)](https://shepherd.dev/github/sebastianbergmann/phpunit)
 
 ## Installation
