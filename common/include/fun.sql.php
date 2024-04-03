@@ -3864,6 +3864,8 @@ function SQLtypeRelations($t_relation = 0, $rrel_type_id = 0, $cant = false)
     if ($cant==true) {
         $select=",count(r.rel_rel_id) as cant ";
         $from=" left join $DBCFG[DBprefix]tabla_rel r on r.rel_rel_id=trr.value_id ";
+    }else{
+        $select=$from='';
     }
 
 
@@ -5173,3 +5175,25 @@ function isNarrowerTerm($term_id)
 
 
 
+/** 
+ * Fetch data about term clusters for each type of terminological relation
+ * 
+ * @param int $type_rel_id Type relation. Can be 3=BT, 2=RT, 4=UF
+ * 
+ * @return int
+ */
+function SQLtermsXcluster($type_rel_id){
+    global $DBCFG;
+
+    $type_rel_id=in_array($type_rel_id,array(2,3,4)) ? $type_rel_id : 0;
+
+    $param_group=($type_rel_id==3) ? "id_mayor" : "id_menor";
+
+   $sql=SQL("select","r.$param_group AS term_id,count(*) cant FROM 
+        $DBCFG[DBprefix]tabla_rel r
+        WHERE r.t_relacion=$type_rel_id
+        GROUP by r.$param_group
+        ORDER BY cant asc");
+
+   return $sql;
+}

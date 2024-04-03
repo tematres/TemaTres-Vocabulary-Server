@@ -569,4 +569,6 @@ define('LABEL__example', 'exemplo');
  define('LABEL_userIsEditor','editor');
  define('LABEL_userIsColab','colaborador');
  define('LABEL_userType','tipo de usuario');
- 
+  #3.5
+ define('LABEL_hubs','concentraciones');
+ define('LABEL_clusteringCoefficient','coeficiente de agrupamiento');

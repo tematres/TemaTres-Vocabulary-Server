@@ -80,19 +80,19 @@ if (evalUserLevel($_SESSION[$_SESSION["CFGURL"]])>0) {
 
       });
         <?php
-
-        $arrayCustumRelations["3"]["0"].=TG_acronimo;
-        $arrayCustumRelations["4"]["0"].=UP_acronimo;
-        $arrayCustumRelations["2"]["0"].=TR_acronimo;
+        $arrayCustumRelations=array();
+        @$arrayCustumRelations["3"]["0"].=TG_acronimo;
+        @$arrayCustumRelations["4"]["0"].=UP_acronimo;
+        @$arrayCustumRelations["2"]["0"].=TR_acronimo;
 
         $SQLtypeRelations=SQLtypeRelations();
         while ($ARRAYtypeRelations=$SQLtypeRelations->FetchRow()) {
-                $arrayCustumRelations["$ARRAYtypeRelations[t_relation]"]["$ARRAYtypeRelations[rel_rel_id]"].= $ARRAYtypeRelations["rr_value"];
+                @$arrayCustumRelations["$ARRAYtypeRelations[t_relation]"]["$ARRAYtypeRelations[rel_rel_id]"].= $ARRAYtypeRelations["rr_value"];
         };
 
         //add reverse view or BT/NT relation
-        $arrayCustumRelations["TE"]=$arrayCustumRelations["3"];
-        $arrayCustumRelations["TE"]["0"]=TE_acronimo;
+        @$arrayCustumRelations["TE"]=$arrayCustumRelations["3"];
+        @$arrayCustumRelations["TE"]["0"]=TE_acronimo;
 
         ?>
       $(".editable_selectTE").editable("searcher.php", {
@@ -105,45 +105,45 @@ if (evalUserLevel($_SESSION[$_SESSION["CFGURL"]])>0) {
         style  : "inherit",
         submitdata : function() {
             return {
-                tema_id : '<?php print $metadata["arraydata"]["tema_id"];?>',
+                tema_id : '<?php print @$metadata["arraydata"]["tema_id"];?>',
                 relativeLabel : 'X'
             };
             }
         });
       $(".editable_select3").editable("searcher.php", {
         indicator : '<img src="<?php echo T3_WEBPATH;?>images/indicator.gif">',
-        data   : '<?php print json_encode($arrayCustumRelations["3"]); ?>',
+        data   : '<?php print json_encode(@$arrayCustumRelations["3"]); ?>',
         id   : 'edit_rel_id',
         name : 'rel_rel_id',
         type   : "select",
         submit : "OK",
         style  : "inherit",
         submitdata : function() {
-            return {tema_id : '<?php print $metadata["arraydata"]["tema_id"];?>' };
+            return {tema_id : '<?php print @$metadata["arraydata"]["tema_id"];?>' };
             }
         });
       $(".editable_select2").editable("searcher.php", {
         indicator : '<img src="<?php echo T3_WEBPATH;?>images/indicator.gif">',
-        data   : '<?php print json_encode($arrayCustumRelations["2"]); ?>',
+        data   : '<?php print json_encode(@$arrayCustumRelations["2"]); ?>',
         id   : 'edit_rel_id',
         name : 'rel_rel_id',
         type   : "select",
         submit : "OK",
         style  : "inherit",
         submitdata : function() {
-            return {tema_id : '<?php print $metadata["arraydata"]["tema_id"];?>' };
+            return {tema_id : '<?php print @$metadata["arraydata"]["tema_id"];?>' };
             }
         });
       $(".editable_select4").editable("searcher.php", {
         indicator : '<img src="<?php echo T3_WEBPATH;?>images/indicator.gif">',
-        data   : '<?php print json_encode($arrayCustumRelations["4"]); ?>',
+        data   : '<?php print json_encode(@$arrayCustumRelations["4"]); ?>',
         id   : 'edit_rel_id',
         name : 'rel_rel_id',
         type   : "select",
         submit : "OK",
         style  : "inherit",
         submitdata : function() {
-            return {tema_id : '<?php print $metadata["arraydata"]["tema_id"];?>' };
+            return {tema_id : '<?php print @$metadata["arraydata"]["tema_id"];?>' };
             }
         });
     });

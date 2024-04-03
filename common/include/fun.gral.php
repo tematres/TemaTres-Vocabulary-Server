@@ -3,13 +3,13 @@ if ((stristr($_SERVER['REQUEST_URI'], "session.php") ) || ( !defined('T3_ABSPATH
     die("no access");
 }
 use PHPMailer\PHPMailer\PHPMailer;
-// TemaTres : aplicación para la gestión de lenguajes documentales #       #
-//
-// Copyright (C) 2004-2020 Diego Ferreyra tematres@r020.com.ar
-// Distribuido bajo Licencia GNU Public License, versión 2 (de junio de 1.991) Free Software Foundation
-//
-//
+use PHPMailer\PHPMailer\Exception;
 
+/* TemaTres : aplicación para la gestión de lenguajes documentales #       #
+
+// Copyright (C) 2004-2023 Diego Ferreyra tematres@r020.com.ar
+// Distribuido bajo Licencia GNU Public License, versión 2 (de junio de 1.991) Free Software Foundation
+*/
 
 /** FUNCIONES GENERALES */
 
@@ -1850,4 +1850,38 @@ function checkT3instance(){
 function ifexistsidx($var,$index)
 {
   return(isset($var[$index]) ? $var[$index] : null);
+}
+
+
+
+
+// Función para calcular el coeficiente de clustering
+function clusteringCoefficient($data) {
+
+    $totalCoefficients = 0;
+    $nodesCount = count($data);
+
+    foreach ($data as $node => $links) {
+        $links = intval($links); // Asegurarse de que el número de enlaces sea un entero
+
+        if ($links < 2) {
+            continue; // Ignorar nodos con menos de dos enlaces
+        }
+
+        // Calcular el máximo número de enlaces posibles entre los enlaces del nodo
+        $maxPossibleLinks = ($links * ($links - 1)) / 2;
+
+        // Calcular el coeficiente de clustering del nodo
+        $clusteringCoefficient = $maxPossibleLinks > 0 ? ($node / $maxPossibleLinks) : 0;
+
+        // Sumar el coeficiente de clustering del nodo al total
+        $totalCoefficients += $clusteringCoefficient;
+    }
+
+    if ($nodesCount <= 2) {
+        return 0; // Para grafos con 0 o 1 nodos, el coeficiente de clustering es indefinido, así que se devuelve 0
+    }
+
+    // Calcular el coeficiente de clustering promedio
+    return $totalCoefficients / $nodesCount;
 }

@@ -2495,11 +2495,7 @@ function HTMLsummary()
     $fecha_crea=do_fecha($_SESSION["CFGCreacion"]);
     $fecha_mod=do_fecha($_SESSION["CFGlastMod"]);
     $ARRAYmailContact=ARRAYfetchValue('CONTACT_MAIL');
-    /**
-    $_SESSION["CFGContributor"]
-    $_SESSION["CFGRights"]
-    $_SESSION["CFGPublisher"]
-     */
+
     $rows='<h1>'.$_SESSION["CFGTitulo"].' / '.$_SESSION["CFGAutor"].'</h1>' ;
 
     $rows.=' <div class="table-responsive">' ;
@@ -2550,12 +2546,6 @@ function HTMLsummary()
     
     $rows.='</ul>' ;
     $rows.='</td></tr>' ;
-
-    //show tree
-    if ((evalUserLevel($_SESSION[$_SESSION["CFGURL"]])>0) && ($_SESSION[$_SESSION["CFGURL"]]["_SHOW_TREE"]==1)) {
-        $rows.='<tr><th>'.ucfirst(LABEL_termsXdeepLevel).'</th><td>'.HTMLdeepStats().'</td></tr>' ;
-    }
-
     $rows.='<tr><th>'.ucfirst(LABEL_TerminosUP).'</th><td>'.$resumen["cant_up"].'</td></tr>' ;
     $rows.='<tr><th>'.ucfirst(LABEL_rel_hierarchical).'</th><td>'.$resumen["cant_tg"].'</td></tr>' ;
     $rows.='<tr><th>'.ucfirst(LABEL_rel_associative).'</th><td>'.$resumen["cant_rel"].'</td></tr>' ;
@@ -2702,16 +2692,15 @@ function HTMLglobalView($arraydata = array())
 				];' ;
 
     
-    $rowsHTML='<div id="global_view"><h2>'.ucfirst(LABEL_globalOrganization).'</h2>' ;
+    $rowsHTML='<hr/><div id="global_view"><h2>'.ucfirst(LABEL_globalOrganization).'</h2>' ;
 
-    $rows='<script>' ;
 
     if (($_SESSION[$_SESSION["CFGURL"]]["_SHOW_TREE"]==1) && (SQLcount($sql = SQLTermDeep())>1)) {
-        $rowsHTML.='<div><h4>'.ucfirst(LABEL_termsXdeepLevel).'</h4>' ;
+        $rowsHTML.='<div><h3>'.ucfirst(LABEL_termsXdeepLevel).'</h3>' ;
         $rowsHTML.='<div class="ct-chart" id="ct-deep"></div>' ;
         $rowsHTML.='</div>' ;
 
-            $terms=ARRAYcantTerms4Thes(1);
+        $terms=ARRAYcantTerms4Thes(1);
         while ($array=$sql->FetchRow()) {
             $labels[]=$array["tdeep"].' ' ;
             $series[]=$array["cant"];
@@ -2719,8 +2708,10 @@ function HTMLglobalView($arraydata = array())
           
               $label=implode(',', $labels);
               $serie=implode(',', $series);
+        
+        $rows='<script>' ;
             
-            $rows.='new Chartist.Line("#ct-deep", {
+        $rows.='new Chartist.Line("#ct-deep", {
                   labels: ['.$label.'],series: [ ['.$serie.']]
                 }, {
                   low: 0,
@@ -2751,11 +2742,36 @@ function HTMLglobalView($arraydata = array())
             })
           ]
         });' ;
+        $rows.='</script>' ;
+
     };
 
     $total_lexical_values=($resumen["cant_aceptados"]+$resumen["cant_up"]);
     $total_logic_values=($resumen["cant_tg"]+$resumen["cant_rel"]);
+   
+    /* comienzo relaciones jerárquicas y RT */
+    if ($resumen["cant_tg"]>0 && $resumen["cant_rel"]>0) {
+        $cant_BT=round(100*($resumen["cant_tg"]/$total_logic_values), 2);
+        $cant_RT=round(100*($resumen["cant_rel"]/$total_logic_values), 2);
 
+        $data_logic='var data = {
+                  labels: ["'.ucfirst(LABEL_rel_hierarchical).' ('.$cant_BT.'%)","'.ucfirst(LABEL_rel_associative).' ('.$cant_RT.'%)"],
+                  series: ['.$cant_BT.','.$cant_RT.']
+                };' ;
+
+        $rowsHTML.='<div class="ct-chart"><h3>'.ucfirst(LABEL_rel_hierarchical).' / '.ucfirst(LABEL_rel_associative).'</h3>' ;
+        $rowsHTML.='    <div id="ct-logic"></div>' ;
+        $rowsHTML.=HTMLtermsXcluster(3);                
+        $rowsHTML.=HTMLtermsXcluster(2);                
+        $rowsHTML.='</div>' ;
+
+        $rows.='<script>'.$data_logic.$options.$options_responsible;
+        
+        $rows.='Chartist.Pie("#ct-logic", data, options, responsiveOptions);' ;
+        $rows.='</script>';
+    }/* fin relaciones jerárquicas y RT */
+
+    /* comienzo relaciones UF */
     if ($total_lexical_values!=$resumen["cant_aceptados"]) {
         $cant_pref=round(100*($resumen["cant_aceptados"]/$total_lexical_values), 2);
         $cant_alt=round(100*($resumen["cant_up"]/$total_lexical_values), 2);
@@ -2765,33 +2781,18 @@ function HTMLglobalView($arraydata = array())
 	        	  series: ['.$cant_pref.','.$cant_alt.']
 					};' ;
 
-        $rowsHTML.='<div><h4>'.ucfirst(LABEL_preferedTerms).' / '.ucfirst(LABEL_altTerms).'</h4>' ;
-        $rowsHTML.=' <div  class="ct-chart" id="ct-lexical"></div>' ;
+        $rowsHTML.='<div><h3>'.ucfirst(LABEL_preferedTerms).' / '.ucfirst(LABEL_altTerms).'</h3>' ;
+        $rowsHTML.=' <div  class="ct-chart" id="ct-lexical"></div>' ;        
+        $rowsHTML.=HTMLtermsXcluster(4);        
         $rowsHTML.='</div>' ;
+
       
-        $rows.=$data_lexical.$options.$options_responsible;
+        $rows.='<script>'.$data_lexical.$options.$options_responsible;
         $rows.='Chartist.Pie("#ct-lexical", data, options, responsiveOptions);' ;
-    }
-      
-    if ($resumen["cant_tg"]>0 && $resumen["cant_rel"]>0) {
-        $cant_BT=round(100*($resumen["cant_tg"]/$total_logic_values), 2);
-        $cant_RT=round(100*($resumen["cant_rel"]/$total_logic_values), 2);
+        $rows.='</script>' ;
+    }/* fin relaciones UF */
 
-        $data_logic='var data = {
-                  labels: ["'.ucfirst(LABEL_rel_hierarchical).' ('.$cant_BT.'%)","'.ucfirst(LABEL_rel_associative).' ('.$cant_RT.'%)"],
-                  series: ['.$cant_BT.','.$cant_RT.']
-				};' ;
-
-        $rowsHTML.='<div class="ct-chart"><h4>'.ucfirst(LABEL_rel_hierarchical).' / '.ucfirst(LABEL_rel_associative).'</h4>' ;
-        $rowsHTML.='	<div id="ct-logic"></div>' ;
-        $rowsHTML.='</div>' ;
-
-        $rows.=$data_logic.$options.$options_responsible;
-        
-        $rows.='Chartist.Pie("#ct-logic", data, options, responsiveOptions);' ;
-    }
-    $rows.='</script></div>' ;
-
+ 
     return $rowsHTML.$rows;
 }
 
@@ -2830,8 +2831,10 @@ function HTMLSources4vocab()
 
     $sql=SQLlistSources(0);
 
+    if(SQLcount($sql)==0) return;
+
     $rows='<div id="source_list">' ;
-    $rows.='<h3>'.ucfirst(LABEL_sources4vocab).' </h3>' ;
+    $rows.='<h2>'.ucfirst(LABEL_sources4vocab).' </h2>' ;
     
     $rows.='<ul> ' ;
     while ($array=$sql->FetchRow()) {
@@ -2871,4 +2874,74 @@ function HTMLterms4source($src_id)
     $rows.='</div>' ;
 
     return $rows;
+}
+
+
+/** 
+ * Print data about term clusters for each type of terminological relation
+ * 
+ * @param int $type_rel_id Type relation. Can be 3=BT, 2=RT, 4=UF
+ * 
+ * @return int
+ */
+function HTMLtermsXcluster($t_relacion){
+
+   $sql=SQLtermsXcluster($t_relacion);
+
+   if(SQLcount($sql)<10) return false;
+
+   $num_values=array();
+   while ($array=$sql->FetchRow()) {
+        $num_values[]=$array["cant"];
+   };
+
+    $values=array_count_values($num_values);
+    $label='';
+    $serie='';
+    foreach ($values as $key => $value) {
+       $label.= $key. ',';
+       $serie.= $value.',' ;
+       //$array_data[]=array($key=>$value);
+    };
+
+    switch ($t_relacion) {
+        case '4'://UF
+            $label_title=LABEL_TerminosUP;
+            $label_y=LABEL_Terminos;
+            $label_x=LABEL_TerminosUP;
+            break;
+        case '3'://BT
+            $label_title=LABEL_narrowerTerms;
+            $label_y=LABEL_Terminos;
+            $label_x=LABEL_narrowerTerms;
+            break;
+        case '2'://RT
+            $label_title=LABEL_relatedTerms;
+            $label_y=LABEL_Terminos;
+            $label_x=LABEL_relatedTerms;
+            break;
+        
+        default:
+
+            break;
+    }
+
+   $rows='<script>' ;
+   $rows.='new Chartist.Line("#ct-'.$t_relacion.'", { labels:['.$label.'],series:
+    [ ['.$serie.']] }, { low: 10, fullWidth: true, showArea: true,
+    chartPadding: {bottom: 10,top: 20,left:80}, plugins:
+    [ Chartist.plugins.ctAxisTitle({ axisX: { axisTitle: "'.ucfirst
+    ($label_x).'", axisClass: "ct-axis-title", offset: { x:
+    10, y: 30 }, textAnchor: "middle" }, axisY:
+    { axisTitle: "'.ucfirst($label_y).'",
+    axisClass: "ct-axis-title", offset: { x: 0, y: -10 },
+    textAnchor: "middle", flipTitle: false } }) ] });' ;
+    $rows.='</script>' ;
+
+    $rowsHTML='<div id="collapse_t'.$t_relacion.'"><h4>'.ucfirst($label_title).': '.LABEL_hubs.'</h4>' ;
+    $rowsHTML.='<legend class="h5">'.ucfirst(LABEL_clusteringCoefficient).': '.round(clusteringCoefficient($values),3).'</legend>' ;
+    $rowsHTML.='<div class="ct-chart ct-hubs" id="ct-'.$t_relacion.'"></div>' ;
+    $rowsHTML.='</div><hr>' ;
+
+    return $rowsHTML.$rows;
 }
