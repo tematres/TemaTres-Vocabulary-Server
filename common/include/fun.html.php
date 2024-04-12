@@ -2044,11 +2044,6 @@ GLOBAL $CFG;
         //<!-- Optional theme -->
         $rows.='<link rel="stylesheet" href="'.T3_WEBPATH.'bootstrap/css/bootstrap-theme.min.css">' ;
         //<!-- Latest compiled and minified JavaScript -->
-
-        //<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-        //<!--[if lt IE 9]>
-        $rows.='<script src="'.T3_WEBPATH.'jq/html5shiv.min.js"></script><script src="'.T3_WEBPATH.'jq/respond.min.js"></script>' ;
-        //<![endif]-->
     }
     $rows.='<link href="'.T3_WEBPATH.'css/t3style.css" rel="stylesheet">' ;
     $rows.=$metadata["metadata"];
