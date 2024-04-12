@@ -220,7 +220,7 @@ if ($_SESSION[$_SESSION["CFGURL"]]["ssuser_nivel"]=='1') {
             }
         }
 
-        return $this;
+        return $term_id;
     }
 
 
