@@ -2039,9 +2039,6 @@ GLOBAL $CFG;
         //<!-- Optional theme -->
         $rows.='<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">' ;
         //<!-- Latest compiled and minified JavaScript -->
-        //<!--[if lt IE 9]>
-        $rows.='<script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js"></script><script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>' ;
-        //<![endif]-->
     } else {
         $rows.='<link rel="stylesheet" href="'.T3_WEBPATH.'bootstrap/css/bootstrap.min.css">' ;
         //<!-- Optional theme -->
@@ -2896,6 +2893,8 @@ function HTMLtermsXcluster($t_relacion){
    };
 
     $values=array_count_values($num_values);
+
+
     $label='';
     $serie='';
     foreach ($values as $key => $value) {
@@ -2936,11 +2935,29 @@ function HTMLtermsXcluster($t_relacion){
     { axisTitle: "'.ucfirst($label_y).'",
     axisClass: "ct-axis-title", offset: { x: 0, y: -10 },
     textAnchor: "middle", flipTitle: false } }) ] });' ;
+    //$rows.='</script>' ;
+
+    $values_log=calculateLogScale($values); 
+    $label_log='';
+    $serie_log='';
+
+    foreach ($values_log as $key => $value) {
+       $label_log.= $key. ',';
+       $serie_log.= $value.',' ;
+       //$array_data[]=array($key=>$value);
+    };
+
+   $rows.='new Chartist.Line("#ct_log-'.$t_relacion.'", { labels:['.$label_log.'],series:
+    [ ['.$serie_log.']] }, { low: 10, fullWidth: true, showArea: false,
+    chartPadding: {bottom: 10,top: 20,left:80}  });' ;
     $rows.='</script>' ;
 
     $rowsHTML='<div id="collapse_t'.$t_relacion.'"><h4>'.ucfirst($label_title).': '.LABEL_hubs.'</h4>' ;
     $rowsHTML.='<legend class="h5">'.ucfirst(LABEL_clusteringCoefficient).': '.round(clusteringCoefficient($values),3).'</legend>' ;
     $rowsHTML.='<div class="ct-chart ct-hubs" id="ct-'.$t_relacion.'"></div>' ;
+    $rowsHTML.='<legend class="h5">'.ucfirst($label_title).': '.LABEL_logScale.'</legend>' ;
+    $rowsHTML.='<div class="ct-chart ct-hubs" id="ct_log-'.$t_relacion.'"></div>' ;
+
     $rowsHTML.='</div><hr>' ;
 
     return $rowsHTML.$rows;
