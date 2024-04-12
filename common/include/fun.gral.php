@@ -1885,3 +1885,23 @@ function clusteringCoefficient($data) {
     // Calcular el coeficiente de clustering promedio
     return $totalCoefficients / $nodesCount;
 }
+
+
+// Function to calculate the logarithmic scale
+function calculateLogScale($data) {
+    $logScale = []; // Array to store the logarithmic scale for each node
+
+    foreach ($data as $node => $links) {
+        // Ensure the number of links is greater than zero to avoid log(0) error
+        if ($links > 0) {
+            // Calculate the logarithmic scale for the number of links
+            $logValue = log($links);
+            $logScale[$node] = $logValue;
+        } else {
+            // If number of links is zero, log(0) is undefined, so assign a placeholder value
+            $logScale[$node] = null;
+        }
+    }
+
+    return $logScale;
+}
