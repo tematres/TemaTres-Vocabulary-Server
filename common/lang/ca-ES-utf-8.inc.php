@@ -572,3 +572,4 @@ define('LABEL__example', 'exemple');
 #3.5
  define('LABEL_hubs','concentraciones');
  define('LABEL_clusteringCoefficient','coeficiente de agrupamiento');
+ define('LABEL_logScale','escala logarítmica');
