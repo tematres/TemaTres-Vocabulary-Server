@@ -32,6 +32,8 @@ $_POST["massive_task_freeterms"]=array2value("massive_task_freeterms", $_POST);
 $_POST["freeTerms_id"]=array2value("freeTerms_id", $_POST);
 $_POST["deleteTerms_id"]=array2value("deleteTerms_id", $_POST);
 $_POST["taskterm"]=array2value("taskterm", $_POST);
+$evalUserLevel=evalUserLevel($_SESSION[$_SESSION["CFGURL"]]);
+
 
 
 if ((strlen((string) $letra)>0) && (strlen((string) $letra)<5)) {
@@ -53,7 +55,7 @@ elseif ((is_numeric(@$metadata["arraydata"]["tema_id"]))
 ) {
     include_once T3_ABSPATH . 'common/include/inc.vistaTermino.php';
 } //Vista de términos según estados
-elseif (is_numeric($_GET["estado_id"]) && (evalUserLevel($_SESSION[$_SESSION["CFGURL"]])>0)) {
+elseif (is_numeric($_GET["estado_id"]) && ($evalUserLevel>0)) {
     echo '<div class="container" id="bodyText">';
     echo HTMLlistaTerminosEstado($_GET["estado_id"], CFG_NUM_SHOW_TERMSxSTATUS);
     echo '</div>';
@@ -73,7 +75,7 @@ elseif (($_GET["src_id"]>0)) {
     echo HTMLterms4source($_GET["src_id"]);
     echo '</div>';
 } //Vista de reporteador
-elseif (($_GET["mod"]=='csv') && (evalUserLevel($_SESSION[$_SESSION["CFGURL"]])>0)) {
+elseif (($_GET["mod"]=='csv') && ($evalUserLevel>0)) {
     echo '<div id="bodyText">';
     echo HTMLformSimpleTermReport($_GET);
 
@@ -85,7 +87,7 @@ elseif (($_GET["mod"]=='csv') && (evalUserLevel($_SESSION[$_SESSION["CFGURL"]])>
 
     echo '</div>';
 } //esta login y mod traductor
-elseif ((evalUserLevel($_SESSION[$_SESSION["CFGURL"]])>0)&&($_GET["mod"]=='trad')) {
+elseif ((in_array($evalUserLevel, array(1,2)))&&($_GET["mod"]=='trad')) {
 
     if ($_POST["task"]=='map4localTargetVocab') {
         $tasks=addLocalTargetTerms($_POST["tvocab_id"], $_POST);

@@ -1095,10 +1095,18 @@ function admin_users($do, $user_id = "")
     
     $POSTarrayUser=doArrayDatosUser($_POST);
 
-    //Normalice admin
-    //nivel submit is 1 and is admin
+    /* Normalice admin
+        * If is the user is admin can create any type of user
+        * If the user is not admin, cant create admin or editor users
+        */ 
+    $evalUserLevel=evalUserLevel($_SESSION[$_SESSION["CFGURL"]]);
 
-    $nivel=(($POSTarrayUser["isAdmin"]==1) && ($_SESSION[$_SESSION["CFGURL"]]["ssuser_nivel"]=='1')) ? '1' : '2';
+    if($evalUserLevel==1){
+        $nivel=in_array($POSTarrayUser["isAdmin"], array(1,2,3)) ? $POSTarrayUser["isAdmin"] : 3;
+    }else{
+        $nivel=$evalUserLevel;
+    }
+
     //Check have one admin user
     $nivel=(($arrayUserData["nivel"]=='1') && ($arrayCheckAdmin["cant"]==1)) ? '1' : $nivel;
 

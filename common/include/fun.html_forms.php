@@ -261,7 +261,7 @@ function HTMLformAssociateExistTerms($taskterm, $ARRAYtermino, $term_id = "0")
 - Alta de un t�rmino subordinado a un t�rmino.
 *
 */
-function HTMLformEditTerms($taskterm, $ARRAYtermino = "0")
+function HTMLformEditTerms($taskterm, $ARRAYtermino = array())
 {
     //SEND_KEY to prevent duplicated
     session_start();
@@ -271,12 +271,23 @@ function HTMLformEditTerms($taskterm, $ARRAYtermino = "0")
     $help_rows='';
 
     $t_relation= 0;
+    $ARRAYtermino=(empty($ARRAYtermino)) ? array("idTema"=>0) : $ARRAYtermino;
+    $vista_titulo_tema='';
+
+    $evalUserLevel=evalUserLevel($_SESSION[$_SESSION["CFGURL"]]);
 
     switch ($taskterm) {
         case 'addTerm':// add term
             $nombre_pantalla=LABEL_AgregarT;
             $hidden='<input type="hidden"  name="alta_t" value="new" />';
-            $hidden.='<div><input type="checkbox" name="estado_id" id="estado_id" value="12" alt="'.ucfirst(LABEL_Candidato).'" /> <label for="estado_id" accesskey="e">'.ucfirst(LABEL_Candidato).'</label></div>';
+            
+            if($evalUserLevel==3){
+                $hidden.='<div><input type="hidden" name="estado_id" id="estado_id" value="12" /></div>';
+            }else{
+                $hidden.='<div><input type="checkbox" name="estado_id" id="estado_id" value="12" alt="'.ucfirst(LABEL_Candidato).'" /> <label for="estado_id" accesskey="e">'.ucfirst(LABEL_Candidato).'</label></div>';
+            }
+            
+
             $hidden.='<div><input type="checkbox" name="isMetaTerm" id="isMetaTerm" value="1" alt="'.ucfirst(LABEL_meta_term).'" /> <label for="isMetaTerm" accesskey="e">'.ucfirst(LABEL_meta_term).'</label>
 			<div class="alert alert-info" role="alert">'.NOTE_isMetaTermNote.'</div>
 			</div>';

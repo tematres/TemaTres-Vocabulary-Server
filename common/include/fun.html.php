@@ -177,7 +177,6 @@ function doContextoTermino($idTema, $i_profundidad)
 
     global $CFG;
 
-
     //recibe de HTMLbodyTermino
     //$idTema = id del término
     //$i_profundidad= contador de profundidad
@@ -216,7 +215,7 @@ function doContextoTermino($idTema, $i_profundidad)
         $row_NT.='<li  id="t'.$datosNT["id_tema"].'">' ;
 
         //editor de relaciones
-        if (evalUserLevel($_SESSION[$_SESSION["CFGURL"]])>0) {
+        if (in_array(evalUserLevel($_SESSION[$_SESSION["CFGURL"]]),array(1,2))) {
             $td_delete='<a type="button" class="btn btn-danger btn-xs" id="elimina_'.$datosNT["id_tema"].'" title="'.LABEL_borraRelacion.'"  class="eliminar" href="'.URL_BASE.'index.php?ridelete='.$datosNT["id_relacion"].'&amp;tema='.$idTema.'" onclick="return askData();"><span class="glyphicon glyphicon-remove"></span></a> ' ;
             $row_NT.=' '.$td_delete.'<abbr class="thesacronym" title="'.TE_termino.' '.$datosNT["rr_value"].'" lang="'.LANG.'" id="r'.$datosNT["rel_id"].'"><span class="editable_selectTE" id="edit_rel_id'.$datosNT["rel_id"].'" style="display: inline">'.TE_acronimo.$datosNT["rr_code"].'</span>'.$i_profundidad.'</abbr> ' ;
 
@@ -238,7 +237,7 @@ function doContextoTermino($idTema, $i_profundidad)
     $sqlTotalRelacionados=SQLverTerminoRelaciones($tema_id);
 
     while ($datosTotalRelacionados= $sqlTotalRelacionados->FetchRow()) {
-        if (evalUserLevel($_SESSION[$_SESSION["CFGURL"]])>0) {
+        if (in_array(evalUserLevel($_SESSION[$_SESSION["CFGURL"]]),array(1,2))) {
             $td_delete='<a type="button" class="btn btn-danger btn-xs" title="'.LABEL_borraRelacion.'" href="'.URL_BASE.'index.php?ridelete='.$datosTotalRelacionados["id_relacion"].'&amp;tema='.$idTema.'" onclick="return askData();"><span class="glyphicon glyphicon-remove"></span></a> ' ;
             $classAcrnoyn='editable_select'.$datosTotalRelacionados["t_relacion"];
         } else {
@@ -396,7 +395,9 @@ function HTMLbodyTermino($array)
     global $MSG_ERROR_RELACION;
     global $CFG;
 
-    $editFlag=(evalUserLevel($_SESSION[$_SESSION["CFGURL"]])>0) ? 1 : 0;
+    $user_level=evalUserLevel($_SESSION[$_SESSION["CFGURL"]]);
+
+    $editFlag=evalUser4Term($_SESSION[$_SESSION["CFGURL"]],$array);
 
     $sqlMiga=SQLarbolTema($array["idTema"]);
 
@@ -426,11 +427,13 @@ function HTMLbodyTermino($array)
     //MENSAJE DE ERROR
     $body.=$MSG_ERROR_RELACION;
 
+
+    $badge_status=($array["estado_id"]==13) ? '' : '<span class="badge badge-pill badge-warning">'.ucfirst(arrayReplace(array(12,14),array(LABEL_Candidato,LABEL_Rechazado),$array["estado_id"])).'</span>'; 
     if ($array["isMetaTerm"]==1) {
-        $body.=' <h1 class="metaTerm" title="'.$array["titTema"].' - '.NOTE_isMetaTermNote.'" id="T'.$array["tema_id"].'">'.$array["titTema"].'</h1>' ;
+        $body.=' <h1 class="metaTerm estado_termino'.$array["estado_id"].'" title="'.$array["titTema"].' - '.NOTE_isMetaTermNote.'" id="T'.$array["tema_id"].'">'.$array["titTema"].' </h1>' ;
         $body.=' <p class="metaTerm alert" title="'.NOTE_isMetaTermNote.'" id="noteT'.$array["tema_id"].'">'.NOTE_isMetaTerm.'</p>' ;
     } else {
-        $body.=' <h1 class="estado_termino'.$array["estado_id"].'">'.$array["titTema"].'</h1>' ;
+        $body.=' <h1 class="estado_termino'.$array["estado_id"].'">'.$array["titTema"].' '.$badge_status.' </h1>' ;
     }
     //div oculto para eliminar término
     if ($editFlag==1) {
@@ -446,10 +449,25 @@ function HTMLbodyTermino($array)
 
     $body.='<ul id="myTermTab" class="nav nav-tabs" style="margin-bottom: 15px;"><li ><a class="active" href="#theTerm" data-toggle="tab">'.ucfirst(LABEL_Termino).'</a></li>' ;
 
-    //term menu
-    if (evalUserLevel($_SESSION[$_SESSION["CFGURL"]])>0) {
-        $body.=HTMLtermMenuX2($array, $HTMLterminos["cantRelaciones"]);
-    }
+    /* select Term menu editor */
+    switch ($user_level) {
+         case '1':
+             // admin
+            $body.=HTMLtermMenuX2($array, $HTMLterminos["cantRelaciones"]);
+             break;
+         case '2':
+             // editor
+            $body.=HTMLtermMenuX2($array, $HTMLterminos["cantRelaciones"]);
+             break;
+         case '3':
+             // colab.
+            $body.= ($editFlag==1) ? HTMLtermMenuX2Colab($array, $HTMLterminos["cantRelaciones"]) : '';
+             break;
+         
+         default:
+             // code...
+             break;
+     } 
 
     $body.='<li><a href="#metadataTerm" data-toggle="tab">'.ucfirst(LABEL_metadatos).'</a></li>' ;
     $body.='    </ul>' ;
@@ -464,7 +482,7 @@ function HTMLbodyTermino($array)
     $copy_link=HTMLcopyClick('strterm', array("isMetaTerm"=>$array["isMetaTerm"],"isValidTerm"=>boolval(isValidTerm($array["tema_id"])),"copy_click"=>$CFG["COPY_CLICK"]));
 
     //el termino //span editable
-    if (evalUserLevel($_SESSION[$_SESSION["CFGURL"]])>0) {
+    if ((evalUserLevel($_SESSION[$_SESSION["CFGURL"]])>0) && ($editFlag==1)) {
         $body.='<dfn class="term "id="term">'.$copy_link.'<span id="edit_tema'.$array["tema_id"].'" class="edit_area_term">'.$array["titTema"].'</span></dfn> ' ;
     } else {
         $body.='<dfn><span id="strterm">'.$array["titTema"].'</span>'.$copy_link.'</dfn>' ;
@@ -476,7 +494,7 @@ function HTMLbodyTermino($array)
     $body.=HTMLNotasTermino($array, $editFlag);
 
 
-    $body.=HTMLshowCode($array);
+    $body.=HTMLshowCode($array,$editFlag);
 
     if ($HTMLterminos["cantRelaciones"]["cantUF"]>0) {
         $body.='<h4>'.ucfirst(LABEL_nonPreferedTerms).'</h4>' ;
@@ -537,6 +555,7 @@ function HTMLbodyTermino($array)
 
 function HTMLmainMenu()
 {
+    $evalUserLevel=evalUserLevel($_SESSION[$_SESSION["CFGURL"]]);
 
     $row='<ul class="nav navbar-nav navbar-right">' ;
     $row.='<li class="dropdown"><a href="#" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-toggle="dropdown">'.ucfirst(LABEL_Menu).' <b class="caret"></b></a>' ;
@@ -545,7 +564,7 @@ function HTMLmainMenu()
     /**
     * Admin menu
      */
-    if (evalUserLevel($_SESSION[$_SESSION["CFGURL"]])==1) {
+    if ($evalUserLevel==1) {
         $row.='<li class="dropdown dropdown-submenu"><a href="#" class="dropdown-toggle" data-toggle="dropdown">'.LABEL_Admin.'</a>' ;
         $row.='<ul class="dropdown-menu">' ;
         $row.='<li><a title="'.ucfirst(LABEL_lcConfig).'" href="admin.php?vocabulario_id=list">'.ucfirst(LABEL_lcConfig).'</a></li>' ;
@@ -592,7 +611,7 @@ function HTMLmainMenu()
 
 
     //User menu
-    $row.='<li><a title="'.LABEL_bulkTranslate.'" href="'.URL_BASE.'index.php?mod=trad">'.ucfirst(MENU_bulkTranslate).'</a></li>' ;
+    if ($evalUserLevel!==3) $row.='<li><a title="'.LABEL_bulkTranslate.'" href="'.URL_BASE.'index.php?mod=trad">'.ucfirst(MENU_bulkTranslate).'</a></li>' ;
     $row.='<li><a title="'.LABEL_FORM_simpleReport.'" href="'.URL_BASE.'index.php?mod=csv">'.LABEL_FORM_simpleReport.'</a></li>' ;
     $row.='<li><a title="'.MENU_MisDatos.'" href="login.php">'.MENU_MisDatos.'</a></li>' ;
     $row.='<li><a title="'.MENU_Salir.'" href="'.URL_BASE.'index.php?cmdlog='.substr(md5(date("Ymd")), "5", "10").'">'.MENU_Salir.'</a></li>' ;
@@ -618,9 +637,8 @@ function HTMLmainMenu()
 
 
 
-//
-// term menu options
-//
+/* Term menu options
+**/
 function HTMLtermMenuX2($array_tema, $relacionesTermino)
 {
 
@@ -740,6 +758,60 @@ function HTMLtermMenuX2($array_tema, $relacionesTermino)
         $row.='     <li><a title="'.LABEL_relacion_vocabularioWebService.'" href="'.URL_BASE.'index.php?taskterm=findTargetTerm&amp;tema='.$array_tema["idTema"].'">'.ucfirst(LABEL_vocabulario_referenciaWS).'</a></li>' ;
         $row.='</li>' ;
     }//fin control de estado y validez
+
+    $row.='</ul>' ;
+
+    $row.='</li>' ;
+
+
+    return $row;
+};
+
+/* Term menu options for colaborators
+**/
+function HTMLtermMenuX2Colab($array_tema, $relacionesTermino)
+{
+
+    global $CFG;
+
+    $isValidTerm=isValidTerm($array_tema["tema_id"]);
+
+    $row='<li><a href="#" class="dropdown-toggle" data-toggle="dropdown">'.ucfirst(LABEL_Opciones).'<b class="caret"></b></a>' ;
+    $row.='<ul class="dropdown-menu" role="menu">' ;
+
+    $row.='      <li><a title="'.MENU_EditT.'" href="'.URL_BASE.'index.php?taskterm=editTerm&amp;tema='.$array_tema["idTema"].'">'.ucfirst(MENU_EditT).'</a></li>' ;
+
+    //If the term are not accepted and do not have Add-menu => add notes options here!
+
+    if ($array_tema["estado_id"]!=="13") {
+        $row.='     <li><a title="'.ucfirst(LABEL_EditorNota).'" href="'.URL_BASE.'index.php?taskterm=editNote&amp;note_id=?&amp;editNota=?&amp;tema='.$array_tema["idTema"].'">'.ucfirst(LABEL_EditorNota).'</a></li>' ;
+    }
+
+
+    if ($isValidTerm) {
+        if ($array_tema["isMetaTerm"]==1) {
+            $label_task_meta_term=LABEL_turnOffMetaTerm;
+            $task_meta_term=0;
+        } else {
+            $label_task_meta_term=LABEL_turnOnMetaTerm;
+            $task_meta_term=1;
+        }
+
+        $row.='<li><a title="'.$label_task_meta_term.'" href="'.URL_BASE.'index.php?taskterm=metaTerm&amp;mt_status='.$task_meta_term.'&amp;tema='.$array_tema["idTema"].'">'.ucfirst($label_task_meta_term).'</a></li>' ;
+    }
+
+
+    $row.='<li><a class="btn btn-danger" title="'.LABEL_EliminarTE.'" href="javascript:expandLink(\'borrart\')">'.ucfirst(LABEL_EliminarTE).'</a></li>' ;
+    $row.='</ul>' ;
+
+    $row.='</li><!-- end menu -->' ;
+
+    $row.='<li><a href="#" class="dropdown-toggle"  role="menu" data-toggle="dropdown">'.ucfirst(LABEL_Agregar).'<b class="caret"></b></a>' ;
+    $row.='<ul class="dropdown-menu" id="menu_agregar">' ;
+
+    $row.='<li><a title="'.ucfirst(LABEL_nota).'" href="'.URL_BASE.'index.php?taskterm=editNote&amp;note_id=?&amp;editNota=?&amp;tema='.$array_tema["idTema"].'"> '.$CFG["REL_SYMBOLS"]["NOTE"].' '.ucfirst(LABEL_nota).'</a></li>' ;
+
+    $row.='<li role="separator" class="divider"></li>' ;
 
     $row.='</ul>' ;
 
@@ -1908,12 +1980,12 @@ function HTMLdeepStats()
     return $rows;
 }
 
-function HTMLshowCode($arrayTerm)
+function HTMLshowCode($arrayTerm,$editFlag=0)
 {
 
     global $CFG;
     //Editor de código
-    if ((evalUserLevel($_SESSION[$_SESSION["CFGURL"]])>0) && ($CFG["_USE_CODE"]=='1')) {
+    if (($editFlag==1) && ($CFG["_USE_CODE"]=='1')) {
         $rows='<div title="term code, click to edit" class="editable_textarea" id="code_tema'.$arrayTerm["tema_id"].'">'.$arrayTerm["code"].'</div>' ;
     } elseif ($CFG["_SHOW_CODE"]=='1') {
         $rows=' '.$arrayTerm["code"].' ' ;

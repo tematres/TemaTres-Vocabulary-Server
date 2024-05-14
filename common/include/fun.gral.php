@@ -1584,6 +1584,7 @@ function checkValidRol($arrayUser, $task)
 
     $adminTask=array("adminReports","adminUsers","config","reports","terms","notes","termStatus");
     $editorTask=array("reports","terms","notes","termStatus");
+    $colabTask=array("reports","terms","notes");
 
     //check if it is a valid task
     if (!in_array($task, $adminTask)) {
@@ -1595,6 +1596,11 @@ function checkValidRol($arrayUser, $task)
             break;
 
         case '2':
+            $result=in_array($task, $editorTask);
+            break;
+
+        case '3':
+            $result=in_array($task, $colabTask);
             break;
 
         default:
@@ -1798,11 +1804,52 @@ function evalUserLevel($user_session)
         return 0;
     };
 
-    if (!in_array($user_session["ssuser_nivel"], array(1,2))) {
+    if (!in_array($user_session["ssuser_nivel"], array(1,2,3))) {
         return 0;
     };
 
     return (int) $user_session["ssuser_nivel"];
+}
+
+
+/**
+ * Eval user rights to edit or delete term
+ *
+ * @param array $user_session session data  
+ * @param array $term_data term data  
+ * 
+ * @return return bool true or false
+ */
+function evalUser4Term($user_session,$term_data)
+{
+
+    $owner_id=$term_data["uid"];
+    $status_id=$term_data["estado_id"];
+
+    if (!is_array($user_session)) { 
+        return 0; 
+    };
+
+    if (!isset($user_session["ssuser_nivel"])) {
+        return 0;
+    };
+
+    if (!in_array($user_session["ssuser_nivel"], array(1,2,3))) {
+        return 0;
+    };
+
+
+    /*user is collab and the term no in candidate status*/
+    if(( (int) $user_session["ssuser_nivel"]==3) && ($status_id!=12)){
+        return 0;
+    }
+
+    /*user is collab and isnt the owner of the term*/
+    if(( (int) $user_session["ssuser_nivel"]==3) && ($user_session["ssuser_id"]!=$owner_id)){
+        return 0;
+    }
+
+    return 1;
 }
 
 /** 

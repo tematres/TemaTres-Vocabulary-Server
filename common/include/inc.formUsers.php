@@ -68,7 +68,7 @@ $rows.='	<div class="row">
 			$rows.='<div class="form-group">
 								<label for="tvocab_id" class="col-sm-3 control-label">'.ucfirst(LABEL_userType).'</label>';
             $rows.='<div class="col-sm-9"><select class="form-control" name="isAdmin" id="isAdmin">';
-            $rows.=doSelectForm(array('2#'.ucfirst(LABEL_userIsEditor),'1#'.ucfirst(LABEL_userIsAdmin)), $dato_user["nivel"]);
+            $rows.=doSelectForm(array('3#'.ucfirst(LABEL_userIsColab),'2#'.ucfirst(LABEL_userIsEditor),'1#'.ucfirst(LABEL_userIsAdmin)), $dato_user["nivel"]);
             $rows.='</select></div>';
             $rows.='</div>';
 
