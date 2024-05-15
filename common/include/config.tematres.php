@@ -23,8 +23,8 @@ $CFG["DFT_TESA"] ='1';
 // Config URI base for XML URI as identifiers. If null, use URI vocabulary
 $CFG["_URI_BASE_ID"] = '';
 
-// Config char beween _URI_BASE_ID and term ID. If null, use 'xml.php?skosTema=' for HTTP response
-$CFG["_URI_SEPARATOR_ID"] ='xml.php?skosTema=';
+// Config char beween _URI_BASE_ID and term ID. If null, use 'xml.php?schema=skos&term_id' for HTTP response
+$CFG["_URI_SEPARATOR_ID"] ='xml.php?schema=skos&term_id';
 
 // Config char encode (only can be: utf-8 or iso-8859-1)
 $CFG["_CHAR_ENCODE"] ='utf-8';

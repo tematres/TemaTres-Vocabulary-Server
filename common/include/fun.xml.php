@@ -320,7 +320,7 @@ function do_skos($nodos_skos, $top_terms = "false")
     *  $_URI_SEPARATOR_ID = ($CFG["_URI_SEPARATOR_ID"]) ? $CFG["_URI_SEPARATOR_ID"] : '?tema=';
     * Para que utilice URLs Skos core
     */
-    $_URI_SEPARATOR_ID = ($CFG["_URI_SEPARATOR_ID"]) ? $CFG["_URI_SEPARATOR_ID"] : 'xml.php?skosTema=';
+    $_URI_SEPARATOR_ID = ($CFG["_URI_SEPARATOR_ID"]) ? $CFG["_URI_SEPARATOR_ID"] : 'xml.php?schema=skos&term_id=';
 
     $skos_TT='';
     if ($top_terms=='true') {
@@ -383,7 +383,7 @@ function do_skosNode($nodos_skos, $top_terms = "false")
     *  $_URI_SEPARATOR_ID = ($CFG["_URI_SEPARATOR_ID"]) ? $CFG["_URI_SEPARATOR_ID"] : '?tema=';
     * Para que utilice URLs Skos core
     */
-    $_URI_SEPARATOR_ID = ($CFG["_URI_SEPARATOR_ID"]) ? $CFG["_URI_SEPARATOR_ID"] : 'xml.php?skosTema=';
+    $_URI_SEPARATOR_ID = ($CFG["_URI_SEPARATOR_ID"]) ? $CFG["_URI_SEPARATOR_ID"] : 'xml.php?schema=skos&term_id=';
 
 
     header('content-type: text/xml');
@@ -422,7 +422,7 @@ function do_nodo_skos($idTema)
     *  $_URI_SEPARATOR_ID = ($CFG["_URI_SEPARATOR_ID"]) ? $CFG["_URI_SEPARATOR_ID"] : '?tema=';
     * Para que utilice URLs Skos core
     */
-    $_URI_SEPARATOR_ID = ($CFG["_URI_SEPARATOR_ID"]) ? $CFG["_URI_SEPARATOR_ID"] : 'xml.php?skosTema=';
+    $_URI_SEPARATOR_ID = ($CFG["_URI_SEPARATOR_ID"]) ? $CFG["_URI_SEPARATOR_ID"] : 'xml.php?schema=skos&term_id=';
 
 
     $datosTermino=ARRAYverDatosTermino($idTema);
@@ -744,7 +744,7 @@ function do_nodo_BS8723($tema_id)
     *  $_URI_SEPARATOR_ID = ($CFG["_URI_SEPARATOR_ID"]) ? $CFG["_URI_SEPARATOR_ID"] : '?tema=';
     * Para que utilice URLs Skos core
     */
-    $_URI_SEPARATOR_ID = ($CFG["_URI_SEPARATOR_ID"]) ? $CFG["_URI_SEPARATOR_ID"] : 'xml.php?skosTema=';
+    $_URI_SEPARATOR_ID = ($CFG["_URI_SEPARATOR_ID"]) ? $CFG["_URI_SEPARATOR_ID"] : 'xml.php?schema=skos&term_id=';
 
 
     //Buscar datos del termino
@@ -877,9 +877,10 @@ function do_rss($limit = "30")
     global $CFG;
 
     $sql=SQLlastTerms($limit);
-
+    $xml_seq='';
+    $xml_item='';
     while ($array=$sql->FetchRow()) {
-        $xml_seq.='<li xmlns:dc="http://purl.org/dc/elements/1.1/" rdf:resource="index.php?tema='.$array["tema_id"].'"/>';
+        $xml_seq.='<li xmlns:dc="http://purl.org/dc/elements/1.1/" rdf:resource="'.$_SESSION["CFGURL"].'?tema='.$array["tema_id"].'"/>';
         $xml_item.='<item xmlns:dc="http://purl.org/dc/elements/1.1/" rdf:about="'.$_SESSION["CFGURL"].'?tema='.$array["tema_id"].'">';
         $xml_item.='<title>'.$array["tema"].'</title>';
         $xml_item.='<link>'.$_SESSION["CFGURL"].'?tema='.$array["tema_id"].'</link>';
@@ -887,7 +888,7 @@ function do_rss($limit = "30")
     };
 
     header('content-type: text/xml');
-    $xml.='<?xml version="1.0" encoding="'.$CFG["_CHAR_ENCODE"].'" standalone="yes"?>';
+    $xml='<?xml version="1.0" encoding="'.$CFG["_CHAR_ENCODE"].'" standalone="yes"?>';
     $xml.='<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns="http://purl.org/rss/1.0/" xmlns:dc="http://purl.org/dc/elements/1.1/">';
     $xml.='<channel rdf:about="'.$_SESSION["CFGURL"].'">';
     $xml.='<title xmlns:dc="http://purl.org/dc/elements/1.1/">'.xmlentities($_SESSION["CFGTitulo"]).'</title>';
@@ -987,11 +988,11 @@ function do_meta_tag($arrayTermino = "")
         $meta_url=$_SESSION["CFGURL"].'?tema='.$ARRAYdatosTermino["idTema"];
         $titleParts[]=xmlentities($ARRAYdatosTermino["titTema"]);
 
-        $relMeta='<link rel="Dublin Core metadata" type="application/xml" href="'.$_SESSION["CFGURL"].'xml.php?dcTema='.$ARRAYdatosTermino["idTema"].'" title="Dublin Core '.xmlentities($ARRAYdatosTermino["titTema"]).'" />';
-        $relMeta.='<link rel="MADS metadata" type="application/xml" href="'.$_SESSION["CFGURL"].'xml.php?madsTema='.$ARRAYdatosTermino["idTema"].'" title="MADS '.xmlentities($ARRAYdatosTermino["titTema"]).'" />';
-        $relMeta.='<link rel="Zthes metadata" type="application/xml" href="'.$_SESSION["CFGURL"].'xml.php?zthesTema='.$ARRAYdatosTermino["idTema"].'" title="Zthes '.xmlentities($ARRAYdatosTermino["titTema"]).'" />';
-        $relMeta.='<link rel="Skos metadata" type="application/rdf+xml" href="'.$_SESSION["CFGURL"].'xml.php?skosTema='.$ARRAYdatosTermino["idTema"].'" title="Skos Core '.xmlentities($ARRAYdatosTermino["titTema"]).'" />';
-        $relMeta.='<link rel="TopicMap metadata" type="application/xml" href="'.$_SESSION["CFGURL"].'xml.php?xtmTema='.$ARRAYdatosTermino["idTema"].'" title="TopicMap '.xmlentities($ARRAYdatosTermino["titTema"]).'" />';
+        $relMeta='<link rel="Dublin Core metadata" type="application/xml" href="'.$_SESSION["CFGURL"].'xml.php?schema=dc&term_id='.$ARRAYdatosTermino["idTema"].'" title="Dublin Core '.xmlentities($ARRAYdatosTermino["titTema"]).'" />';
+        $relMeta.='<link rel="MADS metadata" type="application/xml" href="'.$_SESSION["CFGURL"].'xml.php?schema=mads&term_id='.$ARRAYdatosTermino["idTema"].'" title="MADS '.xmlentities($ARRAYdatosTermino["titTema"]).'" />';
+        $relMeta.='<link rel="Zthes metadata" type="application/xml" href="'.$_SESSION["CFGURL"].'xml.php?schema=zthes&term_id='.$ARRAYdatosTermino["idTema"].'" title="Zthes '.xmlentities($ARRAYdatosTermino["titTema"]).'" />';
+        $relMeta.='<link rel="Skos metadata" type="application/rdf+xml" href="'.$_SESSION["CFGURL"].'xml.php?schema=skos&term_id='.$ARRAYdatosTermino["idTema"].'" title="Skos Core '.xmlentities($ARRAYdatosTermino["titTema"]).'" />';
+        $relMeta.='<link rel="TopicMap metadata" type="application/xml" href="'.$_SESSION["CFGURL"].'xml.php?schema=xtm&term_id='.$ARRAYdatosTermino["idTema"].'" title="TopicMap '.xmlentities($ARRAYdatosTermino["titTema"]).'" />';
         $itempropMeta= '<meta itemprop="inDefinedTermSet" content="'.$_SESSION["CFGURL"].'">';
     } elseif (strlen((string) $letra)>0) {
         $titleParts[]=MSG_ResultLetra.' '.xmlentities($letra);
@@ -1081,8 +1082,8 @@ function do_meta_tag($arrayTermino = "")
     $meta_tag.='<link rel="login" href="'.URL_BASE.'login.php" title="'.LABEL_login.'" />';
     $meta_tag.='<link rel="service" href="'.URL_BASE.'services.php" title="terminogical web services" />';
     $meta_tag.='<link rel="bookmark" href="'.URL_BASE.'"/>';
-    $meta_tag.='<link rel="rss" type="application/rss+xml" href="'.URL_BASE.'xml.php?rss=true" title="RSS '.xmlentities($_SESSION["CFGTitulo"]).'" />';
-    $meta_tag.='<link rel="alternate" type="application/rss+xml" href="'.URL_BASE.'xml.php?rss=true" title="RSS '.xmlentities($_SESSION["CFGTitulo"]).'" />';
+    $meta_tag.='<link rel="rss" type="application/rss+xml" href="'.URL_BASE.'xml.php?schema=rss" title="RSS '.xmlentities($_SESSION["CFGTitulo"]).'" />';
+    $meta_tag.='<link rel="alternate" type="application/rss+xml" href="'.URL_BASE.'xml.php?schema=rss" title="RSS '.xmlentities($_SESSION["CFGTitulo"]).'" />';
     $meta_tag.=$relMeta;
 
     //    header ('Content-type: text/html; charset='.$page_encode.'');
@@ -1533,7 +1534,7 @@ function do_jsonld($tema_id)
     *  $_URI_SEPARATOR_ID = ($CFG["_URI_SEPARATOR_ID"]) ? $CFG["_URI_SEPARATOR_ID"] : '?tema=';
     * Para que utilice URLs Skos core
     */
-    $_URI_SEPARATOR_ID = ($CFG["_URI_SEPARATOR_ID"]) ? $CFG["_URI_SEPARATOR_ID"] : 'xml.php?skosTema=';
+    $_URI_SEPARATOR_ID = ($CFG["_URI_SEPARATOR_ID"]) ? $CFG["_URI_SEPARATOR_ID"] : 'xml.php?schema=skos&term_id=';
 
 
     $datosTermino=ARRAYverDatosTermino($tema_id);
@@ -1787,4 +1788,53 @@ function Parser_ark2term_id($ark)
     $array_ark=$hashids->decode($ark);
     
     return $array_ark[0];
+}
+
+
+function selectSchema($schema,$term_id=""){
+
+$schema=configValue($_GET["schema"], '', array('skos','zthes','vdex','bs8723','mads','xtm','dc','json','jsonld'));
+    switch ($schema) {
+        case 'skos':
+            header('Content-Type: text/xml');
+            return do_skos(do_nodo_skos($term_id));
+            break;
+        case 'vdex':
+            header('Content-Type: text/xml');
+            return do_VDEX($term_id);
+            break;
+        case 'bs8723':
+            header('Content-Type: text/xml');
+            return do_BS8723s(do_nodo_BS8723($term_id));
+            break;
+        case 'mads':
+            header('Content-Type: text/xml');
+            return do_mads($term_id);
+            break;
+        case 'xtm':
+            header('Content-Type: text/xml');
+            return do_topicMap($term_id);
+            break;
+        case 'dc':
+            header('Content-Type: text/xml');
+            return do_dublin_core($term_id);
+            break;
+        case 'json':
+            header('Content-type: application/json');
+            return do_json($term_id);
+            break;
+        case 'jsonld':
+            header('Content-type: application/json');
+            return do_jsonld($term_id);
+            break;        
+        case 'rss':
+            header('Content-type: application/json');
+            return do_jsonld($term_id);
+            break;        
+        default:
+            header('Content-Type: application/rss+xml');
+            return do_rss();
+            break;
+    }
+    return false;
 }

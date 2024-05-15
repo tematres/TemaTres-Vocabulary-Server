@@ -27,8 +27,8 @@ $res = $db->connect($host, $user, $password, $database);
 
 $ADODB_FETCH_MODE = ADODB_FETCH_ASSOC;
 
-//print_r($db->metaColumns('Test4', false));
-
+print_r($db->metaColumns('test2', false));
+die;
 $rs = $db->Execute('select * from myschema.test2');
 //print_r($rs->fields);
 //print_r((object)$rs->fields);

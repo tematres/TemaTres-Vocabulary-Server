@@ -139,12 +139,12 @@ if (evalUserLevel($_SESSION[$_SESSION["CFGURL"]])==1) {
     }
 
     if ($_GET["doAdmin"] == 'bulkReplace') {
-        echo HTMLformBulkReplace($_POST);
+        echo HTMLformBulkReplace(arrayToArray($_POST));
     }
 
     if ($_GET["doAdmin"] == 'glossConfig') {
-        echo HTMLbulkGlossTerms($_GET);
-        echo HTMLformExportGlossary($_POST);
+        echo HTMLbulkGlossTerms(array2array($_GET));
+        echo HTMLformExportGlossary(array2array($_POST));
     }
 
     //Regenerate indice table
@@ -253,7 +253,7 @@ if (evalUserLevel($_SESSION[$_SESSION["CFGURL"]])==1) {
             echo '  <a class="label label-info" href="'.URL_BASE.'services.php" title="API"><span class="glyphicon glyphicon-share"></span> API</a>';
         }
 
-        echo '<a class="label label-info" href="'.URL_BASE.'xml.php?rss=true" title="RSS"><span class="icon icon-rss"></span>RSS</a>';
+        echo '<a class="label label-info" href="'.URL_BASE.'xml.php?schema=rss" title="RSS"><span class="icon icon-rss"></span>RSS</a>';
         echo '  <a class="label label-info" href="'.URL_BASE.'index.php?s=n" title="'.ucfirst(LABEL_showNewsTerm).'"><span class="glyphicon glyphicon-fire"></span> '.ucfirst(LABEL_showNewsTerm).'</a>';
         ?>
     </p>

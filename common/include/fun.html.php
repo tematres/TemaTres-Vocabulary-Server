@@ -585,13 +585,6 @@ function HTMLmainMenu()
         $row.='<li><a title="'.ucfirst(MENU_DatosTesauro).'" href="admin.php?opTbl=TRUE">'.ucfirst(LABEL_OptimizarTablas).'</a></li>' ;
         $row.='<li><a title="'.ucfirst(LABEL_update2_2x3_2).'" href="admin.php?doAdmin=updte2_2x3_2">'.ucfirst(LABEL_update2_2x3_2).'</a></li>' ;
         $row.='<li><a title="'.ucfirst(LABEL_update1_6x1_7).'" href="admin.php?doAdmin=updte1_6x1_7">'.ucfirst(LABEL_update1_6x1_7).'</a></li>' ;
-        /**  $row.='<li><a title="'.ucfirst(LABEL_update1_5x1_6).'" href="admin.php?doAdmin=updte1_5x1_6">'.ucfirst(LABEL_update1_5x1_6).'</a></li>' ;
-        $row.='<li><a title="'.ucfirst(LABEL_update1_4x1_5).'" href="admin.php?doAdmin=updte1_4x1_5">'.ucfirst(LABEL_update1_4x1_5).'</a></li>' ;
-        $row.='<li><a title="'.ucfirst(LABEL_update1_3x1_4).'" href="admin.php?doAdmin=updte1_3x1_4">'.ucfirst(LABEL_update1_3x1_4).'</a></li>' ;
-        $row.='<li><a title="'.ucfirst(LABEL_update1_1x1_2).'" href="admin.php?doAdmin=updte1_1x1_2">'.ucfirst(LABEL_update1_1x1_2).'</a></li>' ;
-        $row.='<li><a title="'.ucfirst(LABEL_update1x1_2).'" href="admin.php?doAdmin=updte1x1_2">'.ucfirst(LABEL_update1x1_2).'</a></li>' ;
-         */
-
         $row.='</ul></li>' ;
 
         $row.='</ul></li>' ;
@@ -619,14 +612,18 @@ function HTMLmainMenu()
     $row.='   </ul>' ;
     $row.='</li>' ;
 
-    $row.='<li class="dropdown"><a href="#" id="dropdownMenu3" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-toggle="dropdown">'.ucfirst(MENU_AgregarT).' <b class="caret"></b></a>' ;
+    if ($evalUserLevel==3){
+        $row.='<li><a role="button" title="'.ucfirst(MENU_AgregarT).'" href="index.php?taskterm=addTerm&amp;tema=0">'.ucfirst(MENU_AgregarT).'</a></li>' ;    
+    }else{
+        $row.='<li class="dropdown"><a href="#" id="dropdownMenu3" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-toggle="dropdown">'.ucfirst(MENU_AgregarT).' <b class="caret"></b></a>' ;
 
-    $row.='<ul class="dropdown-menu">' ;
-    $row.='<li><a role="button" title="'.ucfirst(MENU_AgregarT).'" href="index.php?taskterm=addTerm&amp;tema=0">'.ucfirst(MENU_AgregarT).'</a></li>' ;
-    $row.='<li><a role="button" title="'.ucfirst(MENU_AgregarT).'" href="index.php?taskterm=addTermSuggested" title="'.ucfirst(LABEL__getForRecomendation).'">'.ucfirst(LABEL__getForRecomendation).'</a></li>' ;
-    $row.='<li><a role="button" title="'.ucfirst(MENU_AgregarT).'" href="index.php?taskterm=findTermNews" title="'.ucfirst(LABEL__getForTargetVocabularyNews).'">'.ucfirst(LABEL__getForTargetVocabularyNews).'</a></li>' ;
-    $row.='  </ul>' ;
-    
+        $row.='<ul class="dropdown-menu">' ;
+        $row.='<li><a role="button" title="'.ucfirst(MENU_AgregarT).'" href="index.php?taskterm=addTerm&amp;tema=0">'.ucfirst(MENU_AgregarT).'</a></li>' ;
+        $row.='<li><a role="button" title="'.ucfirst(MENU_AgregarT).'" href="index.php?taskterm=addTermSuggested" title="'.ucfirst(LABEL__getForRecomendation).'">'.ucfirst(LABEL__getForRecomendation).'</a></li>' ;
+        $row.='<li><a role="button" title="'.ucfirst(MENU_AgregarT).'" href="index.php?taskterm=findTermNews" title="'.ucfirst(LABEL__getForTargetVocabularyNews).'">'.ucfirst(LABEL__getForTargetVocabularyNews).'</a></li>' ;
+        $row.='  </ul>' ;
+        $row.='</li>' ;
+    }
     $row.='</ul>' ;
 
 
@@ -1936,15 +1933,15 @@ function HTMLtermMetadata($arrayTerm, $arrayCantRelaciones)
     $body.='<dd>' ;
 
     $body.='<ul class="list-inline" id="enlaces_xml">' ;
-    $body.='        <li><a class="btn btn-info btn-xs" target="_blank" title="'.LABEL_verEsquema.' BS8723-5"  href="'.URL_BASE.'xml.php?bs8723Tema='.$arrayTerm["tema_id"].'">BS8723-5</a></li>' ;
-    $body.='        <li><a class="btn btn-info btn-xs" target="_blank" title="'.LABEL_verEsquema.' Dublin Core"  href="'.URL_BASE.'xml.php?dcTema='.$arrayTerm["tema_id"].'">DC</a></li>' ;
-    $body.='        <li><a class="btn btn-info btn-xs"  target="_blank" title="'.LABEL_verEsquema.' MADS"  href="'.URL_BASE.'xml.php?madsTema='.$arrayTerm["tema_id"].'">MADS</a></li>  ' ;
-    $body.='        <li><a class="btn btn-info btn-xs"  target="_blank" title="'.LABEL_verEsquema.' Skos"  href="'.URL_BASE.'xml.php?skosTema='.$arrayTerm["tema_id"].'">SKOS-Core</a></li>' ;
-    $body.='        <li><a class="btn btn-info btn-xs"  target="_blank" title="'.LABEL_verEsquema.' IMS Vocabulary Definition Exchange (VDEX)"  href="'.URL_BASE.'xml.php?vdexTema='.$arrayTerm["tema_id"].'">VDEX</a></li>' ;
-    $body.='        <li><a class="btn btn-info btn-xs"  target="_blank" title="'.LABEL_verEsquema.' TopicMap"  href="'.URL_BASE.'xml.php?xtmTema='.$arrayTerm["tema_id"].'">XTM</a></li>' ;
-    $body.='        <li><a class="btn btn-info btn-xs"  target="_blank" title="'.LABEL_verEsquema.' Zthes" href="'.URL_BASE.'xml.php?zthesTema='.$arrayTerm["tema_id"].'">Zthes</a></li>  ' ;
-    $body.='        <li><a class="btn btn-info btn-xs"  target="_blank" title="'.LABEL_verEsquema.' JavaScript Object Notation" href="'.URL_BASE.'xml.php?jsonTema='.$arrayTerm["tema_id"].'">JSON</a></li>  ' ;
-    $body.='        <li><a class="btn btn-info btn-xs"  target="_blank" title="'.LABEL_verEsquema.' JavaScript Object Notation for Linked Data" href="'.URL_BASE.'xml.php?jsonldTema='.$arrayTerm["tema_id"].'">JSON-LD</a></li>  ' ;
+    $body.='        <li><a class="btn btn-info btn-xs" target="_blank" title="'.LABEL_verEsquema.' BS8723-5"  href="'.URL_BASE.'xml.php?schema=bs8723&term_id='.$arrayTerm["tema_id"].'">BS8723-5</a></li>' ;
+    $body.='        <li><a class="btn btn-info btn-xs" target="_blank" title="'.LABEL_verEsquema.' Dublin Core"  href="'.URL_BASE.'xml.php?schema=dc&term_id='.$arrayTerm["tema_id"].'">DC</a></li>' ;
+    $body.='        <li><a class="btn btn-info btn-xs"  target="_blank" title="'.LABEL_verEsquema.' MADS"  href="'.URL_BASE.'xml.php?schema=mads&term_id='.$arrayTerm["tema_id"].'">MADS</a></li>  ' ;
+    $body.='        <li><a class="btn btn-info btn-xs"  target="_blank" title="'.LABEL_verEsquema.' Skos"  href="'.URL_BASE.'xml.php?schema=skos&term_id='.$arrayTerm["tema_id"].'">SKOS-Core</a></li>' ;
+    $body.='        <li><a class="btn btn-info btn-xs"  target="_blank" title="'.LABEL_verEsquema.' IMS Vocabulary Definition Exchange (VDEX)"  href="'.URL_BASE.'xml.php?schema=vdex&term_id='.$arrayTerm["tema_id"].'">VDEX</a></li>' ;
+    $body.='        <li><a class="btn btn-info btn-xs"  target="_blank" title="'.LABEL_verEsquema.' TopicMap"  href="'.URL_BASE.'xml.php?schema=xtm&term_id='.$arrayTerm["tema_id"].'">XTM</a></li>' ;
+    $body.='        <li><a class="btn btn-info btn-xs"  target="_blank" title="'.LABEL_verEsquema.' Zthes" href="'.URL_BASE.'xml.php?schema=zthes&term_id='.$arrayTerm["tema_id"].'">Zthes</a></li>  ' ;
+    $body.='        <li><a class="btn btn-info btn-xs"  target="_blank" title="'.LABEL_verEsquema.' JavaScript Object Notation" href="'.URL_BASE.'xml.php?schema=json&term_id='.$arrayTerm["tema_id"].'">JSON</a></li>  ' ;
+    $body.='        <li><a class="btn btn-info btn-xs"  target="_blank" title="'.LABEL_verEsquema.' JavaScript Object Notation for Linked Data" href="'.URL_BASE.'xml.php?schema=jsonld&term_id='.$arrayTerm["tema_id"].'">JSON-LD</a></li>  ' ;
     $body.='</ul>' ;
     $body.='</dd>' ;
 

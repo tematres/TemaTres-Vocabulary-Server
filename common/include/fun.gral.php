@@ -106,6 +106,25 @@ function TrimArray(&$array)
 };
 
 
+/**
+ * Convierte los datos enviados en un array asociativo.
+ *
+ * Esta función recorre los datos enviados y los convierte
+ * en un array asociativo donde las claves son los nombres de los campos
+ * y los valores son los datos enviados.
+ *
+ * @return array El array asociativo que contiene los datos enviados.
+ */
+function array2array($array=array()) {
+    $arrayData = [];
+    
+    foreach ($array as $key => $value) {
+        $arrayData[$key] = $value;
+    }
+    
+    return $arrayData;
+}
+
 
 // Seleccionar un valor del array
 function doValue($array, $nombreValor)
@@ -122,13 +141,13 @@ function doValue($array, $nombreValor)
 };
 
 
-//
-// FUNCIONES DE PARSEO         ###############################
-//
+/*
+* FUNCIONES DE PARSEO
+*/
 
-//
-// Revisa un check de un form
-//
+/*
+* Revisa un check de un form
+*/
 function do_check($campo, $value, $tipo)
 {
     if ($campo==$value) {

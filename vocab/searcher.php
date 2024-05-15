@@ -23,7 +23,7 @@ if ($_SESSION[$_SESSION["CFGURL"]]["ssuser_id"]) {
                     break;
                 case '-1': // ERROR
                     header("HTTP/1.1 406 Not Acceptable");
-                    echo ' '.$_POST["code_tema"].': '.MSG_ERROR_CODE.' ('.LABEL_Termino.' '.$task["tema"].')';
+                    echo ' '.array2value("code_tema",array2array($_POST)).': '.MSG_ERROR_CODE.' ('.LABEL_Termino.' '.$task["tema"].')';
                     break;
             }
         }
@@ -63,6 +63,6 @@ if ($_SESSION[$_SESSION["CFGURL"]]["ssuser_id"]) {
         $labelRel=LABELrelTypeSYS($arrayRelData["t_relation"]);
 
         //reverse or not view of the relation
-        echo ($_POST["relativeLabel"]=='X') ? $labelRel["rx_code"].$arrayRelData["rr_code"] : $labelRel["r_code"].$arrayRelData["rr_code"];
+        echo (array2value("relativeLabel",array2array($_POST))=='X') ? $labelRel["rx_code"].$arrayRelData["rr_code"] : $labelRel["r_code"].$arrayRelData["rr_code"];
     }
 }

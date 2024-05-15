@@ -293,7 +293,7 @@ function HTMLformEditTerms($taskterm, $ARRAYtermino = array())
 			</div>';
 
             $help_rows='<p class="text-primary">'.HELP_variosTerminos.'</p>';
-            $extra_button='<a class="btn btn-second btn-xs" role="button" href="'.URL_BASE.'index.php?taskterm=addTermSuggested" title="'.ucfirst(LABEL__getForRecomendation).'">'.ucfirst(LABEL__getForRecomendation).'</a>';
+            //$extra_button='<a class="btn btn-second btn-xs" role="button" href="'.URL_BASE.'index.php?taskterm=addTermSuggested" title="'.ucfirst(LABEL__getForRecomendation).'">'.ucfirst(LABEL__getForRecomendation).'</a>';
             break;
         case 'editTerm'://Edici�n de un t�rmino $edit_id
             $nombre_pantalla=LABEL_editT.HTMLlinkTerm(array("tema_id"=>$ARRAYtermino["idTema"],"tema"=>$ARRAYtermino["titTema"]));
@@ -373,7 +373,7 @@ function HTMLformEditTerms($taskterm, $ARRAYtermino = array())
 /*
 * Form for edit or add terms
 1 caso:
-- Alta de un t�rmino nuevo.
+- Alta de un término nuevo.
 *
 */
 function HTMLformSuggestTerms($ARRAYtargetVocabulary = array())

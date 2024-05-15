@@ -2022,7 +2022,7 @@ function doTotalZthes($tipoEnvio)
             header('content-type: text/xml');
             outputCosas('<?xml version="1.0" encoding="'.$CFG["_CHAR_ENCODE"].'"?>');
             outputCosas('<!DOCTYPE Zthes SYSTEM "http://zthes.z3950.org/xml/zthes-05.dtd">');
-            outputCosas('<?xml-stylesheet href="http://'.$_SERVER['HTTP_HOST']. rtrim((string) dirname($_SERVER['PHP_SELF']), '/\\').'/../common/css/zthes.xsl" type="text/xsl"?>');
+            outputCosas('<?xml-stylesheet href="'.T3_WEBPATH.'/css/zthes.xsl" type="text/xsl"?>');
             outputCosas('        <Zthes>');
 
             while ($array=$sql->FetchRow()) {

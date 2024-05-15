@@ -7,43 +7,24 @@
  */
 require "config.tematres.php";
 
-if (@$_GET["zthesTema"]) {
-    header('Content-Type: text/xml');
-    echo do_zthes(do_nodo_zthes($_GET["zthesTema"]));
-} elseif ($_GET["skosTema"]) {
-    header('Content-Type: text/xml');
-    echo do_skos(do_nodo_skos($_GET["skosTema"]));
-} elseif ($_GET["skosMeta"]==1) {
+$schema=array2value("schema",$_GET);
+$schema=configValue($schema, '', array('skos','zthes','vdex','bs8723','mads','xtm','dc','json','jsonld','rss'));
+
+if(strlen($schema)>0){
+    $term_id=array2value("term_id",$_GET);
+    echo selectSchema($schema,$term_id);
+}
+
+$skosMeta=array2value("skosMeta",$_GET);
+$skosNode=array2value("skosNode",$_GET);
+
+if ($skosMeta==1) {
     header('Content-Type: text/xml');
     echo do_skos("", true);
-} elseif ($_GET["skosNode"]) {
+} elseif ($skosNode) {
     header('Content-Type: text/xml');
-    echo do_skosNode(do_nodo_skos($_GET["skosNode"]));
-} elseif ($_GET["vdexTema"]) {
-    header('Content-Type: text/xml');
-    echo do_VDEX($_GET["vdexTema"]);
-} elseif ($_GET["bs8723Tema"]) {
-    header('Content-Type: text/xml');
-    echo do_BS8723s(do_nodo_BS8723($_GET["bs8723Tema"]));
-} elseif ($_GET["madsTema"]) {
-    header('Content-Type: text/xml');
-    echo do_mads($_GET["madsTema"]);
-} elseif ($_GET["xtmTema"]) {
-    header('Content-Type: text/xml');
-    return do_topicMap($_GET["xtmTema"]);
-} elseif ($_GET["dcTema"]) {
-    header('Content-Type: text/xml');
-    return do_dublin_core($_GET["dcTema"]);
-} elseif ($_GET["jsonTema"]) {
-    header('Content-type: application/json');
-    echo do_json($_GET["jsonTema"]);
-} elseif ($_GET["jsonldTema"]) {
-    header('Content-type: application/json');
-    echo do_jsonld($_GET["jsonldTema"]);
-} elseif ($_GET["rss"]) {
-    header('Content-Type: application/rss+xml');
-    return do_rss();
-}
+    echo do_skosNode(do_nodo_skos($skosNode));
+}   
 
 if ((evalUserLevel($_SESSION[$_SESSION["CFGURL"]])==1) && ($_GET["dis"])) {
     switch ($_GET["dis"]) {

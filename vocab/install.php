@@ -35,7 +35,7 @@ require_once T3_ABSPATH . 'common/lang/'.$lang.'-utf-8.inc.php' ;
 function message($mess)
 {
     echo "" ;
-    echo $mess ;
+    echo XSSprevent($mess) ;
     echo "<br/>" ;
 }
 
