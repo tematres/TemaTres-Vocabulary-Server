@@ -18,14 +18,10 @@ if (evalUserLevel($_SESSION[$_SESSION["CFGURL"]])>0) {
     tinymce.init({
         selector: "textarea#<?php echo LABEL_nota;?>",
         language : "<?php echo LANG;?>",
-        plugins: [
-            "advlist autolink autosave link image lists charmap preview hr anchor",
-            "searchreplace wordcount autolink visualchars code insertdatetime media nonbreaking",
-            "table contextmenu directionality textcolor paste  textcolor colorpicker autoresize preview save"
-        ],
-        toolbar1: " bold italic underline strikethrough |  cut copy paste pastetext removeformat | searchreplace| undo redo ",
-        toolbar2: " bullist numlist | link unlink image media | preview code save ",
-          code_dialog_width: 400,
+        plugins: "advlist autolink autosave link image lists preview autolink visualchars code media nonbreaking directionality textcolor paste textcolor autoresize preview save",
+        toolbar1: "bold italic underline bullist numlist link image removeformat | preview code ",
+        toolbar2: "",
+        code_dialog_width: 400,
         menubar: false,
         toolbar_items_size: 'small',
         entity_encoding : "raw",
