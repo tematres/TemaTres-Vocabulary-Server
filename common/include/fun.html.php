@@ -1571,7 +1571,7 @@ function HTMLtargetTerms($tema_id)
         $rows='<ul class="list-unstyled">' ;
 
         while ($array=$sql->FetchRow()) {
-            if (evalUserLevel($_SESSION[$_SESSION["CFGURL"]])>0) {
+            if (in_array(evalUserLevel($_SESSION[$_SESSION["CFGURL"]]),array(1,2))) {
                 $delLink= '<a type="button" class="btn btn-danger btn-xs" id="elimina_'.$array["tterm_id"].'" title="'.LABEL_borraRelacion.'"  href="'.URL_BASE.'index.php?tterm_id='.$array["tterm_id"].'&amp;tema='.$tema_id.'&amp;tvocab_id='.$array["tvocab_id"].'&amp;taskrelations=delTgetTerm" onclick="return askData();"><span class="glyphicon glyphicon-remove"></span></a> ' ;
                 $checkLink= '<a id="actua_'.$array["tterm_id"].'" title="'.LABEL_ShowTargetTermforUpdate.'"  class="btn btn-warning btn-xs" href="'.URL_BASE.'index.php?tterm_id='.$array["tterm_id"].'&amp;tema='.$tema_id.'&amp;tvocab_id='.$array["tvocab_id"].'&amp;tterm_id='.$array["tterm_id"].'&amp;taskEdit=checkDateTermsTargetVocabulary">'.LABEL_ShowTargetTermforUpdate.'</a>' ;
 
@@ -1601,7 +1601,7 @@ function HTMLURI4term($tema_id)
         $rows='<ul class="list-unstyled">' ;
 
         while ($array=$sql->FetchRow()) {
-            if (evalUserLevel($_SESSION[$_SESSION["CFGURL"]])>0) {
+            if (in_array(evalUserLevel($_SESSION[$_SESSION["CFGURL"]]),array(1,2))) {
                 $delLink= '<a type="button" class="btn btn-danger btn-xs" id="elimina_'.$array["uri_id"].'" title="'.LABEL_borraRelacion.'"  href="'.URL_BASE.'index.php?uri_id='.$array["uri_id"].'&amp;tema='.$tema_id.'&amp;taskrelations=delURIterm" onclick="return askData();"><span class="glyphicon glyphicon-remove"></span></a> ' ;
             }
 

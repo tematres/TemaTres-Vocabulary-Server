@@ -9,8 +9,10 @@ if ((stristr($_SERVER['REQUEST_URI'], "session.php") ) || ( !defined('T3_ABSPATH
 */
 
 /*llamada de funciones de gestion de terminos*/
+$user_nivel_id=evalUserLevel($_SESSION[$_SESSION["CFGURL"]]);
 
-if (evalUserLevel($_SESSION[$_SESSION["CFGURL"]])>0) {
+if($user_nivel_id==3){
+
 
     $_GET["tcode"]=array2value("code", $_GET);
     $_GET["tema_id"]=array2value("tema_id", $_GET);
@@ -41,7 +43,81 @@ if (evalUserLevel($_SESSION[$_SESSION["CFGURL"]])>0) {
 
     // Borrado y edición de término
     // no control if resend.
-    if ($_POST["task"]=='remterm') {
+    if ($_POST["task"] =='remterm') {
+        borra_t($_POST["tema_id"]);
+    };
+
+    // Modificación de término
+    if ($_POST["edit_id_tema"]) {
+        $proc=modTerm(doValue($_POST, FORM_LABEL_termino), $_POST["edit_id_tema"]);
+        $tema=$proc["tema_id"];
+        if ($proc["log"]==false) {
+            $MSG_PROC_ERROR=HTMLduplicatedTermsAlert(array($proc["tema_id"] => $proc["term_original"]));
+        }
+    };
+
+    // Alta de término
+    if ($_POST["alta_t"]=='new') {
+        $proc=createTerms(doValue($_POST, FORM_LABEL_termino), $_POST["isMetaTerm"]);
+
+        $tema=$proc["last_term_id"];
+
+        if (is_array($proc["arrayDupliTerms"])) {
+            if (count($proc["arrayDupliTerms"])>0) {
+                $MSG_PROC_ERROR=HTMLduplicatedTermsAlert($proc["arrayDupliTerms"]);
+            }
+        }
+    };
+
+
+    // Alta de nota
+    if ($_POST["taskNota"]=='alta') {
+        $tema=abmNota('A', $_POST["idTema"], doValue($_POST, FORM_LABEL_tipoNota), doValue($_POST, FORM_LABEL_Idioma), doValue($_POST, FORM_LABEL_nota), doValue($_POST, "src_note_id"));
+    };
+
+    // Operaciones Mod y Borrado de notas
+    // Modificaci�n de nota
+    if ($_POST["taskNota"]=='edit') {
+        $tema=abmNota('M', $_POST["idTema"], doValue($_POST, FORM_LABEL_tipoNota), doValue($_POST, FORM_LABEL_Idioma), doValue($_POST, FORM_LABEL_nota), doValue($_POST, "src_note_id"), $_POST["idNota"]);
+    };
+
+    // Borrado de nota
+    if ($_GET["taskNota"]=='rem') {
+        $tema=abmNota('B', $_GET["idTema"], "0", "0", "0", "0", $_GET["idNota"]);
+    };
+
+}elseif (in_array($user_nivel_id,array(1,2))) {
+
+    $_GET["tcode"]=array2value("code", $_GET);
+    $_GET["tema_id"]=array2value("tema_id", $_GET);
+    $_GET["tvocab_id"]=array2value("tvocab_id", $_GET);
+    $_GET["taskrelations"]=array2value("taskrelations", $_GET);
+    $_GET["sel_idtr"]=array2value("sel_idtr", $_GET);
+    $_GET["sel_idsuptr"]=array2value("sel_idsuptr", $_GET);
+    $_GET["ridelete"]=array2value("ridelete", $_GET);
+    $_GET["taskNota"]=array2value("taskNota", $_GET);
+    $_GET["estado_id"]=array2value("estado_id", $_GET);
+    $_GET["taskterm"]=array2value("taskterm", $_GET);
+    $_GET["taskterm"]=array2value("taskterm", $_GET);
+    $_GET["rema_id"]=array2value("rema_id", $_GET);
+    
+    $_POST["task"]=array2value("task", $_POST);
+    $_POST["tema"]=array2value("tema", $_POST);
+    $_POST["tema_id"]=array2value("tema_id", $_POST);
+    $_POST["edit_id_tema"]=array2value("edit_id_tema", $_POST);
+    $_POST["taskNota"]=array2value("taskNota", $_POST);
+    $_POST["id_termino_sub"]=array2value("id_termino_sub", $_POST);
+    $_POST["t_rel_rel_id"]=array2value("t_rel_rel_id", $_POST);
+
+    //prevent duplicate in create terms functions
+    if ($_GET["tcode"]) {
+        do_target_temaXcode($_GET["tema_id"], $_GET["tcode"], $_GET["tvocab_id"]);
+    }
+
+
+    // Borrado y edición de término
+    // no control if resend.
+    if ($_POST["task"] =='remterm') {
         borra_t($_POST["tema_id"]);
     };
 
@@ -57,6 +133,9 @@ if (evalUserLevel($_SESSION[$_SESSION["CFGURL"]])>0) {
     // resend control ###
     //
     if (isset($_SESSION['SEND_KEY'])) {
+
+        $make_rel=in_array($_POST["t_relation"],array(2,3,4,5,6,7));
+        $make_rel=in_array($user_nivel_id,array(1,2)) ? $make_rel : null;
 
 
         $sendkey=array2value('ks',$_POST) ;
@@ -782,6 +861,7 @@ function abm_tema($do, $titu_tema, $tema_id = "")
     global $DBCFG, $DB;
 
     $userId=$_SESSION[$_SESSION["CFGURL"]]["ssuser_id"];
+    $nivel_id=evalUserLevel($_SESSION[$_SESSION["CFGURL"]]);
 
     //Es un término del vocabulario o una referencia a un término mapeado de otro vocabulario.
     $tesauro_id = (secure_data($_POST["ref_vocabulario_id"], "int")) ? $_POST["ref_vocabulario_id"] : $_SESSION["id_tesa"];
@@ -801,6 +881,9 @@ function abm_tema($do, $titu_tema, $tema_id = "")
     switch ($do) {
         case 'alta':
             $estado_id=configValue($_POST["estado_id"], 13, array(12,13,14));
+            
+            $estado_id=($nivel_id==3) ? 12 : $estado_id; // if the user is colab, always the status is candidate
+            
             $tema_id=addTerm($titu_tema, $tesauro_id, $estado_id);
 
             assignHash($_SESSION["CFG_ARK_NAAN"], $tema_id);
