@@ -94,6 +94,9 @@ if ($_POST["id_correo_electronico"]) {
      
      
         if (check_password($_POST["id_password"], $chk_user["pass"])) {
+            //Save stadistics
+            $stats=doLastModified();
+
             $_SESSION[$_SESSION["CFGURL"]]["ssuser_id"]=$chk_user["user_id"];
             $_SESSION[$_SESSION["CFGURL"]]["ssuser_nivel"]=$chk_user["nivel"];
             $_SESSION[$_SESSION["CFGURL"]]["ssuser_nombre"]=$chk_user["name"];
@@ -108,7 +111,6 @@ if ($_POST["id_correo_electronico"]) {
                 $add_param='?letra='.$url_data["letra"];
             };
 
-            //header("Location: " . $_SESSION["CFGURL"].$add_param);
             header("Location: index.php" .$add_param);
         }
     }

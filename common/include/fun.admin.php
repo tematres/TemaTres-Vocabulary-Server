@@ -11,7 +11,7 @@ if ((stristr($_SERVER['REQUEST_URI'], "session.php") ) || ( !defined('T3_ABSPATH
 /*llamada de funciones de gestion de terminos*/
 $user_nivel_id=evalUserLevel($_SESSION[$_SESSION["CFGURL"]]);
 
-if($user_nivel_id==3){
+if($user_nivel_id==3){//is colab
 
 
     $_GET["tcode"]=array2value("code", $_GET);

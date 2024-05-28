@@ -1554,31 +1554,34 @@ function HTMLformConfigValues($array_vocabulario)
     }
 
     $rows='<div class="form-group">';
-    $rows.='<label class="col-sm-3 control-label" for="'.FORM_LABEL_jeraquico.'">'.ucfirst(FORM_LABEL_jeraquico).'</label>';
-    $rows.='<div class="col-sm-9">    <select id="'.FORM_LABEL_jeraquico.'" name="'.FORM_LABEL_jeraquico.'">';
-    $rows.=    doSelectForm(array('1#'.LABEL_SI,'00#'.LABEL_NO), $array_vocabulario["polijerarquia"]);
-    $rows.='</select><span class="help-block">'.ucfirst(LABEL_jeraquico).'</span></div>';
-    $rows.='</div>';
+    $rows.='<label class="col-sm-6 control-label" for="'.FORM_LABEL_jeraquico.'">'.ucfirst(FORM_LABEL_jeraquico).'</label>';
+    $rows.='<div class="col-sm-5">    <select id="'.FORM_LABEL_jeraquico.'" name="'.FORM_LABEL_jeraquico.'">';
+    $rows.=    doSelectForm(array('1#'.LABEL_SI,'00#'.LABEL_NO), $array_vocabulario["polijerarquia"]).'</select>';
+    //$rows.='<span class="help-block">'.ucfirst(LABEL_jeraquico).'</span></div>';
+    $rows.=' </div>';
+    $rows.='</div><hr/>';
 
     foreach ($arrayCFGs as $key => $value) {
         switch ($key) {
             case 'CFG_PUBLISH':
                 $rows.='<div class="form-group">';
-                $rows.='<label class="col-sm-5 control-label" for="'.$key.'">'.$key.'</label>';
+                $rows.='<label class="col-sm-6 control-label" for="'.$key.'">'.ucfirst(LABEL_CFG_PUBLISH).'</label>';
                 $rows.='<div class="col-sm-5">     <select id="'.$key.'" name="'.$key.'">';
                 $rows.=    doSelectForm(array('1#'.LABEL_SI,'00#'.LABEL_NO), $NEWarrayCFGs[$key]);
                 $rows.='</select>';
-                $rows.='<span class="help-block">'.ucfirst(LABEL_CFG_PUBLISH).'</span></div>';
-                $rows.='</div>';
+                //$rows.='<span class="help-block">'.ucfirst(LABEL_CFG_PUBLISH).'</span></div>';
+                $rows.='    </div>';
+                $rows.='</div><hr/>';
                 break;
             case 'CFG_ALLOW_DUPLICATED':
                 $rows.='<div class="form-group">';
-                $rows.='<label class="col-sm-5 control-label" for="'.$key.'">'.$key.'</label>';
+                $rows.='<label class="col-sm-6 control-label" for="'.$key.'">'.ucfirst(LABEL_ALLOW_DUPLICATED).'</label>';
                 $rows.='<div class="col-sm-5">     <select id="'.$key.'" name="'.$key.'">';
                 $rows.=    doSelectForm(array('1#'.LABEL_SI,'00#'.LABEL_NO), $NEWarrayCFGs[$key]);
                 $rows.='</select>';
-                $rows.='<span class="help-block">'.ucfirst(LABEL_ALLOW_DUPLICATED).'</span></div>';
-                $rows.='</div>';
+                //$rows.='<span class="help-block">'.ucfirst(LABEL_ALLOW_DUPLICATED).'</span></div>';
+                $rows.='    </div>';
+                $rows.='</div><hr/>';
                 break;
 
 
@@ -1595,12 +1598,13 @@ function HTMLformConfigValues($array_vocabulario)
                 $noteSelect.=' <optgroup label="'.ucfirst(LABEL_opt_show_rando_term).'">'.$noteOption.'</optgroup>';
 
                 $rows.='<div class="form-group">';
-                $rows.='<label class="col-sm-5 control-label" for="'.$key.'">'.$key.'</label>';
+                $rows.='<label class="col-sm-6 control-label" for="'.$key.'">'.ucfirst(LABEL_SHOW_RANDOM_TERM).'</label>';
                 $rows.='<div class="col-sm-5">     <select id="'.$key.'" name="'.$key.'">';
                 $rows.=    $noteSelect;
                 $rows.='</select>';
-                $rows.='<span class="help-block">'.ucfirst(LABEL_SHOW_RANDOM_TERM).'</span></div>';
-                $rows.='</div>';
+                //$rows.='<span class="help-block">'.ucfirst(LABEL_SHOW_RANDOM_TERM).'</span></div>';
+                $rows.='    </div>';
+                $rows.='</div><hr/>';
 
                 empty($noteData);
                 empty($noteType);
@@ -1615,70 +1619,77 @@ function HTMLformConfigValues($array_vocabulario)
                 };
 
                 $rows.='<div class="form-group">';
-                $rows.='<label class="col-sm-5 control-label" for="'.$key.'">'.$key.'</label>';
+                $rows.='<label class="col-sm-6 control-label" for="'.$key.'">'.ucfirst(LABEL_GLOSS_NOTES).'</label>';
                 $rows.='<div class="col-sm-5">     <select id="'.$key.'" name="'.$key.'">';
                 $rows.=    $_GLOSS_NOTESOptions;
                 $rows.='</select>';
-                $rows.='<span class="help-block">'.ucfirst(LABEL_GLOSS_NOTES).'</span></div>';
-                $rows.='</div>';
+                //$rows.='<span class="help-block">'.ucfirst(LABEL_GLOSS_NOTES).'</span></div>';
+                $rows.=' </div>';
+                $rows.='</div><hr/>';
                 break;
 
             case 'CFG_MAX_TREE_DEEP':
                 $rows.='<div class="form-group">';
-                $rows.='<label class="col-sm-5 control-label" for="'.$key.'">'.$key.'</label>';
+                $rows.='<label class="col-sm-6 control-label" for="'.$key.'">'.ucfirst(LABEL_CFG_MAX_TREE_DEEP).'</label>';
                 $rows.='<div class="col-sm-5">    <select id="'.$key.'" name="'.$key.'">';
                 $rows.=    doSelectForm(array("1#1","2#2","3#3","4#4","5#5","6#6"), $NEWarrayCFGs[$key]);
                 $rows.='</select>';
-                $rows.='<span class="help-block">'.ucfirst(LABEL_CFG_MAX_TREE_DEEP).'</span></div>';
+                //$rows.='<span class="help-block">'.ucfirst(LABEL_CFG_MAX_TREE_DEEP).'</span></div>';
                 $rows.='</div>';
+                $rows.='</div><hr/>';
                 break;
         
             case 'CFG_MIN_SEARCH_SIZE':
                 $rows.='<div class="form-group">';
-                $rows.='<label class="col-sm-5 control-label" for="'.$key.'" >'.$key.'</label>';
+                $rows.='<label class="col-sm-6 control-label" for="'.$key.'" >'.ucfirst(LABEL_CFG_MIN_SEARCH_SIZE).'</label>';
                 $rows.='<div class="col-sm-5">     <select id="'.$key.'" name="'.$key.'">';
                 $rows.=    doSelectForm(array("1#1","2#2","3#3","4#4","5#5","6#6"), $NEWarrayCFGs[$key]);
                 $rows.='</select>';
-                $rows.='<span class="help-block">'.ucfirst(LABEL_CFG_MIN_SEARCH_SIZE).'</span></div>';
-                $rows.='</div>';
+                //$rows.='<span class="help-block">'.ucfirst(LABEL_CFG_MIN_SEARCH_SIZE).'</span></div>';
+                $rows.=' </div>';
+                $rows.='</div><hr/>';
                 break;
             
             case 'CFG_NUM_SHOW_TERMSxSTATUS':
                 $rows.='<div class="form-group">';
-                $rows.='<label class="col-sm-5 control-label" for="'.$key.'">'.$key.'</label>';
+                $rows.='<label class="col-sm-6 control-label" for="'.$key.'">'.ucfirst(LABEL_CFG_NUM_SHOW_TERMSxSTATUS).'</label>';
                 $rows.='<div class="col-sm-5">     <select id="'.$key.'" name="'.$key.'">';
                 $rows.=    doSelectForm(array("50#50","100#100","150#150","200#200","250#250"), $NEWarrayCFGs[$key]);
                 $rows.='</select>';
-                $rows.='<span class="help-block">'.ucfirst(LABEL_CFG_NUM_SHOW_TERMSxSTATUS).'</span></div>';
-                $rows.='</div>';
+                //$rows.='<span class="help-block">'.ucfirst(LABEL_CFG_NUM_SHOW_TERMSxSTATUS).'</span></div>';
+                $rows.=' </div>';
+                $rows.='</div><hr/>';
                 break;
         
             case 'CFG_SEARCH_METATERM':
                 $rows.='<div class="form-group">';
-                $rows.='<label class="col-sm-5 control-label" for="'.$key.'">'.$key.'</label>';
+                $rows.='<label class="col-sm-6 control-label" for="'.$key.'">'.ucfirst(NOTE_isMetaTermNote).'</label>';
                 $rows.='<div class="col-sm-5">     <select id="'.$key.'" name="'.$key.'">';
                 $rows.=    doSelectForm(array('1#'.LABEL_SI,'00#'.LABEL_NO), $NEWarrayCFGs[$key]);
                 $rows.='</select>';
-                $rows.='<span class="help-block">'.ucfirst(NOTE_isMetaTermNote).'</span></div>';
-                $rows.='</div>';
+                //$rows.='<span class="help-block">'.ucfirst(NOTE_isMetaTermNote).'</span></div>';
+                $rows.=' </div>';
+                $rows.='</div><hr/>';
                 break;
             case 'CFG_SUGGESTxWORD':
                 $rows.='<div class="form-group">';
-                $rows.='<label class="col-sm-5 control-label" for="'.$key.'">'.$key.'</label>';
+                $rows.='<label class="col-sm-6 control-label" for="'.$key.'">'.ucfirst(LABEL_CFG_SUGGESTxWORD).'</label>';
                 $rows.='<div class="col-sm-5">     <select id="'.$key.'" name="'.$key.'">';
                 $rows.=    doSelectForm(array('1#'.LABEL_SI,'00#'.LABEL_NO), $NEWarrayCFGs[$key]);
                 $rows.='</select>';
-                $rows.='<span class="help-block">'.ucfirst(LABEL_CFG_SUGGESTxWORD).'</span></div>';
-                $rows.='</div>';
+                //$rows.='<span class="help-block">'.ucfirst(LABEL_CFG_SUGGESTxWORD).'</span></div>';
+                $rows.=' </div>';
+                $rows.='</div><hr/>';
                 break;
             default:
                 $rows.='<div class="form-group">';
-                $rows.='<label class="col-sm-5 control-label" for="'.$key.'">'.$key.'</label>';
+                $rows.='<label class="col-sm-6 control-label" for="'.$key.'">'.ucfirst(arrayReplace(array('_USE_CODE','_SHOW_CODE','CFG_VIEW_STATUS','CFG_SIMPLE_WEB_SERVICE','_SHOW_TREE','_PUBLISH_SKOS','CFG_ENABLE_SPARQL','COPY_CLICK'), array(LABEL__USE_CODE,LABEL__SHOW_CODE,LABEL_CFG_VIEW_STATUS,LABEL_CFG_SIMPLE_WEB_SERVICE,LABEL__SHOW_TREE,LABEL__PUBLISH_SKOS,LABEL__ENABLE_SPARQL,LABEL__ENABLE_COPY_CLICK), $key)).'</label>';
                 $rows.='<div class="col-sm-5">     <select id="'.$key.'" name="'.$key.'">';
                 $rows.=    doSelectForm(array('1#'.LABEL_SI,'00#'.LABEL_NO), $NEWarrayCFGs[$key]);
                 $rows.='</select>';
-                $rows.='<span class="help-block">'.ucfirst(arrayReplace(array('_USE_CODE','_SHOW_CODE','CFG_VIEW_STATUS','CFG_SIMPLE_WEB_SERVICE','_SHOW_TREE','_PUBLISH_SKOS','CFG_ENABLE_SPARQL','COPY_CLICK'), array(LABEL__USE_CODE,LABEL__SHOW_CODE,LABEL_CFG_VIEW_STATUS,LABEL_CFG_SIMPLE_WEB_SERVICE,LABEL__SHOW_TREE,LABEL__PUBLISH_SKOS,LABEL__ENABLE_SPARQL,LABEL__ENABLE_COPY_CLICK), $key)).'</span></div>';
-                $rows.='</div>';
+                //$rows.='<span class="help-block">'.ucfirst(arrayReplace(array('_USE_CODE','_SHOW_CODE','CFG_VIEW_STATUS','CFG_SIMPLE_WEB_SERVICE','_SHOW_TREE','_PUBLISH_SKOS','CFG_ENABLE_SPARQL','COPY_CLICK'), array(LABEL__USE_CODE,LABEL__SHOW_CODE,LABEL_CFG_VIEW_STATUS,LABEL_CFG_SIMPLE_WEB_SERVICE,LABEL__SHOW_TREE,LABEL__PUBLISH_SKOS,LABEL__ENABLE_SPARQL,LABEL__ENABLE_COPY_CLICK), $key)).'</span></div>';
+                $rows.=' </div>';
+                $rows.='</div><hr/>';
         }
     }
     return $rows;

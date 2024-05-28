@@ -1313,13 +1313,7 @@ function numTerms2Letter($letra)
     $where=(evalUserLevel($_SESSION[$_SESSION["CFGURL"]])=='0') ? " and tema.estado_id='13' " : "" ;
 
     $sql=SQL(
-        "select",
-        "count(*) as cant
-    from $DBCFG[DBprefix]tema as tema
-    where
-    $where_letter
-    $where"
-    );
+        "select","count(*) as cant from $DBCFG[DBprefix]tema as tema where $where_letter $where");
 
     if (is_object($sql)) {
         $array=$sql->FetchRow();
