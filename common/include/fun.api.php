@@ -498,10 +498,9 @@ class XMLvocabularyServices
         $cantLetra=numTerms2Letter($letter);
 
         $sql=SQLmenuABCpages($letter, array("min"=>0,"limit"=>$cantLetra));
-
         while ($array=$sql->FetchRow()) {
             $i=++$i;
-            $result["result"][$array["id_definitivo"]]= array(
+            $result["result"][$array["tema_id"]]= array(
             "term_id"=>$array["id_definitivo"],
             "string"=>($array["termino_preferido"]) ? $array["termino_preferido"] : $array["tema"],
             "isMetaTerm"=>$array["isMetaTerm"],
