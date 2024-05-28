@@ -59,7 +59,7 @@ $CFG["DFT_TESA"] = '1';
 $CFG["SEARCH_URL_SITES"] = array("wikipedia","Google exacto","Google scholar","Google images","Google books");
 
 // List of alias code for hidden non prefered terms
-$CFG["HIDDEN_EQ"] = array("MS","SP","H");
+$CFG["HIDDEN_EQ"] = array("H");
 
 // Config URI base for XML URI as identifiers. If null, use URI vocabulary
 $CFG["_URI_BASE_ID"] = '';
