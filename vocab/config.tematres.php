@@ -125,6 +125,9 @@ $CFG["IMP_TAG_TABULATOR"]  = '===';
 //Define is use or not CDN to bootstrap and other external libraries, default == false (1)
 $CFG["USE_CDN"]=0;
 
+//Publish in public data about global organization of the vocabulary. Default == false (0)
+$CFG["PUBLISH_GLOBAL_SUMMARY"]=0;
+
 
 /* Config here to publish image and fixed link in header:
 

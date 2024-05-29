@@ -2635,7 +2635,7 @@ function HTMLsummary()
 
     $rows.=HTMLSources4vocab();
 
-    $rows.=HTMLglobalView($resumen);
+    $rows.=((evalUserLevel($_SESSION[$_SESSION["CFGURL"]])>0) || ($CFG["PUBLISH_GLOBAL_SUMMARY"]==1)) ? HTMLglobalView($resumen) : '';
 
     $rows.=HTMLcloudTerms(SQLcount(SQLTermDeep()), 30);
 

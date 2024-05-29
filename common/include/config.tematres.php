@@ -60,6 +60,10 @@ $CFG["_EXCLUDED_CHARS"]=array("<",">","[","]","(",")",'"',"'","|");
 //Define is use or not CDN to bootstrap and other external libraries, default == false (1)
 $CFG["USE_CDN"]=1;
 
+
+//Publish in public data about global organization of the vocabulary. Default == false (0)
+$CFG["PUBLISH_GLOBAL_SUMMARY"]=0;
+
 //default values for config
 $arrayCFGs =array(  'CFG_PUBLISH'=>'1',
                     'COPY_CLICK'=>'1',
