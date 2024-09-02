@@ -2066,8 +2066,12 @@ function HTMLformVerTerminosRepetidos()
                 }
                 $rows.='<li>'.$array["string_term"].' ('.$array["cant"].')<ul>';
             }
+            
+            $badge_status=($array["estado_id"]==13) ? '' : '<span class="badge badge-pill badge-warning">'.ucfirst(arrayReplace(array(12,14),array(LABEL_Candidato,LABEL_Rechazado),$array["estado_id"])).'</span>'; 
+    
+
             $alert_MT=($resulta_busca["isMetaTerm"]==1) ? ' ('.LABEL_meta_term.') ' : '';
-            $rows.='<li>'.HTMLlinkTerm($array, array("modal"=>1)).'  '.$alert_MT.' </li>';
+            $rows.='<li>'.HTMLlinkTerm($array, array("style"=>$styleTerm,"modal"=>1)).'  '.$alert_MT.$badge_status.' </li>';
             $string_term=$array["string_term"];
         }
         $rows.='</ul></li>';

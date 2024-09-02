@@ -1055,7 +1055,7 @@ function SQLverTerminosRepetidos($tesauro_id = 1)
     global $DBCFG;
     $sql=SQL(
         "select",
-        "tema.tema as string_term,count(*) as cant,tema2.tema,tema2.tema_id,tema2.isMetaTerm
+        "tema.tema as string_term,count(*) as cant,tema2.tema,tema2.tema_id,tema2.isMetaTerm,tema2.estado_id
         from $DBCFG[DBprefix]tema as tema, $DBCFG[DBprefix]tema as tema2
         where tema2.tema=tema.tema
         and tema.tesauro_id='$tesauro_id'
@@ -4299,6 +4299,7 @@ function SQLcheckDuplicateTerm($string, $isMetaTerm, $tesauro_id)
         where
         t.tesauro_id='$tesauro_id'
         and t.tema=$string
+        and t.estado_id=13
         and t.isMetaTerm='$isMetaTerm'
         "
     );
