@@ -103,7 +103,7 @@ if (isset($dato_user["id"])) {
                                             $rows.='<div class="form-group">
 																	<div class="col-sm-12 text-right">
 																	<input type="submit" class="btn btn-primary" id="boton" name="boton" value="'.ucfirst(LABEL_Guardar).'"/>
-																	<a href="admin.php" class="btn btn-default" id="boton_cancelar" title="'.ucfirst(LABEL_Cancelar).'">'.ucfirst(LABEL_Cancelar).'</a>
+																	<a href="admin.php?user_id=list" class="btn btn-default" id="boton_cancelar" title="'.ucfirst(LABEL_Cancelar).'">'.ucfirst(LABEL_Cancelar).'</a>
 																	</div>
 															</div>';
 

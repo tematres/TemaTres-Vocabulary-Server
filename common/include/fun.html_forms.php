@@ -2172,7 +2172,7 @@ function HTMLAlertDuplicateTerm($arrayDuplicateTerms)
 
 function HTMLformBulkReplace($params = array())
 {
-    $rows.='<div class="row">';
+    $rows='<div class="row">';
     $rows.='	<div class="col-md-6 col-md-offset-3">';
     $rows.=' <h3>'.ucfirst(LABEL_bulkReplace).'</h3>';
     $rows.='<form  class="col-xs-8 form-horizontal" role="form" name="bulkReplace" action="admin.php?doAdmin=bulkReplace" method="post">';

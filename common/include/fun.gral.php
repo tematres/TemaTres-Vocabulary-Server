@@ -756,7 +756,7 @@ function utf8($txt)
 
 function XSSprevent($string)
 {
-    //
+    if(is_null($string)) return;
     $string = str_replace(array ('<',">","&",'"' ), array ('','','',''), $string);
 
     //$string=htmlentities($string, ENT_QUOTES | ENT_HTML5, 'UTF-8');

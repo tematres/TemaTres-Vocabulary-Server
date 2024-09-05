@@ -139,7 +139,7 @@ if (evalUserLevel($_SESSION[$_SESSION["CFGURL"]])==1) {
     }
 
     if ($_GET["doAdmin"] == 'bulkReplace') {
-        echo HTMLformBulkReplace(arrayToArray($_POST));
+        echo HTMLformBulkReplace(array2array($_POST));
     }
 
     if ($_GET["doAdmin"] == 'glossConfig') {
