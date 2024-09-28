@@ -32,6 +32,9 @@ if (!file_exists('db.tematres.php')) {
 
 require_once T3_ABSPATH . 'common/lang/'.$lang.'-utf-8.inc.php' ;
 
+if (SQLcheckInstall()==11) header("Location:index.php");
+
+
 function message($mess)
 {
     echo "" ;
@@ -133,7 +136,6 @@ function checkInstall($lang)
         $label_server=$DBCFG["Server"];
     };
     //2. check connection to server
-
     include_once T3_ABSPATH . 'common/include/adodb5/adodb.inc.php';
 
     //default driver
@@ -153,14 +155,11 @@ function checkInstall($lang)
 
 
     //4. check tables
+    $cantTables=SQLcheckInstall();
 
-    $sqlCantTables=$DB->Execute('SHOW TABLES from `'.$DBCFG["DBName"].'` where `tables_in_'.$DBCFG["DBName"].'` in (\''.$DBCFG["DBprefix"].'config\',\''.$DBCFG["DBprefix"].'indice\',\''.$DBCFG["DBprefix"].'notas\',\''.$DBCFG["DBprefix"].'tabla_rel\',\''.$DBCFG["DBprefix"].'tema\',\''.$DBCFG["DBprefix"].'usuario\',\''.$DBCFG["DBprefix"].'values\')');
-    $cantTables=(is_object($sqlCantTables)) ? $sqlCantTables->RecordCount() : 0;
-
-    if ($cantTables=='7') {
-        return message('<div class="alert alert-danger" role="alert">'.$install_message["301"].'</div>');
+    if ($cantTables==11) {
+        header("Location:index.php");
     } else {
-
         //Final step: dump or form
         if (isset($_POST['send'])) {
             $arrayInstallData=checkDataInstall($_POST);
@@ -183,11 +182,11 @@ function SQLtematres($DBCFG, $DB, $arrayInstallData = array())
 
     /** Si se establecio un charset para la conexion */
     $dbcharset = (@$DBCFG["DBcharset"]) ? (@$DBCFG["DBcharset"]) : 'utf8';
-    
+
     $DB->Execute("SET NAMES $dbcharset");
 
     $prefix=$DBCFG["DBprefix"] ;
-    
+
     $engine = (array_key_exists("DBengine", $DBCFG)) ?  $DBCFG["DBengine"]: 'MyISAM';
     $engine = (in_array($engine, array('MyISAM','InnoDB'))) ? $engine : 'MyISAM' ;
 
@@ -208,7 +207,7 @@ function SQLtematres($DBCFG, $DB, $arrayInstallData = array())
       PRIMARY KEY  (`id`)
     ) DEFAULT CHARSET=$dbcharset ENGINE=$engine ;"
     );
- 
+
     //If create table --> insert data
     if ($result1) {
         $today = date("Y-m-d");
@@ -220,7 +219,7 @@ function SQLtematres($DBCFG, $DB, $arrayInstallData = array())
         $kos_type = ($arrayInstallData['kos_type']) ? $DB->qstr(trim($arrayInstallData["kos_type"])) : "'list'";
         $tematres_lang=$DB->qstr(trim($arrayInstallData["lang"]));
         $tematres_lang=($tematres_lang) ?  $tematres_lang : 'es';
-        
+
 
         $comment = '';
 
@@ -249,11 +248,11 @@ function SQLtematres($DBCFG, $DB, $arrayInstallData = array())
           `nota` mediumtext NOT NULL,
           `cuando` datetime NOT NULL ,
           `uid` int(22) NOT NULL default '0',
-            `src_id` int(22) DEFAULT NULL,          
+            `src_id` int(22) DEFAULT NULL,
           PRIMARY KEY  (`id`),
           KEY `id_tema` (`id_tema`),
           KEY `orden_notas` (`tipo_nota`,`lang_nota`),
-            KEY `src_id` (`src_id`),          
+            KEY `src_id` (`src_id`),
           FULLTEXT `notas` (`nota`)
         ) DEFAULT CHARSET=$dbcharset ENGINE=$engine ;"
     );
@@ -281,7 +280,7 @@ function SQLtematres($DBCFG, $DB, $arrayInstallData = array())
           `tema_id` int(10) NOT NULL auto_increment,
           `code` VARCHAR( 150 ) NULL COMMENT 'code_term' ,
           `tema` varchar(250) default NULL,
-          `tema_hash` varchar(12) DEFAULT NULL,          
+          `tema_hash` varchar(12) DEFAULT NULL,
           `tesauro_id` int(5) NOT NULL ,
           `uid` tinyint(3) unsigned NOT NULL ,
           `cuando` datetime NULL ,
@@ -291,7 +290,7 @@ function SQLtematres($DBCFG, $DB, $arrayInstallData = array())
           `cuando_estado` datetime NOT NULL ,
           `isMetaTerm` BOOLEAN NOT NULL DEFAULT FALSE,
           PRIMARY KEY  (`tema_id`),
-          UNIQUE KEY `ndx_hash` (`tema_hash`),          
+          UNIQUE KEY `ndx_hash` (`tema_hash`),
           KEY ( `code` ),
           FULLTEXT KEY `tema` (`tema`),
           KEY `cuando` (`cuando`,`cuando_final`),
@@ -396,7 +395,7 @@ function SQLtematres($DBCFG, $DB, $arrayInstallData = array())
         `mod_date` datetime DEFAULT NULL,
         `user_id` int(5) NOT NULL DEFAULT '0',
         PRIMARY KEY (`src_id`),
-          KEY `src_alias` (`src_alias`)        
+          KEY `src_alias` (`src_alias`)
       ) ENGINE=$engine CHARSET=$dbcharset COMMENT='Normalized authority sources for notes';"
     );
 
@@ -482,18 +481,12 @@ function SQLtematres($DBCFG, $DB, $arrayInstallData = array())
       ($admin_surname,$admin_name, 1, now(), 1, $admin_mail,$admin_pass_hash, 'TemaTres', 1, 'ACTIVO', now())"
         );
 
-        //echo $DB->ErrorMsg();
-
         //Tematres installed
-        if (is_object($result8)) {
-            global $install_message;
+        //4. check tables
+        $cantTables=SQLcheckInstall();
 
-            $return_true = '<div>';
-            $return_true .= '<h3>'.ucfirst(LABEL_bienvenida).'</h3>' ;
-            $return_true .= '<p class="alert alert-success" role="alert">'.$install_message["306"].'</p>' ;
-            $return_true .='</div>';
-
-            message($return_true);
+        if ($cantTables==11) {
+            header("Location:login.php");
         }
     }
 }
@@ -552,7 +545,7 @@ function HTMLformInstall($lang_install)
       <div class="col-md-4">
         <select id="tipo_lang" name="kos_type" class="form-control">
         '.doSelectForm($array_kos_types, "").'
-        </select>                       
+        </select>
         </div>
     </div>
 
@@ -700,3 +693,31 @@ function HTMLformInstall($lang_install)
   </div>
     </body>
 </html>
+<?php
+/**
+* Check install status
+*
+* @param int $tbl_num number of tables must to be
+*
+* @return bool
+*/
+function SQLcheckInstall(){
+
+  global $DBCFG;
+
+  include_once T3_ABSPATH . 'common/include/adodb5/adodb.inc.php';
+
+  //default driver
+  $DBCFG["DBdriver"]=($DBCFG["DBdriver"]) ? $DBCFG["DBdriver"] : "mysqli";
+
+  $DB = NewADOConnection($DBCFG["DBdriver"]);
+
+  if (!$DB->Connect($DBCFG["Server"], $DBCFG["DBLogin"], $DBCFG["DBPass"], $DBCFG["DBName"])) {
+    return 0;
+  }
+
+  $sqlCantTables=$DB->Execute('SHOW TABLES from `'.$DBCFG["DBName"].'`  like \''.$DBCFG["DBprefix"].'%\'');
+  $cantTables=(is_object($sqlCantTables)) ? $sqlCantTables->RecordCount() : 0;
+
+  return $cantTables;
+}
