@@ -13,8 +13,7 @@ use PHPMailer\PHPMailer\Exception;
 
 /** FUNCIONES GENERALES */
 
-/** addslashes to vars
-Funcion tomada de PHPBB: http://www.phpbb.com/
+/** addslashes to vars Funcion tomada de PHPBB: http://www.phpbb.com/
 */
 $_GET=XSSpreventArray($_GET);
 
@@ -117,11 +116,11 @@ function TrimArray(&$array)
  */
 function array2array($array=array()) {
     $arrayData = [];
-    
+
     foreach ($array as $key => $value) {
         $arrayData[$key] = $value;
     }
-    
+
     return $arrayData;
 }
 
@@ -132,11 +131,11 @@ function doValue($array, $nombreValor)
     if (!is_array($array)) {
         return false;
     }
-  
+
     if (count($array)>'0') {
         return @$array[$nombreValor];
     }
-        
+
     return false;
 };
 
@@ -827,62 +826,62 @@ function clean($val)
 }
 
 
-/** 
- * Connect to database 
- *
- * @return conection object
- */
+/**
+* Connect to database
+*
+* @return conection object
+*/
 function DBconnect()
 {
-    include_once 'adodb5/adodb.inc.php';
-    /*
-    * Only for debug propouse
-    */
-    //    include_once('adodb5/adodb-exceptions.inc.php');
+  include_once 'adodb5/adodb.inc.php';
+  /*
+  * Only for debug propouse
+  */
+  //    include_once('adodb5/adodb-exceptions.inc.php');
 
-    global $DBCFG;
+  global $DBCFG;
 
-    //default driver
-    $DBCFG["DBdriver"] = (@$DBCFG["DBdriver"]) ? $DBCFG["DBdriver"] : 'mysqli';
+  //default driver
+  $DBCFG["DBdriver"] = (@$DBCFG["DBdriver"]) ? $DBCFG["DBdriver"] : 'mysqli';
 
-    //valid driver
-    $DBCFG["DBdriver"] = configValue($DBCFG["DBdriver"], 'mysqli', array('mysqli','mysql'));
-
-  
-    //default value for type pesistence
-    $DBCFG["DBpersist"] = (@$DBCFG["DBpersist"]==0) ? '' : '?persist';
-
-    $connectionMode=(@$DBCFG["DBmodeConnect"]) ? (($DBCFG["DBmodeConnect"]=='DSN') ? 'DSN' : false) : false;
+  //valid driver
+  $DBCFG["DBdriver"] = configValue($DBCFG["DBdriver"], 'mysqli', array('mysqli','mysql'));
 
 
-    if ($connectionMode=='DSN') {
-        if (@$DBCFG["DBpersist"]) {
-            $dsn = $DBCFG["DBdriver"].'://'.$DBCFG["DBLogin"].':'.$DBCFG["DBPass"].'@'.$DBCFG["Server"].'/'.$DBCFG["DBName"].$DBCFG["DBpersist"];
-        }
-  
-        $DB = adoNewConnection($dsn);  // no need for Connect()
-    } else {
+  //default value for type pesistence
+  $DBCFG["DBpersist"] = (@$DBCFG["DBpersist"]==0) ? '' : '?persist';
+
+  $connectionMode=(@$DBCFG["DBmodeConnect"]) ? (($DBCFG["DBmodeConnect"]=='DSN') ? 'DSN' : false) : false;
+
+
+  if ($connectionMode=='DSN') {
+    if (@$DBCFG["DBpersist"]) {
+      $dsn = $DBCFG["DBdriver"].'://'.$DBCFG["DBLogin"].':'.$DBCFG["DBPass"].'@'.$DBCFG["Server"].'/'.$DBCFG["DBName"].$DBCFG["DBpersist"];
+      }
+
+      $DB = adoNewConnection($dsn);  // no need for Connect()
+      } else {
         $DB = NewADOConnection($DBCFG["DBdriver"]);
 
         $DB->Connect($DBCFG["Server"], $DBCFG["DBLogin"], $DBCFG["DBPass"], $DBCFG["DBName"]);
-    }
+        }
 
 
 
-    //$DB->Execute("SET SESSION sql_mode = 'TRADITIONAL'");
-    $DB->Execute("SET SESSION sql_mode = ' '");
+        //$DB->Execute("SET SESSION sql_mode = 'TRADITIONAL'");
+        $DB->Execute("SET SESSION sql_mode = ' '");
 
-    // Si se establecio un charset para la conexion
-    if (@$DBCFG["DBcharset"]) {
-        $DB->Execute("set names $DBCFG[DBcharset]");
-    }
+        // Si se establecio un charset para la conexion
+        if (@$DBCFG["DBcharset"]) {
+          $DB->Execute("set names $DBCFG[DBcharset]");
+          }
 
-    //Si debug
-    if ($DBCFG["debugMode"]=='1') {
-        echo $DB->ErrorMsg();
-    };
+          //Si debug
+          if ($DBCFG["debugMode"]=='1') {
+            echo $DB->ErrorMsg();
+            };
 
-    return $DB;
+return $DB;
 }
 
 
@@ -1029,57 +1028,57 @@ function SQLcount($object)
 function loadConfigValues($renew = "0")
 {
 
-    global $arrayCFGs;
+  global $arrayCFGs;
 
-    //Web URL BASE
-    define('URL_BASE', getURLbase());
+  //Web URL BASE
+  define('URL_BASE', getURLbase());
 
-    //renovar valores
-    if ($renew=='1') {
-        global $DBCFG;
+  //renovar valores
+  if ($renew=='1') {
+    global $DBCFG;
 
-        $sql=SQL(
-            "select",
-            "v.value_id,v.value_type,v.value,v.value_code,v.value_order
-						from $DBCFG[DBprefix]values v where v.value_type='config'"
-        );
+    $sql=SQL(
+      "select",
+      "v.value_id,v.value_type,v.value,v.value_code,v.value_order
+      from $DBCFG[DBprefix]values v where v.value_type='config'"
+    );
 
-        $NEWarrayCFGs=array();
+    $NEWarrayCFGs=array();
 
-        while ($array=$sql->FetchRow()) {
-            switch ($array["value"]) {
-                case 'CFG_MAX_TREE_DEEP':
-                    $array["value_code"] = (in_array($array["value_code"], array(1,2,3,4,5,6))) ? $array["value_code"] : $arrayCFGs[$array["value"]];
-                    break;
+    while ($array=$sql->FetchRow()) {
+      switch ($array["value"]) {
+        case 'CFG_MAX_TREE_DEEP':
+        $array["value_code"] = (in_array($array["value_code"], array(1,2,3,4,5,6))) ? $array["value_code"] : $arrayCFGs[$array["value"]];
+        break;
 
-                case 'CFG_MIN_SEARCH_SIZE':
-                    $array["value_code"] = (in_array($array["value_code"], array(1,2,3,4,5,6))) ? $array["value_code"] : $arrayCFGs[$array["value"]];
-                    break;
+        case 'CFG_MIN_SEARCH_SIZE':
+        $array["value_code"] = (in_array($array["value_code"], array(1,2,3,4,5,6))) ? $array["value_code"] : $arrayCFGs[$array["value"]];
+        break;
 
-                case 'CFG_NUM_SHOW_TERMSxSTATUS':
-                    $array["value_code"] = (in_array($array["value_code"], array(50,100,150,200,250))) ? $array["value_code"] : $arrayCFGs[$array["value"]];
-                    break;
-                case '_GLOSS_NOTES':
-                    $array["value_code"] = (!$array["value_code"]) ? $arrayCFGs[$array["value"]] : $array["value_code"] ;
-                    break;
+        case 'CFG_NUM_SHOW_TERMSxSTATUS':
+        $array["value_code"] = (in_array($array["value_code"], array(50,100,150,200,250))) ? $array["value_code"] : $arrayCFGs[$array["value"]];
+        break;
+        case '_GLOSS_NOTES':
+        $array["value_code"] = (!$array["value_code"]) ? $arrayCFGs[$array["value"]] : $array["value_code"] ;
+        break;
 
-                case '_SHOW_RANDOM_TERM':
-                    $array["value_code"] = (!$array["value_code"]) ? $arrayCFGs[$array["value"]] : $array["value_code"] ;
-                    break;
+        case '_SHOW_RANDOM_TERM':
+        $array["value_code"] = (!$array["value_code"]) ? $arrayCFGs[$array["value"]] : $array["value_code"] ;
+        break;
 
-                default:
-                    $array["value_code"] = (in_array($array["value_code"], array(1,0))) ? $array["value_code"] : $arrayCFGs[$array["value"]];
-            }
-
-            $NEWarrayCFGs[$array["value"]]= $array["value_code"];
+        default:
+        $array["value_code"] = (in_array($array["value_code"], array(1,0))) ? $array["value_code"] : $arrayCFGs[$array["value"]];
         }
-    }// end renew
 
-    //define default values
-    foreach ($arrayCFGs as $key => $value) {
-        $value = (isset($NEWarrayCFGs["$key"])) ? $NEWarrayCFGs["$key"] : $value ;
-         $_SESSION[$_SESSION["CFGURL"]]["$key"]=$value;
-    }
+        $NEWarrayCFGs[$array["value"]]= $array["value_code"];
+        }
+        }// end renew
+
+        //define default values
+foreach ($arrayCFGs as $key => $value) {
+          $value = (isset($NEWarrayCFGs["$key"])) ? $NEWarrayCFGs["$key"] : $value ;
+          $_SESSION[$_SESSION["CFGURL"]]["$key"]=$value;
+          }
 }
 
 
@@ -1274,7 +1273,7 @@ function sendMail($to_address, $subject, $message, $extra = array())
     $mail->IsHTML(false);                                  // set email format to HTML
     $mail->Subject = $subject;
     $mail->Body    = $message;
-    
+
 
     $mailcheck=$mail->Send();
 
@@ -1491,7 +1490,7 @@ function isValidLetter($string)
     return $string;
 }
 
-/* 
+/*
     Return base URL of the current URL or instance of vocabulary
     source: https://stackoverflow.com/questions/1175096/how-to-find-out-if-youre-using-https-without-serverhttps/16076965#16076965
     @Julia Neumann
@@ -1511,7 +1510,7 @@ function getURLbase()
         $_SERVER['HTTP_X_FORWARDED_SSL'] == 'on') {
                 $isSecure = true;
     }
-    $protocol = $isSecure ? 'https' : 'http';    
+    $protocol = $isSecure ? 'https' : 'http';
     $port = ($_SERVER["SERVER_PORT"] == "80") ? "" : (":".$_SERVER["SERVER_PORT"]);
     $uri = $protocol . "://" . $_SERVER['SERVER_NAME'] . $port . $_SERVER['REQUEST_URI'];
     $segments = explode('?', $uri, 2);
@@ -1670,7 +1669,7 @@ function check2Date($stringDate, $char = "-")
  * @refer  http://php.net/manual/en/function.boolval.php#114013
  */
 if (!function_exists('boolval')) {
-  
+
     function boolval($var)
     {
         return !! $var;
@@ -1685,7 +1684,7 @@ function extract4url($url)
     $url_parser=parse_url($url);
 
     parse_str($url_parser["query"],$output);
- 
+
     return array("url"=>$url,"tema_id"=>$output["tema"],"letra"=>$output["letra"]);
 }
 
@@ -1700,7 +1699,7 @@ function hashmaker($seed, $string2hash)
     $hashids = new Hashids\Hashids($seed, 12, 'abcdefghijklmnopqrstuvwxyz0123456789');
 
     $string2hash=(is_numeric($string2hash)) ? $string2hash : abs(crc32(html2txt($string2hash)));
- 
+
     return $hashids->encode($string2hash);
 }
 
@@ -1720,7 +1719,7 @@ function ark2hash($seed, $string2hash)
  * @param string $value         value name to evaluete
  * @param string $default       default value to asign if value is null
  * @param array  $defaultValues array values to asign if value and default is null
- * 
+ *
  * @return if value is null, return defaul, else return value
  */
 function configValue($value, $default = false, $defaultValues = array())
@@ -1744,10 +1743,10 @@ function configValue($value, $default = false, $defaultValues = array())
 
 /**
  * Path and metadata about localization labels file
- * 
+ *
  * @param string    lang code
  * @param array     array with enable langs
- * 
+ *
  * @return array with path and metadata about selected lang
  */
 function selectLangLabels($lang_code,$langs){
@@ -1767,7 +1766,7 @@ function selectLangLabels($lang_code,$langs){
 }
 
 
-/** 
+/**
 * Normalize lang code from 2 to 4 letters
 *
 * @param chars lang code to normalize
@@ -1775,7 +1774,7 @@ function selectLangLabels($lang_code,$langs){
 * @return check format of lang code (xx-XX or xx)
 */
 function normalizeLangCode($lang_code){
- 
+
     $array_code=explode("-",$lang_code);
 
     if(count($array_code)==2){
@@ -1794,7 +1793,7 @@ function normalizeLangCode($lang_code){
  *
  * @param string $key   key in array to assign
  * @param array  $array array to use as source value, if the value is null, the value is null.
- * 
+ *
  * @return return $value as value
  */
 function array2value($key,$array=array())
@@ -1808,15 +1807,15 @@ function array2value($key,$array=array())
 /**
  * Eval user rights
  *
- * @param array $user_session session data  
- * 
+ * @param array $user_session session data
+ *
  * @return return level of rights for the user
  */
 function evalUserLevel($user_session)
 {
 
-    if (!is_array($user_session)) { 
-        return 0; 
+    if (!is_array($user_session)) {
+        return 0;
     };
 
     if (!isset($user_session["ssuser_nivel"])) {
@@ -1834,9 +1833,9 @@ function evalUserLevel($user_session)
 /**
  * Eval user rights to edit or delete term
  *
- * @param array $user_session session data  
- * @param array $term_data term data  
- * 
+ * @param array $user_session session data
+ * @param array $term_data term data
+ *
  * @return return bool true or false
  */
 function evalUser4Term($user_session,$term_data)
@@ -1845,8 +1844,8 @@ function evalUser4Term($user_session,$term_data)
     $owner_id=$term_data["uid"];
     $status_id=$term_data["estado_id"];
 
-    if (!is_array($user_session)) { 
-        return 0; 
+    if (!is_array($user_session)) {
+        return 0;
     };
 
     if (!isset($user_session["ssuser_nivel"])) {
@@ -1871,10 +1870,10 @@ function evalUser4Term($user_session,$term_data)
     return 1;
 }
 
-/** 
+/**
  * Check if there are already a tematres instance
- * 
- * 
+ *
+ *
  * @return boolean
  */
 
@@ -1896,7 +1895,7 @@ function checkT3instance(){
     $sqlCantTables=$DB->Execute('SHOW TABLES from `'.$DBCFG["DBName"].'` where `tables_in_'.$DBCFG["DBName"].'` in (\''.$DBCFG["DBprefix"].'config\',\''.$DBCFG["DBprefix"].'indice\',\''.$DBCFG["DBprefix"].'notas\',\''.$DBCFG["DBprefix"].'tabla_rel\',\''.$DBCFG["DBprefix"].'tema\',\''.$DBCFG["DBprefix"].'usuario\',\''.$DBCFG["DBprefix"].'values\')');
     $cantTables=(is_object($sqlCantTables)) ? $sqlCantTables->RecordCount() : 0;
 
-    //7 tables = pre-3.2 version 
+    //7 tables = pre-3.2 version
 
     return array("version"=>"",
                     "dbconnect"=>0,
@@ -1905,12 +1904,12 @@ function checkT3instance(){
 }
 
 /**
- * Create value from key array 
+ * Create value from key array
  * source: https://stackoverflow.com/a/8680364
  *
  * @param string $index   key in array to assign
  * @param array  $var array to use as source value, if the value is null, the value is null.
- * 
+ *
  * @return return $value as value
  */
 function ifexistsidx($var,$index)
