@@ -2084,7 +2084,7 @@ function makeGlossary($notesType = array("NA"), $params = array())
                 $sqlAltTerms=SQLverTerminoRelaciones($array["id"]);
 
                 while ($arrayAltTerms=$sqlAltTerms->FetchRow()) {
-                    if ($arrayAltTerms[t_relacion]=='4') {
+                    if ($arrayAltTerms["t_relacion"]=='4') {
                            $arrayTerm[]=array("term"=>$arrayAltTerms["tema"],
                             "description"=>html2txt($description));
                     }
