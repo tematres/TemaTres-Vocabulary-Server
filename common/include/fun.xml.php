@@ -422,7 +422,7 @@ function do_nodo_skos($idTema)
     *  $_URI_SEPARATOR_ID = ($CFG["_URI_SEPARATOR_ID"]) ? $CFG["_URI_SEPARATOR_ID"] : '?tema=';
     * Para que utilice URLs Skos core
     */
-    $_URI_SEPARATOR_ID = ($CFG["_URI_SEPARATOR_ID"]) ? $CFG["_URI_SEPARATOR_ID"] : 'xml.php?schema=skos&term_id=';
+    $_URI_SEPARATOR_ID = (@$CFG["_URI_SEPARATOR_ID"]) ? $CFG["_URI_SEPARATOR_ID"] : 'xml.php?schema=skos&amp;term_id=';
 
 
     $datosTermino=ARRAYverDatosTermino($idTema);
