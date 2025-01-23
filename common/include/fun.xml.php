@@ -14,9 +14,9 @@ if ((stristr($_SERVER['REQUEST_URI'], "session.php") ) || ( !defined('T3_ABSPATH
 
 /**
  * Compose node for dspace xml export format
- * 
+ *
  * @param Integer $tema_id the id of the term
- * 
+ *
  * @return file to browser
  */
 function Do_Dspace_node($tema_id)
@@ -54,7 +54,7 @@ function Do_Dspace_node($tema_id)
 
 
 /**
- * Compose dspace native export 
+ * Compose dspace native export
 
  * @return file to browser
  */
@@ -194,7 +194,7 @@ function do_nodo_zthes($idTema)
 
                 case 'DF':
                     $meta_tag.='<termNote label="Definition">'.xmlentities($datosTermino["notas"][$iNota]["nota"].TXTsource4note($datosTermino["notas"][$iNota]["id"]), true).'</termNote>';
-                
+
                 case 'DEF':
                     $meta_tag.='<termNote label="Definition">'.xmlentities($datosTermino["notas"][$iNota]["nota"].TXTsource4note($datosTermino["notas"][$iNota]["id"]), true).'</termNote>';
                     break;
@@ -490,11 +490,11 @@ function do_nodo_skos($idTema)
         }
     };
 
+    $skos_notes='';
 
     for ($iNota=0; $iNota<(count($datosTermino["notas"])); ++$iNota) {
         if ($datosTermino["notas"][$iNota]["id"]) {
             $note_content=html2txt($datosTermino["notas"][$iNota]["nota"].' '.TXTsource4note($datosTermino["notas"][$iNota]["id"]));
-            $skos_notes='';
             switch ($datosTermino["notas"][$iNota]["tipoNota"]) {
                 case 'NH':
                     $skos_notes.=' <skos:historyNote xml:lang="'.$datosTermino["notas"][$iNota]["lang_nota"].'">'.$note_content.'</skos:historyNote>';
@@ -951,7 +951,7 @@ function do_meta_tag($arrayTermino = "")
     $_SESSION["CFGContributor"]=$ARRAYfetchValues["dc:contributor"]["value"];
     $_SESSION["CFGRights"]=$ARRAYfetchValues["dc:rights"]["value"];
     $_SESSION["CFGPublisher"]=$ARRAYfetchValues["dc:publisher"]["value"];
-    
+
     $local_naan=$ARRAYfetchValues["CFG_ARK_NAAN"]["value"];
     $_SESSION["CFG_ARK_NAAN"]=(strlen((string) $local_naan)>0) ? $local_naan : false;
     $_SESSION["CFGlastMod"]=fetchlastMod();
@@ -967,7 +967,7 @@ function do_meta_tag($arrayTermino = "")
     if (secure_data($tema, "digit")) {
         //Si hay tema_id desde GET o POST
         $tema_id=(isset($_POST["tema"])) ? array2value("tema", $_POST) : array2value("tema", $_GET) ;
-        
+
         $tema_id = secure_data($tema_id, "digit") ;
 
         //Si hay tema_id desde algún proceso
@@ -1006,10 +1006,10 @@ function do_meta_tag($arrayTermino = "")
 
     //keywords filled with aboutness of the vocabualry or term
     $aboutness=substr(implode(", ", $aboutness), 0, 325);
-    
+
     //descripction filled with aboutness of the vocabualry or term at
     $meta_description= (isset($term_note)) ? $term_note : ((strlen((string) $_SESSION["CFGCobertura"])>5) ? $_SESSION["CFGCobertura"] : $aboutness);
-    
+
     $page_encode = (in_array($CFG["_CHAR_ENCODE"], array('utf-8','iso-8859-1'))) ? $CFG["_CHAR_ENCODE"] : 'utf-8';
     $titleParts[]=$labelChangeLang;
     $title_page=substr(implode('. ', array_reverse($titleParts, true)), 1);
@@ -1746,7 +1746,7 @@ function ARRAYaboutness($term_id = 0)
         return array($_SESSION["CFGTitulo"],$_SESSION["CFGAutor"]);
     }
 
-    
+
     while ($array= $sql->FetchRow()) {
         $ARRAYaboutness[]=$array["tema"];
     }
@@ -1786,7 +1786,7 @@ function Parser_ark2term_id($ark)
     $hashids = new Hashids\Hashids($local_naan, 12, 'abcdefghijklmnopqrstuvwxyz0123456789');
     $ark=str_replace('ark:/'.$naan, "", $ark);
     $array_ark=$hashids->decode($ark);
-    
+
     return $array_ark[0];
 }
 
@@ -1826,11 +1826,11 @@ $schema=configValue($_GET["schema"], '', array('skos','zthes','vdex','bs8723','m
         case 'jsonld':
             header('Content-type: application/json');
             return do_jsonld($term_id);
-            break;        
+            break;
         case 'rss':
             header('Content-type: application/json');
             return do_jsonld($term_id);
-            break;        
+            break;
         default:
             header('Content-Type: application/rss+xml');
             return do_rss();
