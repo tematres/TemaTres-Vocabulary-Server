@@ -181,19 +181,9 @@ function doContextoTermino($idTema, $i_profundidad)
     //$idTema = id del término
     //$i_profundidad= contador de profundidad
 
-        $int=0;
-        $itg=0;
-        $iuf=0;
-        $iuse=0;
-        $irt=0;
-        $ieq=0;
+        $int=$itg=$iuf=$iuse=$irt=$ieq=0;
         
-        $row_NT='';
-        $row_TG='';
-        $row_UP='';
-        $row_TR='';
-        $row_EQ='';
-        $row_USE='';
+        $row_NT=$row_TG=$row_UP=$row_TR=$row_EQ=$row_USE='';
 
     //Terminos específicos
     $sqlNT=SQLverTerminosE($idTema);

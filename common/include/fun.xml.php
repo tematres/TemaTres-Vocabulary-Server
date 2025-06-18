@@ -1015,6 +1015,8 @@ function do_meta_tag($arrayTermino = "")
     $title_page=substr(implode('. ', array_reverse($titleParts, true)), 1);
     $meta_tag='<title>'.xmlentities($title_page).'</title>';
     $meta_tag.='<meta http-equiv="content-type" content="application/xhtml+xml; charset='.$page_encode.'" />';
+    $meta_tag.='<link rel="canonical" href="'.$meta_url.'" />';
+
     $meta_tag.='<meta name="generator" content="'.xmlentities($_SESSION["CFGVersion"]).'" />';
     $meta_tag.='<meta name="description" content="'.html2txt($meta_description).'" />';
     $meta_tag.='<meta name="keywords" content="'.xmlentities($aboutness).'" />';
