@@ -1,6 +1,13 @@
 <?php
+$user = 'root';
+$pass = 'C0yote71';
+$dbname = 'bugtracker';
 include 'adodb.inc.php';
-$db = adonewconnection('mysqli');
-$db->connect('localhost', 'root', 'C0yote71', 'bugtracker');
-$p = newperfmonitor($db);
-print $p->ui();
+$db = adonewconnection('pgsql');
+$db->connect('localhost', $user, $pass, $dbname);
+
+print_r($db->ServerInfo());
+//$db->debug = true;
+//print_r($db->MetaTables());
+print_r($db->MetaTables('TABLES'));
+//print_r($db->MetaTables('VIEWS'));

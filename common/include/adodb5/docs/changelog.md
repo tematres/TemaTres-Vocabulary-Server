@@ -14,6 +14,62 @@ Older changelogs:
 
 --------------------------------------------------------------------------------
 
+## [5.22.9] - 2025-05-01
+
+### Security
+ 
+- pgsql: SQL injection in pg_insert_id() method (CVE-2025-46337)
+  [#1070](https://github.com/ADOdb/ADOdb/issues/1070)
+
+### Fixed
+
+- sqlite: Fulfill PRIMARY KEY AUTOINCREMENT requirements
+  [#1055](https://github.com/ADOdb/ADOdb/issues/1055)
+- sqlite: fix error reporting
+  [#1061](https://github.com/ADOdb/ADOdb/issues/1061)
+- Creation of dynamic property deprecated warning with PHP 8.2
+  [#1068](https://github.com/ADOdb/ADOdb/issues/1068)
+
+
+## [5.22.8] - 2025-01-25
+
+### Added
+
+- mysql: allow forcing use of emulated prepared statements
+  [#1028](https://github.com/ADOdb/ADOdb/issues/1028)
+- Georgian language strings
+  [#1042](https://github.com/ADOdb/ADOdb/issues/1042)
+
+### Changed
+
+- mysqli: Improve setConnectionParameter()
+  [#1044](https://github.com/ADOdb/ADOdb/issues/1044)
+  
+### Fixed
+
+- Backtrace output is not channeled through ADODB_OUTP
+  [#1018](https://github.com/ADOdb/ADOdb/issues/1018)
+- changeColumnSQL not handling new vs changed columns correctly #1010
+  [#1010](https://github.com/ADOdb/ADOdb/issues/1010)
+- PHP 8 compatibility
+  [#1009](https://github.com/ADOdb/ADOdb/issues/1009)
+  [#1012](https://github.com/ADOdb/ADOdb/issues/1012)
+  [#1021](https://github.com/ADOdb/ADOdb/issues/1021)
+  [#1045](https://github.com/ADOdb/ADOdb/issues/1045)
+- db2: fix connections using *LOCAL on IBM i series
+  [#1031](https://github.com/ADOdb/ADOdb/issues/1031)
+  [#1032](https://github.com/ADOdb/ADOdb/issues/1032)
+- mysqli: catch getAssoc() execution error in metaColumns()
+  [#1016](https://github.com/ADOdb/ADOdb/issues/1016)
+- mysqli: fix getAssoc() with ADODB_FETCH_DEFAULT mode
+  [#1023](https://github.com/ADOdb/ADOdb/issues/1023)
+- mysqli: SSL not working due to wrong socket/flags
+  [#919](https://github.com/ADOdb/ADOdb/issues/919)
+  [#1043](https://github.com/ADOdb/ADOdb/issues/1043)
+- pgsql: fix serverInfo() version number
+  [#1059](https://github.com/ADOdb/ADOdb/issues/1059)
+
+
 ## [5.22.7] - 2023-11-04
 
 ### Fixed
@@ -1434,6 +1490,8 @@ Released together with [v4.95](changelog_v4.x.md#495---17-may-2007)
 - Adodb5 version,more error checking code now will use exceptions if available.
 
 
+[5.22.9]: https://github.com/adodb/adodb/compare/v5.22.8...v5.22.9
+[5.22.8]: https://github.com/adodb/adodb/compare/v5.22.7...v5.22.8
 [5.22.7]: https://github.com/adodb/adodb/compare/v5.22.6...v5.22.7
 [5.22.6]: https://github.com/adodb/adodb/compare/v5.22.5...v5.22.6
 [5.22.5]: https://github.com/adodb/adodb/compare/v5.22.4...v5.22.5
