@@ -291,9 +291,8 @@ function HTMLformEditTerms($taskterm, $ARRAYtermino = array())
             $hidden.='<div><input type="checkbox" name="isMetaTerm" id="isMetaTerm" value="1" alt="'.ucfirst(LABEL_meta_term).'" /> <label for="isMetaTerm" accesskey="e">'.ucfirst(LABEL_meta_term).'</label>
 			<div class="alert alert-info" role="alert">'.NOTE_isMetaTermNote.'</div>
 			</div>';
-
             $help_rows='<p class="text-primary">'.HELP_variosTerminos.'</p>';
-            //$extra_button='<a class="btn btn-second btn-xs" role="button" href="'.URL_BASE.'index.php?taskterm=addTermSuggested" title="'.ucfirst(LABEL__getForRecomendation).'">'.ucfirst(LABEL__getForRecomendation).'</a>';
+
             break;
         case 'editTerm'://Edici�n de un t�rmino $edit_id
             $nombre_pantalla=LABEL_editT.HTMLlinkTerm(array("tema_id"=>$ARRAYtermino["idTema"],"tema"=>$ARRAYtermino["titTema"]));

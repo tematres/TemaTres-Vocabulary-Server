@@ -610,6 +610,8 @@ function HTMLmainMenu()
         $row.='<ul class="dropdown-menu">' ;
         $row.='<li><a role="button" title="'.ucfirst(MENU_AgregarT).'" href="index.php?taskterm=addTerm&amp;tema=0">'.ucfirst(MENU_AgregarT).'</a></li>' ;
         $row.='<li><a role="button" title="'.ucfirst(MENU_AgregarT).'" href="index.php?taskterm=addTermSuggested" title="'.ucfirst(LABEL__getForRecomendation).'">'.ucfirst(LABEL__getForRecomendation).'</a></li>' ;
+        $row.='<li><a role="button" title="'.ucfirst(MENU_AgregarT).'" href="index.php?taskterm=getWikidataTerm" title="'.ucfirst('LABEL__getForWikidataTerms').'">'.ucfirst(LABEL__getForWikidataTerms).'</a></li>' ;
+        $row.='<li role="separator" class="divider"></li>' ;        
         $row.='<li><a role="button" title="'.ucfirst(MENU_AgregarT).'" href="index.php?taskterm=findTermNews" title="'.ucfirst(LABEL__getForTargetVocabularyNews).'">'.ucfirst(LABEL__getForTargetVocabularyNews).'</a></li>' ;
         $row.='  </ul>' ;
         $row.='</li>' ;
@@ -731,6 +733,8 @@ function HTMLtermMenuX2($array_tema, $relacionesTermino)
         $row.='<li role="separator" class="divider"></li>' ;
 
         $row.='     <li><a title="'.LABEL__getForRecomendation.'" href="'.URL_BASE.'index.php?taskterm=findSuggestionTargetTerm&amp;tema='.$array_tema["idTema"].'">'.ucfirst(LABEL__getForRecomendation).'</a></li>' ;
+
+        $row.='     <li><a title="'.ucfirst(LABEL__getForRecomendationWiki).'" href="'.URL_BASE.'index.php?taskterm=getWikidataRelTerm&amp;tema='.$array_tema["idTema"].'">'.ucfirst(LABEL__getForRecomendationWiki).'</a></li>' ;
         $row.='</ul>' ;
 
         $row.='<li><a href="#" class="dropdown-toggle" data-toggle="dropdown">'.ucfirst(LABEL_relbetweenVocabularies).'<b class="caret"></b></a>' ;

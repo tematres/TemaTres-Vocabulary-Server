@@ -140,7 +140,57 @@ if($user_nivel_id==3){//is colab
 
     $sendkey=array2value('ks',$_POST) ;
     //$sendkey=(is_null($sendkey)) ? 0 : $sendkey;
+
     if (strcasecmp((string) $sendkey, $_SESSION['SEND_KEY'])===0) {
+
+      // alta de términos sugeridos wikidata
+      if ($_POST["taskterm"]=='addSuggestedWikiTerms') {
+          for ($i=0; $i<sizeof($selectedTerms); ++$i) {
+            //parse string and term_id
+            $arrayNewTerm=explode('|', $selectedTerms[$i]);
+            $tema=abm_tema('alta', $arrayNewTerm[0]);
+            abmURI('A', $tema, array("uri_type_id"=>"34","uri"=>"https://www.wikidata.org/wiki/$arrayNewTerm[1]"));
+          }
+
+      };//fin alta wikidata
+        
+      // alta de términos sugeridos wikidata según relaciones
+
+      if ($_POST["taskterm"]=='addSuggestedWikiRelatedTerms') {
+        $ARRAYtema=ARRAYverTerminoBasico($_POST["tema"]);
+        $tema=$ARRAYtema["tema_id"];
+
+
+          for ($i=0; $i<sizeof($selectedTerms); ++$i) {
+            //parse string and term_id
+            $arrayNewTerm=explode('|', $selectedTerms[$i]);
+            $relative_term_id=abm_tema('alta', $arrayNewTerm[0]);
+
+          switch ($_POST["t_relation"]) {
+              case '2'://associate terms              
+              $new_relacion=do_terminos_relacionados($relative_term_id, $ARRAYtema["tema_id"]);
+              abmURI('A', $relative_term_id, array("uri_type_id"=>"34","uri"=>"https://www.wikidata.org/wiki/$arrayNewTerm[1]"));
+                break;
+              
+              case '3'://associate terms              
+              $new_relacion=do_r($ARRAYtema["tema_id"], $relative_term_id, "3");
+              abmURI('A', $relative_term_id, array("uri_type_id"=>"34","uri"=>"https://www.wikidata.org/wiki/$arrayNewTerm[1]"));
+                break;
+              
+              case '4'://associate terms              
+              $new_relacion=do_r($relative_term_id, $ARRAYtema["tema_id"],"4");
+              //abmURI('A', $ARRAYtema["tema_id"], array("uri_type_id"=>"34","uri"=>"https://www.wikidata.org/wiki/$arrayNewTerm[1]"));
+                break;
+              
+              default:
+                // code...
+                break;
+            }
+          }
+
+      };//fin alta wikidata relaciones
+
+        
       // alta de términos sugeridos
       if ($_POST["taskterm"]=='addSuggestedTerms') {
         $ARRAYtema=ARRAYverTerminoBasico($_POST["tema"]);
@@ -151,22 +201,21 @@ if($user_nivel_id==3){//is colab
           $ARRAYtargetVocabulary=ARRAYtargetVocabulary($_POST["tvocab_id"]);
         }
 
-        switch ($_POST["t_relation"]) {
-          case '0':
-          for ($i=0; $i<sizeof($selectedTerms); ++$i) {
+      for ($i=0; $i<sizeof($selectedTerms); ++$i) {
+
             //parse string and term_id
             $arrayNewTerm=explode('|tterm_|', $selectedTerms[$i]);
+
+        switch ($_POST["t_relation"]) {
+          case '0':
             $tema=abm_tema('alta', $arrayNewTerm[0]);
 
             //add reference
             ADDreferencesSuggestedTerm($tema, $arrayNewTerm[1], $ARRAYtargetVocabulary, $options = array("addNoteReference"=>$_POST["addNoteReference"],"addLinkReference"=>$_POST["addLinkReference"],"addMappReference"=>$_POST["addMappReference"]));
-          }
           break;
 
           case '2':
-          for ($i=0; $i<sizeof($selectedTerms); ++$i) {
             //parse string and term_id
-            $arrayNewTerm=explode('|tterm_|', $selectedTerms[$i]);
             $relative_term_id=abm_tema('alta', $arrayNewTerm[0]);
 
             //associate terms
@@ -174,13 +223,10 @@ if($user_nivel_id==3){//is colab
 
             //add reference
             ADDreferencesSuggestedTerm($relative_term_id, $arrayNewTerm[1], $ARRAYtargetVocabulary, $options = array("addNoteReference"=>$_POST["addNoteReference"],"addLinkReference"=>$_POST["addLinkReference"],"addMappReference"=>$_POST["addMappReference"]));
-          }
           break;
 
           case '3':
-          for ($i=0; $i<sizeof($selectedTerms); ++$i) {
             //parse string and term_id
-            $arrayNewTerm=explode('|tterm_|', $selectedTerms[$i]);
             $relative_term_id=abm_tema('alta', $arrayNewTerm[0]);
 
             //associate terms
@@ -188,22 +234,18 @@ if($user_nivel_id==3){//is colab
 
             //add reference
             ADDreferencesSuggestedTerm($relative_term_id, $arrayNewTerm[1], $ARRAYtargetVocabulary, $options = array("addNoteReference"=>$_POST["addNoteReference"],"addLinkReference"=>$_POST["addLinkReference"],"addMappReference"=>$_POST["addMappReference"]));
-          }
           break;
 
           case '4':
-          for ($i=0; $i<sizeof($selectedTerms); ++$i) {
             //parse string and term_id
-            $arrayNewTerm=explode('|tterm_|', $selectedTerms[$i]);
             $relative_term_id=abm_tema('alta', $arrayNewTerm[0]);
 
             //associate terms
             $new_relacion=do_r($relative_term_id, $ARRAYtema["tema_id"], "4");
-          }
           break;
+          }
         }
-      }
-
+      };// fin if _POST
 
       // Alta de término subordinado
       if ($_POST["id_termino_sub"]) {

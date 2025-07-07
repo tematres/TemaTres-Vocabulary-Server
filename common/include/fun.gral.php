@@ -295,7 +295,7 @@ function sql2csv($sql, $filename, $encode = "utf8")
 
     // insert column captions at the beginning of .csv file
     //replace some colnames
-    $CSV .= str_replace(array("tema_id","cuando","tema","date_estado"), array("internal_term_id","date","term","date_status"), implode(";", $colnames));
+    $CSV .= str_replace(array("tema_id","cuando","tema","date_estado"), array("internal_term_id","date","term","date_status"), implode(";", (string)$colnames));
 
     // iterate through each row
     // replace single double-quotes with double double-quotes
@@ -305,7 +305,7 @@ function sql2csv($sql, $filename, $encode = "utf8")
         while ($array = $res->FetchRow()) {
             //for ($i = 0; $i < sizeof($row); $i++) {
             for ($i = 0; $i < $res->FieldCount(); $i++) {
-                  $array[$i] = '"'.str_replace('"', '""', $array[$i]).'"';
+                  $array[$i] = '"'.str_replace('"', '""', (string)$array[$i]).'"';
                   $CSV.= $array[$i].";";
             }
 
@@ -410,16 +410,16 @@ function is_alpha_numeric($inStr)
 function xmlentities($string, $pcdata = false)
 {
     if ($pcdata == true) {
-        return  '<![CDATA[ '.str_replace(array ('[[',']]' ), array ('',''), $string).' ]]>';
+        return  '<![CDATA[ '.str_replace(array ('[[',']]' ), array ('',''), (string)$string).' ]]>';
     } else {
-        return str_replace(array ( '&', '"', "'", '<', '>','[[',']]' ), array ( '&amp;' , '&quot;', '&apos;' , '&lt;' , '&gt;','',''), $string);
+        return str_replace(array ( '&', '"', "'", '<', '>','[[',']]' ), array ( '&amp;' , '&quot;', '&apos;' , '&lt;' , '&gt;','',''), (string)$string);
     }
 }
 
 //Reemplaza un valor de una matriz por otro
 function arrayReplace($arrayInicio, $arrayFinal, $string)
 {
-    return str_replace($arrayInicio, $arrayFinal, $string);
+    return str_replace($arrayInicio, $arrayFinal, (string)$string);
 }
 
 
@@ -430,7 +430,7 @@ function prepare2sqlregexp($string)
     $arrayPossibleSpecialChar=array('a','e','i','o','u','c','y','n');
     $arraySpecialChar=array('[a������]','[c�]','[o������]','[e����]','[i����]','[u����]','[y��]','[n�]');
 
-    return str_replace($arrayPossibleSpecialChar, $arraySpecialChar, $string);
+    return str_replace($arrayPossibleSpecialChar, $arraySpecialChar, (string)$string);
 }
 
 
@@ -455,7 +455,7 @@ function html2txt($html)
     //$ret = strtr($html, array_flip(get_html_translation_table(HTML_ENTITIES)));
     $ret = strtr($html, array_flip(get_html_translation_table()));
     $ret = strip_tags(br2nl($ret));
-    $ret = str_replace(array ('[[',']]' ), array ('',''), $ret);
+    $ret = str_replace(array ('[[',']]' ), array ('',''), (string)$ret);
 
     include_once 'htmlpurifier/HTMLPurifier.auto.php';
 
@@ -489,7 +489,7 @@ function wiki2html($wikitext)
         } else {
             $href = 'index.php?'.FORM_LABEL_buscar.'='.$link.'&amp;sgs=off';
         }
-        $inter_text = str_replace('[['.$link.']]', '<a href="'.$href.'" title="'.LABEL_verDetalle.$link.'">'.$link.'</a>', $inter_text);
+        $inter_text = str_replace('[['.$link.']]', '<a href="'.$href.'" title="'.LABEL_verDetalle.$link.'">'.$link.'</a>', (string)$inter_text);
     }
     return $inter_text;
 }
@@ -502,7 +502,7 @@ function wiki2xml($wikitext)
         return false;
     }
 
-    return str_replace(array ('[[',']]' ), array ('',''), $wikitext);
+    return str_replace(array ('[[',']]' ), array ('',''), (string)$wikitext);
 }
 
 /* Convert wiki text to html for output */
@@ -756,7 +756,7 @@ function utf8($txt)
 function XSSprevent($string)
 {
     if(is_null($string)) return;
-    $string = str_replace(array ('<',">","&",'"' ), array ('','','',''), $string);
+    $string = str_replace(array ('<',">","&",'"' ), array ('','','',''), (string)$string);
 
     //$string=htmlentities($string, ENT_QUOTES | ENT_HTML5, 'UTF-8');
 
@@ -866,7 +866,7 @@ function DBconnect()
         $DB->Connect($DBCFG["Server"], $DBCFG["DBLogin"], $DBCFG["DBPass"], $DBCFG["DBName"]);
         }
 
-
+        if(!is_object($DB)) return false;
 
         //$DB->Execute("SET SESSION sql_mode = 'TRADITIONAL'");
         $DB->Execute("SET SESSION sql_mode = ' '");
@@ -1635,7 +1635,7 @@ function URIterm2array($URI_term)
     $ARRAY_URL_BASE=explode("services.php", $URI_term);
 
     if (count($ARRAY_URL_BASE)>0) {
-        return array( "tterm_url"=>str_replace('services.php?task=fetchTerm&arg=', 'index.php?tema=', $URI_term),
+        return array( "tterm_url"=>str_replace('services.php?task=fetchTerm&arg=', 'index.php?tema=', (string)$URI_term),
                   "tterm_id"=>(int)substr(strrchr($URI_term, "="), 1),
                   "URL_service"=>$ARRAY_URL_BASE[0].'services.php',
                   "URL_vocab"=>$ARRAY_URL_BASE[0]);
@@ -1707,7 +1707,7 @@ function hashmaker($seed, $string2hash)
 /**exctract hash from ark */
 function ark2hash($seed, $string2hash)
 {
-    return str_replace($seed, "", $string2hash);
+    return str_replace($seed, "", (string)$string2hash);
 }
 
 

@@ -13,7 +13,7 @@ if ((stristr($_SERVER['REQUEST_URI'], "session.php") ) || ( !defined('T3_ABSPATH
 
 date_default_timezone_set("America/Argentina/Buenos_Aires");
 
-$CFG["Version"]        = "TemaTres 3.5.2";
+$CFG["Version"]        = "TemaTres 3.6";
 
 $CFG["VersionWebService"]        = "2.0";
 

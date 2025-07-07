@@ -52,6 +52,8 @@ elseif ((is_numeric(@$metadata["arraydata"]["tema_id"]))
     || ($_GET["taskterm"]=='addTerm')
     || ($_GET["taskterm"]=='addTermSuggested')
     || ($_GET["taskterm"]=='findTermNews')
+    || ($_GET["taskterm"]=='getWikidataTerm')
+    || ($_GET["taskterm"]=='getWikidataRelTerm')
 ) {
     include_once T3_ABSPATH . 'common/include/inc.vistaTermino.php';
 } //Vista de términos según estados
@@ -100,7 +102,6 @@ elseif ((in_array($evalUserLevel, array(1,2)))&&($_GET["mod"]=='trad')) {
         if ($_GET["letra2trad"]) {    // sanitice $letra
             $letra=isValidLetter($_GET["letra2trad"]);
         }
-
 
         echo FORMtransterm4char4map($tvocab_id, $_GET["filterEQ"], $letra);
     } else {
