@@ -573,3 +573,15 @@ define('LABEL__example', 'example');
  define('LABEL_hubs','hubs');
  define('LABEL_clusteringCoefficient','clustering coefficient');
  define('LABEL_logScale','logarithmic scale');
+#3.6
+ define('LABEL__getForRecomendationWiki','Wikidata suggestions');
+ define('LABEL__getForWikidataTerms','Terminological suggestions in Wikidata');
+ define('LABEL__noResult','No results were found');
+ define('LABEL__wikiEntity','wikidata element');
+ define('LABEL__wikiSearch','search in Wikidata');
+ define('LABEL__wikiProperty','wikidata property');
+ define('LABEL__wikiEntityError','The provided Wikidata ENTITY ID is not valid');
+ define('LABEL__wikiPropertyError','The provided Wikidata PROPERTY ID is not valid');
+ define('LABEL__wikiServiceError','"Wikidata Service request error');
+ define('LABEL__wikiConnectionError','Error when accessing the Wikidata Service');
+ define('LABEL__ParserError','Error parsing response from server'); 

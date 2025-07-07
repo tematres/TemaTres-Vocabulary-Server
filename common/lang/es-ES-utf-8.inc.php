@@ -569,8 +569,19 @@ define('LABEL__example', 'ejemplo');
  define('LABEL_userIsEditor','editor');
  define('LABEL_userIsColab','colaborador');
  define('LABEL_userType','tipo de usuario');
-  #3.5
+ #3.5
  define('LABEL_hubs','concentraciones');
  define('LABEL_clusteringCoefficient','coeficiente de agrupamiento');
  define('LABEL_logScale','escala logarítmica');
- 
+ #3.6
+ define('LABEL__getForRecomendationWiki','recomendaciones Wikidata');
+ define('LABEL__getForWikidataTerms','recomendaciones terminológicas de Wikidata');
+ define('LABEL__noResult','no se encontraron resultados');
+ define('LABEL__wikiEntity','elemento wikidata');
+ define('LABEL__wikiSearch','buscar en Wikidata');
+ define('LABEL__wikiProperty','propiedad wikidata');
+ define('LABEL__wikiEntityError','El ID de ENTIDAD Wikidata proporcionado no es válido');
+ define('LABEL__wikiPropertyError','El ID de ENTIDAD Wikidata proporcionado no es válido');
+ define('LABEL__wikiServiceError','error al consultar Servicio Wikidata');
+ define('LABEL__wikiConnectionError','error al conectar con la API de Wikidata');
+ define('LABEL__ParserError','error al procesar la respuesta');
