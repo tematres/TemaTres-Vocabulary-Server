@@ -38,9 +38,11 @@ if (SQLcheckInstall()==11) header("Location:index.php");
 function message($mess)
 {
     echo "" ;
-    echo XSSprevent($mess) ;
+    echo ($mess) ;
     echo "<br/>" ;
 }
+
+
 
 
 // Return base URL of the current URL or instance of vocabulary
@@ -113,6 +115,7 @@ function checkDataInstall($array = array())
 function checkInstall($lang)
 {
     global $install_message;
+    global $DBCFG;
 
     $conf_file_path =  str_replace("install.php", "db.tematres.php", "http://".$_SERVER['SERVER_NAME'].$_SERVER['PHP_SELF']);
 
@@ -120,7 +123,7 @@ function checkInstall($lang)
     if (!file_exists('db.tematres.php')) {
         return message('<div class="alert alert-danger" role="alert">'.sprintf($install_message["201"], $conf_file_path).'</div><br/>');
     } else {
-        include 'db.tematres.php';
+        include_once 'db.tematres.php';
     }
 
 
@@ -144,6 +147,7 @@ function checkInstall($lang)
     $DB = NewADOConnection($DBCFG["DBdriver"]);
 
     if (!$DB->Connect($DBCFG["Server"], $DBCFG["DBLogin"], $DBCFG["DBPass"])) {
+        
         return message('<div class="alert alert-danger" role="alert">'.sprintf($install_message["203"], $label_server, $label_login, $conf_file_path).'</div><br/>');
     }
 
@@ -711,6 +715,10 @@ function SQLcheckInstall(){
   $DBCFG["DBdriver"]=($DBCFG["DBdriver"]) ? $DBCFG["DBdriver"] : "mysqli";
 
   $DB = NewADOConnection($DBCFG["DBdriver"]);
+
+  if(!is_object($DB)){
+    return false;
+  }
 
   if (!$DB->Connect($DBCFG["Server"], $DBCFG["DBLogin"], $DBCFG["DBPass"], $DBCFG["DBName"])) {
     return 0;
