@@ -201,8 +201,9 @@ if ($_SESSION[$_SESSION["CFGURL"]]["ssuser_nivel"]=='1') {
                     if ($NT_term_id) {
                         ALTArelacionXId($NT_term_id,$term_id,  "3");
                     }
-                }
-                /*
+                
+                }*/
+                
             }
 
             //end if new term
