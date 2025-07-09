@@ -178,6 +178,7 @@ if ($_SESSION[$_SESSION["CFGURL"]]["ssuser_nivel"]=='1') {
             // inverse of relationship is not required by SKOS
             // http://www.w3.org/TR/2009/NOTE-skos-primer-20090818/#sechierarchy
             if ($uri instanceof DOMAttr) {
+                //BT to generate broader/narrower relations: more useful than use NT (each term have 1 BT).
                 foreach ($skos->xpath->query('./skos:Concept[skos:broader[@rdf:resource="'.$uri->nodeValue.'"]]') as $narrower) {
                     if (!($narrower instanceof DOMElement)) {
                         continue;
@@ -188,6 +189,20 @@ if ($_SESSION[$_SESSION["CFGURL"]]["ssuser_nivel"]=='1') {
                         ALTArelacionXId($term_id, $NT_term_id, "3");
                     }
                 }
+
+                /*
+                //NT to generate broader/narrower relations: more powerful than use BT  (each term have many NT).
+                foreach ($skos->xpath->query('./skos:Concept[skos:narrower[@rdf:resource="'.$uri->nodeValue.'"]]') as $narrower) {
+                    if (!($narrower instanceof DOMElement)) {
+                        continue;
+                    }
+
+                    $NT_term_id=addSkosTerm($skos, $narrower);
+                    if ($NT_term_id) {
+                        ALTArelacionXId($NT_term_id,$term_id,  "3");
+                    }
+                }
+                /*
             }
 
             //end if new term

@@ -295,7 +295,7 @@ function sql2csv($sql, $filename, $encode = "utf8")
 
     // insert column captions at the beginning of .csv file
     //replace some colnames
-    $CSV .= str_replace(array("tema_id","cuando","tema","date_estado"), array("internal_term_id","date","term","date_status"), implode(";", (string)$colnames));
+    $CSV .= str_replace(array("tema_id","cuando","tema","date_estado"), array("internal_term_id","date","term","date_status"), implode(";", $colnames));
 
     // iterate through each row
     // replace single double-quotes with double double-quotes
@@ -305,7 +305,7 @@ function sql2csv($sql, $filename, $encode = "utf8")
         while ($array = $res->FetchRow()) {
             //for ($i = 0; $i < sizeof($row); $i++) {
             for ($i = 0; $i < $res->FieldCount(); $i++) {
-                  $array[$i] = '"'.str_replace('"', '""', (string)$array[$i]).'"';
+                  $array[$i] = '"'.str_replace('"', '""', $array[$i]).'"';
                   $CSV.= $array[$i].";";
             }
 
@@ -345,7 +345,7 @@ function secure_data($data, $type = "alnum")
 
         case "ADOsql":
             global $DB;
-            $data = trim((string) $data);
+            $data = trim($data);
             $data=$DB->qstr($data);
             break ;
 
