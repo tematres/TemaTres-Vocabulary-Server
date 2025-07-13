@@ -110,16 +110,17 @@ if ($evalUserLevel>0) {
             try {               
                 $wikidata_terms=buscarConceptosEnWikidataSoloIdioma($metadata["arraydata"]["titTema"], $language = $_SESSION["CFGIdioma"], $limit = 10);
             
-            } catch (Exception $e) {
-                echo "Error: " . $e->getMessage();
-            }
-
-
             //Buscar términos para incorporar en base a relaciones
-
             $qId=array2value("q_id", $_GET);
             $t_relation=array2value("t_relation", $_GET);
             echo HTMLformSuggestWikidataTermsXrelations($metadata["arraydata"],$wikidata_terms,$t_relation,$qId);
+
+
+            } catch (Exception $e) {
+                echo '[ <a class="topOfPage" href="'.URL_BASE.'index.php?tema='.$metadata["arraydata"]["idTema"].'" title="'.$metadata["arraydata"]["titTema"].'">'.ucfirst(LABEL_Anterior).'</a> ]' . $e->getMessage();
+            }
+
+
 
 
             try {
@@ -182,7 +183,7 @@ if ($evalUserLevel>0) {
                 
 
                 } catch (Exception $e) {
-                    echo "Error: " . $e->getMessage();    
+                    echo $e->getMessage();    
                 }    
             break;
 
