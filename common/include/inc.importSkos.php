@@ -192,17 +192,18 @@ if ($_SESSION[$_SESSION["CFGURL"]]["ssuser_nivel"]=='1') {
 
                 /*
                 //NT to generate broader/narrower relations: more powerful than use BT  (each term have many NT).
-                foreach ($skos->xpath->query('./skos:Concept[skos:narrower[@rdf:resource="'.$uri->nodeValue.'"]]') as $narrower) {
-                    if (!($narrower instanceof DOMElement)) {
+                foreach ($skos->xpath->query('./skos:Concept[skos:narrower[@rdf:resource="'.$uri->nodeValue.'"]]') as $broader) {
+                    if (!($broader instanceof DOMElement)) {
                         continue;
                     }
 
-                    $NT_term_id=addSkosTerm($skos, $narrower);
-                    if ($NT_term_id) {
-                        ALTArelacionXId($NT_term_id,$term_id,  "3");
+                    $BT_term_id=addSkosTerm($skos, $broader);
+                    if ($BT_term_id) {
+                        ALTArelacionXId($BT_term_id,$term_id,  "3");
                     }
                 
-                }*/
+                }
+                */
                 
             }
 

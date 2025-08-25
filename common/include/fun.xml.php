@@ -521,7 +521,8 @@ function do_nodo_skos($idTema)
                     break;
 
                 case 'NB':
-                    $skos_notes.=' <skos:note xml:lang="'.$datosTermino["notas"][$iNota]["lang_nota"].'">'.$note_content.'</skos:note>';
+                    //$skos_notes.=' <skos:note xml:lang="'.$datosTermino["notas"][$iNota]["lang_nota"].'">'.$note_content.'</skos:note>';
+                    $skos_notes.=' <dc:source xml:lang="'.$datosTermino["notas"][$iNota]["lang_nota"].'">'.$note_content.'</dc:source>';
                     break;
             }
         };
@@ -1800,6 +1801,10 @@ $schema=configValue($_GET["schema"], '', array('skos','zthes','vdex','bs8723','m
         case 'skos':
             header('Content-Type: text/xml');
             return do_skos(do_nodo_skos($term_id));
+            break;
+        case 'zthes':
+            header('Content-Type: text/xml');
+            return do_zthes(do_nodo_zthes($term_id));
             break;
         case 'vdex':
             header('Content-Type: text/xml');
