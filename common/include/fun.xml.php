@@ -1009,7 +1009,8 @@ function do_meta_tag($arrayTermino = "")
     $aboutness=substr(implode(", ", $aboutness), 0, 325);
 
     //descripction filled with aboutness of the vocabualry or term at
-    $meta_description= (isset($term_note)) ? $term_note : ((strlen((string) $_SESSION["CFGCobertura"])>5) ? $_SESSION["CFGCobertura"] : $aboutness);
+    $meta_description= XSSprevent((isset($term_note)) ? $term_note : ((strlen((string) $_SESSION["CFGCobertura"])>5) ? $_SESSION["CFGCobertura"] : $aboutness));
+
 
     $page_encode = (in_array($CFG["_CHAR_ENCODE"], array('utf-8','iso-8859-1'))) ? $CFG["_CHAR_ENCODE"] : 'utf-8';
     $titleParts[]=$labelChangeLang;
