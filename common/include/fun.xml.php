@@ -206,7 +206,7 @@ function do_nodo_zthes($idTema)
         };
     };
 
-    $meta_tag.='<termCreatedDate>'.xmlentities($datosTermino["titTema"]).'</termCreatedDate>';
+    $meta_tag.='<termCreatedDate>'.$datosTermino["cuando"].'</termCreatedDate>';
 
     if (@$datosTermino["cuando_final"]>$datosTermino["cuando"]) {
         $meta_tag.='<termModifiedDate>'.$datosTermino["cuando_final"].'</termModifiedDate>';
@@ -1846,3 +1846,132 @@ $schema=configValue($_GET["schema"], '', array('skos','zthes','vdex','bs8723','m
     }
     return false;
 }
+
+
+
+
+//
+// Arma nodos Skos
+//
+function do_nodo_tbx($tema_id)
+{
+    global $CFG;
+
+    $_URI_BASE_ID = ($CFG["_URI_BASE_ID"]) ? $CFG["_URI_BASE_ID"] : $_SESSION["CFGURL"];
+
+    /*
+    Tomar URL por default
+    *  Para que utilice URLs navegables:
+    *  $_URI_SEPARATOR_ID = ($CFG["_URI_SEPARATOR_ID"]) ? $CFG["_URI_SEPARATOR_ID"] : '?tema=';
+    * Para que utilice URLs Skos core
+    */
+    $_URI_SEPARATOR_ID = (@$CFG["_URI_SEPARATOR_ID"]) ? $CFG["_URI_SEPARATOR_ID"] : 'xml.php?schema=skos&amp;term_id=';
+
+
+    $datosTermino=ARRAYverDatosTermino($tema_id);
+
+
+    $SQLterminosRelacionados=SQLverTerminoRelaciones($idTema);
+
+    while ($datosTerminosRelacionados= $SQLterminosRelacionados->FetchRow()) {
+
+        if ($datosTerminosRelacionados["t_relacion"]=='4') {// UF
+            //HiddenLabel
+            if (in_array($datosTerminosRelacionados["rr_code"], $CFG["HIDDEN_EQ"])) {
+                $skos_altLabel.='<skos:hiddenLabel xml:lang="'.$_SESSION["CFGIdioma"].'">'.xmlentities($datosTerminosRelacionados["tema"]).'</skos:hiddenLabel>';
+            } else {
+                $skos_altLabel.='<skos:altLabel xml:lang="'.$_SESSION["CFGIdioma"].'">'.xmlentities($datosTerminosRelacionados["tema"]).'</skos:altLabel>';
+            }
+        };
+
+        //terms with internal mapping
+        if (in_array($datosTerminosRelacionados["t_relacion"], array(5,6))) {
+            $map_label=arrayReplace(array(5,6), array("partial","exact"), $datosTerminosRelacionados["t_relacion"]);
+
+            $skos_map.='<skos:'.$map_label.'Match>';
+            $skos_map.=' <skos:Concept rdf:about="'.$_URI_BASE_ID.$_URI_SEPARATOR_ID.$datosTerminosRelacionados["tema_id"].'">';
+            $skos_map.=' <skos:prefLabel xml:lang="'.$datosTerminosRelacionados["idioma"].'">'.$datosTerminosRelacionados["tema"].'</skos:prefLabel>';
+            $skos_map.=' </skos:Concept>';
+            $skos_map.='</skos:'.$map_label.'Match>';
+        }
+    };
+
+
+    $SQLtargetTerms=SQLtargetTerms($idTema);
+    while ($datosTargetTerms=$SQLtargetTerms->FetchRow()) {
+        $map_label=(in_array(strtolower($datosTargetTerms["tvocab_tag"]), array('exact','close','related','partial','broad','narrow'))) ? strtolower($datosTargetTerms["tvocab_tag"]) : 'exact';
+
+        $skos_map.='<skos:'.$map_label.'Match>';
+        $skos_map.=' <skos:Concept rdf:about="'.$datosTargetTerms["tterm_url"].'">';
+        $skos_map.=' <skos:prefLabel xml:lang="'.$datosTargetTerms["tvocab_lang"].'">'.$datosTargetTerms["tterm_string"].'</skos:prefLabel>';
+        $skos_map.=' </skos:Concept>';
+        $skos_map.='</skos:'.$map_label.'Match>';
+    };
+
+    $skos_notes='';
+
+    for ($iNota=0; $iNota<(count($datosTermino["notas"])); ++$iNota) {
+        if ($datosTermino["notas"][$iNota]["id"]) {
+            $note_content=html2txt($datosTermino["notas"][$iNota]["nota"].' '.TXTsource4note($datosTermino["notas"][$iNota]["id"]));
+            switch ($datosTermino["notas"][$iNota]["tipoNota"]) {
+                case 'NH':
+                    $skos_notes.=' <skos:historyNote xml:lang="'.$datosTermino["notas"][$iNota]["lang_nota"].'">'.$note_content.'</skos:historyNote>';
+                    break;
+
+                case 'NA':
+                    $skos_notes.=' <skos:scopeNote xml:lang="'.$datosTermino["notas"][$iNota]["lang_nota"].'">'.$note_content.'</skos:scopeNote>';
+                    break;
+
+                case 'DF':
+                    $skos_notes.=' <skos:definition xml:lang="'.$datosTermino["notas"][$iNota]["lang_nota"].'">'.$note_content.'</skos:definition>';
+                    break;
+
+                case 'ED':
+                    $skos_notes.=' <skos:editorialNote xml:lang="'.$datosTermino["notas"][$iNota]["lang_nota"].'">'.$note_content.'</skos:editorialNote>';
+                    break;
+
+                case 'EX':
+                    $skos_notes.=' <skos:example xml:lang="'.$datosTermino["notas"][$iNota]["lang_nota"].'">'.$note_content.'</skos:example>';
+                    break;
+
+                case 'CH':
+                    $skos_notes.=' <skos:changeNote xml:lang="'.$datosTermino["notas"][$iNota]["lang_nota"].'">'.$note_content.'</skos:changeNote>';
+                    break;
+
+                case 'NB':
+                    //$skos_notes.=' <skos:note xml:lang="'.$datosTermino["notas"][$iNota]["lang_nota"].'">'.$note_content.'</skos:note>';
+                    $skos_notes.=' <dc:source xml:lang="'.$datosTermino["notas"][$iNota]["lang_nota"].'">'.$note_content.'</dc:source>';
+                    break;
+            }
+        };
+    };
+
+    $meta_tag='  <skos:Concept rdf:about="'.$_URI_BASE_ID.$_URI_SEPARATOR_ID.$datosTermino["idTema"].'">';
+
+    $meta_tag.='<skos:prefLabel xml:lang="'.$_SESSION["CFGIdioma"].'">'.xmlentities($datosTermino["titTema"]).'</skos:prefLabel>';
+
+    //Use or not term code / notation tag in Skos
+    if (($CFG["_USE_CODE"]=='1') && (strlen((string) $datosTermino["code"])>0)) {
+        $meta_tag.='<skos:notation>'.xmlentities($datosTermino["code"]).'</skos:notation>';
+    }
+
+    $meta_tag.=$skos_altLabel;
+    $meta_tag.=$skos_notes;
+
+    $meta_tag.='<skos:inScheme rdf:resource="'.$_URI_BASE_ID.'"/>';
+
+    $meta_tag.=$skos_related;
+    $meta_tag.=$skos_broader;
+    $meta_tag.=$skos_narrower;
+    $meta_tag.=$skos_map;
+
+    $meta_tag.='  <dct:created>'.$datosTermino["cuando"].'</dct:created>';
+    if ($datosTermino["cuando_final"]>$datosTermino["cuando"]) {
+        $meta_tag.='<dct:modified>'.$datosTermino["cuando_final"].'</dct:modified>';
+    }
+
+    $meta_tag.='  </skos:Concept>';
+
+    return $meta_tag;
+};
+
