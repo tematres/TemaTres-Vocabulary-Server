@@ -5192,3 +5192,30 @@ function SQLtermsXcluster($type_rel_id){
 
   return $sql;
 }
+
+
+
+ /*
+  * Retrieve EQ terms for one term_id
+  */
+
+  function SQLinternalMappedTerms($tema_id)
+  {
+
+    global $DBCFG;
+
+    $tema_id=secure_data($tema_id, "int");
+
+    return SQL("select",
+      "c.titulo,c.idioma AS tlang ,r.id_menor AS tema_id,t.tema_id AS ttema_id,t.tema AS ttema,t.cuando,t.cuando_final,t.isMetaTerm,
+    r.t_relacion,
+    v.value_code
+    from $DBCFG[DBprefix]config c, $DBCFG[DBprefix]values v,$DBCFG[DBprefix]tema as t,$DBCFG[DBprefix]tabla_rel r
+    where
+    r.t_relacion in (5,6,7)
+    and t.tema_id=r.id_mayor
+    and t.tesauro_id=c.id
+    and v.value_id=r.t_relacion
+    and r.id_menor=$tema_id
+    order by c.titulo,lower(t.tema)");
+  };

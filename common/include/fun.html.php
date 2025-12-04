@@ -1934,6 +1934,7 @@ function HTMLtermMetadata($arrayTerm, $arrayCantRelaciones)
     $body.='        <li><a class="btn btn-info btn-xs"  target="_blank" title="'.LABEL_verEsquema.' IMS Vocabulary Definition Exchange (VDEX)"  href="'.URL_BASE.'xml.php?schema=vdex&term_id='.$arrayTerm["tema_id"].'">VDEX</a></li>' ;
     $body.='        <li><a class="btn btn-info btn-xs"  target="_blank" title="'.LABEL_verEsquema.' TopicMap"  href="'.URL_BASE.'xml.php?schema=xtm&term_id='.$arrayTerm["tema_id"].'">XTM</a></li>' ;
     $body.='        <li><a class="btn btn-info btn-xs"  target="_blank" title="'.LABEL_verEsquema.' Zthes" href="'.URL_BASE.'xml.php?schema=zthes&term_id='.$arrayTerm["tema_id"].'">Zthes</a></li>  ' ;
+    $body.='        <li><a class="btn btn-info btn-xs"  target="_blank" title="'.LABEL_verEsquema.' TBX" href="'.URL_BASE.'xml.php?schema=tbx&term_id='.$arrayTerm["tema_id"].'">TBX</a></li>  ' ;
     $body.='        <li><a class="btn btn-info btn-xs"  target="_blank" title="'.LABEL_verEsquema.' JavaScript Object Notation" href="'.URL_BASE.'xml.php?schema=json&term_id='.$arrayTerm["tema_id"].'">JSON</a></li>  ' ;
     $body.='        <li><a class="btn btn-info btn-xs"  target="_blank" title="'.LABEL_verEsquema.' JavaScript Object Notation for Linked Data" href="'.URL_BASE.'xml.php?schema=jsonld&term_id='.$arrayTerm["tema_id"].'">JSON-LD</a></li>  ' ;
     $body.='</ul>' ;

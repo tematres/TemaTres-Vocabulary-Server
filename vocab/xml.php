@@ -8,7 +8,7 @@
 require "config.tematres.php";
 
 $schema=array2value("schema",$_GET);
-$schema=configValue($schema, '', array('skos','zthes','vdex','bs8723','mads','xtm','dc','json','jsonld','rss'));
+$schema=configValue($schema, '', array('skos','zthes','vdex','bs8723','mads','xtm','dc','json','jsonld','rss','tbx'));
 
 if(strlen($schema)>0){
     $term_id=array2value("term_id",$_GET);
@@ -139,6 +139,11 @@ if ((evalUserLevel($_SESSION[$_SESSION["CFGURL"]])==1) && ($_GET["dis"])) {
 
         case 'fdspace':
             echo Do_Dspace();
+        break;
+
+        case 'ftbx':
+            echo doTotalTBX_basic();
+            //echo doTotalTBX();
         break;
     }
 };

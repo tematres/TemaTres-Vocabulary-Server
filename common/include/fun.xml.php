@@ -1797,7 +1797,7 @@ function Parser_ark2term_id($ark)
 
 function selectSchema($schema,$term_id=""){
 
-$schema=configValue($_GET["schema"], '', array('skos','zthes','vdex','bs8723','mads','xtm','dc','json','jsonld'));
+$schema=configValue($_GET["schema"], '', array('skos','zthes','vdex','bs8723','mads','xtm','dc','json','jsonld','tbx'));
     switch ($schema) {
         case 'skos':
             header('Content-Type: text/xml');
@@ -1835,6 +1835,11 @@ $schema=configValue($_GET["schema"], '', array('skos','zthes','vdex','bs8723','m
             header('Content-type: application/json');
             return do_jsonld($term_id);
             break;
+        case 'tbx':
+            header('Content-Type: text/xml');
+            return do_tbx_basic($term_id);
+            //return do_tbx($term_id);
+            break;
         case 'rss':
             header('Content-type: application/json');
             return do_jsonld($term_id);
@@ -1850,128 +1855,143 @@ $schema=configValue($_GET["schema"], '', array('skos','zthes','vdex','bs8723','m
 
 
 
-//
-// Arma nodos Skos
-//
-function do_nodo_tbx($tema_id)
-{
+/*
+* Arma nodos tbx minimo
+*/
+function do_nodo_tbx($tema_id){
     global $CFG;
-
-    $_URI_BASE_ID = ($CFG["_URI_BASE_ID"]) ? $CFG["_URI_BASE_ID"] : $_SESSION["CFGURL"];
-
-    /*
-    Tomar URL por default
-    *  Para que utilice URLs navegables:
-    *  $_URI_SEPARATOR_ID = ($CFG["_URI_SEPARATOR_ID"]) ? $CFG["_URI_SEPARATOR_ID"] : '?tema=';
-    * Para que utilice URLs Skos core
-    */
-    $_URI_SEPARATOR_ID = (@$CFG["_URI_SEPARATOR_ID"]) ? $CFG["_URI_SEPARATOR_ID"] : 'xml.php?schema=skos&amp;term_id=';
-
 
     $datosTermino=ARRAYverDatosTermino($tema_id);
 
+    $SQLinternalMappedTerms=SQLinternalMappedTerms($tema_id);
 
-    $SQLterminosRelacionados=SQLverTerminoRelaciones($idTema);
+    $SQLtargetTerms=SQLtargetTerms($tema_id);
 
-    while ($datosTerminosRelacionados= $SQLterminosRelacionados->FetchRow()) {
+    $xml_row='<termEntry><langSet xml:lang="'.$datosTermino["idioma"].'"><tig><term>'.xmlentities($datosTermino["titTema"]).'</term></tig></langSet>';
 
-        if ($datosTerminosRelacionados["t_relacion"]=='4') {// UF
-            //HiddenLabel
-            if (in_array($datosTerminosRelacionados["rr_code"], $CFG["HIDDEN_EQ"])) {
-                $skos_altLabel.='<skos:hiddenLabel xml:lang="'.$_SESSION["CFGIdioma"].'">'.xmlentities($datosTerminosRelacionados["tema"]).'</skos:hiddenLabel>';
-            } else {
-                $skos_altLabel.='<skos:altLabel xml:lang="'.$_SESSION["CFGIdioma"].'">'.xmlentities($datosTerminosRelacionados["tema"]).'</skos:altLabel>';
-            }
-        };
-
-        //terms with internal mapping
-        if (in_array($datosTerminosRelacionados["t_relacion"], array(5,6))) {
-            $map_label=arrayReplace(array(5,6), array("partial","exact"), $datosTerminosRelacionados["t_relacion"]);
-
-            $skos_map.='<skos:'.$map_label.'Match>';
-            $skos_map.=' <skos:Concept rdf:about="'.$_URI_BASE_ID.$_URI_SEPARATOR_ID.$datosTerminosRelacionados["tema_id"].'">';
-            $skos_map.=' <skos:prefLabel xml:lang="'.$datosTerminosRelacionados["idioma"].'">'.$datosTerminosRelacionados["tema"].'</skos:prefLabel>';
-            $skos_map.=' </skos:Concept>';
-            $skos_map.='</skos:'.$map_label.'Match>';
-        }
+    //terms with internal mapping
+    while ($datosinternalMappedTerms=$SQLinternalMappedTerms->FetchRow()) {
+        $xml_row.=' <langSet xml:lang="'.$datosinternalMappedTerms["tlang"].'"><tig><term>'.xmlentities($datosinternalMappedTerms["ttema"]).'</term></tig></langSet>';
     };
 
-
-    $SQLtargetTerms=SQLtargetTerms($idTema);
+    //terms with external mapping
     while ($datosTargetTerms=$SQLtargetTerms->FetchRow()) {
         $map_label=(in_array(strtolower($datosTargetTerms["tvocab_tag"]), array('exact','close','related','partial','broad','narrow'))) ? strtolower($datosTargetTerms["tvocab_tag"]) : 'exact';
 
-        $skos_map.='<skos:'.$map_label.'Match>';
-        $skos_map.=' <skos:Concept rdf:about="'.$datosTargetTerms["tterm_url"].'">';
-        $skos_map.=' <skos:prefLabel xml:lang="'.$datosTargetTerms["tvocab_lang"].'">'.$datosTargetTerms["tterm_string"].'</skos:prefLabel>';
-        $skos_map.=' </skos:Concept>';
-        $skos_map.='</skos:'.$map_label.'Match>';
+        $xml_row.=' <langSet xml:lang="'.$datosTargetTerms["tvocab_lang"].'"><tig><term>'.xmlentities($datosTargetTerms["tterm_string"]).'</term></tig></langSet>';
     };
 
-    $skos_notes='';
+    $xml_row.='</termEntry>';
 
-    for ($iNota=0; $iNota<(count($datosTermino["notas"])); ++$iNota) {
-        if ($datosTermino["notas"][$iNota]["id"]) {
-            $note_content=html2txt($datosTermino["notas"][$iNota]["nota"].' '.TXTsource4note($datosTermino["notas"][$iNota]["id"]));
-            switch ($datosTermino["notas"][$iNota]["tipoNota"]) {
-                case 'NH':
-                    $skos_notes.=' <skos:historyNote xml:lang="'.$datosTermino["notas"][$iNota]["lang_nota"].'">'.$note_content.'</skos:historyNote>';
-                    break;
 
-                case 'NA':
-                    $skos_notes.=' <skos:scopeNote xml:lang="'.$datosTermino["notas"][$iNota]["lang_nota"].'">'.$note_content.'</skos:scopeNote>';
-                    break;
+return $xml_row;
+};
 
-                case 'DF':
-                    $skos_notes.=' <skos:definition xml:lang="'.$datosTermino["notas"][$iNota]["lang_nota"].'">'.$note_content.'</skos:definition>';
-                    break;
 
-                case 'ED':
-                    $skos_notes.=' <skos:editorialNote xml:lang="'.$datosTermino["notas"][$iNota]["lang_nota"].'">'.$note_content.'</skos:editorialNote>';
-                    break;
+/*
+* Arma nodos tbx basic
+* https://github.com/LTAC-Global/TBX-Basic_dialect/tree/master
+*/
+function do_nodo_tbx_basic($tema_id){
+    global $CFG;
 
-                case 'EX':
-                    $skos_notes.=' <skos:example xml:lang="'.$datosTermino["notas"][$iNota]["lang_nota"].'">'.$note_content.'</skos:example>';
-                    break;
+    $datosTermino=ARRAYverDatosTermino($tema_id);
 
-                case 'CH':
-                    $skos_notes.=' <skos:changeNote xml:lang="'.$datosTermino["notas"][$iNota]["lang_nota"].'">'.$note_content.'</skos:changeNote>';
-                    break;
+    $SQLinternalMappedTerms=SQLinternalMappedTerms($tema_id);
 
-                case 'NB':
-                    //$skos_notes.=' <skos:note xml:lang="'.$datosTermino["notas"][$iNota]["lang_nota"].'">'.$note_content.'</skos:note>';
-                    $skos_notes.=' <dc:source xml:lang="'.$datosTermino["notas"][$iNota]["lang_nota"].'">'.$note_content.'</dc:source>';
-                    break;
-            }
-        };
+    $SQLtargetTerms=SQLtargetTerms($tema_id);
+
+    $xml_row='<conceptEntry id="c'.$datosTermino["tema_id"].'">';
+    $xml_row.='<termNote type="administrativeStatus">preferredTerm-admn-sts</termNote>';
+    $xml_row.='<transacGrp><transac type="transactionType">origination</transac><date>'.$datosTermino["cuando"].'</date></transacGrp>';
+    $xml_row.= (isset($datosTermino["cuando_final"])) ? '<transacGrp><transac type="transactionType"></transac><date>'.$datosTermino["cuando_final"].'</date></transacGrp>' : '';
+        
+
+    $xml_row.='<langSet xml:lang="'.$datosTermino["idioma"].'">';
+
+    $xml_row.='<termSec><term>'.xmlentities($datosTermino["titTema"]).'</term>';    
+    $xml_row.='<termNote type="administrativeStatus">preferredTerm-admn-sts</termNote>';
+    $xml_row.='<transacGrp><transac type="transactionType">origination</transac><date>'.$datosTermino["cuando"].'</date></transacGrp>';
+    $xml_row.= (isset($datosTermino["cuando_final"])) ? '<transacGrp><transac type="transactionType"></transac><date>'.$datosTermino["cuando_final"].'</date></transacGrp>' : '';
+    $xml_row.= '</termSec>';//cierre términos
+
+
+    $sqlRelTerms=SQLverTerminoRelaciones($tema_id);
+
+    while ($datosRelTerms=$sqlRelTerms->FetchRow()) {
+
+        if($datosRelTerms["t_relacion"]==4){
+        $xml_row.='<termSec><term>'.xmlentities($datosRelTerms["tema"]).'</term>';
+        $xml_row.='<termNote type="administrativeStatus">admittedTerm-admn-sts</termNote>';
+        $xml_row.='<transacGrp><transac type="transactionType">origination</transac><date>'.$datosRelTerms["t1_cuando"].'</date></transacGrp>';
+        $xml_row.= '</termSec>';//cierre términos            
+        }
     };
 
-    $meta_tag='  <skos:Concept rdf:about="'.$_URI_BASE_ID.$_URI_SEPARATOR_ID.$datosTermino["idTema"].'">';
+    $xml_row.= '</langSet>';// cierre lengua
 
-    $meta_tag.='<skos:prefLabel xml:lang="'.$_SESSION["CFGIdioma"].'">'.xmlentities($datosTermino["titTema"]).'</skos:prefLabel>';
+    //terms with internal mapping
+    while ($datosinternalMappedTerms=$SQLinternalMappedTerms->FetchRow()) {
 
-    //Use or not term code / notation tag in Skos
-    if (($CFG["_USE_CODE"]=='1') && (strlen((string) $datosTermino["code"])>0)) {
-        $meta_tag.='<skos:notation>'.xmlentities($datosTermino["code"]).'</skos:notation>';
-    }
+        $xml_row.='<langSet xml:lang="'.$datosinternalMappedTerms["tlang"].'">';
+        $xml_row.='<termSec><term>'.xmlentities($datosinternalMappedTerms["ttema"]).'</term>';
+        $xml_row.='<termNote type="administrativeStatus">preferredTerm-admn-sts</termNote>';
+        $xml_row.='<transacGrp><transac type="transactionType">origination</transac><date>'.$datosinternalMappedTerms["cuando"].'</date></transacGrp>';
+        $xml_row.='</termSec>';//cierre términos
+        $xml_row.= '</langSet>';// cierre lengua
 
-    $meta_tag.=$skos_altLabel;
-    $meta_tag.=$skos_notes;
+    };
 
-    $meta_tag.='<skos:inScheme rdf:resource="'.$_URI_BASE_ID.'"/>';
+    //terms with external mapping
+    while ($datosTargetTerms=$SQLtargetTerms->FetchRow()) {
+        $map_label=(in_array(strtolower($datosTargetTerms["tvocab_tag"]), array('exact','close','related','partial','broad','narrow'))) ? strtolower($datosTargetTerms["tvocab_tag"]) : 'exact';
 
-    $meta_tag.=$skos_related;
-    $meta_tag.=$skos_broader;
-    $meta_tag.=$skos_narrower;
-    $meta_tag.=$skos_map;
+        $xml_row.='<langSet xml:lang="'.$datosTargetTerms["tvocab_lang"].'">';
+        $xml_row.='<termSec><term>'.xmlentities($datosTargetTerms["tterm_string"]).'</term>';
+        $xml_row.='<termNote type="administrativeStatus">preferredTerm-admn-sts</termNote>';
+        $xml_row.='<transacGrp><transac type="transactionType">origination</transac><date>'.$datosTargetTerms["cuando"].'</date></transacGrp>';
+        $xml_row.='</termSec>';//cierre términos
+        $xml_row.= '</langSet>';// cierre lengua
+    };
 
-    $meta_tag.='  <dct:created>'.$datosTermino["cuando"].'</dct:created>';
-    if ($datosTermino["cuando_final"]>$datosTermino["cuando"]) {
-        $meta_tag.='<dct:modified>'.$datosTermino["cuando_final"].'</dct:modified>';
-    }
+    $xml_row.='</conceptEntry>';
 
-    $meta_tag.='  </skos:Concept>';
+
+return $xml_row;
+};
+
+
+function do_tbx($tema_id){
+
+    $meta_tag='<?xml version="1.0" encoding="utf-8"?><!DOCTYPE martif PUBLIC "ISO 12200:1999A//DTD MARTIF core (DXFcdV04)//EN" "TBXcdv04.dtd"><martif type="TBX" xml:lang="'.xmlentities($_SESSION["CFGIdioma"]).'"><martifHeader><fileDesc><sourceDesc>'.xmlentities($_SESSION["CFGTitulo"]).'</sourceDesc></fileDesc></martifHeader><text><body>';
+    $meta_tag.=do_nodo_tbx($tema_id);
+    $meta_tag.='</body></text></martif>';
 
     return $meta_tag;
 };
 
+
+
+function do_tbx_basic($tema_id){
+
+    $meta_tag='<?xml version="1.0" encoding="utf-8"?>
+<?xml-model href="https://raw.githubusercontent.com/LTAC-Global/TBX_Core_RNG/master/TBXcoreStructV03.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<?xml-model href="https://raw.githubusercontent.com/LTAC-Global/TBX-Basic_dialect/master/DCA/TBX-Basic_DCA.sch" type="application/xml" schematypens="http://purl.oclc.org/dsdl/schematron"?>
+<tbx type="TBX-Basic" style="dca" xml:lang="'.xmlentities($_SESSION["CFGIdioma"]).'" xmlns="urn:iso:std:iso:30042:ed-2">
+    <tbxHeader>
+        <fileDesc>
+            <publicationStmt>'.xmlentities($_SESSION["CFGTitulo"]).'</publicationStmt>
+            <sourceDesc>'.xmlentities($_SESSION["CFGVersion"]).'</sourceDesc>
+        </fileDesc>
+    </tbxHeader>
+
+    <text>
+        <body>';
+    $meta_tag.=do_nodo_tbx_basic($tema_id);
+    $meta_tag.='        </body>
+    </text>
+
+</tbx>';
+
+return $meta_tag;
+};

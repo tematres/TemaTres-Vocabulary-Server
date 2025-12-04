@@ -2131,8 +2131,7 @@ function HTMLlistaTermsTargetVocabularios($tvocab_id, $from = "0")
 // Exportaciones totales del vocabularios
 //
 
-function doTotalZthes($tipoEnvio)
-{
+function doTotalZthes($tipoEnvio){
 
   $time_start = time();
 
@@ -2416,7 +2415,7 @@ function doTotalTopicMap($tipoEnvio)
     // enviar como archivo
     case 'file':
     header('content-type: text/xml');
-    $row.='<?xml version="1.0" encoding="'.$CFG["_CHAR_ENCODE"].'"?>';
+    $row='<?xml version="1.0" encoding="'.$CFG["_CHAR_ENCODE"].'"?>';
     $row.=XTMheader;
 
     $rowTerminos=doTerminosXTM($tema_id);
@@ -2447,7 +2446,7 @@ function doTotalVDEX($tipoEnvio = 'file')
   $_URI_BASE_ID = ($CFG["_URI_BASE_ID"]) ? $CFG["_URI_BASE_ID"] : $_SESSION["CFGURL"];
 
   header('content-type: text/xml');
-  $row.='<?xml version="1.0" encoding="'.$CFG["_CHAR_ENCODE"].'"?>
+  $row='<?xml version="1.0" encoding="'.$CFG["_CHAR_ENCODE"].'"?>
   <vdex xmlns="http://www.imsglobal.org/xsd/imsvdex_v1p0" orderSignificant="false" language="'.$_SESSION["CFGIdioma"].'">
   <vocabIdentifier>'.$_URI_BASE_ID.'</vocabIdentifier>';
 
@@ -2523,9 +2522,7 @@ function doTotalWXR($tipoEnvio = 'file')
   <!-- generator="'.$_SESSION["CFGVersion"].'" created="'.date("Y m d H:i:s").'" -->
   <rss version="2.0"
   xmlns:dc="http://purl.org/dc/elements/1.1/"
-  xmlns:wp="http://wordpress.org/export/1.1/"
-  >
-
+  xmlns:wp="http://wordpress.org/export/1.1/">
   <channel>
   <title>'.xmlentities($_SESSION["CFGTitulo"]).'</title>
   <link>'.$_SESSION["CFGURL"].'</link>
@@ -2593,6 +2590,76 @@ function WXRverTE($tema_id, $parent_category)
 
   return $rows;
 };
+
+
+
+
+
+
+function doTotalTBX($tipoEnvio = 'file'){
+
+  $time_start = time();
+
+  @set_time_limit(900);
+
+  // enviar como archivo
+  global $CFG;
+
+  $sql=SQLIdTerminosValidos();
+
+  header('content-type: text/xml');
+  $rows='<?xml version="1.0" encoding="utf-8"?><!DOCTYPE martif PUBLIC "ISO 12200:1999A//DTD MARTIF core (DXFcdV04)//EN" "TBXcdv04.dtd"><martif type="TBX" xml:lang="'.xmlentities($_SESSION["CFGIdioma"]).'"><martifHeader><fileDesc><sourceDesc>'.xmlentities($_SESSION["CFGTitulo"]).'</sourceDesc></fileDesc></martifHeader><text><body>';
+
+   while ($array=$sql->FetchRow()) {
+    $rows.=do_nodo_tbx($array[0]);
+    }
+  
+  $rows.='</body></text></martif>';
+  
+  $filname=string2url($_SESSION["CFGTitulo"]).'.tbx';
+  sendFile("$rows", "$filname");
+};
+
+
+
+
+function doTotalTBX_basic($tipoEnvio = 'file'){
+
+  $time_start = time();
+
+  @set_time_limit(900);
+
+  // enviar como archivo
+  global $CFG;
+
+  $sql=SQLIdTerminosValidos();
+
+  header('content-type: text/xml');
+  $rows='<?xml version="1.0" encoding="utf-8"?>
+<?xml-model href="https://raw.githubusercontent.com/LTAC-Global/TBX_Core_RNG/master/TBXcoreStructV03.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<?xml-model href="https://raw.githubusercontent.com/LTAC-Global/TBX-Basic_dialect/master/DCA/TBX-Basic_DCA.sch" type="application/xml" schematypens="http://purl.oclc.org/dsdl/schematron"?>
+<tbx type="TBX-Basic" style="dca" xml:lang="'.xmlentities($_SESSION["CFGIdioma"]).'" xmlns="urn:iso:std:iso:30042:ed-2">
+    <tbxHeader>
+        <fileDesc>
+            <publicationStmt>'.xmlentities($_SESSION["CFGTitulo"]).'</publicationStmt>
+            <sourceDesc>Tematres</sourceDesc>
+        </fileDesc>
+    </tbxHeader>
+
+    <text>
+        <body>';
+
+   while ($array=$sql->FetchRow()) {
+    $rows.=do_nodo_tbx_basic($array[0]);
+    }
+  
+    $rows.='</body>    </text></tbx>';
+  
+  $filname=string2url($_SESSION["CFGTitulo"]).'.tbx';
+  sendFile("$rows", "$filname");
+};
+
+
 
 
 function txtAlfabetico($params = array())

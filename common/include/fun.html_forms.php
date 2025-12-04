@@ -2394,6 +2394,7 @@ function HTMLformExport()
                                 "rfile#Skos-Core (XML)",
                                 "rxtm#TopicMap (XML)",
                                 "BSfile#BS8723 (XML)",
+                                "ftbx#TermBase eXchange (TBX)",
                                 "madsFile#Metadata Authority Description Schema (MADS XML)",
                                 "marc#MARC 21 XML Schema (MarcXML)",
                                 "vfile#IMS Vocabulary Definition Exchange (VDEX XML)",
