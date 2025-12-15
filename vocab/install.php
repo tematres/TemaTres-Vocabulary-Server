@@ -1,4 +1,5 @@
 <?php
+define('T3_WEBPATH', 'http://localhost/tematres/TemaTres-Vocabulary-Server/common/');
 /*
  *      TemaTres : aplicación para la gestión de lenguajes documentales
  *
@@ -147,7 +148,7 @@ function checkInstall($lang)
     $DB = NewADOConnection($DBCFG["DBdriver"]);
 
     if (!$DB->Connect($DBCFG["Server"], $DBCFG["DBLogin"], $DBCFG["DBPass"])) {
-        
+
         return message('<div class="alert alert-danger" role="alert">'.sprintf($install_message["203"], $label_server, $label_login, $conf_file_path).'</div><br/>');
     }
 
@@ -391,7 +392,7 @@ function SQLtematres($DBCFG, $DB, $arrayInstallData = array())
         "CREATE TABLE `".$prefix."sources` (
         `src_id` int(11) NOT NULL AUTO_INCREMENT,
         `src_alias` varchar(50) NOT NULL,
-        `src_note` tinytext,
+        `src_note` text,
         `src_url` tinytext,
         `src_uri` varchar(255) DEFAULT NULL,
         `src_status` tinyint(1) DEFAULT NULL,
