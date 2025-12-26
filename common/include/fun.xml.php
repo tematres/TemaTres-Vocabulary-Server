@@ -1797,6 +1797,10 @@ function Parser_ark2term_id($ark)
 
 function selectSchema($schema,$term_id=""){
 
+$term_id=secure_data($term_id,"int");
+
+if(!$term_id) return false;
+
 $schema=configValue($_GET["schema"], '', array('skos','zthes','vdex','bs8723','mads','xtm','dc','json','jsonld','tbx'));
     switch ($schema) {
         case 'skos':

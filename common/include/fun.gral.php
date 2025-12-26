@@ -502,6 +502,8 @@ function wiki2xml($wikitext)
         return false;
     }
 
+    $patron = '/\|.*?\]]/'; // Busca '|' seguido de cualquier caracter (no greedy) hasta ']'
+    $wikitext = preg_replace($patron, '', $wikitext);
     return str_replace(array ('[[',']]' ), array ('',''), (string)$wikitext);
 }
 
