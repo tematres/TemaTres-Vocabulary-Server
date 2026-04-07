@@ -4003,13 +4003,7 @@ function SQLfetchValue($value_type, $value_code = "")
       $where=($value_code) ? " and v.value_code=$value_code " : "";
     }
 
-    return SQL(
-      "select",
-      "v.value_id,
-      v.value_type,
-      v.value,
-      v.value_code,
-      v.value_order
+    return SQL("select","v.value_id,v.value_type,v.value,v.value_code,v.value_order
       from $DBCFG[DBprefix]values v
       where value_type='$value_type'
       $where
@@ -4022,9 +4016,7 @@ function SQLfetchValue($value_type, $value_code = "")
 //fetch specific value
 function ARRAYfetchValueXValue($value_type, $value)
 {
-  global $CFG;
-  global $DB;
-  global $DBCFG;
+  global $CFG, $DB, $DBCFG;
 
   $value=$DB->qstr($value);
   $value_type=$DB->qstr($value_type);

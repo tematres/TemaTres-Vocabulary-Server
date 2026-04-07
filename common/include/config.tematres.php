@@ -81,10 +81,11 @@ $arrayCFGs =array(  'CFG_PUBLISH'=>'1',
                     'CFG_SUGGESTxWORD'=>'1',
                     'CFG_SIMPLE_WEB_SERVICE'=>'1',
                     '_PUBLISH_SKOS'=>'2',
-                    'CFG_ENABLE_SPARQL'=>'0'
+                    'CFG_ENABLE_SPARQL'=>'0',
+                    'CFG_STATUS_VOCAB'=>'STATUS_VOCAB_40'
                   );
 //list of config values registred in __values table
-$CFG["CONFIG_VAR"]=array('2','3','4','config','DATESTAMP','t_estado','t_nota','t_relacion','t_usuario','URI_TYPE','METADATA','CONTACT_MAIL','CFG_ARK_NAAN');
+$CFG["CONFIG_VAR"]=array('2','3','4','config','DATESTAMP','t_estado','t_nota','t_relacion','t_usuario','URI_TYPE','METADATA','CONTACT_MAIL','CFG_ARK_NAAN','CFG_STATUS_VOCAB');
 
 $CFG["ISO639-1"]=array(
     "ab"=>array("ab", "Abkhazian"),
@@ -164,7 +165,7 @@ $idiomas_disponibles = array(
      "ru-RU"  => array("Pусский","ru-RU-$CFG[_CHAR_ENCODE].inc.php", "ru-RU","ru-$CFG[_CHAR_ENCODE]")
     );
 
-// Contantes
+// Constantes
 define("id_TR", "2"); //Tipo relacion término relacionado
 define("id_TG", "3"); //Tipo relacion término superior
 define("id_UP", "4"); //Tipo relacion término no preferido

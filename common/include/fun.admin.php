@@ -1393,8 +1393,7 @@ if ($_SESSION[$_SESSION["CFGURL"]]["ssuser_nivel"]=='1') {
     $arrayTesa["url_base"]=(isset($arrayTesa["url_base"])) ? $DB->qstr($arrayTesa["url_base"]) : $_SESSION["CFGURL"];
     $arrayTesa["cuando"]=(check2Date($arrayTesa["cuando"])) ? $arrayTesa["cuando"] : date("Y-m-d");
     $arrayTesa["contact_mail"]=XSSprevent($_POST["contact_mail"]);
-
-
+    $arrayTesa["vocab_status"]=XSSprevent($_POST["vocab_status"]);
 
     $vocabulario_id=secure_data($vocabulario_id, "int");
 
@@ -1446,8 +1445,20 @@ if ($_SESSION[$_SESSION["CFGURL"]]["ssuser_nivel"]=='1') {
         $ctrl202a=ARRAYfetchValueXValue('config', '_SHOW_RANDOM_TERM');
         $ctrl202b=ARRAYfetchValueXValue('config', '_GLOSS_NOTES');
 
-        /*add condig opotion for 3.2 version*/
+        /*add config option for 3.2 version*/
         $ctrl32=ARRAYfetchValueXValue('config', 'COPY_CLICK');
+
+
+        /*add config option for 3.6 version*/
+        $array_ctrl36=ARRAYfetchValue('CFG_STATUS_VOCAB');
+
+        //Update to 3.6=> check if CFG_STATUS_VOCAB is defined
+        if (is_array($array_ctrl36)) {
+          $MODvocab_status=ABM_value("MOD_VALUE", array("value_type"=>'CFG_STATUS_VOCAB',"value_code"=>'NULL',"value"=>serializarArray(array($arrayTesa["vocab_status"],date("Y m d H:i:s")))));
+        } else {
+          $ADDvocab_status=ABM_value("ADD_VALUE", array("value_type"=>'CFG_STATUS_VOCAB',"value_code"=>'NULL',"value"=>serializarArray(array($arrayTesa["vocab_status"],date("Y m d H:i:s")))));
+        }
+
 
 
         if (!$ctrl["value_id"]) {
@@ -3225,9 +3236,30 @@ function abm_URIdefinition($do, $array, $value_id = "0")
 );
 }
 
-/*
-update config values
-*/
+/**
+ * Realiza operaciones de alta, baja y modificación (ABM) sobre valores en la base de datos.
+ *
+ * Esta función gestiona las operaciones de modificación y agregado de registros
+ * en la tabla de valores, basándose en el tipo de operación especificada.
+ * Las operaciones disponibles son: MOD_VALUE (modificar por código), MOD_SINGLE_VALUE (modificar por tipo)
+ * y ADD_VALUE (agregar nuevo valor).
+ *
+ * @param string $do Tipo de operación a realizar. Valores posibles:
+ *                   - 'MOD_VALUE': Modifica un valor específico basado en tipo y código
+ *                   - 'MOD_SINGLE_VALUE': Modifica valores de un tipo específico
+ *                   - 'ADD_VALUE': Agrega un nuevo valor a la tabla
+ * @param array $arrayValue Array asociativo con los datos del valor. Debe contener las siguientes claves:
+ *                          - 'value_code': Código identificador del valor
+ *                          - 'value': El valor propiamente dicho
+ *                          - 'value_type': Tipo de valor (será validado contra $CFG["CONFIG_VAR"])
+ * @return array Array con los valores procesados, incluyendo la validación del tipo.
+ *               Las claves 'value_code' y 'value' son escapadas para base de datos,
+ *               y 'value_type' es validada contra la configuración.
+ * 
+ * @global array $DBCFG Configuración de la base de datos. Contiene el prefijo de tablas en 'DBprefix'.
+ * @global object $DB Objeto de base de datos con método qstr() para escapar strings.
+ * @global array $CFG Configuración general del sistema. Contiene 'CONFIG_VAR' con tipos válidos.
+ */
 function ABM_value($do, $arrayValue)
 {
   global $DBCFG;

@@ -162,11 +162,11 @@ function do_fecha($fecha)
 {
     global $MONTHS;
     $array=array(
-                    "min"=>date("i", strtotime($fecha)),
-                    "hora"=>date("G", strtotime($fecha)),
+                "min"=>date("i", strtotime($fecha)),
+                "hora"=>date("G", strtotime($fecha)),
                 "dia"=>date("d", strtotime($fecha)),
                 "mes"=>date("m", strtotime($fecha)),
-                        "descMes"=>$MONTHS[date("m", strtotime($fecha))],
+                "descMes"=>$MONTHS[date("m", strtotime($fecha))],
                 "ano"=>date("Y", strtotime($fecha))
           );
     return $array;
@@ -206,14 +206,16 @@ function do_intervalDate($inicio, $fin, $tipo)
 };
 
 
-//
-// Arma un select form a partir de un Array
-//
+/*
+* Arma un select form a partir de ARRAY de strings
+* El array incluye los valores del dropdown en pares de strings con esta estructura: "clave#valor"
+*/
 function doSelectForm($valores, $valor_selec)
 {
     if (!is_array($valores)) {
         return ;
     }
+
     $selec_values='';
     for ($i=0; $i<sizeof($valores); ++$i) {
         $valor=explode("#", $valores[$i]);
@@ -223,6 +225,28 @@ function doSelectForm($valores, $valor_selec)
             } else {
                 $selec_values.='<option value="'.$valor[0].'">'.$valor[1].'</option>'."\n\r";
             };
+        };
+    };
+    return $selec_values;
+};
+
+
+/*
+* Arma un select form a partir de un ARRAY de etiquetad
+* El array incluye los valores del dropdown en un arraycon esta estructura: "clave=>valor"
+*/
+function doSelectForm4array($array, $selec_value)
+{
+    if (!is_array($array)) {
+        return ;
+    }
+    $selec_values='';
+
+    foreach ($array as $key => $value) {
+        if ($key==$selec_value) {
+            $selec_values.='<option value="'.$key.'" selected>'.$value.'</option>'."\n\r";
+        } else {
+            $selec_values.='<option value="'.$key.'">'.$value.'</option>'."\n\r";
         };
     };
     return $selec_values;
@@ -1971,4 +1995,71 @@ function calculateLogScale($data) {
     }
 
     return $logScale;
+}
+
+
+/**
+ * Serializa un array a un formato string
+ * 
+ * @param array $array El array a serializar
+ * @param string $formato Formato de serialización: 'json', 'serialize' o 'base64'
+ * @return string El array serializado
+ */
+function serializarArray($array, $formato = 'serialize') {
+    if (!is_array($array)) {
+        throw new InvalidArgumentException('invalid array');
+    }
+    
+    switch ($formato) {
+        case 'json':
+            return json_encode($array);
+        case 'serialize':
+            return serialize($array);
+        case 'base64':
+            return base64_encode(serialize($array));
+        default:
+            throw new InvalidArgumentException('Format not supported');
+    }
+}
+
+/**
+ * Deserializa un string a un array
+ * 
+ * @param string $data String serializado
+ * @param string $formato Formato de deserialización: 'json', 'serialize' o 'base64'
+ * @return array El array deserializado
+ */
+function deserializarArray($data, $formato = 'serialize') {
+    if (!is_string($data)) {
+        throw new InvalidArgumentException('input is not string');
+    }
+    
+    $result = null;
+    
+    switch ($formato) {
+        case 'json':
+            $result = json_decode($data, true);
+            if (json_last_error() !== JSON_ERROR_NONE) {
+                throw new RuntimeException('Error al decodificar JSON: ' . json_last_error_msg());
+            }
+            break;
+        case 'serialize':
+            $result = unserialize($data);
+            break;
+        case 'base64':
+            $decoded = base64_decode($data, true);
+            if ($decoded === false) {
+                throw new RuntimeException('Error al decodificar Base64');
+            }
+            $result = unserialize($decoded);
+            break;
+        default:
+            throw new InvalidArgumentException('Formato no soportado');
+    }
+    
+    if (!is_array($result)) {
+        throw new RuntimeException('invalid array');
+    }
+    
+    return $result;
 }

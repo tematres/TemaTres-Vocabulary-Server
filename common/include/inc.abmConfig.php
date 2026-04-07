@@ -27,11 +27,21 @@ if ($_GET["vocabulario_id"]>0) {
 if ($array_vocabulario["vocabulario_id"]==1) {
     $titulo_formulario=LABEL_vocabulario_principal;
 
-    $ARRAYfetchValues=ARRAYfetchValues('METADATA');
+    $ARRAYfetchValues=ARRAYfetchValues('METADATA');    
+    $dataStatusVocab=ARRAYfetchValue('CFG_STATUS_VOCAB');
+
+    if(is_array($dataStatusVocab)){
+        $ARRAY_StatusVocab=deserializarArray($dataStatusVocab["value"]);
+        $labelStatusVocab=$CFG["STATUS_VOCAB"][$ARRAY_StatusVocab[0]];
+        $codeStatusVocab=$ARRAY_StatusVocab[0];
+        $dateStatusVocab=$ARRAY_StatusVocab[1];
+    }    else    { //default state
+        $codeStatusVocab="STATUS_VOCAB_50";
+    }
+
 } else {
     $titulo_formulario=LABEL_vocabulario_referencia;
 }
-
 $array_ano=do_intervalDate("1998", date("Y"), FORM_LABEL_FechaAno);
 $array_dia=do_intervalDate("1", "31", FORM_LABEL_FechaDia);
 $array_mes=do_intervalDate("1", "12", FORM_LABEL_FechaMes);
@@ -190,6 +200,14 @@ if ($array_vocabulario["vocabulario_id"]==1) {
 							</select>	                    
 	                    </div>
 	         </div>';
+	$rows.='<div class="form-group">
+	           <label for="vocab_status" class="col-sm-3 control-label">'.ucfirst(LABEL_StatusVocab).'</label>
+	                    <div class="col-sm-9">
+							<select id="vocab_status" name="vocab_status">
+									'.doSelectForm4array($CFG["STATUS_VOCAB"],$codeStatusVocab).'
+							</select>	                    
+	                    </div>
+	         </div>';
     $rows.='<div class="form-group">
 	           <label for="URIt" class="col-sm-3 control-label">'.ucfirst(LABEL_URI).'</label>
 	                    <div class="col-sm-9">
@@ -206,8 +224,8 @@ if ($array_vocabulario["vocabulario_id"]==1) {
 
     $rows.='<div class="form-group">
 	<div class="col-sm-12 text-right">
-	<input type="submit" class="btn btn-primary" id="boton" name="boton" value="'.ucfirst(LABEL_Guardar).'"/>
-	<a href="admin.php?vocabulario_id=list" class="btn btn-default" id="boton_cancelar" title="'.ucfirst(LABEL_Cancelar).'">'.ucfirst(LABEL_Cancelar).'</a>';
+	<a href="admin.php?vocabulario_id=list" class="btn btn-default" id="boton_cancelar" title="'.ucfirst(LABEL_Cancelar).'">'.ucfirst(LABEL_Cancelar).'</a>
+		<input type="submit" class="btn btn-primary" id="boton" name="boton" value="'.ucfirst(LABEL_Guardar).'"/>';
     //editor for target vocabularies
 if ($array_vocabulario["vocabulario_id"]>1) {
     $rows.='	<input type="button" class="btn btn-danger" id="boton" name="boton" onclick="document.getElementById(\'delete-tvocab\').submit();" value="'.ucfirst(LABEL_eliminar).'"/>';

@@ -585,3 +585,10 @@ define('LABEL__example', 'ejemplo');
  define('LABEL__wikiServiceError','error al consultar Servicio Wikidata');
  define('LABEL__wikiConnectionError','error al conectar con la API de Wikidata');
  define('LABEL__ParserError','error al procesar la respuesta');
+  #3.6.1
+ define('LABEL_StatusVocab','estado del vocabulario');
+ define('LABEL__STATUS_VOCAB_10','Borrador');
+ define('LABEL__STATUS_VOCAB_20','Candidato en revisión');
+ define('LABEL__STATUS_VOCAB_30','Experimental');
+ define('LABEL__STATUS_VOCAB_40','Histórico - Discontinuado');
+ define('LABEL__STATUS_VOCAB_50','Publicado - Estable');

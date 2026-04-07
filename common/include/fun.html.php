@@ -2499,9 +2499,48 @@ function HTMLsimpleTerm($arrayTerm)
              );
 }
 
-
-
-/**ARMADOR DE HTML CON DATOS DE TERMINO externo vía web services  */
+/**
+ * Genera el HTML para las relaciones de un término extranjero (término foráneo) de forma simple.
+ *
+ * Esta función procesa las diferentes relaciones de un término (términos más específicos,
+ * más generales, relacionados y no preferidos) y genera el código HTML correspondiente
+ * para cada tipo de relación, organizado en listas con sus respectivos encabezados.
+ *
+ * @param array $arrayTerm Array asociativo que contiene las diferentes relaciones del término.
+ *                         Debe incluir las siguientes claves:
+ *                         - 'ttermNT': Array de términos más específicos (narrower terms)
+ *                         - 'ttermBT': Array de términos más generales (broader terms)
+ *                         - 'ttermRT': Array de términos relacionados (related terms)
+ *                         - 'ttermUF': Array de términos no preferidos (non-preferred terms)
+ *                         Cada sub-array debe contener elementos con 'term_id', 'rtype' y 'string'.
+ * @param string $URL_ttermData URL para obtener datos del término (no utilizada directamente
+ *                              en la función pero disponible para contexto).
+ *
+ * @return array Array asociativo con el HTML generado para cada tipo de relación:
+ *               - 'BTrows': HTML de términos más generales
+ *               - 'NTrows': HTML de términos más específicos
+ *               - 'RTrows': HTML de términos relacionados
+ *               - 'UFrows': HTML de términos no preferidos
+ *               Cada valor contiene el HTML completo con encabezado y lista, o cadena vacía
+ *               si no existe ese tipo de relación.
+ *
+ * @global string $css_class_MT Clase CSS para los elementos de la lista (debe estar definida
+ *                              en el ámbito global).
+ *
+ * @uses LABEL_narrowerTerms Etiqueta para "Términos más específicos".
+ * @uses LABEL_broatherTerms Etiqueta para "Términos más generales".
+ * @uses LABEL_relatedTerms Etiqueta para "Términos relacionados".
+ * @uses LABEL_nonPreferedTerms Etiqueta para "Términos no preferidos".
+ * @uses TE_termino Texto para el título del acrónimo de términos específicos.
+ * @uses TE_acronimo Acrónimo para términos específicos.
+ * @uses TG_acronimo Acrónimo para términos generales.
+ * @uses TR_acronimo Acrónimo para términos relacionados.
+ * @uses UP_acronimo Acrónimo para términos no preferidos.
+ *
+ * @note Las constantes y variables globales utilizadas deben estar definidas previamente
+ *       en el sistema (LABEL_*, TE_termino, TE_acronimo, TG_acronimo, TR_acronimo,
+ *       UP_acronimo, $css_class_MT).
+ */
 function HTMLsimpleForeignTerm($arrayTerm, $URL_ttermData)
 {
     $NTrows='' ;
@@ -2541,17 +2580,57 @@ function HTMLsimpleForeignTerm($arrayTerm, $URL_ttermData)
 }
 
 
-// Summary about vocabulary
+/**
+ * Genera el resumen HTML de un vocabulario o tesauro con todas sus estadísticas y metadatos.
+ *
+ * Esta función construye una tabla HTML que muestra información detallada sobre el vocabulario,
+ * incluyendo metadatos (título, autor, URI, idioma, fechas, contacto, etc.), estadísticas de
+ * términos (totales, candidatos, rechazados, relaciones jerárquicas y asociativas), tipos de notas,
+ * enlaces a servicios (SPARQL, API) y la versión de TemaTres. También incluye secciones adicionales
+ * como fuentes, vista global y nube de términos.
+ *
+ * @global array $CFG Configuración general del sistema. Contiene la versión en 'Version'.
+ * @global array $LABEL__STATUS_VOCAB Array con las etiquetas para los diferentes estados del vocabulario.
+ *
+ * @return string HTML completo con el resumen del vocabulario, incluyendo tablas, estadísticas
+ *                y elementos adicionales como fuentes, vista global y nube de términos.
+ *
+ * @uses ARRAYresumen() Obtiene el resumen de términos para el tesauro actual.
+ * @uses do_fecha() Formatea una fecha en array con día, mes y año.
+ * @uses ARRAYfetchValue() Obtiene valores de configuración desde la base de datos.
+ * @uses HTMLSources4vocab() Genera el HTML de las fuentes del vocabulario.
+ * @uses evalUserLevel() Evalúa el nivel de usuario para determinar visibilidad de la vista global.
+ * @uses HTMLglobalView() Genera la vista global del vocabulario.
+ * @uses HTMLcloudTerms() Genera la nube de términos.
+ * @uses SQLcantNotas() Consulta SQL para obtener cantidad de notas por tipo.
+ * @uses SQLcount() Cuenta términos para la nube.
+ * @uses SQLTermDeep() Consulta SQL para términos profundos.
+ *
+ * @note Utiliza variables de sesión ($_SESSION) que contienen la configuración del vocabulario
+ *       actual, incluyendo CFGTitulo, CFGAutor, CFGURL, CFGIdioma, CFGCreacion, CFGlastMod,
+ *       CFGTipo, CFGKeywords, CFGCobertura, entre otros.
+ * @note Las constantes utilizadas (LABEL_URI, LABEL_Contributor, LABEL_Idioma, etc.) deben
+ *       estar definidas previamente en el sistema.
+ */
 function HTMLsummary()
 {
 
-    global $CFG;
+    global $CFG,$LABEL__STATUS_VOCAB;
 
     $resumen=ARRAYresumen($_SESSION["id_tesa"], "G", "");
     $fecha_crea=do_fecha($_SESSION["CFGCreacion"]);
     $fecha_mod=do_fecha($_SESSION["CFGlastMod"]);
     $ARRAYmailContact=ARRAYfetchValue('CONTACT_MAIL');
-
+    
+    $dataStatusVocab=ARRAYfetchValue('CFG_STATUS_VOCAB');
+    
+    if(is_array($dataStatusVocab)){
+        $ARRAY_StatusVocab=deserializarArray($dataStatusVocab["value"]);
+        $labelStatusVocab=$CFG["STATUS_VOCAB"][$ARRAY_StatusVocab[0]];
+        $dateStatusVocab=$ARRAY_StatusVocab[1];
+    }    else    { //default state
+        $labelStatusVocab=$CFG["STATUS_VOCAB"]["STATUS_VOCAB_50"];
+    }
     $rows='<h1>'.$_SESSION["CFGTitulo"].' / '.$_SESSION["CFGAutor"].'</h1>' ;
 
     $rows.=' <div class="table-responsive">' ;
@@ -2569,6 +2648,7 @@ function HTMLsummary()
         $rows.='<tr><th>'.ucfirst(FORM_LABEL__contactMail).'</th><td>'.$ARRAYmailContact["value"].'</td></tr>' ;
     }
     $rows.='<tr><th>'.ucfirst(LABEL_TipoLenguaje).'</th><td>'.ucfirst($_SESSION["CFGTipo"]).'</td></tr>' ;
+    $rows.='<tr><th>'.ucfirst(LABEL_StatusVocab).'</th><td>'.ucfirst($labelStatusVocab).'</td></tr>' ;
     $rows.='<tr><th>'.ucfirst(LABEL_Keywords).'</th><td>'.$_SESSION["CFGKeywords"].'</td></tr>' ;
     $rows.='<tr><th>'.ucfirst(LABEL_Cobertura).'</th><td>'.$_SESSION["CFGCobertura"].'</td></tr>' ;
 
@@ -2624,7 +2704,7 @@ function HTMLsummary()
         $rows.='<tr><th>API</th><td><a href="'.$_SESSION["CFGURL"].'services.php" title="API">'.$_SESSION["CFGURL"].'services.php</a></td></tr>' ;
     }
 
-    $rows.='<tr><th>'.ucfirst(LABEL_Version).'</th><td><a href="https://www.vocabularyserver.com/" title="TemaTres: vocabulary server">'.$CFG["Version"].'</a></td></tr>' ;
+    $rows.='<tr><th>'.ucfirst(LABEL_Version).'</th><td><a href="https://vocabularyserver.com/" title="TemaTres: vocabulary server">'.$CFG["Version"].'</a></td></tr>' ;
     $rows.='</tbody></table>' ;
     $rows.='</div> ' ;
 

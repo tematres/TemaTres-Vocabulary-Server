@@ -33,6 +33,7 @@ if ($DBCFG["debugMode"]=='1') {
     ini_set('display_errors', false);
 }
 
+require_once T3_ABSPATH . 'common/include/config.tematres.php';
 require_once T3_ABSPATH . 'common/include/fun.gral.php';
 
 // Conexión con la BD || => proceso de instalación
@@ -45,7 +46,6 @@ if ($checkInstall["cantTables"]!==7) {
 }
 
 // Agregado para la version multi
-require_once T3_ABSPATH . 'common/include/config.tematres.php';
 require_once T3_ABSPATH . 'common/include/session.php';
 
 if (checkAllowPublication(basename($_SERVER['SCRIPT_NAME'])) == 0) {
@@ -147,6 +147,14 @@ $CFG["HEADER_EXTRA"] = array(
     "LINK_URL" => '',
     "LINK_TITLE" => ''
 );
+
+//Default values for type of vocabulary status
+$CFG["STATUS_VOCAB"]=array("STATUS_VOCAB_10"=>LABEL__STATUS_VOCAB_10,
+                           "STATUS_VOCAB_20"=>LABEL__STATUS_VOCAB_20,
+                           "STATUS_VOCAB_30"=>LABEL__STATUS_VOCAB_30,
+                           "STATUS_VOCAB_40"=>LABEL__STATUS_VOCAB_40,
+                           "STATUS_VOCAB_50"=>LABEL__STATUS_VOCAB_50
+                        );
 
 /*  In almost cases, you don't need to touch nothing here!!
  *  Web path to the directory where are located
