@@ -709,6 +709,7 @@ class XMLvocabularyServices
     {
 
         $sql=SQLdatosVocabulario($vocabulary_id);
+        $currentVocabStatu=getCurrentVocabStatus();
         $array=$sql->FetchRow();
         $arrayResponse["result"]["vocabulary_id"]    =$array["vocabulario_id"];
         $arrayResponse["result"]["title"]        =$array["titulo"];
@@ -719,6 +720,8 @@ class XMLvocabularyServices
         $arrayResponse["result"]["uri"]        =$array["url_base"];
         $arrayResponse["result"]["createDate"]=$array["cuando"];
         $arrayResponse["result"]["lastMod"]    =fetchlastMod();
+        $arrayResponse["result"]["status"]=$currentVocabStatu["label"];
+        $arrayResponse["result"]["status_date"]=$currentVocabStatu["dateMod"];
 
 
         $ARRAYfetchValues=ARRAYfetchValues('METADATA');

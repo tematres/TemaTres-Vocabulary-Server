@@ -2622,15 +2622,9 @@ function HTMLsummary()
     $fecha_mod=do_fecha($_SESSION["CFGlastMod"]);
     $ARRAYmailContact=ARRAYfetchValue('CONTACT_MAIL');
     
-    $dataStatusVocab=ARRAYfetchValue('CFG_STATUS_VOCAB');
+    $arrayCurrentStatusVocab=getCurrentVocabStatus($CFG["STATUS_VOCAB"]["STATUS_VOCAB_50"]);
+
     
-    if(is_array($dataStatusVocab)){
-        $ARRAY_StatusVocab=deserializarArray($dataStatusVocab["value"]);
-        $labelStatusVocab=$CFG["STATUS_VOCAB"][$ARRAY_StatusVocab[0]];
-        $dateStatusVocab=$ARRAY_StatusVocab[1];
-    }    else    { //default state
-        $labelStatusVocab=$CFG["STATUS_VOCAB"]["STATUS_VOCAB_50"];
-    }
     $rows='<h1>'.$_SESSION["CFGTitulo"].' / '.$_SESSION["CFGAutor"].'</h1>' ;
 
     $rows.=' <div class="table-responsive">' ;
@@ -2647,8 +2641,10 @@ function HTMLsummary()
     if (isset($ARRAYmailContact["value"])) {
         $rows.='<tr><th>'.ucfirst(FORM_LABEL__contactMail).'</th><td>'.$ARRAYmailContact["value"].'</td></tr>' ;
     }
+
+
     $rows.='<tr><th>'.ucfirst(LABEL_TipoLenguaje).'</th><td>'.ucfirst($_SESSION["CFGTipo"]).'</td></tr>' ;
-    $rows.='<tr><th>'.ucfirst(LABEL_StatusVocab).'</th><td>'.ucfirst($labelStatusVocab).'</td></tr>' ;
+    $rows.='<tr><th>'.ucfirst(LABEL_StatusVocab).'</th><td>'.ucfirst($arrayCurrentStatusVocab["label"]).' ('.substr(str_replace(" ","/",$arrayCurrentStatusVocab["dateMod"]),0,10).')</td></tr>' ;
     $rows.='<tr><th>'.ucfirst(LABEL_Keywords).'</th><td>'.$_SESSION["CFGKeywords"].'</td></tr>' ;
     $rows.='<tr><th>'.ucfirst(LABEL_Cobertura).'</th><td>'.$_SESSION["CFGCobertura"].'</td></tr>' ;
 

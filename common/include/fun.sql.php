@@ -5211,3 +5211,31 @@ function SQLtermsXcluster($type_rel_id){
     and r.id_menor=$tema_id
     order by c.titulo,lower(t.tema)");
   };
+
+
+
+
+/*
+* Retrive data about vocabulary status
+*/
+function getCurrentVocabStatus($defaultStatus="STATUS_VOCAB_50"){
+
+GLOBAL $CFG;
+
+$data=ARRAYfetchValue('CFG_STATUS_VOCAB');
+
+if(is_array($data)){
+      $array=deserializarArray($data["value"]);
+      return array(
+                  "code"=>$array[0],
+                  "label"=>$CFG["STATUS_VOCAB"][$array[0]],
+                  "dateMod"=>$array[1],
+                  "data_status"=>1);
+  }else{
+      return array(
+                   "code"=>$defaultStatus,
+                   "label"=>$CFG["STATUS_VOCAB"]["$defaultStatus"],
+                   "dateMod"=>$_SESSION["CFGCreacion"],
+                   "data_status"=>0);
+  };
+};

@@ -13,9 +13,9 @@ if ((stristr($_SERVER['REQUEST_URI'], "session.php") ) || ( !defined('T3_ABSPATH
 
 date_default_timezone_set("America/Argentina/Buenos_Aires");
 
-$CFG["Version"]        = "TemaTres 3.6";
+$CFG["Version"]        = "TemaTres 3.6.1";
 
-$CFG["VersionWebService"]        = "2.0";
+$CFG["VersionWebService"]        = "2.1";
 
 // ID del Tesauro por DEFAULT
 $CFG["DFT_TESA"] ='1';
@@ -82,7 +82,7 @@ $arrayCFGs =array(  'CFG_PUBLISH'=>'1',
                     'CFG_SIMPLE_WEB_SERVICE'=>'1',
                     '_PUBLISH_SKOS'=>'2',
                     'CFG_ENABLE_SPARQL'=>'0',
-                    'CFG_STATUS_VOCAB'=>'STATUS_VOCAB_40'
+                    'CFG_STATUS_VOCAB'=>'STATUS_VOCAB_50'
                   );
 //list of config values registred in __values table
 $CFG["CONFIG_VAR"]=array('2','3','4','config','DATESTAMP','t_estado','t_nota','t_relacion','t_usuario','URI_TYPE','METADATA','CONTACT_MAIL','CFG_ARK_NAAN','CFG_STATUS_VOCAB');

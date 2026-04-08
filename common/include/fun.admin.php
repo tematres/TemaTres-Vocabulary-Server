@@ -1450,11 +1450,14 @@ if ($_SESSION[$_SESSION["CFGURL"]]["ssuser_nivel"]=='1') {
 
 
         /*add config option for 3.6 version*/
-        $array_ctrl36=ARRAYfetchValue('CFG_STATUS_VOCAB');
+        $arrayCurrentStatusVocab=getCurrentVocabStatus();
 
-        //Update to 3.6=> check if CFG_STATUS_VOCAB is defined
-        if (is_array($array_ctrl36)) {
-          $MODvocab_status=ABM_value("MOD_VALUE", array("value_type"=>'CFG_STATUS_VOCAB',"value_code"=>'NULL',"value"=>serializarArray(array($arrayTesa["vocab_status"],date("Y m d H:i:s")))));
+        //Update to 3.6=> check if CFG_STATUS_VOCAB is defined 
+        if ($arrayCurrentStatusVocab["data_status"]==1) {
+          // if there are new value
+          if($arrayTesa["vocab_status"]!==$arrayCurrentStatusVocab["code"]) {
+            $MODvocab_status=ABM_value("MOD_VALUE", array("value_type"=>'CFG_STATUS_VOCAB',"value_code"=>'NULL',"value"=>serializarArray(array($arrayTesa["vocab_status"],date("Y m d H:i:s")))));
+          };
         } else {
           $ADDvocab_status=ABM_value("ADD_VALUE", array("value_type"=>'CFG_STATUS_VOCAB',"value_code"=>'NULL',"value"=>serializarArray(array($arrayTesa["vocab_status"],date("Y m d H:i:s")))));
         }

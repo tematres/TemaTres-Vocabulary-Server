@@ -28,16 +28,7 @@ if ($array_vocabulario["vocabulario_id"]==1) {
     $titulo_formulario=LABEL_vocabulario_principal;
 
     $ARRAYfetchValues=ARRAYfetchValues('METADATA');    
-    $dataStatusVocab=ARRAYfetchValue('CFG_STATUS_VOCAB');
-
-    if(is_array($dataStatusVocab)){
-        $ARRAY_StatusVocab=deserializarArray($dataStatusVocab["value"]);
-        $labelStatusVocab=$CFG["STATUS_VOCAB"][$ARRAY_StatusVocab[0]];
-        $codeStatusVocab=$ARRAY_StatusVocab[0];
-        $dateStatusVocab=$ARRAY_StatusVocab[1];
-    }    else    { //default state
-        $codeStatusVocab="STATUS_VOCAB_50";
-    }
+    $arrayCurrentStatusVocab=getCurrentVocabStatus("STATUS_VOCAB_50");
 
 } else {
     $titulo_formulario=LABEL_vocabulario_referencia;
@@ -204,7 +195,7 @@ if ($array_vocabulario["vocabulario_id"]==1) {
 	           <label for="vocab_status" class="col-sm-3 control-label">'.ucfirst(LABEL_StatusVocab).'</label>
 	                    <div class="col-sm-9">
 							<select id="vocab_status" name="vocab_status">
-									'.doSelectForm4array($CFG["STATUS_VOCAB"],$codeStatusVocab).'
+									'.doSelectForm4array($CFG["STATUS_VOCAB"],$arrayCurrentStatusVocab["code"]).'
 							</select>	                    
 	                    </div>
 	         </div>';
