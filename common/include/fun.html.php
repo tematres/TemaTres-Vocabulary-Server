@@ -2795,7 +2795,7 @@ function HTMLglobalView($arraydata = array())
 {
     global $CFG;
     $resumen=$arraydata;
-
+    $rows='';
     $options='var options = {
 				  labelInterpolationFnc: function(value) {return value[0]},
 				  donut: true,

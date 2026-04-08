@@ -1370,7 +1370,6 @@ if ($_SESSION[$_SESSION["CFGURL"]]["ssuser_nivel"]=='1') {
 
     $arrayTesa=doArrayDatosTesauro($_POST);
 
-    $POSTarrayUser["orga"]=trim((string) $POSTarrayUser["orga"]);
     $arrayTesa["titulo"]=trim((string) $arrayTesa["titulo"]);
     $arrayTesa["autor"]=trim((string) $arrayTesa["autor"]);
     $arrayTesa["idioma"]=trim((string) $arrayTesa["idioma"]);
@@ -1382,7 +1381,6 @@ if ($_SESSION[$_SESSION["CFGURL"]]["ssuser_nivel"]=='1') {
     $arrayTesa["cuando"]=trim((string) $arrayTesa["cuando"]);
 
 
-    $POSTarrayUser["orga"]=$DB->qstr($POSTarrayUser["orga"]);
     $arrayTesa["titulo"]=$DB->qstr($arrayTesa["titulo"]);
     $arrayTesa["autor"]=$DB->qstr($arrayTesa["autor"]);
     $arrayTesa["idioma"]=$DB->qstr($arrayTesa["idioma"]);
@@ -1456,7 +1454,7 @@ if ($_SESSION[$_SESSION["CFGURL"]]["ssuser_nivel"]=='1') {
         if ($arrayCurrentStatusVocab["data_status"]==1) {
           // if there are new value
           if($arrayTesa["vocab_status"]!==$arrayCurrentStatusVocab["code"]) {
-            $MODvocab_status=ABM_value("MOD_VALUE", array("value_type"=>'CFG_STATUS_VOCAB',"value_code"=>'NULL',"value"=>serializarArray(array($arrayTesa["vocab_status"],date("Y m d H:i:s")))));
+            $MODvocab_status=ABM_value("MOD_SINGLE_VALUE", array("value_type"=>'CFG_STATUS_VOCAB',"value_code"=>'NULL',"value"=>serializarArray(array($arrayTesa["vocab_status"],date("Y m d H:i:s")))));
           };
         } else {
           $ADDvocab_status=ABM_value("ADD_VALUE", array("value_type"=>'CFG_STATUS_VOCAB',"value_code"=>'NULL',"value"=>serializarArray(array($arrayTesa["vocab_status"],date("Y m d H:i:s")))));
@@ -3269,7 +3267,6 @@ function ABM_value($do, $arrayValue)
   global $DB;
   global $CFG;
 
-
   $arrayValue["value_code"]=$DB->qstr(trim((string) $arrayValue["value_code"]));
 
   $arrayValue["value"]=$DB->qstr(trim((string) $arrayValue["value"]));
@@ -3278,23 +3275,11 @@ function ABM_value($do, $arrayValue)
 
   switch ($do) {
     case 'MOD_VALUE':
-    $sql=SQL(
-      "update",
-      "$DBCFG[DBprefix]values
-      set value=$arrayValue[value]
-      where value_type='$arrayValue[value_type]'
-      and value_code=$arrayValue[value_code]"
-    );
+    $sql=SQL("update","$DBCFG[DBprefix]values set value=$arrayValue[value] where value_type='$arrayValue[value_type]' and value_code=$arrayValue[value_code]");
     break;
 
     case 'MOD_SINGLE_VALUE':
-    $sql=SQL(
-      "update",
-      "$DBCFG[DBprefix]values
-      set value=$arrayValue[value]
-      where value_type='$arrayValue[value_type]'
-      "
-    );
+    $sql=SQL("update","$DBCFG[DBprefix]values set value=$arrayValue[value] where value_type='$arrayValue[value_type]'");
     break;
 
     case 'ADD_VALUE':

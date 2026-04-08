@@ -1,5 +1,4 @@
 <?php
-define('T3_WEBPATH', 'http://localhost/tematres/TemaTres-Vocabulary-Server/common/');
 /*
  *      TemaTres : aplicación para la gestión de lenguajes documentales
  *
@@ -224,8 +223,6 @@ function SQLtematres($DBCFG, $DB, $arrayInstallData = array())
         $kos_type = ($arrayInstallData['kos_type']) ? $DB->qstr(trim($arrayInstallData["kos_type"])) : "'list'";
         $tematres_lang=$DB->qstr(trim($arrayInstallData["lang"]));
         $tematres_lang=($tematres_lang) ?  $tematres_lang : 'es';
-
-
         $comment = '';
 
 
@@ -405,6 +402,7 @@ function SQLtematres($DBCFG, $DB, $arrayInstallData = array())
     );
 
 
+    $vocabStatus=serializarArray(array("STATUS_VOCAB_50",date("Y m d H:i:s")));
 
     $local_naan=hashmaker(NAAN, NAAN.getURLbaseInstall());
 
@@ -460,7 +458,8 @@ function SQLtematres($DBCFG, $DB, $arrayInstallData = array())
         (50, 'config', 'CFG_ALLOW_DUPLICATED', NULL, '0'),
         (51, 't_nota', 'Example note', 6, 'EX'),
         (52, 'config', 'COPY_CLICK', NULL, '1'),
-        (53, 'METADATA', '$local_naan', NULL, 'CFG_ARK_NAAN');"
+        (53, 'METADATA', '$local_naan', NULL, 'CFG_ARK_NAAN'),
+        (54, 'CFG_STATUS_VOCAB', '$vocabStatus', NULL, NULL);"
     );
 
     //If create table --> insert data
