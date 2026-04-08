@@ -244,9 +244,9 @@ function doSelectForm4array($array, $selec_value)
 
     foreach ($array as $key => $value) {
         if ($key==$selec_value) {
-            $selec_values.='<option value="'.$key.'" selected>'.$value.'</option>'."\n\r";
+            $selec_values.='<option value="'.$key.'" selected>'.ucfirst($value).'</option>'."\n\r";
         } else {
-            $selec_values.='<option value="'.$key.'">'.$value.'</option>'."\n\r";
+            $selec_values.='<option value="'.$key.'">'.ucfirst($value).'</option>'."\n\r";
         };
     };
     return $selec_values;
