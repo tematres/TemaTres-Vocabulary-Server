@@ -10,6 +10,7 @@
 namespace PHPUnit\Framework\Constraint;
 
 use function count;
+use SebastianBergmann\RecursionContext\InvalidArgumentException;
 
 /**
  * @no-named-arguments Parameter names are not covered by the backward compatibility promise for PHPUnit
@@ -79,7 +80,7 @@ abstract class UnaryOperator extends Operator
      *
      * @param mixed $other evaluated value or object
      *
-     * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     protected function failureDescription($other): string
     {
@@ -105,7 +106,7 @@ abstract class UnaryOperator extends Operator
     }
 
     /**
-     * Transforms string returned by the memeber constraint's toString() or
+     * Transforms string returned by the member constraint's toString() or
      * failureDescription() such that it reflects constraint's participation in
      * this expression.
      *

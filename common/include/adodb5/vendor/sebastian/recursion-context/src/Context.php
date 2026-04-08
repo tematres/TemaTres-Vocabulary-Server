@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 /*
- * This file is part of the Recursion Context package.
+ * This file is part of sebastian/recursion-context.
  *
  * (c) Sebastian Bergmann <sebastian@phpunit.de>
  *
@@ -11,6 +11,7 @@ namespace SebastianBergmann\RecursionContext;
 
 use const PHP_INT_MAX;
 use const PHP_INT_MIN;
+use function array_key_exists;
 use function array_pop;
 use function array_slice;
 use function count;
@@ -128,19 +129,23 @@ final class Context
         $key            = count($this->arrays);
         $this->arrays[] = &$array;
 
-        if (!isset($array[PHP_INT_MAX]) && !isset($array[PHP_INT_MAX - 1])) {
+        if (!array_key_exists(PHP_INT_MAX, $array) && !array_key_exists(PHP_INT_MAX - 1, $array)) {
             $array[] = $key;
             $array[] = $this->objects;
         } else { /* cover the improbable case too */
+            /* Note that array_slice (used in containsArray) will return the
+             * last two values added *not necessarily* the highest integer
+             * keys in the array, so the order of these writes to $array
+             * is important, but the actual keys used is not. */
             do {
                 $key = random_int(PHP_INT_MIN, PHP_INT_MAX);
-            } while (isset($array[$key]));
+            } while (array_key_exists($key, $array));
 
             $array[$key] = $key;
 
             do {
                 $key = random_int(PHP_INT_MIN, PHP_INT_MAX);
-            } while (isset($array[$key]));
+            } while (array_key_exists($key, $array));
 
             $array[$key] = $this->objects;
         }
@@ -153,8 +158,8 @@ final class Context
      */
     private function addObject($object): string
     {
-        if (!$this->objects->contains($object)) {
-            $this->objects->attach($object);
+        if (!$this->objects->offsetExists($object)) {
+            $this->objects->offsetSet($object);
         }
 
         return spl_object_hash($object);
@@ -177,7 +182,7 @@ final class Context
      */
     private function containsObject($value)
     {
-        if ($this->objects->contains($value)) {
+        if ($this->objects->offsetExists($value)) {
             return spl_object_hash($value);
         }
 

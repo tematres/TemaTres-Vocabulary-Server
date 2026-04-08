@@ -17,7 +17,8 @@
         }
     ],
     "support": {
-        "issues": "https://github.com/sebastianbergmann/php-code-coverage/issues"
+        "issues": "https://github.com/sebastianbergmann/php-code-coverage/issues",
+        "security": "https://github.com/sebastianbergmann/php-code-coverage/security/policy"
     },
     "config": {
         "platform": {
@@ -32,22 +33,22 @@
         "ext-dom": "*",
         "ext-libxml": "*",
         "ext-xmlwriter": "*",
-        "nikic/php-parser": "^4.14",
-        "phpunit/php-file-iterator": "^3.0.3",
-        "phpunit/php-text-template": "^2.0.2",
-        "sebastian/code-unit-reverse-lookup": "^2.0.2",
-        "sebastian/complexity": "^2.0",
-        "sebastian/environment": "^5.1.2",
-        "sebastian/lines-of-code": "^1.0.3",
-        "sebastian/version": "^3.0.1",
-        "theseer/tokenizer": "^1.2.0"
+        "nikic/php-parser": "^4.19.1 || ^5.1.0",
+        "phpunit/php-file-iterator": "^3.0.6",
+        "phpunit/php-text-template": "^2.0.4",
+        "sebastian/code-unit-reverse-lookup": "^2.0.3",
+        "sebastian/complexity": "^2.0.3",
+        "sebastian/environment": "^5.1.5",
+        "sebastian/lines-of-code": "^1.0.4",
+        "sebastian/version": "^3.0.2",
+        "theseer/tokenizer": "^1.2.3"
     },
     "require-dev": {
-        "phpunit/phpunit": "^9.3"
+        "phpunit/phpunit": "^9.6"
     },
     "suggest": {
-        "ext-pcov": "*",
-        "ext-xdebug": "*"
+        "ext-pcov": "PHP extension that provides line coverage",
+        "ext-xdebug": "PHP extension that provides line coverage as well as branch and path coverage"
     },
     "autoload": {
         "classmap": [
@@ -62,7 +63,7 @@
     },
     "extra": {
         "branch-alias": {
-            "dev-master": "9.2-dev"
+            "dev-main": "9.2.x-dev"
         }
     }
 }

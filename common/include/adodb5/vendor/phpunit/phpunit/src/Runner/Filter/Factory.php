@@ -24,7 +24,7 @@ use ReflectionClass;
 final class Factory
 {
     /**
-     * @psalm-var array<int,array{0: \ReflectionClass, 1: array|string}>
+     * @psalm-var array<int,array{0: ReflectionClass, 1: array|string}>
      */
     private $filters = [];
 
@@ -39,8 +39,8 @@ final class Factory
             throw new Exception(
                 sprintf(
                     'Class "%s" does not extend RecursiveFilterIterator',
-                    $filter->name
-                )
+                    $filter->name,
+                ),
             );
         }
 

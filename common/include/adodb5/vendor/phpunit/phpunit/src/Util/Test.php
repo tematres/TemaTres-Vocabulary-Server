@@ -52,6 +52,7 @@ use SebastianBergmann\CodeUnit\CodeUnitCollection;
 use SebastianBergmann\CodeUnit\InvalidCodeUnitException;
 use SebastianBergmann\CodeUnit\Mapper;
 use SebastianBergmann\Environment\OperatingSystem;
+use SebastianBergmann\RecursionContext\InvalidArgumentException;
 
 /**
  * @internal This class is not covered by the backward compatibility promise for PHPUnit
@@ -84,7 +85,7 @@ final class Test
     private static $hookMethods = [];
 
     /**
-     * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     public static function describe(\PHPUnit\Framework\Test $test): array
     {
@@ -109,17 +110,17 @@ final class Test
     }
 
     /**
+     * @psalm-param class-string $className
+     *
      * @throws CodeCoverageException
      *
      * @return array|bool
-     *
-     * @psalm-param class-string $className
      */
     public static function getLinesToBeCovered(string $className, string $methodName)
     {
         $annotations = self::parseTestMethodAnnotations(
             $className,
-            $methodName
+            $methodName,
         );
 
         if (!self::shouldCoversAnnotationBeUsed($annotations)) {
@@ -132,9 +133,9 @@ final class Test
     /**
      * Returns lines of code specified with the @uses annotation.
      *
-     * @throws CodeCoverageException
-     *
      * @psalm-param class-string $className
+     *
+     * @throws CodeCoverageException
      */
     public static function getLinesToBeUsed(string $className, string $methodName): array
     {
@@ -145,7 +146,7 @@ final class Test
     {
         $annotations = self::parseTestMethodAnnotations(
             get_class($test),
-            $test->getName(false)
+            $test->getName(false),
         );
 
         // If there is no @covers annotation but a @coversNothing annotation on
@@ -174,25 +175,25 @@ final class Test
     }
 
     /**
-     * @throws Exception
-     *
      * @psalm-param class-string $className
+     *
+     * @throws Exception
      */
     public static function getRequirements(string $className, string $methodName): array
     {
         return self::mergeArraysRecursively(
             Registry::getInstance()->forClassName($className)->requirements(),
-            Registry::getInstance()->forMethod($className, $methodName)->requirements()
+            Registry::getInstance()->forMethod($className, $methodName)->requirements(),
         );
     }
 
     /**
      * Returns the missing requirements for a test.
      *
+     * @psalm-param class-string $className
+     *
      * @throws Exception
      * @throws Warning
-     *
-     * @psalm-param class-string $className
      */
     public static function getMissingRequirements(string $className, string $methodName): array
     {
@@ -213,7 +214,7 @@ final class Test
             if (!$required['PHP_constraint']['constraint']->complies($version)) {
                 $missing[] = sprintf(
                     'PHP version does not match the required constraint %s.',
-                    $required['PHP_constraint']['constraint']->asString()
+                    $required['PHP_constraint']['constraint']->asString(),
                 );
 
                 $hint = 'PHP_constraint';
@@ -235,7 +236,7 @@ final class Test
             if (!$required['PHPUnit_constraint']['constraint']->complies($phpunitVersion)) {
                 $missing[] = sprintf(
                     'PHPUnit version does not match the required constraint %s.',
-                    $required['PHPUnit_constraint']['constraint']->asString()
+                    $required['PHPUnit_constraint']['constraint']->asString(),
                 );
 
                 $hint = $hint ?? 'PHPUnit_constraint';
@@ -319,9 +320,9 @@ final class Test
     /**
      * Returns the provided data for a method.
      *
-     * @throws Exception
-     *
      * @psalm-param class-string $className
+     *
+     * @throws Exception
      */
     public static function getProvidedData(string $className, string $methodName): ?array
     {
@@ -331,7 +332,7 @@ final class Test
     /**
      * @psalm-param class-string $className
      */
-    public static function parseTestMethodAnnotations(string $className, ?string $methodName = ''): array
+    public static function parseTestMethodAnnotations(string $className, ?string $methodName = null): array
     {
         $registry = Registry::getInstance();
 
@@ -367,12 +368,12 @@ final class Test
             'backupGlobals' => self::getBooleanAnnotationSetting(
                 $className,
                 $methodName,
-                'backupGlobals'
+                'backupGlobals',
             ),
             'backupStaticAttributes' => self::getBooleanAnnotationSetting(
                 $className,
                 $methodName,
-                'backupStaticAttributes'
+                'backupStaticAttributes',
             ),
         ];
     }
@@ -386,7 +387,7 @@ final class Test
     {
         $annotations = self::parseTestMethodAnnotations(
             $className,
-            $methodName
+            $methodName,
         );
 
         $dependsAnnotations = $annotations['class']['depends'] ?? [];
@@ -394,7 +395,7 @@ final class Test
         if (isset($annotations['method']['depends'])) {
             $dependsAnnotations = array_merge(
                 $dependsAnnotations,
-                $annotations['method']['depends']
+                $annotations['method']['depends'],
             );
         }
 
@@ -413,7 +414,7 @@ final class Test
     {
         $annotations = self::parseTestMethodAnnotations(
             $className,
-            $methodName
+            $methodName,
         );
 
         $groups = [];
@@ -492,7 +493,7 @@ final class Test
     {
         $annotations = self::parseTestMethodAnnotations(
             $className,
-            $methodName
+            $methodName,
         );
 
         return isset($annotations['class']['runTestsInSeparateProcesses']) || isset($annotations['method']['runInSeparateProcess']);
@@ -503,7 +504,7 @@ final class Test
     {
         $annotations = self::parseTestMethodAnnotations(
             $className,
-            $methodName
+            $methodName,
         );
 
         return isset($annotations['class']['runClassInSeparateProcess']);
@@ -515,7 +516,7 @@ final class Test
         return self::getBooleanAnnotationSetting(
             $className,
             $methodName,
-            'preserveGlobalState'
+            'preserveGlobalState',
         );
     }
 
@@ -537,7 +538,7 @@ final class Test
                         if ($docBlock->isHookToBeExecutedBeforeClass()) {
                             array_unshift(
                                 self::$hookMethods[$className]['beforeClass'],
-                                $method->getName()
+                                $method->getName(),
                             );
                         }
 
@@ -549,14 +550,14 @@ final class Test
                     if ($docBlock->isToBeExecutedBeforeTest()) {
                         array_unshift(
                             self::$hookMethods[$className]['before'],
-                            $method->getName()
+                            $method->getName(),
                         );
                     }
 
                     if ($docBlock->isToBeExecutedAsPreCondition()) {
                         array_unshift(
                             self::$hookMethods[$className]['preCondition'],
-                            $method->getName()
+                            $method->getName(),
                         );
                     }
 
@@ -589,22 +590,22 @@ final class Test
             'test',
             Registry::getInstance()->forMethod(
                 $method->getDeclaringClass()->getName(),
-                $method->getName()
+                $method->getName(),
             )
-            ->symbolAnnotations()
+                ->symbolAnnotations(),
         );
     }
 
     /**
-     * @throws CodeCoverageException
-     *
      * @psalm-param class-string $className
+     *
+     * @throws CodeCoverageException
      */
     private static function getLinesToBeCoveredOrUsed(string $className, string $methodName, string $mode): array
     {
         $annotations = self::parseTestMethodAnnotations(
             $className,
-            $methodName
+            $methodName,
         );
 
         $classShortcut = null;
@@ -615,8 +616,8 @@ final class Test
                     sprintf(
                         'More than one @%sClass annotation in class or interface "%s".',
                         $mode,
-                        $className
-                    )
+                        $className,
+                    ),
                 );
             }
 
@@ -645,8 +646,8 @@ final class Test
                 throw new InvalidCoversTargetException(
                     sprintf(
                         'Trying to @cover interface "%s".',
-                        $element
-                    )
+                        $element,
+                    ),
                 );
             }
 
@@ -657,10 +658,10 @@ final class Test
                     sprintf(
                         '"@%s %s" is invalid',
                         $mode,
-                        $element
+                        $element,
                     ),
-                    (int) $e->getCode(),
-                    $e
+                    $e->getCode(),
+                    $e,
                 );
             }
         }
@@ -685,7 +686,7 @@ final class Test
     {
         $annotations = self::parseTestMethodAnnotations(
             $className,
-            $methodName
+            $methodName,
         );
 
         if (isset($annotations['method'][$settingName])) {
@@ -720,7 +721,7 @@ final class Test
         return preg_replace(
             '/^(\d+\.\d+(?:.\d+)?).*$/',
             '$1',
-            $version
+            $version,
         );
     }
 
