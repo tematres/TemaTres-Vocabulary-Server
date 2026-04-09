@@ -2622,7 +2622,7 @@ function HTMLsummary()
     $fecha_mod=do_fecha($_SESSION["CFGlastMod"]);
     $ARRAYmailContact=ARRAYfetchValue('CONTACT_MAIL');
     
-    $arrayCurrentStatusVocab=getCurrentVocabStatus($CFG["STATUS_VOCAB"]["STATUS_VOCAB_50"]);
+    $arrayCurrentStatusVocab=getCurrentVocabStatus('STATUS_VOCAB_50');
 
     
     $rows='<h1>'.$_SESSION["CFGTitulo"].' / '.$_SESSION["CFGAutor"].'</h1>' ;
