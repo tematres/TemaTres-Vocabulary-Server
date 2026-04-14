@@ -2623,12 +2623,14 @@ function HTMLsummary()
     $ARRAYmailContact=ARRAYfetchValue('CONTACT_MAIL');
     
     $arrayCurrentStatusVocab=getCurrentVocabStatus('STATUS_VOCAB_50');
+    $styleCurrentStatusVocab=str_replace(array("STATUS_VOCAB_10","STATUS_VOCAB_20","STATUS_VOCAB_30","STATUS_VOCAB_40","STATUS_VOCAB_50"), array("DimGray","DarkGoldenrod","DarkCyan","Red","Black"),$arrayCurrentStatusVocab["code"]);
 
     
     $rows='<h1>'.$_SESSION["CFGTitulo"].' / '.$_SESSION["CFGAutor"].'</h1>' ;
 
     $rows.=' <div class="table-responsive">' ;
     $rows.='<table class="table"><tbody>' ;
+    $rows.='<tr><th>'.ucfirst(LABEL_StatusVocab).'</th><td><strong style="color:'.$styleCurrentStatusVocab.'">'.ucfirst($arrayCurrentStatusVocab["label"]).'</strong> ('.substr(str_replace(" ","/",$arrayCurrentStatusVocab["dateMod"]),0,10).')</td></tr>' ;
     $rows.='<tr><th>'.ucfirst(LABEL_URI).'</th><td>'.$_SESSION["CFGURL"].'</td></tr>' ;
     if ($_SESSION["CFGContributor"]) {
         $rows.='<tr><th>'.ucfirst(LABEL_Contributor).'</th><td>'.$_SESSION["CFGContributor"].'</td></tr>' ;
@@ -2644,7 +2646,6 @@ function HTMLsummary()
 
 
     $rows.='<tr><th>'.ucfirst(LABEL_TipoLenguaje).'</th><td>'.ucfirst($_SESSION["CFGTipo"]).'</td></tr>' ;
-    $rows.='<tr><th>'.ucfirst(LABEL_StatusVocab).'</th><td>'.ucfirst($arrayCurrentStatusVocab["label"]).' ('.substr(str_replace(" ","/",$arrayCurrentStatusVocab["dateMod"]),0,10).')</td></tr>' ;
     $rows.='<tr><th>'.ucfirst(LABEL_Keywords).'</th><td>'.$_SESSION["CFGKeywords"].'</td></tr>' ;
     $rows.='<tr><th>'.ucfirst(LABEL_Cobertura).'</th><td>'.$_SESSION["CFGCobertura"].'</td></tr>' ;
 
