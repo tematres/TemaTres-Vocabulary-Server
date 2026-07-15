@@ -798,6 +798,20 @@ function XSSprevent($string)
 }
 
 
+function cleanHTMLNote($string)
+{
+    if(is_null($string)) return;
+
+    include_once 'htmlpurifier/HTMLPurifier.auto.php';
+    $config = HTMLPurifier_Config::createDefault();
+    $config->set('HTML.Allowed', 'p,b,i,strong,a[href],img[src|alt],ul,li,ol');
+    $config->set('Cache.DefinitionImpl', null);
+    $purifier = new HTMLPurifier($config);
+    $clean_string = $purifier->purify($string);
+
+    return $clean_string;
+}
+
 function clean($val)
 {
     // remove all non-printable characters. CR(0a) and LF(0b) and TAB(9) are allowed
