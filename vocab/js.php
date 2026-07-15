@@ -18,16 +18,18 @@ if (evalUserLevel($_SESSION[$_SESSION["CFGURL"]])>0) {
     tinymce.init({
         selector: "textarea#<?php echo LABEL_nota;?>",
         language : "<?php echo LANG;?>",
-        plugins: "advlist autolink autosave link image lists preview autolink visualchars code media nonbreaking directionality textcolor paste textcolor autoresize preview save",
-        toolbar1: "bold italic underline bullist numlist link image removeformat | preview code ",
-        toolbar2: "",
+        plugins: "advlist autolink autosave link image lists preview autolink visualchars code media nonbreaking directionality  autoresize preview save",
+        toolbar1: "bold italic underline bullist numlist link image | preview code ",
         code_dialog_width: 400,
         menubar: false,
         toolbar_items_size: 'small',
         entity_encoding : "raw",
         fix_list_elements : true,
         height: 200,
-        extended_valid_elements: 'img[class=myclass|!src|border:0|alt|width|height]',
+        valid_elements: 'p,b,i,a[href],img[src|alt]',
+        // Eliminar estilos al pegar contenido
+        paste_remove_styles_if_webkit: true,
+        paste_remove_styles: true,
         invalid_elements: 'style,script,html,body',
         branding: false
     });
