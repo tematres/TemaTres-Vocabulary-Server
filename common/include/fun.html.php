@@ -866,7 +866,7 @@ function HTMLNotasTermino($array, $editFlag = 0)
                 $body.=' <span class="badge">'.$note["cant"].'</span>' ;
             }
             $body.='</h5></div>
-				    <div id="collapseNote'.$i.'" class="panel-collapse collapse'.$display_note.'">'.$note["content"].' </div>
+				    <div id="collapseNote'.$i.'" class="justify-text panel-collapse collapse'.$display_note.'">'.$note["content"].' </div>
 				  </div>' ;
         }
         $body.='</div>' ;

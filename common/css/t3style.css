@@ -25,7 +25,7 @@ h2.TThtml{	font-size: 20px;}
 #notas{clear:both;background-color:#f0fcff;margin-bottom:0.5em;border-color:#f0f0f0 #D6D6D6 #D6D6D6 #f0f0f0;border-style:solid;border-width:1px;padding:0.5em;}
 #notas > dd{padding-top:6px;padding-bottom:6px;border-top:1px dotted #d85d5d;visibility:inherit;text-align:justify;margin:1%;}
 #notas > dt{font-weight:700;}
-
+.justify-text{text-align: justify;}
 
 dfn{
 font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
