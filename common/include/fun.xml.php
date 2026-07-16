@@ -1020,7 +1020,7 @@ function do_meta_tag($arrayTermino = "")
     $meta_tag.='<link rel="canonical" href="'.$meta_url.'" />';
 
     $meta_tag.='<meta name="generator" content="'.xmlentities($_SESSION["CFGVersion"]).'" />';
-    $meta_tag.='<meta name="description" content="'.html2txt($meta_description).'" />';
+    $meta_tag.='<meta name="description" content="'.html2txt(textoLimitado($meta_description,250)).'" />';
     $meta_tag.='<meta name="keywords" content="'.xmlentities($aboutness).'" />';
     $meta_tag.='<meta name="author" content="'.xmlentities($_SESSION["CFGAutor"]).'" />';
     $meta_tag.='<meta name="Creation_Date" content="'.$_SESSION["CFGCreacion"].'" />';
@@ -1030,22 +1030,22 @@ function do_meta_tag($arrayTermino = "")
 
 
     //$meta_tag.='<!-- Dublin Core -->';
-    $meta_tag.='<meta name="DC.Title"        content="'.xmlentities($title_page).'" />';
+    /*$meta_tag.='<meta name="DC.Title"        content="'.xmlentities($title_page).'" />';
     $meta_tag.='<meta name="DC.Creator"      content="'.xmlentities($_SESSION["CFGAutor"]).'" />';
     $meta_tag.='<meta name="DC.Subject"      content="'.xmlentities($aboutness).'" />';
-    $meta_tag.='<meta name="DC.Description"  content="'.html2txt($meta_description, true).'" />';
+    $meta_tag.='<meta name="DC.Description"  content="'.html2txt(textoLimitado($meta_description,250), true).'" />';
     $meta_tag.='<meta name="DC.Publisher"    content="'.xmlentities($_SESSION["CFGPublisher"]).'" />';
     $meta_tag.='<meta name="DC.Contributor"    content="'.xmlentities($_SESSION["CFGContributor"]).'" />';
     $meta_tag.='<meta name="DC.Rights"    content="'.xmlentities($_SESSION["CFGRights"]).'" />';
     $meta_tag.='<meta name="DC.Date"         content="'.$_SESSION["CFGCreacion"].'" />';
     $meta_tag.='<meta name="DC.Language"     content="'.$_SESSION["CFGIdioma"].'" />';
-
+    */
     //Dublinc Core schema
     $meta_tag.='	<link rel="schema.DC" href="http://purl.org/dc/elements/1.1/">
 	<meta name="DC.Title" content="'.xmlentities($title_page).'">
 	<meta name="DC.Creator" content="'.xmlentities($_SESSION["CFGAutor"]).'">
 	<meta name="DC.Subject" content="'.xmlentities($aboutness).'">
-	<meta name="DC.Description" content="'.html2txt($meta_description, true).'">
+	<meta name="DC.Description" content="'.html2txt(textoLimitado($meta_description,250), true).'">
 	<meta name="DC.Publisher" content="'.xmlentities($_SESSION["CFGVersion"]).'">
 	<meta name="DC.Contributor" content="'.xmlentities($_SESSION["CFGContributor"]).'">
 	<meta name="DC.Date" content="'.$_SESSION["CFGCreacion"].'">
@@ -1063,11 +1063,11 @@ function do_meta_tag($arrayTermino = "")
 	<meta property="og:type" content="dictionary:term">
 	<meta property="og:url" content="'.$meta_url.'">
 	<meta property="og:site_name" content="'.xmlentities($_SESSION["CFGTitulo"]).'">
-	<meta property="og:description" content="'.html2txt($meta_description, true).'">';
+	<meta property="og:description" content="'.html2txt(textoLimitado($meta_description,250), true).'">';
 
     //Schema.org
     $meta_tag.='	<meta itemprop="name" content="'.xmlentities($title_page).'">
-	<meta itemprop="description" content="'.html2txt($meta_description, true).'">
+	<meta itemprop="description" content="'.html2txt(textoLimitado($meta_description,250), true).'">
 	<meta itemprop="url" content="'.$meta_url.'">';
     //property only for vocabularies ... not for terms
     if (!isset($ARRAYdatosTermino["idTema"])) {
@@ -1075,7 +1075,7 @@ function do_meta_tag($arrayTermino = "")
     }
     $meta_tag.='<meta itemprop="identifier" content="'.$meta_url.'">';
 
-    $meta_tag.='<script type="application/ld+json">{"@context":"https://schema.org","@type":"ItemPage","name":'.json_encode($title_page).',"description":'.json_encode($meta_description, true).',"accessMode":"textual, visual","url":"'.$meta_url.'"}</script>';
+    $meta_tag.='<script type="application/ld+json">{"@context":"https://schema.org","@type":"ItemPage","name":'.json_encode($title_page).',"description":'.json_encode(textoLimitado($meta_description,250), true).',"accessMode":"textual, visual","url":"'.$meta_url.'"}</script>';
 
 
     $meta_tag.='<link rel="'.MENU_Inicio.'" href="'.URL_BASE.'index.php" title="'.MENU_Inicio.'" />';

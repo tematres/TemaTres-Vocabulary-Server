@@ -2078,3 +2078,33 @@ function deserializarArray($data, $formato = 'serialize') {
     
     return $result;
 }
+
+
+/**
+ * Corta texto en HTML si el texto supera los 400 caracteres
+ *
+ * @param string $texto Texto a procesar
+ * @return string Código HTML generado
+ */
+
+function textoLimitado(string $texto, int $char_limit=400): string {
+
+        // Limpiar el texto
+    $texto = htmlspecialchars($texto, ENT_QUOTES, 'UTF-8');
+
+    $char_limit = ($char_limit>400) ? 200 : $char_limit;
+    
+    // Si el texto tiene 400 caracteres o menos, devolverlo sin cambios
+    if (strlen($texto) <= $char_limit) {
+        return $texto;
+    }
+    
+    // Obtener los primeros 400 caracteres
+    $textoCorto = substr($texto, 0, $char_limit);
+    $ultimoEspacio = strrpos($textoCorto, ' ');
+    if ($ultimoEspacio !== false) {
+        $textoCorto = substr($textoCorto, 0, $ultimoEspacio);
+    }
+    
+    return $textoCorto.' ...';
+}
