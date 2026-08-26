@@ -804,7 +804,7 @@ function cleanHTMLNote($string)
 
     include_once 'htmlpurifier/HTMLPurifier.auto.php';
     $config = HTMLPurifier_Config::createDefault();
-    $config->set('HTML.Allowed', 'p,b,i,strong,a[href],img[src|alt],ul,li,ol');
+    $config->set('HTML.Allowed', 'p,b,em,br,strong,a[href],img[src|alt],ul,li,ol');
     $config->set('Cache.DefinitionImpl', null);
     $purifier = new HTMLPurifier($config);
     $clean_string = $purifier->purify($string);

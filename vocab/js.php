@@ -26,7 +26,7 @@ if (evalUserLevel($_SESSION[$_SESSION["CFGURL"]])>0) {
         entity_encoding : "raw",
         fix_list_elements : true,
         height: 200,
-        valid_elements: 'p,b,i,strong,ul,li,ol,a[href],img[src|alt]',
+        valid_elements: 'p,b,em,br,strong,ul,li,ol,a[href],img[src|alt]',
         // Eliminar estilos al pegar contenido
         paste_remove_styles_if_webkit: true,
         paste_remove_styles: true,
