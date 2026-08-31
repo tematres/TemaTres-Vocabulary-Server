@@ -1,129 +1,160 @@
 <?php
-if ((stristr($_SERVER['REQUEST_URI'], "session.php") ) || ( !defined('T3_ABSPATH') )) {
+if ((stristr($_SERVER['REQUEST_URI'], "session.php")) || (!defined('T3_ABSPATH'))) {
     die("no access");
 }
-// TemaTres : aplicación para la gestión de lenguajes documentales #       #
-//
+// TemaTres : aplicación para la gestión de lenguajes documentales
 // Copyright (C) 2004-2008 Diego Ferreyra tematres@r020.com.ar
-// Distribuido bajo Licencia GNU Public License, versión 2 (de junio de 1.991) Free Software Foundation
-//
-//
-// Formulario de alta de notas #
-//
- //SEND_KEY to prevent duplicated
-  session_start();
-  $_SESSION['SEND_KEY']=md5(uniqid(rand(), true));
+// Distribuido bajo Licencia GNU Public License, versión 2
 
-  $hidden='<input type="hidden"  name="idTema" value="'.$metadata["arraydata"]["tema_id"].'" />';
-  $hidden.='<input type="hidden"  name="ks" id="ks" value="'.$_SESSION["SEND_KEY"].'"/>';
-  $buttons='';
+// Inicializa array para evitar errores si $editNota es falso
+$arrayNota = [];
+
+// SEND_KEY para prevenir duplicados (CSRF)
+session_start();
+$_SESSION['SEND_KEY'] = bin2hex(random_bytes(32)); // Reemplaza rand() obsoleto
+
+$hidden  = '<input type="hidden" name="idTema" value="' . htmlspecialchars($metadata["arraydata"]["tema_id"] ?? '', ENT_QUOTES, 'UTF-8') . '" />';
+$hidden .= '<input type="hidden" name="ks" id="ks" value="' . htmlspecialchars($_SESSION["SEND_KEY"], ENT_QUOTES, 'UTF-8') . '"/>';
+
+$buttons = '';
+$cancelLabel = ucfirst(LABEL_Cancelar);
 
 if ($editNota) {
-    $arrayNota=ARRAYdatosNota($editNota);
+    $arrayNota = ARRAYdatosNota($editNota);
 
-    if ($arrayNota["idNota"]) {//Edicion
-        $hidden.='<input type="hidden" name="idNota" value="'.$arrayNota["idNota"].'" />';
-        $hidden.='<input type="hidden" name="taskNota" value="edit" />';
+    if ($arrayNota["idNota"]) {
+        // Modo edición
+        $hidden .= '<input type="hidden" name="idNota" value="' . htmlspecialchars($arrayNota["idNota"], ENT_QUOTES, 'UTF-8') . '" />';
+        $hidden .= '<input type="hidden" name="taskNota" value="edit" />';
 
-        $buttons.='<button type="submit" class="btn btn-primary" name="guardarCambioNota" value="'.LABEL_Cambiar.'"/>'.ucfirst(LABEL_Cambiar).'</button>';
-        $buttons.='<a href="index.php?tema='.$metadata["arraydata"]["tema_id"].'&amp;idTema='.$metadata["arraydata"]["tema_id"].'&amp;idNota='.$arrayNota["idNota"].'&amp;taskNota=rem" role="button" class="btn btn-danger" name="eliminarNota" title="'.LABEL_EliminarNota.'"/>'.ucfirst(LABEL_EliminarNota).'</a>';
-        $buttons.='<button type="button" class="btn btn-default"  name="cancelar" type="button" onClick="location.href=\'index.php?tema='.$metadata["arraydata"]["tema_id"].'\'" value="'.ucfirst(LABEL_Cancelar).'"/>'.ucfirst(LABEL_Cancelar).'</button>';
+        $buttons .= '<button type="button" class="btn btn-default" name="cancelar" onClick="location.href=\'index.php?tema=' . htmlspecialchars($metadata["arraydata"]["tema_id"] ?? '', ENT_QUOTES, 'UTF-8') . '\'" value="' . $cancelLabel . '">' . $cancelLabel . '</button>';
+        $buttons .= '<a href="index.php?tema=' . htmlspecialchars($metadata["arraydata"]["tema_id"] ?? '', ENT_QUOTES, 'UTF-8') . '&amp;idTema=' . htmlspecialchars($metadata["arraydata"]["tema_id"] ?? '', ENT_QUOTES, 'UTF-8') . '&amp;idNota=' . htmlspecialchars($arrayNota["idNota"], ENT_QUOTES, 'UTF-8') . '&amp;taskNota=rem" role="button" class="btn btn-danger" name="eliminarNota" title="' . LABEL_EliminarNota . '">' . ucfirst(LABEL_EliminarNota) . '</a>';
+        $buttons .= '<button type="submit" class="btn btn-primary" name="guardarCambioNota" value="' . LABEL_Cambiar . '">' . ucfirst(LABEL_Cambiar) . '</button>';
     } else {
-        $hidden.='<input type="hidden" name="taskNota" value="alta" />';
-        $buttons.='<button type="submit" class="btn btn-primary" name="LABEL_Enviar" value="'.LABEL_Enviar.'"/>'.ucfirst(LABEL_Enviar).'</button>';
-        $buttons.='<button type="button" class="btn btn-default"  name="cancelar" type="button" onClick="location.href=\'index.php?tema='.$metadata["arraydata"]["tema_id"].'\'" value="'.ucfirst(LABEL_Cancelar).'"/>'.ucfirst(LABEL_Cancelar).'</button>';
+        // Modo alta
+        $hidden .= '<input type="hidden" name="taskNota" value="alta" />';
+
+        $buttons .= '<button type="button" class="btn btn-default" name="cancelar" onClick="location.href=\'index.php?tema=' . htmlspecialchars($metadata["arraydata"]["tema_id"] ?? '', ENT_QUOTES, 'UTF-8') . '\'" value="' . $cancelLabel . '">' . $cancelLabel . '</button>';
+        $buttons .= '<button type="submit" class="btn btn-primary" name="LABEL_Enviar" value="' . LABEL_Enviar . '">' . ucfirst(LABEL_Enviar) . '</button>';
     }
-};
+}
 
-  $LabelNB='NB#'.LABEL_NB;
-  $LabelNH='NH#'.LABEL_NH;
-  $LabelNA='NA#'.LABEL_NA;
-  $LabelNP='NP#'.LABEL_NP;
-  $LabelNC='NC#'.LABEL_NC;
+// Preparación de tipos de nota (mapeo explícito y legible)
+$LabelNB = 'NB#' . LABEL_NB;
+$LabelNH = 'NH#' . LABEL_NH;
+$LabelNA = 'NA#' . LABEL_NA;
+$LabelNP = 'NP#' . LABEL_NP;
+$LabelNC = 'NC#' . LABEL_NC;
 
-  $sqlNoteType=SQLcantNotas();
-while ($array=$sqlNoteType->FetchRow()) {
-    $varNoteType=(in_array($array["value_id"], array(8,9,10,11,15))) ? arrayReplace(array(8,9,10,11,15), array($LabelNA,$LabelNH,$LabelNB,$LabelNP,$LabelNC), $array["value_id"]) : $array["value_code"].'#'.$array["value"];
-    $arrayNoteType[]=$varNoteType;
-};
+$noteTypeMap = [
+    8  => $LabelNA,
+    9  => $LabelNH,
+    10 => $LabelNB,
+    11 => $LabelNP,
+    15 => $LabelNC,
+];
 
-  $sqlNoteSrc=SQLlistSources(1);
-  $arrayNoteSrc=array("''#SELECCIONAR");
-while ($array_srcs=$sqlNoteSrc->FetchRow()) {
-     $arrayNoteSrc[]=$array_srcs["src_id"].'#'.$array_srcs["src_alias"];
-};
+$sqlNoteType = SQLcantNotas();
+$arrayNoteType = [];
+while ($array = $sqlNoteType->FetchRow()) {
+    $varNoteType = isset($noteTypeMap[$array["value_id"]])
+        ? $noteTypeMap[$array["value_id"]]
+        : $array["value_code"] . '#' . $array["value"];
+    $arrayNoteType[] = $varNoteType;
+}
 
+// Fuentes de notas
+$sqlNoteSrc = SQLlistSources(1);
+$arrayNoteSrc = ["''#SELECCIONAR"];
+while ($array_srcs = $sqlNoteSrc->FetchRow()) {
+    $arrayNoteSrc[] = $array_srcs["src_id"] . '#' . $array_srcs["src_alias"];
+}
 
-// Preparado de datos para el formulario ///
+// Preparación de idiomas
+$arrayLang = [];
 foreach ($CFG["ISO639-1"] as $langs) {
-    $arrayLang[]=$langs[0].'#'.$langs[1];
-};
-//idioma de la nota
-$arrayNota["lang_nota"] = (!$arrayNota["lang_nota"]) ? $_SESSION["CFGIdioma"] : $arrayNota["lang_nota"];
+    $arrayLang[] = $langs[0] . '#' . $langs[1];
+}
 
-//default value note type
-$type_note = (!$arrayNota["tipo_nota"]) ? $_SESSION[$_SESSION["CFGURL"]]["_GLOSS_NOTES"] : $arrayNota["tipo_nota"];
+// Valores por defecto (usando null coalescing para evitar undefined)
+$arrayNota['lang_nota'] = $arrayNota['lang_nota'] ?? ($_SESSION['CFGIdioma'] ?? 'es');
+$type_note = $arrayNota['tipo_nota'] ?? ($_SESSION[$_SESSION['CFGURL']]['_GLOSS_NOTES'] ?? 'NA');
+
+// Variables de seguridad para escape en HTML
+$temaIdEsc = htmlspecialchars($metadata["arraydata"]["tema_id"] ?? '', ENT_QUOTES, 'UTF-8');
+$titTemaEsc = htmlspecialchars($metadata["arraydata"]["titTema"] ?? '', ENT_QUOTES, 'UTF-8');
+$notaEsc = htmlspecialchars($arrayNota["nota"] ?? '', ENT_QUOTES, 'UTF-8');
 
 ?>
 <div class="container" id="bodyText">
-<a class="topOfPage" href="<?php echo URL_BASE;?>index.php?tema=<?php echo $metadata["arraydata"]["tema_id"];?>" title="<?php echo LABEL_Anterior;?>"><?php echo LABEL_Anterior;?></a>
-<h3><?php echo LABEL_EditorNota ;?></h3>
-<form class="" role="form" name="altaNota" id="altaNota" action="index.php" method="post">
-    <div class="row">
-    <div class="col-sm-12">
-        <legend> <?php echo LABEL_EditorNotaTermino.' <a href="index.php?tema='.$metadata["arraydata"]["tema_id"].'">'.$metadata["arraydata"]["titTema"].'</a>';?></legend>
-    </div>
-    <!-- panel  -->
+    <a class="topOfPage" href="<?php echo URL_BASE; ?>index.php?tema=<?php echo $temaIdEsc; ?>" title="<?php echo LABEL_Anterior; ?>"><?php echo LABEL_Anterior; ?></a>
+    <h3><?php echo LABEL_EditorNota; ?></h3>
 
-    <div class="col-lg-7">
-        <div class="panel panel-default">
-            <div class="panel-body form-horizontal">
+    <form class="" role="form" name="altaNota" id="altaNota" action="index.php" method="post">
+        <div class="row">
+            <div class="col-sm-12">
+                <legend><?php echo LABEL_EditorNotaTermino; ?> <a href="index.php?tema=<?php echo $temaIdEsc; ?>"><?php echo $titTemaEsc; ?></a></legend>
+            </div>
 
-            <div class="form-group">
-            <label for="<?php echo LABEL_tipoNota;?>" class="col-sm-3 control-label"><?php echo ucfirst(LABEL_tipoNota);?></label>
-                <div class="col-sm-9">
-                    <select class="form-control" id="tipoNota" name="<?php echo FORM_LABEL_tipoNota;?>">
-                        <?php echo doSelectForm($arrayNoteType, $type_note);?>
-                    </select>
-                </div>
-            </div>
-            <div class="form-group">
-            <label for="<?php echo FORM_LABEL_Idioma;?>" class="col-sm-3 control-label"><?php echo ucfirst(LABEL_Idioma);?></label>
-                <div class="col-sm-9">
-                    <select class="form-control" id="<?php echo FORM_LABEL_Idioma;?>" name="<?php echo FORM_LABEL_Idioma;?>">
-                        <?php echo doSelectForm($arrayLang, $arrayNota["lang_nota"]);?>
-                    </select>
-                </div>
-            </div>
-                <div class="form-group">
-                    <label for=""<?php echo LABEL_nota;?>" class="col-sm-3 control-label"><?php echo ucfirst(LABEL_nota);?></label>
+            <div class="col-lg-12">
+                <div class="panel panel-default">
+                    <div class="panel-body form-horizontal">
 
-                    <div class="col-sm-9">
-                    <span class="help-block"><?php echo MSG_helpNoteEditor;?></span>
-                      <textarea style="width:100%" cols="60" name="<?php echo FORM_LABEL_nota;?>" rows="15" id="<?php echo LABEL_nota;?>"><?php echo $arrayNota["nota"];?></textarea>
-                    </div>
-                </div>
-<?php if (count($arrayNoteSrc)>1) {?>
-            <div class="form-group">
-            <label for="<?php echo LABEL_src_note;?>" class="col-sm-3 control-label"><?php echo ucfirst(LABEL_src_note);?></label>
-                <div class="col-sm-9">
-                    <select class="form-control" id="src_note_id" name="src_note_id">
-                        <?php echo doSelectForm($arrayNoteSrc, $arrayNota["src_id"]);?>
-                    </select>
-                </div>
-            </div>
-<?php };?>
-                <div class="form-group" role="group" >
-                    <div class="col-sm-12 text-right">
-                      <div class="btn-group">
-                        <?php echo $buttons;?>
-                      </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div> <!-- / panel  -->
-<?php echo $hidden;?>
-</form>
+                        <!-- Tipo de nota -->
+                        <div class="form-group">
+                            <label for="tipoNota" class="col-sm-2 control-label"><?php echo ucfirst(LABEL_tipoNota); ?></label>
+                            <div class="col-sm-10">
+                                <select class="form-control" id="tipoNota" name="<?php echo FORM_LABEL_tipoNota; ?>">
+                                    <?php echo doSelectForm($arrayNoteType, $type_note); ?>
+                                </select>
+                            </div>
+                        </div>
 
+                        <!-- Idioma -->
+                        <div class="form-group">
+                            <label for="idioma" class="col-sm-2 control-label"><?php echo ucfirst(LABEL_Idioma); ?></label>
+                            <div class="col-sm-10">
+                                <select class="form-control" id="idioma" name="<?php echo FORM_LABEL_Idioma; ?>">
+                                    <?php echo doSelectForm($arrayLang, $arrayNota["lang_nota"]); ?>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- Nota (editor) -->
+                        <div class="form-group">
+                            <label for="<?php echo LABEL_nota; ?>" class="col-sm-2 control-label"><?php echo ucfirst(LABEL_nota); ?></label>
+                            <div class="col-sm-10">
+                                <span class="help-block"><?php echo MSG_helpNoteEditor; ?></span>
+                                <textarea name="<?php echo FORM_LABEL_nota; ?>" rows="20" id="<?php echo LABEL_nota; ?>"><?php echo $notaEsc; ?></textarea>
+                            </div>
+                        </div>
+
+                        <!-- Fuente (opcional) -->
+                        <?php if (count($arrayNoteSrc) > 1) : ?>
+                        <div class="form-group">
+                            <label for="src_note_id" class="col-sm-2 control-label"><?php echo ucfirst(LABEL_src_note); ?></label>
+                            <div class="col-sm-10">
+                                <select class="form-control" id="src_note_id" name="src_note_id">
+                                    <?php echo doSelectForm($arrayNoteSrc, $arrayNota["src_id"] ?? null); ?>
+                                </select>
+                            </div>
+                        </div>
+                        <?php endif; ?>
+
+                        <!-- Botones -->
+                        <div class="form-group" role="group">
+                            <div class="col-sm-12 text-right">
+                                <div class="btn-group">
+                                    <?php echo $buttons; ?>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div><!-- /.panel-body -->
+                </div><!-- /.panel -->
+            </div><!-- /.col-lg-11 -->
+
+            <?php echo $hidden; ?>
+        </div><!-- /.row -->
+    </form>
 </div>
