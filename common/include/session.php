@@ -29,6 +29,7 @@ $SQL_CFG_LC=SQL("select", "id,titulo,autor,idioma,cobertura,keywords,tipo,cuando
 
 if (!is_object($SQL_CFG_LC)) {
     header("Location:install.php");
+    exit();
 }
 
 $CFG_LC=$SQL_CFG_LC->FetchRow();
