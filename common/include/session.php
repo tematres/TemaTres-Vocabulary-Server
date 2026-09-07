@@ -1,29 +1,27 @@
 <?php
-if ((stristr($_SERVER['REQUEST_URI'], "session.php") ) || ( !defined('T3_ABSPATH') )) {
-    die("no access");
-}
-// TemaTres : aplicación para la gestión de lenguajes documentales #       #
-//
-// Copyright (C) 2004-2013 Diego Ferreyra tematres@r020.com.ar
-// Distribuido bajo Licencia GNU Public License, versión 2 (de junio de 1.991) Free Software Foundation
-//
-//
+defined('T3_ABSPATH') or die('No direct access');
+/* TemaTres : aplicación para la gestión de lenguajes documentales
+*
+* Copyright (C) 2004-2026 Diego Ferreyra tematres@r020.com.ar
+* Distribuido bajo Licencia GNU Public License, versión 2 (de junio de 1.991) Free Software Foundation
+*
+*/
 // Gestion de sesiones #
 
 
-
 // **PREVENTING SESSION HIJACKING**
-// Solution from http://stackoverflow.com/questions/22221807/session-cookies-http-secure-flag-how-do-you-set-these
-// Prevents javascript XSS attacks aimed to steal the session ID
+// Configurar sesión antes de iniciarla
 ini_set('session.cookie_httponly', 1);
-
-// **PREVENTING SESSION FIXATION**
-// Session ID cannot be passed through URLs
 ini_set('session.use_only_cookies', 1);
+ini_set('session.cookie_samesite', 'Strict'); // Añadir SameSite
 
-// Uses a secure connection (HTTPS) if possible
-//ini_set('session.cookie_secure', 1);
-session_start();
+if (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on') {
+    ini_set('session.cookie_secure', 1);
+}
+
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 
 $SQL_CFG_LC=SQL("select", "id,titulo,autor,idioma,cobertura,keywords,tipo,cuando,url_base,polijerarquia from $DBCFG[DBprefix]config where id=1");
 
@@ -51,8 +49,6 @@ loadConfigValues(1);
 
 $lang_labels=selectLangLabels($_SESSION["CFGIdioma"], $idiomas_disponibles);
 
-//$_SESSION[$_SESSION["CFGURL"]]["lang"]=$lang_labels;
-
 $_GET["setLang"]=array2value("setLang",$_GET);
 $_GET["cmdlog"]=array2value("cmdlog",$_GET);
 $_POST["id_correo_electronico"]=array2value("id_correo_electronico",$_POST);
@@ -60,7 +56,6 @@ $_POST["id_correo_electronico"]=array2value("id_correo_electronico",$_POST);
 
     
 if ($_GET["setLang"]) {
-    //$_SESSION[$_SESSION["CFGURL"]]["lang"]=$idiomas_disponibles[$_GET["setLang"]];
     $lang_labels=selectLangLabels($_GET["setLang"], $idiomas_disponibles);
     $_SESSION[$_SESSION["CFGURL"]]["lang"]=$lang_labels;
 }
@@ -95,6 +90,7 @@ if ($_POST["id_correo_electronico"]) {
      
      
         if (check_password($_POST["id_password"], $chk_user["pass"])) {
+            session_regenerate_id(true); //Regenerar ID de sesión tras login
             //Save stadistics
             $stats=doLastModified();
 
