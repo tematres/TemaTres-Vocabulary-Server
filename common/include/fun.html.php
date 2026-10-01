@@ -1927,16 +1927,16 @@ function HTMLtermMetadata($arrayTerm, $arrayCantRelaciones)
     $body.='<dd>' ;
 
     $body.='<ul class="list-inline" id="enlaces_xml">' ;
-    $body.='        <li><a class="btn btn-info btn-xs" target="_blank" title="'.LABEL_verEsquema.' BS8723-5"  href="'.URL_BASE.'xml.php?schema=bs8723&term_id='.$arrayTerm["tema_id"].'">BS8723-5</a></li>' ;
-    $body.='        <li><a class="btn btn-info btn-xs" target="_blank" title="'.LABEL_verEsquema.' Dublin Core"  href="'.URL_BASE.'xml.php?schema=dc&term_id='.$arrayTerm["tema_id"].'">DC</a></li>' ;
-    $body.='        <li><a class="btn btn-info btn-xs"  target="_blank" title="'.LABEL_verEsquema.' MADS"  href="'.URL_BASE.'xml.php?schema=mads&term_id='.$arrayTerm["tema_id"].'">MADS</a></li>  ' ;
-    $body.='        <li><a class="btn btn-info btn-xs"  target="_blank" title="'.LABEL_verEsquema.' Skos"  href="'.URL_BASE.'xml.php?schema=skos&term_id='.$arrayTerm["tema_id"].'">SKOS-Core</a></li>' ;
+    $body.='        <li><a class="btn btn-info btn-xs" target="_blank" rel="nofollow" title="'.LABEL_verEsquema.' BS8723-5"  href="'.URL_BASE.'xml.php?schema=bs8723&term_id='.$arrayTerm["tema_id"].'">BS8723-5</a></li>' ;
+    $body.='        <li><a class="btn btn-info btn-xs" target="_blank" rel="nofollow" title="'.LABEL_verEsquema.' Dublin Core"  href="'.URL_BASE.'xml.php?schema=dc&term_id='.$arrayTerm["tema_id"].'">DC</a></li>' ;
+    $body.='        <li><a class="btn btn-info btn-xs"  target="_blank" rel="nofollow" title="'.LABEL_verEsquema.' MADS"  href="'.URL_BASE.'xml.php?schema=mads&term_id='.$arrayTerm["tema_id"].'">MADS</a></li>  ' ;
+    $body.='        <li><a class="btn btn-info btn-xs"  target="_blank" rel="nofollow" title="'.LABEL_verEsquema.' Skos"  href="'.URL_BASE.'xml.php?schema=skos&term_id='.$arrayTerm["tema_id"].'">SKOS-Core</a></li>' ;
     $body.='        <li><a class="btn btn-info btn-xs"  target="_blank" title="'.LABEL_verEsquema.' IMS Vocabulary Definition Exchange (VDEX)"  href="'.URL_BASE.'xml.php?schema=vdex&term_id='.$arrayTerm["tema_id"].'">VDEX</a></li>' ;
-    $body.='        <li><a class="btn btn-info btn-xs"  target="_blank" title="'.LABEL_verEsquema.' TopicMap"  href="'.URL_BASE.'xml.php?schema=xtm&term_id='.$arrayTerm["tema_id"].'">XTM</a></li>' ;
-    $body.='        <li><a class="btn btn-info btn-xs"  target="_blank" title="'.LABEL_verEsquema.' Zthes" href="'.URL_BASE.'xml.php?schema=zthes&term_id='.$arrayTerm["tema_id"].'">Zthes</a></li>  ' ;
-    $body.='        <li><a class="btn btn-info btn-xs"  target="_blank" title="'.LABEL_verEsquema.' TBX" href="'.URL_BASE.'xml.php?schema=tbx&term_id='.$arrayTerm["tema_id"].'">TBX</a></li>  ' ;
-    $body.='        <li><a class="btn btn-info btn-xs"  target="_blank" title="'.LABEL_verEsquema.' JavaScript Object Notation" href="'.URL_BASE.'xml.php?schema=json&term_id='.$arrayTerm["tema_id"].'">JSON</a></li>  ' ;
-    $body.='        <li><a class="btn btn-info btn-xs"  target="_blank" title="'.LABEL_verEsquema.' JavaScript Object Notation for Linked Data" href="'.URL_BASE.'xml.php?schema=jsonld&term_id='.$arrayTerm["tema_id"].'">JSON-LD</a></li>  ' ;
+    $body.='        <li><a class="btn btn-info btn-xs"  target="_blank" rel="nofollow" title="'.LABEL_verEsquema.' TopicMap"  href="'.URL_BASE.'xml.php?schema=xtm&term_id='.$arrayTerm["tema_id"].'">XTM</a></li>' ;
+    $body.='        <li><a class="btn btn-info btn-xs"  target="_blank" rel="nofollow" title="'.LABEL_verEsquema.' Zthes" href="'.URL_BASE.'xml.php?schema=zthes&term_id='.$arrayTerm["tema_id"].'">Zthes</a></li>  ' ;
+    $body.='        <li><a class="btn btn-info btn-xs"  target="_blank" rel="nofollow" title="'.LABEL_verEsquema.' TBX" href="'.URL_BASE.'xml.php?schema=tbx&term_id='.$arrayTerm["tema_id"].'">TBX</a></li>  ' ;
+    $body.='        <li><a class="btn btn-info btn-xs"  target="_blank" rel="nofollow" title="'.LABEL_verEsquema.' JavaScript Object Notation" href="'.URL_BASE.'xml.php?schema=json&term_id='.$arrayTerm["tema_id"].'">JSON</a></li>  ' ;
+    $body.='        <li><a class="btn btn-info btn-xs"  target="_blank" rel="nofollow" title="'.LABEL_verEsquema.' JavaScript Object Notation for Linked Data" href="'.URL_BASE.'xml.php?schema=jsonld&term_id='.$arrayTerm["tema_id"].'">JSON-LD</a></li>  ' ;
     $body.='</ul>' ;
     $body.='</dd>' ;
 
