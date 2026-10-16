@@ -1,13 +1,20 @@
 # Rewrite clean URLs onto real files
 <IfModule mod_rewrite.c>
-RewriteEngine On
-RewriteCond %{REQUEST_FILENAME} !-f
-RewriteRule ^api/([[a-zA-Z]+)/(.*)/(json|skos)?$ services.php?task=$1&arg=$2&output=$3
-RewriteRule ^api/([[a-zA-Z]+)/(.*)?$ services.php?task=$1&arg=$2
-RewriteRule ^api/([[a-zA-Z]+)?$ services.php?task=$1
-RewriteRule ^skos/(\w+)/?$ xml.php?schema=skos&term_id=$1 [L]
-RewriteRule ^zthes/(\w+)/?$ xml.php?schema=zthes&term_id=$1 [L]
-RewriteRule ^bs8723/(\w+)/?$ xml.php?schema=bs8723&term_id=$1 [L]
-RewriteRule ^term/(\w+)/?$ index.php?tema=$1
+    RewriteEngine On
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    # API: api/task/arg/output
+    RewriteRule ^api/([a-zA-Z]+)/(.*)/(json|skos)/?$ services.php?task=$1&arg=$2&output=$3 [L,QSA]
+    # API: api/task/arg
+    RewriteRule ^api/([a-zA-Z]+)/(.*)/?$ services.php?task=$1&arg=$2 [L,QSA]
+    # API: api/task
+    RewriteRule ^api/([a-zA-Z]+)/?$ services.php?task=$1 [L,QSA]
+    # API: api/
+    RewriteRule ^api/?$ services.php? [L]
+    # SKOS, ZTHES, BS8723
+    RewriteRule ^skos/(\w+)/?$ xml.php?schema=skos&term_id=$1 [L,QSA]
+    RewriteRule ^zthes/(\w+)/?$ xml.php?schema=zthes&term_id=$1 [L,QSA]
+    RewriteRule ^bs8723/(\w+)/?$ xml.php?schema=bs8723&term_id=$1 [L,QSA]
+    # Términos
+    RewriteRule ^term/(\w+)/?$ index.php?tema=$1 [L,QSA]
 </IfModule>
-
