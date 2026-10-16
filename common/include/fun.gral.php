@@ -779,6 +779,7 @@ function utf8($txt)
 }
 
 
+
 function XSSprevent($string)
 {
     if(is_null($string)) return;
@@ -798,18 +799,19 @@ function XSSprevent($string)
 }
 
 
-function cleanHTMLNote($string)
-{
-    if(is_null($string)) return;
 
+function sanitizeNoteHTML($html)
+{
+    if (!is_string($html) || $html === '') {
+        return ;
+    }
     include_once 'htmlpurifier/HTMLPurifier.auto.php';
     $config = HTMLPurifier_Config::createDefault();
-    $config->set('HTML.Allowed', 'p,b,em,br,strong,a[href],img[src|alt],ul,li,ol');
     $config->set('Cache.DefinitionImpl', null);
+    $config->set('HTML.Allowed', 'h4,p,ul,ol,li,br,strong,em,b,i,a[href|title|target|rel]');
+    $config->set('URI.AllowedSchemes', array('http' => true, 'https' => true, 'mailto' => true));
     $purifier = new HTMLPurifier($config);
-    $clean_string = $purifier->purify($string);
-
-    return $clean_string;
+    return $purifier->purify($html);
 }
 
 function clean($val)

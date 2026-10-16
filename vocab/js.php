@@ -33,7 +33,7 @@ if (evalUserLevel($_SESSION[$_SESSION["CFGURL"]])>0) {
         invalid_elements: 'style,script,html,body',
         branding: false
     });
-    <!-- /TinyMCE -->
+    <!--TinyMCE-->
 
     $(function() {
      $(".editable_textarea").editable("searcher.php", {
@@ -182,7 +182,7 @@ $(function() {
          $tree.tree({
             buttonLeft: false,
             dragAndDrop: false,
-            autoEscape: false,
+            autoEscape: true,   
             selectable: false,
             useContextMenu: false
            });
@@ -198,12 +198,21 @@ var onSelect = function(val, data) { $('#simple-search #id').val(data); $('#simp
 
 jQuery(function(){
 
+    // Escapes a value before the autocomplete plugin inserts it with innerHTML (see formatItem/term_code
+    // below). Without this, a term name containing markup - e.g. imported directly, or from any future
+    // field that reuses these callbacks - runs as script in the suggestion dropdown (DOM XSS).
+    function escapeHTML(s) {
+        var d = document.createElement("div");
+        d.textContent = String(s);
+        return d.innerHTML;
+    }
+
     function formatItem(row) {
-        return row["value"] + " (<?php echo '<strong>'.LABEL_terminoExistente.'</strong>';?>)";
+        return escapeHTML(row["value"]) + " (<?php echo '<strong>'.LABEL_terminoExistente.'</strong>';?>)";
     }
 
     function term_code(row) {
-        return row["data"];
+        return escapeHTML(row["data"]);
     }
 
         options = {

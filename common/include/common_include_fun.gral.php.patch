@@ -1,0 +1,30 @@
+--- a/common/include/fun.gral.php
++++ b/common/include/fun.gral.php
+@@ -779,6 +779,27 @@
+ }
+ 
+ 
++// Sanitizes note HTML (scope notes, history notes, etc.) with an allow-list, instead of stripping
++// all markup like XSSprevent() does: notes are expected to contain headings/paragraphs/lists/links
++// (see fun.html_forms.php TinyMCE config). Without this, a saved <script>/onerror in a note is stored
++// and rendered verbatim to every visitor (stored XSS) - see HTMLNotasTermino() and HTMLdisplayRandomTerm()
++// in fun.html.php, and the save path in abmNota() in fun.admin.php. Call this at BOTH the save site and
++// the display site: the display-site call is defence in depth for notes that were ever inserted directly
++// (import scripts, older rows from before this fix, future code paths that reuse these same note fields).
++function sanitizeNoteHTML($html)
++{
++    if (!is_string($html) || $html === '') {
++        return $html;
++    }
++    include_once 'htmlpurifier/HTMLPurifier.auto.php';
++    $config = HTMLPurifier_Config::createDefault();
++    $config->set('Cache.DefinitionImpl', null);
++    $config->set('HTML.Allowed', 'h4,p,ul,ol,li,br,strong,em,b,i,a[href|title|target|rel]');
++    $config->set('URI.AllowedSchemes', array('http' => true, 'https' => true, 'mailto' => true));
++    $purifier = new HTMLPurifier($config);
++    return $purifier->purify($html);
++}
++
+ function XSSprevent($string)
+ {
+     if(is_null($string)) return;

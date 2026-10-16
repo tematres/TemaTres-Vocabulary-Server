@@ -7,6 +7,7 @@ $metadata=do_meta_tag();
 
 if (evalUserLevel($_SESSION[$_SESSION["CFGURL"]])!==1) {
     loadPage('login.php');
+    exit;
 };
 
 

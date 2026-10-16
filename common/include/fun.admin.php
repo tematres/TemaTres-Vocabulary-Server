@@ -1082,8 +1082,8 @@ function abmNota($do, $idTema, $tipoNota, $langNota, $nota, $src_id = 0, $idNota
 
   $tipoNota=$DB->qstr(trim((string) $tipoNota));
   $langNota=$DB->qstr(trim((string) $langNota));
-  $nota=$DB->qstr(trim((string) $nota));
-  $nota=cleanHTMLNote($nota);
+  $nota=$DB->qstr(sanitizeNoteHTML(trim((string) $nota)));
+  //$nota=cleanHTMLNote($nota);
   $src_id=secure_data($src_id, "int");
 
   switch ($do) {

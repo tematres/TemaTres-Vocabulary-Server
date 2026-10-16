@@ -836,7 +836,7 @@ function HTMLNotasTermino($array, $editFlag = 0)
         $label_lang_nota=($array["notas"][$iNota]["lang_nota"]==$_SESSION["CFGIdioma"]) ? '' : ' ('.$array["notas"][$iNota]["lang_nota"].')' ;
 
         /**reorganize the note array to create type note groups  */
-        @$body_note[$tipoNota]["content"].='<div class="panel-body" id="note_id'.$array["notas"][$iNota]["id"].'">'.wiki2link($array["notas"][$iNota]["nota"]).HTMLsource4note($array["notas"][$iNota]["id"]).'</div>' ;
+        @$body_note[$tipoNota]["content"].='<div class="panel-body" id="note_id'.$array["notas"][$iNota]["id"].'">'.sanitizeNoteHTML(wiki2link($array["notas"][$iNota]["nota"])).HTMLsource4note($array["notas"][$iNota]["id"]).'</div>' ;
 
         if ($editFlag==1) {
             $body_note[$tipoNota]["content"].='<div class="panel-footer"">' ;
@@ -2324,7 +2324,7 @@ function HTMLdisplayRandomTerm($noteType = "NA")
         $ARRAYdatosTermino=ARRAYverDatosTermino($arrayTerm["term_id"]);
         for ($iNota=0; $iNota<(count($ARRAYdatosTermino["notas"])); ++$iNota) {
             if (($ARRAYdatosTermino["notas"][$iNota]["tipoNota"]==$noteType) && ($ARRAYdatosTermino["notas"][$iNota]["lang_nota"]==$_SESSION["CFGIdioma"])) {
-                  $notes.=wiki2link($ARRAYdatosTermino["notas"][$iNota]["nota"]).' ' ;
+                  $notes.=sanitizeNoteHTML(wiki2link($ARRAYdatosTermino["notas"][$iNota]["nota"])).' ' ;
             };// fin del for
         }
 
