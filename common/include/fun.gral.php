@@ -1856,7 +1856,6 @@ function array2value($key,$array=array())
  */
 function evalUserLevel($user_session)
 {
-
     if (!is_array($user_session)) {
         return 0;
     };
@@ -1868,7 +1867,6 @@ function evalUserLevel($user_session)
     if (!in_array($user_session["ssuser_nivel"], array(1,2,3))) {
         return 0;
     };
-
     return (int) $user_session["ssuser_nivel"];
 }
 

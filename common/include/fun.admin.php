@@ -153,7 +153,7 @@ if($user_nivel_id==3){//is colab
           }
 
       };//fin alta wikidata
-        
+
       // alta de términos sugeridos wikidata según relaciones
 
       if ($_POST["taskterm"]=='addSuggestedWikiRelatedTerms') {
@@ -167,21 +167,21 @@ if($user_nivel_id==3){//is colab
             $relative_term_id=abm_tema('alta', $arrayNewTerm[0]);
 
           switch ($_POST["t_relation"]) {
-              case '2'://associate terms              
+              case '2'://associate terms
               $new_relacion=do_terminos_relacionados($relative_term_id, $ARRAYtema["tema_id"]);
               abmURI('A', $relative_term_id, array("uri_type_id"=>"34","uri"=>"https://www.wikidata.org/wiki/$arrayNewTerm[1]"));
                 break;
-              
-              case '3'://associate terms              
+
+              case '3'://associate terms
               $new_relacion=do_r($ARRAYtema["tema_id"], $relative_term_id, "3");
               abmURI('A', $relative_term_id, array("uri_type_id"=>"34","uri"=>"https://www.wikidata.org/wiki/$arrayNewTerm[1]"));
                 break;
-              
-              case '4'://associate terms              
+
+              case '4'://associate terms
               $new_relacion=do_r($relative_term_id, $ARRAYtema["tema_id"],"4");
               //abmURI('A', $ARRAYtema["tema_id"], array("uri_type_id"=>"34","uri"=>"https://www.wikidata.org/wiki/$arrayNewTerm[1]"));
                 break;
-              
+
               default:
                 // code...
                 break;
@@ -190,7 +190,7 @@ if($user_nivel_id==3){//is colab
 
       };//fin alta wikidata relaciones
 
-        
+
       // alta de términos sugeridos
       if ($_POST["taskterm"]=='addSuggestedTerms') {
         $ARRAYtema=ARRAYverTerminoBasico($_POST["tema"]);
@@ -1451,7 +1451,7 @@ if ($_SESSION[$_SESSION["CFGURL"]]["ssuser_nivel"]=='1') {
         /*add config option for 3.6 version*/
         $arrayCurrentStatusVocab=getCurrentVocabStatus();
 
-        //Update to 3.6=> check if CFG_STATUS_VOCAB is defined 
+        //Update to 3.6=> check if CFG_STATUS_VOCAB is defined
         if ($arrayCurrentStatusVocab["data_status"]==1) {
           // if there are new value
           if($arrayTesa["vocab_status"]!==$arrayCurrentStatusVocab["code"]) {
@@ -1697,7 +1697,7 @@ if ($_SESSION[$_SESSION["CFGURL"]]["ssuser_nivel"]=='1') {
 
     return $rows;
   };
-  
+
 
 
 
@@ -2626,9 +2626,9 @@ function doTotalTBX($tipoEnvio = 'file'){
    while ($array=$sql->FetchRow()) {
     $rows.=do_nodo_tbx($array[0]);
     }
-  
+
   $rows.='</body></text></martif>';
-  
+
   $filname=string2url($_SESSION["CFGTitulo"]).'.tbx';
   sendFile("$rows", "$filname");
 };
@@ -2665,9 +2665,9 @@ function doTotalTBX_basic($tipoEnvio = 'file'){
    while ($array=$sql->FetchRow()) {
     $rows.=do_nodo_tbx_basic($array[0]);
     }
-  
+
     $rows.='</body>    </text></tbx>';
-  
+
   $filname=string2url($_SESSION["CFGTitulo"]).'.tbx';
   sendFile("$rows", "$filname");
 };
@@ -3257,7 +3257,7 @@ function abm_URIdefinition($do, $array, $value_id = "0")
  * @return array Array con los valores procesados, incluyendo la validación del tipo.
  *               Las claves 'value_code' y 'value' son escapadas para base de datos,
  *               y 'value_type' es validada contra la configuración.
- * 
+ *
  * @global array $DBCFG Configuración de la base de datos. Contiene el prefijo de tablas en 'DBprefix'.
  * @global object $DB Objeto de base de datos con método qstr() para escapar strings.
  * @global array $CFG Configuración general del sistema. Contiene 'CONFIG_VAR' con tipos válidos.

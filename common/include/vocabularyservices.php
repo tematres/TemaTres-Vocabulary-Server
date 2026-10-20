@@ -221,12 +221,12 @@ function ARRAYttermData($dataTterm)
     }
     foreach ($dataTterm->result->term as $value) {
         $arrayTtermData=array("term_id"=>(int) $value->term_id,
-                                    "string"=>(string) $value->string,
-                                    "code"=>(string) $value->code,
-                                    "lang"=>(string) $value->lang,
-                                    "isMetaTerm"=>(int) $value->isMetaTerm,
-                                    "date_create"=> date((string) $value->date_create)
-                                  );
+                              "string"=>(string) $value->string,
+                              "code"=>(string) $value->code,
+                              "lang"=>(string) $value->lang,
+                              "isMetaTerm"=>(int) $value->isMetaTerm,
+                              "date_create"=> date((string) $value->date_create)
+        );
     };
     return $arrayTtermData;
 }
@@ -277,12 +277,12 @@ function ttermFullMetadata($tterm_url)
     }
 
     return array("tvocab"=>$arrayTvocab,
-              "tterm"=>ARRAYttermData(getURLdata($tterm_url)),
-              "ttermNT"=>$arrayTtermNT,
-              "ttermBT"=>$arrayTtermBT,
-              "ttermRT"=>$arrayTtermRT,
-              "URL_ttermData"=>$URL_ttermData
-            );
+                 "tterm"=>ARRAYttermData(getURLdata($tterm_url)),
+                 "ttermNT"=>$arrayTtermNT,
+                 "ttermBT"=>$arrayTtermBT,
+                 "ttermRT"=>$arrayTtermRT,
+                 "URL_ttermData"=>$URL_ttermData
+    );
 }
 
 

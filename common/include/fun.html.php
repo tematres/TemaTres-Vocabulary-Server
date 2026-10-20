@@ -33,7 +33,6 @@ function resultaBusca($texto, $tipo = "")
     if ((strlen($texto)>=CFG_MIN_SEARCH_SIZE) || ($tipo=='E')) {
         $sql= ($tipo=='E') ? SQLbuscaExacta("$texto") : SQLbuscaSimple("$texto");
         $sql_cant=SQLcount($sql);
-        $classMensaje= ($sql_cant>0) ? 'information' : 'warning' ;
     } else {
         $sql_cant='0' ;
         $resumeResult = '<p class="alert alert-danger" role="alert">'.sprintf(MSG_minCharSerarch, stripslashes($texto), strlen($texto), CFG_MIN_SEARCH_SIZE-1).'</p>' ;
@@ -69,7 +68,7 @@ function resultaBusca($texto, $tipo = "")
             }
 
             //si hubo coicidencia exacta y están apagadas las sugerencias
-            if ((strtoupper($primerTermino)==trim(strtoupper($texto))) && (($_GET["sgs"]=='off') || ($sql_cant==1))) {
+            if ((strtoupper($primerTermino)==trim(strtoupper($texto))) && (($sgs=='off') || ($sql_cant==1))) {
                 return HTMLbodyTermino(ARRAYverDatosTermino($primerTermino_id));
             }
 
@@ -2199,8 +2198,8 @@ function HTMLjsInclude()
     global $CFG;
 
     // <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-    $rows='<script type="text/javascript" src="'.T3_WEBPATH.'jq/lib/jquery-3.4.1.min.js"></script>' ;
-
+    $rows='<script type="text/javascript" src="'.T3_WEBPATH.'jq/lib/jquery-3.7.1.min.js"></script>' ;
+    //$rows.='<script src="'.T3_WEBPATH.'jq/lib/jquery-migrate-4.0.2.min.js"></script>';
     if ($CFG["USE_CDN"]==1) {
         $rows.='<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>' ;
     } else {
@@ -2238,19 +2237,17 @@ function HTMLjsInclude()
 
     $rows.='<script type="text/javascript">
     	var clipboard = new ClipboardJS(\'.copy-clipboard\');
-
 	  	$("#myTermTab").tabCollapse();
 	  	$(".dropdown-submenu > a").submenupicker();
-
 	  	$(".termDefinition").popover();
 		$("#popoverOption").popover({ trigger: "hover"});
 		$(".autoGloss").tooltip(options);
-
 		$("#tagcloud a").tagcloud({
 		size: {start: 12, end: 36, unit: "px"},
 		color: {start: "#3498DB", end: "#46CFB0"}
-		});
-	  </script>' ;
+		});';
+
+    $rows.='</script>' ;
 
 
     if ($CFG["GA_TRACKING_ID"]!=='0') {

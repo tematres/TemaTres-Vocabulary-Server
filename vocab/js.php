@@ -31,7 +31,8 @@ if (evalUserLevel($_SESSION[$_SESSION["CFGURL"]])>0) {
         paste_remove_styles_if_webkit: true,
         paste_remove_styles: true,
         invalid_elements: 'style,script,html,body',
-        branding: false
+        branding: false,
+        license_key: 'gpl'
     });
     <!--TinyMCE-->
 
@@ -182,7 +183,7 @@ $(function() {
          $tree.tree({
             buttonLeft: false,
             dragAndDrop: false,
-            autoEscape: true,   
+            autoEscape: false,
             selectable: false,
             useContextMenu: false
            });
