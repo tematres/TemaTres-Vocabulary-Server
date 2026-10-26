@@ -21,10 +21,13 @@ $typeSearch = ($_GET["t"] == '0') ? '0' : CFG_SUGGESTxWORD;
 
 if (isset($node)) {
     echo getData4jtree($node);
+    return;
 }
 
 
 if (!$searchq) {
+    // an empty query gets valid JSON too: the autocomplete plugin cannot parse an empty response
+    echo json_encode(array("query"=>"","suggestions"=>array()));
     return;
 }
 
