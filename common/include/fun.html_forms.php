@@ -333,7 +333,7 @@ function HTMLformEditTerms($taskterm, $ARRAYtermino = array())
         <fieldset>
         <legend>'.$nombre_pantalla.'</legend>
         <div class="form-group form-group-chk">
-        <label for="'.FORM_LABEL_termino .'" accesskey="t">'.LABEL_Termino.'</label>
+        <label for="addTerms" accesskey="t">'.LABEL_Termino.'</label>
         '.$extra_button.'
         <textarea class="form-control" type="text" required autofocus rows="2" cols="60" name="'.FORM_LABEL_termino.'" id="addTerms">'.$vista_titulo_tema.'</textarea>';
     $rows.=$help_rows;

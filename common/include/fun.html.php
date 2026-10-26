@@ -2171,7 +2171,7 @@ function HTMLnavHeader()
       <form method="get" id="simple-search" name="simple-search" action="'.URL_BASE.'index.php" class="navbar-form">
         <div class="form-group" style="display:inline;">
           <div class="fill col2">
-            <input class="form-control" id="query" name="'.FORM_LABEL_buscar.'"  type="search" '.$focus.'>
+            <input class="form-control" id="query" name="'.FORM_LABEL_buscar.'"  type="search" aria-label="'.LABEL_Buscar.'" '.$focus.'>
             <input class="btn btn-default" type="submit" value="'.LABEL_Buscar.'" />
             <input type="hidden" name="taskSearch" id="taskSearch" value="1" />
           </div>
