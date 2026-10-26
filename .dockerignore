@@ -1,0 +1,8 @@
+.git
+docker/*
+!docker/db.tematres.php
+# local database settings and dumps must not end up in the image (docker/db.tematres.php is used instead)
+vocab/db.tematres.php
+**/.env
+*.sql
+*.sql.gz
