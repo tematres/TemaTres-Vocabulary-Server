@@ -625,7 +625,7 @@ function HTMLformInstall($lang_install)
    <link href="<?php echo T3_WEBPATH;?>css/t3style.css" rel="stylesheet">
 
       <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-      <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+      <script src="<?php echo T3_WEBPATH;?>jq/lib/jquery-3.7.1.min.js"></script>
       <!-- Include all compiled plugins (below), or include individual files as needed -->
       <script src="<?php echo T3_WEBPATH;?>bootstrap/js/bootstrap.min.js"></script>
     <link rel="stylesheet" type="text/css" href="<?php echo T3_WEBPATH;?>css/jquery.autocomplete.css" />
