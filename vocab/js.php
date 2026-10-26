@@ -219,7 +219,6 @@ jQuery(function(){
         options = {
             serviceUrl:'suggest.php' ,
             minChars:2,
-            delimiter: /(,|;)\s*/,
             maxHeight:400,
             width:600,
             zIndex: 9999,
