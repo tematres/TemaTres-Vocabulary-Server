@@ -650,9 +650,11 @@ function HTMLtermMenuX2($array_tema, $relacionesTermino)
     $row='<li><a href="#" class="dropdown-toggle" data-toggle="dropdown">'.ucfirst(LABEL_Opciones).'<b class="caret"></b></a>' ;
     $row.='<ul class="dropdown-menu" role="menu">' ;
 
-    if (($relacionesTermino["cantNT"]+$relacionesTermino["cantUF"])==0) {
-        //no have relations
-        if (($relacionesTermino["cantTotal"])=='0') {
+    // Status can only be changed for terms without relations, except that a candidate can always be accepted
+    $isCandidate=($array_tema["estado_id"]=='12');
+    if ((($relacionesTermino["cantNT"]+$relacionesTermino["cantUF"])==0) || $isCandidate) {
+        //no have relations (or is a candidate)
+        if ((($relacionesTermino["cantTotal"])=='0') || $isCandidate) {
             /**
             Change status term
              */
@@ -661,8 +663,10 @@ function HTMLtermMenuX2($array_tema, $relacionesTermino)
                 case '12':
                     //Candidato / candidate => aceptado
                     $link_estado.='<li><a title="'.LABEL_AceptarTermino.'" href="'.URL_BASE.'index.php?tema='.$array_tema["idTema"].'&amp;estado_id=13">'.ucfirst(LABEL_AceptarTermino).'</a></li>' ;
-                    //Candidato / candidate => rechazado
-                    $link_estado.='<li><a title="'.LABEL_RechazarTermino.'" href="'.URL_BASE.'index.php?tema='.$array_tema["idTema"].'&amp;estado_id=14">'.ucfirst(LABEL_RechazarTermino).'</a></li>' ;
+                    //Candidato / candidate => rechazado (only without relations)
+                    if (($relacionesTermino["cantTotal"])=='0') {
+                        $link_estado.='<li><a title="'.LABEL_RechazarTermino.'" href="'.URL_BASE.'index.php?tema='.$array_tema["idTema"].'&amp;estado_id=14">'.ucfirst(LABEL_RechazarTermino).'</a></li>' ;
+                    }
                     break;
 
                 case '13':
