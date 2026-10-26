@@ -1586,7 +1586,7 @@ function do_jsonld($tema_id)
         $ARRAYjson_map["$skos_tag"][]=array("@id"=>$datosTargetTerms["tterm_url"],
         "@type"=>"skos:Concept",
         "skos:prefLabel"=>array("@language"=>$datosTargetTerms["tvocab_lang"],
-        "@value="=>$datosTargetTerms["tterm_string"])
+        "@value"=>$datosTargetTerms["tterm_string"])
         );
     };
 
@@ -1609,31 +1609,31 @@ function do_jsonld($tema_id)
 
             switch ($datosTermino["notas"][$iNota]["tipoNota"]) {
                 case 'NH':
-                    $ARRAYjson_notes["skos:historyNote"][]=array("@lang"=>$datosTermino["notas"][$iNota]["lang_nota"],"@value"=>$note_content);
+                    $ARRAYjson_notes["skos:historyNote"][]=array("@language"=>$datosTermino["notas"][$iNota]["lang_nota"],"@value"=>$note_content);
                     break;
 
                 case 'NA':
-                    $ARRAYjson_notes["skos:scopeNote"][]=array("@lang"=>$datosTermino["notas"][$iNota]["lang_nota"],"@value"=>$note_content);
+                    $ARRAYjson_notes["skos:scopeNote"][]=array("@language"=>$datosTermino["notas"][$iNota]["lang_nota"],"@value"=>$note_content);
                     break;
 
                 case 'DF':
-                    $ARRAYjson_notes["skos:definition"][]=array("@lang"=>$datosTermino["notas"][$iNota]["lang_nota"],"@value"=>$note_content);
+                    $ARRAYjson_notes["skos:definition"][]=array("@language"=>$datosTermino["notas"][$iNota]["lang_nota"],"@value"=>$note_content);
                     break;
 
                 case 'ED':
-                    $ARRAYjson_notes["skos:editorialNote"][]=array("@lang"=>$datosTermino["notas"][$iNota]["lang_nota"],"@value"=>$note_content);
+                    $ARRAYjson_notes["skos:editorialNote"][]=array("@language"=>$datosTermino["notas"][$iNota]["lang_nota"],"@value"=>$note_content);
                     break;
 
                 case 'EX':
-                    $ARRAYjson_notes["skos:example"][]=array("@lang"=>$datosTermino["notas"][$iNota]["lang_nota"],"@value"=>$note_content);
+                    $ARRAYjson_notes["skos:example"][]=array("@language"=>$datosTermino["notas"][$iNota]["lang_nota"],"@value"=>$note_content);
                     break;
 
                 case 'CH':
-                    $ARRAYjson_notes["skos:changeNote"][]=array("@lang"=>$datosTermino["notas"][$iNota]["lang_nota"],"@value"=>$note_content);
+                    $ARRAYjson_notes["skos:changeNote"][]=array("@language"=>$datosTermino["notas"][$iNota]["lang_nota"],"@value"=>$note_content);
                     break;
 
                 case 'NB':
-                    $ARRAYjson_notes["skos:note"][]=array("@lang"=>$datosTermino["notas"][$iNota]["lang_nota"],"@value"=>$note_content);
+                    $ARRAYjson_notes["skos:note"][]=array("@language"=>$datosTermino["notas"][$iNota]["lang_nota"],"@value"=>$note_content);
                     break;
             }
         };
@@ -1653,7 +1653,7 @@ function do_jsonld($tema_id)
     "@id"=>$_URI_BASE_ID.$_URI_SEPARATOR_ID.$datosTermino["idTema"],
     "@type"=>"skos:Concept",
     "skos:prefLabel"=>array("@language"=>$_SESSION["CFGIdioma"],
-    "@value="=>xmlentities($datosTermino["titTema"])),
+    "@value"=>xmlentities($datosTermino["titTema"])),
     "skos:inScheme"=>$_URI_BASE_ID,
     "dct:created"=>$datosTermino["cuando"]
     );
