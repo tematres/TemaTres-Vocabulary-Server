@@ -302,13 +302,14 @@ function SQLsearchInNotes($texto, $params = array())
 function SQLstartWith($texto, $strict_mode = 1, $limit = 50)
 {
 
-  global $DBCFG;
+  global $DBCFG, $DB;
 
   $limit=($limit<51) ? $limit : 50;
 
-  $texto_like=secure_data(trim($texto), "ADOsql");
-
-  $texto_like=str_replace("'", "", $texto_like);
+  // % and _ (LIKE wildcards) and \ (LIKE escape character) in the typed text are literal characters
+  $texto_like=addcslashes(trim($texto), '%_\\');
+  $like_start=$DB->qstr($texto_like.'%');
+  $like_word=$DB->qstr('% '.$texto_like.'%');
 
   /* disable config option about limit words
   $texto=(CFG_SUGGESTxWORD==1) ? "\\b$texto" : "$texto%";
@@ -350,7 +351,7 @@ function SQLstartWith($texto, $strict_mode = 1, $limit = 50)
   #left join $DBCFG[DBprefix]indice i on i.tema_id=tema.tema_id
   #left join $DBCFG[DBprefix]values v on v.value_id = relaciones.rel_rel_id
   where
-  ((tema.tema like '$texto_like%') OR (tema.tema LIKE '% $texto_like%'))
+  ((tema.tema like $like_start) OR (tema.tema LIKE $like_word))
   $where
   group by tema.tema_id
   order by lower(tema.tema)
@@ -1338,7 +1339,8 @@ function ARRAYverDatosTermino($tema_id)
       //Check is include or not meta terms
       $where.=(CFG_SEARCH_METATERM==0) ? " and t.isMetaTerm=0 " : "";
 
-      $string=secure_data("$string%", "ADOsql");
+      // % and _ (LIKE wildcards) and \ (LIKE escape character) in the typed text are literal characters
+      $string=secure_data(addcslashes($string, '%_\\')."%", "ADOsql");
 
       return SQL(
         "select",
