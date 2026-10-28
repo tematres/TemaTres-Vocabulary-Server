@@ -212,7 +212,7 @@ function doContextoTermino($idTema, $i_profundidad)
             //Editor de código
             $row_NT.=($CFG["_USE_CODE"]=='1') ? '<div title="term code, click to edit" class="editable_textarea" id="code_tema'.$datosNT["id_tema"].'">'.$datosNT["code"].'</div>' : '' ;
         } else {
-            $row_NT.=' <abbr class="thesacronym" id="r'.$datosNT["rel_id"].'" title="'.TE_termino.' '.$datosNT["rr_value"].'" lang="'.LANG.'">'.TE_acronimo.$datosNT["rr_code"].$i_profundidad.'</abbr> ' ;
+            $row_NT.=' <abbr class="thesacronym'.HTMLclassHiddenAcronym().'" id="r'.$datosNT["rel_id"].'" title="'.TE_termino.' '.$datosNT["rr_value"].'" lang="'.LANG.'">'.TE_acronimo.$datosNT["rr_code"].$i_profundidad.'</abbr> ' ;
             //ver  código
             $row_NT.=($CFG["_SHOW_CODE"]=='1') ? ' '.$datosNT["code"].' ' : '' ;
         }
@@ -232,7 +232,7 @@ function doContextoTermino($idTema, $i_profundidad)
             $classAcrnoyn='editable_select'.$datosTotalRelacionados["t_relacion"];
         } else {
             $td_delete='' ;
-            $classAcrnoyn='thesacronym' ;
+            $classAcrnoyn='thesacronym'.HTMLclassHiddenAcronym() ;
         };
 
         // Change to metaTerm attributes
@@ -1032,7 +1032,7 @@ function HTMLverTE($tema_id, $i_profundidad, $i = "")
         $label_MT=($array["isMetaTerm"]==1) ? NOTE_isMetaTerm : '' ;
 
         $rows.='<li class="listTE">' ;
-        $rows.=' <abbr class="thesacronym" title="'.TE_termino.'" lang="'.LANG.'">'.TE_acronimo.$i_profundidad.'</abbr> ' ;
+        $rows.=' <abbr class="thesacronym'.HTMLclassHiddenAcronym().'" title="'.TE_termino.'" lang="'.LANG.'">'.TE_acronimo.$i_profundidad.'</abbr> ' ;
         $rows.=HTMLshowCode($array);
         $rows.=$CFG["REL_SYMBOLS"]["NT"].' <a id="nt'.$array["id_tema"].'" '.$css_class_MT.' title="'.LABEL_verDetalle.' '.$array["tema"].' ('.TE_termino.') '.$label_MT.'"  href="'.URL_BASE.'index.php?tema='.$array["id_tema"].'&amp;/'.string2url($array["tema"]).'">'.$array["tema"].'</a> '.HTMLcopyClick('nt'.$array["id_tema"], array("isMetaTerm"=>$array["isMetaTerm"],"isValidTerm"=>1,"copy_click"=>(($CFG["COPY_CLICK"]==1) ? 1 : 0))).$link_next.'</li>' ;
     };
@@ -2303,7 +2303,7 @@ function HTMLsimpleTerm($arrayTerm)
         $iNT=++$iNT;
         $css_class_MT=($datosNT["isMetaTerm"]==1) ? ' class="metaTerm" ' : '' ;
 
-        $row_NT.=' <li '.$css_class_MT.' id="t'.$datosNT["id_tema"].'"><abbr class="thesacronym" id="r'.$datosNT["rel_id"].'" title="'.TE_termino.' '.$datosNT["rr_value"].'" lang="'.LANG.'">'.TE_acronimo.$datosNT["rr_code"].'</abbr> ' ;
+        $row_NT.=' <li '.$css_class_MT.' id="t'.$datosNT["id_tema"].'"><abbr class="thesacronym'.HTMLclassHiddenAcronym().'" id="r'.$datosNT["rel_id"].'" title="'.TE_termino.' '.$datosNT["rr_value"].'" lang="'.LANG.'">'.TE_acronimo.$datosNT["rr_code"].'</abbr> ' ;
         //ver  código
         $row_NT.=($CFG["_SHOW_CODE"]=='1') ? ' '.$datosNT["code"].' ' : '' ;
 
@@ -2313,7 +2313,7 @@ function HTMLsimpleTerm($arrayTerm)
     $sqlTotalRelacionados=SQLverTerminoRelaciones($arrayTerm["arraydata"]["tema_id"]);
 
     while ($datosTotalRelacionados= $sqlTotalRelacionados->FetchRow()) {
-        $classAcrnoyn='thesacronym' ;
+        $classAcrnoyn='thesacronym'.HTMLclassHiddenAcronym() ;
         // Change to metaTerm attributes
         if (($datosTotalRelacionados["BT_isMetaTerm"]==1)) {
             $css_class_MT= ' class="metaTerm" ' ;
@@ -2407,28 +2407,28 @@ function HTMLsimpleForeignTerm($arrayTerm, $URL_ttermData)
 
     if (is_array($arrayTerm["ttermNT"])) {
         foreach ($arrayTerm["ttermNT"] as $eachTerm) {
-                      $row_NT.=' <li '.$css_class_MT.' id="t'.$eachTerm["term_id"].'"><abbr class="thesacronym"  title="'.TE_termino.' '.$eachTerm["rtype"].'">'.TE_acronimo.$eachTerm["rtype"].'</abbr> '.$eachTerm["string"].'</li>' ;
+                      $row_NT.=' <li '.$css_class_MT.' id="t'.$eachTerm["term_id"].'"><abbr class="thesacronym'.HTMLclassHiddenAcronym().'"  title="'.TE_termino.' '.$eachTerm["rtype"].'">'.TE_acronimo.$eachTerm["rtype"].'</abbr> '.$eachTerm["string"].'</li>' ;
         }
         $NTrows='<h4>'.ucfirst(LABEL_narrowerTerms).'</h4><ul class="list-unstyled" id="nt_data">'.$row_NT.'</ul>' ;
     }
 
     if (is_array($arrayTerm["ttermBT"])) {
         foreach ($arrayTerm["ttermBT"] as $eachTerm) {
-                      $row_BT.=' <li '.$css_class_MT.' id="t'.$eachTerm["term_id"].'"><abbr class="thesacronym"  title="'.TG_acronimo.' '.$eachTerm["rtype"].'">'.TG_acronimo.$eachTerm["rtype"].'</abbr> '.$eachTerm["string"].'</li>' ;
+                      $row_BT.=' <li '.$css_class_MT.' id="t'.$eachTerm["term_id"].'"><abbr class="thesacronym'.HTMLclassHiddenAcronym().'"  title="'.TG_acronimo.' '.$eachTerm["rtype"].'">'.TG_acronimo.$eachTerm["rtype"].'</abbr> '.$eachTerm["string"].'</li>' ;
         }
         $BTrows='<h4>'.ucfirst(LABEL_broatherTerms).'</h4><ul class="list-unstyled" id="bt_data">'.$row_BT.'</ul>' ;
     }
 
     if (is_array($arrayTerm["ttermRT"])) {
         foreach ($arrayTerm["ttermRT"] as $eachTerm) {
-                      $row_RT.=' <li '.$css_class_MT.' id="t'.$eachTerm["term_id"].'"><abbr class="thesacronym"  title="'.TR_acronimo.' '.$eachTerm["rtype"].'">'.TR_acronimo.$eachTerm["rtype"].'</abbr> '.$eachTerm["string"].'</li>' ;
+                      $row_RT.=' <li '.$css_class_MT.' id="t'.$eachTerm["term_id"].'"><abbr class="thesacronym'.HTMLclassHiddenAcronym().'"  title="'.TR_acronimo.' '.$eachTerm["rtype"].'">'.TR_acronimo.$eachTerm["rtype"].'</abbr> '.$eachTerm["string"].'</li>' ;
         }
         $RTrows='<h4>'.ucfirst(LABEL_relatedTerms).'</h4><ul class="list-unstyled" id="rt_data">'.$row_RT.'</ul>' ;
     }
 
     if (is_array($arrayTerm["ttermUF"])) {
         foreach ($arrayTerm["ttermUF"] as $eachTerm) {
-                      $row_UF.=' <li  id="t'.$eachTerm["term_id"].'"><abbr class="thesacronym"  title="'.UP_acronimo.' '.$eachTerm["rtype"].'">'.UP_acronimo.$eachTerm["rtype"].'</abbr> '.$eachTerm[string].'</li>' ;
+                      $row_UF.=' <li  id="t'.$eachTerm["term_id"].'"><abbr class="thesacronym'.HTMLclassHiddenAcronym().'"  title="'.UP_acronimo.' '.$eachTerm["rtype"].'">'.UP_acronimo.$eachTerm["rtype"].'</abbr> '.$eachTerm[string].'</li>' ;
         }
         $UFrows='<h4>'.ucfirst(LABEL_nonPreferedTerms).'</h4><ul class="list-unstyled" id="uf_data">'.$row_UF.'</ul>' ;
     }
@@ -2606,6 +2606,17 @@ function extractNoteTypeConent($metadata, $note_type, $format = "txt", $editFlag
     return $note_text;
 }
 
+
+/**
+ * Bootstrap class that hides the relation abbreviations (BT, NT, RT, UF) from visitors when the setting SHOW_REL_ACRONYMS is off.
+ * Editors always see them: they are used to change the sub-type of a relation.
+ */
+function HTMLclassHiddenAcronym()
+{
+    global $CFG;
+
+    return ((evalUserLevel($_SESSION[$_SESSION["CFGURL"]])==0) && (isset($CFG["SHOW_REL_ACRONYMS"])) && ($CFG["SHOW_REL_ACRONYMS"]==0)) ? ' d-none' : '';
+}
 
 /**HTML button to copy the value string for valid term */
 function HTMLcopyClick($targt_div, $array_flags)

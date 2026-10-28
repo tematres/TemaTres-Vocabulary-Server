@@ -596,3 +596,4 @@ define('LABEL__example', 'ejemplo');
  define('LABEL_toggleNavigation','Alternar navegación');
  define('LABEL_COPY_CLICK_EVERYWHERE','En todos los términos');
  define('LABEL_COPY_CLICK_HEADING','Sólo en el encabezado del término');
+ define('LABEL_SHOW_REL_ACRONYMS','Mostrar a los visitantes las abreviaturas de relación (TG, TE, TR, UP)');

@@ -67,6 +67,7 @@ $CFG["PUBLISH_GLOBAL_SUMMARY"]=0;
 //default values for config
 $arrayCFGs =array(  'CFG_PUBLISH'=>'1',
                     'COPY_CLICK'=>'1',
+                    'SHOW_REL_ACRONYMS'=>'1',
                     'CFG_ALLOW_DUPLICATED'=>'0',
                     'CFG_MAX_TREE_DEEP'=>'3',
                      '_SHOW_TREE'=>'1',

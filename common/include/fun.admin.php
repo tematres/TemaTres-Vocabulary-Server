@@ -1451,6 +1451,9 @@ if ($_SESSION[$_SESSION["CFGURL"]]["ssuser_nivel"]=='1') {
         /*add config option for 3.2 version*/
         $ctrl32=ARRAYfetchValueXValue('config', 'COPY_CLICK');
 
+        /*add config option for 4.0 version*/
+        $ctrl40=ARRAYfetchValueXValue('config', 'SHOW_REL_ACRONYMS');
+
 
         /*add config option for 3.6 version*/
         $arrayCurrentStatusVocab=getCurrentVocabStatus();
@@ -1518,6 +1521,15 @@ if ($_SESSION[$_SESSION["CFGURL"]]["ssuser_nivel"]=='1') {
             "insert",
             "into `".$DBCFG["DBprefix"]."values` (`value_type`, `value`, `value_order`, `value_code`) VALUES
             ('config', 'COPY_CLICK', NULL, '$value_code')"
+          );
+        }
+
+        if (!$ctrl40["value_id"]) {
+          $value_code=($_POST["SHOW_REL_ACRONYMS"]=='00') ? '0' : '1';
+          $sql40=SQL(
+            "insert",
+            "into `".$DBCFG["DBprefix"]."values` (`value_type`, `value`, `value_order`, `value_code`) VALUES
+            ('config', 'SHOW_REL_ACRONYMS', NULL, '$value_code')"
           );
         }
 

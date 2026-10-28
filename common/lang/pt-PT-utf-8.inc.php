@@ -596,3 +596,4 @@ define('LABEL__example', 'exemplo');
  define('LABEL_toggleNavigation','Toggle navigation');
  define('LABEL_COPY_CLICK_EVERYWHERE','Everywhere');
  define('LABEL_COPY_CLICK_HEADING','Only in the heading of the term');
+ define('LABEL_SHOW_REL_ACRONYMS','Show the relation abbreviations (BT, NT, RT, UF) to visitors');
