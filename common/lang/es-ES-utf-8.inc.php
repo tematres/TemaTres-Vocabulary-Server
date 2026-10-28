@@ -592,3 +592,5 @@ define('LABEL__example', 'ejemplo');
  define('LABEL__STATUS_VOCAB_30','Experimental');
  define('LABEL__STATUS_VOCAB_40','Histórico - Discontinuado');
  define('LABEL__STATUS_VOCAB_50','Publicado - Estable');
+ #3.6.3
+ define('LABEL_toggleNavigation','Alternar navegación');

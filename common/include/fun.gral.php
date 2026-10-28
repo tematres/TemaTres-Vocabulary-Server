@@ -1554,7 +1554,8 @@ function getURLbase()
                 $isSecure = true;
     }
     $protocol = $isSecure ? 'https' : 'http';
-    $port = ($_SERVER["SERVER_PORT"] == "80") ? "" : (":".$_SERVER["SERVER_PORT"]);
+    // Port 80 is omitted as before; port 443 is omitted when HTTPS is detected (http on port 443 keeps its port)
+    $port = ($_SERVER["SERVER_PORT"] == "80" || ($isSecure && $_SERVER["SERVER_PORT"] == "443")) ? "" : (":".$_SERVER["SERVER_PORT"]);
     $uri = $protocol . "://" . $_SERVER['SERVER_NAME'] . $port . $_SERVER['REQUEST_URI'];
     $segments = explode('?', $uri, 2);
     $url = $segments[0];
