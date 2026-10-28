@@ -1733,9 +1733,18 @@ function HTMLformConfigValues($array_vocabulario)
                 $rows.=' </div>';
                 $rows.='</div><hr/>';
                 break;
+            case 'COPY_CLICK':
+                $rows.='<div class="row mb-3">';
+                $rows.='<label class="col-md-6 col-form-label" for="'.$key.'">'.ucfirst(LABEL__ENABLE_COPY_CLICK).'</label>';
+                $rows.='<div class="col-md-5">     <select id="'.$key.'" name="'.$key.'">';
+                $rows.=    doSelectForm(array('1#'.LABEL_COPY_CLICK_EVERYWHERE,'2#'.LABEL_COPY_CLICK_HEADING,'00#'.LABEL_NO), $NEWarrayCFGs[$key]);
+                $rows.='</select>';
+                $rows.=' </div>';
+                $rows.='</div><hr/>';
+                break;
             default:
                 $rows.='<div class="row mb-3">';
-                $rows.='<label class="col-md-6 col-form-label" for="'.$key.'">'.ucfirst(arrayReplace(array('_USE_CODE','_SHOW_CODE','CFG_VIEW_STATUS','CFG_SIMPLE_WEB_SERVICE','_SHOW_TREE','_PUBLISH_SKOS','CFG_ENABLE_SPARQL','COPY_CLICK'), array(LABEL__USE_CODE,LABEL__SHOW_CODE,LABEL_CFG_VIEW_STATUS,LABEL_CFG_SIMPLE_WEB_SERVICE,LABEL__SHOW_TREE,LABEL__PUBLISH_SKOS,LABEL__ENABLE_SPARQL,LABEL__ENABLE_COPY_CLICK), $key)).'</label>';
+                $rows.='<label class="col-md-6 col-form-label" for="'.$key.'">'.ucfirst(arrayReplace(array('_USE_CODE','_SHOW_CODE','CFG_VIEW_STATUS','CFG_SIMPLE_WEB_SERVICE','_SHOW_TREE','_PUBLISH_SKOS','CFG_ENABLE_SPARQL'), array(LABEL__USE_CODE,LABEL__SHOW_CODE,LABEL_CFG_VIEW_STATUS,LABEL_CFG_SIMPLE_WEB_SERVICE,LABEL__SHOW_TREE,LABEL__PUBLISH_SKOS,LABEL__ENABLE_SPARQL), $key)).'</label>';
                 $rows.='<div class="col-md-5">     <select id="'.$key.'" name="'.$key.'">';
                 $rows.=    doSelectForm(array('1#'.LABEL_SI,'00#'.LABEL_NO), $NEWarrayCFGs[$key]);
                 $rows.='</select>';

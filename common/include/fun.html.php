@@ -220,7 +220,7 @@ function doContextoTermino($idTema, $i_profundidad)
         $css_class_MT=($datosNT["isMetaTerm"]==1) ? ' class="metaTerm" ' : '' ;
         $label_MT=($datosNT["isMetaTerm"]==1) ? NOTE_isMetaTerm : '' ;
 
-        $row_NT.=$CFG["REL_SYMBOLS"]["NT"].' <a '.$css_class_MT.' title="'.LABEL_verDetalle.' '.$datosNT["tema"].' ('.TE_termino.') '.$label_MT.'"  href="'.URL_BASE.'index.php?tema='.$datosNT["id_tema"].'&amp;/'.string2url($datosNT["tema"]).'" id="nt'.$datosNT["id_tema"].'">'.$datosNT["tema"].'</a> '.HTMLcopyClick('nt'.$datosNT["id_tema"], array("isMetaTerm"=>$datosNT["isMetaTerm"],"isValidTerm"=>1,"copy_click"=>$CFG["COPY_CLICK"])).$link_next.'</li>' ;
+        $row_NT.=$CFG["REL_SYMBOLS"]["NT"].' <a '.$css_class_MT.' title="'.LABEL_verDetalle.' '.$datosNT["tema"].' ('.TE_termino.') '.$label_MT.'"  href="'.URL_BASE.'index.php?tema='.$datosNT["id_tema"].'&amp;/'.string2url($datosNT["tema"]).'" id="nt'.$datosNT["id_tema"].'">'.$datosNT["tema"].'</a> '.HTMLcopyClick('nt'.$datosNT["id_tema"], array("isMetaTerm"=>$datosNT["isMetaTerm"],"isValidTerm"=>1,"copy_click"=>(($CFG["COPY_CLICK"]==1) ? 1 : 0))).$link_next.'</li>' ;
     };
 
     // Terminos TG, UF y TR
@@ -254,7 +254,7 @@ function doContextoTermino($idTema, $i_profundidad)
                 $row_TG.=' '.$td_delete.'<abbr class="'.$classAcrnoyn.'" id="edit_rel_id'.$datosTotalRelacionados["rel_id"].'" style="display: inline" title="'.TG_termino.' '.$datosTotalRelacionados["rr_value"].'" lang="'.LANG.'">'.TG_acronimo.$datosTotalRelacionados["rr_code"].'</abbr>' ;
                         
 
-                $row_TG.=$CFG["REL_SYMBOLS"]["BT"].' <a '.$css_class_MT.' title="'.LABEL_verDetalle.' '.$datosTotalRelacionados["tema"].' ('.TG_termino.') '.$label_MT.'"  href="'.URL_BASE.'index.php?tema='.$datosTotalRelacionados["tema_id"].'&amp;/'.string2url($datosTotalRelacionados["tema"]).'" id="bt'.$datosTotalRelacionados["tema_id"].'">'.$datosTotalRelacionados["tema"].'</a> '.HTMLcopyClick('bt'.$datosTotalRelacionados["tema_id"], array("isMetaTerm"=>$datosTotalRelacionados["BT_isMetaTerm"],"isValidTerm"=>1,"copy_click"=>$CFG["COPY_CLICK"])).'</li>' ;
+                $row_TG.=$CFG["REL_SYMBOLS"]["BT"].' <a '.$css_class_MT.' title="'.LABEL_verDetalle.' '.$datosTotalRelacionados["tema"].' ('.TG_termino.') '.$label_MT.'"  href="'.URL_BASE.'index.php?tema='.$datosTotalRelacionados["tema_id"].'&amp;/'.string2url($datosTotalRelacionados["tema"]).'" id="bt'.$datosTotalRelacionados["tema_id"].'">'.$datosTotalRelacionados["tema"].'</a> '.HTMLcopyClick('bt'.$datosTotalRelacionados["tema_id"], array("isMetaTerm"=>$datosTotalRelacionados["BT_isMetaTerm"],"isValidTerm"=>1,"copy_click"=>(($CFG["COPY_CLICK"]==1) ? 1 : 0))).'</li>' ;
                 break;
 
             case '4':// UF
@@ -274,7 +274,7 @@ function doContextoTermino($idTema, $i_profundidad)
                 $row_TR.=' '.$td_delete.'<abbr class="'.$classAcrnoyn.'" id="edit_rel_id'.$datosTotalRelacionados["rel_id"].'" style="display: inline" title="'.TR_termino.' '.$datosTotalRelacionados["rr_value"].'" lang="'.LANG.'">'.TR_acronimo.$datosTotalRelacionados["rr_code"].'</abbr>' ;
 
 
-                $row_TR.=$CFG["REL_SYMBOLS"]["RT"].' <a '.$css_class_MT.' title="'.LABEL_verDetalle.' '.$datosTotalRelacionados["tema"].' ('.TR_termino.') '.$label_MT.'"  href="'.URL_BASE.'index.php?tema='.$datosTotalRelacionados["tema_id"].'&amp;/'.string2url($datosTotalRelacionados["tema"]).'" id="rt'.$datosTotalRelacionados["tema_id"].'">'.$datosTotalRelacionados["tema"].'</a> '.HTMLcopyClick('rt'.$datosTotalRelacionados["tema_id"], array("isMetaTerm"=>$datosTotalRelacionados["isMetaTerm"],"isValidTerm"=>1,"copy_click"=>$CFG["COPY_CLICK"])).'</li>' ;
+                $row_TR.=$CFG["REL_SYMBOLS"]["RT"].' <a '.$css_class_MT.' title="'.LABEL_verDetalle.' '.$datosTotalRelacionados["tema"].' ('.TR_termino.') '.$label_MT.'"  href="'.URL_BASE.'index.php?tema='.$datosTotalRelacionados["tema_id"].'&amp;/'.string2url($datosTotalRelacionados["tema"]).'" id="rt'.$datosTotalRelacionados["tema_id"].'">'.$datosTotalRelacionados["tema"].'</a> '.HTMLcopyClick('rt'.$datosTotalRelacionados["tema_id"], array("isMetaTerm"=>$datosTotalRelacionados["isMetaTerm"],"isValidTerm"=>1,"copy_click"=>(($CFG["COPY_CLICK"]==1) ? 1 : 0))).'</li>' ;
                 break;
 
             case '5':// parcialmente EQ
@@ -1034,7 +1034,7 @@ function HTMLverTE($tema_id, $i_profundidad, $i = "")
         $rows.='<li class="listTE">' ;
         $rows.=' <abbr class="thesacronym" title="'.TE_termino.'" lang="'.LANG.'">'.TE_acronimo.$i_profundidad.'</abbr> ' ;
         $rows.=HTMLshowCode($array);
-        $rows.=$CFG["REL_SYMBOLS"]["NT"].' <a id="nt'.$array["id_tema"].'" '.$css_class_MT.' title="'.LABEL_verDetalle.' '.$array["tema"].' ('.TE_termino.') '.$label_MT.'"  href="'.URL_BASE.'index.php?tema='.$array["id_tema"].'&amp;/'.string2url($array["tema"]).'">'.$array["tema"].'</a> '.HTMLcopyClick('nt'.$array["id_tema"], array("isMetaTerm"=>$array["isMetaTerm"],"isValidTerm"=>1,"copy_click"=>$CFG["COPY_CLICK"])).$link_next.'</li>' ;
+        $rows.=$CFG["REL_SYMBOLS"]["NT"].' <a id="nt'.$array["id_tema"].'" '.$css_class_MT.' title="'.LABEL_verDetalle.' '.$array["tema"].' ('.TE_termino.') '.$label_MT.'"  href="'.URL_BASE.'index.php?tema='.$array["id_tema"].'&amp;/'.string2url($array["tema"]).'">'.$array["tema"].'</a> '.HTMLcopyClick('nt'.$array["id_tema"], array("isMetaTerm"=>$array["isMetaTerm"],"isValidTerm"=>1,"copy_click"=>(($CFG["COPY_CLICK"]==1) ? 1 : 0))).$link_next.'</li>' ;
     };
     $rows.='</ul>' ;
 
