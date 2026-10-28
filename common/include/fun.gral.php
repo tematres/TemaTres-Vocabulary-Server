@@ -1820,9 +1820,19 @@ function normalizeLangCode($lang_code){
 
     $array_code=explode("-",$lang_code);
 
+    // Default region for 2 letter codes whose region code differs from the language code (e.g. sv => sv-SE, not sv-SV).
+    // The list is not complete: codes that are not listed keep the old behaviour (xx => xx-XX).
+    $default_region=array(
+        'ca'=>'ca-ES','eu'=>'eu-ES','gl'=>'gl-ES','zh'=>'zh-CN',
+        'sv'=>'sv-SE','da'=>'da-DK','nb'=>'nb-NO','nn'=>'nn-NO',
+        'cs'=>'cs-CZ','sl'=>'sl-SI','et'=>'et-EE','el'=>'el-GR','uk'=>'uk-UA','ja'=>'ja-JP','ko'=>'ko-KR',
+        'he'=>'he-IL','hi'=>'hi-IN','sr'=>'sr-RS','sq'=>'sq-AL','ga'=>'ga-IE','cy'=>'cy-GB'
+    );
+
     if(count($array_code)==2){
     }elseif(strlen((string) $lang_code)==2){
-        $lang_code=normalizeLangCode(strtolower(substr($lang_code, 0,2)).'-'.strtoupper(substr($lang_code, 0,2)));
+        $lang_two=strtolower(substr($lang_code, 0,2));
+        $lang_code=(isset($default_region[$lang_two])) ? $default_region[$lang_two] : normalizeLangCode($lang_two.'-'.strtoupper($lang_two));
     }else{
         $lang_code=configValue(null,"en-EN");
     }
