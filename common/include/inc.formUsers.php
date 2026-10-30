@@ -77,8 +77,8 @@ $rows.='	<div class="row">
             $rows.='<div class="form-group">
 			           <label for="clave" class="col-sm-3 control-label">'.ucfirst(LABEL_pass).'</label>
 			                    <div class="col-sm-9">
-			                        <input data-minlength="4" '.$fillRulePass.' class="form-control" id="clave" placeholder="'.LABEL_pass.'" type="password" id="clave" name="pass" value="">
-															<span class="help-block">'.ucfirst(sprintf(MSG_lengh_error, 4)).'</span>
+			                        <input minlength="4" '.$fillRulePass.' class="form-control" id="clave" placeholder="'.LABEL_pass.'" type="password" id="clave" name="pass" value="">
+															<span class="form-text">'.ucfirst(sprintf(MSG_lengh_error, 4)).'</span>
 			                    </div>
 			         </div>';
 

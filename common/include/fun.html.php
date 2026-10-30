@@ -2228,11 +2228,30 @@ function HTMLjsInclude()
 
     $rows.='<script type="text/javascript">
     	var clipboard = new ClipboardJS(\'.copy-clipboard\');
-	  	$("#myTermTab").tabCollapse();
-	  	$(".dropdown-submenu > a").submenupicker();
-	  	$(".termDefinition").popover();
-		$("#popoverOption").popover({ trigger: "hover"});
-		$(".autoGloss").tooltip(options);
+	  	$("#remoteModal").on("show.bs.modal", function (e) { if (e.relatedTarget) { $(this).find(".modal-content").load($(e.relatedTarget).attr("href")); } });
+	  	$(".dropdown-submenu > a").attr("aria-expanded", "false").on("click", function (e) {
+			e.preventDefault(); e.stopPropagation();
+			var $li = $(this).parent(), open = !$li.hasClass("show");
+			$li.siblings(".dropdown-submenu").add($li.find(".dropdown-submenu")).removeClass("show").children("a").attr("aria-expanded", "false");
+			$li.toggleClass("show", open); $(this).attr("aria-expanded", open ? "true" : "false");
+		});
+		// keys inside a submenu: handled here, before the Bootstrap dropdown handler (capture phase on document) gets them
+		window.addEventListener("keydown", function (e) {
+			var menu = e.target.closest && e.target.closest(".dropdown-submenu > .dropdown-menu");
+			if (!menu || ["ArrowUp", "ArrowDown", "Escape"].indexOf(e.key) < 0) return;
+			e.preventDefault(); e.stopPropagation();
+			var $items = $(menu).children("li").children("a");
+			if (e.key === "Escape") { $(menu).prev("a").trigger("click").trigger("focus"); return; }
+			var i = $items.index(e.target) + (e.key === "ArrowDown" ? 1 : -1);
+			$items.eq(Math.max(0, Math.min(i, $items.length - 1))).trigger("focus");
+		}, true);
+	  	$(".dropdown").on("hide.bs.dropdown", function () { $(this).find(".dropdown-submenu").removeClass("show").children("a").attr("aria-expanded", "false"); });
+		document.querySelectorAll(\'[data-bs-toggle="tooltip"]\').forEach(function (el) { new bootstrap.Tooltip(el); });
+		document.addEventListener(\'invalid\', function (e) { var f = e.target.form; if (f && f.matches(\'[data-toggle="validator"]\')) { f.classList.add(\'was-validated\'); $(e.target).closest(".form-group").find(".with-errors").text(e.target.validationMessage); } }, true);
+		$(\'form[data-toggle="validator"]\').on("input change", function () {
+			$(this).find("[data-match]").each(function () { this.setCustomValidity(this.value === $(this.getAttribute("data-match")).val() ? "" : this.getAttribute("data-match-error")); });
+			if ($(this).hasClass("was-validated")) $(this).find(".with-errors").each(function () { var f = $(this).closest(".form-group").find("input, select, textarea")[0]; $(this).text(f && !f.validity.valid ? f.validationMessage : ""); });
+		}).trigger("input");
 		$("#tagcloud a").tagcloud({
 		size: {start: 12, end: 36, unit: "px"},
 		color: {start: "#3498DB", end: "#46CFB0"}
