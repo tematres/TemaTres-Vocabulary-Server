@@ -18,7 +18,7 @@ $user_id = $_SESSION[$_SESSION["CFGURL"]]["ssuser_id"];
 
 $resumen=ARRAYresumen($_SESSION["id_tesa"], "U", secure_data($user_id, "sql"));
 
-$row_resumen.='<div id="cajaAncha">'."\n\r";
+$row_resumen.='<div id="cajaAncha" class="col-lg-5">'."\n\r";
 $row_resumen.='<strong>'.ucfirst(LABEL_Acciones).'</strong><dl class="dosCol">'."\n\r";
 $row_resumen.='<dt>'.ucfirst(LABEL_Terminos).'</dt><dd>'.$resumen["cant_total"]."&nbsp;</dd>\n\r";
 $row_resumen.='<dt>'.ucfirst(LABEL_RelTerminos).'</dt><dd>'.$resumen["cant_rel"]."&nbsp;</dd>\n\r";
@@ -91,7 +91,7 @@ $rows.='    <div class="row">
                     </div>';
 
         $rows.='<div class="form-group">
-                                                                    <div class="col-sm-12 text-right">
+                                                                    <div class="col-sm-12 text-end">
                                                                     <input type="submit" class="btn btn-primary" id="boton" name="boton" value="'.ucfirst(LABEL_Guardar).'"/>
                                                                     <a href="index.php" class="btn btn-default" id="boton_cancelar" title="'.ucfirst(LABEL_Cancelar).'">'.ucfirst(LABEL_Cancelar).'</a>
                                                                     </div>

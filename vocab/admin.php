@@ -247,7 +247,7 @@ if (evalUserLevel($_SESSION[$_SESSION["CFGURL"]])==1) {
         <?php
         //are enable SPARQL
         if (CFG_ENABLE_SPARQL==1) {
-            echo '<a class="label label-info" href="'.URL_BASE.'sparql.php" title="'.LABEL_SPARQLEndpoint.'">'.LABEL_SPARQLEndpoint.'</a>';
+            echo '<a class="badge text-bg-info" href="'.URL_BASE.'sparql.php" title="'.LABEL_SPARQLEndpoint.'">'.LABEL_SPARQLEndpoint.'</a>';
         }
 
         if (CFG_SIMPLE_WEB_SERVICE==1) {

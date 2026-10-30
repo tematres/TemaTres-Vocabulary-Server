@@ -49,12 +49,12 @@ function HTMLmodalTerm($arrayTermData)
     }
 
     $rows='<!-- Modal -->
-    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                     <h4 class="modal-title">'.$HTMLlinkTerm.'</h4>
+                    <h4 class="modal-title">'.$HTMLlinkTerm.'</h4>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="'.ucfirst(LABEL_close).'"></button>
                 </div>
                 <div class="modal-body">
                         <div class="te">'.$HTMLtermRelations["BTrows"].'</div>
@@ -63,7 +63,7 @@ function HTMLmodalTerm($arrayTermData)
                         <div class="te">'.$HTMLtermRelations["RTrows"].'</div>
                         <div class="notas">'.HTMLNotasTermino($arrayTermData["arraydata"]).'</div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">'.ucfirst(LABEL_close).'</button>
+                    <button type="button" class="btn btn-default" data-bs-dismiss="modal">'.ucfirst(LABEL_close).'</button>
                 </div>
             </div>
             <!-- /.modal-content -->

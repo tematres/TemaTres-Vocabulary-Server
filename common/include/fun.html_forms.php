@@ -45,7 +45,7 @@ function HTMLformAssociateFreeTerms($ARRAYterm_id = array(), $taskterm = "")
             $rows_busca.='<div><input id="filter" type="text" class="form-control" placeholder="'.ucfirst(LABEL_type2filter).'"></div>';
             $rows_busca.='<form role="form" class="form-inline" role="form" name="addRelations" id="addRelations" action="index.php?taskrelations=freeTermsAssoc" method="post">';
             $rows_busca.='<div class="table-responsive"> ';
-            $rows_busca.='<table class="table table-striped table-bordered table-condensed table-hover"">';
+            $rows_busca.='<table class="table table-striped table-bordered table-sm table-hover"">';
             $rows_busca.='<thead>	<tr><th>';
             $rows_busca.='</th><th>'.ucfirst(LABEL_Termino).'</th><th>'.ucfirst(LABEL_Fecha).'</th>	</tr></thead>	<tbody class="searchable">';
             while ($resulta_busca=$sql_busca->FetchRow()) {
@@ -163,7 +163,7 @@ function HTMLformAssociateExistTerms($taskterm, $ARRAYtermino, $term_id = "0")
         $rows_busca.='<div><input id="filter" type="text" class="form-control" placeholder="'.ucfirst(LABEL_type2filter).'"></div>';
         $rows_busca.='<form role="form" class="form-inline" role="form" name="addRelations" id="addRelations" action="index.php" method="get" >';
         $rows_busca.='<div class="table-responsive"> ';
-        $rows_busca.='<table class="table table-striped table-bordered table-condensed table-hover"">';
+        $rows_busca.='<table class="table table-striped table-bordered table-sm table-hover"">';
         $rows_busca.='<thead>
             <tr><th>';
         $rows_busca.='</th><th>'.ucfirst(LABEL_Termino).'</th>
@@ -429,7 +429,7 @@ function HTMLformSuggestTerms($ARRAYtargetVocabulary = array())
                             <input type="checkbox" name="searchType" id="searchType" value="1" alt="'.ucfirst(LABEL_esFraseExacta).'" '.do_check(1, $searchType, 'checked').'  />
                     </div>
                     <div class="form-group">
-                        <div class="col-sm-12 text-right">
+                        <div class="col-sm-12 text-end">
                                                 <button type="submit" class="btn btn-primary" value="'.LABEL_Buscar.'"/>'.ucfirst(LABEL_Buscar).'</button>
                                                     <button type="button" class="btn btn" name="cancelar" type="button" onClick="location.href=\'index.php?taskterm=addTerm&tema=0\'" value="'.ucfirst(LABEL_Cancelar).'"/>'.ucfirst(LABEL_Cancelar).'</button>
                         </div>
@@ -544,7 +544,7 @@ function HTMLformSuggestTermsXRelations($ARRAYtermino, $ARRAYtargetVocabulary = 
                                             </div>
                                         </div>
                     <div class="form-group">
-                        <div class="col-sm-12 text-right">
+                        <div class="col-sm-12 text-end">
                                                 <button type="submit" class="btn btn-primary" value="'.LABEL_Buscar.'"/>'.ucfirst(LABEL_Buscar).'</button>
                                                     <button type="button" class="btn btn" name="cancelar" type="button" onClick="location.href=\'index.php?tema='.$ARRAYtermino["idTema"].'\'" value="'.ucfirst(LABEL_Cancelar).'"/>'.ucfirst(LABEL_Cancelar).'</button>
                         </div>
@@ -599,7 +599,7 @@ function HTMLformAdvancedSearch($array)
     global $CFG;
     $array=XSSpreventArray($array);
     $rows.='<div class="row">';
-    $rows.='	<div class="col-md-6 col-md-offset-3">';
+    $rows.='	<div class="col-md-6 offset-md-3">';
     $rows.=' <h3>'.ucfirst(LABEL_BusquedaAvanzada).'</h3>';
     $rows.='<form  class="col-8 form-horizontal" role="form" name="advancedsearch" action="index.php#xstring" method="get">';
     $rows.='<fieldset>';
@@ -712,7 +712,7 @@ function HTMLformAdvancedSearch($array)
     $rows.='</div>';//hide div
     $rows.='<div class="btn-group">';
     $rows.='<input type="submit"  id="boton" name="boton" class="btn btn-primary" value="'.LABEL_Enviar.'"/>';
-    $rows.=' <button class="btn btn-default" type="button" data-toggle="collapse" data-target="#masOpcionesBusqueda" aria-expanded="false" aria-controls="masOpcionesBusqueda">'.ucfirst(LABEL_Opciones).'</button>';
+    $rows.=' <button class="btn btn-default" type="button" data-bs-toggle="collapse" data-bs-target="#masOpcionesBusqueda" aria-expanded="false" aria-controls="masOpcionesBusqueda">'.ucfirst(LABEL_Opciones).'</button>';
     $rows.='</div>';
     $rows.='<input type="hidden"  name="xsearch" id="xsearch" value="1"/>';
 
@@ -1205,7 +1205,7 @@ function HTMLformTargetVocabulary($tvocab_id = "0")
                                 </div>
                             </div>
                             <div class="form-group">
-                                <div class="col-sm-12 text-right">
+                                <div class="col-sm-12 text-end">
                                 <button type="submit" class="btn btn-primary" id="boton" name="botonTargetVocabulary" value="'.LABEL_Enviar.'"/>'.ucfirst(LABEL_Enviar).'</button>
                                     <a type="button" class="btn btn" name="cancelar" type="button" href="admin.php?vocabulario_id=list" title="'.ucfirst(LABEL_Cancelar).'">'.ucfirst(LABEL_Cancelar).'</a>
                                 </div>
@@ -1278,7 +1278,7 @@ function HTMLformAssociateTargetTerms($ARRAYtermino, $term_id = "0")
                             </div>
             </div>
                         <div class="form-group">
-                            <div class="col-sm-12 text-right">
+                            <div class="col-sm-12 text-end">
                             <button type="submit" class="btn btn-primary" value="'.LABEL_Buscar.'"/>'.ucfirst(LABEL_Buscar).'</button>
                                 <button type="button" class="btn btn" name="cancelar" type="button" onClick="location.href=\'index.php?tema='.$ARRAYtermino["idTema"].'\'" value="'.ucfirst(LABEL_Cancelar).'"/>'.ucfirst(LABEL_Cancelar).'</button>
                             </div>
@@ -1374,7 +1374,7 @@ function HTMLformTargetVocabularySuggested($arrayTterm, $t_relation, $string_sea
                     <div class="card-body form-horizontal">';
         $rows.='<div><input id="filter" type="text" class="form-control" placeholder="'.ucfirst(LABEL_type2filter).'"></div>';
         $rows.='<div class="table-responsive"> ';
-        $rows.='<table class="table table-striped table-bordered table-condensed table-hover">
+        $rows.='<table class="table table-striped table-bordered table-sm table-hover">
         <thead>
         <tr>
             <th  class="text-center"><input name="checktodos" type="checkbox" title="'.LABEL_selectAll.'"/></th>
@@ -1510,7 +1510,7 @@ function HTMLformAltaEquivalenciaTermino($ARRAYTermino)
                                     </div>
                                 </div>
                             <div class="form-group">
-                                <div class="col-sm-12 text-right">
+                                <div class="col-sm-12 text-end">
                                 <button type="submit" class="btn btn-primary" value="'.LABEL_Enviar.'"/>'.ucfirst(LABEL_Enviar).'</button>
                                     <button type="button" class="btn btn" name="cancelar" type="button" onClick="location.href=\'index.php?tema='.$ARRAYTermino["idTema"].'\'" value="'.ucfirst(LABEL_Cancelar).'"/>'.ucfirst(LABEL_Cancelar).'</button>
                                 </div>
@@ -1728,7 +1728,7 @@ function HTMLformImport()
                                     </div>';
 
     $rows.='<div class="form-group">
-                            <div class="col-sm-12 text-right">
+                            <div class="col-sm-12 text-end">
                             <input type="submit" class="btn btn-primary" id="boton" name="boton" value="'.ucfirst(LABEL_Guardar).'"/>
                             </div>
                     </div>';
@@ -1800,7 +1800,7 @@ function HTMLformURI4term($ARRAYtermino)
                         </div>
                         </div>
                         <div class="form-group">
-                            <div class="col-sm-12 text-right">
+                            <div class="col-sm-12 text-end">
                             <button type="submit" class="btn btn-primary" value="'.LABEL_Enviar.'"/>'.ucfirst(LABEL_Enviar).'</button>
                                 <button type="button" class="btn btn" name="cancelar" type="button" onClick="location.href=\'index.php?tema='.$ARRAYtermino["idTema"].'\'" value="'.ucfirst(LABEL_Cancelar).'"/>'.ucfirst(LABEL_Cancelar).'</button>
                             </div>
@@ -1926,7 +1926,7 @@ function HTMLformLogin($task_result)
     $rows.='<div class="form-group"><label for="id_password" class="visually-hidden" accesskey="p">'.ucfirst(LABEL_pass).'</label>';
     $rows.='<input type="password" name="id_password" class="form-control" placeholder="'.ucfirst(LABEL_pass).'" required id="id_password" size="11"/>';
     $rows.='	</div>';
-    $rows.='<div class="col-lg-offset-2 col-lg-10 style="margin-left:15em" align="center">';
+    $rows.='<div class="offset-lg-2 col-lg-10 style="margin-left:15em" align="center">';
     $rows.='<input type="hidden"  name="task" value="login" />';
     $rows.='<button class="btn btn-lg btn-primary w-100" type="submit">'.LABEL_Enviar.'</button>';
     $rows.='</div>';
@@ -2008,7 +2008,7 @@ function HTMLformVerTerminosLibres($taskterm = 'null', $freeTerms_id = array())
         $rows.='<div><input id="filter" type="text" class="form-control" placeholder="'.ucfirst(LABEL_type2filter).'"></div>';
         $rows.='<form  role="form"  id="delete_free_terms" name="delete_free_terms" action="index.php?verT=L" method="post">';
         $rows.='<div class="table-responsive"> ';
-        $rows.='<table class="table table-striped table-bordered table-condensed table-hover">
+        $rows.='<table class="table table-striped table-bordered table-sm table-hover">
         <thead>
         <tr>
             <th></th>
@@ -2065,7 +2065,7 @@ function HTMLformVerTerminosRepetidos()
                 $rows.='<li>'.$array["string_term"].' ('.$array["cant"].')<ul>';
             }
 
-            $badge_status=($array["estado_id"]==13) ? '' : '<span class="badge badge-pill badge-warning">'.ucfirst(arrayReplace(array(12,14),array(LABEL_Candidato,LABEL_Rechazado),$array["estado_id"])).'</span>';
+            $badge_status=($array["estado_id"]==13) ? '' : '<span class="badge rounded-pill text-bg-warning">'.ucfirst(arrayReplace(array(12,14),array(LABEL_Candidato,LABEL_Rechazado),$array["estado_id"])).'</span>';
 
 
             $alert_MT=($resulta_busca["isMetaTerm"]==1) ? ' ('.LABEL_meta_term.') ' : '';
@@ -2106,7 +2106,7 @@ function HTMLformVerTerminosSinBT($taskterm = 'null', $terms_id = array())
         $rows.='<div><input id="filter" type="text" class="form-control" placeholder="'.ucfirst(LABEL_type2filter).'"></div>';
         $rows.='<form role="form"  id="delete_free_terms" name="delete_free_terms" action="index.php?verT=NBT" method="post">';
         $rows.='<div class="table-responsive"> ';
-        $rows.='<table class="table table-striped table-bordered table-condensed table-hover">
+        $rows.='<table class="table table-striped table-bordered table-sm table-hover">
         <thead>
         <tr>
             <th></th>
@@ -2171,7 +2171,7 @@ function HTMLAlertDuplicateTerm($arrayDuplicateTerms)
 function HTMLformBulkReplace($params = array())
 {
     $rows='<div class="row">';
-    $rows.='	<div class="col-md-6 col-md-offset-3">';
+    $rows.='	<div class="col-md-6 offset-md-3">';
     $rows.=' <h3>'.ucfirst(LABEL_bulkReplace).'</h3>';
     $rows.='<form  class="col-8 form-horizontal" role="form" name="bulkReplace" action="admin.php?doAdmin=bulkReplace" method="post">';
     $rows.='<fieldset>';
@@ -2239,7 +2239,7 @@ function HTMLbulkReplaceResultsTerms($params)
         $rows.='  <fieldset id="bulkReplaceDiv">';
         $rows.= '<p class="alert alert-warning" role="alert">'.LABEL_warningBulkEditor.'</p>';
         $rows.='<div class="table-responsive"> ';
-        $rows.='<table class="table table-striped table-bordered table-condensed table-hover"">';
+        $rows.='<table class="table table-striped table-bordered table-sm table-hover"">';
         $rows.='<thead><tr>';
         $rows.='<th><input name="checktodos" type="checkbox" title="'.LABEL_selectAll.'"/></th>
                 <th>'.ucfirst(LABEL_termMOD).'</th><th>'.ucfirst(LABEL_Termino).'</th></tr>
@@ -2293,7 +2293,7 @@ function HTMLbulkReplaceResultsNotes($params)
         $rows.='  <fieldset id="bulkReplaceDiv">';
         $rows.= '<p class="alert alert-warning" role="alert">'.LABEL_warningBulkEditor.'</p>';
         $rows.='<div class="table-responsive"> ';
-        $rows.='<table class="table table-striped table-bordered table-condensed table-hover"">';
+        $rows.='<table class="table table-striped table-bordered table-sm table-hover"">';
         $rows.='<thead><tr>';
         $rows.='<th><input name="checktodos" type="checkbox" title="'.LABEL_selectAll.'"/></th>
                 <th>'.ucfirst(LABEL_noteMOD).'</th><th>'.ucfirst(LABEL_Termino).'</th></tr>
@@ -2369,7 +2369,7 @@ function HTMLformExportGlossary()
                             <input type="submit" class="btn btn-primary" id="boton" name="boton" value="'.ucfirst(LABEL_Guardar).'"/>
                             </div>
                     </div>';
-    $rows.='<div class="col-sm-12 panel panel-default"><div class="panel-body">'.ucfirst(MSG__GLOSSdocumentationJSON).'</div></div>';
+    $rows.='<div class="col-sm-12 card"><div class="card-body">'.ucfirst(MSG__GLOSSdocumentationJSON).'</div></div>';
     $rows.='				</div>
                     </div>
             </div>
@@ -2553,10 +2553,10 @@ function HTMLbulkGlossTerms($params)
         SQLfixDobleChar4Notes($params["note4gloss"], "]]", "]]]]");
 
 
-        $rowsResult='<div class="panel-body"><h4>'.ucfirst(MSG_cantTermsFound).': '.$i_replace.'</h4>';
+        $rowsResult='<div class="card-body"><h4>'.ucfirst(MSG_cantTermsFound).': '.$i_replace.'</h4>';
         if ($i_replace>0) {
             $rowsResult.='<div class="table-responsive"> ';
-            $rowsResult.='<table class="table table-striped table-bordered table-condensed table-hover"">';
+            $rowsResult.='<table class="table table-striped table-bordered table-sm table-hover"">';
             $rowsResult.='<thead><tr>';
             $rowsResult.='<th>'.ucfirst(LABEL_Termino).'</th><th>'.ucfirst(MSG_notesAffected).'</th></tr></thead><tbody>';
             $rowsResult.=$rowsLog;
@@ -2598,7 +2598,7 @@ function HTMLbulkGlossTerms($params)
                 </div>';
 
 
-    $rows.='<div class="col-sm-12  alert alert-danger"><div class="panel-body">'.ucfirst(MSG__autoGlossDanger).'</div></div>';
+    $rows.='<div class="col-sm-12  alert alert-danger"><div class="card-body">'.ucfirst(MSG__autoGlossDanger).'</div></div>';
 
 
 
@@ -2642,13 +2642,13 @@ function FORMtransterm4char4map($tvocab_id, $filterEQ, $letra)
     $letra_label= (!ctype_digit($letra)) ?  $letra : '0-9';
 
     //panel data
-    $rows.='<div class="panel panel-default">
-                <div class="panel-heading">
+    $rows.='<div class="card">
+                <div class="card-header">
                 <h4><a title="'.LABEL_bulkTranslate.'" href="'.URL_BASE.'index.php?mod=trad">'.ucfirst(LABEL_bulkTranslate).'</a> &middot; '.$ARRAYvocabulario["titulo"].'</h4>';
     $rows.='  </div>';
 
     if ($letra) {
-        $rows.='<div class="panel-body">';
+        $rows.='<div class="card-body">';
         $rows.='<p><em>'.MSG_ResultLetra.' '.$letra_label.': </em><a href="'.URL_BASE.'index.php?letra2trad='.$letra.'&amp;filterEQ=0&amp;tvocab_id='.$ARRAYvocabulario["vocabulario_id"].'&mod=trad">'.$cantLetra["cant"].' '.LABEL_Terminos.'</a>';
 
         if (($cantLetra["cant_no_eq"]!=$cantLetra["cant"]) && ($cantLetra["cant_no_eq"]>0)) {
@@ -2661,7 +2661,7 @@ function FORMtransterm4char4map($tvocab_id, $filterEQ, $letra)
 
         $rows.=' </p></div>';
     }// if $letra
-    $rows.=' <div class="panel-footer">'.HTMLalphaListTerms4map($ARRAYvocabulario["vocabulario_id"], $filterEQ, $letra).'</div>';
+    $rows.=' <div class="card-footer">'.HTMLalphaListTerms4map($ARRAYvocabulario["vocabulario_id"], $filterEQ, $letra).'</div>';
     $rows.=' 	</div>';
 
     $paginado_letras='';
@@ -2815,7 +2815,7 @@ function HTMLformSource($source_id = "0")
                                 </div>
                         </div>
                             <div class="form-group">
-                                <div class="col-sm-12 text-right">
+                                <div class="col-sm-12 text-end">
                                     <a type="button" class="btn btn" name="cancelar" type="button" href="admin.php?vocabulario_id=list" title="'.ucfirst(LABEL_Cancelar).'">'.ucfirst(LABEL_Cancelar).'</a>
 
                                 <button type="submit" class="btn btn-primary" id="boton" name="boton_src" value="'.LABEL_Guardar.'"/>'.ucfirst(LABEL_Guardar).'</button>';
@@ -2857,7 +2857,7 @@ function HTMLlistSources()
 
         $rows.='<div><input id="filter" type="text" class="form-control" placeholder="'.ucfirst(LABEL_type2filter).'"> </div>';
         $rows.='<div class="table-responsive"> ';
-        $rows.='<table class="table table-striped table-bordered table-condensed table-hover"">';
+        $rows.='<table class="table table-striped table-bordered table-sm table-hover"">';
         $rows.='<thead>	<tr>';
         $rows.='<th>'.ucfirst(LABEL_alias).'</th><th>'.ucfirst(LABEL_source).'</th><th>'.ucfirst(LABEL_notes).'</th></tr></thead>	<tbody class="searchable">';
 
@@ -2925,7 +2925,7 @@ function HTMLformTermsNews($tvocab_id = 0)
                                 </div>
 
                     <div class="form-group">
-                        <div class="col-sm-12 text-right">
+                        <div class="col-sm-12 text-end">
                                                 <button type="submit" class="btn btn-primary" value="'.LABEL_Buscar.'"/>'.ucfirst(LABEL_Buscar).'</button>
                                                     <button type="button" class="btn btn" name="cancelar" type="button" onClick="location.href=\'index.php\'" value="'.ucfirst(LABEL_Cancelar).'"/>'.ucfirst(LABEL_Cancelar).'</button>
                         </div>

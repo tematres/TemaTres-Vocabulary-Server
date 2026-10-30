@@ -288,7 +288,7 @@ function HTMLformSuggestTerms4Wikidata($string2search='')
                 </div>';
             
     $rows.='    <div class="form-group">
-                    <div class="col-sm-12 text-right">
+                    <div class="col-sm-12 text-end">
                         <button type="button" class="btn btn" name="cancelar" type="button" onClick="location.href=\'index.php?taskterm=addTerm&tema=0\'" value="'.ucfirst(LABEL_Cancelar).'"/>'.ucfirst(LABEL_Cancelar).'</button>
                         <button type="submit" class="btn btn-primary" value="'.LABEL_Buscar.'"/>'.ucfirst(LABEL_Buscar).'</button>
 
@@ -330,7 +330,7 @@ function HTMLformSelectTerms4Wikidata($string_search,$resultados)
                 <div class="card-body form-horizontal">';
     $rows.='<div><input id="filter" type="text" class="form-control" placeholder="'.ucfirst(LABEL_type2filter).'"></div>';
     $rows.='<div class="table-responsive"> ';
-    $rows.='<table class="table table-striped table-bordered table-condensed table-hover">
+    $rows.='<table class="table table-striped table-bordered table-sm table-hover">
     <thead>
     <tr>
         <th  class="text-center"><input name="checktodos" type="checkbox" title="'.LABEL_selectAll.'"/></th>
@@ -422,7 +422,7 @@ function HTMLformSuggestedTermsFromWikidata($ARRAYtermino,$t_relation,$p_relatio
             <div class="card">
                 <div class="card-body form-horizontal">';
     $rows.='<div class="table-responsive"> ';
-    $rows.='<table class="table table-striped table-bordered table-condensed table-hover">
+    $rows.='<table class="table table-striped table-bordered table-sm table-hover">
     <thead>
     <tr>
         <th class="text-center"></th>
@@ -563,7 +563,7 @@ $rows.='<h3>'.HTMLlinkTerm(array("tema_id"=>$ARRAYtermino["idTema"],"tema"=>$ARR
                                     </div>
                             </div>
                 <div class="form-group">
-                    <div class="col-sm-12 text-right">
+                    <div class="col-sm-12 text-end">
                                               <button type="button" class="btn btn" name="cancelar" type="button" onClick="location.href=\'index.php?tema='.$ARRAYtermino["idTema"].'\'" value="'.ucfirst(LABEL_Cancelar).'"/>'.ucfirst(LABEL_Cancelar).'</button>
                                              <button type="submit" class="btn btn-primary" value="'.LABEL_Buscar.'"/>'.ucfirst(LABEL_Buscar).'</button>
 

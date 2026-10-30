@@ -143,14 +143,14 @@ $notaEsc = htmlspecialchars($arrayNota["nota"] ?? '', ENT_QUOTES, 'UTF-8');
 
                         <!-- Botones -->
                         <div class="form-group" role="group">
-                            <div class="col-sm-12 text-right">
+                            <div class="col-sm-12 text-end">
                                 <div class="btn-group">
                                     <?php echo $buttons; ?>
                                 </div>
                             </div>
                         </div>
 
-                    </div><!-- /.panel-body -->
+                    </div><!-- /.card-body -->
                 </div><!-- /.panel -->
             </div><!-- /.col-lg-11 -->
 

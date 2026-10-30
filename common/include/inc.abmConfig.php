@@ -214,7 +214,7 @@ if ($array_vocabulario["vocabulario_id"]==1) {
 };//end if main vocab
 
     $rows.='<div class="form-group">
-	<div class="col-sm-12 text-right">
+	<div class="col-sm-12 text-end">
 	<a href="admin.php?vocabulario_id=list" class="btn btn-default" id="boton_cancelar" title="'.ucfirst(LABEL_Cancelar).'">'.ucfirst(LABEL_Cancelar).'</a>
 		<input type="submit" class="btn btn-primary" id="boton" name="boton" value="'.ucfirst(LABEL_Guardar).'"/>';
     //editor for target vocabularies

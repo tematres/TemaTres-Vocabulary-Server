@@ -16,7 +16,7 @@ if (is_numeric($_GET["user_id"])) {
 
 if ($dato_user["id"]) {
     $resumen=ARRAYresumen($_SESSION["id_tesa"], "U", $dato_user["id"]);
-    $row_resumen='<div id="cajaAncha">'."\n\r";
+    $row_resumen='<div id="cajaAncha" class="col-lg-5">'."\n\r";
     $row_resumen.='  <div><strong>'.LABEL_Acciones.'</strong></div><dl class="dosCol">'."\n\r";
 
     if ($resumen["cant_total"]>0) {
@@ -101,7 +101,7 @@ if (isset($dato_user["id"])) {
 											</div>';
 };
                                             $rows.='<div class="form-group">
-																	<div class="col-sm-12 text-right">
+																	<div class="col-sm-12 text-end">
 																	<input type="submit" class="btn btn-primary" id="boton" name="boton" value="'.ucfirst(LABEL_Guardar).'"/>
 																	<a href="admin.php?user_id=list" class="btn btn-default" id="boton_cancelar" title="'.ucfirst(LABEL_Cancelar).'">'.ucfirst(LABEL_Cancelar).'</a>
 																	</div>
