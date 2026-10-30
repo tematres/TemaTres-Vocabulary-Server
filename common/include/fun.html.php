@@ -205,7 +205,7 @@ function doContextoTermino($idTema, $i_profundidad)
 
         //editor de relaciones
         if (in_array(evalUserLevel($_SESSION[$_SESSION["CFGURL"]]),array(1,2))) {
-            $td_delete='<a type="button" class="btn btn-danger btn-xs" id="elimina_'.$datosNT["id_tema"].'" title="'.LABEL_borraRelacion.'"  class="eliminar" href="'.URL_BASE.'index.php?ridelete='.$datosNT["id_relacion"].'&amp;tema='.$idTema.'" onclick="return askData();"><span class="glyphicon glyphicon-remove"></span></a> ' ;
+            $td_delete='<a type="button" class="btn btn-danger btn-xs" id="elimina_'.$datosNT["id_tema"].'" title="'.LABEL_borraRelacion.'"  class="eliminar" href="'.URL_BASE.'index.php?ridelete='.$datosNT["id_relacion"].'&amp;tema='.$idTema.'" onclick="return askData();">'.HTMLicon('remove').'</a> ' ;
             $row_NT.=' '.$td_delete.'<abbr class="thesacronym" title="'.TE_termino.' '.$datosNT["rr_value"].'" lang="'.LANG.'" id="r'.$datosNT["rel_id"].'"><span class="editable_selectTE" id="edit_rel_id'.$datosNT["rel_id"].'" style="display: inline">'.TE_acronimo.$datosNT["rr_code"].'</span>'.$i_profundidad.'</abbr> ' ;
 
             //Editor de código
@@ -227,7 +227,7 @@ function doContextoTermino($idTema, $i_profundidad)
 
     while ($datosTotalRelacionados= $sqlTotalRelacionados->FetchRow()) {
         if (in_array(evalUserLevel($_SESSION[$_SESSION["CFGURL"]]),array(1,2))) {
-            $td_delete='<a type="button" class="btn btn-danger btn-xs" title="'.LABEL_borraRelacion.'" href="'.URL_BASE.'index.php?ridelete='.$datosTotalRelacionados["id_relacion"].'&amp;tema='.$idTema.'" onclick="return askData();"><span class="glyphicon glyphicon-remove"></span></a> ' ;
+            $td_delete='<a type="button" class="btn btn-danger btn-xs" title="'.LABEL_borraRelacion.'" href="'.URL_BASE.'index.php?ridelete='.$datosTotalRelacionados["id_relacion"].'&amp;tema='.$idTema.'" onclick="return askData();">'.HTMLicon('remove').'</a> ' ;
             $classAcrnoyn='editable_select'.$datosTotalRelacionados["t_relacion"];
         } else {
             $td_delete='' ;
@@ -1561,7 +1561,7 @@ function HTMLtargetTerms($tema_id)
 
         while ($array=$sql->FetchRow()) {
             if (in_array(evalUserLevel($_SESSION[$_SESSION["CFGURL"]]),array(1,2))) {
-                $delLink= '<a type="button" class="btn btn-danger btn-xs" id="elimina_'.$array["tterm_id"].'" title="'.LABEL_borraRelacion.'"  href="'.URL_BASE.'index.php?tterm_id='.$array["tterm_id"].'&amp;tema='.$tema_id.'&amp;tvocab_id='.$array["tvocab_id"].'&amp;taskrelations=delTgetTerm" onclick="return askData();"><span class="glyphicon glyphicon-remove"></span></a> ' ;
+                $delLink= '<a type="button" class="btn btn-danger btn-xs" id="elimina_'.$array["tterm_id"].'" title="'.LABEL_borraRelacion.'"  href="'.URL_BASE.'index.php?tterm_id='.$array["tterm_id"].'&amp;tema='.$tema_id.'&amp;tvocab_id='.$array["tvocab_id"].'&amp;taskrelations=delTgetTerm" onclick="return askData();">'.HTMLicon('remove').'</a> ' ;
                 $checkLink= '<a id="actua_'.$array["tterm_id"].'" title="'.LABEL_ShowTargetTermforUpdate.'"  class="btn btn-warning btn-xs" href="'.URL_BASE.'index.php?tterm_id='.$array["tterm_id"].'&amp;tema='.$tema_id.'&amp;tvocab_id='.$array["tvocab_id"].'&amp;tterm_id='.$array["tterm_id"].'&amp;taskEdit=checkDateTermsTargetVocabulary">'.LABEL_ShowTargetTermforUpdate.'</a>' ;
 
                 $ttermManageLink=' '.$delLink.' '.$checkLink.'  ' ;
@@ -1591,7 +1591,7 @@ function HTMLURI4term($tema_id)
 
         while ($array=$sql->FetchRow()) {
             if (in_array(evalUserLevel($_SESSION[$_SESSION["CFGURL"]]),array(1,2))) {
-                $delLink= '<a type="button" class="btn btn-danger btn-xs" id="elimina_'.$array["uri_id"].'" title="'.LABEL_borraRelacion.'"  href="'.URL_BASE.'index.php?uri_id='.$array["uri_id"].'&amp;tema='.$tema_id.'&amp;taskrelations=delURIterm" onclick="return askData();"><span class="glyphicon glyphicon-remove"></span></a> ' ;
+                $delLink= '<a type="button" class="btn btn-danger btn-xs" id="elimina_'.$array["uri_id"].'" title="'.LABEL_borraRelacion.'"  href="'.URL_BASE.'index.php?uri_id='.$array["uri_id"].'&amp;tema='.$tema_id.'&amp;taskrelations=delURIterm" onclick="return askData();">'.HTMLicon('remove').'</a> ' ;
             }
 
 
@@ -1908,11 +1908,11 @@ function HTMLtermMetadata($arrayTerm, $arrayCantRelaciones)
 
     //Is admin and have descendant terms
     if ((evalUserLevel($_SESSION[$_SESSION["CFGURL"]])==1) && ($arrayCantRelaciones["cantNT"]>0)) {
-        $body.='<dt>'.ucfirst(LABEL_export).' <span class="glyphicon icon-download-alt"></span></dt>' ;
+        $body.='<dt>'.ucfirst(LABEL_export).' '.HTMLicon('download').'</dt>' ;
         $body.='<dd>' ;
         $body.='<ul class="list-inline" id="enlaces_xml">' ;
-        $body.='        <li><a target="_blank" title="'.MENU_ListaAbc.'"  href="'.URL_BASE.'xml.php?dis=termAlpha&amp;term_id='.$arrayTerm["tema_id"].'"><span class="glyphicon glyphicon-list"></span> '.ucfirst(MENU_ListaAbc).'</a></li>' ;
-        $body.='        <li><a target="_blank" title="'.ucfirst(MENU_ListaSis).'"  href="'.URL_BASE.'xml.php?dis=termTree&amp;term_id='.$arrayTerm["tema_id"].'"><span class="glyphicon glyphicon-tree-conifer"></span> '.ucfirst(MENU_ListaSis).'</a></li>' ;
+        $body.='        <li><a target="_blank" title="'.MENU_ListaAbc.'"  href="'.URL_BASE.'xml.php?dis=termAlpha&amp;term_id='.$arrayTerm["tema_id"].'">'.HTMLicon('list').' '.ucfirst(MENU_ListaAbc).'</a></li>' ;
+        $body.='        <li><a target="_blank" title="'.ucfirst(MENU_ListaSis).'"  href="'.URL_BASE.'xml.php?dis=termTree&amp;term_id='.$arrayTerm["tema_id"].'">'.HTMLicon('tree').' '.ucfirst(MENU_ListaSis).'</a></li>' ;
         $body.='</ul>' ;
         $body.='</dd>' ;
     }
@@ -2085,6 +2085,30 @@ function makeGlossary($notesType = array("NA"), $params = array())
     return json_encode($arrayTerm);
 }
 
+
+
+/** Inline SVG icon (Bootstrap Icons, MIT licence) */
+function HTMLicon($name)
+{
+    $paths = array(
+        'fire' => 'M8 16c3.314 0 6-2 6-5.5 0-1.5-.5-4-2.5-6 .25 1.5-1.25 2-1.25 2C11 4 9 .5 6 0c.357 2 .5 4-2 6-1.25 1-2 2.729-2 4.5C2 14 4.686 16 8 16m0-1c-1.657 0-3-1-3-2.75 0-.75.25-2 1.25-3C6.125 10 7 10.5 7 10.5c-.375-1.25.5-3.25 2-3.5-.179 1-.25 2 1 3 .625.5 1 1.364 1 2.25C11 14 9.657 15 8 15',
+        'share' => 'M13.5 1a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3M11 2.5a2.5 2.5 0 1 1 .603 1.628l-6.718 3.12a2.5 2.5 0 0 1 0 1.504l6.718 3.12a2.5 2.5 0 1 1-.488.876l-6.718-3.12a2.5 2.5 0 1 1 0-3.256l6.718-3.12A2.5 2.5 0 0 1 11 2.5m-8.5 4a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3m11 5.5a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3',
+        'download' => 'M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5|M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708z',
+        'list' => 'M5 11.5a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5m-3 1a1 1 0 1 0 0-2 1 1 0 0 0 0 2m0 4a1 1 0 1 0 0-2 1 1 0 0 0 0 2m0 4a1 1 0 1 0 0-2 1 1 0 0 0 0 2',
+        'tree' => 'M6 3.5A1.5 1.5 0 0 1 7.5 2h1A1.5 1.5 0 0 1 10 3.5v1A1.5 1.5 0 0 1 8.5 6v1H14a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-1 0V8h-5v.5a.5.5 0 0 1-1 0V8h-5v.5a.5.5 0 0 1-1 0v-1A.5.5 0 0 1 2 7h5.5V6A1.5 1.5 0 0 1 6 4.5zM8.5 5a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5zM0 11.5A1.5 1.5 0 0 1 1.5 10h1A1.5 1.5 0 0 1 4 11.5v1A1.5 1.5 0 0 1 2.5 14h-1A1.5 1.5 0 0 1 0 12.5zm1.5-.5a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5zm4.5.5A1.5 1.5 0 0 1 7.5 10h1a1.5 1.5 0 0 1 1.5 1.5v1A1.5 1.5 0 0 1 8.5 14h-1A1.5 1.5 0 0 1 6 12.5zm1.5-.5a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5zm4.5.5a1.5 1.5 0 0 1 1.5-1.5h1a1.5 1.5 0 0 1 1.5 1.5v1a1.5 1.5 0 0 1-1.5 1.5h-1a1.5 1.5 0 0 1-1.5-1.5zm1.5-.5a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5z',
+        'copy' => 'M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1h1a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1h1z|M9.5 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5zm-3-1A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0z',
+        'remove' => 'M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8z',
+        'rss' => 'M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2z|M5.5 12a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0m-3-8.5a1 1 0 0 1 1-1c5.523 0 10 4.477 10 10a1 1 0 1 1-2 0 8 8 0 0 0-8-8 1 1 0 0 1-1-1m0 4a1 1 0 0 1 1-1 6 6 0 0 1 6 6 1 1 0 1 1-2 0 4 4 0 0 0-4-4 1 1 0 0 1-1-1'
+    );
+    if (!isset($paths[$name])) {
+        return '';
+    }
+    $d = '';
+    foreach (explode('|', $paths[$name]) as $p) {
+        $d .= '<path d="'.$p.'"/>';
+    }
+    return '<svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16" aria-hidden="true" style="vertical-align:-.125em">'.$d.'</svg>';
+}
 
 
 function HTMLheader($metadata)
@@ -2655,7 +2679,7 @@ function HTMLsummary()
     //terms stats
     $rows.='<tr><th>'.ucfirst(LABEL_Terminos).'</th><td>'.$resumen["cant_aceptados"];
 
-    $rows.=' <a class="label label-info" href="'.URL_BASE.'index.php?s=n" title="'.ucfirst(LABEL_showNewsTerm).'"><span class="glyphicon glyphicon-fire"></span> '.ucfirst(LABEL_showNewsTerm).'</a>' ;
+    $rows.=' <a class="badge text-bg-info" href="'.URL_BASE.'index.php?s=n" title="'.ucfirst(LABEL_showNewsTerm).'">'.HTMLicon('fire').' '.ucfirst(LABEL_showNewsTerm).'</a>' ;
     $rows.='<ul>' ;
     if ($_SESSION[$_SESSION["CFGURL"]]["CFG_VIEW_STATUS"]==1) {
         if ($resumen["cant_candidato"]>0) {
@@ -2751,7 +2775,7 @@ function HTMLcopyClick($targt_div, $array_flags)
         return;
     }
 
-    return '<button class="btn btn-default btn-xs copy-clipboard" data-clipboard-action="copy" data-clipboard-target="#'.$targt_div.'" alt="'.ucfirst(LABEL_copy_click).'"><span class="glyphicon glyphicon-copy" aria-hidden="true"  title="'.ucfirst(LABEL_copy_click).'"></span></button>' ;
+    return '<button class="btn btn-default btn-xs copy-clipboard" data-clipboard-action="copy" data-clipboard-target="#'.$targt_div.'" alt="'.ucfirst(LABEL_copy_click).'" title="'.ucfirst(LABEL_copy_click).'">'.HTMLicon('copy').'</button>' ;
 }
 
 

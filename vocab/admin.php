@@ -251,11 +251,11 @@ if (evalUserLevel($_SESSION[$_SESSION["CFGURL"]])==1) {
         }
 
         if (CFG_SIMPLE_WEB_SERVICE==1) {
-            echo '  <a class="label label-info" href="'.URL_BASE.'services.php" title="API"><span class="glyphicon glyphicon-share"></span> API</a>';
+            echo '  <a class="badge text-bg-info" href="'.URL_BASE.'services.php" title="API">'.HTMLicon('share').' API</a>';
         }
 
-        echo '<a class="label label-info" href="'.URL_BASE.'xml.php?schema=rss" title="RSS"><span class="icon icon-rss"></span>RSS</a>';
-        echo '  <a class="label label-info" href="'.URL_BASE.'index.php?s=n" title="'.ucfirst(LABEL_showNewsTerm).'"><span class="glyphicon glyphicon-fire"></span> '.ucfirst(LABEL_showNewsTerm).'</a>';
+        echo '<a class="badge text-bg-info" href="'.URL_BASE.'xml.php?schema=rss" title="RSS">'.HTMLicon('rss').'RSS</a>';
+        echo '  <a class="badge text-bg-info" href="'.URL_BASE.'index.php?s=n" title="'.ucfirst(LABEL_showNewsTerm).'">'.HTMLicon('fire').' '.ucfirst(LABEL_showNewsTerm).'</a>';
         ?>
     </p>
         <?php echo doMenuLang(); ?>
