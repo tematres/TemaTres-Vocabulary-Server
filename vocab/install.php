@@ -538,7 +538,7 @@ function HTMLformInstall($lang_install)
     <div class="form-group">
       <label class="col-md-4 control-label" for="lang">'.ucfirst(LABEL_Idioma).'</label>
       <div class="col-md-4">
-        <select id="lang" name="lang" class="form-control">
+        <select id="lang" name="lang" class="form-select">
         '.doSelectForm($arrayLang, $lang_install).'
         </select>
       </div>
@@ -549,7 +549,7 @@ function HTMLformInstall($lang_install)
     <div class="form-group">
       <label class="col-md-4 control-label" for="tipo">'.ucfirst(LABEL_TipoLenguaje).'</label>
       <div class="col-md-4">
-        <select id="tipo_lang" name="kos_type" class="form-control">
+        <select id="tipo_lang" name="kos_type" class="form-select">
         '.doSelectForm($array_kos_types, "").'
         </select>
         </div>
@@ -589,7 +589,7 @@ function HTMLformInstall($lang_install)
       <label class="col-md-4 control-label" for="mdp">'.ucfirst(LABEL_pass).'</label>
       <div class="col-md-4">
         <input id="mdp" name="mdp"  data-minlength="4" placeholder="'.ucfirst(LABEL_pass).'" class="form-control input-md" required="" type="password">
-        <span class="help-block">'.ucfirst(sprintf(MSG_lengh_error, 4)).'</span>
+        <span class="form-text">'.ucfirst(sprintf(MSG_lengh_error, 4)).'</span>
       </div>
     </div>
 
@@ -598,7 +598,7 @@ function HTMLformInstall($lang_install)
       <label class="col-md-4 control-label" for="password">'.ucfirst(LABEL_repass).'</label>
       <div class="col-md-4">
         <input id="password" name="password" data-match="#mdp" data-match-error="'.ucfirst(MSG_repass_error).'"  placeholder="'.ucfirst(LABEL_repass).'" class="form-control input-md" required="" type="password">
-        <div class="help-block with-errors"></div>
+        <div class="form-text with-errors"></div>
       </div>
     </div>
 
@@ -661,7 +661,7 @@ function HTMLformInstall($lang_install)
         <div class="form-group">
           <label class="col-md-4 control-label" for="selectbasic"><?php echo LABEL_Idioma;?></label>
           <div class="col-md-4">
-            <select id="lang_install" name="lang_install" onChange="document.lang.submit()" class="form-control">
+            <select id="lang_install" name="lang_install" onChange="document.lang.submit()" class="form-select">
               <option><?php echo LABEL_Idioma;?></option>
               <option value="ca-ES">català</option>
               <option value="en-EN">english</option>

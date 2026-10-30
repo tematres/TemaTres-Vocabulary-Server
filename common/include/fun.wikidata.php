@@ -278,8 +278,8 @@ function HTMLformSuggestTerms4Wikidata($string2search='')
     <!-- panel  -->
     <div class="col-lg-10">
         <h3>'.ucfirst(LABEL__getForWikidataTerms).'</h3>
-        <div class="panel panel-default">
-            <div class="panel-body form-horizontal">
+        <div class="card">
+            <div class="card-body form-horizontal">
                 <div class="form-group">
                     <label for="string2search" class="col-sm-3 control-label">'.ucfirst(LABEL_Buscar).'</label>
                     <div class="col-sm-9">
@@ -326,8 +326,8 @@ function HTMLformSelectTerms4Wikidata($string_search,$resultados)
         </div>
         <!-- panel  -->
         <div class="col-lg-10">
-            <div class="panel panel-default">
-                <div class="panel-body form-horizontal">';
+            <div class="card">
+                <div class="card-body form-horizontal">';
     $rows.='<div><input id="filter" type="text" class="form-control" placeholder="'.ucfirst(LABEL_type2filter).'"></div>';
     $rows.='<div class="table-responsive"> ';
     $rows.='<table class="table table-striped table-bordered table-condensed table-hover">
@@ -419,8 +419,8 @@ function HTMLformSuggestedTermsFromWikidata($ARRAYtermino,$t_relation,$p_relatio
 
         <!-- panel  -->
         <div class="col-lg-10">
-            <div class="panel panel-default">
-                <div class="panel-body form-horizontal">';
+            <div class="card">
+                <div class="card-body form-horizontal">';
     $rows.='<div class="table-responsive"> ';
     $rows.='<table class="table table-striped table-bordered table-condensed table-hover">
     <thead>
@@ -544,12 +544,12 @@ $rows.='<h3>'.HTMLlinkTerm(array("tema_id"=>$ARRAYtermino["idTema"],"tema"=>$ARR
     <!-- panel  -->
     <div class="col-lg-7">
         <h4>'.ucfirst(LABEL__wikiSearch).'</h4>
-        <div class="panel panel-default">
-            <div class="panel-body form-horizontal">
+        <div class="card">
+            <div class="card-body form-horizontal">
                             <div class="form-group">
                             <label for="tvocab_id" class="col-sm-3 control-label">'.ucfirst(LABEL__wikiEntity).'</label>
                                     <div class="col-sm-9">
-                                            <select class="form-control" id="q_id" name="q_id">
+                                            <select class="form-select" id="q_id" name="q_id">
                                             '.doSelectForm($array_qIds, $selected_q).'
                                             </select>
                                     </div>
@@ -557,7 +557,7 @@ $rows.='<h3>'.HTMLlinkTerm(array("tema_id"=>$ARRAYtermino["idTema"],"tema"=>$ARR
                             <div class="form-group">
                             <label for="t_relation" class="col-sm-3 control-label">'.ucfirst(LABEL_relationSubType).'</label>
                                     <div class="col-sm-9">
-                                            <select class="form-control" id="t_relation" name="t_relation">
+                                            <select class="form-select" id="t_relation" name="t_relation">
                                             '.doSelectForm($arrayOptions, $t_relation).'
                                             </select>
                                     </div>

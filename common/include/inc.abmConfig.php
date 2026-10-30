@@ -46,8 +46,8 @@ $rows.='	<div class="row">
 	<!-- panel  -->
 	    <div class="col-lg-7">
 	<h4>'.ucfirst(LABEL_lcConfig).'</h4>
-	        <div class="panel panel-default">
-	            <div class="panel-body form-horizontal">';
+	        <div class="card">
+	            <div class="card-body form-horizontal">';
 
     $rows.='<div class="form-group">
 	           <label for="'.FORM_LABEL_Titulo.'" class="col-sm-3 control-label">'.ucfirst(LABEL_Titulo).'</label>

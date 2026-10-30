@@ -45,8 +45,8 @@ $rows.='    <div class="row">
         <!-- panel  -->
                 <div class="col-lg-7">
                     <h4>'.ucfirst(LABEL_DatosUser).'</h4>
-                    <div class="panel panel-default">
-                        <div class="panel-body form-horizontal">';
+                    <div class="card">
+                        <div class="card-body form-horizontal">';
 
             $rows.='<div class="form-group">
                         <label for="nombre" class="col-sm-3 control-label">'.ucfirst(LABEL_nombre).'</label>
@@ -86,7 +86,7 @@ $rows.='    <div class="row">
                         <label for="reclave" class="col-sm-3 control-label">'.ucfirst(LABEL_repass).'</label>
                                 <div class="col-sm-9">
                                     <input data-match="#clave" '.$fillRulePass.' data-match-error="'.ucfirst(MSG_repass_error).'" placeholder="'.LABEL_repass.'" class="form-control" type="password" id="reclave" name="reclave" value="">
-                                                            <div class="help-block with-errors"></div>
+                                                            <div class="form-text with-errors"></div>
                                                     </div>
                     </div>';
 

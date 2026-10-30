@@ -71,7 +71,7 @@ function HTMLformAssociateFreeTerms($ARRAYterm_id = array(), $taskterm = "")
             //no es subordinar término y hay resultados
             if ($cant_result>0) {
                 $rows_busca.='<div class="form-group"><label for="rel_free_term" accesskey="r">'.ucfirst(LABEL_selectRelation).' ';
-                $rows_busca.='<select class="form-control" id="rel_free_term" name="rel_free_term">';
+                $rows_busca.='<select class="form-select" id="rel_free_term" name="rel_free_term">';
                 $rows_busca.=doSelectForm(array('2#'.ucfirst(TR_termino),'3#'.ucfirst(TE_termino),'4#'.ucfirst(UP_termino)), "");
                 $rows_busca.='</select>';
                 $rows_busca.='  <button type="submit" class="btn btn-primary">'.LABEL_Enviar.'</button>';
@@ -329,7 +329,7 @@ function HTMLformEditTerms($taskterm, $ARRAYtermino = array())
     $rows.='<div class="row">';
     $rows.='<a class="topOfPage" href="'.URL_BASE.'index.php?tema='.$ARRAYtermino["idTema"].'" title="'.LABEL_Anterior.'">'.LABEL_Anterior.'</a>
         <h3>'.LABEL_EditorTermino .'</h3>';
-    $rows.='<form class="form-horizontal col-xs-12 col-md-8" role="form" id="alta_t" name="alta_t" action="index.php" method="post">
+    $rows.='<form class="form-horizontal col-12 col-md-8" role="form" id="alta_t" name="alta_t" action="index.php" method="post">
         <fieldset>
         <legend>'.$nombre_pantalla.'</legend>
         <div class="form-group form-group-chk">
@@ -349,7 +349,7 @@ function HTMLformEditTerms($taskterm, $ARRAYtermino = array())
             }
 
             $rows.='<div class="form-group"><label for="rel_rel_id" accesskey="r">'.ucfirst(LABEL_relationSubType).'<span class="small">('.LABEL_optative.')</span></label>';
-            $rows.='<select class="form-control" id="t_rel_rel_id" name="t_rel_rel_id"><option>'.ucfirst(LABEL_seleccionar).'</option>';
+            $rows.='<select class="form-select" id="t_rel_rel_id" name="t_rel_rel_id"><option>'.ucfirst(LABEL_seleccionar).'</option>';
             $rows.=doSelectForm($arraySelectTypeRelations, "");
             $rows.='</select>';
             $rows.='</div>';
@@ -406,12 +406,12 @@ function HTMLformSuggestTerms($ARRAYtargetVocabulary = array())
         <!-- panel  -->
         <div class="col-lg-10">
             <h4>'.ucfirst(LABEL__getForRecomendation).'</h4>
-            <div class="panel panel-default">
-                <div class="panel-body form-horizontal">
+            <div class="card">
+                <div class="card-body form-horizontal">
                                 <div class="form-group">
                                 <label for="tvocab_id" class="col-sm-3 control-label">'.ucfirst(FORM_LABEL_nombre_vocabulario).'</label>
                                         <div class="col-sm-9">
-                                                <select class="form-control" id="tvocab_id" name="tvocab_id">
+                                                <select class="form-select" id="tvocab_id" name="tvocab_id">
                                                 '.doSelectForm($array_vocabularios, $_GET["tvocab_id"]).'
                                                 </select>
                                         </div>
@@ -513,12 +513,12 @@ function HTMLformSuggestTermsXRelations($ARRAYtermino, $ARRAYtargetVocabulary = 
         <!-- panel  -->
         <div class="col-lg-7">
             <h4>'.ucfirst(LABEL__getForRecomendation).'</h4>
-            <div class="panel panel-default">
-                <div class="panel-body form-horizontal">
+            <div class="card">
+                <div class="card-body form-horizontal">
                                 <div class="form-group">
                                 <label for="tvocab_id" class="col-sm-3 control-label">'.ucfirst(FORM_LABEL_nombre_vocabulario).'</label>
                                         <div class="col-sm-9">
-                                                <select class="form-control" id="tvocab_id" name="tvocab_id">
+                                                <select class="form-select" id="tvocab_id" name="tvocab_id">
                                                 '.doSelectForm($array_vocabularios, $_GET["tvocab_id"]).'
                                                 </select>
                                         </div>
@@ -526,7 +526,7 @@ function HTMLformSuggestTermsXRelations($ARRAYtermino, $ARRAYtargetVocabulary = 
                                 <div class="form-group">
                                 <label for="t_relation" class="col-sm-3 control-label">'.ucfirst(LABEL_relationSubType).'</label>
                                         <div class="col-sm-9">
-                                                <select class="form-control" id="t_relation" name="t_relation">
+                                                <select class="form-select" id="t_relation" name="t_relation">
                                                 '.doSelectForm($arrayOptions, $_GET["t_relation"]).'
                                                 </select>
                                         </div>
@@ -601,7 +601,7 @@ function HTMLformAdvancedSearch($array)
     $rows.='<div class="row">';
     $rows.='	<div class="col-md-6 col-md-offset-3">';
     $rows.=' <h3>'.ucfirst(LABEL_BusquedaAvanzada).'</h3>';
-    $rows.='<form  class="col-xs-8 form-horizontal" role="form" name="advancedsearch" action="index.php#xstring" method="get">';
+    $rows.='<form  class="col-8 form-horizontal" role="form" name="advancedsearch" action="index.php#xstring" method="get">';
     $rows.='<fieldset>';
     $arrayWS=array('t#'.ucfirst(LABEL_Termino),'mt#'.ucfirst(LABEL_meta_term));
     $arrayVocabStats=ARRAYresumen($_SESSION["id_tesa"], "G", "");
@@ -622,7 +622,7 @@ function HTMLformAdvancedSearch($array)
     */
     if (count($arrayWS)>1) {
         $rows.='<div class="form-group"><label class="label_ttl control-label" for="ws" accesskey="f">'.ucfirst(LABEL_QueBuscar).'</label>';
-        $rows.='<select class="select_ttl form-control" id="ws" name="ws">';
+        $rows.='<select class="select_ttl form-select" id="ws" name="ws">';
         $rows.=doSelectForm($arrayWS, $_GET["ws"]);
         $rows.='</select>';
         $rows.='</div>';
@@ -641,7 +641,7 @@ function HTMLformAdvancedSearch($array)
             $formSelectTopTerms[]=$arrayTopTerms["tema_id"].'#'.$arrayTopTerms["tema"];
         }
         $rows.='<div class="form-group"><label class="label_ttl control-label" for="hasTopTerm" accesskey="t">'.ucfirst(LABEL_TopTerm).'</label>';
-        $rows.='<select class="select_ttl form-control" id="hasTopTerm" name="hasTopTerm">';
+        $rows.='<select class="select_ttl form-select" id="hasTopTerm" name="hasTopTerm">';
         $rows.='<option value="">'.ucfirst(LABEL_Todos).'</option>';
         $rows.=doSelectForm($formSelectTopTerms, $_GET["hasTopTerm"]);
         $rows.='</select>';
@@ -672,7 +672,7 @@ function HTMLformAdvancedSearch($array)
         */
         if (count($arrayVocabStats["cant_notas"])>0) {
             $rows.='<div class="form-group"><label class="label_ttl control-label" for="hasNote" accesskey="n">'.ucfirst(LABEL_tipoNota).'</label>';
-            $rows.='<select class="select_ttl form-control" id="hasNote" name="hasNote">';
+            $rows.='<select class="select_ttl form-select" id="hasNote" name="hasNote">';
             $rows.='<option value="">'.ucfirst(LABEL_Todos).'</option>';
             $rows.=doSelectForm($arrayNoteType, $_GET["hasNote"]);
             $rows.='</select>';
@@ -690,7 +690,7 @@ function HTMLformAdvancedSearch($array)
             $formSelectByDate[]=$arrayTermsByDates["years"].'-'.$arrayTermsByDates["months"].'#'.$MONTHS["$arrayTermsByDates[months]"].'/'.$arrayTermsByDates["years"].' ('.$arrayTermsByDates["cant"].')';
         }
         $rows.='<div class="form-group"><label class="label_ttl control-label" for="fromDate" accesskey="d">'.ucfirst(LABEL_DesdeFecha).'</label>';
-        $rows.='<select class="select_ttl form-control" id="fromDate" name="fromDate">';
+        $rows.='<select class="select_ttl form-select" id="fromDate" name="fromDate">';
         $rows.='<option value="">'.ucfirst(LABEL_Todos).'</option>';
         $rows.=doSelectForm($formSelectByDate, $_GET["fromDate"]);
         $rows.='</select>';
@@ -703,7 +703,7 @@ function HTMLformAdvancedSearch($array)
             $formSelectByDeep[]=$arrayTermsByDeep["tdeep"].'#'.$arrayTermsByDeep["tdeep"].' ('.$arrayTermsByDeep["cant"].')';
         }
         $rows.='<div class="form-group"><label class="label_ttl control-label" for="termDeep" accesskey="e">'.ucfirst(LABEL_ProfundidadTermino).'</label>';
-        $rows.='<select class="select_ttl form-control" id="termDeep" name="termDeep">';
+        $rows.='<select class="select_ttl form-select" id="termDeep" name="termDeep">';
         $rows.='<option value="">'.ucfirst(LABEL_Todos).'</option>';
         $rows.=doSelectForm($formSelectByDeep, $_GET["termDeep"]);
         $rows.='</select>';
@@ -820,7 +820,7 @@ function HTMLformAdvancedTermReport($array)
 <div class="form-group">
     <label class="col-md-4 control-label" for="hasTopTerm">'.ucfirst(LABEL_TopTerm).'</label>
     <div class="col-md-5">
-    <select id="hasTopTerm" name="hasTopTerm" class="form-control">
+    <select id="hasTopTerm" name="hasTopTerm" class="form-select">
         <option value="">'.ucfirst(LABEL_FORM_nullValue).'</option>
         '.doSelectForm($formSelectTopTerms, $_GET["hasTopTerm"]).'
     </select>
@@ -832,7 +832,7 @@ function HTMLformAdvancedTermReport($array)
 <div class="form-group">
     <label class="col-md-4 control-label" for="hasNote">'.ucfirst(LABEL_FORM_haveNoteType).'</label>
     <div class="col-md-4">
-    <select id="hasNote" name="hasNote" class="form-control">
+    <select id="hasNote" name="hasNote" class="form-select">
         <option value="">'.ucfirst(LABEL_FORM_nullValue).'</option>
         '.doSelectForm($arrayNoteType, "").'
     </select>
@@ -843,19 +843,19 @@ function HTMLformAdvancedTermReport($array)
 <div class="form-group">
     <label class="col-md-4 control-label" for="fromDate">'.ucfirst(LABEL_DesdeFecha).'</label>
     <div class="col-md-3">
-    <select id="fromDate" name="fromDate" class="form-control">
+    <select id="fromDate" name="fromDate" class="form-select">
         <option value="">'.ucfirst(LABEL_FORM_nullValue).'</option>
         '.doSelectForm(array('create#'.ucfirst(LABEL_DesdeFecha),'mod#'.ucfirst(LABEL_fecha_modificacion)), "").'    </select>
     </div>
     <div class="form-group col-sm-1">
-        <select class="form-control" id="fromDateMonth" name="fromDateMonth">
+        <select class="form-select" id="fromDateMonth" name="fromDateMonth">
         <optgroup label="'.ucfirst(LABEL_mes).'">
         '.doSelectForm($array_mes, $fecha_crea["mes"]).'
         </optgroup>
         </select>
     </div>
     <div class="form-group col-sm-1">
-        <select class="form-control" id="fromDateYear" name="fromDateYear">
+        <select class="form-select" id="fromDateYear" name="fromDateYear">
         <optgroup label="'.ucfirst(LABEL_ano).'">
         '.doSelectForm($array_ano, $fecha_crea["ano"]).'
         </optgroup>
@@ -868,13 +868,13 @@ function HTMLformAdvancedTermReport($array)
 <div class="form-group">
     <label class="col-md-4 control-label" for="csv_tvocab_id">'.ucfirst(LABEL_TargetTerms).'</label>
     <div class="col-md-3">
-    <select id="csv_tvocab_id" name="csv_tvocab_id" class="form-control">
+    <select id="csv_tvocab_id" name="csv_tvocab_id" class="form-select">
         <option value="">'.ucfirst(LABEL_FORM_nullValue).'</option>
         '.doSelectForm($array_vocabularios, "").'
     </select>
     </div>
     <div class="col-md-3">
-    <select id="mapped" name="mapped" class="form-control">
+    <select id="mapped" name="mapped" class="form-select">
         '.doSelectForm(array("y#$LABEL_haveEQ","n#$LABEL_nohaveEQ"), "").'
     </select>
     </div>
@@ -885,13 +885,13 @@ function HTMLformAdvancedTermReport($array)
 <div class="form-group">
     <label class="col-md-4 control-label" for="csv_itvocab_id">'.ucfirst(LABEL_vocabulario_referencia).'</label>
     <div class="col-md-3">
-    <select id="csv_itvocab_id" name="csv_itvocab_id" class="form-control">
+    <select id="csv_itvocab_id" name="csv_itvocab_id" class="form-select">
         <option value="">'.ucfirst(LABEL_FORM_nullValue).'</option>
         '.doSelectForm($array_ivocabularios, "").'
     </select>
     </div>
     <div class="col-md-3">
-    <select id="int_mapped" name="int_mapped" class="form-control">
+    <select id="int_mapped" name="int_mapped" class="form-select">
         '.doSelectForm(array("y#$LABEL_haveEQ","n#$LABEL_nohaveEQ"), "").'
     </select>
     </div>
@@ -908,7 +908,7 @@ function HTMLformAdvancedTermReport($array)
         <div class="form-group">
             <label class="col-md-4 control-label" for="byuser_id">'.ucfirst(MENU_Usuarios).'</label>
             <div class="col-md-4">
-            <select id="user_id" name="byuser_id" class="form-control">
+            <select id="user_id" name="byuser_id" class="form-select">
                 <option value="">'.ucfirst(LABEL_FORM_nullValue).'</option>
                 '.doSelectForm($formSelectUsers, "").'
             </select>
@@ -919,7 +919,7 @@ function HTMLformAdvancedTermReport($array)
     $rows.='<div class="form-group">
     <label class="col-md-4 control-label" for="w_string">'.ucfirst(LABEL_haveWords).'</label>
     <div class="col-md-3">
-    <select id="w_string" name="w_string" class="form-control">
+    <select id="w_string" name="w_string" class="form-select">
         '.doSelectForm(array("x#$LABEL_equalThisWord","s#$LABEL_start","e#$LABEL_end"), "").'
     </select>
     </div>
@@ -980,11 +980,11 @@ function HTMLformSimpleTermReport($array)
         </div>
         <!-- panel  -->
         <div class="col-lg-7">
-            <div class="panel panel-default">
-                <div class="panel-body form-horizontal">';
+            <div class="card">
+                <div class="card-body form-horizontal">';
     $rows.='<div class="form-group">
                         <label for="simpleReport" accesskey="s" class="col-sm-3 control-label">'.ucfirst(LABEL_seleccionar).'</label>';
-    $rows.='	<div class="col-sm-9"><select class="form-control" id="task" name="task">';
+    $rows.='	<div class="col-sm-9"><select class="form-select" id="task" name="task">';
 
     $rows.='	<option value="">'.ucfirst(LABEL_seleccionar).'</option>';
     $rows.=doSelectForm($arraySimpleReports, secure_data($_GET["task"], "int"));
@@ -1027,8 +1027,8 @@ function HTMLformMappedTermReport($array)
         </div>
         <!-- panel  -->
         <div class="col-lg-7">
-            <div class="panel panel-default">
-                <div class="panel-body form-horizontal">';
+            <div class="card">
+                <div class="card-body form-horizontal">';
 
     $SQLtvocabs=SQLtargetVocabulary();
     while ($ARRAYtvocabs=$SQLtvocabs->FetchRow()) {
@@ -1084,8 +1084,8 @@ function HTMLformNullNotesTermReport($array)
         </div>
         <!-- panel  -->
             <div class="col-lg-7">
-            <div class="panel panel-default">
-                <div class="panel-body form-horizontal"><div class="panel-heading">'.ucfirst(MSG_FORM_NULLnotesTermReport).'</div>';
+            <div class="card">
+                <div class="card-body form-horizontal"><div class="card-header">'.ucfirst(MSG_FORM_NULLnotesTermReport).'</div>';
 
     $sqlNoteType=SQLcantNotas();
     while ($ARRAYnoteType=$sqlNoteType->FetchRow()) {
@@ -1156,8 +1156,8 @@ function HTMLformTargetVocabulary($tvocab_id = "0")
                 </div>
                 <!-- panel  -->
                 <div class="col-lg-7">
-                    <div class="panel panel-default">
-                        <div class="panel-body form-horizontal">';
+                    <div class="card">
+                        <div class="card-body form-horizontal">';
     if (array2value("tvocab_id",$array)>0) {
         $link2tterms='(<a href="admin.php?doAdmin=seeTermsTargetVocabulary&amp;tvocab_id='.$array["tvocab_id"].'">'.$array["cant"].' '.LABEL_Terminos.'</a>)';
         $rows.='<div class="form-group"><label class="col-sm-3 control-label" for="tvocab_label">'.ucfirst(LABEL_Titulo).'</label>';
@@ -1174,7 +1174,7 @@ function HTMLformTargetVocabulary($tvocab_id = "0")
                         <div class="form-group">
                                 <label for="tvocab_lang" class="col-sm-3 control-label">'.ucfirst(LABEL_Idioma).'</label>
                                 <div class="col-sm-9">
-                                                    <select class="form-control" id="tvocab_lang" name="tvocab_lang">
+                                                    <select class="form-select" id="tvocab_lang" name="tvocab_lang">
                                 '.doSelectForm($arrayLang, $array["tvocab_lang"]).'
                                 </select>
                                         </div>
@@ -1183,7 +1183,7 @@ function HTMLformTargetVocabulary($tvocab_id = "0")
                                             <label for="tvocab_tag" accesskey="l" class="col-sm-3 control-label">'.ucfirst(LABEL_tvocab_tag).'a</label>
                             <div class="col-sm-9">
                                             <input type="text" class="form-control"  required placeholder="'.ucfirst(LABEL_tvocab_tag).'" name="tvocab_tag" id="tvocab_tag" value="'.$array["tvocab_tag"].'"/>
-                                            <span class="help-block">'.ucfirst(LABEL_defaultEQmap).'</span>
+                                            <span class="form-text">'.ucfirst(LABEL_defaultEQmap).'</span>
                                             </div>
                         </div>
                                     <div class="form-group">
@@ -1193,8 +1193,8 @@ function HTMLformTargetVocabulary($tvocab_id = "0")
         $rows.='<span id="tvocab_uri_service">'.$array["tvocab_uri_service"].'</span>';
     } else {
         $rows.='<input type="url" required placeholder="'.LABEL_tvocab_uri_service.'"  class="form-control" name="tvocab_uri_service" id="tvocab_uri_service" value="'.$array["tvocab_uri_service"].'"/>';
-        $rows.='<span class="help-block">'.ucfirst(LABEL__example).' (demo): <a href="https://r020.com.ar/tematres/demo/services.php" target="_blanck">https://r020.com.ar/tematres/demo/services.php</span>';
-        $rows.='<span class="help-block">'.ucfirst(LINK_publicKnownVocabularies).'</span>';
+        $rows.='<span class="form-text">'.ucfirst(LABEL__example).' (demo): <a href="https://r020.com.ar/tematres/demo/services.php" target="_blanck">https://r020.com.ar/tematres/demo/services.php</span>';
+        $rows.='<span class="form-text">'.ucfirst(LINK_publicKnownVocabularies).'</span>';
     };
                                     $rows.='    </div>
                         </div>
@@ -1252,12 +1252,12 @@ function HTMLformAssociateTargetTerms($ARRAYtermino, $term_id = "0")
             </div>
             <!-- panel  -->
             <div class="col-lg-7">
-                <div class="panel panel-default">
-                    <div class="panel-body form-horizontal">
+                <div class="card">
+                    <div class="card-body form-horizontal">
                     <div class="form-group">
                     <label for="tvocab_id" class="col-sm-3 control-label">'.ucfirst(FORM_LABEL_nombre_vocabulario).'</label>
                         <div class="col-sm-9">
-                            <select class="form-control" id="tvocab_id" name="tvocab_id">
+                            <select class="form-select" id="tvocab_id" name="tvocab_id">
                             '.doSelectForm($array_vocabularios, $_GET["tvocab_id"]).'
                             </select>
                         </div>
@@ -1266,7 +1266,7 @@ function HTMLformAssociateTargetTerms($ARRAYtermino, $term_id = "0")
         $rows.='<div class="form-group">
         <label for="search_by" class="col-sm-3 control-label">'.ucfirst(LABEL_selectMapMethod).'</label>
                 <div class="col-sm-9">
-                        <select class="form-control" id="search_by" name="search_by" onChange="mostrar(this.value);">
+                        <select class="form-select" id="search_by" name="search_by" onChange="mostrar(this.value);">
                         '.doSelectForm($arrayOptions, $_GET["search_by"]).'
                         </select>
                 </div>
@@ -1370,8 +1370,8 @@ function HTMLformTargetVocabularySuggested($arrayTterm, $t_relation, $string_sea
             </div>
             <!-- panel  -->
             <div class="col-lg-10">
-                <div class="panel panel-default">
-                    <div class="panel-body form-horizontal">';
+                <div class="card">
+                    <div class="card-body form-horizontal">';
         $rows.='<div><input id="filter" type="text" class="form-control" placeholder="'.ucfirst(LABEL_type2filter).'"></div>';
         $rows.='<div class="table-responsive"> ';
         $rows.='<table class="table table-striped table-bordered table-condensed table-hover">
@@ -1485,12 +1485,12 @@ function HTMLformAltaEquivalenciaTermino($ARRAYTermino)
                 </div>
                 <!-- panel  -->
                 <div class="col-lg-7">
-                    <div class="panel panel-default">
-                        <div class="panel-body form-horizontal">
+                    <div class="card">
+                        <div class="card-body form-horizontal">
                         <div class="form-group">
                         <label for="ref_vocabulario_id" accesskey="v" class="col-sm-3 control-label">'.ucfirst(FORM_LABEL_nombre_vocabulario).'</label>
                             <div class="col-sm-9">
-                                <select class="form-control" id="ref_vocabulario_id" name="ref_vocabulario_id">
+                                <select class="form-select" id="ref_vocabulario_id" name="ref_vocabulario_id">
                                 '.doSelectForm($array_vocabularios, $_GET["tvocab_id"]).'
                                 </select>
                             </div>
@@ -1504,7 +1504,7 @@ function HTMLformAltaEquivalenciaTermino($ARRAYTermino)
                                             <div class="form-group">
                                 <label for="tipo_equivalencia" accesskey="q" class="col-sm-3 control-label">'.ucfirst(FORM_LABEL_tipo_equivalencia).'</label>
                                     <div class="col-sm-9">
-                                        <select class="form-control" id="tipo_equivalencia" name="tipo_equivalencia">
+                                        <select class="form-select" id="tipo_equivalencia" name="tipo_equivalencia">
                                         '.doSelectForm(array(id_EQ.'#'.LABEL_termino_equivalente,id_EQ_PARCIAL.'#'.LABEL_termino_parcial_equivalente), id_EQ).'
                                         </select>
                                     </div>
@@ -1705,12 +1705,12 @@ function HTMLformImport()
         </div>
         <!-- panel  -->
                     <div class="col-lg-7">
-                        <div class="panel panel-default">
-                            <div class="panel-body form-horizontal">';
+                        <div class="card">
+                            <div class="card-body form-horizontal">';
     $rows.='            <div class="form-group">
                 <label for="simpleReport" class="col-sm-3 control-label">'.ucfirst(FORM_LABEL_format_import).'</label>
                     <div class="col-sm-9">
-                        <select class="form-control" id="taskAdmin" name="taskAdmin">
+                        <select class="form-select" id="taskAdmin" name="taskAdmin">
                         '.doSelectForm(array("importTab#$LABEL_importTab","importTag#$LABEL_importTag","importSkos#$LABEL_importSkos","importXML#MARC 21 XML Schema (MarcXML)"), $_POST["doAdmin"]).'
                         </select>
                     </div>
@@ -1723,7 +1723,7 @@ function HTMLformImport()
                                                                             type="file"
                                                                             id="file"
                                                                             name="file">
-                                                                            <div class="help-block with-errors"></div>
+                                                                            <div class="form-text with-errors"></div>
                                                                     </div>
                                     </div>';
 
@@ -1782,12 +1782,12 @@ function HTMLformURI4term($ARRAYtermino)
             </div>
             <!-- panel  -->
             <div class="col-lg-7">
-                <div class="panel panel-default">
-                    <div class="panel-body form-horizontal">
+                <div class="card">
+                    <div class="card-body form-horizontal">
                     <div class="form-group">
                                 <label for="uri_type_id" class="col-sm-3 control-label accesskey="u">'.ucfirst(LABEL_URItype).'</label>
                         <div class="col-sm-9">
-                            <select class="form-control" id="uri_type_id" name="uri_type_id">
+                            <select class="form-select" id="uri_type_id" name="uri_type_id">
                             '.doSelectForm($arraySelectURItype, $value_default).'
                             </select>
                         </div>
@@ -1847,8 +1847,8 @@ function HTMLformMasiveDelete()
         <!-- panel  -->
         <div class="col-lg-7">
             <p class="alert alert-danger" role="alert">'.LABEL_warningMassiverem.'.</p>
-            <div class="panel panel-default">
-                <div class="panel-body form-horizontal">';
+            <div class="card">
+                <div class="card-body form-horizontal">';
 
     $rows.='<div class="form-group">';
     $rows.='<input type="checkbox" name="massrem_teqterms" id="massrem_teqterms" value="1" alt="'.ucfirst(LABEL_target_terms).'" /> ';
@@ -1893,8 +1893,8 @@ function HTMLformUpdateEndpoit()
         <!-- panel  -->
         <div class="col-lg-7">
             <p class="alert alert-warning" role="alert">'.MSG__updateEndpoint.' '.$msg_update.'</p>
-            <div class="panel panel-default">
-                <div class="panel-body form-horizontal">';
+            <div class="card">
+                <div class="card-body form-horizontal">';
                             $rows.='<div class="form-group">
                                                     <div class="col-sm-12 text-center">
                                                     <input type="submit" class="btn btn-primary" id="boton" name="boton" value="'.ucfirst(LABEL_actualizar).'"/>
@@ -1920,15 +1920,15 @@ function HTMLformLogin($task_result)
 
     $rows.='  <form class="form-horizontal form-signin" role="form" id="mylogin" name="mylogin" action="login.php" method="post">';
     $rows.='<h2 class="form-signin-heading">'.ucfirst(LABEL_login).'</h2>';
-    $rows.='<div class="form-group"><label  class="sr-only" for="mail" accesskey="u">'.ucfirst(LABEL_mail).'</label>';
+    $rows.='<div class="form-group"><label  class="visually-hidden" for="mail" accesskey="u">'.ucfirst(LABEL_mail).'</label>';
     $rows.='<input type="email" class="form-control"  name="id_correo_electronico" placeholder="'.ucfirst(LABEL_mail).'" required autofocus  id="mail" size="11"/>';
     $rows.='</div>';
-    $rows.='<div class="form-group"><label for="id_password" class="sr-only" accesskey="p">'.ucfirst(LABEL_pass).'</label>';
+    $rows.='<div class="form-group"><label for="id_password" class="visually-hidden" accesskey="p">'.ucfirst(LABEL_pass).'</label>';
     $rows.='<input type="password" name="id_password" class="form-control" placeholder="'.ucfirst(LABEL_pass).'" required id="id_password" size="11"/>';
     $rows.='	</div>';
     $rows.='<div class="col-lg-offset-2 col-lg-10 style="margin-left:15em" align="center">';
     $rows.='<input type="hidden"  name="task" value="login" />';
-    $rows.='<button class="btn btn-lg btn-primary btn-block" type="submit">'.LABEL_Enviar.'</button>';
+    $rows.='<button class="btn btn-lg btn-primary w-100" type="submit">'.LABEL_Enviar.'</button>';
     $rows.='</div>';
     $rows.='	<div class="form-group">
     <div class="row">
@@ -2029,7 +2029,7 @@ function HTMLformVerTerminosLibres($taskterm = 'null', $freeTerms_id = array())
         $rows.='        </div>';
         $rows.='<div class="submit_form" align="center">';
         $rows.='<div class="col-md-4 control-label form-group">';
-        $rows.='<select class="form-control" id="massive_task_freeterms" name="massive_task_freeterms"><option>'.ucfirst(LABEL_withSelected).'</option>';
+        $rows.='<select class="form-select" id="massive_task_freeterms" name="massive_task_freeterms"><option>'.ucfirst(LABEL_withSelected).'</option>';
         $rows.=doSelectForm(array('deleteFreeTerms#'.ucfirst(LABEL_eliminar),'rejectFreeTerms#'.ucfirst(LABEL_RechazarTermino),'makeMetaTermsFreeTerms#'.ucfirst(LABEL_turnOnMetaTerm),'assocfreeTerm#'.ucfirst(LABEL_associateFreeTerms)), "");
         $rows.='</select>';
         $rows.='</div>';
@@ -2173,7 +2173,7 @@ function HTMLformBulkReplace($params = array())
     $rows='<div class="row">';
     $rows.='	<div class="col-md-6 col-md-offset-3">';
     $rows.=' <h3>'.ucfirst(LABEL_bulkReplace).'</h3>';
-    $rows.='<form  class="col-xs-8 form-horizontal" role="form" name="bulkReplace" action="admin.php?doAdmin=bulkReplace" method="post">';
+    $rows.='<form  class="col-8 form-horizontal" role="form" name="bulkReplace" action="admin.php?doAdmin=bulkReplace" method="post">';
     $rows.='<fieldset>';
     $LABEL_Termino=ucfirst(LABEL_Terminos);
     $LABEL_NOTE=ucfirst(LABEL_notes);
@@ -2187,7 +2187,7 @@ function HTMLformBulkReplace($params = array())
     */
     if (count($arrayWS)>1) {
         $rows.='<div class="form-group"><label class="label_ttl control-label" for="ws" accesskey="f">'.ucfirst(LABEL_QueBuscar).'</label>';
-        $rows.='<select class="select_ttl form-control" id="ws" name="ws">';
+        $rows.='<select class="select_ttl form-select" id="ws" name="ws">';
         $rows.=doSelectForm($arrayWS, "$_POST[ws]");
         $rows.='</select>';
         $rows.='</div>';
@@ -2337,8 +2337,8 @@ function HTMLformExportGlossary()
         </div>
         <!-- panel  -->
             <div class="col-lg-7">
-            <div class="panel panel-default">
-                <div class="panel-body form-horizontal"><div class="panel-heading">'.ucfirst(MSG_includeNotes).'</div>';
+            <div class="card">
+                <div class="card-body form-horizontal"><div class="card-header">'.ucfirst(MSG_includeNotes).'</div>';
     $sqlNoteType=SQLcantNotas();
     while ($ARRAYnoteType=$sqlNoteType->FetchRow()) {
         $i_note=++$i_note;
@@ -2410,12 +2410,12 @@ function HTMLformExport()
             <!-- panel  -->
             <div class="col-lg-7">
                 <h4>'.ucfirst(LABEL_export).'</h4>
-                <div class="panel panel-default">
-                    <div class="panel-body form-horizontal">';
+                <div class="card">
+                    <div class="card-body form-horizontal">';
 
     $rows.='<div class="form-group"><label class="col-sm-3 control-label" for="report_tvocab_id" accesskey="t">'.ucfirst(FORM_LABEL_format_export).'</label>';
     $rows.='   <div class="col-sm-9">';
-    $rows.='<select class="form-control" id="dis" name="dis">';
+    $rows.='<select class="form-select" id="dis" name="dis">';
     $rows.=doSelectForm($array_export_options, $_GET["dis"]);
     $rows.='</select>';
     $rows.='   </div>'; // col-sm
@@ -2431,7 +2431,7 @@ function HTMLformExport()
         $rows.='<div class="form-group">
                         <label class="col-sm-3 control-label" for="hasTopTermSKOS" accesskey="t">'.ucfirst(LABEL_TopTerm).'</label>';
         $rows.='	<div class="col-sm-9">';
-        $rows.='<select class="form-control" id="hasTopTermSKOS" name="hasTopTermSKOS">';
+        $rows.='<select class="form-select" id="hasTopTermSKOS" name="hasTopTermSKOS">';
         $rows.='<option value="">'.ucfirst(LABEL_Todos).'</option>';
         $rows.=doSelectForm($formSelectTopTerms, $_GET["hasTopTermSKOS"]);
         $rows.='</select>';
@@ -2446,7 +2446,7 @@ function HTMLformExport()
         $rows.='<div class="form-group">
                         <label class="col-sm-3 control-label" for="hasTopTerm" accesskey="t">'.ucfirst(LABEL_TopTerm).'</label>';
         $rows.='<div class="col-sm-9">';
-        $rows.='<select class="form-control" id="hasTopTerm" name="hasTopTerm">';
+        $rows.='<select class="form-select" id="hasTopTerm" name="hasTopTerm">';
         $rows.='<option value="">'.ucfirst(LABEL_Todos).'</option>';
         $rows.=doSelectForm($formSelectTopTerms, $_GET["hasTopTerm"]);
         $rows.='</select>';
@@ -2508,8 +2508,8 @@ function HTMLformExport()
                             </div>
                 </div>';
 
-    $rows.='            </div> <!--panel-body form-horizontal-->
-        </div> <!--panel panel-default -->
+    $rows.='            </div> <!--card-body form-horizontal-->
+        </div> <!--card -->
         </div> <!--class="col-lg-7" -->
     </div> <!-- / panel  -->';
     $rows.='</form>';
@@ -2583,15 +2583,15 @@ function HTMLbulkGlossTerms($params)
     $rows.=$rowsResult;
 
     $rows.=' <div class="col-lg-7">
-<div class="col-sm-12  alert alert-info"><div class="panel-body">'.ucfirst(MSG__autoGlossInfo).'</div></div>
-            <div class="panel panel-default">
-                <div class="panel-body form-horizontal">';
+<div class="col-sm-12  alert alert-info"><div class="card-body">'.ucfirst(MSG__autoGlossInfo).'</div></div>
+            <div class="card">
+                <div class="card-body form-horizontal">';
     $rows.='          <div class="form-group">';
 
     $rows.='<label for="simpleReport" class="col-sm-3 control-label">'.ucfirst(LABEL_bulkGlossNotes).'</label>
 
                     <div class="col-sm-9">
-                        <select class="form-control" id="note4gloss" name="note4gloss">
+                        <select class="form-select" id="note4gloss" name="note4gloss">
                         '.$_GLOSS_NOTESOptions.'
                         </select>
                     </div>
@@ -2735,7 +2735,7 @@ function FORMtransterm4char4map($tvocab_id, $filterEQ, $letra)
                 $rows.='<tr><td class="col-sm-2">'.$num_terms.'</td>';
 
                 $rows.='<td class="col-sm-2">
-                            <select class="form-control" id="tipo_equivalencia" name="tipo_equivalencia[]">'.doSelectForm(array("$LabelEE","$LabelIE","$LabelNE"), $datosLetra["t_relacion"]).'</select></td>';
+                            <select class="form-select" id="tipo_equivalencia" name="tipo_equivalencia[]">'.doSelectForm(array("$LabelEE","$LabelIE","$LabelNE"), $datosLetra["t_relacion"]).'</select></td>';
                 $rows.='<td class="col-sm-4"><a href="modal.php?tema='.$datosLetra["tema_id"].'" class="modalTrigger">'.$datosLetra["tema"].'</a></td>';
                 $rows.='<td class="col-sm-4"><input type="text"  tabindex="'.$i.'" name="tterm_string[]"  value="" class="form-control"/><input type="hidden" name="term_id[]" value="'.$datosLetra["tema_id"].'" /></td>
                 <td class="col-sm-2"></td>';
@@ -2783,8 +2783,8 @@ function HTMLformSource($source_id = "0")
                 </div>
                 <!-- panel  -->
                 <div class="col-lg-7">
-                    <div class="panel panel-default">
-                        <div class="panel-body form-horizontal">';
+                    <div class="card">
+                        <div class="card-body form-horizontal">';
 
 
     $rows.='	 <div class="form-group">
@@ -2913,12 +2913,12 @@ function HTMLformTermsNews($tvocab_id = 0)
         </div>
         <!-- panel  -->
         <div class="col-lg-10">
-            <div class="panel panel-default">
-                <div class="panel-body form-horizontal">
+            <div class="card">
+                <div class="card-body form-horizontal">
                                 <div class="form-group">
                                 <label for="tvocab_id" class="col-sm-3 control-label">'.ucfirst(FORM_LABEL_nombre_vocabulario).'</label>
                                         <div class="col-sm-9">
-                                                <select class="form-control" id="tvocab_id" name="tvocab_id">
+                                                <select class="form-select" id="tvocab_id" name="tvocab_id">
                                                 '.doSelectForm($array_vocabularios, $_GET["tvocab_id"]).'
                                                 </select>
                                         </div>
