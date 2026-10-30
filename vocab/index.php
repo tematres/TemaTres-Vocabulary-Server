@@ -40,7 +40,7 @@ echo HEADdocType($metadata);
         }
         ?>
 
-    <p class="navbar-text pull-left">
+    <p class="navbar-text float-start">
         <?php
         //are enable SPARQL
         if (CFG_ENABLE_SPARQL==1) {

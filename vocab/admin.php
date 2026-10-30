@@ -243,7 +243,7 @@ if (evalUserLevel($_SESSION[$_SESSION["CFGURL"]])==1) {
         }
         ?>
 
-    <p class="navbar-text pull-left">
+    <p class="navbar-text float-start">
         <?php
         //are enable SPARQL
         if (CFG_ENABLE_SPARQL==1) {

@@ -73,7 +73,7 @@ $metadata=do_meta_tag();
           <a href="https://www.vocabularyserver.com/" title="TemaTres: vocabulary server" target="_blank">
             <img src="<?php echo T3_WEBPATH;?>/images/tematres-logo.gif" width="42" alt="TemaTres"/></a>
             <a href="https://www.vocabularyserver.com/" title="TemaTres: vocabulary server" target="_blank">TemaTres</a>
-<p class="navbar-text pull-left">
+<p class="navbar-text float-start">
         <?php
         //are enable SPARQL
         if (CFG_ENABLE_SPARQL==1) {

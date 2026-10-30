@@ -546,34 +546,33 @@ function HTMLmainMenu()
 {
     $evalUserLevel=evalUserLevel($_SESSION[$_SESSION["CFGURL"]]);
 
-    $row='<ul class="nav navbar-nav navbar-right">' ;
-    $row.='<li class="dropdown"><a href="#" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-toggle="dropdown">'.ucfirst(LABEL_Menu).' <b class="caret"></b></a>' ;
+    $row='<li class="nav-item dropdown"><a href="#" id="dropdownMenu2" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">'.ucfirst(LABEL_Menu).' </a>' ;
 
     $row.='<ul class="dropdown-menu">' ;
     /**
     * Admin menu
      */
     if ($evalUserLevel==1) {
-        $row.='<li class="dropdown dropdown-submenu"><a href="#" class="dropdown-toggle" data-toggle="dropdown">'.LABEL_Admin.'</a>' ;
+        $row.='<li class="dropdown-submenu"><a href="#" class="dropdown-item">'.LABEL_Admin.'</a>' ;
         $row.='<ul class="dropdown-menu">' ;
-        $row.='<li><a title="'.ucfirst(LABEL_lcConfig).'" href="admin.php?vocabulario_id=list">'.ucfirst(LABEL_lcConfig).'</a></li>' ;
-        $row.='<li><a title="'.ucfirst(MENU_bulkEdition).'" href="admin.php?doAdmin=bulkReplace">'.ucfirst(MENU_bulkEdition).'</a></li>' ;
-        $row.='<li><a title="'.ucfirst(MENU_glossConfig).'" href="admin.php?doAdmin=glossConfig">'.ucfirst(MENU_glossConfig).'</a></li>' ;
-        $row.='<li><a title="'.ucfirst(MENU_Usuarios).'" href="admin.php?user_id=list">'.ucfirst(MENU_Usuarios).'</a></li>' ;
-        $row.='<li><a title="'.ucfirst(LABEL_import).'" href="admin.php?doAdmin=import" >'.ucfirst(LABEL_import).'</a></li>' ;
-        $row.='<li><a title="'.ucfirst(LABEL_export).'" href="admin.php?doAdmin=export">'.ucfirst(LABEL_export).'</a></li>' ;
+        $row.='<li><a class="dropdown-item" title="'.ucfirst(LABEL_lcConfig).'" href="admin.php?vocabulario_id=list">'.ucfirst(LABEL_lcConfig).'</a></li>' ;
+        $row.='<li><a class="dropdown-item" title="'.ucfirst(MENU_bulkEdition).'" href="admin.php?doAdmin=bulkReplace">'.ucfirst(MENU_bulkEdition).'</a></li>' ;
+        $row.='<li><a class="dropdown-item" title="'.ucfirst(MENU_glossConfig).'" href="admin.php?doAdmin=glossConfig">'.ucfirst(MENU_glossConfig).'</a></li>' ;
+        $row.='<li><a class="dropdown-item" title="'.ucfirst(MENU_Usuarios).'" href="admin.php?user_id=list">'.ucfirst(MENU_Usuarios).'</a></li>' ;
+        $row.='<li><a class="dropdown-item" title="'.ucfirst(LABEL_import).'" href="admin.php?doAdmin=import" >'.ucfirst(LABEL_import).'</a></li>' ;
+        $row.='<li><a class="dropdown-item" title="'.ucfirst(LABEL_export).'" href="admin.php?doAdmin=export">'.ucfirst(LABEL_export).'</a></li>' ;
 
-        $row.='<li class="dropdown dropdown-submenu"><a href="#" class="dropdown-toggle" data-toggle="dropdown">'.ucfirst(LABEL_dbMantenimiento).'</a>
+        $row.='<li class="dropdown-submenu"><a href="#" class="dropdown-item">'.ucfirst(LABEL_dbMantenimiento).'</a>
 		<ul class="dropdown-menu">' ;
-        $row.='<li><a href="admin.php?doAdmin=reindex">'.ucfirst(LABEL_reIndice).'</a></li>' ;
+        $row.='<li><a class="dropdown-item" href="admin.php?doAdmin=reindex">'.ucfirst(LABEL_reIndice).'</a></li>' ;
 
         //Enable or not SPARQL endpoint
-        $row.=(CFG_ENABLE_SPARQL==1) ? '<li><a href="admin.php?doAdmin=updateEndpoint">'.ucfirst(LABEL_updateEndpoint).'</a></li>' :'' ;
+        $row.=(CFG_ENABLE_SPARQL==1) ? '<li><a class="dropdown-item" href="admin.php?doAdmin=updateEndpoint">'.ucfirst(LABEL_updateEndpoint).'</a></li>' :'' ;
 
-        $row.='<li><a href="admin.php?doAdmin=massiverem" title="'.ucfirst(MENU_massiverem).'">'.ucfirst(MENU_massiverem).'</a></li>' ;
-        $row.='<li><a title="'.ucfirst(MENU_DatosTesauro).'" href="admin.php?opTbl=TRUE">'.ucfirst(LABEL_OptimizarTablas).'</a></li>' ;
-        $row.='<li><a title="'.ucfirst(LABEL_update2_2x3_2).'" href="admin.php?doAdmin=updte2_2x3_2">'.ucfirst(LABEL_update2_2x3_2).'</a></li>' ;
-        $row.='<li><a title="'.ucfirst(LABEL_update1_6x1_7).'" href="admin.php?doAdmin=updte1_6x1_7">'.ucfirst(LABEL_update1_6x1_7).'</a></li>' ;
+        $row.='<li><a class="dropdown-item" href="admin.php?doAdmin=massiverem" title="'.ucfirst(MENU_massiverem).'">'.ucfirst(MENU_massiverem).'</a></li>' ;
+        $row.='<li><a class="dropdown-item" title="'.ucfirst(MENU_DatosTesauro).'" href="admin.php?opTbl=TRUE">'.ucfirst(LABEL_OptimizarTablas).'</a></li>' ;
+        $row.='<li><a class="dropdown-item" title="'.ucfirst(LABEL_update2_2x3_2).'" href="admin.php?doAdmin=updte2_2x3_2">'.ucfirst(LABEL_update2_2x3_2).'</a></li>' ;
+        $row.='<li><a class="dropdown-item" title="'.ucfirst(LABEL_update1_6x1_7).'" href="admin.php?doAdmin=updte1_6x1_7">'.ucfirst(LABEL_update1_6x1_7).'</a></li>' ;
         $row.='</ul></li>' ;
 
         $row.='</ul></li>' ;
@@ -582,21 +581,21 @@ function HTMLmainMenu()
     /**
     Menu ver
      */
-    $row.='<li class="dropdown dropdown-submenu"><a href="#" class="dropdown-toggle" data-toggle="dropdown">'.ucfirst(LABEL_Ver).'</a><ul class="dropdown-menu">' ;
+    $row.='<li class="dropdown-submenu"><a href="#" class="dropdown-item">'.ucfirst(LABEL_Ver).'</a><ul class="dropdown-menu">' ;
 
-    $row.='<li><a title="'.ucfirst(LABEL_terminosLibres).'" href="'.URL_BASE.'index.php?verT=L">'.ucfirst(LABEL_terminosLibres).'</a></li>' ;
-    $row.='<li><a title="'.ucfirst(LABEL_terminosRepetidos).'" href="'.URL_BASE.'index.php?verT=R">'.ucfirst(LABEL_terminosRepetidos).'</a></li>' ;
-    $row.='<li><a title="'.ucfirst(LABEL_termsNoBT).'" href="'.URL_BASE.'index.php?verT=NBT">'.ucfirst(LABEL_termsNoBT).'</a></li>' ;
-    $row.='<li><a title="'.ucfirst(LABEL_Rechazados).'" href="'.URL_BASE.'index.php?estado_id=14">'.ucfirst(LABEL_Rechazados).'</a></li>' ;
-    $row.='<li><a title="'.ucfirst(LABEL_Candidato).'" href="'.URL_BASE.'index.php?estado_id=12">'.ucfirst(LABEL_Candidatos).'</a></li>' ;
+    $row.='<li><a class="dropdown-item" title="'.ucfirst(LABEL_terminosLibres).'" href="'.URL_BASE.'index.php?verT=L">'.ucfirst(LABEL_terminosLibres).'</a></li>' ;
+    $row.='<li><a class="dropdown-item" title="'.ucfirst(LABEL_terminosRepetidos).'" href="'.URL_BASE.'index.php?verT=R">'.ucfirst(LABEL_terminosRepetidos).'</a></li>' ;
+    $row.='<li><a class="dropdown-item" title="'.ucfirst(LABEL_termsNoBT).'" href="'.URL_BASE.'index.php?verT=NBT">'.ucfirst(LABEL_termsNoBT).'</a></li>' ;
+    $row.='<li><a class="dropdown-item" title="'.ucfirst(LABEL_Rechazados).'" href="'.URL_BASE.'index.php?estado_id=14">'.ucfirst(LABEL_Rechazados).'</a></li>' ;
+    $row.='<li><a class="dropdown-item" title="'.ucfirst(LABEL_Candidato).'" href="'.URL_BASE.'index.php?estado_id=12">'.ucfirst(LABEL_Candidatos).'</a></li>' ;
     $row.='</ul></li>' ;
 
 
     //User menu
-    if ($evalUserLevel!==3) $row.='<li><a title="'.LABEL_bulkTranslate.'" href="'.URL_BASE.'index.php?mod=trad">'.ucfirst(MENU_bulkTranslate).'</a></li>' ;
-    $row.='<li><a title="'.LABEL_FORM_simpleReport.'" href="'.URL_BASE.'index.php?mod=csv">'.LABEL_FORM_simpleReport.'</a></li>' ;
-    $row.='<li><a title="'.MENU_MisDatos.'" href="login.php">'.MENU_MisDatos.'</a></li>' ;
-    $row.='<li><a title="'.MENU_Salir.'" href="'.URL_BASE.'index.php?cmdlog='.substr(md5(date("Ymd")), "5", "10").'">'.MENU_Salir.'</a></li>' ;
+    if ($evalUserLevel!==3) $row.='<li><a class="dropdown-item" title="'.LABEL_bulkTranslate.'" href="'.URL_BASE.'index.php?mod=trad">'.ucfirst(MENU_bulkTranslate).'</a></li>' ;
+    $row.='<li><a class="dropdown-item" title="'.LABEL_FORM_simpleReport.'" href="'.URL_BASE.'index.php?mod=csv">'.LABEL_FORM_simpleReport.'</a></li>' ;
+    $row.='<li><a class="dropdown-item" title="'.MENU_MisDatos.'" href="login.php">'.MENU_MisDatos.'</a></li>' ;
+    $row.='<li><a class="dropdown-item" title="'.MENU_Salir.'" href="'.URL_BASE.'index.php?cmdlog='.substr(md5(date("Ymd")), "5", "10").'">'.MENU_Salir.'</a></li>' ;
 
     $row.='   </ul>' ;
     $row.='</li>' ;
@@ -604,14 +603,14 @@ function HTMLmainMenu()
     if ($evalUserLevel==3){
         $row.='<li><a role="button" title="'.ucfirst(MENU_AgregarT).'" href="index.php?taskterm=addTerm&amp;tema=0">'.ucfirst(MENU_AgregarT).'</a></li>' ;    
     }else{
-        $row.='<li class="dropdown"><a href="#" id="dropdownMenu3" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-toggle="dropdown">'.ucfirst(MENU_AgregarT).' <b class="caret"></b></a>' ;
+        $row.='<li class="nav-item dropdown"><a href="#" id="dropdownMenu3" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">'.ucfirst(MENU_AgregarT).' </a>' ;
 
         $row.='<ul class="dropdown-menu">' ;
-        $row.='<li><a role="button" title="'.ucfirst(MENU_AgregarT).'" href="index.php?taskterm=addTerm&amp;tema=0">'.ucfirst(MENU_AgregarT).'</a></li>' ;
-        $row.='<li><a role="button" title="'.ucfirst(MENU_AgregarT).'" href="index.php?taskterm=addTermSuggested" title="'.ucfirst(LABEL__getForRecomendation).'">'.ucfirst(LABEL__getForRecomendation).'</a></li>' ;
-        $row.='<li><a role="button" title="'.ucfirst(MENU_AgregarT).'" href="index.php?taskterm=getWikidataTerm" title="'.ucfirst('LABEL__getForWikidataTerms').'">'.ucfirst(LABEL__getForWikidataTerms).'</a></li>' ;
-        $row.='<li role="separator" class="divider"></li>' ;        
-        $row.='<li><a role="button" title="'.ucfirst(MENU_AgregarT).'" href="index.php?taskterm=findTermNews" title="'.ucfirst(LABEL__getForTargetVocabularyNews).'">'.ucfirst(LABEL__getForTargetVocabularyNews).'</a></li>' ;
+        $row.='<li><a class="dropdown-item" role="button" title="'.ucfirst(MENU_AgregarT).'" href="index.php?taskterm=addTerm&amp;tema=0">'.ucfirst(MENU_AgregarT).'</a></li>' ;
+        $row.='<li><a class="dropdown-item" role="button" title="'.ucfirst(MENU_AgregarT).'" href="index.php?taskterm=addTermSuggested" title="'.ucfirst(LABEL__getForRecomendation).'">'.ucfirst(LABEL__getForRecomendation).'</a></li>' ;
+        $row.='<li><a class="dropdown-item" role="button" title="'.ucfirst(MENU_AgregarT).'" href="index.php?taskterm=getWikidataTerm" title="'.ucfirst('LABEL__getForWikidataTerms').'">'.ucfirst(LABEL__getForWikidataTerms).'</a></li>' ;
+        $row.='<li><hr class="dropdown-divider"></li>' ;        
+        $row.='<li><a class="dropdown-item" role="button" title="'.ucfirst(MENU_AgregarT).'" href="index.php?taskterm=findTermNews" title="'.ucfirst(LABEL__getForTargetVocabularyNews).'">'.ucfirst(LABEL__getForTargetVocabularyNews).'</a></li>' ;
         $row.='  </ul>' ;
         $row.='</li>' ;
     }
@@ -642,13 +641,13 @@ function HTMLtermMenuX2($array_tema, $relacionesTermino)
         && ($array_tema["estado_id"]=='13')
         && ($isValidTerm)
     ) {
-        $link_subordinar='<li><a title="'.MENU_AgregarTG.'" href="'.URL_BASE.'index.php?taskterm=addBT&amp;tema='.$array_tema["idTema"].'"> '.$CFG["REL_SYMBOLS"]["BT"].' '.ucfirst(MENU_AgregarTG).'</a></li>' ;
+        $link_subordinar='<li><a class="dropdown-item" title="'.MENU_AgregarTG.'" href="'.URL_BASE.'index.php?taskterm=addBT&amp;tema='.$array_tema["idTema"].'"> '.$CFG["REL_SYMBOLS"]["BT"].' '.ucfirst(MENU_AgregarTG).'</a></li>' ;
     } else {
         $link_subordinar='';
     }
 
-    $row='<li><a href="#" class="dropdown-toggle" data-toggle="dropdown">'.ucfirst(LABEL_Opciones).'<b class="caret"></b></a>' ;
-    $row.='<ul class="dropdown-menu" role="menu">' ;
+    $row='<li class="nav-item dropdown"><a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">'.ucfirst(LABEL_Opciones).'</a>' ;
+    $row.='<ul class="dropdown-menu">' ;
 
     if (($relacionesTermino["cantNT"]+$relacionesTermino["cantUF"])==0) {
         //no have relations
@@ -656,23 +655,23 @@ function HTMLtermMenuX2($array_tema, $relacionesTermino)
             /**
             Change status term
              */
-            $link_estado='<li class="dropdown-submenu" role="menu"> <a tabindex="0" label-primary data-toggle="dropdown">'.ucfirst(LABEL_CambiarEstado).'</a><ul class="dropdown-menu" id="menu_estado">' ;
+            $link_estado='<li class="dropdown-submenu"><a href="#" class="dropdown-item" tabindex="0">'.ucfirst(LABEL_CambiarEstado).'</a><ul class="dropdown-menu" id="menu_estado">' ;
             switch ($array_tema["estado_id"]) {
                 case '12':
                     //Candidato / candidate => aceptado
-                    $link_estado.='<li><a title="'.LABEL_AceptarTermino.'" href="'.URL_BASE.'index.php?tema='.$array_tema["idTema"].'&amp;estado_id=13">'.ucfirst(LABEL_AceptarTermino).'</a></li>' ;
+                    $link_estado.='<li><a class="dropdown-item" title="'.LABEL_AceptarTermino.'" href="'.URL_BASE.'index.php?tema='.$array_tema["idTema"].'&amp;estado_id=13">'.ucfirst(LABEL_AceptarTermino).'</a></li>' ;
                     //Candidato / candidate => rechazado
-                    $link_estado.='<li><a title="'.LABEL_RechazarTermino.'" href="'.URL_BASE.'index.php?tema='.$array_tema["idTema"].'&amp;estado_id=14">'.ucfirst(LABEL_RechazarTermino).'</a></li>' ;
+                    $link_estado.='<li><a class="dropdown-item" title="'.LABEL_RechazarTermino.'" href="'.URL_BASE.'index.php?tema='.$array_tema["idTema"].'&amp;estado_id=14">'.ucfirst(LABEL_RechazarTermino).'</a></li>' ;
                     break;
 
                 case '13':
                     //Aceptado / Acepted=> Rechazado
-                    $link_estado.='<li><a title="'.LABEL_RechazarTermino.'" href="'.URL_BASE.'index.php?tema='.$array_tema["idTema"].'&amp;estado_id=14">'.ucfirst(LABEL_RechazarTermino).'</a></li>' ;
+                    $link_estado.='<li><a class="dropdown-item" title="'.LABEL_RechazarTermino.'" href="'.URL_BASE.'index.php?tema='.$array_tema["idTema"].'&amp;estado_id=14">'.ucfirst(LABEL_RechazarTermino).'</a></li>' ;
                     break;
 
                 case '14':
                       //Rechazado / Rejected=> Candidato
-                      $link_estado.='<li><a title="'.LABEL_CandidatearTermino.'" href="'.URL_BASE.'index.php?tema='.$array_tema["idTema"].'&amp;estado_id=12">'.ucfirst(LABEL_CandidatearTermino).'</a></li>' ;
+                      $link_estado.='<li><a class="dropdown-item" title="'.LABEL_CandidatearTermino.'" href="'.URL_BASE.'index.php?tema='.$array_tema["idTema"].'&amp;estado_id=12">'.ucfirst(LABEL_CandidatearTermino).'</a></li>' ;
                     break;
             }
             $link_estado.='</ul></li>' ;
@@ -680,12 +679,12 @@ function HTMLtermMenuX2($array_tema, $relacionesTermino)
     };
 
 
-    $row.='      <li><a title="'.MENU_EditT.'" href="'.URL_BASE.'index.php?taskterm=editTerm&amp;tema='.$array_tema["idTema"].'">'.ucfirst(MENU_EditT).'</a></li>' ;
+    $row.='      <li><a class="dropdown-item" title="'.MENU_EditT.'" href="'.URL_BASE.'index.php?taskterm=editTerm&amp;tema='.$array_tema["idTema"].'">'.ucfirst(MENU_EditT).'</a></li>' ;
 
     //If the term are not accepted and do not have Add-menu => add notes options here!
 
     if ($array_tema["estado_id"]!=="13") {
-        $row.='     <li><a title="'.ucfirst(LABEL_EditorNota).'" href="'.URL_BASE.'index.php?taskterm=editNote&amp;note_id=?&amp;editNota=?&amp;tema='.$array_tema["idTema"].'">'.ucfirst(LABEL_EditorNota).'</a></li>' ;
+        $row.='     <li><a class="dropdown-item" title="'.ucfirst(LABEL_EditorNota).'" href="'.URL_BASE.'index.php?taskterm=editNote&amp;note_id=?&amp;editNota=?&amp;tema='.$array_tema["idTema"].'">'.ucfirst(LABEL_EditorNota).'</a></li>' ;
     }
 
     $row.=$link_subordinar;
@@ -701,7 +700,7 @@ function HTMLtermMenuX2($array_tema, $relacionesTermino)
             $task_meta_term=1;
         }
 
-        $row.='<li><a title="'.$label_task_meta_term.'" href="'.URL_BASE.'index.php?taskterm=metaTerm&amp;mt_status='.$task_meta_term.'&amp;tema='.$array_tema["idTema"].'">'.ucfirst($label_task_meta_term).'</a></li>' ;
+        $row.='<li><a class="dropdown-item" title="'.$label_task_meta_term.'" href="'.URL_BASE.'index.php?taskterm=metaTerm&amp;mt_status='.$task_meta_term.'&amp;tema='.$array_tema["idTema"].'">'.ucfirst($label_task_meta_term).'</a></li>' ;
     }
 
 
@@ -710,42 +709,42 @@ function HTMLtermMenuX2($array_tema, $relacionesTermino)
 
     $row.='</li><!-- end menu -->' ;
 
-    $row.='<li><a href="#" class="dropdown-toggle"  role="menu" data-toggle="dropdown">'.ucfirst(LABEL_Agregar).'<b class="caret"></b></a>' ;
+    $row.='<li class="nav-item dropdown"><a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">'.ucfirst(LABEL_Agregar).'</a>' ;
     $row.='<ul class="dropdown-menu" id="menu_agregar">' ;
 
-    $row.='<li><a title="'.ucfirst(LABEL_nota).'" href="'.URL_BASE.'index.php?taskterm=editNote&amp;note_id=?&amp;editNota=?&amp;tema='.$array_tema["idTema"].'"> '.$CFG["REL_SYMBOLS"]["NOTE"].' '.ucfirst(LABEL_nota).'</a></li>' ;
+    $row.='<li><a class="dropdown-item" title="'.ucfirst(LABEL_nota).'" href="'.URL_BASE.'index.php?taskterm=editNote&amp;note_id=?&amp;editNota=?&amp;tema='.$array_tema["idTema"].'"> '.$CFG["REL_SYMBOLS"]["NOTE"].' '.ucfirst(LABEL_nota).'</a></li>' ;
 
-    $row.='<li role="separator" class="divider"></li>' ;
+    $row.='<li><hr class="dropdown-divider"></li>' ;
 
 
     //solo acepta relaciones si el término esta aceptado
     if (($array_tema["estado_id"]=='13') && ($isValidTerm)) {
         //link agregar un UP
-        $row.='     <li><a title="'.MENU_AgregarUP.'" href="'.URL_BASE.'index.php?taskterm=addUF&amp;tema='.$array_tema["idTema"].'"> '.$CFG["REL_SYMBOLS"]["UF"].' '.ucfirst(MENU_AgregarUP).'</a></li>' ;
+        $row.='     <li><a class="dropdown-item" title="'.MENU_AgregarUP.'" href="'.URL_BASE.'index.php?taskterm=addUF&amp;tema='.$array_tema["idTema"].'"> '.$CFG["REL_SYMBOLS"]["UF"].' '.ucfirst(MENU_AgregarUP).'</a></li>' ;
 
         //link agregar un TE
-        $row.='     <li><a title="'.MENU_AgregarTE.'" href="'.URL_BASE.'index.php?taskterm=addNT&amp;tema='.$array_tema["idTema"].'"> '.$CFG["REL_SYMBOLS"]["NT"].' '.ucfirst(MENU_AgregarTE).'</a></li>' ;
+        $row.='     <li><a class="dropdown-item" title="'.MENU_AgregarTE.'" href="'.URL_BASE.'index.php?taskterm=addNT&amp;tema='.$array_tema["idTema"].'"> '.$CFG["REL_SYMBOLS"]["NT"].' '.ucfirst(MENU_AgregarTE).'</a></li>' ;
 
         //link agregar un TR
-        $row.='     <li><a title="'.MENU_AgregarTR.'" href="'.URL_BASE.'index.php?taskterm=addRTnw&amp;tema='.$array_tema["idTema"].'">  '.$CFG["REL_SYMBOLS"]["RT"].' '.ucfirst(MENU_AgregarTR).'</a></li>' ;
+        $row.='     <li><a class="dropdown-item" title="'.MENU_AgregarTR.'" href="'.URL_BASE.'index.php?taskterm=addRTnw&amp;tema='.$array_tema["idTema"].'">  '.$CFG["REL_SYMBOLS"]["RT"].' '.ucfirst(MENU_AgregarTR).'</a></li>' ;
 
-        $row.='<li role="separator" class="divider"></li>' ;
+        $row.='<li><hr class="dropdown-divider"></li>' ;
 
-        $row.='     <li><a title="'.LABEL__getForRecomendation.'" href="'.URL_BASE.'index.php?taskterm=findSuggestionTargetTerm&amp;tema='.$array_tema["idTema"].'">'.ucfirst(LABEL__getForRecomendation).'</a></li>' ;
+        $row.='     <li><a class="dropdown-item" title="'.LABEL__getForRecomendation.'" href="'.URL_BASE.'index.php?taskterm=findSuggestionTargetTerm&amp;tema='.$array_tema["idTema"].'">'.ucfirst(LABEL__getForRecomendation).'</a></li>' ;
 
-        $row.='     <li><a title="'.ucfirst(LABEL__getForRecomendationWiki).'" href="'.URL_BASE.'index.php?taskterm=getWikidataRelTerm&amp;tema='.$array_tema["idTema"].'">'.ucfirst(LABEL__getForRecomendationWiki).'</a></li>' ;
+        $row.='     <li><a class="dropdown-item" title="'.ucfirst(LABEL__getForRecomendationWiki).'" href="'.URL_BASE.'index.php?taskterm=getWikidataRelTerm&amp;tema='.$array_tema["idTema"].'">'.ucfirst(LABEL__getForRecomendationWiki).'</a></li>' ;
         $row.='</ul>' ;
 
-        $row.='<li><a href="#" class="dropdown-toggle" data-toggle="dropdown">'.ucfirst(LABEL_relbetweenVocabularies).'<b class="caret"></b></a>' ;
+        $row.='<li class="nav-item dropdown"><a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">'.ucfirst(LABEL_relbetweenVocabularies).'</a>' ;
 
-        $row.='<ul class="dropdown-menu" role="menu">' ;
+        $row.='<ul class="dropdown-menu">' ;
 
-        $row.='<li><a title="'.LABEL_URI2term.'" href="'.URL_BASE.'index.php?taskterm=addURI&amp;tema='.$array_tema["idTema"].'">'.ucfirst(LABEL_URI2term).'</a></li>' ;
+        $row.='<li><a class="dropdown-item" title="'.LABEL_URI2term.'" href="'.URL_BASE.'index.php?taskterm=addURI&amp;tema='.$array_tema["idTema"].'">'.ucfirst(LABEL_URI2term).'</a></li>' ;
 
         //link agregar un EQ
-        $row.='     <li><a title="'.LABEL_vocabulario_referencia.'" href="'.URL_BASE.'index.php?taskterm=addEQ&amp;tema='.$array_tema["idTema"].'">'.ucfirst(LABEL_vocabulario_referencia).'</a></li>' ;
+        $row.='     <li><a class="dropdown-item" title="'.LABEL_vocabulario_referencia.'" href="'.URL_BASE.'index.php?taskterm=addEQ&amp;tema='.$array_tema["idTema"].'">'.ucfirst(LABEL_vocabulario_referencia).'</a></li>' ;
         //link agregar un término externo vía web services
-        $row.='     <li><a title="'.LABEL_relacion_vocabularioWebService.'" href="'.URL_BASE.'index.php?taskterm=findTargetTerm&amp;tema='.$array_tema["idTema"].'">'.ucfirst(LABEL_vocabulario_referenciaWS).'</a></li>' ;
+        $row.='     <li><a class="dropdown-item" title="'.LABEL_relacion_vocabularioWebService.'" href="'.URL_BASE.'index.php?taskterm=findTargetTerm&amp;tema='.$array_tema["idTema"].'">'.ucfirst(LABEL_vocabulario_referenciaWS).'</a></li>' ;
         $row.='</li>' ;
     }//fin control de estado y validez
 
@@ -766,15 +765,15 @@ function HTMLtermMenuX2Colab($array_tema, $relacionesTermino)
 
     $isValidTerm=isValidTerm($array_tema["tema_id"]);
 
-    $row='<li><a href="#" class="dropdown-toggle" data-toggle="dropdown">'.ucfirst(LABEL_Opciones).'<b class="caret"></b></a>' ;
-    $row.='<ul class="dropdown-menu" role="menu">' ;
+    $row='<li class="nav-item dropdown"><a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">'.ucfirst(LABEL_Opciones).'</a>' ;
+    $row.='<ul class="dropdown-menu">' ;
 
-    $row.='      <li><a title="'.MENU_EditT.'" href="'.URL_BASE.'index.php?taskterm=editTerm&amp;tema='.$array_tema["idTema"].'">'.ucfirst(MENU_EditT).'</a></li>' ;
+    $row.='      <li><a class="dropdown-item" title="'.MENU_EditT.'" href="'.URL_BASE.'index.php?taskterm=editTerm&amp;tema='.$array_tema["idTema"].'">'.ucfirst(MENU_EditT).'</a></li>' ;
 
     //If the term are not accepted and do not have Add-menu => add notes options here!
 
     if ($array_tema["estado_id"]!=="13") {
-        $row.='     <li><a title="'.ucfirst(LABEL_EditorNota).'" href="'.URL_BASE.'index.php?taskterm=editNote&amp;note_id=?&amp;editNota=?&amp;tema='.$array_tema["idTema"].'">'.ucfirst(LABEL_EditorNota).'</a></li>' ;
+        $row.='     <li><a class="dropdown-item" title="'.ucfirst(LABEL_EditorNota).'" href="'.URL_BASE.'index.php?taskterm=editNote&amp;note_id=?&amp;editNota=?&amp;tema='.$array_tema["idTema"].'">'.ucfirst(LABEL_EditorNota).'</a></li>' ;
     }
 
 
@@ -787,7 +786,7 @@ function HTMLtermMenuX2Colab($array_tema, $relacionesTermino)
             $task_meta_term=1;
         }
 
-        $row.='<li><a title="'.$label_task_meta_term.'" href="'.URL_BASE.'index.php?taskterm=metaTerm&amp;mt_status='.$task_meta_term.'&amp;tema='.$array_tema["idTema"].'">'.ucfirst($label_task_meta_term).'</a></li>' ;
+        $row.='<li><a class="dropdown-item" title="'.$label_task_meta_term.'" href="'.URL_BASE.'index.php?taskterm=metaTerm&amp;mt_status='.$task_meta_term.'&amp;tema='.$array_tema["idTema"].'">'.ucfirst($label_task_meta_term).'</a></li>' ;
     }
 
 
@@ -796,12 +795,12 @@ function HTMLtermMenuX2Colab($array_tema, $relacionesTermino)
 
     $row.='</li><!-- end menu -->' ;
 
-    $row.='<li><a href="#" class="dropdown-toggle"  role="menu" data-toggle="dropdown">'.ucfirst(LABEL_Agregar).'<b class="caret"></b></a>' ;
+    $row.='<li class="nav-item dropdown"><a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">'.ucfirst(LABEL_Agregar).'</a>' ;
     $row.='<ul class="dropdown-menu" id="menu_agregar">' ;
 
-    $row.='<li><a title="'.ucfirst(LABEL_nota).'" href="'.URL_BASE.'index.php?taskterm=editNote&amp;note_id=?&amp;editNota=?&amp;tema='.$array_tema["idTema"].'"> '.$CFG["REL_SYMBOLS"]["NOTE"].' '.ucfirst(LABEL_nota).'</a></li>' ;
+    $row.='<li><a class="dropdown-item" title="'.ucfirst(LABEL_nota).'" href="'.URL_BASE.'index.php?taskterm=editNote&amp;note_id=?&amp;editNota=?&amp;tema='.$array_tema["idTema"].'"> '.$CFG["REL_SYMBOLS"]["NOTE"].' '.ucfirst(LABEL_nota).'</a></li>' ;
 
-    $row.='<li role="separator" class="divider"></li>' ;
+    $row.='<li><hr class="dropdown-divider"></li>' ;
 
     $row.='</ul>' ;
 
@@ -930,7 +929,7 @@ function doMenuLang($tema_id = "0")
     global $idiomas_disponibles;
 
     $selectLang='<form id="select-lang" method="get" action="index.php">' ;
-    $selectLang.='<select class="navbar-btn btn-info btn-sx pull-right" name="setLang" id="setLang" onchange="this.form.submit();">' ;
+    $selectLang.='<select class="form-select form-select-sm w-auto float-end" name="setLang" id="setLang" onchange="this.form.submit();">' ;
     foreach ($idiomas_disponibles as $key => $value) {
         if ($value[2]==$_SESSION[$_SESSION["CFGURL"]]["lang"][2]) {
             $selectLang.='<option value="'.$value[2].'" selected="selected">'.$value[0].'</option>' ;
@@ -2133,26 +2132,14 @@ function HTMLnavHeader()
         </div>' ;
 
 
-    $rows.='<nav class="navbar navbar-inverse" role="navigation">
+    $rows.='<nav class="navbar navbar-expand-lg navbar-dark bg-dark" role="navigation">
   <div class="container">
-    <div class="navbar-header">
-     <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapsible">
-        <span class="sr-only">'.LABEL_toggleNavigation.'</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
-      <a class="navbar-brand" title="'.MENU_Inicio.' '.$_SESSION["CFGTitulo"].'" href="'.URL_BASE.'index.php">'.MENU_Inicio.'</a>
-    </div>
+    <a class="navbar-brand" title="'.MENU_Inicio.' '.$_SESSION["CFGTitulo"].'" href="'.URL_BASE.'index.php">'.MENU_Inicio.'</a>
+    <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar-collapsible" aria-controls="navbar-collapsible" aria-expanded="false" aria-label="'.LABEL_toggleNavigation.'">
+      <span class="navbar-toggler-icon"></span>
+    </button>
     <div class="navbar-collapse collapse" id="navbar-collapsible">
-      <ul class="nav navbar-nav navbar-right">
-        <li><a title="'.LABEL_busqueda.'" href="'.URL_BASE.'index.php?xsearch=1">'.ucfirst(LABEL_BusquedaAvanzada).'</a></li>
-
-        <li>
-		      <a title="'.MENU_Sobre.'" href="'.URL_BASE.'sobre.php">'.MENU_Sobre.'</a>
-	    </li>
-      </ul>
-      <ul class="nav navbar-nav navbar-left">' ;
+      <ul class="navbar-nav me-auto">' ;
 
                 //hay sesion de usuario
     if (evalUserLevel($_SESSION[$_SESSION["CFGURL"]])>0) {
@@ -2162,15 +2149,15 @@ function HTMLnavHeader()
     };
 
     $rows.='</ul>
-      <form method="get" id="simple-search" name="simple-search" action="'.URL_BASE.'index.php" class="navbar-form">
-        <div class="form-group" style="display:inline;">
-          <div class="fill col2">
-            <input class="form-control" id="query" name="'.FORM_LABEL_buscar.'"  type="search" aria-label="'.LABEL_Buscar.'" '.$focus.'>
-            <input class="btn btn-default" type="submit" value="'.LABEL_Buscar.'" />
-            <input type="hidden" name="taskSearch" id="taskSearch" value="1" />
-          </div>
-        </div>
+      <form method="get" id="simple-search" name="simple-search" action="'.URL_BASE.'index.php" class="d-flex flex-grow-1 me-3" role="search">
+        <input class="form-control me-2" id="query" name="'.FORM_LABEL_buscar.'"  type="search" aria-label="'.LABEL_Buscar.'" '.$focus.'>
+        <input class="btn btn-default" type="submit" value="'.LABEL_Buscar.'" />
+        <input type="hidden" name="taskSearch" id="taskSearch" value="1" />
       </form>
+      <ul class="navbar-nav">
+        <li class="nav-item"><a class="nav-link" title="'.LABEL_busqueda.'" href="'.URL_BASE.'index.php?xsearch=1">'.ucfirst(LABEL_BusquedaAvanzada).'</a></li>
+        <li class="nav-item"><a class="nav-link" title="'.MENU_Sobre.'" href="'.URL_BASE.'sobre.php">'.MENU_Sobre.'</a></li>
+      </ul>
     </div>
 
   </div>
