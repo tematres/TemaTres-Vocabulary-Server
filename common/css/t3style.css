@@ -94,31 +94,6 @@ a.eliminar   {
 
 
 
-.navbar-form {
-  overflow: auto;
-}
-.navbar-form .form-control {
-  display: inline-block;
-  width: 80%;
-  vertical-align: middle;
-}
-.navbar-form .form-group {
-  display: inline;
-}
-
-
-.navbar-form {
-  overflow: auto;
-}
-.navbar-form .form-control {
-  display: inline-block;
-  width: 80%;
-  vertical-align: middle;
-}
-.navbar-form .form-group {
-  display: inline;
-}
-
 .form-signin {
   max-width: 330px;
   padding: 15px;
@@ -206,11 +181,24 @@ a.eliminar   {
 }
 
 
+/* Bootstrap 3 buttons that Bootstrap 5 does not have */
+.btn-default {
+  --bs-btn-color: #333; --bs-btn-bg: #fff; --bs-btn-border-color: #ccc;
+  --bs-btn-hover-color: #333; --bs-btn-hover-bg: #e6e6e6; --bs-btn-hover-border-color: #adadad;
+  --bs-btn-active-color: #333; --bs-btn-active-bg: #e6e6e6; --bs-btn-active-border-color: #adadad;
+  --bs-btn-focus-shadow-rgb: 173, 173, 173;
+}
+#setLang { color: #fff; background-color: #5bc0de; border-color: #46b8da; }
+#setLang:hover { background-color: #31b0d5; border-color: #269abc; }
+
 /*Custom secondary button*/
 .btn-second {
   color: #ffffff;
   background-color: #1E5D94;
   border-color: #0D033D;
+  --bs-btn-active-bg: #49247A;
+  --bs-btn-active-color: #ffffff;
+  --bs-btn-active-border-color: #0D033D;
 }
 
 .btn-second:hover,
@@ -276,93 +264,163 @@ fieldset[disabled] .btn-second.active {
   background-color: #ffffff;
 }
 
-/* on mouse hover menu http://www.bootply.com/6FC76YQ4Nh */
-.dropdown-menu > li.kopie > a {
-    padding-left:5px;
-}
-
+/* Submenus inside dropdowns (Bootstrap 5 has none) and menus that open on mouse hover */
 .dropdown-submenu {
-    position:relative;
+    position: relative;
 }
-.dropdown-submenu>.dropdown-menu {
-   top:0;left:100%;
-   margin-top:-6px;margin-left:-1px;
-   -webkit-border-radius:0 6px 6px 6px;-moz-border-radius:0 6px 6px 6px;border-radius:0 6px 6px 6px;
- }
-
+.dropdown-submenu > .dropdown-menu {
+    top: 0;
+    left: 100%;
+    margin-top: -.5rem;
+    border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu > a {
+    position: relative;
+    padding-right: 2rem;
+}
 .dropdown-submenu > a:after {
-  border-color: transparent transparent transparent #333;
-  border-style: solid;
-  border-width: 5px 0 5px 5px;
-  content: " ";
-  display: block;
-  float: right;
-  height: 0;
-  margin-right: -10px;
-  margin-top: 5px;
-  width: 0;
+    border-color: transparent transparent transparent #333;
+    border-style: solid;
+    border-width: 5px 0 5px 5px;
+    content: " ";
+    position: absolute;
+    top: 50%;
+    right: .75rem;
+    height: 0;
+    margin-top: -5px;
+    width: 0;
+}
+.dropdown-menu > li > .btn {
+    display: block;
+}
+.dropdown-submenu:hover > a:after {
+    border-left-color: #555;
+}
+.dropdown-menu > li > a:hover {
+    text-decoration: underline;
+}
+.dropdown-submenu > .dropdown-menu {
+    display: none;
+}
+.dropdown-submenu.show > .dropdown-menu {
+    display: block;
 }
 
-.dropdown-submenu:hover>a:after {
-    border-left-color:#555;
- }
-
-.dropdown-menu > li > a:hover, .dropdown-menu > .active > a:hover {
-  text-decoration: underline;
-}
-
-@media (max-width: 767px) {
-
-  .navbar-nav  {
-     display: inline;
+@media (max-width: 767.98px) {
+  .dropdown-submenu > .dropdown-menu {
+      position: static;
+      border: 0;
+      padding-left: 1rem;
   }
-  .navbar-default .navbar-brand {
-    display: inline;
+  .navbar-dark .navbar-nav .dropdown-menu {
+      background-color: transparent;
+      border: 0;
   }
-  .navbar-default .navbar-toggle .icon-bar {
-    background-color: #fff;
+  .navbar-dark .navbar-nav .dropdown-item {
+      color: var(--bs-navbar-color);
   }
-  .navbar-default .navbar-nav .dropdown-menu > li > a {
-    color: red;
-    background-color: #ccc;
-    border-radius: 4px;
-    margin-top: 2px;
+  .navbar-dark .navbar-nav .dropdown-item:hover,
+  .navbar-dark .navbar-nav .dropdown-item:focus {
+      color: var(--bs-navbar-hover-color);
+      background-color: transparent;
   }
-   .navbar-default .navbar-nav .open .dropdown-menu > li > a {
-     color: #333;
-   }
-   .navbar-default .navbar-nav .open .dropdown-menu > li > a:hover,
-   .navbar-default .navbar-nav .open .dropdown-menu > li > a:focus {
-     background-color: #ccc;
-   }
-
-   .navbar-nav .open .dropdown-menu {
-     border-bottom: 1px solid white;
-     border-radius: 0;
-   }
-  .dropdown-menu {
-      padding-left: 10px;
-  }
-  .dropdown-menu .dropdown-menu {
-      padding-left: 20px;
-   }
-   .dropdown-menu .dropdown-menu .dropdown-menu {
-      padding-left: 30px;
-   }
-   li.dropdown.open {
-    border: 0px solid red;
-   }
 }
 
 @media (min-width: 768px) {
-  ul.nav li:hover > ul.dropdown-menu {
+  .navbar .dropdown:hover > .dropdown-menu,
+  .nav-tabs .dropdown:hover > .dropdown-menu,
+  .dropdown-submenu:hover > .dropdown-menu {
     display: block;
-  }
-  #navbar {
-    text-align: center;
   }
 }
 /* end on mouse hover menu */
+
+/* Markup from Bootstrap 3 that Bootstrap 5 no longer has */
+/* Bootstrap 3 typography: 14px Helvetica, heading sizes and margins */
+:root {
+    --bs-body-font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    --bs-body-font-size: .875rem;
+    --bs-body-line-height: 1.42857143;
+}
+h1, .h1 { font-size: 36px; }
+h2, .h2 { font-size: 30px; }
+h3, .h3 { font-size: 24px; }
+h4, .h4 { font-size: 18px; }
+h5, .h5 { font-size: 14px; }
+h6, .h6 { font-size: 12px; }
+h1, h2, h3, .row > :where(h1, h2, h3) { margin-top: 20px; margin-bottom: 10px; }
+h4, h5, h6, .row > :where(h4, h5, h6) { margin-top: 10px; margin-bottom: 10px; }
+h1, h2, h3, h4, h5, h6 { line-height: 1.1; }
+.btn { --bs-btn-font-size: .875rem; }
+.btn-sm { --bs-btn-padding-y: 5px; --bs-btn-padding-x: 10px; --bs-btn-font-size: 12px; --bs-btn-border-radius: 3px; }
+.btn-xs { --bs-btn-padding-y: 1px; --bs-btn-padding-x: 5px; --bs-btn-font-size: 12px; --bs-btn-border-radius: 3px; }
+.btn-lg { --bs-btn-padding-y: 10px; --bs-btn-padding-x: 16px; --bs-btn-font-size: 18px; --bs-btn-border-radius: 6px; }
+.badge.rounded-pill { --bs-badge-font-size: 12px; }
+.form-control, .form-select { font-size: .875rem; }
+.form-text { display: block; margin-bottom: 10px; font-size: inherit; color: #737373; }
+.dropdown-menu { --bs-dropdown-font-size: .875rem; }
+.pagination { --bs-pagination-font-size: .875rem; }
+.pagination-sm { --bs-pagination-font-size: 12px; --bs-pagination-padding-x: 10px; --bs-pagination-padding-y: 5px; }
+label { display: inline-block; max-width: 100%; margin-bottom: 5px; font-weight: 700; }
+label.btn { margin-bottom: 0; }
+legend { width: 100%; margin-bottom: 20px; font-size: 21px; line-height: inherit; border-bottom: 1px solid #e5e5e5; }
+.form-group { margin-bottom: 15px; }
+.form-horizontal .form-group {
+    margin-left: -.75rem;
+    margin-right: -.75rem;
+}
+.form-horizontal .form-group:has(> [class*="col-"]) { display: flex; flex-wrap: wrap; }
+:where(.form-horizontal .form-group > [class*="col-"]) { flex-shrink: 0; width: 100%; max-width: 100%; }
+/* Bootstrap 3 gave every column its padding, also outside a .row, and no padding to the other children of a .row */
+:where([class^="col-"], [class*=" col-"]) { padding-left: .75rem; padding-right: .75rem; }
+.row > :not([class*="col-"]):not(.row) { --bs-gutter-x: 0; }
+.row > .row { padding-left: 0; padding-right: 0; }
+.control-label { padding-top: calc(.375rem + var(--bs-border-width)); margin-bottom: 0; font-weight: 700; }
+@media (min-width: 768px) {
+    .form-horizontal .control-label { text-align: right; }
+}
+@media (min-width: 768px) {
+    .form-inline .form-group { display: inline-block; margin-bottom: 0; vertical-align: middle; }
+    .form-inline .form-control, .form-inline .form-select { display: inline-block; width: auto; vertical-align: middle; }
+}
+.checkbox-inline { display: inline-block; margin-right: 1rem; }
+@media (min-width: 768px) {
+    /* a checkbox before its label column: Bootstrap 3 floated the column to the left of it */
+    .form-horizontal .form-group > input[type="checkbox"] { order: 1; align-self: center; }
+    .navbar-text { margin-left: 15px; margin-right: 15px; }
+}
+.card { margin-bottom: 20px; }
+@media (max-width: 767.98px) {
+    .table-responsive { margin-bottom: 15px; border: 1px solid #ddd; }
+    .table-responsive > .table { margin-bottom: 0; }
+}
+/* the summary next to the user forms floated beside the form in Bootstrap 3, without column padding */
+#cajaAncha { padding-left: 0; }
+.panel-group .card { margin-bottom: 0; }
+.panel-group .card + .card { margin-top: 5px; }
+.well { min-height: 20px; padding: 19px; margin-bottom: 20px; background-color: #f5f5f5; border: 1px solid #e3e3e3; border-radius: 4px; }
+.jumbotron { padding: 30px 15px; margin-bottom: 30px; background-color: #eee; border-radius: 6px; }
+.jumbotron p { margin-bottom: 15px; font-size: 21px; font-weight: 200; }
+@media (min-width: 768px) {
+    .jumbotron { padding: 48px 60px; }
+}
+@media (min-width: 768px) {
+    .dl-horizontal dt { float: left; clear: left; width: 10rem; text-align: right; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .dl-horizontal dd { margin-left: 11rem; }
+}
+.list-inline > li { display: inline-block; padding-left: .25rem; padding-right: .25rem; }
+.pagination { flex-wrap: wrap; margin: 20px 0; }
+.pagination > li { display: inline-block; }
+.pagination > li > a:not(.page-link), .pagination > li > span { padding: 5px 10px; font-size: 12px; border: 1px solid var(--bs-border-color); margin-left: -1px; text-decoration: none; }
+.breadcrumb { padding: 8px 15px; background-color: #f5f5f5; border-radius: 4px; }
+.breadcrumb > li { display: inline-block; }
+.was-validated .with-errors, .was-validated .form-group:has(:invalid) label { color: var(--bs-form-invalid-color); }
+/* Bootstrap 3 marked only the fields with errors, not the valid ones */
+.was-validated :is(.form-control, .form-select):valid { border-color: var(--bs-border-color); }
+.was-validated .form-control:valid, .was-validated textarea.form-control:valid { padding-right: .75rem; background-image: none; }
+.was-validated .form-select:valid:not([multiple]):not([size]) { --bs-form-select-bg-icon: none; padding-right: 2.25rem; }
+.was-validated :is(.form-control, .form-select):valid:focus { border-color: #86b7fe; box-shadow: 0 0 0 .25rem rgba(var(--bs-primary-rgb), .25); }
+
 
 /*   PÁGINA DEL VOC: BOX PRINCIPAL: TREE  */
 
@@ -474,19 +532,31 @@ display: inline;
   content: "| ";
 }
 
-.panel-heading .accordion-toggle:after {
-    /* symbol for "opening" panels */
-    font-family: 'Glyphicons Halflings';  /* essential for enabling glyphicon */
-    content: "\e114";    /* adjust as needed, taken from bootstrap.css */
-    float: right;        
-
+.card-header .card-title {
+    margin: 0;
+    font-size: 16px;
 }
-.panel-heading .accordion-toggle.collapsed:after {
-    /* symbol for "collapsed" panels */
-    content: "\e080";    /* adjust as needed, taken from bootstrap.css */
+.card-header .accordion-toggle {
+    color: inherit;
+}
+.card-header .accordion-toggle:after {
+    /* symbol for "opening" panels (chevron-down) */
+    content: "";
+    float: right;
+    width: 1em;
+    height: 1em;
+    background-color: currentColor;
+    -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath stroke='%23000' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708'/%3E%3C/svg%3E") no-repeat center / contain;
+    mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath stroke='%23000' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708'/%3E%3C/svg%3E") no-repeat center / contain;
+}
+.card-header .accordion-toggle.collapsed:after {
+    /* symbol for "collapsed" panels (chevron-right) */
+    -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath stroke='%23000' d='M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708'/%3E%3C/svg%3E");
+    mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath stroke='%23000' d='M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708'/%3E%3C/svg%3E");
 }
 .panel-group {
     padding: 20px;
+    margin-bottom: 20px;
 }
 .copy-clipboard {
     border-radius: 0;
@@ -515,4 +585,19 @@ display: inline;
 .ct-hubs  {
   height: 400px;
   width: 100%;
+}
+
+/* Bootstrap 5 underlines links; Bootstrap 3 did not */
+a { text-decoration: none; }
+a:hover, a:focus { text-decoration: underline; }
+.btn, .nav-link, .navbar-brand, .dropdown-item, .page-link, .badge,
+.btn:hover, .nav-link:hover, .navbar-brand:hover, .page-link:hover, .badge:hover,
+.btn:focus, .nav-link:focus, .navbar-brand:focus, .page-link:focus, .badge:focus { text-decoration: none; }
+.navbar { margin-bottom: 20px; }
+/* the browser focus ring of Bootstrap 3; the faint blue Bootstrap 5 shadow is hard to see on the dark navbar */
+.navbar .nav-link:focus-visible {
+    box-shadow: none;
+    outline: 5px auto Highlight;
+    outline: 5px auto -webkit-focus-ring-color;
+    outline-offset: -2px;
 }
