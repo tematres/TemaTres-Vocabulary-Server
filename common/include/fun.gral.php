@@ -898,9 +898,8 @@ function DBconnect()
 
 
   if ($connectionMode=='DSN') {
-    if (@$DBCFG["DBpersist"]) {
+      // $DBCFG["DBpersist"] is '' or '?persist' at this point, so the DSN is valid in both cases
       $dsn = $DBCFG["DBdriver"].'://'.$DBCFG["DBLogin"].':'.$DBCFG["DBPass"].'@'.$DBCFG["Server"].'/'.$DBCFG["DBName"].$DBCFG["DBpersist"];
-      }
 
       $DB = adoNewConnection($dsn);  // no need for Connect()
       } else {

@@ -215,9 +215,11 @@ function SQLtematres($DBCFG, $DB, $arrayInstallData = array())
     //If create table --> insert data
     if ($result1) {
         $today = date("Y-m-d");
-        $http = ($_SERVER['HTTPS'] == 'on') ? 'https://' : 'http://';
+        $http = ((isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on') || (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] == 'https')) ? 'https://' : 'http://';
 
-        $url =  str_replace("install.php", "", $http.$_SERVER['SERVER_NAME'].$_SERVER['PHP_SELF']);
+        // HTTP_HOST is what the browser used, including a non-standard port (port mapping, reverse proxy); SERVER_NAME is only the server's own name
+        $host = !empty($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : $_SERVER['SERVER_NAME'];
+        $url =  str_replace("install.php", "", $http.$host.$_SERVER['PHP_SELF']);
         $title = ($arrayInstallData['title']) ? $DB->qstr(trim($arrayInstallData["title"])) : "'TemaTres'";
         $author = ($arrayInstallData['author']) ? $DB->qstr(trim($arrayInstallData["author"])) : "'TemaTres'";
         $kos_type = ($arrayInstallData['kos_type']) ? $DB->qstr(trim($arrayInstallData["kos_type"])) : "'list'";
@@ -229,7 +231,7 @@ function SQLtematres($DBCFG, $DB, $arrayInstallData = array())
         $result2 = $DB->Execute(
             "INSERT INTO `".$prefix."config`
       (`id`, `titulo`, `autor`, `idioma`,  `tipo`, `polijerarquia`, `cuando`, `observa`, `url_base`)
-      VALUES (1, $title, $author, $tematres_lang, $kos_type, '1', '$today', NULL, '$url');"
+      VALUES (1, $title, $author, $tematres_lang, $kos_type, '1', '$today', NULL, ".$DB->qstr($url).");"
         );
     }
     $result3 = $DB->Execute(
