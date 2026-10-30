@@ -1953,7 +1953,7 @@ function HTMLdeepStats()
 
     $sql=SQLTermDeep();
 
-    $rows='<div class="table-responsive col-6 col-md-4">
+    $rows='<div class="table-responsive col-6 col-lg-4">
 	  <table class="table  table-bordered table-sm table-hover" summary="'.LABEL_termsXdeepLevel.'">
 	  <thead><tr><tr><th>'.ucfirst(LABEL_deepLevel).'</th><th>'.ucfirst(LABEL_cantTerms).'</th></tr></thead>
 	  <tbody>' ;
@@ -2153,7 +2153,7 @@ function HTMLnavHeader()
         </div>' ;
 
 
-    $rows.='<nav class="navbar navbar-expand-lg navbar-dark bg-dark" role="navigation">
+    $rows.='<nav class="navbar navbar-expand-md navbar-dark bg-dark" role="navigation">
   <div class="container">
     <a class="navbar-brand" title="'.MENU_Inicio.' '.$_SESSION["CFGTitulo"].'" href="'.URL_BASE.'index.php">'.MENU_Inicio.'</a>
     <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar-collapsible" aria-controls="navbar-collapsible" aria-expanded="false" aria-label="'.LABEL_toggleNavigation.'">

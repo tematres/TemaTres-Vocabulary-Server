@@ -364,6 +364,11 @@ h1, h2, h3, h4, h5, h6 { line-height: 1.1; }
 label { display: inline-block; max-width: 100%; margin-bottom: 5px; font-weight: 700; }
 label.btn { margin-bottom: 0; }
 legend { width: 100%; margin-bottom: 20px; font-size: 21px; line-height: inherit; border-bottom: 1px solid #e5e5e5; }
+/* Bootstrap 3 container widths: full width below 768px, then 750, 970 and 1170px */
+@media (max-width: 767.98px) { .container { max-width: none; } }
+@media (min-width: 768px) { .container { max-width: 750px; } }
+@media (min-width: 992px) { .container { max-width: 970px; } }
+@media (min-width: 1200px) { .container { max-width: 1170px; } }
 .form-group { margin-bottom: 15px; }
 .form-horizontal .form-group {
     margin-left: -.75rem;

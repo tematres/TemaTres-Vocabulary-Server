@@ -16,7 +16,7 @@ if (is_numeric($_GET["user_id"])) {
 
 if ($dato_user["id"]) {
     $resumen=ARRAYresumen($_SESSION["id_tesa"], "U", $dato_user["id"]);
-    $row_resumen='<div id="cajaAncha" class="col-lg-5">'."\n\r";
+    $row_resumen='<div id="cajaAncha" class="col-xl-5">'."\n\r";
     $row_resumen.='  <div><strong>'.LABEL_Acciones.'</strong></div><dl class="dosCol">'."\n\r";
 
     if ($resumen["cant_total"]>0) {
@@ -31,43 +31,43 @@ if ($dato_user["id"]) {
 
 $rows='<form role="form" name="login" id="form-users" data-toggle="validator" action="admin.php?user_id=list" method="post">';
 $rows.='	<div class="row">
-		<div class="col-sm-12">
+		<div class="col-md-12">
 				<legend><a href="admin.php?user_id=list" title="'.LABEL_AdminUser.'">'.LABEL_AdminUser.'</a></legend>
 		</div>
 		<!-- panel  -->
-			    <div class="col-lg-7">
+			    <div class="col-xl-7">
 					<h4>'.ucfirst(LABEL_DatosUser).'</h4>
 			        <div class="card">
 			            <div class="card-body form-horizontal">';
 
             $rows.='<div class="form-group">
-			           <label for="nombre" class="col-sm-3 control-label">'.ucfirst(LABEL_nombre).'</label>
-			                    <div class="col-sm-9">
+			           <label for="nombre" class="col-md-3 control-label">'.ucfirst(LABEL_nombre).'</label>
+			                    <div class="col-md-9">
 			                        <input type="text" class="form-control" required id="nombre" placeholder="'.LABEL_nombre.'" name="nombres" value="'.$dato_user["nombres"].'">
 			                    </div>
 			         </div>';
             $rows.='<div class="form-group">
-			           <label for="apellido" class="col-sm-3 control-label">'.ucfirst(LABEL_apellido).'</label>
-			                    <div class="col-sm-9">
+			           <label for="apellido" class="col-md-3 control-label">'.ucfirst(LABEL_apellido).'</label>
+			                    <div class="col-md-9">
 			                        <input type="text" class="form-control"  id="apellido" required placeholder="'.LABEL_apellido.'" name="apellido" value="'.$dato_user["apellido"].'">
 			                    </div>
 			         </div>';
             $rows.='<div class="form-group">
-			           <label for="mail" class="col-sm-3 control-label">'.ucfirst(LABEL_mail).'</label>
-			                    <div class="col-sm-9">
+			           <label for="mail" class="col-md-3 control-label">'.ucfirst(LABEL_mail).'</label>
+			                    <div class="col-md-9">
 			                        <input required class="form-control" type="email" id="mail" placeholder="'.LABEL_mail.'" name="mail" value="'.$dato_user["mail"].'">
 			                    </div>
 			         </div>';
             $rows.='<div class="form-group">
-			           <label for="orga" class="col-sm-3 control-label">'.ucfirst(LABEL_orga).'</label>
-			                    <div class="col-sm-9">
+			           <label for="orga" class="col-md-3 control-label">'.ucfirst(LABEL_orga).'</label>
+			                    <div class="col-md-9">
 			                        <input type="text" required class="form-control" id="orga" placeholder="'.LABEL_orga.'" name="orga" value="'.$dato_user["orga"].'">
 			                    </div>
 			         </div>';
 
 			$rows.='<div class="form-group">
-								<label for="tvocab_id" class="col-sm-3 control-label">'.ucfirst(LABEL_userType).'</label>';
-            $rows.='<div class="col-sm-9"><select class="form-select" name="isAdmin" id="isAdmin">';
+								<label for="tvocab_id" class="col-md-3 control-label">'.ucfirst(LABEL_userType).'</label>';
+            $rows.='<div class="col-md-9"><select class="form-select" name="isAdmin" id="isAdmin">';
             $rows.=doSelectForm(array('3#'.ucfirst(LABEL_userIsColab),'2#'.ucfirst(LABEL_userIsEditor),'1#'.ucfirst(LABEL_userIsAdmin)), $dato_user["nivel"]);
             $rows.='</select></div>';
             $rows.='</div>';
@@ -75,16 +75,16 @@ $rows.='	<div class="row">
 
             $fillRulePass=($dato_user["id"]) ? '' : 'required';
             $rows.='<div class="form-group">
-			           <label for="clave" class="col-sm-3 control-label">'.ucfirst(LABEL_pass).'</label>
-			                    <div class="col-sm-9">
+			           <label for="clave" class="col-md-3 control-label">'.ucfirst(LABEL_pass).'</label>
+			                    <div class="col-md-9">
 			                        <input minlength="4" '.$fillRulePass.' class="form-control" id="clave" placeholder="'.LABEL_pass.'" type="password" id="clave" name="pass" value="">
 															<span class="form-text">'.ucfirst(sprintf(MSG_lengh_error, 4)).'</span>
 			                    </div>
 			         </div>';
 
             $rows.='<div class="form-group">
-			           <label for="reclave" class="col-sm-3 control-label">'.ucfirst(LABEL_repass).'</label>
-			                    <div class="col-sm-9">
+			           <label for="reclave" class="col-md-3 control-label">'.ucfirst(LABEL_repass).'</label>
+			                    <div class="col-md-9">
 			                        <input data-match="#clave" '.$fillRulePass.' data-match-error="'.ucfirst(MSG_repass_error).'" placeholder="'.LABEL_repass.'" class="form-control" type="password" id="reclave" name="reclave" value="">
 															<div class="form-text with-errors"></div>
 													</div>
@@ -95,13 +95,13 @@ if (isset($dato_user["id"])) {
     $isAlive=($dato_user["estado"]=='ACTIVO') ? 'checked': '';
     $rows.='<div class="form-group">
 											<input type="checkbox" name="isAlive" id="isAlive" value="ACTIVO" '.$isAlive.'/>
-											<div class="col-sm-4">
+											<div class="col-md-4">
 											<label for="isAlive">'.ucfirst(LABEL_User_Habilitado).'</label>
 												</div>
 											</div>';
 };
                                             $rows.='<div class="form-group">
-																	<div class="col-sm-12 text-end">
+																	<div class="col-md-12 text-end">
 																	<input type="submit" class="btn btn-primary" id="boton" name="boton" value="'.ucfirst(LABEL_Guardar).'"/>
 																	<a href="admin.php?user_id=list" class="btn btn-default" id="boton_cancelar" title="'.ucfirst(LABEL_Cancelar).'">'.ucfirst(LABEL_Cancelar).'</a>
 																	</div>

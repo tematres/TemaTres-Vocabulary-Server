@@ -276,19 +276,19 @@ function HTMLformSuggestTerms4Wikidata($string2search='')
     $rows.='<form class="" role="form" name="alta_tt" id="alta_tt" action="index.php#suggestResult" method="get">';
     $rows.='    <div class="row">
     <!-- panel  -->
-    <div class="col-lg-10">
+    <div class="col-xl-10">
         <h3>'.ucfirst(LABEL__getForWikidataTerms).'</h3>
         <div class="card">
             <div class="card-body form-horizontal">
                 <div class="form-group">
-                    <label for="string2search" class="col-sm-3 control-label">'.ucfirst(LABEL_Buscar).'</label>
-                    <div class="col-sm-9">
+                    <label for="string2search" class="col-md-3 control-label">'.ucfirst(LABEL_Buscar).'</label>
+                    <div class="col-md-9">
                         <input type="text" class="form-control" required autofocus type="search" id="string2search" name="string2search" value="">
                     </div>
                 </div>';
             
     $rows.='    <div class="form-group">
-                    <div class="col-sm-12 text-end">
+                    <div class="col-md-12 text-end">
                         <button type="button" class="btn btn" name="cancelar" type="button" onClick="location.href=\'index.php?taskterm=addTerm&tema=0\'" value="'.ucfirst(LABEL_Cancelar).'"/>'.ucfirst(LABEL_Cancelar).'</button>
                         <button type="submit" class="btn btn-primary" value="'.LABEL_Buscar.'"/>'.ucfirst(LABEL_Buscar).'</button>
 
@@ -321,11 +321,11 @@ function HTMLformSelectTerms4Wikidata($string_search,$resultados)
 
     $rows.='<form role="form" name="select_multi_term" action="index.php" method="post">';
     $rows.='    <div class="row">
-        <div class="col-lg-10">
+        <div class="col-xl-10">
             <legend class="alert alert-info">'.ucfirst(MSG_ResultBusca).' <i>'.$string_search.'</i></legend>
         </div>
         <!-- panel  -->
-        <div class="col-lg-10">
+        <div class="col-xl-10">
             <div class="card">
                 <div class="card-body form-horizontal">';
     $rows.='<div><input id="filter" type="text" class="form-control" placeholder="'.ucfirst(LABEL_type2filter).'"></div>';
@@ -372,7 +372,7 @@ function HTMLformSelectTerms4Wikidata($string_search,$resultados)
         $rows.='        </div>';
 
         $rows.='    <div class="form-group">
-                <div class="col-sm-12 text-center">
+                <div class="col-md-12 text-center">
                  <button type="button" class="btn btn" name="cancelar" type="button" onClick="location.href=\'index.php?tema='.$ARRAYtermino["idTema"].'\'" value="'.ucfirst(LABEL_Cancelar).'"/>'.ucfirst(LABEL_Cancelar).'</button>
                 <button type="submit" class="btn btn-primary" value="'.LABEL_Enviar.'"/>'.ucfirst(LABEL_Enviar).'</button>
                 </div>
@@ -401,7 +401,7 @@ function HTMLformSuggestedTermsFromWikidata($ARRAYtermino,$t_relation,$p_relatio
     $_SESSION['SEND_KEY']=md5(uniqid(rand(), true));
 
     if(!is_array($resultados)){
-        return '<div class="col-lg-10">
+        return '<div class="col-xl-10">
             <legend class="alert alert-danger">'.ucfirst(LABEL__noResult).': <i>"' . arrayReplace(array(2,3,4), array(TR_termino,TE_termino,UP_termino), $t_relation).'"</i> (<a href="https://www.wikidata.org/wiki/Property:'.$p_relation.'" title="'.ucfirst(LABEL_verDetalle).' '.$p_relation.'" target="_blank">'.$p_relation.'</a>) '.LABEL__wikiEntity.' <i>"'.$ARRAYtermino["titTema"].'"</i> (<a href="https://www.wikidata.org/wiki/'.$q_entity.'" title="'.ucfirst(LABEL_verDetalle).' '.$q_entity.'" target="_blank">'.$q_entity.'</a>)</legend>
         </div>';
     } ;
@@ -411,14 +411,14 @@ function HTMLformSuggestedTermsFromWikidata($ARRAYtermino,$t_relation,$p_relatio
 
     $rows='<form role="form" name="select_multi_term" action="index.php" method="post">';
     $rows.='    <div class="row">
-        <div class="col-lg-10">
+        <div class="col-xl-10">
             <legend class="alert alert-info">'.ucfirst(LABEL_results).':  <i>"' . arrayReplace(array(2,3,4), array(TR_termino,TE_termino,UP_termino), $t_relation).'"</i> (<a href="https://www.wikidata.org/wiki/Property:'.$p_relation.'" title="'.ucfirst(LABEL_verDetalle).' '.$p_relation.'" target="_blank">'.$p_relation.'</a>) '.LABEL__wikiEntity.' <i>"'.$ARRAYtermino["titTema"].'"</i> (<a href="https://www.wikidata.org/wiki/'.$q_entity.'" title="'.ucfirst(LABEL_verDetalle).' '.$q_entity.'" target="_blank">'.$q_entity.'</a>)</legend>
         </div>
 
 
 
         <!-- panel  -->
-        <div class="col-lg-10">
+        <div class="col-xl-10">
             <div class="card">
                 <div class="card-body form-horizontal">';
     $rows.='<div class="table-responsive"> ';
@@ -461,7 +461,7 @@ function HTMLformSuggestedTermsFromWikidata($ARRAYtermino,$t_relation,$p_relatio
         $rows.='        </div>';
 
         $rows.='    <div class="form-group">
-                <div class="col-sm-12 text-center">
+                <div class="col-md-12 text-center">
                  <button type="button" class="btn btn" name="cancelar" type="button" onClick="location.href=\'index.php?tema='.$ARRAYtermino["idTema"].'\'" value="'.ucfirst(LABEL_Cancelar).'"/>'.ucfirst(LABEL_Cancelar).'</button>
                 <button type="submit" class="btn btn-primary" value="'.LABEL_Enviar.'"/>'.ucfirst(LABEL_Enviar).'</button>
                 </div>
@@ -538,32 +538,32 @@ $rows.='<h3>'.HTMLlinkTerm(array("tema_id"=>$ARRAYtermino["idTema"],"tema"=>$ARR
 
     $rows.='<form class="" role="form" name="alta_tt" id="alta_tt" action="index.php#suggestResult" method="get">';
     $rows.='    <div class="row">
-    <div class="col-sm-12">
+    <div class="col-md-12">
         <legend>'.ucfirst(LABEL__getForRecomendationWiki).'</legend>
     </div>
     <!-- panel  -->
-    <div class="col-lg-7">
+    <div class="col-xl-7">
         <h4>'.ucfirst(LABEL__wikiSearch).'</h4>
         <div class="card">
             <div class="card-body form-horizontal">
                             <div class="form-group">
-                            <label for="tvocab_id" class="col-sm-3 control-label">'.ucfirst(LABEL__wikiEntity).'</label>
-                                    <div class="col-sm-9">
+                            <label for="tvocab_id" class="col-md-3 control-label">'.ucfirst(LABEL__wikiEntity).'</label>
+                                    <div class="col-md-9">
                                             <select class="form-select" id="q_id" name="q_id">
                                             '.doSelectForm($array_qIds, $selected_q).'
                                             </select>
                                     </div>
                             </div>
                             <div class="form-group">
-                            <label for="t_relation" class="col-sm-3 control-label">'.ucfirst(LABEL_relationSubType).'</label>
-                                    <div class="col-sm-9">
+                            <label for="t_relation" class="col-md-3 control-label">'.ucfirst(LABEL_relationSubType).'</label>
+                                    <div class="col-md-9">
                                             <select class="form-select" id="t_relation" name="t_relation">
                                             '.doSelectForm($arrayOptions, $t_relation).'
                                             </select>
                                     </div>
                             </div>
                 <div class="form-group">
-                    <div class="col-sm-12 text-end">
+                    <div class="col-md-12 text-end">
                                               <button type="button" class="btn btn" name="cancelar" type="button" onClick="location.href=\'index.php?tema='.$ARRAYtermino["idTema"].'\'" value="'.ucfirst(LABEL_Cancelar).'"/>'.ucfirst(LABEL_Cancelar).'</button>
                                              <button type="submit" class="btn btn-primary" value="'.LABEL_Buscar.'"/>'.ucfirst(LABEL_Buscar).'</button>
 
