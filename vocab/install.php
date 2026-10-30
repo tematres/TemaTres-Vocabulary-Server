@@ -623,17 +623,14 @@ function HTMLformInstall($lang_install)
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
    <link href="<?php echo T3_WEBPATH;?>bootstrap/css/bootstrap.min.css" rel="stylesheet">
-   <link href="<?php echo T3_WEBPATH;?>bootstrap/submenu/css/bootstrap-submenu.min.css" rel="stylesheet">
    <link href="<?php echo T3_WEBPATH;?>css/t3style.css" rel="stylesheet">
 
       <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
       <script src="<?php echo T3_WEBPATH;?>jq/lib/jquery-3.7.1.min.js"></script>
       <!-- Include all compiled plugins (below), or include individual files as needed -->
-      <script src="<?php echo T3_WEBPATH;?>bootstrap/js/bootstrap.min.js"></script>
+      <script src="<?php echo T3_WEBPATH;?>bootstrap/js/bootstrap.bundle.min.js"></script>
     <link rel="stylesheet" type="text/css" href="<?php echo T3_WEBPATH;?>css/jquery.autocomplete.css" />
     <link rel="stylesheet" type="text/css" href="<?php echo T3_WEBPATH;?>css/jqtree.css" />
-   <script type="text/javascript" src="<?php echo T3_WEBPATH;?>bootstrap/submenu/js/bootstrap-submenu.min.js"></script>
-   <script type="text/javascript" src="<?php echo T3_WEBPATH;?>bootstrap/bootstrap-tabcollapse.js"></script>
 
     <link type="text/css" src="<?php echo T3_WEBPATH;?>bootstrap/forms/css/styles.css"/>
 

@@ -2097,16 +2097,10 @@ GLOBAL $CFG;
 
     $rows='<meta charset="utf-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1">' ;
     //    <!-- Latest compiled and minified CSS -->
-    if ($CFG["USE_CDN"]==1) {    
-        $rows.='<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">' ;
-        //<!-- Optional theme -->
-        $rows.='<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">' ;
-        //<!-- Latest compiled and minified JavaScript -->
+    if ($CFG["USE_CDN"]==1) {
+        $rows.='<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">' ;
     } else {
         $rows.='<link rel="stylesheet" href="'.T3_WEBPATH.'bootstrap/css/bootstrap.min.css">' ;
-        //<!-- Optional theme -->
-        $rows.='<link rel="stylesheet" href="'.T3_WEBPATH.'bootstrap/css/bootstrap-theme.min.css">' ;
-        //<!-- Latest compiled and minified JavaScript -->
     }
     $rows.='<link href="'.T3_WEBPATH.'css/t3style.css" rel="stylesheet">' ;
     $rows.=$metadata["metadata"];
@@ -2201,9 +2195,9 @@ function HTMLjsInclude()
     $rows='<script type="text/javascript" src="'.T3_WEBPATH.'jq/lib/jquery-3.7.1.min.js"></script>' ;
     //$rows.='<script src="'.T3_WEBPATH.'jq/lib/jquery-migrate-4.0.2.min.js"></script>';
     if ($CFG["USE_CDN"]==1) {
-        $rows.='<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>' ;
+        $rows.='<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>' ;
     } else {
-        $rows.='<script src="'.T3_WEBPATH.'bootstrap/js/bootstrap.min.js"></script>' ;
+        $rows.='<script src="'.T3_WEBPATH.'bootstrap/js/bootstrap.bundle.min.js"></script>' ;
     }
     // <!-- Include all compiled plugins (below), or include individual files as needed -->
     $rows.='<script type="text/javascript" src="'.T3_WEBPATH.'jq/jquery.autocomplete.min.js"></script>
@@ -2213,8 +2207,6 @@ function HTMLjsInclude()
 
 		 <link rel="stylesheet" type="text/css" href="'.T3_WEBPATH.'css/jquery.autocomplete.css" />
 		 <link rel="stylesheet" type="text/css" href="'.T3_WEBPATH.'css/jqtree.css" />
-		 <script type="text/javascript" src="'.T3_WEBPATH.'bootstrap/submenu/js/bootstrap-submenu.min.js"></script>
-		 <script type="text/javascript" src="'.T3_WEBPATH.'bootstrap/bootstrap-tabcollapse.js"></script>
 		 <link type="text/css" src="'.T3_WEBPATH.'bootstrap/forms/css/styles.css"/>' ;
 
     if (evalUserLevel($_SESSION[$_SESSION["CFGURL"]])>0) {
@@ -2228,8 +2220,7 @@ function HTMLjsInclude()
 
     $rows.='<script type="application/javascript" src="'.URL_BASE.'js.php" charset="utf-8"></script>
 		<script type="text/javascript" src="'.T3_WEBPATH.'forms/jquery.validate.min.js"></script>
-		<script type="text/javascript" src="'.T3_WEBPATH.'jq/tagcloud.js"></script>
-		<script type="text/javascript" src="'.T3_WEBPATH.'bootstrap/js/validator.min.js"></script>' ;
+		<script type="text/javascript" src="'.T3_WEBPATH.'jq/tagcloud.js"></script>' ;
 
     if (strtolower(substr($_SESSION[$_SESSION["CFGURL"]]["lang"][2], 0,2))!=='en') {
         $rows.='<script src="'.T3_WEBPATH.'forms/localization/messages_'.$_SESSION[$_SESSION["CFGURL"]]["lang"][2].'.js" type="text/javascript"></script>' ;

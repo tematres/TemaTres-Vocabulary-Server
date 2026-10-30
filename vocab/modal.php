@@ -20,7 +20,7 @@ if ((is_numeric(@$_GET["tvocab_id"]))) {
 <html lang="<?php echo LANG;?>">
     <head>
         <?php echo HTMLheader($metadata);?>
-        <?php echo '<script src="'.T3_WEBPATH.'bootstrap/js/bootstrap.min.js"></script>';?>
+        <?php echo '<script src="'.T3_WEBPATH.'bootstrap/js/bootstrap.bundle.min.js"></script>';?>
     </head>
     <body>
         <?php if (is_array($metadata["arraydata"])) { 
