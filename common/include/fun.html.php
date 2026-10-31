@@ -50,7 +50,7 @@ function resultaBusca($texto, $tipo = "")
         $ibusca = 0 ;
         $acumula_indice='';
         $acumula_temas='';
-        $row_result='<div class="tab-pane fade in active" id="results">' ;
+        $row_result='<div class="tab-pane fade show active" id="results">' ;
 
         $row_result.= '<p class="alert alert-info" role="alert"><strong>'.$sql_cant.'</strong> '.MSG_ResultBusca.' <strong> "<em>'.stripslashes($texto).'</em>"</strong></p>' ;
         $row_result.='<ul>' ;
@@ -125,7 +125,7 @@ function resultaBusca($texto, $tipo = "")
 
 
         if ($result_suplementaTG["count"]>0) {
-            $row_resultTGmenu='<li><a href="#suplementaTG" data-toggle="tab">'.ucfirst(LABEL_resultados_suplementarios).' ('.$result_suplementaTG["count"].')</a></li>' ;
+            $row_resultTGmenu='<li class="nav-item"><a class="nav-link" href="#suplementaTG" data-bs-toggle="tab">'.ucfirst(LABEL_resultados_suplementarios).' ('.$result_suplementaTG["count"].')</a></li>' ;
             $row_resultTG='<div class="tab-pane fade" id="suplementaTG">'.$result_suplementaTG["html"].'</div>' ;
         } else {
             $row_resultTG='';
@@ -134,7 +134,7 @@ function resultaBusca($texto, $tipo = "")
         }
 
         if ($result_suplementaTR["count"]>0) {
-            $row_resultTRmenu='<li><a href="#suplementaTR" data-toggle="tab">'.ucfirst(LABEL_resultados_relacionados).' ('.$result_suplementaTR["count"].')</a></li>' ;
+            $row_resultTRmenu='<li class="nav-item"><a class="nav-link" href="#suplementaTR" data-bs-toggle="tab">'.ucfirst(LABEL_resultados_relacionados).' ('.$result_suplementaTR["count"].')</a></li>' ;
             $row_resultTR='<div class="tab-pane fade" id="suplementaTR">'.$result_suplementaTR["html"].'</div>' ;
         } else{
             $row_resultTR='';
@@ -144,8 +144,8 @@ function resultaBusca($texto, $tipo = "")
 
         $body.='<div id="listaBusca">' ;
 
-        $body.='<ul id="myTermTab" class="nav nav-tabs" style="margin-bottom: 15px;">
-		<li><a class="active" href="#results" data-toggle="tab">'.ucfirst(LABEL_results).' ('.$sql_cant.') </a></li>' ;
+        $body.='<ul id="myTermTab" class="nav nav-tabs mb-3">
+		<li class="nav-item"><a class="nav-link active" href="#results" data-bs-toggle="tab">'.ucfirst(LABEL_results).' ('.$sql_cant.') </a></li>' ;
         $body.=$row_resultTGmenu.$row_resultTRmenu;
         $body.='</ul>' ;
 
@@ -205,7 +205,7 @@ function doContextoTermino($idTema, $i_profundidad)
 
         //editor de relaciones
         if (in_array(evalUserLevel($_SESSION[$_SESSION["CFGURL"]]),array(1,2))) {
-            $td_delete='<a type="button" class="btn btn-danger btn-xs" id="elimina_'.$datosNT["id_tema"].'" title="'.LABEL_borraRelacion.'"  class="eliminar" href="'.URL_BASE.'index.php?ridelete='.$datosNT["id_relacion"].'&amp;tema='.$idTema.'" onclick="return askData();"><span class="glyphicon glyphicon-remove"></span></a> ' ;
+            $td_delete='<a type="button" class="btn btn-danger btn-xs" id="elimina_'.$datosNT["id_tema"].'" title="'.LABEL_borraRelacion.'"  class="eliminar" href="'.URL_BASE.'index.php?ridelete='.$datosNT["id_relacion"].'&amp;tema='.$idTema.'" onclick="return askData();">'.HTMLicon('remove').'</a> ' ;
             $row_NT.=' '.$td_delete.'<abbr class="thesacronym" title="'.TE_termino.' '.$datosNT["rr_value"].'" lang="'.LANG.'" id="r'.$datosNT["rel_id"].'"><span class="editable_selectTE" id="edit_rel_id'.$datosNT["rel_id"].'" style="display: inline">'.TE_acronimo.$datosNT["rr_code"].'</span>'.$i_profundidad.'</abbr> ' ;
 
             //Editor de código
@@ -227,7 +227,7 @@ function doContextoTermino($idTema, $i_profundidad)
 
     while ($datosTotalRelacionados= $sqlTotalRelacionados->FetchRow()) {
         if (in_array(evalUserLevel($_SESSION[$_SESSION["CFGURL"]]),array(1,2))) {
-            $td_delete='<a type="button" class="btn btn-danger btn-xs" title="'.LABEL_borraRelacion.'" href="'.URL_BASE.'index.php?ridelete='.$datosTotalRelacionados["id_relacion"].'&amp;tema='.$idTema.'" onclick="return askData();"><span class="glyphicon glyphicon-remove"></span></a> ' ;
+            $td_delete='<a type="button" class="btn btn-danger btn-xs" title="'.LABEL_borraRelacion.'" href="'.URL_BASE.'index.php?ridelete='.$datosTotalRelacionados["id_relacion"].'&amp;tema='.$idTema.'" onclick="return askData();">'.HTMLicon('remove').'</a> ' ;
             $classAcrnoyn='editable_select'.$datosTotalRelacionados["t_relacion"];
         } else {
             $td_delete='' ;
@@ -417,7 +417,7 @@ function HTMLbodyTermino($array)
     $body.=$MSG_ERROR_RELACION;
 
 
-    $badge_status=($array["estado_id"]==13) ? '' : '<span class="badge badge-pill badge-warning">'.ucfirst(arrayReplace(array(12,14),array(LABEL_Candidato,LABEL_Rechazado),$array["estado_id"])).'</span>'; 
+    $badge_status=($array["estado_id"]==13) ? '' : '<span class="badge rounded-pill text-bg-warning">'.ucfirst(arrayReplace(array(12,14),array(LABEL_Candidato,LABEL_Rechazado),$array["estado_id"])).'</span>'; 
     if ($array["isMetaTerm"]==1) {
         $body.=' <h1 class="metaTerm estado_termino'.$array["estado_id"].'" title="'.$array["titTema"].' - '.NOTE_isMetaTermNote.'" id="T'.$array["tema_id"].'">'.$array["titTema"].' </h1>' ;
         $body.=' <p class="metaTerm alert" title="'.NOTE_isMetaTermNote.'" id="noteT'.$array["tema_id"].'">'.NOTE_isMetaTerm.'</p>' ;
@@ -436,7 +436,7 @@ function HTMLbodyTermino($array)
     $body.='</div>' ;
     // fin Div miga de pan
 
-    $body.='<ul id="myTermTab" class="nav nav-tabs" style="margin-bottom: 15px;"><li ><a class="active" href="#theTerm" data-toggle="tab">'.ucfirst(LABEL_Termino).'</a></li>' ;
+    $body.='<ul id="myTermTab" class="nav nav-tabs mb-3"><li class="nav-item"><a class="nav-link active" href="#theTerm" data-bs-toggle="tab">'.ucfirst(LABEL_Termino).'</a></li>' ;
 
     /* select Term menu editor */
     switch ($user_level) {
@@ -458,14 +458,14 @@ function HTMLbodyTermino($array)
              break;
      } 
 
-    $body.='<li><a href="#metadataTerm" data-toggle="tab">'.ucfirst(LABEL_metadatos).'</a></li>' ;
+    $body.='<li class="nav-item"><a class="nav-link" href="#metadataTerm" data-bs-toggle="tab">'.ucfirst(LABEL_metadatos).'</a></li>' ;
     $body.='    </ul>' ;
 
     // Tabs content
     $body.='<div id="tabContent" class="tab-content">' ;
 
     // Div relaciones del terminos
-    $body.='<div class="tab-pane fade in active" id="theTerm">' ;
+    $body.='<div class="tab-pane fade show active" id="theTerm">' ;
 
 
     $copy_link=HTMLcopyClick('strterm', array("isMetaTerm"=>$array["isMetaTerm"],"isValidTerm"=>boolval(isValidTerm($array["tema_id"])),"copy_click"=>$CFG["COPY_CLICK"]));
@@ -546,34 +546,33 @@ function HTMLmainMenu()
 {
     $evalUserLevel=evalUserLevel($_SESSION[$_SESSION["CFGURL"]]);
 
-    $row='<ul class="nav navbar-nav navbar-right">' ;
-    $row.='<li class="dropdown"><a href="#" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-toggle="dropdown">'.ucfirst(LABEL_Menu).' <b class="caret"></b></a>' ;
+    $row='<li class="nav-item dropdown"><a href="#" id="dropdownMenu2" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">'.ucfirst(LABEL_Menu).' </a>' ;
 
     $row.='<ul class="dropdown-menu">' ;
     /**
     * Admin menu
      */
     if ($evalUserLevel==1) {
-        $row.='<li class="dropdown dropdown-submenu"><a href="#" class="dropdown-toggle" data-toggle="dropdown">'.LABEL_Admin.'</a>' ;
+        $row.='<li class="dropdown-submenu"><a href="#" class="dropdown-item">'.LABEL_Admin.'</a>' ;
         $row.='<ul class="dropdown-menu">' ;
-        $row.='<li><a title="'.ucfirst(LABEL_lcConfig).'" href="admin.php?vocabulario_id=list">'.ucfirst(LABEL_lcConfig).'</a></li>' ;
-        $row.='<li><a title="'.ucfirst(MENU_bulkEdition).'" href="admin.php?doAdmin=bulkReplace">'.ucfirst(MENU_bulkEdition).'</a></li>' ;
-        $row.='<li><a title="'.ucfirst(MENU_glossConfig).'" href="admin.php?doAdmin=glossConfig">'.ucfirst(MENU_glossConfig).'</a></li>' ;
-        $row.='<li><a title="'.ucfirst(MENU_Usuarios).'" href="admin.php?user_id=list">'.ucfirst(MENU_Usuarios).'</a></li>' ;
-        $row.='<li><a title="'.ucfirst(LABEL_import).'" href="admin.php?doAdmin=import" >'.ucfirst(LABEL_import).'</a></li>' ;
-        $row.='<li><a title="'.ucfirst(LABEL_export).'" href="admin.php?doAdmin=export">'.ucfirst(LABEL_export).'</a></li>' ;
+        $row.='<li><a class="dropdown-item" title="'.ucfirst(LABEL_lcConfig).'" href="admin.php?vocabulario_id=list">'.ucfirst(LABEL_lcConfig).'</a></li>' ;
+        $row.='<li><a class="dropdown-item" title="'.ucfirst(MENU_bulkEdition).'" href="admin.php?doAdmin=bulkReplace">'.ucfirst(MENU_bulkEdition).'</a></li>' ;
+        $row.='<li><a class="dropdown-item" title="'.ucfirst(MENU_glossConfig).'" href="admin.php?doAdmin=glossConfig">'.ucfirst(MENU_glossConfig).'</a></li>' ;
+        $row.='<li><a class="dropdown-item" title="'.ucfirst(MENU_Usuarios).'" href="admin.php?user_id=list">'.ucfirst(MENU_Usuarios).'</a></li>' ;
+        $row.='<li><a class="dropdown-item" title="'.ucfirst(LABEL_import).'" href="admin.php?doAdmin=import" >'.ucfirst(LABEL_import).'</a></li>' ;
+        $row.='<li><a class="dropdown-item" title="'.ucfirst(LABEL_export).'" href="admin.php?doAdmin=export">'.ucfirst(LABEL_export).'</a></li>' ;
 
-        $row.='<li class="dropdown dropdown-submenu"><a href="#" class="dropdown-toggle" data-toggle="dropdown">'.ucfirst(LABEL_dbMantenimiento).'</a>
+        $row.='<li class="dropdown-submenu"><a href="#" class="dropdown-item">'.ucfirst(LABEL_dbMantenimiento).'</a>
 		<ul class="dropdown-menu">' ;
-        $row.='<li><a href="admin.php?doAdmin=reindex">'.ucfirst(LABEL_reIndice).'</a></li>' ;
+        $row.='<li><a class="dropdown-item" href="admin.php?doAdmin=reindex">'.ucfirst(LABEL_reIndice).'</a></li>' ;
 
         //Enable or not SPARQL endpoint
-        $row.=(CFG_ENABLE_SPARQL==1) ? '<li><a href="admin.php?doAdmin=updateEndpoint">'.ucfirst(LABEL_updateEndpoint).'</a></li>' :'' ;
+        $row.=(CFG_ENABLE_SPARQL==1) ? '<li><a class="dropdown-item" href="admin.php?doAdmin=updateEndpoint">'.ucfirst(LABEL_updateEndpoint).'</a></li>' :'' ;
 
-        $row.='<li><a href="admin.php?doAdmin=massiverem" title="'.ucfirst(MENU_massiverem).'">'.ucfirst(MENU_massiverem).'</a></li>' ;
-        $row.='<li><a title="'.ucfirst(MENU_DatosTesauro).'" href="admin.php?opTbl=TRUE">'.ucfirst(LABEL_OptimizarTablas).'</a></li>' ;
-        $row.='<li><a title="'.ucfirst(LABEL_update2_2x3_2).'" href="admin.php?doAdmin=updte2_2x3_2">'.ucfirst(LABEL_update2_2x3_2).'</a></li>' ;
-        $row.='<li><a title="'.ucfirst(LABEL_update1_6x1_7).'" href="admin.php?doAdmin=updte1_6x1_7">'.ucfirst(LABEL_update1_6x1_7).'</a></li>' ;
+        $row.='<li><a class="dropdown-item" href="admin.php?doAdmin=massiverem" title="'.ucfirst(MENU_massiverem).'">'.ucfirst(MENU_massiverem).'</a></li>' ;
+        $row.='<li><a class="dropdown-item" title="'.ucfirst(MENU_DatosTesauro).'" href="admin.php?opTbl=TRUE">'.ucfirst(LABEL_OptimizarTablas).'</a></li>' ;
+        $row.='<li><a class="dropdown-item" title="'.ucfirst(LABEL_update2_2x3_2).'" href="admin.php?doAdmin=updte2_2x3_2">'.ucfirst(LABEL_update2_2x3_2).'</a></li>' ;
+        $row.='<li><a class="dropdown-item" title="'.ucfirst(LABEL_update1_6x1_7).'" href="admin.php?doAdmin=updte1_6x1_7">'.ucfirst(LABEL_update1_6x1_7).'</a></li>' ;
         $row.='</ul></li>' ;
 
         $row.='</ul></li>' ;
@@ -582,42 +581,39 @@ function HTMLmainMenu()
     /**
     Menu ver
      */
-    $row.='<li class="dropdown dropdown-submenu"><a href="#" class="dropdown-toggle" data-toggle="dropdown">'.ucfirst(LABEL_Ver).'</a><ul class="dropdown-menu">' ;
+    $row.='<li class="dropdown-submenu"><a href="#" class="dropdown-item">'.ucfirst(LABEL_Ver).'</a><ul class="dropdown-menu">' ;
 
-    $row.='<li><a title="'.ucfirst(LABEL_terminosLibres).'" href="'.URL_BASE.'index.php?verT=L">'.ucfirst(LABEL_terminosLibres).'</a></li>' ;
-    $row.='<li><a title="'.ucfirst(LABEL_terminosRepetidos).'" href="'.URL_BASE.'index.php?verT=R">'.ucfirst(LABEL_terminosRepetidos).'</a></li>' ;
-    $row.='<li><a title="'.ucfirst(LABEL_termsNoBT).'" href="'.URL_BASE.'index.php?verT=NBT">'.ucfirst(LABEL_termsNoBT).'</a></li>' ;
-    $row.='<li><a title="'.ucfirst(LABEL_Rechazados).'" href="'.URL_BASE.'index.php?estado_id=14">'.ucfirst(LABEL_Rechazados).'</a></li>' ;
-    $row.='<li><a title="'.ucfirst(LABEL_Candidato).'" href="'.URL_BASE.'index.php?estado_id=12">'.ucfirst(LABEL_Candidatos).'</a></li>' ;
+    $row.='<li><a class="dropdown-item" title="'.ucfirst(LABEL_terminosLibres).'" href="'.URL_BASE.'index.php?verT=L">'.ucfirst(LABEL_terminosLibres).'</a></li>' ;
+    $row.='<li><a class="dropdown-item" title="'.ucfirst(LABEL_terminosRepetidos).'" href="'.URL_BASE.'index.php?verT=R">'.ucfirst(LABEL_terminosRepetidos).'</a></li>' ;
+    $row.='<li><a class="dropdown-item" title="'.ucfirst(LABEL_termsNoBT).'" href="'.URL_BASE.'index.php?verT=NBT">'.ucfirst(LABEL_termsNoBT).'</a></li>' ;
+    $row.='<li><a class="dropdown-item" title="'.ucfirst(LABEL_Rechazados).'" href="'.URL_BASE.'index.php?estado_id=14">'.ucfirst(LABEL_Rechazados).'</a></li>' ;
+    $row.='<li><a class="dropdown-item" title="'.ucfirst(LABEL_Candidato).'" href="'.URL_BASE.'index.php?estado_id=12">'.ucfirst(LABEL_Candidatos).'</a></li>' ;
     $row.='</ul></li>' ;
 
 
     //User menu
-    if ($evalUserLevel!==3) $row.='<li><a title="'.LABEL_bulkTranslate.'" href="'.URL_BASE.'index.php?mod=trad">'.ucfirst(MENU_bulkTranslate).'</a></li>' ;
-    $row.='<li><a title="'.LABEL_FORM_simpleReport.'" href="'.URL_BASE.'index.php?mod=csv">'.LABEL_FORM_simpleReport.'</a></li>' ;
-    $row.='<li><a title="'.MENU_MisDatos.'" href="login.php">'.MENU_MisDatos.'</a></li>' ;
-    $row.='<li><a title="'.MENU_Salir.'" href="'.URL_BASE.'index.php?cmdlog='.substr(md5(date("Ymd")), "5", "10").'">'.MENU_Salir.'</a></li>' ;
+    if ($evalUserLevel!==3) $row.='<li><a class="dropdown-item" title="'.LABEL_bulkTranslate.'" href="'.URL_BASE.'index.php?mod=trad">'.ucfirst(MENU_bulkTranslate).'</a></li>' ;
+    $row.='<li><a class="dropdown-item" title="'.LABEL_FORM_simpleReport.'" href="'.URL_BASE.'index.php?mod=csv">'.LABEL_FORM_simpleReport.'</a></li>' ;
+    $row.='<li><a class="dropdown-item" title="'.MENU_MisDatos.'" href="login.php">'.MENU_MisDatos.'</a></li>' ;
+    $row.='<li><a class="dropdown-item" title="'.MENU_Salir.'" href="'.URL_BASE.'index.php?cmdlog='.substr(md5(date("Ymd")), "5", "10").'">'.MENU_Salir.'</a></li>' ;
 
     $row.='   </ul>' ;
     $row.='</li>' ;
 
     if ($evalUserLevel==3){
-        $row.='<li><a role="button" title="'.ucfirst(MENU_AgregarT).'" href="index.php?taskterm=addTerm&amp;tema=0">'.ucfirst(MENU_AgregarT).'</a></li>' ;    
+        $row.='<li class="nav-item"><a class="nav-link" role="button" title="'.ucfirst(MENU_AgregarT).'" href="index.php?taskterm=addTerm&amp;tema=0">'.ucfirst(MENU_AgregarT).'</a></li>' ;
     }else{
-        $row.='<li class="dropdown"><a href="#" id="dropdownMenu3" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-toggle="dropdown">'.ucfirst(MENU_AgregarT).' <b class="caret"></b></a>' ;
+        $row.='<li class="nav-item dropdown"><a href="#" id="dropdownMenu3" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">'.ucfirst(MENU_AgregarT).' </a>' ;
 
         $row.='<ul class="dropdown-menu">' ;
-        $row.='<li><a role="button" title="'.ucfirst(MENU_AgregarT).'" href="index.php?taskterm=addTerm&amp;tema=0">'.ucfirst(MENU_AgregarT).'</a></li>' ;
-        $row.='<li><a role="button" title="'.ucfirst(MENU_AgregarT).'" href="index.php?taskterm=addTermSuggested" title="'.ucfirst(LABEL__getForRecomendation).'">'.ucfirst(LABEL__getForRecomendation).'</a></li>' ;
-        $row.='<li><a role="button" title="'.ucfirst(MENU_AgregarT).'" href="index.php?taskterm=getWikidataTerm" title="'.ucfirst('LABEL__getForWikidataTerms').'">'.ucfirst(LABEL__getForWikidataTerms).'</a></li>' ;
-        $row.='<li role="separator" class="divider"></li>' ;        
-        $row.='<li><a role="button" title="'.ucfirst(MENU_AgregarT).'" href="index.php?taskterm=findTermNews" title="'.ucfirst(LABEL__getForTargetVocabularyNews).'">'.ucfirst(LABEL__getForTargetVocabularyNews).'</a></li>' ;
+        $row.='<li><a class="dropdown-item" role="button" title="'.ucfirst(MENU_AgregarT).'" href="index.php?taskterm=addTerm&amp;tema=0">'.ucfirst(MENU_AgregarT).'</a></li>' ;
+        $row.='<li><a class="dropdown-item" role="button" title="'.ucfirst(MENU_AgregarT).'" href="index.php?taskterm=addTermSuggested" title="'.ucfirst(LABEL__getForRecomendation).'">'.ucfirst(LABEL__getForRecomendation).'</a></li>' ;
+        $row.='<li><a class="dropdown-item" role="button" title="'.ucfirst(MENU_AgregarT).'" href="index.php?taskterm=getWikidataTerm" title="'.ucfirst('LABEL__getForWikidataTerms').'">'.ucfirst(LABEL__getForWikidataTerms).'</a></li>' ;
+        $row.='<li><hr class="dropdown-divider"></li>' ;        
+        $row.='<li><a class="dropdown-item" role="button" title="'.ucfirst(MENU_AgregarT).'" href="index.php?taskterm=findTermNews" title="'.ucfirst(LABEL__getForTargetVocabularyNews).'">'.ucfirst(LABEL__getForTargetVocabularyNews).'</a></li>' ;
         $row.='  </ul>' ;
         $row.='</li>' ;
     }
-    $row.='</ul>' ;
-
-
 
     return $row;
 };
@@ -642,13 +638,13 @@ function HTMLtermMenuX2($array_tema, $relacionesTermino)
         && ($array_tema["estado_id"]=='13')
         && ($isValidTerm)
     ) {
-        $link_subordinar='<li><a title="'.MENU_AgregarTG.'" href="'.URL_BASE.'index.php?taskterm=addBT&amp;tema='.$array_tema["idTema"].'"> '.$CFG["REL_SYMBOLS"]["BT"].' '.ucfirst(MENU_AgregarTG).'</a></li>' ;
+        $link_subordinar='<li><a class="dropdown-item" title="'.MENU_AgregarTG.'" href="'.URL_BASE.'index.php?taskterm=addBT&amp;tema='.$array_tema["idTema"].'"> '.$CFG["REL_SYMBOLS"]["BT"].' '.ucfirst(MENU_AgregarTG).'</a></li>' ;
     } else {
         $link_subordinar='';
     }
 
-    $row='<li><a href="#" class="dropdown-toggle" data-toggle="dropdown">'.ucfirst(LABEL_Opciones).'<b class="caret"></b></a>' ;
-    $row.='<ul class="dropdown-menu" role="menu">' ;
+    $row='<li class="nav-item dropdown"><a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">'.ucfirst(LABEL_Opciones).'</a>' ;
+    $row.='<ul class="dropdown-menu">' ;
 
     if (($relacionesTermino["cantNT"]+$relacionesTermino["cantUF"])==0) {
         //no have relations
@@ -656,23 +652,23 @@ function HTMLtermMenuX2($array_tema, $relacionesTermino)
             /**
             Change status term
              */
-            $link_estado='<li class="dropdown-submenu" role="menu"> <a tabindex="0" label-primary data-toggle="dropdown">'.ucfirst(LABEL_CambiarEstado).'</a><ul class="dropdown-menu" id="menu_estado">' ;
+            $link_estado='<li class="dropdown-submenu"><a href="#" class="dropdown-item" tabindex="0">'.ucfirst(LABEL_CambiarEstado).'</a><ul class="dropdown-menu" id="menu_estado">' ;
             switch ($array_tema["estado_id"]) {
                 case '12':
                     //Candidato / candidate => aceptado
-                    $link_estado.='<li><a title="'.LABEL_AceptarTermino.'" href="'.URL_BASE.'index.php?tema='.$array_tema["idTema"].'&amp;estado_id=13">'.ucfirst(LABEL_AceptarTermino).'</a></li>' ;
+                    $link_estado.='<li><a class="dropdown-item" title="'.LABEL_AceptarTermino.'" href="'.URL_BASE.'index.php?tema='.$array_tema["idTema"].'&amp;estado_id=13">'.ucfirst(LABEL_AceptarTermino).'</a></li>' ;
                     //Candidato / candidate => rechazado
-                    $link_estado.='<li><a title="'.LABEL_RechazarTermino.'" href="'.URL_BASE.'index.php?tema='.$array_tema["idTema"].'&amp;estado_id=14">'.ucfirst(LABEL_RechazarTermino).'</a></li>' ;
+                    $link_estado.='<li><a class="dropdown-item" title="'.LABEL_RechazarTermino.'" href="'.URL_BASE.'index.php?tema='.$array_tema["idTema"].'&amp;estado_id=14">'.ucfirst(LABEL_RechazarTermino).'</a></li>' ;
                     break;
 
                 case '13':
                     //Aceptado / Acepted=> Rechazado
-                    $link_estado.='<li><a title="'.LABEL_RechazarTermino.'" href="'.URL_BASE.'index.php?tema='.$array_tema["idTema"].'&amp;estado_id=14">'.ucfirst(LABEL_RechazarTermino).'</a></li>' ;
+                    $link_estado.='<li><a class="dropdown-item" title="'.LABEL_RechazarTermino.'" href="'.URL_BASE.'index.php?tema='.$array_tema["idTema"].'&amp;estado_id=14">'.ucfirst(LABEL_RechazarTermino).'</a></li>' ;
                     break;
 
                 case '14':
                       //Rechazado / Rejected=> Candidato
-                      $link_estado.='<li><a title="'.LABEL_CandidatearTermino.'" href="'.URL_BASE.'index.php?tema='.$array_tema["idTema"].'&amp;estado_id=12">'.ucfirst(LABEL_CandidatearTermino).'</a></li>' ;
+                      $link_estado.='<li><a class="dropdown-item" title="'.LABEL_CandidatearTermino.'" href="'.URL_BASE.'index.php?tema='.$array_tema["idTema"].'&amp;estado_id=12">'.ucfirst(LABEL_CandidatearTermino).'</a></li>' ;
                     break;
             }
             $link_estado.='</ul></li>' ;
@@ -680,12 +676,12 @@ function HTMLtermMenuX2($array_tema, $relacionesTermino)
     };
 
 
-    $row.='      <li><a title="'.MENU_EditT.'" href="'.URL_BASE.'index.php?taskterm=editTerm&amp;tema='.$array_tema["idTema"].'">'.ucfirst(MENU_EditT).'</a></li>' ;
+    $row.='      <li><a class="dropdown-item" title="'.MENU_EditT.'" href="'.URL_BASE.'index.php?taskterm=editTerm&amp;tema='.$array_tema["idTema"].'">'.ucfirst(MENU_EditT).'</a></li>' ;
 
     //If the term are not accepted and do not have Add-menu => add notes options here!
 
     if ($array_tema["estado_id"]!=="13") {
-        $row.='     <li><a title="'.ucfirst(LABEL_EditorNota).'" href="'.URL_BASE.'index.php?taskterm=editNote&amp;note_id=?&amp;editNota=?&amp;tema='.$array_tema["idTema"].'">'.ucfirst(LABEL_EditorNota).'</a></li>' ;
+        $row.='     <li><a class="dropdown-item" title="'.ucfirst(LABEL_EditorNota).'" href="'.URL_BASE.'index.php?taskterm=editNote&amp;note_id=?&amp;editNota=?&amp;tema='.$array_tema["idTema"].'">'.ucfirst(LABEL_EditorNota).'</a></li>' ;
     }
 
     $row.=$link_subordinar;
@@ -701,7 +697,7 @@ function HTMLtermMenuX2($array_tema, $relacionesTermino)
             $task_meta_term=1;
         }
 
-        $row.='<li><a title="'.$label_task_meta_term.'" href="'.URL_BASE.'index.php?taskterm=metaTerm&amp;mt_status='.$task_meta_term.'&amp;tema='.$array_tema["idTema"].'">'.ucfirst($label_task_meta_term).'</a></li>' ;
+        $row.='<li><a class="dropdown-item" title="'.$label_task_meta_term.'" href="'.URL_BASE.'index.php?taskterm=metaTerm&amp;mt_status='.$task_meta_term.'&amp;tema='.$array_tema["idTema"].'">'.ucfirst($label_task_meta_term).'</a></li>' ;
     }
 
 
@@ -710,42 +706,42 @@ function HTMLtermMenuX2($array_tema, $relacionesTermino)
 
     $row.='</li><!-- end menu -->' ;
 
-    $row.='<li><a href="#" class="dropdown-toggle"  role="menu" data-toggle="dropdown">'.ucfirst(LABEL_Agregar).'<b class="caret"></b></a>' ;
+    $row.='<li class="nav-item dropdown"><a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">'.ucfirst(LABEL_Agregar).'</a>' ;
     $row.='<ul class="dropdown-menu" id="menu_agregar">' ;
 
-    $row.='<li><a title="'.ucfirst(LABEL_nota).'" href="'.URL_BASE.'index.php?taskterm=editNote&amp;note_id=?&amp;editNota=?&amp;tema='.$array_tema["idTema"].'"> '.$CFG["REL_SYMBOLS"]["NOTE"].' '.ucfirst(LABEL_nota).'</a></li>' ;
+    $row.='<li><a class="dropdown-item" title="'.ucfirst(LABEL_nota).'" href="'.URL_BASE.'index.php?taskterm=editNote&amp;note_id=?&amp;editNota=?&amp;tema='.$array_tema["idTema"].'"> '.$CFG["REL_SYMBOLS"]["NOTE"].' '.ucfirst(LABEL_nota).'</a></li>' ;
 
-    $row.='<li role="separator" class="divider"></li>' ;
+    $row.='<li><hr class="dropdown-divider"></li>' ;
 
 
     //solo acepta relaciones si el término esta aceptado
     if (($array_tema["estado_id"]=='13') && ($isValidTerm)) {
         //link agregar un UP
-        $row.='     <li><a title="'.MENU_AgregarUP.'" href="'.URL_BASE.'index.php?taskterm=addUF&amp;tema='.$array_tema["idTema"].'"> '.$CFG["REL_SYMBOLS"]["UF"].' '.ucfirst(MENU_AgregarUP).'</a></li>' ;
+        $row.='     <li><a class="dropdown-item" title="'.MENU_AgregarUP.'" href="'.URL_BASE.'index.php?taskterm=addUF&amp;tema='.$array_tema["idTema"].'"> '.$CFG["REL_SYMBOLS"]["UF"].' '.ucfirst(MENU_AgregarUP).'</a></li>' ;
 
         //link agregar un TE
-        $row.='     <li><a title="'.MENU_AgregarTE.'" href="'.URL_BASE.'index.php?taskterm=addNT&amp;tema='.$array_tema["idTema"].'"> '.$CFG["REL_SYMBOLS"]["NT"].' '.ucfirst(MENU_AgregarTE).'</a></li>' ;
+        $row.='     <li><a class="dropdown-item" title="'.MENU_AgregarTE.'" href="'.URL_BASE.'index.php?taskterm=addNT&amp;tema='.$array_tema["idTema"].'"> '.$CFG["REL_SYMBOLS"]["NT"].' '.ucfirst(MENU_AgregarTE).'</a></li>' ;
 
         //link agregar un TR
-        $row.='     <li><a title="'.MENU_AgregarTR.'" href="'.URL_BASE.'index.php?taskterm=addRTnw&amp;tema='.$array_tema["idTema"].'">  '.$CFG["REL_SYMBOLS"]["RT"].' '.ucfirst(MENU_AgregarTR).'</a></li>' ;
+        $row.='     <li><a class="dropdown-item" title="'.MENU_AgregarTR.'" href="'.URL_BASE.'index.php?taskterm=addRTnw&amp;tema='.$array_tema["idTema"].'">  '.$CFG["REL_SYMBOLS"]["RT"].' '.ucfirst(MENU_AgregarTR).'</a></li>' ;
 
-        $row.='<li role="separator" class="divider"></li>' ;
+        $row.='<li><hr class="dropdown-divider"></li>' ;
 
-        $row.='     <li><a title="'.LABEL__getForRecomendation.'" href="'.URL_BASE.'index.php?taskterm=findSuggestionTargetTerm&amp;tema='.$array_tema["idTema"].'">'.ucfirst(LABEL__getForRecomendation).'</a></li>' ;
+        $row.='     <li><a class="dropdown-item" title="'.LABEL__getForRecomendation.'" href="'.URL_BASE.'index.php?taskterm=findSuggestionTargetTerm&amp;tema='.$array_tema["idTema"].'">'.ucfirst(LABEL__getForRecomendation).'</a></li>' ;
 
-        $row.='     <li><a title="'.ucfirst(LABEL__getForRecomendationWiki).'" href="'.URL_BASE.'index.php?taskterm=getWikidataRelTerm&amp;tema='.$array_tema["idTema"].'">'.ucfirst(LABEL__getForRecomendationWiki).'</a></li>' ;
+        $row.='     <li><a class="dropdown-item" title="'.ucfirst(LABEL__getForRecomendationWiki).'" href="'.URL_BASE.'index.php?taskterm=getWikidataRelTerm&amp;tema='.$array_tema["idTema"].'">'.ucfirst(LABEL__getForRecomendationWiki).'</a></li>' ;
         $row.='</ul>' ;
 
-        $row.='<li><a href="#" class="dropdown-toggle" data-toggle="dropdown">'.ucfirst(LABEL_relbetweenVocabularies).'<b class="caret"></b></a>' ;
+        $row.='<li class="nav-item dropdown"><a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">'.ucfirst(LABEL_relbetweenVocabularies).'</a>' ;
 
-        $row.='<ul class="dropdown-menu" role="menu">' ;
+        $row.='<ul class="dropdown-menu">' ;
 
-        $row.='<li><a title="'.LABEL_URI2term.'" href="'.URL_BASE.'index.php?taskterm=addURI&amp;tema='.$array_tema["idTema"].'">'.ucfirst(LABEL_URI2term).'</a></li>' ;
+        $row.='<li><a class="dropdown-item" title="'.LABEL_URI2term.'" href="'.URL_BASE.'index.php?taskterm=addURI&amp;tema='.$array_tema["idTema"].'">'.ucfirst(LABEL_URI2term).'</a></li>' ;
 
         //link agregar un EQ
-        $row.='     <li><a title="'.LABEL_vocabulario_referencia.'" href="'.URL_BASE.'index.php?taskterm=addEQ&amp;tema='.$array_tema["idTema"].'">'.ucfirst(LABEL_vocabulario_referencia).'</a></li>' ;
+        $row.='     <li><a class="dropdown-item" title="'.LABEL_vocabulario_referencia.'" href="'.URL_BASE.'index.php?taskterm=addEQ&amp;tema='.$array_tema["idTema"].'">'.ucfirst(LABEL_vocabulario_referencia).'</a></li>' ;
         //link agregar un término externo vía web services
-        $row.='     <li><a title="'.LABEL_relacion_vocabularioWebService.'" href="'.URL_BASE.'index.php?taskterm=findTargetTerm&amp;tema='.$array_tema["idTema"].'">'.ucfirst(LABEL_vocabulario_referenciaWS).'</a></li>' ;
+        $row.='     <li><a class="dropdown-item" title="'.LABEL_relacion_vocabularioWebService.'" href="'.URL_BASE.'index.php?taskterm=findTargetTerm&amp;tema='.$array_tema["idTema"].'">'.ucfirst(LABEL_vocabulario_referenciaWS).'</a></li>' ;
         $row.='</li>' ;
     }//fin control de estado y validez
 
@@ -766,15 +762,15 @@ function HTMLtermMenuX2Colab($array_tema, $relacionesTermino)
 
     $isValidTerm=isValidTerm($array_tema["tema_id"]);
 
-    $row='<li><a href="#" class="dropdown-toggle" data-toggle="dropdown">'.ucfirst(LABEL_Opciones).'<b class="caret"></b></a>' ;
-    $row.='<ul class="dropdown-menu" role="menu">' ;
+    $row='<li class="nav-item dropdown"><a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">'.ucfirst(LABEL_Opciones).'</a>' ;
+    $row.='<ul class="dropdown-menu">' ;
 
-    $row.='      <li><a title="'.MENU_EditT.'" href="'.URL_BASE.'index.php?taskterm=editTerm&amp;tema='.$array_tema["idTema"].'">'.ucfirst(MENU_EditT).'</a></li>' ;
+    $row.='      <li><a class="dropdown-item" title="'.MENU_EditT.'" href="'.URL_BASE.'index.php?taskterm=editTerm&amp;tema='.$array_tema["idTema"].'">'.ucfirst(MENU_EditT).'</a></li>' ;
 
     //If the term are not accepted and do not have Add-menu => add notes options here!
 
     if ($array_tema["estado_id"]!=="13") {
-        $row.='     <li><a title="'.ucfirst(LABEL_EditorNota).'" href="'.URL_BASE.'index.php?taskterm=editNote&amp;note_id=?&amp;editNota=?&amp;tema='.$array_tema["idTema"].'">'.ucfirst(LABEL_EditorNota).'</a></li>' ;
+        $row.='     <li><a class="dropdown-item" title="'.ucfirst(LABEL_EditorNota).'" href="'.URL_BASE.'index.php?taskterm=editNote&amp;note_id=?&amp;editNota=?&amp;tema='.$array_tema["idTema"].'">'.ucfirst(LABEL_EditorNota).'</a></li>' ;
     }
 
 
@@ -787,7 +783,7 @@ function HTMLtermMenuX2Colab($array_tema, $relacionesTermino)
             $task_meta_term=1;
         }
 
-        $row.='<li><a title="'.$label_task_meta_term.'" href="'.URL_BASE.'index.php?taskterm=metaTerm&amp;mt_status='.$task_meta_term.'&amp;tema='.$array_tema["idTema"].'">'.ucfirst($label_task_meta_term).'</a></li>' ;
+        $row.='<li><a class="dropdown-item" title="'.$label_task_meta_term.'" href="'.URL_BASE.'index.php?taskterm=metaTerm&amp;mt_status='.$task_meta_term.'&amp;tema='.$array_tema["idTema"].'">'.ucfirst($label_task_meta_term).'</a></li>' ;
     }
 
 
@@ -796,12 +792,12 @@ function HTMLtermMenuX2Colab($array_tema, $relacionesTermino)
 
     $row.='</li><!-- end menu -->' ;
 
-    $row.='<li><a href="#" class="dropdown-toggle"  role="menu" data-toggle="dropdown">'.ucfirst(LABEL_Agregar).'<b class="caret"></b></a>' ;
+    $row.='<li class="nav-item dropdown"><a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">'.ucfirst(LABEL_Agregar).'</a>' ;
     $row.='<ul class="dropdown-menu" id="menu_agregar">' ;
 
-    $row.='<li><a title="'.ucfirst(LABEL_nota).'" href="'.URL_BASE.'index.php?taskterm=editNote&amp;note_id=?&amp;editNota=?&amp;tema='.$array_tema["idTema"].'"> '.$CFG["REL_SYMBOLS"]["NOTE"].' '.ucfirst(LABEL_nota).'</a></li>' ;
+    $row.='<li><a class="dropdown-item" title="'.ucfirst(LABEL_nota).'" href="'.URL_BASE.'index.php?taskterm=editNote&amp;note_id=?&amp;editNota=?&amp;tema='.$array_tema["idTema"].'"> '.$CFG["REL_SYMBOLS"]["NOTE"].' '.ucfirst(LABEL_nota).'</a></li>' ;
 
-    $row.='<li role="separator" class="divider"></li>' ;
+    $row.='<li><hr class="dropdown-divider"></li>' ;
 
     $row.='</ul>' ;
 
@@ -835,10 +831,10 @@ function HTMLNotasTermino($array, $editFlag = 0)
         $label_lang_nota=($array["notas"][$iNota]["lang_nota"]==$_SESSION["CFGIdioma"]) ? '' : ' ('.$array["notas"][$iNota]["lang_nota"].')' ;
 
         /**reorganize the note array to create type note groups  */
-        @$body_note[$tipoNota]["content"].='<div class="panel-body" id="note_id'.$array["notas"][$iNota]["id"].'">'.sanitizeNoteHTML(wiki2link($array["notas"][$iNota]["nota"])).HTMLsource4note($array["notas"][$iNota]["id"]).'</div>' ;
+        @$body_note[$tipoNota]["content"].='<div class="card-body" id="note_id'.$array["notas"][$iNota]["id"].'">'.sanitizeNoteHTML(wiki2link($array["notas"][$iNota]["nota"])).HTMLsource4note($array["notas"][$iNota]["id"]).'</div>' ;
 
         if ($editFlag==1) {
-            $body_note[$tipoNota]["content"].='<div class="panel-footer"">' ;
+            $body_note[$tipoNota]["content"].='<div class="card-footer"">' ;
             $body_note[$tipoNota]["content"].=' '.$array["notas"][$iNota]["cuando_nota"].' <a class="right_separator" href="'.URL_BASE.'sobre.php?user_id='.$array["notas"][$iNota]["user_id"].'#termaudit" title="'.LABEL_DatosUser.'">'.$array["notas"][$iNota]["user"].'</a>' ;
             $body_note[$tipoNota]["content"].=' <span class="right_separator"><a role="button" class="btn btn-primary btn-xs" href="'.URL_BASE.'index.php?editNota='.$array["notas"][$iNota]["id"].'&amp;taskterm=editNote&amp;tema='.$array["idTema"].'">'.ucfirst(LABEL_EditarNota).'</a>' ;
             $body_note[$tipoNota]["content"].=' <a role="button" class="btn btn-danger btn-xs" href="'.URL_BASE.'index.php?tema='.$array["idTema"].'&amp;idTema='.$array["idTema"].'&amp;idNota='.$array["notas"][$iNota]["id"].'&amp;taskNota=rem" name="eliminarNota" title="'.LABEL_EliminarNota.'"/>'.ucfirst(LABEL_EliminarNota).'</a></span>' ;
@@ -855,17 +851,17 @@ function HTMLNotasTermino($array, $editFlag = 0)
         $body='<div class="panel-group" id="notas_collap">' ;
         foreach ($body_note as $note_type => $note) {
             $i=++$i;
-            $display_note=($note["note_type"]==$_SESSION[$_SESSION["CFGURL"]]["_GLOSS_NOTES"]) ? ' in' : '' ;
-            $body.='<div class="panel panel-default">
-				    <div class="panel-heading">
-				      <h5 class="panel-title"><a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapseNote'.$i.'">'.$note_type.'</a>' ;
+            $display_note=($note["note_type"]==$_SESSION[$_SESSION["CFGURL"]]["_GLOSS_NOTES"]) ? ' show' : '' ;
+            $body.='<div class="card">
+				    <div class="card-header">
+				      <h5 class="card-title"><a class="accordion-toggle" data-bs-toggle="collapse" href="#collapseNote'.$i.'">'.$note_type.'</a>' ;
         
             // for add copy button in notes: ' .HTMLcopyClick('collapseNote'.$i, array("isMetaTerm"=>0,"isValidTerm"=>1,"copy_click"=>1) ). '
             if ($note["cant"]>1) {
-                $body.=' <span class="badge">'.$note["cant"].'</span>' ;
+                $body.=' <span class="badge rounded-pill text-bg-secondary">'.$note["cant"].'</span>' ;
             }
             $body.='</h5></div>
-				    <div id="collapseNote'.$i.'" class="justify-text panel-collapse collapse'.$display_note.'">'.$note["content"].' </div>
+				    <div id="collapseNote'.$i.'" class="justify-text collapse'.$display_note.'">'.$note["content"].' </div>
 				  </div>' ;
         }
         $body.='</div>' ;
@@ -930,7 +926,7 @@ function doMenuLang($tema_id = "0")
     global $idiomas_disponibles;
 
     $selectLang='<form id="select-lang" method="get" action="index.php">' ;
-    $selectLang.='<select class="navbar-btn btn-info btn-sx pull-right" name="setLang" id="setLang" onchange="this.form.submit();">' ;
+    $selectLang.='<select class="form-select form-select-sm w-auto float-end" name="setLang" id="setLang" onchange="this.form.submit();">' ;
     foreach ($idiomas_disponibles as $key => $value) {
         if ($value[2]==$_SESSION[$_SESSION["CFGURL"]]["lang"][2]) {
             $selectLang.='<option value="'.$value[2].'" selected="selected">'.$value[0].'</option>' ;
@@ -960,7 +956,7 @@ function doBrowseTermsFromDate($month, $year, $ord = "")
     global $MONTHS;
     $sql=SQLlistTermsfromDate($month, $year, $ord);
     $rows.='<div class="table-responsive"> ' ;
-    $rows.='<table id="termaudit" class="table table-striped table-bordered table-condensed table-hover" summary="'.LABEL_auditoria.'" >' ;
+    $rows.='<table id="termaudit" class="table table-striped table-bordered table-sm table-hover" summary="'.LABEL_auditoria.'" >' ;
     $rows.='<tbody>' ;
     while ($array=$sql->FetchRow()) {
         $fecha_termino=do_fecha($array["cuando"]);
@@ -1012,7 +1008,7 @@ function doBrowseTermsByDate()
     $TotalTerminos=0;
 
     $rows='<div class="table-responsive"> ' ;
-    $rows.='<table id="termaudit" class="table table-striped table-bordered table-condensed table-hover" summary="'.ucfirst(LABEL_auditoria).'">' ;
+    $rows.='<table id="termaudit" class="table table-striped table-bordered table-sm table-hover" summary="'.ucfirst(LABEL_auditoria).'">' ;
     $rows.='<thead>' ;
 
     $rows.='<tr>' ;
@@ -1228,7 +1224,7 @@ function HTMLlistaTerminosEstado($estado_id, $limite = "")
 
         if (SQLcount($sql)>0) {
             $rows.='<div class="table-responsive"> ' ;
-            $rows.='<table id="termaudit" class="table table-striped table-bordered table-condensed table-hover">
+            $rows.='<table id="termaudit" class="table table-striped table-bordered table-sm table-hover">
 			<thead>
 			<tr>
 				<th>'.ucfirst(LABEL_Termino).'</th>
@@ -1270,7 +1266,7 @@ function HTMLlistaTerminosFecha($limite = "")
 
     if (SQLcount($sql)>0) {
         $rows.='<div class="table-responsive"> ' ;
-        $rows.='<table id="termaudit" class="table table-striped table-bordered table-condensed table-hover">
+        $rows.='<table id="termaudit" class="table table-striped table-bordered table-sm table-hover">
 			<thead>
 			<tr>
 				<th>'.ucfirst(LABEL_Termino).'</th>
@@ -1375,19 +1371,19 @@ function HTMLlistaAlfabeticaUnica($letra = "")
                 $class = ($datosAlfabetico[1]==0)  ? '' : 'active' ;
 
                 if (!ctype_digit($datosAlfabetico[0])) {
-                    $menuAlfabetico.='<li class="'.$class.'">' ;
-                    $menuAlfabetico.='    <a title="'.LABEL_verTerminosLetra.' '.$datosAlfabetico[0].'" href="'.URL_BASE.'index.php?letra='.$datosAlfabetico[0].'">'.$datosAlfabetico[0].'</a>' ;
+                    $menuAlfabetico.='<li class="page-item '.$class.'">' ;
+                    $menuAlfabetico.='    <a class="page-link" title="'.LABEL_verTerminosLetra.' '.$datosAlfabetico[0].'" href="'.URL_BASE.'index.php?letra='.$datosAlfabetico[0].'">'.$datosAlfabetico[0].'</a>' ;
                     $menuAlfabetico.='</li>' ;
                 } else {
-                    $menuNoAlfabetico='<li class="'.$class.'">' ;
-                    $menuNoAlfabetico.='    <a title="'.LABEL_verTerminosLetra.' '.$datosAlfabetico[0].'" href="'.URL_BASE.'index.php?letra='.$datosAlfabetico[0].'">0-9</a>' ;
+                    $menuNoAlfabetico='<li class="page-item '.$class.'">' ;
+                    $menuNoAlfabetico.='    <a class="page-link" title="'.LABEL_verTerminosLetra.' '.$datosAlfabetico[0].'" href="'.URL_BASE.'index.php?letra='.$datosAlfabetico[0].'">0-9</a>' ;
                     $menuNoAlfabetico.='</li>' ;
                 }
             }
         };//fin del while
     }
 
-    $menuAlfabetico='<div class="text-center"><ul class="pagination pagination-sm">'.$menuNoAlfabetico.$menuAlfabetico.'</ul></div>' ;
+    $menuAlfabetico='<div class="text-center"><ul class="pagination pagination-sm justify-content-center">'.$menuNoAlfabetico.$menuAlfabetico.'</ul></div>' ;
     return $menuAlfabetico;
 };
 
@@ -1565,7 +1561,7 @@ function HTMLtargetTerms($tema_id)
 
         while ($array=$sql->FetchRow()) {
             if (in_array(evalUserLevel($_SESSION[$_SESSION["CFGURL"]]),array(1,2))) {
-                $delLink= '<a type="button" class="btn btn-danger btn-xs" id="elimina_'.$array["tterm_id"].'" title="'.LABEL_borraRelacion.'"  href="'.URL_BASE.'index.php?tterm_id='.$array["tterm_id"].'&amp;tema='.$tema_id.'&amp;tvocab_id='.$array["tvocab_id"].'&amp;taskrelations=delTgetTerm" onclick="return askData();"><span class="glyphicon glyphicon-remove"></span></a> ' ;
+                $delLink= '<a type="button" class="btn btn-danger btn-xs" id="elimina_'.$array["tterm_id"].'" title="'.LABEL_borraRelacion.'"  href="'.URL_BASE.'index.php?tterm_id='.$array["tterm_id"].'&amp;tema='.$tema_id.'&amp;tvocab_id='.$array["tvocab_id"].'&amp;taskrelations=delTgetTerm" onclick="return askData();">'.HTMLicon('remove').'</a> ' ;
                 $checkLink= '<a id="actua_'.$array["tterm_id"].'" title="'.LABEL_ShowTargetTermforUpdate.'"  class="btn btn-warning btn-xs" href="'.URL_BASE.'index.php?tterm_id='.$array["tterm_id"].'&amp;tema='.$tema_id.'&amp;tvocab_id='.$array["tvocab_id"].'&amp;tterm_id='.$array["tterm_id"].'&amp;taskEdit=checkDateTermsTargetVocabulary">'.LABEL_ShowTargetTermforUpdate.'</a>' ;
 
                 $ttermManageLink=' '.$delLink.' '.$checkLink.'  ' ;
@@ -1595,7 +1591,7 @@ function HTMLURI4term($tema_id)
 
         while ($array=$sql->FetchRow()) {
             if (in_array(evalUserLevel($_SESSION[$_SESSION["CFGURL"]]),array(1,2))) {
-                $delLink= '<a type="button" class="btn btn-danger btn-xs" id="elimina_'.$array["uri_id"].'" title="'.LABEL_borraRelacion.'"  href="'.URL_BASE.'index.php?uri_id='.$array["uri_id"].'&amp;tema='.$tema_id.'&amp;taskrelations=delURIterm" onclick="return askData();"><span class="glyphicon glyphicon-remove"></span></a> ' ;
+                $delLink= '<a type="button" class="btn btn-danger btn-xs" id="elimina_'.$array["uri_id"].'" title="'.LABEL_borraRelacion.'"  href="'.URL_BASE.'index.php?uri_id='.$array["uri_id"].'&amp;tema='.$tema_id.'&amp;taskrelations=delURIterm" onclick="return askData();">'.HTMLicon('remove').'</a> ' ;
             }
 
 
@@ -1912,11 +1908,11 @@ function HTMLtermMetadata($arrayTerm, $arrayCantRelaciones)
 
     //Is admin and have descendant terms
     if ((evalUserLevel($_SESSION[$_SESSION["CFGURL"]])==1) && ($arrayCantRelaciones["cantNT"]>0)) {
-        $body.='<dt>'.ucfirst(LABEL_export).' <span class="glyphicon icon-download-alt"></span></dt>' ;
+        $body.='<dt>'.ucfirst(LABEL_export).' '.HTMLicon('download').'</dt>' ;
         $body.='<dd>' ;
         $body.='<ul class="list-inline" id="enlaces_xml">' ;
-        $body.='        <li><a target="_blank" title="'.MENU_ListaAbc.'"  href="'.URL_BASE.'xml.php?dis=termAlpha&amp;term_id='.$arrayTerm["tema_id"].'"><span class="glyphicon glyphicon-list"></span> '.ucfirst(MENU_ListaAbc).'</a></li>' ;
-        $body.='        <li><a target="_blank" title="'.ucfirst(MENU_ListaSis).'"  href="'.URL_BASE.'xml.php?dis=termTree&amp;term_id='.$arrayTerm["tema_id"].'"><span class="glyphicon glyphicon-tree-conifer"></span> '.ucfirst(MENU_ListaSis).'</a></li>' ;
+        $body.='        <li><a target="_blank" title="'.MENU_ListaAbc.'"  href="'.URL_BASE.'xml.php?dis=termAlpha&amp;term_id='.$arrayTerm["tema_id"].'">'.HTMLicon('list').' '.ucfirst(MENU_ListaAbc).'</a></li>' ;
+        $body.='        <li><a target="_blank" title="'.ucfirst(MENU_ListaSis).'"  href="'.URL_BASE.'xml.php?dis=termTree&amp;term_id='.$arrayTerm["tema_id"].'">'.HTMLicon('tree').' '.ucfirst(MENU_ListaSis).'</a></li>' ;
         $body.='</ul>' ;
         $body.='</dd>' ;
     }
@@ -1957,8 +1953,8 @@ function HTMLdeepStats()
 
     $sql=SQLTermDeep();
 
-    $rows='<div class="table-responsive col-xs-6 col-md-4">
-	  <table class="table  table-bordered table-condensed table-hover" summary="'.LABEL_termsXdeepLevel.'">
+    $rows='<div class="table-responsive col-6 col-lg-4">
+	  <table class="table  table-bordered table-sm table-hover" summary="'.LABEL_termsXdeepLevel.'">
 	  <thead><tr><tr><th>'.ucfirst(LABEL_deepLevel).'</th><th>'.ucfirst(LABEL_cantTerms).'</th></tr></thead>
 	  <tbody>' ;
     while ($array=$sql->FetchRow()) {
@@ -2091,22 +2087,40 @@ function makeGlossary($notesType = array("NA"), $params = array())
 
 
 
+/** Inline SVG icon (Bootstrap Icons, MIT licence) */
+function HTMLicon($name)
+{
+    $paths = array(
+        'fire' => 'M8 16c3.314 0 6-2 6-5.5 0-1.5-.5-4-2.5-6 .25 1.5-1.25 2-1.25 2C11 4 9 .5 6 0c.357 2 .5 4-2 6-1.25 1-2 2.729-2 4.5C2 14 4.686 16 8 16m0-1c-1.657 0-3-1-3-2.75 0-.75.25-2 1.25-3C6.125 10 7 10.5 7 10.5c-.375-1.25.5-3.25 2-3.5-.179 1-.25 2 1 3 .625.5 1 1.364 1 2.25C11 14 9.657 15 8 15',
+        'share' => 'M13.5 1a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3M11 2.5a2.5 2.5 0 1 1 .603 1.628l-6.718 3.12a2.5 2.5 0 0 1 0 1.504l6.718 3.12a2.5 2.5 0 1 1-.488.876l-6.718-3.12a2.5 2.5 0 1 1 0-3.256l6.718-3.12A2.5 2.5 0 0 1 11 2.5m-8.5 4a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3m11 5.5a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3',
+        'download' => 'M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5|M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708z',
+        'list' => 'M5 11.5a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5m-3 1a1 1 0 1 0 0-2 1 1 0 0 0 0 2m0 4a1 1 0 1 0 0-2 1 1 0 0 0 0 2m0 4a1 1 0 1 0 0-2 1 1 0 0 0 0 2',
+        'tree' => 'M6 3.5A1.5 1.5 0 0 1 7.5 2h1A1.5 1.5 0 0 1 10 3.5v1A1.5 1.5 0 0 1 8.5 6v1H14a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-1 0V8h-5v.5a.5.5 0 0 1-1 0V8h-5v.5a.5.5 0 0 1-1 0v-1A.5.5 0 0 1 2 7h5.5V6A1.5 1.5 0 0 1 6 4.5zM8.5 5a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5zM0 11.5A1.5 1.5 0 0 1 1.5 10h1A1.5 1.5 0 0 1 4 11.5v1A1.5 1.5 0 0 1 2.5 14h-1A1.5 1.5 0 0 1 0 12.5zm1.5-.5a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5zm4.5.5A1.5 1.5 0 0 1 7.5 10h1a1.5 1.5 0 0 1 1.5 1.5v1A1.5 1.5 0 0 1 8.5 14h-1A1.5 1.5 0 0 1 6 12.5zm1.5-.5a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5zm4.5.5a1.5 1.5 0 0 1 1.5-1.5h1a1.5 1.5 0 0 1 1.5 1.5v1a1.5 1.5 0 0 1-1.5 1.5h-1a1.5 1.5 0 0 1-1.5-1.5zm1.5-.5a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5z',
+        'copy' => 'M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1h1a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1h1z|M9.5 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5zm-3-1A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0z',
+        'remove' => 'M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8z',
+        'rss' => 'M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2z|M5.5 12a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0m-3-8.5a1 1 0 0 1 1-1c5.523 0 10 4.477 10 10a1 1 0 1 1-2 0 8 8 0 0 0-8-8 1 1 0 0 1-1-1m0 4a1 1 0 0 1 1-1 6 6 0 0 1 6 6 1 1 0 1 1-2 0 4 4 0 0 0-4-4 1 1 0 0 1-1-1'
+    );
+    if (!isset($paths[$name])) {
+        return '';
+    }
+    $d = '';
+    foreach (explode('|', $paths[$name]) as $p) {
+        $d .= '<path d="'.$p.'"/>';
+    }
+    return '<svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16" aria-hidden="true" style="vertical-align:-.125em">'.$d.'</svg>';
+}
+
+
 function HTMLheader($metadata)
 {
 GLOBAL $CFG;
 
     $rows='<meta charset="utf-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1">' ;
     //    <!-- Latest compiled and minified CSS -->
-    if ($CFG["USE_CDN"]==1) {    
-        $rows.='<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">' ;
-        //<!-- Optional theme -->
-        $rows.='<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">' ;
-        //<!-- Latest compiled and minified JavaScript -->
+    if ($CFG["USE_CDN"]==1) {
+        $rows.='<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">' ;
     } else {
         $rows.='<link rel="stylesheet" href="'.T3_WEBPATH.'bootstrap/css/bootstrap.min.css">' ;
-        //<!-- Optional theme -->
-        $rows.='<link rel="stylesheet" href="'.T3_WEBPATH.'bootstrap/css/bootstrap-theme.min.css">' ;
-        //<!-- Latest compiled and minified JavaScript -->
     }
     $rows.='<link href="'.T3_WEBPATH.'css/t3style.css" rel="stylesheet">' ;
     $rows.=$metadata["metadata"];
@@ -2139,49 +2153,36 @@ function HTMLnavHeader()
         </div>' ;
 
 
-    $rows.='<nav class="navbar navbar-inverse" role="navigation">
+    $rows.='<nav class="navbar navbar-expand-md navbar-dark bg-dark" role="navigation">
   <div class="container">
-    <div class="navbar-header">
-     <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapsible">
-        <span class="sr-only">'.LABEL_toggleNavigation.'</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
-      <a class="navbar-brand" title="'.MENU_Inicio.' '.$_SESSION["CFGTitulo"].'" href="'.URL_BASE.'index.php">'.MENU_Inicio.'</a>
-    </div>
+    <a class="navbar-brand" title="'.MENU_Inicio.' '.$_SESSION["CFGTitulo"].'" href="'.URL_BASE.'index.php">'.MENU_Inicio.'</a>
+    <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar-collapsible" aria-controls="navbar-collapsible" aria-expanded="false" aria-label="'.LABEL_toggleNavigation.'">
+      <span class="navbar-toggler-icon"></span>
+    </button>
     <div class="navbar-collapse collapse" id="navbar-collapsible">
-      <ul class="nav navbar-nav navbar-right">
-        <li><a title="'.LABEL_busqueda.'" href="'.URL_BASE.'index.php?xsearch=1">'.ucfirst(LABEL_BusquedaAvanzada).'</a></li>
-
-        <li>
-		      <a title="'.MENU_Sobre.'" href="'.URL_BASE.'sobre.php">'.MENU_Sobre.'</a>
-	    </li>
-      </ul>
-      <ul class="nav navbar-nav navbar-left">' ;
+      <ul class="navbar-nav me-auto">' ;
 
                 //hay sesion de usuario
     if (evalUserLevel($_SESSION[$_SESSION["CFGURL"]])>0) {
         $rows.=HTMLmainMenu();
     } else {//no hay session de usuario
-        $rows.='<li><a href="login-modal.php" title="'.MENU_MiCuenta.'" data-toggle="modal" data-target="#remoteModal">'.MENU_MiCuenta.'</a></li>' ;
+        $rows.='<li class="nav-item"><a class="nav-link" href="login-modal.php" title="'.MENU_MiCuenta.'" data-bs-toggle="modal" data-bs-target="#remoteModal">'.MENU_MiCuenta.'</a></li>' ;
     };
 
     $rows.='</ul>
-      <form method="get" id="simple-search" name="simple-search" action="'.URL_BASE.'index.php" class="navbar-form">
-        <div class="form-group" style="display:inline;">
-          <div class="fill col2">
-            <input class="form-control" id="query" name="'.FORM_LABEL_buscar.'"  type="search" aria-label="'.LABEL_Buscar.'" '.$focus.'>
-            <input class="btn btn-default" type="submit" value="'.LABEL_Buscar.'" />
-            <input type="hidden" name="taskSearch" id="taskSearch" value="1" />
-          </div>
-        </div>
+      <form method="get" id="simple-search" name="simple-search" action="'.URL_BASE.'index.php" class="d-flex flex-grow-1 me-3" role="search">
+        <input class="form-control me-2" id="query" name="'.FORM_LABEL_buscar.'"  type="search" aria-label="'.LABEL_Buscar.'" '.$focus.'>
+        <input class="btn btn-default" type="submit" value="'.LABEL_Buscar.'" />
+        <input type="hidden" name="taskSearch" id="taskSearch" value="1" />
       </form>
+      <ul class="navbar-nav">
+        <li class="nav-item"><a class="nav-link" title="'.LABEL_busqueda.'" href="'.URL_BASE.'index.php?xsearch=1">'.ucfirst(LABEL_BusquedaAvanzada).'</a></li>
+        <li class="nav-item"><a class="nav-link" title="'.MENU_Sobre.'" href="'.URL_BASE.'sobre.php">'.MENU_Sobre.'</a></li>
+      </ul>
     </div>
-
   </div>
 </nav>
-<div class="modal fade" id="remoteModal" tabindex="-1" role="dialog" aria-labelledby="remoteModalLabel" aria-hidden="true">
+<div class="modal fade" id="remoteModal" tabindex="-1" aria-labelledby="remoteModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content"></div>
   </div>
@@ -2201,9 +2202,9 @@ function HTMLjsInclude()
     $rows='<script type="text/javascript" src="'.T3_WEBPATH.'jq/lib/jquery-3.7.1.min.js"></script>' ;
     //$rows.='<script src="'.T3_WEBPATH.'jq/lib/jquery-migrate-4.0.2.min.js"></script>';
     if ($CFG["USE_CDN"]==1) {
-        $rows.='<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>' ;
+        $rows.='<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>' ;
     } else {
-        $rows.='<script src="'.T3_WEBPATH.'bootstrap/js/bootstrap.min.js"></script>' ;
+        $rows.='<script src="'.T3_WEBPATH.'bootstrap/js/bootstrap.bundle.min.js"></script>' ;
     }
     // <!-- Include all compiled plugins (below), or include individual files as needed -->
     $rows.='<script type="text/javascript" src="'.T3_WEBPATH.'jq/jquery.autocomplete.min.js"></script>
@@ -2213,8 +2214,6 @@ function HTMLjsInclude()
 
 		 <link rel="stylesheet" type="text/css" href="'.T3_WEBPATH.'css/jquery.autocomplete.css" />
 		 <link rel="stylesheet" type="text/css" href="'.T3_WEBPATH.'css/jqtree.css" />
-		 <script type="text/javascript" src="'.T3_WEBPATH.'bootstrap/submenu/js/bootstrap-submenu.min.js"></script>
-		 <script type="text/javascript" src="'.T3_WEBPATH.'bootstrap/bootstrap-tabcollapse.js"></script>
 		 <link type="text/css" src="'.T3_WEBPATH.'bootstrap/forms/css/styles.css"/>' ;
 
     if (evalUserLevel($_SESSION[$_SESSION["CFGURL"]])>0) {
@@ -2228,8 +2227,7 @@ function HTMLjsInclude()
 
     $rows.='<script type="application/javascript" src="'.URL_BASE.'js.php" charset="utf-8"></script>
 		<script type="text/javascript" src="'.T3_WEBPATH.'forms/jquery.validate.min.js"></script>
-		<script type="text/javascript" src="'.T3_WEBPATH.'jq/tagcloud.js"></script>
-		<script type="text/javascript" src="'.T3_WEBPATH.'bootstrap/js/validator.min.js"></script>' ;
+		<script type="text/javascript" src="'.T3_WEBPATH.'jq/tagcloud.js"></script>' ;
 
     if (strtolower(substr($_SESSION[$_SESSION["CFGURL"]]["lang"][2], 0,2))!=='en') {
         $rows.='<script src="'.T3_WEBPATH.'forms/localization/messages_'.$_SESSION[$_SESSION["CFGURL"]]["lang"][2].'.js" type="text/javascript"></script>' ;
@@ -2237,11 +2235,30 @@ function HTMLjsInclude()
 
     $rows.='<script type="text/javascript">
     	var clipboard = new ClipboardJS(\'.copy-clipboard\');
-	  	$("#myTermTab").tabCollapse();
-	  	$(".dropdown-submenu > a").submenupicker();
-	  	$(".termDefinition").popover();
-		$("#popoverOption").popover({ trigger: "hover"});
-		$(".autoGloss").tooltip(options);
+	  	$("#remoteModal").on("show.bs.modal", function (e) { if (e.relatedTarget) { $(this).find(".modal-content").load($(e.relatedTarget).attr("href")); } });
+	  	$(".dropdown-submenu > a").attr("aria-expanded", "false").on("click", function (e) {
+			e.preventDefault(); e.stopPropagation();
+			var $li = $(this).parent(), open = !$li.hasClass("show");
+			$li.siblings(".dropdown-submenu").add($li.find(".dropdown-submenu")).removeClass("show").children("a").attr("aria-expanded", "false");
+			$li.toggleClass("show", open); $(this).attr("aria-expanded", open ? "true" : "false");
+		});
+		// keys inside a submenu: handled here, before the Bootstrap dropdown handler (capture phase on document) gets them
+		window.addEventListener("keydown", function (e) {
+			var menu = e.target.closest && e.target.closest(".dropdown-submenu > .dropdown-menu");
+			if (!menu || ["ArrowUp", "ArrowDown", "Escape"].indexOf(e.key) < 0) return;
+			e.preventDefault(); e.stopPropagation();
+			var $items = $(menu).children("li").children("a");
+			if (e.key === "Escape") { $(menu).prev("a").trigger("click").trigger("focus"); return; }
+			var i = $items.index(e.target) + (e.key === "ArrowDown" ? 1 : -1);
+			$items.eq(Math.max(0, Math.min(i, $items.length - 1))).trigger("focus");
+		}, true);
+	  	$(".dropdown").on("hide.bs.dropdown", function () { $(this).find(".dropdown-submenu").removeClass("show").children("a").attr("aria-expanded", "false"); });
+		document.querySelectorAll(\'[data-bs-toggle="tooltip"]\').forEach(function (el) { new bootstrap.Tooltip(el); });
+		document.addEventListener(\'invalid\', function (e) { var f = e.target.form; if (f && f.matches(\'[data-toggle="validator"]\')) { f.classList.add(\'was-validated\'); $(e.target).closest(".form-group").find(".with-errors").text(e.target.validationMessage); } }, true);
+		$(\'form[data-toggle="validator"]\').on("input change", function () {
+			$(this).find("[data-match]").each(function () { this.setCustomValidity(this.value === $(this.getAttribute("data-match")).val() ? "" : this.getAttribute("data-match-error")); });
+			if ($(this).hasClass("was-validated")) $(this).find(".with-errors").each(function () { var f = $(this).closest(".form-group").find("input, select, textarea")[0]; $(this).text(f && !f.validity.valid ? f.validationMessage : ""); });
+		}).trigger("input");
 		$("#tagcloud a").tagcloud({
 		size: {start: 12, end: 36, unit: "px"},
 		color: {start: "#3498DB", end: "#46CFB0"}
@@ -2370,7 +2387,7 @@ function HTMLselectTargetVocabulary($tvocab_id = "")
         //No hay vocabularios de referencia, solo vocabulario principal
         $rows.=HTMLalertNoTargetVocabularyPivotModel($tvocab_id);
     } else {
-        $rows.='<table class="table table-striped table-bordered table-condensed table-hover">
+        $rows.='<table class="table table-striped table-bordered table-sm table-hover">
 		<thead>
 		<tr>
 			<th>'.ucfirst(LABEL_vocabulario_referencia).'</th>
@@ -2410,19 +2427,19 @@ function HTMLalphaListTerms4map($tvocab_id, $filterEQ, $char = "")
                 $class = ($datosAlfabetico[1]==0)  ? '' : 'active' ;
 
                 if (!ctype_digit($datosAlfabetico[0])) {
-                    $menuAlfabetico.='<li class="'.$class.'">' ;
-                    $menuAlfabetico.='    <a title="'.LABEL_verTerminosLetra.' '.$datosAlfabetico[0].'" href="'.URL_BASE.'index.php?letra2trad='.$datosAlfabetico[0].'&tvocab_id='.$tvocab_id.'&mod=trad">'.$datosAlfabetico[0].'</a>' ;
+                    $menuAlfabetico.='<li class="page-item '.$class.'">' ;
+                    $menuAlfabetico.='    <a class="page-link" title="'.LABEL_verTerminosLetra.' '.$datosAlfabetico[0].'" href="'.URL_BASE.'index.php?letra2trad='.$datosAlfabetico[0].'&tvocab_id='.$tvocab_id.'&mod=trad">'.$datosAlfabetico[0].'</a>' ;
                     $menuAlfabetico.='</li>' ;
                 } else {
-                    $menuNoAlfabetico='<li class="'.$class.'">' ;
-                    $menuNoAlfabetico.='    <a title="'.LABEL_verTerminosLetra.' '.$datosAlfabetico[0].'" href="'.URL_BASE.'index.php?letra2trad='.$datosAlfabetico[0].'&tvocab_id='.$tvocab_id.'&mod=trad">0-9</a>' ;
+                    $menuNoAlfabetico='<li class="page-item '.$class.'">' ;
+                    $menuNoAlfabetico.='    <a class="page-link" title="'.LABEL_verTerminosLetra.' '.$datosAlfabetico[0].'" href="'.URL_BASE.'index.php?letra2trad='.$datosAlfabetico[0].'&tvocab_id='.$tvocab_id.'&mod=trad">0-9</a>' ;
                     $menuNoAlfabetico.='</li>' ;
                 }
             }
         };//fin del while
     }
 
-    $menuAlfabetico='<div class="text-center"><ul class="pagination pagination-sm">'.$menuNoAlfabetico.$menuAlfabetico.'</ul></div>' ;
+    $menuAlfabetico='<div class="text-center"><ul class="pagination pagination-sm justify-content-center">'.$menuNoAlfabetico.$menuAlfabetico.'</ul></div>' ;
     return $menuAlfabetico;
 };
 
@@ -2662,7 +2679,7 @@ function HTMLsummary()
     //terms stats
     $rows.='<tr><th>'.ucfirst(LABEL_Terminos).'</th><td>'.$resumen["cant_aceptados"];
 
-    $rows.=' <a class="label label-info" href="'.URL_BASE.'index.php?s=n" title="'.ucfirst(LABEL_showNewsTerm).'"><span class="glyphicon glyphicon-fire"></span> '.ucfirst(LABEL_showNewsTerm).'</a>' ;
+    $rows.=' <a class="badge text-bg-info" href="'.URL_BASE.'index.php?s=n" title="'.ucfirst(LABEL_showNewsTerm).'">'.HTMLicon('fire').' '.ucfirst(LABEL_showNewsTerm).'</a>' ;
     $rows.='<ul>' ;
     if ($_SESSION[$_SESSION["CFGURL"]]["CFG_VIEW_STATUS"]==1) {
         if ($resumen["cant_candidato"]>0) {
@@ -2738,7 +2755,7 @@ function extractNoteTypeConent($metadata, $note_type, $format = "txt", $editFlag
             $note_text.=($format=='txt') ? html2txt($notes["nota"]) : $notes["nota"];
 
             if ($editFlag==1) {
-                $note_text.='<div class="text-right"><a role="button" class="btn btn-primary btn-xs" href="'.URL_BASE.'index.php?editNota='.$notes["id"].'&amp;taskterm=editNote&amp;tema='.$metadata["idTema"].'">'.ucfirst(LABEL_EditarNota).'</a>' ;
+                $note_text.='<div class="text-end"><a role="button" class="btn btn-primary btn-xs" href="'.URL_BASE.'index.php?editNota='.$notes["id"].'&amp;taskterm=editNote&amp;tema='.$metadata["idTema"].'">'.ucfirst(LABEL_EditarNota).'</a>' ;
                 $note_text.=' <a role="button" class="btn btn-danger btn-xs" href="'.URL_BASE.'index.php?tema='.$notes["idTema"].'&amp;idTema='.$metadata["idTema"].'&amp;idNota='.$notes["id"].'&amp;taskNota=rem" name="eliminarNota" title="'.LABEL_EliminarNota.'"/>'.ucfirst(LABEL_EliminarNota).'</a></div>' ;
             };
         }
@@ -2758,7 +2775,7 @@ function HTMLcopyClick($targt_div, $array_flags)
         return;
     }
 
-    return '<button class="btn btn-default btn-xs copy-clipboard" data-clipboard-action="copy" data-clipboard-target="#'.$targt_div.'" alt="'.ucfirst(LABEL_copy_click).'"><span class="glyphicon glyphicon-copy" aria-hidden="true"  title="'.ucfirst(LABEL_copy_click).'"></span></button>' ;
+    return '<button class="btn btn-default btn-xs copy-clipboard" data-clipboard-action="copy" data-clipboard-target="#'.$targt_div.'" alt="'.ucfirst(LABEL_copy_click).'" title="'.ucfirst(LABEL_copy_click).'">'.HTMLicon('copy').'</button>' ;
 }
 
 
@@ -2939,7 +2956,7 @@ function HTMLsource4note($note_id)
     $src_link=(strlen($array['src_url'])>5) ? ' <a href="'.$array['src_url'].'" target="_blank" title="'.ucfirst(LABEL_Detalle).' '.$array["src_alias"].'">'.$array['src_url'].'</a>' : '' ;
 
     $rows='<div class="src4note">' ;
-    $rows.=ucfirst(LABEL_src_note).': <a data-toggle="collapse" href="#src4note'.$note_id.'_'.$array["src_id"].'" href="#">'.$array["src_alias"].'</a>' ;
+    $rows.=ucfirst(LABEL_src_note).': <a data-bs-toggle="collapse" href="#src4note'.$note_id.'_'.$array["src_id"].'" href="#">'.$array["src_alias"].'</a>' ;
     $rows.='	<p class="collapse" id="src4note'.$note_id.'_'.$array["src_id"].'">'.$array["src_note"].$src_link.'</p>' ;
     $rows.='</div>' ;
     return $rows;

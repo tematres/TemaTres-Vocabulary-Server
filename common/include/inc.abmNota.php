@@ -92,19 +92,19 @@ $notaEsc = htmlspecialchars($arrayNota["nota"] ?? '', ENT_QUOTES, 'UTF-8');
 
     <form class="" role="form" name="altaNota" id="altaNota" action="index.php" method="post">
         <div class="row">
-            <div class="col-sm-12">
+            <div class="col-md-12">
                 <legend><?php echo LABEL_EditorNotaTermino; ?> <a href="index.php?tema=<?php echo $temaIdEsc; ?>"><?php echo $titTemaEsc; ?></a></legend>
             </div>
 
-            <div class="col-lg-12">
-                <div class="panel panel-default">
-                    <div class="panel-body form-horizontal">
+            <div class="col-xl-12">
+                <div class="card">
+                    <div class="card-body form-horizontal">
 
                         <!-- Tipo de nota -->
                         <div class="form-group">
-                            <label for="tipoNota" class="col-sm-2 control-label"><?php echo ucfirst(LABEL_tipoNota); ?></label>
-                            <div class="col-sm-10">
-                                <select class="form-control" id="tipoNota" name="<?php echo FORM_LABEL_tipoNota; ?>">
+                            <label for="tipoNota" class="col-md-2 control-label"><?php echo ucfirst(LABEL_tipoNota); ?></label>
+                            <div class="col-md-10">
+                                <select class="form-select" id="tipoNota" name="<?php echo FORM_LABEL_tipoNota; ?>">
                                     <?php echo doSelectForm($arrayNoteType, $type_note); ?>
                                 </select>
                             </div>
@@ -112,9 +112,9 @@ $notaEsc = htmlspecialchars($arrayNota["nota"] ?? '', ENT_QUOTES, 'UTF-8');
 
                         <!-- Idioma -->
                         <div class="form-group">
-                            <label for="idioma" class="col-sm-2 control-label"><?php echo ucfirst(LABEL_Idioma); ?></label>
-                            <div class="col-sm-10">
-                                <select class="form-control" id="idioma" name="<?php echo FORM_LABEL_Idioma; ?>">
+                            <label for="idioma" class="col-md-2 control-label"><?php echo ucfirst(LABEL_Idioma); ?></label>
+                            <div class="col-md-10">
+                                <select class="form-select" id="idioma" name="<?php echo FORM_LABEL_Idioma; ?>">
                                     <?php echo doSelectForm($arrayLang, $arrayNota["lang_nota"]); ?>
                                 </select>
                             </div>
@@ -122,9 +122,9 @@ $notaEsc = htmlspecialchars($arrayNota["nota"] ?? '', ENT_QUOTES, 'UTF-8');
 
                         <!-- Nota (editor) -->
                         <div class="form-group">
-                            <label for="<?php echo LABEL_nota; ?>" class="col-sm-2 control-label"><?php echo ucfirst(LABEL_nota); ?></label>
-                            <div class="col-sm-10">
-                                <span class="help-block"><?php echo MSG_helpNoteEditor; ?></span>
+                            <label for="<?php echo LABEL_nota; ?>" class="col-md-2 control-label"><?php echo ucfirst(LABEL_nota); ?></label>
+                            <div class="col-md-10">
+                                <span class="form-text"><?php echo MSG_helpNoteEditor; ?></span>
                                 <textarea name="<?php echo FORM_LABEL_nota; ?>" rows="20" id="<?php echo LABEL_nota; ?>"><?php echo $notaEsc; ?></textarea>
                             </div>
                         </div>
@@ -132,9 +132,9 @@ $notaEsc = htmlspecialchars($arrayNota["nota"] ?? '', ENT_QUOTES, 'UTF-8');
                         <!-- Fuente (opcional) -->
                         <?php if (count($arrayNoteSrc) > 1) : ?>
                         <div class="form-group">
-                            <label for="src_note_id" class="col-sm-2 control-label"><?php echo ucfirst(LABEL_src_note); ?></label>
-                            <div class="col-sm-10">
-                                <select class="form-control" id="src_note_id" name="src_note_id">
+                            <label for="src_note_id" class="col-md-2 control-label"><?php echo ucfirst(LABEL_src_note); ?></label>
+                            <div class="col-md-10">
+                                <select class="form-select" id="src_note_id" name="src_note_id">
                                     <?php echo doSelectForm($arrayNoteSrc, $arrayNota["src_id"] ?? null); ?>
                                 </select>
                             </div>
@@ -143,16 +143,16 @@ $notaEsc = htmlspecialchars($arrayNota["nota"] ?? '', ENT_QUOTES, 'UTF-8');
 
                         <!-- Botones -->
                         <div class="form-group" role="group">
-                            <div class="col-sm-12 text-right">
+                            <div class="col-md-12 text-end">
                                 <div class="btn-group">
                                     <?php echo $buttons; ?>
                                 </div>
                             </div>
                         </div>
 
-                    </div><!-- /.panel-body -->
+                    </div><!-- /.card-body -->
                 </div><!-- /.panel -->
-            </div><!-- /.col-lg-11 -->
+            </div><!-- /.col-xl-11 -->
 
             <?php echo $hidden; ?>
         </div><!-- /.row -->

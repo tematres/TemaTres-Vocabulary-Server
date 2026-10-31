@@ -582,7 +582,7 @@ function string2gloss($string, $toSee, $noteTypes = array("NA"))
     }
 
     if ($arrayTerm["tema_id"]) {
-        return '<a href="'.URL_BASE.'index.php?tema='.$arrayTerm["tema_id"].'" class="autoGloss" data-toggle="tooltip" data-placement="right" title="'.$text.'">'.$toSee.'</a>';
+        return '<a href="'.URL_BASE.'index.php?tema='.$arrayTerm["tema_id"].'" class="autoGloss" data-bs-toggle="tooltip" data-bs-placement="right" title="'.$text.'">'.$toSee.'</a>';
     } else {
         return '<a href="'.URL_BASE.'index.php?'.FORM_LABEL_buscar.'='.$string.'&amp;sgs=off" title="'.ucfirst(LABEL_Detalle).' '.$string.'">'.$toSee.'</a>';
     }
