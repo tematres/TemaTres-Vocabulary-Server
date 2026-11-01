@@ -1016,7 +1016,6 @@ function do_meta_tag($arrayTermino = "")
     $titleParts[]=$labelChangeLang;
     $title_page=substr(implode('. ', array_reverse($titleParts, true)), 1);
     $meta_tag='<title>'.xmlentities($title_page).'</title>';
-    $meta_tag.='<meta http-equiv="content-type" content="application/xhtml+xml; charset='.$page_encode.'" />';
     $meta_tag.='<link rel="canonical" href="'.$meta_url.'" />';
 
     $meta_tag.='<meta name="generator" content="'.xmlentities($_SESSION["CFGVersion"]).'" />';
@@ -1027,19 +1026,6 @@ function do_meta_tag($arrayTermino = "")
     $meta_tag.='<meta http-equiv="last-modified" content="'.$_SESSION["CFGlastMod"].'" />';
     $meta_tag.='<meta name="robots" content="all">';
 
-
-
-    //$meta_tag.='<!-- Dublin Core -->';
-    /*$meta_tag.='<meta name="DC.Title"        content="'.xmlentities($title_page).'" />';
-    $meta_tag.='<meta name="DC.Creator"      content="'.xmlentities($_SESSION["CFGAutor"]).'" />';
-    $meta_tag.='<meta name="DC.Subject"      content="'.xmlentities($aboutness).'" />';
-    $meta_tag.='<meta name="DC.Description"  content="'.html2txt(textoLimitado($meta_description,250), true).'" />';
-    $meta_tag.='<meta name="DC.Publisher"    content="'.xmlentities($_SESSION["CFGPublisher"]).'" />';
-    $meta_tag.='<meta name="DC.Contributor"    content="'.xmlentities($_SESSION["CFGContributor"]).'" />';
-    $meta_tag.='<meta name="DC.Rights"    content="'.xmlentities($_SESSION["CFGRights"]).'" />';
-    $meta_tag.='<meta name="DC.Date"         content="'.$_SESSION["CFGCreacion"].'" />';
-    $meta_tag.='<meta name="DC.Language"     content="'.$_SESSION["CFGIdioma"].'" />';
-    */
     //Dublinc Core schema
     $meta_tag.='	<link rel="schema.DC" href="http://purl.org/dc/elements/1.1/">
 	<meta name="DC.Title" content="'.xmlentities($title_page).'">
@@ -1087,7 +1073,6 @@ function do_meta_tag($arrayTermino = "")
     $meta_tag.='<link rel="service" href="'.URL_BASE.'services.php" title="terminogical web services" />';
     $meta_tag.='<link rel="bookmark" href="'.URL_BASE.'"/>';
     $meta_tag.='<link rel="rss" type="application/rss+xml" href="'.URL_BASE.'xml.php?schema=rss" title="RSS '.xmlentities($_SESSION["CFGTitulo"]).'" />';
-    $meta_tag.='<link rel="alternate" type="application/rss+xml" href="'.URL_BASE.'xml.php?schema=rss" title="RSS '.xmlentities($_SESSION["CFGTitulo"]).'" />';
     $meta_tag.=$relMeta;
 
     //    header ('Content-type: text/html; charset='.$page_encode.'');

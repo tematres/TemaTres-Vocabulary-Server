@@ -925,11 +925,11 @@ function doMenuLang($tema_id = "0")
 
     global $idiomas_disponibles;
 
-    $selectLang='<form id="select-lang" method="get" action="index.php">' ;
-    $selectLang.='<select class="form-select form-select-sm w-auto float-end" name="setLang" id="setLang" onchange="this.form.submit();">' ;
+    $selectLang='<form id="select-lang" method="get" class="m-0 ms-auto" action="index.php">' ;
+    $selectLang.='<select class="form-select form-select-sm w-auto shadow-sm" name="setLang" id="setLang" onchange="this.form.submit();">' ;
     foreach ($idiomas_disponibles as $key => $value) {
         if ($value[2]==$_SESSION[$_SESSION["CFGURL"]]["lang"][2]) {
-            $selectLang.='<option value="'.$value[2].'" selected="selected">'.$value[0].'</option>' ;
+            $selectLang.='<option value="'.$value[2].'" selected>'.$value[0].'</option>' ;
         } else {
             $selectLang.='<option value="'.$value[2].'">'.$value[0].'</option>' ;
         };
@@ -1362,7 +1362,7 @@ function HTMLlistaAlfabeticaUnica($letra = "")
 
     $sqlMenuAlfabetico=SQLlistaABC($letra);
     if (SQLcount($sqlMenuAlfabetico)>0) {
-        $rows='<ul class="pagination pagination-sm">' ;
+        $rows='<ul class="pagination pagination-sm justify-content-center flex-wrap m-0">' ;
         while ($datosAlfabetico = $sqlMenuAlfabetico->FetchRow()) {
             $datosAlfabetico[0]=isValidLetter($datosAlfabetico[0]);
 
@@ -1383,7 +1383,7 @@ function HTMLlistaAlfabeticaUnica($letra = "")
         };//fin del while
     }
 
-    $menuAlfabetico='<div class="text-center"><ul class="pagination pagination-sm justify-content-center">'.$menuNoAlfabetico.$menuAlfabetico.'</ul></div>' ;
+    $menuAlfabetico='<div class="text-center mb-4"><ul class="pagination pagination-sm justify-content-center">'.$menuNoAlfabetico.$menuAlfabetico.'</ul></div>' ;
     return $menuAlfabetico;
 };
 
@@ -2214,8 +2214,8 @@ function HTMLjsInclude()
 		 <script type="text/javascript" src="'.T3_WEBPATH.'jq/clipboard.min.js"></script>
 
 		 <link rel="stylesheet" type="text/css" href="'.T3_WEBPATH.'css/jquery.autocomplete.css" />
-		 <link rel="stylesheet" type="text/css" href="'.T3_WEBPATH.'css/jqtree.css" />
-		 <link type="text/css" src="'.T3_WEBPATH.'bootstrap/forms/css/styles.css"/>' ;
+		 <link rel="stylesheet" type="text/css" href="'.T3_WEBPATH.'css/jqtree.css" />' ;
+	//not in use	 <link type="text/css" src="'.T3_WEBPATH.'bootstrap/forms/css/styles.css"/>' ;
 
     if (evalUserLevel($_SESSION[$_SESSION["CFGURL"]])>0) {
         //<!-- Load TinyMCE -->
@@ -2776,7 +2776,7 @@ function HTMLcopyClick($targt_div, $array_flags)
         return;
     }
 
-    return '<button class="btn btn-default btn-xs copy-clipboard" data-clipboard-action="copy" data-clipboard-target="#'.$targt_div.'" alt="'.ucfirst(LABEL_copy_click).'" title="'.ucfirst(LABEL_copy_click).'">'.HTMLicon('copy').'</button>' ;
+    return '<button class="btn btn-xs copy-clipboard" data-clipboard-action="copy" data-clipboard-target="#'.$targt_div.'" alt="'.ucfirst(LABEL_copy_click).'" title="'.ucfirst(LABEL_copy_click).'">'.HTMLicon('copy').'</button>' ;
 }
 
 
