@@ -418,11 +418,16 @@ function HTMLbodyTermino($array)
 
 
     $badge_status=($array["estado_id"]==13) ? '' : '<span class="badge rounded-pill text-bg-warning">'.ucfirst(arrayReplace(array(12,14),array(LABEL_Candidato,LABEL_Rechazado),$array["estado_id"])).'</span>'; 
+    // accept button for a candidate, for admin and editor, under the same conditions as the Options menu
+    $accept_button='';
+    if (in_array($user_level, array('1','2')) && ($array["estado_id"]=='12') && ($HTMLterminos["cantRelaciones"]["cantTotal"]=='0')) {
+        $accept_button=' <a class="btn btn-primary btn-sm" href="'.URL_BASE.'index.php?tema='.$array["idTema"].'&amp;estado_id=13" onclick="return confirm('.htmlspecialchars(json_encode(ucfirst(LABEL_AceptarTermino).'?'), ENT_QUOTES).')">'.ucfirst(LABEL_AceptarTermino).'</a>';
+    }
     if ($array["isMetaTerm"]==1) {
-        $body.=' <h1 class="metaTerm estado_termino'.$array["estado_id"].'" title="'.$array["titTema"].' - '.NOTE_isMetaTermNote.'" id="T'.$array["tema_id"].'">'.$array["titTema"].' </h1>' ;
+        $body.=' <h1 class="metaTerm estado_termino'.$array["estado_id"].'" title="'.$array["titTema"].' - '.NOTE_isMetaTermNote.'" id="T'.$array["tema_id"].'">'.$array["titTema"].' </h1>'.$accept_button ;
         $body.=' <p class="metaTerm alert" title="'.NOTE_isMetaTermNote.'" id="noteT'.$array["tema_id"].'">'.NOTE_isMetaTerm.'</p>' ;
     } else {
-        $body.=' <h1 class="estado_termino'.$array["estado_id"].'">'.$array["titTema"].' '.$badge_status.' </h1>' ;
+        $body.=' <h1 class="estado_termino'.$array["estado_id"].'">'.$array["titTema"].' '.$badge_status.$accept_button.' </h1>' ;
     }
     //div oculto para eliminar término
     if ($editFlag==1) {
