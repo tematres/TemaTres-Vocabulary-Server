@@ -1804,7 +1804,8 @@ function getData4Autocompleter($searchq, $type = 1)
 
     while ($array=$sql->FetchRow()) {
         $string_term= (($CFG["_SHOW_CODE"]=='1') && (isset($array["code"]))) ? $array["code"].': '.$array["tema"] : $array["tema"];
-        $arrayResponse["suggestions"][]=array("value"=>$array["tema"],"data"=>$string_term);
+        // Terms are stored HTML-encoded (R&amp;D); the JSON carries plain text, which the browser escapes when it displays it
+        $arrayResponse["suggestions"][]=array("value"=>html_entity_decode($array["tema"], ENT_QUOTES | ENT_HTML5, 'UTF-8'),"data"=>html_entity_decode($string_term, ENT_QUOTES | ENT_HTML5, 'UTF-8'));
     }
 
     return json_encode($arrayResponse);
