@@ -100,35 +100,7 @@ if (evalUserLevel($_SESSION[$_SESSION["CFGURL"]])>0) {
 </div><!-- /.container -->
 
 <!-- ###### Footer ###### -->
-
-<div id="footer" class="footer">
-          <div class="container">
-                <?php
-                $_GET["letra"]=array2value("letra", $_GET);
-                if (!@$_GET["letra"]) {
-                    echo HTMLlistaAlfabeticaUnica();
-                }
-                ?>
-
-            <p class="navbar-text float-start">
-                <?php
-                //are enable SPARQL
-                if (CFG_ENABLE_SPARQL==1) {
-                    echo '<a class="badge text-bg-info" href="'.URL_BASE.'sparql.php" title="'.LABEL_SPARQLEndpoint.'">'.LABEL_SPARQLEndpoint.'</a>';
-                }
-
-                if (CFG_SIMPLE_WEB_SERVICE==1) {
-                    echo '  <a class="badge text-bg-info" href="'.URL_BASE.'services.php" title="API">'.HTMLicon('share').' API</a>';
-                }
-
-                    echo '  <a class="badge text-bg-info" href="'.URL_BASE.'xml.php?schema=rss" title="RSS">'.HTMLicon('rss').' RSS</a>';
-                    echo '  <a class="badge text-bg-info" href="'.URL_BASE.'index.php?s=n" title="'.ucfirst(LABEL_showNewsTerm).'">'.HTMLicon('fire').' '.ucfirst(LABEL_showNewsTerm).'</a>';
-                ?>
-            </p>
-                <?php echo doMenuLang(); ?>
-          </div>
-
-</div>
+<?php echo HTMLfooter(array("letra"=>"","term_id"=>""));?>
 <?php echo HTMLjsInclude();?>
     </body>
 </html>

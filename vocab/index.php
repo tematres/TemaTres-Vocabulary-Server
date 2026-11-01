@@ -20,7 +20,7 @@ if (($mod == 'csv') && (substr($task, 0, 3) == 'csv') && (@$_SESSION[$_SESSION["
 
 $search_string = '';
 $search_string = (doValue($_GET, FORM_LABEL_buscar)) ? XSSprevent(doValue($_GET, FORM_LABEL_buscar)) : '';
-$_GET["letra"]=array2value("letra", $_GET);
+$_letra=array2value("letra", $_GET);
 echo HEADdocType($metadata);
 ?>
     <body>
@@ -32,32 +32,7 @@ echo HEADdocType($metadata);
 
 <!-- ###### Footer ###### -->
 
-<div id="footer" class="footer">
-    <div class="container">
-        <?php
-        if (!$_GET["letra"]) {
-            echo HTMLlistaAlfabeticaUnica();
-        }
-        ?>
-
-    <p class="navbar-text float-start">
-        <?php
-        //are enable SPARQL
-        if (CFG_ENABLE_SPARQL==1) {
-            echo '<a class="badge text-bg-info" href="'.URL_BASE.'sparql.php" title="'.LABEL_SPARQLEndpoint.'">'.LABEL_SPARQLEndpoint.'</a>';
-        }
-
-        if (CFG_SIMPLE_WEB_SERVICE==1) {
-            echo '  <a class="badge text-bg-info" href="'.URL_BASE.'services.php" title="API">'.HTMLicon('share').' API</a>';
-        }
-
-        echo '  <a class="badge text-bg-info" href="'.URL_BASE.'xml.php?schema=rss" title="RSS">'.HTMLicon('rss').' RSS</a>';
-        echo '  <a class="badge text-bg-info" href="'.URL_BASE.'index.php?s=n" title="'.ucfirst(LABEL_showNewsTerm).'">'.HTMLicon('fire').' '.ucfirst(LABEL_showNewsTerm).'</a>';
-        ?>
-    </p>
-        <?php echo doMenuLang(array2value("tema_id",$metadata["arraydata"])); ?>
-    </div>
-</div>
+<?php echo HTMLfooter(array("letra"=>$_letra,"term_id"=>array2value("tema", $_GET)));?>
 <?php echo HTMLjsInclude();?>
-    </body>
+</body>
 </html>

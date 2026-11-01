@@ -3113,3 +3113,31 @@ function HTMLtermsXcluster($t_relacion){
 
     return $rowsHTML.$rows;
 }
+
+
+function HTMLfooter($params=array()){
+
+$rows='<div id="footer" class="footer bg-light border-top mt-auto py-3">';
+
+$rows.=(strlen($params["letra"])==0) ? HTMLlistaAlfabeticaUnica() :'';
+$rows.='<div class="container">';
+$rows.='    <div class="d-flex flex-wrap justify-content-between align-items-center gap-3 border-top pt-3">
+      <div class="d-flex flex-wrap align-items-center gap-2">';
+if (CFG_ENABLE_SPARQL==1) {
+$rows.=     '<a class="badge text-bg-info text-decoration-none" href="'.URL_BASE.'sparql.php" title="'.LABEL_SPARQLEndpoint.'">'.LABEL_SPARQLEndpoint.'</a>';
+    }
+if (CFG_SIMPLE_WEB_SERVICE==1) {
+$rows.= '  <a class="badge text-bg-info text-decoration-none" href="'.URL_BASE.'services.php" title="API">'.HTMLicon('share').' API</a>';
+    }
+
+ $rows.= '  <a class="badge text-bg-info text-decoration-none" href="'.URL_BASE.'xml.php?schema=rss" title="RSS">'.HTMLicon('rss').' RSS</a>';
+$rows.= '  <a class="badge text-bg-info text-decoration-none" href="'.URL_BASE.'index.php?s=n" title="'.ucfirst(LABEL_showNewsTerm).'">'.HTMLicon('fire').' '.ucfirst(LABEL_showNewsTerm).'</a>';
+$rows.='</div>';
+$rows.=doMenuLang(array2value("tema_id",$metadata["arraydata"]));
+$rows.='    </div>
+          
+ </div>
+</div>';
+
+return $rows;
+}
