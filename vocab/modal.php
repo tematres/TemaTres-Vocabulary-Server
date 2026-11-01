@@ -34,6 +34,7 @@ if ((is_numeric(@$_GET["tvocab_id"]))) {
 // modal body for simple Term data
 function HTMLmodalTerm($arrayTermData)
 {
+    $HTMLactions='';
     // is foreing term
     if (isset($arrayTermData["arraydata"]["tterm_uri"])) {
         $arrayTterm = ttermFullMetadata($arrayTermData["arraydata"]["tterm_uri"]);
@@ -46,6 +47,10 @@ function HTMLmodalTerm($arrayTermData)
     } else {
         $HTMLtermRelations= HTMLsimpleTerm($arrayTermData);
         $HTMLlinkTerm=HTMLlinkTerm(array("tema_id"=>$arrayTermData["arraydata"]["tema_id"], "tema"=>$arrayTermData["arraydata"]["titTema"]));
+        // details and accept links for admin and editor
+        if (in_array(evalUserLevel($_SESSION[$_SESSION["CFGURL"]]), array('1','2'))) {
+            $HTMLactions=HTMLcandidateActions($arrayTermData["arraydata"], '');
+        }
     }
 
     $rows='<!-- Modal -->
@@ -62,7 +67,7 @@ function HTMLmodalTerm($arrayTermData)
                         <div class="te">'.$HTMLtermRelations["NTrows"].'</div>
                         <div class="te">'.$HTMLtermRelations["RTrows"].'</div>
                         <div class="notas">'.HTMLNotasTermino($arrayTermData["arraydata"]).'</div>
-                <div class="modal-footer">
+                <div class="modal-footer">'.$HTMLactions.'
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">'.ucfirst(LABEL_close).'</button>
                 </div>
             </div>

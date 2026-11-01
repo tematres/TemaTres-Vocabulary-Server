@@ -363,6 +363,31 @@ $(document).ready(function () {
 });
 
 
+//Accept a candidate from the candidate list or the quick view without reloading the page
+$(document).on('click.acceptTerm', 'a.acceptTerm', function(evt) {
+        var $link = $(this);
+        evt.preventDefault();
+        if (!confirm($link.data('confirm'))) {
+                return;
+        }
+        $.get($link.attr('href'), function(data) {
+                var $row = $('tr[data-tema="' + $link.data('tema') + '"]'),
+                    $heading = $row.closest('.table-responsive').prev('h3');
+                // the answer is the term page; if the term is not accepted (e.g. the session has expired), reload to show why
+                if (!/<h1 class="(metaTerm )?estado_termino13"/.test(data)) {
+                        location.reload();
+                        return;
+                }
+                // show feedback in place (the list row and quick view stay); replace every accept button for
+                // this term, so a second copy (for example the list row behind the quick view) is not left active
+                var accepted = $link.data('accepted');
+                $heading.text($heading.text().replace(/\((\d+)\)/, function(m, n) { return '(' + (n - 1) + ')'; }));
+                $('a.acceptTerm[data-tema="' + $link.data('tema') + '"]').replaceWith(function() { return $('<span>').text(accepted); });
+        }).fail(function() {
+                location.reload();
+        });
+});
+
 //To load remote URL in modal
 (function(){
         // Create jQuery body object
