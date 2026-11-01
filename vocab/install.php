@@ -520,25 +520,25 @@ function HTMLformInstall($lang_install)
     <legend>'.ucfirst(LABEL_lcDatos).'</legend>
     <!-- Text input-->
     <div class="form-group">
-      <label class="col-md-4 control-label" for="title">'.ucfirst(LABEL_Titulo).'</label>
-      <div class="col-md-5">
+      <label class="col-lg-4 control-label" for="title">'.ucfirst(LABEL_Titulo).'</label>
+      <div class="col-lg-5">
       <input id="title" name="title" placeholder="'.ucfirst(LABEL_Titulo).'" class="form-control input-md" required="" type="text">
       </div>
     </div>
 
     <!-- Text input-->
     <div class="form-group">
-      <label class="col-md-4 control-label" for="author">'.ucfirst(LABEL_Autor).'</label>
-      <div class="col-md-5">
+      <label class="col-lg-4 control-label" for="author">'.ucfirst(LABEL_Autor).'</label>
+      <div class="col-lg-5">
       <input id="author" name="author" placeholder="'.ucfirst(LABEL_Autor).'" class="form-control input-md" required="" type="text">
       </div>
     </div>
 
     <!-- Select Basic -->
     <div class="form-group">
-      <label class="col-md-4 control-label" for="lang">'.ucfirst(LABEL_Idioma).'</label>
-      <div class="col-md-4">
-        <select id="lang" name="lang" class="form-control">
+      <label class="col-lg-4 control-label" for="lang">'.ucfirst(LABEL_Idioma).'</label>
+      <div class="col-lg-4">
+        <select id="lang" name="lang" class="form-select">
         '.doSelectForm($arrayLang, $lang_install).'
         </select>
       </div>
@@ -547,9 +547,9 @@ function HTMLformInstall($lang_install)
 
     <!-- Select Basic -->
     <div class="form-group">
-      <label class="col-md-4 control-label" for="tipo">'.ucfirst(LABEL_TipoLenguaje).'</label>
-      <div class="col-md-4">
-        <select id="tipo_lang" name="kos_type" class="form-control">
+      <label class="col-lg-4 control-label" for="tipo">'.ucfirst(LABEL_TipoLenguaje).'</label>
+      <div class="col-lg-4">
+        <select id="tipo_lang" name="kos_type" class="form-select">
         '.doSelectForm($array_kos_types, "").'
         </select>
         </div>
@@ -562,43 +562,43 @@ function HTMLformInstall($lang_install)
     <legend>'.ucfirst(MENU_NuevoUsuario).'</legend>
     <!-- Text input-->
     <div class="form-group">
-      <label class="col-md-4 control-label" for="name">'.ucfirst(LABEL_nombre).'</label>
-      <div class="col-md-4">
+      <label class="col-lg-4 control-label" for="name">'.ucfirst(LABEL_nombre).'</label>
+      <div class="col-lg-4">
       <input id="name" name="name" placeholder="'.ucfirst(LABEL_nombre).'" class="form-control input-md" required="" type="text">
       </div>
     </div>
 
     <!-- Text input-->
     <div class="form-group">
-      <label class="col-md-4 control-label" for="s_name">'.ucfirst(LABEL_apellido).'</label>
-      <div class="col-md-4">
+      <label class="col-lg-4 control-label" for="s_name">'.ucfirst(LABEL_apellido).'</label>
+      <div class="col-lg-4">
       <input id="s_name" name="s_name" placeholder="'.ucfirst(LABEL_apellido).'" class="form-control input-md" required="" type="text">
       </div>
     </div>
 
     <!-- Text input-->
     <div class="form-group">
-      <label class="col-md-4 control-label" for="mail">'.ucfirst(LABEL_mail).'</label>
-      <div class="col-md-4">
+      <label class="col-lg-4 control-label" for="mail">'.ucfirst(LABEL_mail).'</label>
+      <div class="col-lg-4">
       <input id="mail" name="mail" placeholder="'.ucfirst(LABEL_mail).'" class="form-control input-md" required="" type="email">
       </div>
     </div>
 
     <!-- Password input-->
     <div class="form-group">
-      <label class="col-md-4 control-label" for="mdp">'.ucfirst(LABEL_pass).'</label>
-      <div class="col-md-4">
+      <label class="col-lg-4 control-label" for="mdp">'.ucfirst(LABEL_pass).'</label>
+      <div class="col-lg-4">
         <input id="mdp" name="mdp"  data-minlength="4" placeholder="'.ucfirst(LABEL_pass).'" class="form-control input-md" required="" type="password">
-        <span class="help-block">'.ucfirst(sprintf(MSG_lengh_error, 4)).'</span>
+        <span class="form-text">'.ucfirst(sprintf(MSG_lengh_error, 4)).'</span>
       </div>
     </div>
 
     <!-- rePassword input-->
     <div class="form-group">
-      <label class="col-md-4 control-label" for="password">'.ucfirst(LABEL_repass).'</label>
-      <div class="col-md-4">
+      <label class="col-lg-4 control-label" for="password">'.ucfirst(LABEL_repass).'</label>
+      <div class="col-lg-4">
         <input id="password" name="password" data-match="#mdp" data-match-error="'.ucfirst(MSG_repass_error).'"  placeholder="'.ucfirst(LABEL_repass).'" class="form-control input-md" required="" type="password">
-        <div class="help-block with-errors"></div>
+        <div class="form-text with-errors"></div>
       </div>
     </div>
 
@@ -623,17 +623,14 @@ function HTMLformInstall($lang_install)
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
    <link href="<?php echo T3_WEBPATH;?>bootstrap/css/bootstrap.min.css" rel="stylesheet">
-   <link href="<?php echo T3_WEBPATH;?>bootstrap/submenu/css/bootstrap-submenu.min.css" rel="stylesheet">
    <link href="<?php echo T3_WEBPATH;?>css/t3style.css" rel="stylesheet">
 
       <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
       <script src="<?php echo T3_WEBPATH;?>jq/lib/jquery-3.7.1.min.js"></script>
       <!-- Include all compiled plugins (below), or include individual files as needed -->
-      <script src="<?php echo T3_WEBPATH;?>bootstrap/js/bootstrap.min.js"></script>
+      <script src="<?php echo T3_WEBPATH;?>bootstrap/js/bootstrap.bundle.min.js"></script>
     <link rel="stylesheet" type="text/css" href="<?php echo T3_WEBPATH;?>css/jquery.autocomplete.css" />
     <link rel="stylesheet" type="text/css" href="<?php echo T3_WEBPATH;?>css/jqtree.css" />
-   <script type="text/javascript" src="<?php echo T3_WEBPATH;?>bootstrap/submenu/js/bootstrap-submenu.min.js"></script>
-   <script type="text/javascript" src="<?php echo T3_WEBPATH;?>bootstrap/bootstrap-tabcollapse.js"></script>
 
     <link type="text/css" src="<?php echo T3_WEBPATH;?>bootstrap/forms/css/styles.css"/>
 
@@ -662,9 +659,9 @@ function HTMLformInstall($lang_install)
 
         <!-- Select Basic -->
         <div class="form-group">
-          <label class="col-md-4 control-label" for="selectbasic"><?php echo LABEL_Idioma;?></label>
-          <div class="col-md-4">
-            <select id="lang_install" name="lang_install" onChange="document.lang.submit()" class="form-control">
+          <label class="col-lg-4 control-label" for="selectbasic"><?php echo LABEL_Idioma;?></label>
+          <div class="col-lg-4">
+            <select id="lang_install" name="lang_install" onChange="document.lang.submit()" class="form-select">
               <option><?php echo LABEL_Idioma;?></option>
               <option value="ca-ES">català</option>
               <option value="en-EN">english</option>
