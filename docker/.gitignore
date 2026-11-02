@@ -1,0 +1,2 @@
+# docker/.env holds the database password
+.env

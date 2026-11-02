@@ -1,0 +1,43 @@
+# TemaTres with a MariaDB database.
+#   cp docker/.env.example docker/.env      (and change the password)
+#   docker compose -f docker/docker-compose.yml --env-file docker/.env up -d --build
+# Then open http://localhost:8080/vocab/install.php and create the vocabulary and the administrator.
+# The database is kept in the volume <project>_tematres_db (docker compose down keeps it; docker compose down -v deletes it).
+# The project name is tematres; use -p <name> to run a second copy.
+name: tematres
+services:
+  db:
+    image: mariadb:11.4
+    restart: unless-stopped
+    environment:
+      MARIADB_RANDOM_ROOT_PASSWORD: "yes"
+      MARIADB_DATABASE: tematres
+      MARIADB_USER: tematres
+      MARIADB_PASSWORD: ${TEMATRES_DB_PASSWORD:?set TEMATRES_DB_PASSWORD in docker/.env}
+    volumes:
+      - tematres_db:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 30s
+  app:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+      args:
+        PHP_VERSION: ${PHP_VERSION:-8.3}
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      TEMATRES_DB_HOST: db
+      TEMATRES_DB_NAME: tematres
+      TEMATRES_DB_USER: tematres
+      TEMATRES_DB_PASSWORD: ${TEMATRES_DB_PASSWORD}
+    ports:
+      - "${TEMATRES_BIND:-127.0.0.1}:${TEMATRES_PORT:-8080}:80"
+volumes:
+  tematres_db:
