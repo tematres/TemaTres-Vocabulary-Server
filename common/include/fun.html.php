@@ -38,7 +38,7 @@ function resultaBusca($texto, $tipo = "")
         $resumeResult = '<p class="alert alert-danger" role="alert">'.sprintf(MSG_minCharSerarch, stripslashes($texto), strlen($texto), CFG_MIN_SEARCH_SIZE-1).'</p>' ;
     }
 
-    $body='<div class="container" id="bodyText"><h2>'.LABEL_busqueda.'</h2>' ;
+    $body='<div id="bodyText"><h2>'.LABEL_busqueda.'</h2>' ;
 
     $body.=$resumeResult;
 
@@ -144,7 +144,7 @@ function resultaBusca($texto, $tipo = "")
 
         $body.='<div id="listaBusca">' ;
 
-        $body.='<ul id="myTermTab" class="nav nav-tabs mb-3">
+        $body.='<ul id="myTermTab" class="nav nav-tabs nav-fill flex-nowrap mb-3" role="tablist">
 		<li class="nav-item"><a class="nav-link active" href="#results" data-bs-toggle="tab">'.ucfirst(LABEL_results).' ('.$sql_cant.') </a></li>' ;
         $body.=$row_resultTGmenu.$row_resultTRmenu;
         $body.='</ul>' ;
@@ -161,7 +161,8 @@ function resultaBusca($texto, $tipo = "")
         $body.=HTMLsugerirTermino($texto);
     };// fin de if result
 
-    $body.='</div>' ; //container;
+    $body.='    </div>' ; //container;
+    $body.='</div>' ; 
     return $body;
 };
 
@@ -404,14 +405,14 @@ function HTMLbodyTermino($array)
     if ($cantBT>0) {
         while ($arrayMiga=$sqlMiga->FetchRow()) {
             if ($arrayMiga["tema_id"]!==$array["idTema"]) {
-                $menu_miga.='<li><a title="'.LABEL_verDetalle.$arrayMiga["tema"].'" href="'.URL_BASE.'index.php?tema='.$arrayMiga["tema_id"].'&amp;/'.string2url($arrayMiga["tema"]).'" >'.$arrayMiga["tema"].'</a></li>' ;
+                $menu_miga.='<li class="breadcrumb-item"><a title="'.LABEL_verDetalle.$arrayMiga["tema"].'" href="'.URL_BASE.'index.php?tema='.$arrayMiga["tema_id"].'&amp;/'.string2url($arrayMiga["tema"]).'" >'.$arrayMiga["tema"].'</a></li>' ;
             }
         }
     };
 
-    $row_miga='<ol class="breadcrumb"><li><a title="'.MENU_Inicio.'" href="'.URL_BASE.'index.php">'.ucfirst(MENU_Inicio).'</a></li>'.$menu_miga.'<li>'.$array["titTema"].'</li></ol>' ;
+    $row_miga='<nav aria-label="Ruta de navegación" id="breadScrumb"><ol class="breadcrumb flex-wrap"><li class="breadcrumb-item"><a title="'.MENU_Inicio.'" href="'.URL_BASE.'index.php">'.ucfirst(MENU_Inicio).'</a></li>'.$menu_miga.'<li class="breadcrumb-item">'.$array["titTema"].'</li></ol></nav>' ;
 
-    $body='<div class="container" id="bodyText">' ;
+    $body='<div id="bodyText">' ;
 
     //MENSAJE DE ERROR
     $body.=$MSG_ERROR_RELACION;
@@ -436,30 +437,35 @@ function HTMLbodyTermino($array)
     $body.='</div>' ;
     // fin Div miga de pan
 
-    $body.='<ul id="myTermTab" class="nav nav-tabs mb-3"><li class="nav-item"><a class="nav-link active" href="#theTerm" data-bs-toggle="tab">'.ucfirst(LABEL_Termino).'</a></li>' ;
+    $body.='<ul id="myTermTab" class="nav nav-tabs nav-fill flex-nowrap mb-3" role="tablist"><li class="nav-item" role="presentation">   <button class="nav-link active" id="tab-term" data-bs-toggle="tab"
+            data-bs-target="#theTerm" type="button" role="tab"
+            aria-controls="theTerm" aria-selected="true">'.ucfirst(LABEL_Termino).'</button></li>' ;
+
+    $body.='<li class="nav-item" role="presentation"><button class="nav-link" id="tab-meta" data-bs-toggle="tab"
+            data-bs-target="#metadataTerm" type="button" role="tab"
+            aria-controls="metadataTerm" aria-selected="false">'.ucfirst(LABEL_metadatos).'</button></li>' ;
+    $body.='    </ul>' ;
+
 
     /* select Term menu editor */
     switch ($user_level) {
          case '1':
              // admin
-            $body.=HTMLtermMenuX2($array, $HTMLterminos["cantRelaciones"]);
+            $body.=HTMLtermMenuBT5($array, $HTMLterminos["cantRelaciones"]);
              break;
          case '2':
              // editor
-            $body.=HTMLtermMenuX2($array, $HTMLterminos["cantRelaciones"]);
+            $body.=HTMLtermMenuBT5($array, $HTMLterminos["cantRelaciones"]);
              break;
          case '3':
              // colab.
-            $body.= ($editFlag==1) ? HTMLtermMenuX2Colab($array, $HTMLterminos["cantRelaciones"]) : '';
+            $body.= ($editFlag==1) ? HTMLtermMenuBT54Colab($array, $HTMLterminos["cantRelaciones"]) : '';
              break;
          
          default:
              // code...
              break;
-     } 
-
-    $body.='<li class="nav-item"><a class="nav-link" href="#metadataTerm" data-bs-toggle="tab">'.ucfirst(LABEL_metadatos).'</a></li>' ;
-    $body.='    </ul>' ;
+     }     
 
     // Tabs content
     $body.='<div id="tabContent" class="tab-content">' ;
@@ -1911,7 +1917,7 @@ function HTMLtermMetadata($arrayTerm, $arrayCantRelaciones)
     if ((evalUserLevel($_SESSION[$_SESSION["CFGURL"]])==1) && ($arrayCantRelaciones["cantNT"]>0)) {
         $body.='<dt>'.ucfirst(LABEL_export).' '.HTMLicon('download').'</dt>' ;
         $body.='<dd>' ;
-        $body.='<ul class="list-inline" id="enlaces_xml">' ;
+        $body.='<ul class="list-inline" id="enlaces_descarga">' ;
         $body.='        <li><a target="_blank" title="'.MENU_ListaAbc.'"  href="'.URL_BASE.'xml.php?dis=termAlpha&amp;term_id='.$arrayTerm["tema_id"].'">'.HTMLicon('list').' '.ucfirst(MENU_ListaAbc).'</a></li>' ;
         $body.='        <li><a target="_blank" title="'.ucfirst(MENU_ListaSis).'"  href="'.URL_BASE.'xml.php?dis=termTree&amp;term_id='.$arrayTerm["tema_id"].'">'.HTMLicon('tree').' '.ucfirst(MENU_ListaSis).'</a></li>' ;
         $body.='</ul>' ;
@@ -1923,7 +1929,7 @@ function HTMLtermMetadata($arrayTerm, $arrayCantRelaciones)
     $body.='<dd>' ;
 
     $body.='<ul class="list-inline" id="enlaces_xml">' ;
-    $body.='        <li><a class="btn btn-info btn-xs" target="_blank" rel="nofollow" title="'.LABEL_verEsquema.' BS8723-5"  href="'.URL_BASE.'xml.php?schema=bs8723&term_id='.$arrayTerm["tema_id"].'">BS8723-5</a></li>' ;
+    $body.='        <li><a class="btn btn-info btn-sm" target="_blank" rel="nofollow" title="'.LABEL_verEsquema.' BS8723-5"  href="'.URL_BASE.'xml.php?schema=bs8723&term_id='.$arrayTerm["tema_id"].'">BS8723-5</a></li>' ;
     $body.='        <li><a class="btn btn-info btn-xs" target="_blank" rel="nofollow" title="'.LABEL_verEsquema.' Dublin Core"  href="'.URL_BASE.'xml.php?schema=dc&term_id='.$arrayTerm["tema_id"].'">DC</a></li>' ;
     $body.='        <li><a class="btn btn-info btn-xs"  target="_blank" rel="nofollow" title="'.LABEL_verEsquema.' MADS"  href="'.URL_BASE.'xml.php?schema=mads&term_id='.$arrayTerm["tema_id"].'">MADS</a></li>  ' ;
     $body.='        <li><a class="btn btn-info btn-xs"  target="_blank" rel="nofollow" title="'.LABEL_verEsquema.' Skos"  href="'.URL_BASE.'xml.php?schema=skos&term_id='.$arrayTerm["tema_id"].'">SKOS-Core</a></li>' ;
@@ -2126,6 +2132,7 @@ GLOBAL $CFG;
     $rows.='<link href="'.T3_WEBPATH.'css/t3style.css" rel="stylesheet">' ;
     $rows.=$metadata["metadata"];
     $rows.=' <link type="image/x-icon" href="'.T3_WEBPATH.'images/tematres.ico" rel="icon" /><link type="image/x-icon" href="'.T3_WEBPATH.'images/tematres.ico" rel="shortcut icon" />' ;
+    $rows.=' <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">' ;
     /* define url BASE to links and cross origin 
         $rows.='   <base href="'.getURLbase().'">' ;
     */
@@ -2776,7 +2783,7 @@ function HTMLcopyClick($targt_div, $array_flags)
         return;
     }
 
-    return '<button class="btn btn-xs copy-clipboard" data-clipboard-action="copy" data-clipboard-target="#'.$targt_div.'" alt="'.ucfirst(LABEL_copy_click).'" title="'.ucfirst(LABEL_copy_click).'">'.HTMLicon('copy').'</button>' ;
+    return '<button class="btn btn-sm btn-outline-secondary copy-clipboard p-1 lh-1" data-clipboard-action="copy" data-clipboard-target="#'.$targt_div.'" alt="'.ucfirst(LABEL_copy_click).'" title="'.ucfirst(LABEL_copy_click).'">'.HTMLicon('copy').'</button>' ;
 }
 
 
@@ -3141,3 +3148,203 @@ $rows.='    </div>
 
 return $rows;
 }
+
+
+
+
+/* 
+* Term menu options for editors and admins
+*/
+function HTMLtermMenuBT5($array_tema, $relacionesTermino)
+{
+    global $CFG;
+    $isValidTerm=isValidTerm($array_tema["tema_id"]);
+    $link_estado='';
+
+   // PERMITIR O NO POLIJERARQUIAS//
+    if (( ($relacionesTermino["cantTG"]==0) || ($_SESSION["CFGPolijerarquia"]=='1') )
+        && ($array_tema["estado_id"]=='13')
+        && ($isValidTerm)
+    ) {
+        $link_subordinar='<li><a class="dropdown-item" title="'.MENU_AgregarTG.'" href="'.URL_BASE.'index.php?taskterm=addBT&amp;tema='.$array_tema["idTema"].'"> '.$CFG["REL_SYMBOLS"]["BT"].' '.ucfirst(MENU_AgregarTG).'</a></li>' ;
+    } else {
+        $link_subordinar='';
+    }
+
+
+$row='<div class="d-flex flex-wrap gap-2 my-3" role="toolbar" aria-label="'.ucfirst(LABEL_Opciones).'">';
+$row.='  <!-- Opciones -->
+  <div class="dropdown"><button class="btn btn-outline-secondary btn-sm dropdown-toggle" type="button"
+            id="dd-opciones" data-bs-toggle="dropdown" aria-expanded="false">'.ucfirst(LABEL_Opciones).'
+    </button>' ;
+    $row.='    <ul class="dropdown-menu" aria-labelledby="dd-opciones">' ;
+
+    if (($relacionesTermino["cantNT"]+$relacionesTermino["cantUF"])==0) {
+        //no have relations
+        if (($relacionesTermino["cantTotal"])=='0') {
+            /**
+            Change status term
+             */
+            $link_estado='<li class="dropdown-submenu"><a href="#" class="dropdown-item" tabindex="0">'.ucfirst(LABEL_CambiarEstado).'</a><ul class="dropdown-menu" id="menu_estado">' ;
+            switch ($array_tema["estado_id"]) {
+                case '12':
+                    //Candidato / candidate => aceptado
+                    $link_estado.='<li><a class="dropdown-item" title="'.LABEL_AceptarTermino.'" href="'.URL_BASE.'index.php?tema='.$array_tema["idTema"].'&amp;estado_id=13">'.ucfirst(LABEL_AceptarTermino).'</a></li>' ;
+                    //Candidato / candidate => rechazado
+                    $link_estado.='<li><a class="dropdown-item" title="'.LABEL_RechazarTermino.'" href="'.URL_BASE.'index.php?tema='.$array_tema["idTema"].'&amp;estado_id=14">'.ucfirst(LABEL_RechazarTermino).'</a></li>' ;
+                    break;
+
+                case '13':
+                    //Aceptado / Acepted=> Rechazado
+                    $link_estado.='<li><a class="dropdown-item" title="'.LABEL_RechazarTermino.'" href="'.URL_BASE.'index.php?tema='.$array_tema["idTema"].'&amp;estado_id=14">'.ucfirst(LABEL_RechazarTermino).'</a></li>' ;
+                    break;
+
+                case '14':
+                      //Rechazado / Rejected=> Candidato
+                      $link_estado.='<li><a class="dropdown-item" title="'.LABEL_CandidatearTermino.'" href="'.URL_BASE.'index.php?tema='.$array_tema["idTema"].'&amp;estado_id=12">'.ucfirst(LABEL_CandidatearTermino).'</a></li>' ;
+                    break;
+            }
+            $link_estado.='</ul></li>' ;
+        }
+    };
+
+
+    $row.='      <li><a class="dropdown-item" title="'.MENU_EditT.'" href="'.URL_BASE.'index.php?taskterm=editTerm&amp;tema='.$array_tema["idTema"].'">'.ucfirst(MENU_EditT).'</a></li>' ;
+
+    //If the term are not accepted and do not have Add-menu => add notes options here!
+
+    if ($array_tema["estado_id"]!=="13") {
+        $row.='     <li><a class="dropdown-item" title="'.ucfirst(LABEL_EditorNota).'" href="'.URL_BASE.'index.php?taskterm=editNote&amp;note_id=?&amp;editNota=?&amp;tema='.$array_tema["idTema"].'">'.ucfirst(LABEL_EditorNota).'</a></li>' ;
+    }
+
+    $row.=$link_subordinar;
+
+    $row.=$link_estado;
+
+    if ($isValidTerm) {
+        if ($array_tema["isMetaTerm"]==1) {
+            $label_task_meta_term=LABEL_turnOffMetaTerm;
+            $task_meta_term=0;
+        } else {
+            $label_task_meta_term=LABEL_turnOnMetaTerm;
+            $task_meta_term=1;
+        }
+
+        $row.='<li><a class="dropdown-item" title="'.$label_task_meta_term.'" href="'.URL_BASE.'index.php?taskterm=metaTerm&amp;mt_status='.$task_meta_term.'&amp;tema='.$array_tema["idTema"].'">'.ucfirst($label_task_meta_term).'</a></li>' ;
+    }
+
+
+    $row.='<li><a class="btn btn-danger" title="'.LABEL_EliminarTE.'" href="javascript:expandLink(\'borrart\')">'.ucfirst(LABEL_EliminarTE).'</a></li>' ;
+    $row.='</ul>' ;
+
+    $row.='</div><!-- end menu -->' ;
+
+    $row.='  <!-- Agregar -->
+  <div class="dropdown">
+    <button class="btn btn-primary btn-sm dropdown-toggle" type="button"
+            id="dd-agregar" data-bs-toggle="dropdown" aria-expanded="false">
+      + '.ucfirst(LABEL_Agregar).'
+    </button>';
+    $row.='<ul class="dropdown-menu" aria-labelledby="dd-agregar">' ;
+
+    $row.='<li><a class="dropdown-item" title="'.ucfirst(LABEL_nota).'" href="'.URL_BASE.'index.php?taskterm=editNote&amp;note_id=?&amp;editNota=?&amp;tema='.$array_tema["idTema"].'"> '.$CFG["REL_SYMBOLS"]["NOTE"].' '.ucfirst(LABEL_nota).'</a></li>' ;
+
+    $row.='<li><hr class="dropdown-divider"></li>' ;
+    //solo acepta relaciones si el término esta aceptado
+    if (($array_tema["estado_id"]=='13') && ($isValidTerm)) {
+        //link agregar un UP
+        $row.='     <li><a class="dropdown-item" title="'.MENU_AgregarUP.'" href="'.URL_BASE.'index.php?taskterm=addUF&amp;tema='.$array_tema["idTema"].'"> '.$CFG["REL_SYMBOLS"]["UF"].' '.ucfirst(MENU_AgregarUP).'</a></li>' ;
+
+        //link agregar un TE
+        $row.='     <li><a class="dropdown-item" title="'.MENU_AgregarTE.'" href="'.URL_BASE.'index.php?taskterm=addNT&amp;tema='.$array_tema["idTema"].'"> '.$CFG["REL_SYMBOLS"]["NT"].' '.ucfirst(MENU_AgregarTE).'</a></li>' ;
+
+        //link agregar un TR
+        $row.='     <li><a class="dropdown-item" title="'.MENU_AgregarTR.'" href="'.URL_BASE.'index.php?taskterm=addRTnw&amp;tema='.$array_tema["idTema"].'">  '.$CFG["REL_SYMBOLS"]["RT"].' '.ucfirst(MENU_AgregarTR).'</a></li>' ;
+
+        $row.='<li><hr class="dropdown-divider"></li>' ;
+
+        $row.='     <li><a class="dropdown-item" title="'.LABEL__getForRecomendation.'" href="'.URL_BASE.'index.php?taskterm=findSuggestionTargetTerm&amp;tema='.$array_tema["idTema"].'">'.ucfirst(LABEL__getForRecomendation).'</a></li>' ;
+
+        $row.='     <li><a class="dropdown-item" title="'.ucfirst(LABEL__getForRecomendationWiki).'" href="'.URL_BASE.'index.php?taskterm=getWikidataRelTerm&amp;tema='.$array_tema["idTema"].'">'.ucfirst(LABEL__getForRecomendationWiki).'</a></li>' ;
+        $row.=' </ul>' ;
+        $row.='</div>' ;
+
+          $row.='<!-- Relaciones -->
+          <div class="dropdown">
+            <button class="btn btn-outline-secondary btn-sm dropdown-toggle" type="button"
+                    id="dd-rel" data-bs-toggle="dropdown" aria-expanded="false"
+                    title="'.ucfirst(LABEL_relbetweenVocabularies).'">
+              '.ucfirst(LABEL_relbetweenVocabularies).' <span class="d-none d-md-inline"></span>
+            </button>';
+
+        $row.='<ul class="dropdown-menu" aria-labelledby="dd-rel">' ;
+
+        $row.='<li><a class="dropdown-item" title="'.LABEL_URI2term.'" href="'.URL_BASE.'index.php?taskterm=addURI&amp;tema='.$array_tema["idTema"].'">'.ucfirst(LABEL_URI2term).'</a></li>' ;
+
+        //link agregar un EQ
+        $row.='     <li><a class="dropdown-item" title="'.LABEL_vocabulario_referencia.'" href="'.URL_BASE.'index.php?taskterm=addEQ&amp;tema='.$array_tema["idTema"].'">'.ucfirst(LABEL_vocabulario_referencia).'</a></li>' ;
+        //link agregar un término externo vía web services
+        $row.='     <li><a class="dropdown-item" title="'.LABEL_relacion_vocabularioWebService.'" href="'.URL_BASE.'index.php?taskterm=findTargetTerm&amp;tema='.$array_tema["idTema"].'">'.ucfirst(LABEL_vocabulario_referenciaWS).'</a></li>' ;
+        $row.='</li>' ;
+        $row.='</ul>' ;
+        $row.='</div>' ;
+        
+
+    }//fin control de estado y validez
+
+    $row.='</div>' ;
+
+
+    return $row;
+};
+
+
+
+/* Term menu options for colaborators
+**/
+function HTMLtermMenuBT54Colab($array_tema, $relacionesTermino)
+{
+
+    global $CFG;
+
+    $isValidTerm=isValidTerm($array_tema["tema_id"]);
+
+    $row='<div class="d-flex flex-wrap gap-2 my-3" role="toolbar" aria-label="'.ucfirst(LABEL_Opciones).'">';
+    $row.='  <!-- Opciones --><div class="dropdown"><button class="btn btn-outline-secondary btn-sm dropdown-toggle" type="button" id="dd-opciones" data-bs-toggle="dropdown" aria-expanded="false">'.ucfirst(LABEL_Opciones).'
+    </button>' ;
+    $row.='    <ul class="dropdown-menu" aria-labelledby="dd-opciones">' ;
+
+    $row.='      <li><a class="dropdown-item" title="'.MENU_EditT.'" href="'.URL_BASE.'index.php?taskterm=editTerm&amp;tema='.$array_tema["idTema"].'">'.ucfirst(MENU_EditT).'</a></li>' ;
+
+    if ($isValidTerm) {
+        if ($array_tema["isMetaTerm"]==1) {
+            $label_task_meta_term=LABEL_turnOffMetaTerm;
+            $task_meta_term=0;
+        } else {
+            $label_task_meta_term=LABEL_turnOnMetaTerm;
+            $task_meta_term=1;
+        }
+
+        $row.='<li><a class="dropdown-item" title="'.$label_task_meta_term.'" href="'.URL_BASE.'index.php?taskterm=metaTerm&amp;mt_status='.$task_meta_term.'&amp;tema='.$array_tema["idTema"].'">'.ucfirst($label_task_meta_term).'</a></li>' ;
+    }
+
+
+    $row.='<li><a class="btn btn-danger" title="'.LABEL_EliminarTE.'" href="javascript:expandLink(\'borrart\')">'.ucfirst(LABEL_EliminarTE).'</a></li>' ;
+    $row.='</ul>' ;
+
+    $row.='</div><!-- end menu -->' ;
+
+    $row.='<!-- Agregar --><div class="dropdown">
+    <button class="btn btn-primary btn-sm dropdown-toggle" title="'.ucfirst(LABEL_Agregar).'" type="button"
+            id="dd-agregar" data-bs-toggle="dropdown" aria-expanded="false">
+      + '.ucfirst(LABEL_Agregar).'
+    </button>' ;
+    $row.='<ul class="dropdown-menu" aria-labelledby="dd-agregar">';
+    $row.='<li><a class="dropdown-item" title="'.ucfirst(LABEL_nota).'" href="'.URL_BASE.'index.php?taskterm=editNote&amp;note_id=?&amp;editNota=?&amp;tema='.$array_tema["idTema"].'"> '.$CFG["REL_SYMBOLS"]["NOTE"].' '.ucfirst(LABEL_nota).'</a></li>' ;
+    $row.='</ul>' ;
+
+    $row.=' </div>' ;
+    $row.='</div>' ;
+
+    return $row;
+};

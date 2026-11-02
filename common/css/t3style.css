@@ -1,9 +1,9 @@
 html,
 body {
   height: 100%;
-  /* The html and body elements cannot have any padding or margin. */
+  min-height: 100vh; display: flex; flex-direction: column; 
 }
-
+#wrap { flex: 1 0 auto; }  /* The html and body elements cannot have any padding or margin. */
 p.metaTerm {background:#fff8bf 13px 50% no-repeat;border:2px solid #ffd324;color:#eb830c;font-size:120%;padding:5px 11px 5px 20px;}
 h1.metaTerm,a.metaTerm{color:#616161;}
 h1.metaTerm:before,a.metaTerm:before{content:'<'}
@@ -606,3 +606,8 @@ a:hover, a:focus { text-decoration: underline; }
     outline: 5px auto -webkit-focus-ring-color;
     outline-offset: -2px;
 }
+
+.tab-content { min-height: 14rem; }
+
+.navbar form .form-control { min-width: 0; }
+.ui-autocomplete { max-width: 100vw; max-height: 50vh; overflow-y: auto; }
