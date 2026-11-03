@@ -1784,9 +1784,9 @@ function selectSchema($schema,$term_id=""){
 
 $term_id=secure_data($term_id,"int");
 
-if(!$term_id) return false;
+//if(!$term_id) return false;
 
-$schema=configValue($_GET["schema"], '', array('skos','zthes','vdex','bs8723','mads','xtm','dc','json','jsonld','tbx'));
+$schema=configValue($_GET["schema"], '', array('skos','zthes','vdex','bs8723','mads','xtm','dc','json','jsonld','tbx','rss'));
     switch ($schema) {
         case 'skos':
             header('Content-Type: text/xml');
@@ -1830,12 +1830,11 @@ $schema=configValue($_GET["schema"], '', array('skos','zthes','vdex','bs8723','m
             //return do_tbx($term_id);
             break;
         case 'rss':
-            header('Content-type: application/json');
-            return do_jsonld($term_id);
+            header('Content-Type: application/rss+xml');
+            return do_rss();            
             break;
         default:
-            header('Content-Type: application/rss+xml');
-            return do_rss();
+            return false;
             break;
     }
     return false;

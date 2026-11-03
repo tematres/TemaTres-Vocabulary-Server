@@ -740,7 +740,7 @@ function doMenuLang($tema_id = "0")
     global $idiomas_disponibles;
 
     $selectLang='<form id="select-lang" method="get" class="m-0 ms-auto" action="index.php">' ;
-    $selectLang.='<select class="form-select form-select-sm w-auto shadow-sm" name="setLang" id="setLang" onchange="this.form.submit();">' ;
+    $selectLang.='<select class="form-select form-select w-auto shadow" name="setLang" id="setLang" onchange="this.form.submit();">' ;
     foreach ($idiomas_disponibles as $key => $value) {
         if ($value[2]==$_SESSION[$_SESSION["CFGURL"]]["lang"][2]) {
             $selectLang.='<option value="'.$value[2].'" selected>'.$value[0].'</option>' ;
@@ -1650,10 +1650,10 @@ function getData4jtree($term_id = 0)
 
     while ($array=$sql->FetchRow()) {
         //there are NT?
-        $load_on_demand=($array["id_te"]==0) ? false : true;
+        $load_on_demand=(@$array["id_te"]==0) ? false : true;
 
         //is top terms
-        $load_on_demand=($term_id=='TT') ? true : $load_on_demand;
+        $load_on_demand=(@$term_id=='TT') ? true : $load_on_demand;
 
 
         if ((evalUserLevel($_SESSION[$_SESSION["CFGURL"]])>0) && ($CFG["_USE_CODE"]=='1')) {
@@ -2927,14 +2927,14 @@ $rows.='<div class="container">';
 $rows.='    <div class="d-flex flex-wrap justify-content-between align-items-center gap-3 pt-3">
       <div class="d-flex flex-wrap align-items-center gap-2">';
 if (CFG_ENABLE_SPARQL==1) {
-$rows.=     '<a class="badge text-bg-info text-decoration-none" href="'.URL_BASE.'sparql.php" title="'.LABEL_SPARQLEndpoint.'">'.LABEL_SPARQLEndpoint.'</a>';
+$rows.=     '<a class="btn btn-outline-dark text-decoration-none" href="'.URL_BASE.'sparql.php" title="'.LABEL_SPARQLEndpoint.'" target="_blank" rel="noopener noreferrer" >'.LABEL_SPARQLEndpoint.'</a>';
     }
 if (CFG_SIMPLE_WEB_SERVICE==1) {
-$rows.= '  <a class="badge text-bg-info text-decoration-none" href="'.URL_BASE.'services.php" title="API">'.HTMLicon('share').' API</a>';
+$rows.= '  <a class="btn btn-outline-dark text-decoration-none" href="'.URL_BASE.'services.php" title="API" target="_blank" rel="noopener noreferrer">'.HTMLicon('share').' API</a>';
     }
 
- $rows.= '  <a class="badge text-bg-info text-decoration-none" href="'.URL_BASE.'xml.php?schema=rss" title="RSS">'.HTMLicon('rss').' RSS</a>';
-$rows.= '  <a class="badge text-bg-info text-decoration-none" href="'.URL_BASE.'index.php?s=n" title="'.ucfirst(LABEL_showNewsTerm).'">'.HTMLicon('fire').' '.ucfirst(LABEL_showNewsTerm).'</a>';
+ $rows.= '  <a class="btn btn-outline-dark text-decoration-none" href="'.URL_BASE.'xml.php?schema=rss" target="_blank" rel="noopener noreferrer" title="RSS">'.HTMLicon('rss').' RSS</a>';
+$rows.= '  <a class="btn btn-outline-dark text-decoration-none" href="'.URL_BASE.'index.php?s=n" title="'.ucfirst(LABEL_showNewsTerm).'">'.HTMLicon('fire').' '.ucfirst(LABEL_showNewsTerm).'</a>';
 $rows.='</div>';
 $rows.=doMenuLang(array2value("tema_id",$metadata["arraydata"]));
 $rows.='    </div>
