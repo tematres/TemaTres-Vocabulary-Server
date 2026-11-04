@@ -591,18 +591,25 @@ function HTMLformSuggestTermsXRelations($ARRAYtermino, $ARRAYtargetVocabulary = 
 
 
 /*
-Advanced search form
-*
+* Advanced search form
 */
-function HTMLformAdvancedSearch($array)
-{
+function HTMLformAdvancedSearch($array){
     global $CFG;
     $array=XSSpreventArray($array);
-    $rows.='<div class="row">';
-    $rows.='	<div class="col-lg-6 offset-lg-3">';
-    $rows.=' <h3>'.ucfirst(LABEL_BusquedaAvanzada).'</h3>';
-    $rows.='<form  class="col-8 form-horizontal" role="form" name="advancedsearch" action="index.php#xstring" method="get">';
-    $rows.='<fieldset>';
+    $rows='<div class="row justify-content-center">
+  <div class="col-12 col-md-10 col-lg-8 col-xl-7">
+    <div class="card border-0 shadow-sm">
+      <div class="card-body p-4 p-md-5">';
+    $rows.='        <!-- Encabezado -->
+        <div class="d-flex align-items-center gap-2 mb-4">
+          <svg xmlns="http://www.w3.org/2000/svg" width="1.25em" height="1.25em"
+               fill="currentColor" viewBox="0 0 16 16" aria-hidden="true">
+            <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/>
+          </svg>
+          <h2 class="h4 mb-0">'.ucfirst(LABEL_BusquedaAvanzada).'</h2>
+        </div>';
+    $rows.='<form name="advancedsearch" id="advancedsearch" action="index.php#xstring" method="get" role="search" novalidate><fieldset><legend class="visually-hidden">##Criterios de búsqueda avanzada</legend>';
+
     $arrayWS=array('t#'.ucfirst(LABEL_Termino),'mt#'.ucfirst(LABEL_meta_term));
     $arrayVocabStats=ARRAYresumen($_SESSION["id_tesa"], "G", "");
     if ($arrayVocabStats["cant_up"]>0) {
@@ -617,115 +624,142 @@ function HTMLformAdvancedSearch($array)
     if ($arrayVocabStats["cant_term2tterm"]) {
         array_push($arrayWS, 'tgt#'.ucfirst(LABEL_TargetTerm));
     }
+
+    $array["isExactMatch"] ?? 0;
+    $array["ws"] ?? '';
+    $array["hasTopTerm"] ?? '';
+    $array["hasNote"] ?? '';
+    $array["termDeep"] ?? '';
+    $array["task"] ?? '';
+    
     /*
-    solo si hay m�s de un opci�n
+    * solo si hay m�s de un opci�n
     */
+
     if (count($arrayWS)>1) {
-        $rows.='<div class="form-group"><label class="label_ttl control-label" for="ws" accesskey="f">'.ucfirst(LABEL_QueBuscar).'</label>';
-        $rows.='<select class="select_ttl form-select" id="ws" name="ws">';
-        $rows.=doSelectForm($arrayWS, $_GET["ws"]);
-        $rows.='</select>';
-        $rows.='</div>';
+    $rows.='<!-- ¿Qué buscar? -->
+            <div class="mb-3">
+              <label class="form-label fw-semibold" for="ws" accesskey="f">'.ucfirst(LABEL_QueBuscar).'</label>
+              <select class="form-select" id="ws" name="ws">'.doSelectForm($arrayWS, $array["ws"]).'</select>
+            </div>';
     }
-    $rows.='<div class="form-group"><label class="label_ln control-label" for="xstring" accesskey="s">'.ucfirst(LABEL_BuscaTermino).'</label>';
-    $rows.='<input name="xstring" class="input_ln form-control" required type="search" id="xstring" size="25" maxlength="50" value=""/>';
-    $rows.='	<div class="checkbox-inline" ><label class="btn btn-default" for="isExactMatch" accesskey="f">';
-    $rows.='	<input name="isExactMatch" type="checkbox" id="isExactMatch" value="1" '.do_check('1', $_GET["isExactMatch"], "checked").'/>'.ucfirst(LABEL_esFraseExacta).'</label>';
-    $rows.=' 	</div>';
-    $rows.='</div>';
-    $rows.='<div class="collapse" id="masOpcionesBusqueda">';
+    $rows.='<!-- Buscar término -->
+            <div class="mb-3">
+              <label class="for-label fw-semibold" for="xstring" accesskey="s">'.ucfirst(LABEL_BuscaTermino).'<span class="text-danger" aria-hidden="true">*</span>
+              </label>
+              <input name="xstring" class="form-control" required
+                     type="search" id="xstring" size="25" maxlength="50"
+                     autocomplete="off"
+                     aria-describedby="xstringHelp">
+            </div>';
+    $rows.='<!-- Frase exacta -->
+            <div class="form-check mb-3">
+              <input class="form-check-input" name="isExactMatch" type="checkbox"
+                     id="isExactMatch" value="1" '.do_check('1', $array["isExactMatch"], "checked").'/>
+              <label class="form-check-label" for="isExactMatch" accesskey="f">
+                '.ucfirst(LABEL_esFraseExacta).'
+              </label>
+            </div>';
+    $rows.='           <!-- Opciones avanzadas (collapse) -->
+            <div class="collapse" id="masOpcionesBusqueda">
+             <div class="row g-3 mb-3">';
+
     //Evaluar si hay top terms
     $sqlTopTerm=SQLverTopTerm();
     if (SQLcount($sqlTopTerm)>0) {
         while ($arrayTopTerms=$sqlTopTerm->FetchRow()) {
             $formSelectTopTerms[]=$arrayTopTerms["tema_id"].'#'.$arrayTopTerms["tema"];
         }
-        $rows.='<div class="form-group"><label class="label_ttl control-label" for="hasTopTerm" accesskey="t">'.ucfirst(LABEL_TopTerm).'</label>';
-        $rows.='<select class="select_ttl form-select" id="hasTopTerm" name="hasTopTerm">';
-        $rows.='<option value="">'.ucfirst(LABEL_Todos).'</option>';
-        $rows.=doSelectForm($formSelectTopTerms, $_GET["hasTopTerm"]);
-        $rows.='</select>';
-        $rows.='</div>';
-    }
-    //Evaluar si hay notas
-    if (is_array($arrayVocabStats["cant_notas"])) {
-        $LabelNB='NB#'.LABEL_NB;
-        $LabelNH='NH#'.LABEL_NH;
-        $LabelNA='NA#'.LABEL_NA;
-        $LabelNP='NP#'.LABEL_NP;
-        $LabelNC='NC#'.LABEL_NC;
-        $sqlNoteType=SQLcantNotas();
+    $rows.='<div class="col-12 col-md-6">
+              <label class="form-label fw-semibold" for="hasTopTerm" accesskey="t">'.ucfirst(LABEL_TopTerm).'</label>
+              <select class="form-select" id="hasTopTerm" name="hasTopTerm">
+              <option value="">'.ucfirst(LABEL_Todos).'</option>'.doSelectForm($formSelectTopTerms, $array["hasTopTerm"]).'</select>
+            </div>';
+     };
 
-        while ($arrayNotes=$sqlNoteType->FetchRow()) {
-            if ($arrayNotes["cant"]>0) {
-                //nota privada no
-                if (($_SESSION[$_SESSION["CFGURL"]]["ssuser_nivel"]) || ($arrayNotes["value_id"]!=='11')) {
-                    $varNoteType=(in_array($arrayNotes["value_id"], array(8,9,10,11,15))) ? arrayReplace(array(8,9,10,11,15), array($LabelNA,$LabelNH,$LabelNB,$LabelNP,$LabelNC), $arrayNotes["value_id"]) : $arrayNotes["value_code"].'#'.$arrayNotes["value"];
-                    $varNoteType.=' ('.$arrayNotes["cant"].')';
-                    $arrayNoteType[]=$varNoteType;
-                }
+  //Evaluar si hay notas
+    $LabelNB='NB#'.LABEL_NB;
+    $LabelNH='NH#'.LABEL_NH;
+    $LabelNA='NA#'.LABEL_NA;
+    $LabelNP='NP#'.LABEL_NP;
+    $LabelNC='NC#'.LABEL_NC;
+    $sqlNoteType=SQLcantNotas();
+
+    while ($arrayNotes=$sqlNoteType->FetchRow()) {
+        if ($arrayNotes["cant"]>0) {
+            //nota privada no
+            if (($_SESSION[$_SESSION["CFGURL"]]["ssuser_nivel"]) || ($arrayNotes["value_id"]!=='11')) {
+                $varNoteType=(in_array($arrayNotes["value_id"], array(8,9,10,11,15))) ? arrayReplace(array(8,9,10,11,15), array($LabelNA,$LabelNH,$LabelNB,$LabelNP,$LabelNC), $arrayNotes["value_id"]) : $arrayNotes["value_code"].'#'.$arrayNotes["value"];
+                $varNoteType.=' ('.$arrayNotes["cant"].')';
+                $arrayNoteType[]=$varNoteType;
             }
-        };
-
-        /*
-        Si hay m�s de un tipo de nota
-        */
-        if (count($arrayVocabStats["cant_notas"])>0) {
-            $rows.='<div class="form-group"><label class="label_ttl control-label" for="hasNote" accesskey="n">'.ucfirst(LABEL_tipoNota).'</label>';
-            $rows.='<select class="select_ttl form-select" id="hasNote" name="hasNote">';
-            $rows.='<option value="">'.ucfirst(LABEL_Todos).'</option>';
-            $rows.=doSelectForm($arrayNoteType, $_GET["hasNote"]);
-            $rows.='</select>';
-            $rows.='</div>';
         }
-    }
-
-    //Evaluar si hay terminos
-    $sqlTermsByDates=SQLtermsByDate();
-    if (SQLcount($sqlTermsByDates)>0) {
-        global $MONTHS;
-        while ($arrayTermsByDates=$sqlTermsByDates->FetchRow()) {
-            //normalizacion de fechas
-            $arrayTermsByDates["months"]=(strlen($arrayTermsByDates["months"])==1) ? '0'.$arrayTermsByDates["months"] : $arrayTermsByDates["months"];
-            $formSelectByDate[]=$arrayTermsByDates["years"].'-'.$arrayTermsByDates["months"].'#'.$MONTHS["$arrayTermsByDates[months]"].'/'.$arrayTermsByDates["years"].' ('.$arrayTermsByDates["cant"].')';
-        }
-        $rows.='<div class="form-group"><label class="label_ttl control-label" for="fromDate" accesskey="d">'.ucfirst(LABEL_DesdeFecha).'</label>';
-        $rows.='<select class="select_ttl form-select" id="fromDate" name="fromDate">';
-        $rows.='<option value="">'.ucfirst(LABEL_Todos).'</option>';
-        $rows.=doSelectForm($formSelectByDate, $_GET["fromDate"]);
-        $rows.='</select>';
-        $rows.='</div>';
     };
+
+    /*
+    * Si hay más de un tipo de nota
+    */
+    if (count($arrayVocabStats["cant_notas"])>0) {
+
+    $rows.='<div class="col-12 col-md-6">
+              <label class="form-label fw-semibold" for="hasNote" accesskey="n">'.ucfirst(LABEL_tipoNota).'</label>
+              <select class="form-select" id="hasNote" name="hasNote"><option value="">'.ucfirst(LABEL_Todos).'</option>'.doSelectForm($arrayNoteType, $array["hasNote"]).'</select>
+            </div>';
+    };
+
     //terms by deep
     $sqlTermsByDeep=SQLTermDeep();
     if (SQLcount($sqlTermsByDeep)>1) {
         while ($arrayTermsByDeep=$sqlTermsByDeep->FetchRow()) {
             $formSelectByDeep[]=$arrayTermsByDeep["tdeep"].'#'.$arrayTermsByDeep["tdeep"].' ('.$arrayTermsByDeep["cant"].')';
         }
-        $rows.='<div class="form-group"><label class="label_ttl control-label" for="termDeep" accesskey="e">'.ucfirst(LABEL_ProfundidadTermino).'</label>';
-        $rows.='<select class="select_ttl form-select" id="termDeep" name="termDeep">';
-        $rows.='<option value="">'.ucfirst(LABEL_Todos).'</option>';
-        $rows.=doSelectForm($formSelectByDeep, $_GET["termDeep"]);
-        $rows.='</select>';
-        $rows.='</div>';
+       $rows.='<div class="col-12 col-md-6">
+                  <label class="form-label fw-semibold" for="termDeep" accesskey="e">'.ucfirst(LABEL_ProfundidadTermino).'</label>
+                  <select class="form-select" id="termDeep" name="termDeep"><option value="">'.ucfirst(LABEL_Todos).'</option>'.doSelectForm($formSelectByDeep, $array["termDeep"]).'
+                  </select>    
+               </div>';
     };
-    $rows.='</div>';//hide div
-    $rows.='<div class="btn-group">';
-    $rows.='<input type="submit"  id="boton" name="boton" class="btn btn-primary" value="'.LABEL_Enviar.'"/>';
-    $rows.=' <button class="btn btn-default" type="button" data-bs-toggle="collapse" data-bs-target="#masOpcionesBusqueda" aria-expanded="false" aria-controls="masOpcionesBusqueda">'.ucfirst(LABEL_Opciones).'</button>';
-    $rows.='</div>';
-    $rows.='<input type="hidden"  name="xsearch" id="xsearch" value="1"/>';
+    
+    $rows.='</div>
+        </div>';
 
-    $rows.='  </fieldset>';
-    $rows.='</form>';
-    $rows.='</div>';//div row
-    $rows.='</div>';//div col
-    $rows.='<div class="push"></div>';
-    if ($_GET["boton"]==LABEL_Enviar) {
-        $rows.=HTMLadvancedSearchResult($array);
+    $rows.='<!-- Botones -->
+            <div class="d-flex flex-wrap gap-2 mt-4">
+              <button type="submit" id="boton" name="boton" class="btn btn-primary px-4">
+                <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em"
+                     fill="currentColor" viewBox="0 0 16 16" aria-hidden="true"
+                     class="me-1" style="vertical-align:-.125em">
+                  <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/>
+                </svg>
+                '.LABEL_Enviar.'
+              </button>
+
+              <button class="btn btn-outline-secondary" type="button"
+                      data-bs-toggle="collapse" data-bs-target="#masOpcionesBusqueda"
+                      aria-expanded="false" aria-controls="masOpcionesBusqueda">
+                <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em"
+                     fill="currentColor" viewBox="0 0 16 16" aria-hidden="true"
+                     class="opts-chevron me-1" style="vertical-align:-.125em">
+                  <path fill-rule="evenodd"
+                        d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708"/>
+                </svg>
+                '.ucfirst(LABEL_Opciones).'
+              </button>
+            </div>
+            <input type="hidden" name="xsearch" id="xsearch" value="1">
+            <input type="hidden" name="task" id="task" value="xsearch">
+          </fieldset>
+        </form>
+
+      </div>
+    </div>
+  </div>
+</div>';
+
+if ($array["task"]=='xsearch') {
+    $rows.=HTMLadvancedSearchResult($array);
     }
-
-    return $rows;
+return $rows;
 }
 
 /*
