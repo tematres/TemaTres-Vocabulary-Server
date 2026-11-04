@@ -743,9 +743,9 @@ function doMenuLang($tema_id = "0")
     $selectLang.='<select class="form-select form-select w-auto shadow" name="setLang" id="setLang" onchange="this.form.submit();">' ;
     foreach ($idiomas_disponibles as $key => $value) {
         if ($value[2]==$_SESSION[$_SESSION["CFGURL"]]["lang"][2]) {
-            $selectLang.='<option value="'.$value[2].'" selected>'.$value[0].'</option>' ;
+            $selectLang.='<option value="'.$value[2].'" selected>'.ucfirst($value[0]).'</option>' ;
         } else {
-            $selectLang.='<option value="'.$value[2].'">'.$value[0].'</option>' ;
+            $selectLang.='<option value="'.$value[2].'">'.ucfirst($value[0]).'</option>' ;
         };
     };
 
@@ -2483,7 +2483,7 @@ function HTMLsummary()
     //terms stats
     $rows.='<tr><th>'.ucfirst(LABEL_Terminos).'</th><td>'.$resumen["cant_aceptados"];
 
-    $rows.=' <a class="badge text-bg-info" href="'.URL_BASE.'index.php?s=n" title="'.ucfirst(LABEL_showNewsTerm).'">'.HTMLicon('fire').' '.ucfirst(LABEL_showNewsTerm).'</a>' ;
+    $rows.=' <a class="btn btn-outline-secondary text-decoration-none btn-sm href="'.URL_BASE.'index.php?s=n" title="'.ucfirst(LABEL_showNewsTerm).'"> '.HTMLicon('fire').' '.ucfirst(LABEL_showNewsTerm).'</a>' ;
     $rows.='<ul>' ;
     if ($_SESSION[$_SESSION["CFGURL"]]["CFG_VIEW_STATUS"]==1) {
         if ($resumen["cant_candidato"]>0) {
