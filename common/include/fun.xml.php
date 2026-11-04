@@ -561,6 +561,198 @@ function do_nodo_skos($idTema)
 };
 
 
+function turtleLiteral($value, $language = '')
+{
+    $value = strtr((string)$value, array(
+        "\\" => "\\\\",
+        "\"" => "\\\"",
+        "\t" => "\\t",
+        "\n" => "\\n",
+        "\r" => "\\r",
+        "\f" => "\\f",
+        "\x08" => "\\b"
+    ));
+    $value = preg_replace_callback('/[\x00-\x07\x0B\x0E-\x1F\x7F]/', function ($matches) {
+        return sprintf('\\u%04X', ord($matches[0]));
+    }, $value);
+
+    $literal = '"' . $value . '"';
+    if (preg_match('/^[A-Za-z]+(?:-[A-Za-z0-9]+)*$/D', (string)$language)) {
+        $literal .= '@' . $language;
+    }
+
+    return $literal;
+}
+
+function turtleIRI($uri)
+{
+    return '<' . preg_replace_callback('/[\x00-\x20<>"{}|^`\\\\]/', function ($matches) {
+        return sprintf('%%%02X', ord($matches[0]));
+    }, (string)$uri) . '>';
+}
+
+function turtleTermIRI($uriBase, $uriSeparator, $termId)
+{
+    if (preg_match('/[?&][^?&=]+$/', $uriSeparator)) {
+        $uriSeparator .= '=';
+    }
+
+    return turtleIRI($uriBase . $uriSeparator . $termId);
+}
+
+function do_nodo_turtle($idTema)
+{
+    global $CFG;
+
+    $_URI_BASE_ID = ($CFG["_URI_BASE_ID"]) ? $CFG["_URI_BASE_ID"] : $_SESSION["CFGURL"];
+    $_URI_SEPARATOR_ID = ($CFG["_URI_SEPARATOR_ID"]) ? $CFG["_URI_SEPARATOR_ID"] : 'xml.php?schema=skos&term_id=';
+    $datosTermino = ARRAYverDatosTermino($idTema);
+    if (!$datosTermino || !is_numeric($datosTermino["idTema"])) {
+        return '';
+    }
+
+    $triples = array();
+    $subject = turtleTermIRI($_URI_BASE_ID, $_URI_SEPARATOR_ID, $idTema);
+    $scheme = turtleIRI($_URI_BASE_ID);
+    $triples[] = $subject . ' a skos:Concept';
+    $triples[] = '    skos:prefLabel ' . turtleLiteral($datosTermino["titTema"], $datosTermino["idioma"]);
+    $triples[] = '    skos:inScheme ' . $scheme;
+
+    if (($CFG["_USE_CODE"] == '1') && (strlen((string)$datosTermino["code"]) > 0)) {
+        $triples[] = '    skos:notation ' . turtleLiteral($datosTermino["code"]);
+    }
+
+    if (empty($datosTermino["supraTema"])) {
+        $triples[] = '    skos:topConceptOf ' . $scheme;
+    }
+
+    $sqlNarrower = SQLverTerminosE($idTema);
+    while ($narrower = $sqlNarrower->FetchRow()) {
+        $triples[] = '    skos:narrower ' . turtleTermIRI($_URI_BASE_ID, $_URI_SEPARATOR_ID, $narrower["id_tema"]);
+    }
+
+    $sqlRelated = SQLverTerminoRelaciones($idTema);
+    while ($related = $sqlRelated->FetchRow()) {
+        $relatedURI = turtleTermIRI($_URI_BASE_ID, $_URI_SEPARATOR_ID, $related["tema_id"]);
+        switch ($related["t_relacion"]) {
+            case '2':
+                $triples[] = '    skos:related ' . $relatedURI;
+                break;
+            case '3':
+                $triples[] = '    skos:broader ' . $relatedURI;
+                break;
+            case '4':
+                $predicate = in_array($related["rr_code"], $CFG["HIDDEN_EQ"]) ? 'skos:hiddenLabel' : 'skos:altLabel';
+                $triples[] = '    ' . $predicate . ' ' . turtleLiteral($related["tema"], $_SESSION["CFGIdioma"]);
+                break;
+            case '5':
+                $triples[] = '    skos:partialMatch ' . $relatedURI;
+                break;
+            case '6':
+                $triples[] = '    skos:exactMatch ' . $relatedURI;
+                break;
+        }
+    }
+
+    $sqlTargetTerms = SQLtargetTerms($idTema);
+    while ($target = $sqlTargetTerms->FetchRow()) {
+        if (empty($target["tterm_url"])) {
+            continue;
+        }
+        $mapping = strtolower($target["tvocab_tag"]);
+        if (!in_array($mapping, array('exact', 'close', 'related', 'broad', 'narrow', 'partial'))) {
+            $mapping = 'exact';
+        }
+        $triples[] = '    skos:' . $mapping . 'Match ' . turtleIRI($target["tterm_url"]);
+    }
+
+    $sqlURIs = SQLURIxterm($idTema);
+    while ($uri = $sqlURIs->FetchRow()) {
+        $predicate = strtolower($uri["uri_code"]);
+        if (!empty($uri["uri"]) && in_array($predicate, array('exactmatch', 'closematch', 'relatedmatch', 'partialmatch', 'broadmatch', 'narrowmatch'))) {
+            $triples[] = '    skos:' . $predicate . ' ' . turtleIRI($uri["uri"]);
+        }
+    }
+
+    foreach ($datosTermino["notas"] as $note) {
+        if (empty($note["id"])) {
+            continue;
+        }
+
+        $noteContent = html2txt($note["nota"] . ' ' . TXTsource4note($note["id"]));
+        $noteTypes = array(
+            'NH' => 'historyNote',
+            'NA' => 'scopeNote',
+            'DF' => 'definition',
+            'ED' => 'editorialNote',
+            'EX' => 'example',
+            'CH' => 'changeNote',
+            'NB' => 'note'
+        );
+        if (isset($noteTypes[$note["tipoNota"]])) {
+            $triples[] = '    skos:' . $noteTypes[$note["tipoNota"]] . ' ' . turtleLiteral($noteContent, $note["lang_nota"]);
+        }
+    }
+
+    if (!empty($datosTermino["cuando"])) {
+        $triples[] = '    dct:created ' . turtleLiteral($datosTermino["cuando"]);
+    }
+    if ($datosTermino["cuando_final"] > $datosTermino["cuando"]) {
+        $triples[] = '    dct:modified ' . turtleLiteral($datosTermino["cuando_final"]);
+    }
+
+    return implode(" ;\n", $triples) . " .\n";
+}
+
+function do_turtle()
+{
+    global $CFG;
+
+    @set_time_limit(900);
+    $time_start = time();
+    $_URI_BASE_ID = ($CFG["_URI_BASE_ID"]) ? $CFG["_URI_BASE_ID"] : $_SESSION["CFGURL"];
+    $metadata = ARRAYfetchValues('METADATA');
+    $prefixes = array(
+        '@prefix skos: <http://www.w3.org/2004/02/skos/core#> .',
+        '@prefix dc: <http://purl.org/dc/elements/1.1/> .',
+        '@prefix dct: <http://purl.org/dc/terms/> .',
+        ''
+    );
+    $schemeTriples = array(
+        turtleIRI($_URI_BASE_ID) . ' a skos:ConceptScheme',
+        '    dc:title ' . turtleLiteral($_SESSION["CFGTitulo"]),
+        '    dc:creator ' . turtleLiteral($_SESSION["CFGAutor"]),
+        '    dc:contributor ' . turtleLiteral($metadata["dc:contributor"]["value"]),
+        '    dc:publisher ' . turtleLiteral($metadata["dc:publisher"]["value"]),
+        '    dc:rights ' . turtleLiteral($metadata["dc:rights"]["value"]),
+        '    dc:subject ' . turtleLiteral($_SESSION["CFGKeywords"]),
+        '    dc:description ' . turtleLiteral($_SESSION["CFGCobertura"]),
+        '    dc:date ' . turtleLiteral($_SESSION["CFGCreacion"]),
+        '    dc:language ' . turtleLiteral($_SESSION["CFGIdioma"]),
+        '    dct:modified ' . turtleLiteral(fetchlastMod())
+    );
+    $triples = array_merge($prefixes, array(implode(" ;\n", $schemeTriples) . " .", ''));
+
+    $sqlTopTerms = SQLverTopTerm();
+    while ($topTerm = $sqlTopTerms->FetchRow()) {
+        $triples[] = turtleIRI($_URI_BASE_ID) . ' skos:hasTopConcept ' .
+            turtleTermIRI($_URI_BASE_ID, (($CFG["_URI_SEPARATOR_ID"]) ? $CFG["_URI_SEPARATOR_ID"] : 'xml.php?schema=skos&term_id='), $topTerm["id"]) . ' .';
+    }
+
+    $sqlTerms = SQLIdTerminosValidos();
+    while ($term = $sqlTerms->FetchRow()) {
+        $triples[] = do_nodo_turtle($term["id"]);
+        if (time() >= $time_start + 10) {
+            $time_start = time();
+            header('X-pmaPing: Pong');
+        }
+    }
+
+    header('Content-Type: text/turtle; charset=utf-8');
+    header('Content-Disposition: attachment; filename="' . string2url($_SESSION["CFGTitulo"]) . '.ttl"');
+    return implode("\n", $triples);
+}
+
 
 
 
@@ -1784,9 +1976,9 @@ function selectSchema($schema,$term_id=""){
 
 $term_id=secure_data($term_id,"int");
 
-//if(!$term_id) return false;
+if(!$term_id) return false;
 
-$schema=configValue($_GET["schema"], '', array('skos','zthes','vdex','bs8723','mads','xtm','dc','json','jsonld','tbx','rss'));
+$schema=configValue($_GET["schema"], '', array('skos','zthes','vdex','bs8723','mads','xtm','dc','json','jsonld','tbx','rss','ttl'));
     switch ($schema) {
         case 'skos':
             header('Content-Type: text/xml');
@@ -1832,6 +2024,9 @@ $schema=configValue($_GET["schema"], '', array('skos','zthes','vdex','bs8723','m
         case 'rss':
             header('Content-Type: application/rss+xml');
             return do_rss();            
+            break;
+        case 'ttl':
+            //return do_turtle();
             break;
         default:
             return false;

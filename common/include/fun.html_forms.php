@@ -596,6 +596,13 @@ function HTMLformSuggestTermsXRelations($ARRAYtermino, $ARRAYtargetVocabulary = 
 function HTMLformAdvancedSearch($array){
     global $CFG;
     $array=XSSpreventArray($array);
+    $array["isExactMatch"] ?? 0;
+    $array["ws"] ?? '';
+    $array["hasTopTerm"] ?? '';
+    $array["hasNote"] ?? '';
+    $array["termDeep"] ?? '';
+    $array["task"] ?? '';
+        
     $rows='<div class="row justify-content-center">
   <div class="col-12 col-md-10 col-lg-8 col-xl-7">
     <div class="card border-0 shadow-sm">
@@ -608,7 +615,7 @@ function HTMLformAdvancedSearch($array){
           </svg>
           <h2 class="h4 mb-0">'.ucfirst(LABEL_BusquedaAvanzada).'</h2>
         </div>';
-    $rows.='<form name="advancedsearch" id="advancedsearch" action="index.php#xstring" method="get" role="search" novalidate><fieldset><legend class="visually-hidden">##Criterios de búsqueda avanzada</legend>';
+    $rows.='<form name="advancedsearch" id="advancedsearch" action="index.php#xstring" method="get" role="search" novalidate><fieldset><legend class="visually-hidden">'.ucfirst(LABEL_BusquedaAvanzada).'</legend>';
 
     $arrayWS=array('t#'.ucfirst(LABEL_Termino),'mt#'.ucfirst(LABEL_meta_term));
     $arrayVocabStats=ARRAYresumen($_SESSION["id_tesa"], "G", "");
@@ -624,13 +631,6 @@ function HTMLformAdvancedSearch($array){
     if ($arrayVocabStats["cant_term2tterm"]) {
         array_push($arrayWS, 'tgt#'.ucfirst(LABEL_TargetTerm));
     }
-
-    $array["isExactMatch"] ?? 0;
-    $array["ws"] ?? '';
-    $array["hasTopTerm"] ?? '';
-    $array["hasNote"] ?? '';
-    $array["termDeep"] ?? '';
-    $array["task"] ?? '';
     
     /*
     * solo si hay m�s de un opci�n
@@ -2417,24 +2417,25 @@ function HTMLformExportGlossary()
 
 function HTMLformExport()
 {
-    $array_export_options=array('jtxt#'.MENU_ListaSis.' (TXT)',
-                                'txt#'.MENU_ListaAbc.' (TXT)',
-                                'spdf#'.LABEL_SystPDF,
-                                'rpdf#'.LABEL_AlphaPDF,
-                                'zline#'.MENU_ListaAbc.' (HTML)',
-                                "fdspace#Dspace Taxonomy (XML)",
-                                "moodfile#Moodle (XML)",
-                                "zfile#Zthes (XML)",
-                                "rfile#Skos-Core (XML)",
-                                "rxtm#TopicMap (XML)",
-                                "BSfile#BS8723 (XML)",
-                                "ftbx#TermBase eXchange (TBX)",
-                                "madsFile#Metadata Authority Description Schema (MADS XML)",
-                                "marc#MARC 21 XML Schema (MarcXML)",
-                                "vfile#IMS Vocabulary Definition Exchange (VDEX XML)",
-                                "wxr#WXR (Wordpress XML)",
-                                "siteMap#SiteMap  (XML)",
-                                "rsql#Backup (SQL)");
+    $array_export_options=array('jtxt#'.MENU_ListaSis.' (.txt)',
+                                'txt#'.MENU_ListaAbc.' (.txt)',
+                                'spdf#'.LABEL_SystPDF.' (.pdf)',
+                                'rpdf#'.LABEL_AlphaPDF.' (.pdf)',
+                                'zline#'.MENU_ListaAbc.' (.html)',
+                                "fdspace#Dspace Taxonomy (.xml)",
+                                "moodfile#Moodle (.xml)",
+                                "zfile#Zthes (.xml)",
+                                "rfile#Skos-Core (.xml)",
+                                "ttl#Turtle (.ttl)",
+                                "rxtm#TopicMap (.xml)",
+                                "BSfile#BS8723 (.xml)",
+                                "ftbx#TermBase eXchange ()",
+                                "madsFile#Metadata Authority Description Schema - MADS ( .xml)",
+                                "marc#MARC 21 XML Schema - MarcXML(.xml)",
+                                "vfile#IMS Vocabulary Definition Exchange - VDEX(.xml)",
+                                "wxr#WXR - Wordpress XML (.xml)",
+                                "siteMap#SiteMap  (.xml)",
+                                "rsql#Backup SQL (.sql)");
 
     $rows.='<form class="" role="form"  name="export" action="xml.php" method="get">';
     $rows.='<div class="row">
