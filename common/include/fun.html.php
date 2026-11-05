@@ -2484,7 +2484,7 @@ function HTMLsummary()
     //terms stats
     $rows.='<tr><th>'.ucfirst(LABEL_Terminos).'</th><td>'.$resumen["cant_aceptados"];
 
-    $rows.=' <a class="btn btn-outline-secondary text-decoration-none btn-sm href="'.URL_BASE.'index.php?s=n" title="'.ucfirst(LABEL_showNewsTerm).'"> '.HTMLicon('fire').' '.ucfirst(LABEL_showNewsTerm).'</a>' ;
+    $rows.=' <a class="btn btn-outline-secondary text-decoration-none btn-sm" href="'.URL_BASE.'index.php?s=n" title="'.ucfirst(LABEL_showNewsTerm).'"> '.HTMLicon('fire').' '.ucfirst(LABEL_showNewsTerm).'</a>' ;
     $rows.='<ul>' ;
     if ($_SESSION[$_SESSION["CFGURL"]]["CFG_VIEW_STATUS"]==1) {
         if ($resumen["cant_candidato"]>0) {
