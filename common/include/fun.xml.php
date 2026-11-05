@@ -753,6 +753,17 @@ function do_turtle()
     return implode("\n", $triples);
 }
 
+function do_turtle_term($term_id)
+{
+    $triples = array(
+        '@prefix skos: <http://www.w3.org/2004/02/skos/core#> .',
+        '@prefix dct: <http://purl.org/dc/terms/> .',
+        ''
+    );
+    $triples[] = do_nodo_turtle($term_id);
+
+    return implode("\n", $triples);
+}
 
 
 
@@ -1974,11 +1985,16 @@ function Parser_ark2term_id($ark)
 
 function selectSchema($schema,$term_id=""){
 
+
 $term_id=secure_data($term_id,"int");
 
+if($schema=='rss') {
+    header('Content-Type: application/rss+xml');
+    return do_rss(30);
+};
 if(!$term_id) return false;
 
-$schema=configValue($_GET["schema"], '', array('skos','zthes','vdex','bs8723','mads','xtm','dc','json','jsonld','tbx','rss','ttl'));
+$schema=configValue($schema, '', array('skos','zthes','vdex','bs8723','mads','xtm','dc','json','jsonld','tbx','rss','ttl'));
     switch ($schema) {
         case 'skos':
             header('Content-Type: text/xml');
@@ -2026,8 +2042,8 @@ $schema=configValue($_GET["schema"], '', array('skos','zthes','vdex','bs8723','m
             return do_rss();            
             break;
         case 'ttl':
-            //return do_turtle();
-            break;
+            header('Content-Type: text/turtle; charset=utf-8');
+            return do_turtle_term($term_id);
         default:
             return false;
             break;

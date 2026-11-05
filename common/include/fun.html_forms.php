@@ -2429,7 +2429,7 @@ function HTMLformExport()
                                 "ttl#Turtle (.ttl)",
                                 "rxtm#TopicMap (.xml)",
                                 "BSfile#BS8723 (.xml)",
-                                "ftbx#TermBase eXchange ()",
+                                "ftbx#TermBase eXchange (.xml)",
                                 "madsFile#Metadata Authority Description Schema - MADS ( .xml)",
                                 "marc#MARC 21 XML Schema - MarcXML(.xml)",
                                 "vfile#IMS Vocabulary Definition Exchange - VDEX(.xml)",
