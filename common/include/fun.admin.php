@@ -909,6 +909,7 @@ function abm_tema($do, $titu_tema, $tema_id = "")
   $tesauro_id = (secure_data($_POST["ref_vocabulario_id"], "int")) ? $_POST["ref_vocabulario_id"] : $_SESSION["id_tesa"];
 
   $titu_tema=trim((string) $titu_tema);
+  $titu_tema=XSSprevent($titu_tema);
 
   //no string
   if (strlen((string) $titu_tema)<1) {
@@ -988,6 +989,8 @@ function abm_target_tema($do, $tema_id, $tvocab_id, $tgetTerm_id, $tterm_id = "0
       $arrayTterm["tterm_url"]=$arrayVocab["tvocab_url"].'?tema='.$tgetTerm_id;
 
       $arrayTterm["tterm_string"]=$DB->qstr(trim((string) $dataTterm->result->term->string));
+      $arrayTterm["tterm_string"]=XSSprevent($arrayTterm["tterm_string"]);
+
 
       $sql=SQLo(
         "insert",
@@ -1014,6 +1017,7 @@ function abm_target_tema($do, $tema_id, $tvocab_id, $tgetTerm_id, $tterm_id = "0
       $dataTterm=getURLdata($arrayTterm["tterm_uri"]);
 
       $arrayTterm["tterm_string"]=$DB->qstr(trim((string) $dataTterm->result->term->string));
+      $arrayTterm["tterm_string"]=XSSprevent($arrayTterm["tterm_string"]);
 
       $sql=SQLo(
         "update",
