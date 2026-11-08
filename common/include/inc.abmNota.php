@@ -27,15 +27,15 @@ if ($editNota) {
         $hidden .= '<input type="hidden" name="idNota" value="' . htmlspecialchars($arrayNota["idNota"], ENT_QUOTES, 'UTF-8') . '" />';
         $hidden .= '<input type="hidden" name="taskNota" value="edit" />';
 
-        $buttons .= '<button type="button" class="btn btn-default" name="cancelar" onClick="location.href=\'index.php?tema=' . htmlspecialchars($metadata["arraydata"]["tema_id"] ?? '', ENT_QUOTES, 'UTF-8') . '\'" value="' . $cancelLabel . '">' . $cancelLabel . '</button>';
-        $buttons .= '<a href="index.php?tema=' . htmlspecialchars($metadata["arraydata"]["tema_id"] ?? '', ENT_QUOTES, 'UTF-8') . '&amp;idTema=' . htmlspecialchars($metadata["arraydata"]["tema_id"] ?? '', ENT_QUOTES, 'UTF-8') . '&amp;idNota=' . htmlspecialchars($arrayNota["idNota"], ENT_QUOTES, 'UTF-8') . '&amp;taskNota=rem" role="button" class="btn btn-danger" name="eliminarNota" title="' . LABEL_EliminarNota . '">' . ucfirst(LABEL_EliminarNota) . '</a>';
         $buttons .= '<button type="submit" class="btn btn-primary" name="guardarCambioNota" value="' . LABEL_Cambiar . '">' . ucfirst(LABEL_Cambiar) . '</button>';
+        $buttons .= '<button type="button" class="btn btn-secondary" name="cancelar" onClick="location.href=\'index.php?tema=' . htmlspecialchars($metadata["arraydata"]["tema_id"] ?? '', ENT_QUOTES, 'UTF-8') . '\'" value="' . $cancelLabel . '">' . $cancelLabel . '</button>';
+        $buttons .= '<a href="index.php?tema=' . htmlspecialchars($metadata["arraydata"]["tema_id"] ?? '', ENT_QUOTES, 'UTF-8') . '&amp;idTema=' . htmlspecialchars($metadata["arraydata"]["tema_id"] ?? '', ENT_QUOTES, 'UTF-8') . '&amp;idNota=' . htmlspecialchars($arrayNota["idNota"], ENT_QUOTES, 'UTF-8') . '&amp;taskNota=rem" role="button" class="btn btn-danger" name="eliminarNota" title="' . LABEL_EliminarNota . '">' . ucfirst(LABEL_EliminarNota) . '</a>';
     } else {
         // Modo alta
         $hidden .= '<input type="hidden" name="taskNota" value="alta" />';
 
-        $buttons .= '<button type="button" class="btn btn-default" name="cancelar" onClick="location.href=\'index.php?tema=' . htmlspecialchars($metadata["arraydata"]["tema_id"] ?? '', ENT_QUOTES, 'UTF-8') . '\'" value="' . $cancelLabel . '">' . $cancelLabel . '</button>';
         $buttons .= '<button type="submit" class="btn btn-primary" name="LABEL_Enviar" value="' . LABEL_Enviar . '">' . ucfirst(LABEL_Enviar) . '</button>';
+        $buttons .= '<button type="button" class="btn btn-secondary" name="cancelar" onClick="location.href=\'index.php?tema=' . htmlspecialchars($metadata["arraydata"]["tema_id"] ?? '', ENT_QUOTES, 'UTF-8') . '\'" value="' . $cancelLabel . '">' . $cancelLabel . '</button>';
     }
 }
 
@@ -98,11 +98,11 @@ $notaEsc = htmlspecialchars($arrayNota["nota"] ?? '', ENT_QUOTES, 'UTF-8');
 
             <div class="col-xl-12">
                 <div class="card">
-                    <div class="card-body form-horizontal">
+                    <div class="card-body">
 
                         <!-- Tipo de nota -->
-                        <div class="form-group">
-                            <label for="tipoNota" class="col-md-2 control-label"><?php echo ucfirst(LABEL_tipoNota); ?></label>
+                        <div class="row mb-3">
+                            <label for="tipoNota" class="col-md-2 col-form-label"><?php echo ucfirst(LABEL_tipoNota); ?></label>
                             <div class="col-md-10">
                                 <select class="form-select" id="tipoNota" name="<?php echo FORM_LABEL_tipoNota; ?>">
                                     <?php echo doSelectForm($arrayNoteType, $type_note); ?>
@@ -111,8 +111,8 @@ $notaEsc = htmlspecialchars($arrayNota["nota"] ?? '', ENT_QUOTES, 'UTF-8');
                         </div>
 
                         <!-- Idioma -->
-                        <div class="form-group">
-                            <label for="idioma" class="col-md-2 control-label"><?php echo ucfirst(LABEL_Idioma); ?></label>
+                        <div class="row mb-3">
+                            <label for="idioma" class="col-md-2 col-form-label"><?php echo ucfirst(LABEL_Idioma); ?></label>
                             <div class="col-md-10">
                                 <select class="form-select" id="idioma" name="<?php echo FORM_LABEL_Idioma; ?>">
                                     <?php echo doSelectForm($arrayLang, $arrayNota["lang_nota"]); ?>
@@ -121,8 +121,8 @@ $notaEsc = htmlspecialchars($arrayNota["nota"] ?? '', ENT_QUOTES, 'UTF-8');
                         </div>
 
                         <!-- Nota (editor) -->
-                        <div class="form-group">
-                            <label for="<?php echo LABEL_nota; ?>" class="col-md-2 control-label"><?php echo ucfirst(LABEL_nota); ?></label>
+                        <div class="row mb-3">
+                            <label for="<?php echo LABEL_nota; ?>" class="col-md-2 col-form-label"><?php echo ucfirst(LABEL_nota); ?></label>
                             <div class="col-md-10">
                                 <span class="form-text"><?php echo MSG_helpNoteEditor; ?></span>
                                 <textarea name="<?php echo FORM_LABEL_nota; ?>" rows="20" id="<?php echo LABEL_nota; ?>"><?php echo $notaEsc; ?></textarea>
@@ -131,8 +131,8 @@ $notaEsc = htmlspecialchars($arrayNota["nota"] ?? '', ENT_QUOTES, 'UTF-8');
 
                         <!-- Fuente (opcional) -->
                         <?php if (count($arrayNoteSrc) > 1) : ?>
-                        <div class="form-group">
-                            <label for="src_note_id" class="col-md-2 control-label"><?php echo ucfirst(LABEL_src_note); ?></label>
+                        <div class="row mb-3">
+                            <label for="src_note_id" class="col-md-2 col-form-label"><?php echo ucfirst(LABEL_src_note); ?></label>
                             <div class="col-md-10">
                                 <select class="form-select" id="src_note_id" name="src_note_id">
                                     <?php echo doSelectForm($arrayNoteSrc, $arrayNota["src_id"] ?? null); ?>
@@ -142,7 +142,7 @@ $notaEsc = htmlspecialchars($arrayNota["nota"] ?? '', ENT_QUOTES, 'UTF-8');
                         <?php endif; ?>
 
                         <!-- Botones -->
-                        <div class="form-group" role="group">
+                        <div class="row mb-3" role="group">
                             <div class="col-md-12 text-end">
                                 <div class="btn-group">
                                     <?php echo $buttons; ?>

@@ -47,10 +47,10 @@ $rows.='	<div class="row">
 	    <div class="col-xl-7">
 	<h4>'.ucfirst(LABEL_lcConfig).'</h4>
 	        <div class="card">
-	            <div class="card-body form-horizontal">';
+	            <div class="card-body">';
 
-    $rows.='<div class="form-group">
-	           <label for="'.FORM_LABEL_Titulo.'" class="col-md-3 control-label">'.ucfirst(LABEL_Titulo).'</label>
+    $rows.='<div class="row mb-3">
+	           <label for="'.FORM_LABEL_Titulo.'" class="col-md-3 col-form-label">'.ucfirst(LABEL_Titulo).'</label>
 	                    <div class="col-md-9">
 	                        <input type="text"
 		 class="form-control" required
@@ -62,8 +62,8 @@ $rows.='	<div class="row">
 	         </div>';
 
 
-    $rows.='<div class="form-group">
-	           <label for="'.FORM_LABEL_Autor.'" class="col-md-3 control-label">'.ucfirst(LABEL_Autor).'</label>
+    $rows.='<div class="row mb-3">
+	           <label for="'.FORM_LABEL_Autor.'" class="col-md-3 col-form-label">'.ucfirst(LABEL_Autor).'</label>
 	                    <div class="col-md-9">
 	                       <input type="text"
 		 class="form-control" required
@@ -74,8 +74,8 @@ $rows.='	<div class="row">
 	                    </div>
 	         </div>';
 
-    $rows.='<div class="form-group">
-	           <label for="'.FORM_LABEL_Idioma.'" class="col-md-3 control-label">'.ucfirst(LABEL_Idioma).'</label>
+    $rows.='<div class="row mb-3">
+	           <label for="'.FORM_LABEL_Idioma.'" class="col-md-3 col-form-label">'.ucfirst(LABEL_Idioma).'</label>
 	                    <div class="col-md-9">
 		<select id="'.FORM_LABEL_Idioma.'" name="'.FORM_LABEL_Idioma.'">
 		<optgroup label="'.LABEL_Idioma.'">
@@ -85,8 +85,8 @@ $rows.='	<div class="row">
 	                    </div>
 	         </div>';
 
-    $rows.='<div class="form-group">
-	           <label for="cobertura" class="col-md-3 control-label">'.ucfirst(LABEL_Cobertura).'</label>
+    $rows.='<div class="row mb-3">
+	           <label for="cobertura" class="col-md-3 col-form-label">'.ucfirst(LABEL_Cobertura).'</label>
 	                    <div class="col-md-9">
 			<textarea class="form-control"
 			type="text"
@@ -101,8 +101,8 @@ $rows.='	<div class="row">
 if ($array_vocabulario["vocabulario_id"]==1) {
     $ARRAYcontactMail=ARRAYfetchValue('CONTACT_MAIL');
 
-    $rows.='<div class="form-group">
-	           <label for="dia" class="col-md-3 control-label">'.ucfirst(LABEL_Fecha).'</label>
+    $rows.='<div class="row mb-3">
+	           <label for="dia" class="col-md-3 col-form-label">'.ucfirst(LABEL_Fecha).'</label>
 	                    <div class="col-md-9">
 		<select id="'.FORM_LABEL_FechaDia.'" name="'.FORM_LABEL_FechaDia.'">
 		<optgroup label="'.LABEL_dia.'">
@@ -123,8 +123,8 @@ if ($array_vocabulario["vocabulario_id"]==1) {
 	         </div>';
 
 
-    $rows.='<div class="form-group">
-	           <label for="dccontributor" class="col-md-3 control-label">'.ucfirst(LABEL_Contributor).'</label>
+    $rows.='<div class="row mb-3">
+	           <label for="dccontributor" class="col-md-3 col-form-label">'.ucfirst(LABEL_Contributor).'</label>
 	                    <div class="col-md-9">
 	                        <input type="text"
 		class="form-control"
@@ -137,8 +137,8 @@ if ($array_vocabulario["vocabulario_id"]==1) {
 
 
 
-    $rows.='<div class="form-group">
-	           <label for="dcrights" class="col-md-3 control-label">'.ucfirst(LABEL_Publisher).'</label>
+    $rows.='<div class="row mb-3">
+	           <label for="dcrights" class="col-md-3 col-form-label">'.ucfirst(LABEL_Publisher).'</label>
 	                    <div class="col-md-9">
 	                        <input type="text" class="form-control"
 			 id="dcpublisher"
@@ -148,8 +148,8 @@ if ($array_vocabulario["vocabulario_id"]==1) {
 	                    </div>
 	         </div>';
 
-    $rows.='<div class="form-group">
-	           <label for="dcrights" class="col-md-3 control-label">'.ucfirst(LABEL_Rights).'</label>
+    $rows.='<div class="row mb-3">
+	           <label for="dcrights" class="col-md-3 col-form-label">'.ucfirst(LABEL_Rights).'</label>
 	                    <div class="col-md-9">
 	                        <input type="text" class="form-control"
 		 id="dcrights"
@@ -160,8 +160,8 @@ if ($array_vocabulario["vocabulario_id"]==1) {
 	         </div>';
 
 
-    $rows.='<div class="form-group">
-	           <label for="contact_mail" class="col-md-3 control-label">'.ucfirst(FORM_LABEL__contactMail).'</label>
+    $rows.='<div class="row mb-3">
+	           <label for="contact_mail" class="col-md-3 col-form-label">'.ucfirst(FORM_LABEL__contactMail).'</label>
 	                    <div class="col-md-9">
 	                        <input type="text"
 			class="form-control"
@@ -172,8 +172,8 @@ if ($array_vocabulario["vocabulario_id"]==1) {
 	                    </div>
 	         </div>';
 
-    $rows.='<div class="form-group">
-	           <label for="keywords" class="col-md-3 control-label">'.ucfirst(LABEL_Keywords).'</label>
+    $rows.='<div class="row mb-3">
+	           <label for="keywords" class="col-md-3 col-form-label">'.ucfirst(LABEL_Keywords).'</label>
 	                    <div class="col-md-9">
 	                        <input type="text" class="form-control"
 		 id="keywords"
@@ -183,24 +183,24 @@ if ($array_vocabulario["vocabulario_id"]==1) {
 	                    </div>
 			 </div>';
 
-    $rows.='<div class="form-group">
-	           <label for="tipo_lang" class="col-md-3 control-label">'.ucfirst(LABEL_TipoLenguaje).'</label>
+    $rows.='<div class="row mb-3">
+	           <label for="tipo_lang" class="col-md-3 col-form-label">'.ucfirst(LABEL_TipoLenguaje).'</label>
 	                    <div class="col-md-9">
 							<select id="tipo_lang" name="tipo">
 									'.doSelectForm($array_kos_types, $array_vocabulario["tipo"]).'
 							</select>	                    
 	                    </div>
 	         </div>';
-	$rows.='<div class="form-group">
-	           <label for="vocab_status" class="col-md-3 control-label">'.ucfirst(LABEL_StatusVocab).'</label>
+	$rows.='<div class="row mb-3">
+	           <label for="vocab_status" class="col-md-3 col-form-label">'.ucfirst(LABEL_StatusVocab).'</label>
 	                    <div class="col-md-9">
 							<select id="vocab_status" name="vocab_status">
 									'.doSelectForm4array($CFG["STATUS_VOCAB"],$arrayCurrentStatusVocab["code"]).'
 							</select>	                    
 	                    </div>
 	         </div>';
-    $rows.='<div class="form-group">
-	           <label for="URIt" class="col-md-3 control-label">'.ucfirst(LABEL_URI).'</label>
+    $rows.='<div class="row mb-3">
+	           <label for="URIt" class="col-md-3 col-form-label">'.ucfirst(LABEL_URI).'</label>
 	                    <div class="col-md-9">
 	                        <input type="url" class="form-control" required
 		 id="URIt"
@@ -213,10 +213,10 @@ if ($array_vocabulario["vocabulario_id"]==1) {
     $rows.=HTMLformConfigValues($array_vocabulario);
 };//end if main vocab
 
-    $rows.='<div class="form-group">
+    $rows.='<div class="row mb-3">
 	<div class="col-md-12 text-end">
-	<a href="admin.php?vocabulario_id=list" class="btn btn-default" id="boton_cancelar" title="'.ucfirst(LABEL_Cancelar).'">'.ucfirst(LABEL_Cancelar).'</a>
-		<input type="submit" class="btn btn-primary" id="boton" name="boton" value="'.ucfirst(LABEL_Guardar).'"/>';
+		<input type="submit" class="btn btn-primary" id="boton" name="boton" value="'.ucfirst(LABEL_Guardar).'"/>
+		<a href="admin.php?vocabulario_id=list" class="btn btn-secondary" id="boton_cancelar" title="'.ucfirst(LABEL_Cancelar).'">'.ucfirst(LABEL_Cancelar).'</a>';
     //editor for target vocabularies
 if ($array_vocabulario["vocabulario_id"]>1) {
     $rows.='	<input type="button" class="btn btn-danger" id="boton" name="boton" onclick="document.getElementById(\'delete-tvocab\').submit();" value="'.ucfirst(LABEL_eliminar).'"/>';

@@ -474,7 +474,7 @@ function HTMLbodyTermino($array)
 
     //el termino //span editable
     if ((evalUserLevel($_SESSION[$_SESSION["CFGURL"]])>0) && ($editFlag==1)) {
-        $body.='<dfn class="term "id="term">'.$copy_link.'<span id="edit_tema'.$array["tema_id"].'" class="edit_area_term">'.$array["titTema"].'</span></dfn> ' ;
+        $body.='<dfn class="term"id="term">'.$copy_link.'<span id="edit_tema'.$array["tema_id"].'" class="edit_area_term">'.$array["titTema"].'</span></dfn> ' ;
     } else {
         $body.='<dfn><span id="strterm">'.$array["titTema"].'</span>'.$copy_link.'</dfn>' ;
     }
@@ -1762,7 +1762,7 @@ function HTMLdeepStats()
     $sql=SQLTermDeep();
 
     $rows='<div class="table-responsive col-6 col-lg-4">
-	  <table class="table  table-bordered table-sm table-hover" summary="'.LABEL_termsXdeepLevel.'">
+	  <table class="table table-bordered table-sm table-hover" summary="'.LABEL_termsXdeepLevel.'">
 	  <thead><tr><tr><th>'.ucfirst(LABEL_deepLevel).'</th><th>'.ucfirst(LABEL_cantTerms).'</th></tr></thead>
 	  <tbody>' ;
     while ($array=$sql->FetchRow()) {
@@ -1981,7 +1981,7 @@ function HTMLnavHeader()
     $rows.='</ul>
       <form method="get" id="simple-search" name="simple-search" action="'.URL_BASE.'index.php" class="d-flex flex-grow-1 me-3" role="search">
         <input class="form-control me-2" id="query" name="'.FORM_LABEL_buscar.'"  type="search" aria-label="'.LABEL_Buscar.'" '.$focus.'>
-        <input class="btn btn-default" type="submit" value="'.LABEL_Buscar.'" />
+        <input class="btn btn-secondary" type="submit" value="'.LABEL_Buscar.'" />
         <input type="hidden" name="taskSearch" id="taskSearch" value="1" />
       </form>
       <ul class="navbar-nav">
@@ -2063,10 +2063,10 @@ function HTMLjsInclude()
 		}, true);
 	  	$(".dropdown").on("hide.bs.dropdown", function () { $(this).find(".dropdown-submenu").removeClass("show").children("a").attr("aria-expanded", "false"); });
 		document.querySelectorAll(\'[data-bs-toggle="tooltip"]\').forEach(function (el) { new bootstrap.Tooltip(el); });
-		document.addEventListener(\'invalid\', function (e) { var f = e.target.form; if (f && f.matches(\'[data-toggle="validator"]\')) { f.classList.add(\'was-validated\'); $(e.target).closest(".form-group").find(".with-errors").text(e.target.validationMessage); } }, true);
+		document.addEventListener(\'invalid\', function (e) { var f = e.target.form; if (f && f.matches(\'[data-toggle="validator"]\')) { f.classList.add(\'was-validated\'); $(e.target).closest(".row").find(".with-errors").text(e.target.validationMessage); } }, true);
 		$(\'form[data-toggle="validator"]\').on("input change", function () {
 			$(this).find("[data-match]").each(function () { this.setCustomValidity(this.value === $(this.getAttribute("data-match")).val() ? "" : this.getAttribute("data-match-error")); });
-			if ($(this).hasClass("was-validated")) $(this).find(".with-errors").each(function () { var f = $(this).closest(".form-group").find("input, select, textarea")[0]; $(this).text(f && !f.validity.valid ? f.validationMessage : ""); });
+			if ($(this).hasClass("was-validated")) $(this).find(".with-errors").each(function () { var f = $(this).closest(".row").find("input, select, textarea")[0]; $(this).text(f && !f.validity.valid ? f.validationMessage : ""); });
 		}).trigger("input");
 		$("#tagcloud a").tagcloud({
 		size: {start: 12, end: 36, unit: "px"},

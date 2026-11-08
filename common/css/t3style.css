@@ -184,13 +184,6 @@ a.eliminar   {
 }
 
 
-/* Bootstrap 3 buttons that Bootstrap 5 does not have */
-.btn-default {
-  --bs-btn-color: #333; --bs-btn-bg: #fff; --bs-btn-border-color: #ccc;
-  --bs-btn-hover-color: #333; --bs-btn-hover-bg: #e6e6e6; --bs-btn-hover-border-color: #adadad;
-  --bs-btn-active-color: #333; --bs-btn-active-bg: #e6e6e6; --bs-btn-active-border-color: #adadad;
-  --bs-btn-focus-shadow-rgb: 173, 173, 173;
-}
 #setLang { color: #fff; background-color: #5bc0de; border-color: #46b8da; }
 #setLang:hover { background-color: #31b0d5; border-color: #269abc; }
 
@@ -372,29 +365,11 @@ legend { width: 100%; margin-bottom: 20px; font-size: 21px; line-height: inherit
 @media (min-width: 768px) { .container { max-width: 750px; } }
 @media (min-width: 992px) { .container { max-width: 970px; } }
 @media (min-width: 1200px) { .container { max-width: 1170px; } }
-.form-group { margin-bottom: 15px; }
-.form-horizontal .form-group {
-    margin-left: -.75rem;
-    margin-right: -.75rem;
-}
-.form-horizontal .form-group:has(> [class*="col-"]) { display: flex; flex-wrap: wrap; }
-:where(.form-horizontal .form-group > [class*="col-"]) { flex-shrink: 0; width: 100%; max-width: 100%; }
 /* Bootstrap 3 gave every column its padding, also outside a .row, and no padding to the other children of a .row */
 :where([class^="col-"], [class*=" col-"]) { padding-left: .75rem; padding-right: .75rem; }
 .row > :not([class*="col-"]):not(.row) { --bs-gutter-x: 0; }
 .row > .row { padding-left: 0; padding-right: 0; }
-.control-label { padding-top: calc(.375rem + var(--bs-border-width)); margin-bottom: 0; font-weight: 700; }
 @media (min-width: 768px) {
-    .form-horizontal .control-label { text-align: right; }
-}
-@media (min-width: 768px) {
-    .form-inline .form-group { display: inline-block; margin-bottom: 0; vertical-align: middle; }
-    .form-inline .form-control, .form-inline .form-select { display: inline-block; width: auto; vertical-align: middle; }
-}
-.checkbox-inline { display: inline-block; margin-right: 1rem; }
-@media (min-width: 768px) {
-    /* a checkbox before its label column: Bootstrap 3 floated the column to the left of it */
-    .form-horizontal .form-group > input[type="checkbox"] { order: 1; align-self: center; }
     .navbar-text { margin-left: 15px; margin-right: 15px; }
 }
 .card { margin-bottom: 20px; }
@@ -418,7 +393,7 @@ legend { width: 100%; margin-bottom: 20px; font-size: 21px; line-height: inherit
 .pagination > li > a:not(.page-link), .pagination > li > span { padding: 5px 10px; font-size: 12px; border: 1px solid var(--bs-border-color); margin-left: -1px; text-decoration: none; }
 .breadcrumb { padding: 8px 15px; background-color: #f5f5f5; border-radius: 4px; }
 .breadcrumb > li { display: inline-block; }
-.was-validated .with-errors, .was-validated .form-group:has(:invalid) label { color: var(--bs-form-invalid-color); }
+.was-validated .with-errors, .was-validated .row:has(:invalid) label { color: var(--bs-form-invalid-color); }
 /* Bootstrap 3 marked only the fields with errors, not the valid ones */
 .was-validated :is(.form-control, .form-select):valid { border-color: var(--bs-border-color); }
 .was-validated .form-control:valid, .was-validated textarea.form-control:valid { padding-right: .75rem; background-image: none; }
