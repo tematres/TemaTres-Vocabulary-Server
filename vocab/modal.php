@@ -63,7 +63,7 @@ function HTMLmodalTerm($arrayTermData)
                         <div class="te">'.$HTMLtermRelations["RTrows"].'</div>
                         <div class="notas">'.HTMLNotasTermino($arrayTermData["arraydata"]).'</div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-bs-dismiss="modal">'.ucfirst(LABEL_close).'</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">'.ucfirst(LABEL_close).'</button>
                 </div>
             </div>
             <!-- /.modal-content -->
