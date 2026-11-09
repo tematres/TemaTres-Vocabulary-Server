@@ -32,6 +32,12 @@ if (!function_exists('mb_ucfirst')) {
     }
 }
 
+/* Upper case for comparing texts: UTF-8 aware if mbstring is available, as strtoupper() otherwise. */
+function strtoupperUTF8($string)
+{
+    return function_exists('mb_strtoupper') ? mb_strtoupper((string) $string, 'UTF-8') : strtoupper((string) $string);
+}
+
 /** FUNCIONES GENERALES */
 
 /** addslashes to vars Funcion tomada de PHPBB: http://www.phpbb.com/

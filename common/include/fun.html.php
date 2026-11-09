@@ -68,7 +68,7 @@ function resultaBusca($texto, $tipo = "")
             }
 
             //si hubo coicidencia exacta y están apagadas las sugerencias
-            if ((strtoupper($primerTermino)==trim(strtoupper($texto))) && (($sgs=='off') || ($sql_cant==1))) {
+            if ((strtoupperUTF8($primerTermino)==trim(strtoupperUTF8($texto))) && (($sgs=='off') || ($sql_cant==1))) {
                 return HTMLbodyTermino(ARRAYverDatosTermino($primerTermino_id));
             }
 
@@ -115,7 +115,7 @@ function resultaBusca($texto, $tipo = "")
         $row_result.='</div>' ; //fin de div de búsqueda
 
         //Si no hubo coincidencia exacta
-        if ((strtoupper($primerTermino)!==trim(strtoupper($texto))) && (array2value("sgs",$_GET)!='off')) {
+        if ((strtoupperUTF8($primerTermino)!==trim(strtoupperUTF8($texto))) && (array2value("sgs",$_GET)!='off')) {
             $body.=HTMLsugerirTermino($texto, $acumula_temas);
         }
 
