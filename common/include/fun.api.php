@@ -797,6 +797,9 @@ class XMLvocabularyServices
 
         if (@$msg["error"]) {
             $array['error']['message'] = $msg["error"];
+            if (@$msg["type"]) {
+                $array['error']['type'] = $msg["type"];
+            }
         }
 
 
@@ -967,14 +970,23 @@ function fetchVocabularyService($task, $arg, $output = "xml")
 
     $evalParam=evalServiceParam($task, $arg);
     //Verificar servicio habilitado
-    if ((CFG_SIMPLE_WEB_SERVICE !== "1") || (!$task)) {
+    if (CFG_SIMPLE_WEB_SERVICE !== "1") {
         $service=new XMLvocabularyServices();
         return array2xml($service-> describeService());
 
-        // Controlar parametros
+        // Peticion invalida: falta el verbo (task)
+    } elseif (!$task) {
+        return serviceErrorResponse('request', "Invalid request: a 'task' parameter is required.", $output);
+
+        // Controlar parametros: verbo desconocido o argumento invalido
     } elseif (@$evalParam["error"]) {
-        $service=new XMLvocabularyServices();
-        return array2xml($service-> describeService($evalParam));
+        // Strip control characters XML 1.0 forbids (keep tab, LF, CR) so the error document stays well-formed, then escape.
+        $safe_task = htmlspecialchars(preg_replace('/[\x00-\x08\x0B\x0C\x0E-\x1F]/', '', (string)$task), ENT_QUOTES);
+        if ($evalParam["error"] == "invalid task param") {
+            return serviceErrorResponse('task', "Unknown task '".$safe_task."'. See the list of available tasks.", $output);
+        } else {
+            return serviceErrorResponse('arg', "Invalid or missing argument for task '".$safe_task."'.", $output);
+        }
 
         // Los param esta bien
     } else {
@@ -1212,6 +1224,24 @@ function fetchVocabularyService($task, $arg, $output = "xml")
                 return array2xml($response, 'vocabularyservices');
         };
     }
+}
+
+/*
+ * Build an error response for the web service. The kind is one of three: 'task' (unknown verb),
+ * 'arg' (invalid or missing argument) or 'request' (malformed request). The error is returned in the
+ * requested output format -- a small JSON object for output=json, otherwise the XML help document
+ * carrying the same message -- with an HTTP 400 status so a client can detect the failure.
+ */
+function serviceErrorResponse($type, $message, $output)
+{
+    http_response_code(400);
+    if ($output == 'json') {
+        header('Content-type: application/json');
+        return array2json(array("error" => array("type" => $type, "message" => $message)));
+    }
+    $service=new XMLvocabularyServices();
+    header('Content-Type: text/xml');
+    return array2xml($service-> describeService(array("error" => $message, "type" => $type)));
 }
 
 function evalServiceParam($task, $arg)
