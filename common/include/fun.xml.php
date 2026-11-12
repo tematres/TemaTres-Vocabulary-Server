@@ -1830,6 +1830,7 @@ function do_jsonld($tema_id)
 
 
     $ARRAY_json=array("@context"=>array( "dc"=>"http://purl.org/dc/elements/1.1/",
+    "dct"=>"http://purl.org/dc/terms/",
     "skos"=>"http://www.w3.org/2004/02/skos/core#",
     "skos:broader"=>array("@type"=>"@id"),
     "skos:inScheme"=>array("@type"=>"@id"),
