@@ -499,23 +499,27 @@ function HTMLbodyTermino($array)
         $add_links["RT"]=HTMLlinkAddRelation('addRTnw', MENU_AgregarTR, $array["idTema"]);
     }
 
-    if (($HTMLterminos["cantRelaciones"]["cantUF"]>0) || ($add_links["UF"])) {
+    if ($HTMLterminos["cantRelaciones"]["cantUF"]>0) {
         $body.='<h4>'.ucfirst(LABEL_nonPreferedTerms).$add_links["UF"].'</h4>' ;
         $body.='<div>'.$HTMLterminos["HTMLterminos"]["UP"].'</div>' ;
     }
-    if (($HTMLterminos["cantRelaciones"]["cantTG"]>0) || ($add_links["BT"])) {
+    if ($HTMLterminos["cantRelaciones"]["cantTG"]>0) {
         $body.='<h4>'.ucfirst(LABEL_broatherTerms).$add_links["BT"].'</h4>' ;
         $body.='<div>'.$HTMLterminos["HTMLterminos"]["TG"].'</div>' ;
     }
     //display terms relations
     $body.=$HTMLterminos["HTMLterminos"]["USE"];
 
-    if (($HTMLterminos["cantRelaciones"]["cantNT"]>0) || ($add_links["NT"])) {
+    /* 
+    * if (($HTMLterminos["cantRelaciones"]["cantNT"]>0) || ($add_links["NT"])) {
+    * Only show addlinks if there are relations    
+    */
+    if ($HTMLterminos["cantRelaciones"]["cantNT"]>0) {
         $body.='<h4>'.ucfirst(LABEL_narrowerTerms).$add_links["NT"].'</h4>' ;
         $body.='<div>'.$HTMLterminos["HTMLterminos"]["TE"].'</div>' ;
     }
 
-    if (($HTMLterminos["cantRelaciones"]["cantRT"]>0) || ($add_links["RT"])) {
+    if ($HTMLterminos["cantRelaciones"]["cantRT"]>0) {
         $body.='<h4>'.ucfirst(LABEL_relatedTerms).$add_links["RT"].'</h4>' ;
         $body.='<div>'.$HTMLterminos["HTMLterminos"]["TR"].'</div>' ;
     }
