@@ -32,7 +32,7 @@ class XMLvocabularyServices
                  "code"=>$array["code"],
                  "lang"=>$array["idioma"],
                  "string"=>$array["tema"],
-                 "isMetaTerm"=>$array["isMetaTerm"],
+                 "isMetaTerm"=>$array["BT_isMetaTerm"], // of the related term, like the other fields in this row
                  "relation_type_id"=>$array["t_relacion"],
                  "relation_type"=>"RT",
                  "relation_code"=>$array["rr_code"],
@@ -146,7 +146,7 @@ class XMLvocabularyServices
             "code"=>$array["code"],
             "lang"=>$array["idioma"],
             "string"=>$array["tema"],
-            "isMetaTerm"=>$array["isMetaTerm"],
+            "isMetaTerm"=>$array["BT_isMetaTerm"], // of the related term, like the other fields in this row
             "relation_type_id"=>$array["t_relacion"],
             "relation_type"=>$relation_type,
             "relation_code"=>$array["rr_code"],
