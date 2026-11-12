@@ -2990,7 +2990,14 @@ return $rows;
 /* "+" link next to a relation heading on the term page, to the same form as the menu item */
 function HTMLlinkAddRelation($task, $label, $tema_id)
 {
-    return ' <a class="btn btn-outline-secondary btn-xs" title="'.ucfirst($label).'" aria-label="'.ucfirst($label).'" href="'.URL_BASE.'index.php?taskterm='.$task.'&amp;tema='.$tema_id.'">+</a>';
+    return ' <a class="btn btn-outline-secondary btn-sm d-inline-flex align-items-center"
+     title="'.ucfirst(LABEL_Agregar.' '.$label).'" aria-label="'.ucfirst(LABEL_Agregar.' '.$label).'" href="'.URL_BASE.'index.php?taskterm='.$task.'&amp;tema='.$tema_id.'">
+      <svg xmlns="http://www.w3.org/2000/svg" width="0.85em" height="0.85em"
+       fill="currentColor" viewBox="0 0 16 16" aria-hidden="true"
+       style="vertical-align:-.125em">
+    <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4"/>
+  </svg>
+  </a>';
 }
 
 /* 
