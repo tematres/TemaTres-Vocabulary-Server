@@ -670,7 +670,7 @@ function do_nodo_turtle($idTema)
     while ($uri = $sqlURIs->FetchRow()) {
         $predicate = strtolower($uri["uri_code"]);
         if (!empty($uri["uri"]) && in_array($predicate, array('exactmatch', 'closematch', 'relatedmatch', 'partialmatch', 'broadmatch', 'narrowmatch'))) {
-            $triples[] = '    skos:' . $predicate . ' ' . turtleIRI($uri["uri"]);
+            $triples[] = '    skos:' . $uri["uri_code"] . ' ' . turtleIRI($uri["uri"]);
         }
     }
 
