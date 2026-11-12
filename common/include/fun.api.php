@@ -800,7 +800,7 @@ class XMLvocabularyServices
 
 
         $array['fetchVocabularyData']['action'] = 'Retrieve data about vocabulary';
-        $array['fetchVocabularyData']['task'] = 'fetchVocabularyData ';
+        $array['fetchVocabularyData']['task'] = 'fetchVocabularyData';
         $array['fetchVocabularyData']['arg'] = '1';
         $array['fetchVocabularyData']['example'] = $_SESSION["CFGURL"].'services.php?task=fetchVocabularyData';
 
@@ -907,7 +907,7 @@ class XMLvocabularyServices
         $array['fetchSourceTerms']['action'] = 'Search and retrieve terms mapped in target vocabulary for a given term';
         $array['fetchSourceTerms']['task'] = 'fetchSourceTerms';
         $array['fetchSourceTerms']['arg'] = 'term (string)';
-        $array['fetchSourceTerms']['example'] = $_SESSION["CFGURL"].'services.php?task=fetchSourceTerm&arg=term';
+        $array['fetchSourceTerms']['example'] = $_SESSION["CFGURL"].'services.php?task=fetchSourceTerms&arg=term';
 
         $array['fetchTerms']['action'] = ' Retrieve simple term data for some coma separated IDs (example: 3,6,98) ';
         $array['fetchTerms']['task'] = 'fetchTerms';
@@ -945,7 +945,7 @@ class XMLvocabularyServices
         $array['sources']['example'] = $_SESSION["CFGURL"].'services.php?task=sources';
 
         $array['termsbysource']['action'] = 'terms related to normalized reference';
-        $array['termsbysource']['task'] = 'resource';
+        $array['termsbysource']['task'] = 'termsbysource';
         $array['termsbysource']['arg'] = 'ID of the resource reference';
         $array['termsbysource']['example'] = $_SESSION["CFGURL"].'services.php?task=termsbysource&arg=1';
 
@@ -1396,7 +1396,7 @@ function array2xml($array, $name = 'vocabularyservices', $standalone = true, $be
     $output='';
     if ($beginning) {
         if ($standalone) {
-            header("content-type:text/xml;$encode");
+            header("content-type:text/xml; charset=$encode");
         }
         $output .= '<'.'?'.'xml version="1.0" encoding="'.$encode.'"'.'?'.'>';
 
