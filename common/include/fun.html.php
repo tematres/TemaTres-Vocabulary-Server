@@ -1047,6 +1047,9 @@ function HTMLlistaTerminosEstado($estado_id, $limite = "")
     if (in_array($estado_id, $arrayEstados_id)) {
         $sql=SQLterminosEstado($estado_id, $limite);
 
+        // details and accept links for admin and editor
+        $isEditor=in_array(evalUserLevel($_SESSION[$_SESSION["CFGURL"]]), array('1','2'));
+
         $rows.='<div><h3>'.ucfirst($arrayEstados[$estado_id]).' ('.SQLcount($sql).') </h3>' ;
 
         if (SQLcount($sql)>0) {
@@ -1055,7 +1058,8 @@ function HTMLlistaTerminosEstado($estado_id, $limite = "")
 			<thead>
 			<tr>
 				<th>'.ucfirst(LABEL_Termino).'</th>
-				<th>'.ucfirst(LABEL_Fecha).'</th>
+				<th>'.ucfirst(LABEL_Fecha).'</th>'.(($isEditor) ? '
+				<th>'.ucfirst(LABEL_Opciones).'</th>' : '').'
 			</tr>
 			</thead>
 			<tbody>' ;
@@ -1064,9 +1068,12 @@ function HTMLlistaTerminosEstado($estado_id, $limite = "")
                 $styleTerm='estado_termino'.$array["estado_id"];
 
                 $css_class_MT=($array["isMetaTerm"]==1) ? ' class="metaTerm" ' : '' ;
-                $rows.= '<tr>' ;
+                $rows.= '<tr data-tema="'.$array["tema_id"].'">' ;
                 $rows.=  '     	<td>'.HTMLlinkTerm($array, array("style"=>$styleTerm,"modal"=>1)).'</td>' ;
                 $rows.=  '      <td>'.$array["cuando"].'</td>' ;
+                if ($isEditor) {
+                    $rows.=  '      <td>'.HTMLcandidateActions($array).'</td>' ;
+                }
                 $rows.=  ' </tr>' ;
             };
             $rows.='        </tbody>		</table>' ;
@@ -1079,6 +1086,17 @@ function HTMLlistaTerminosEstado($estado_id, $limite = "")
     return $rows;
 };
 
+
+/* Links to the term page and, for a candidate without relations (as in the Options menu), to accept it without reloading
+the page (js.php); used in the candidate list and the quick view (modal.php), for admin and editor */
+function HTMLcandidateActions($array, $class = 'btn-sm')
+{
+    $rows='<a class="btn btn-outline-secondary '.$class.'" href="'.URL_BASE.'index.php?tema='.$array["tema_id"].'">'.ucfirst(LABEL_Detalle).'</a>';
+    if (($array["estado_id"]=='12') && (SQLcount(SQLcheckFreeTerm($array["tema_id"]))=='1')) {
+        $rows.=' <a class="btn btn-primary '.$class.' acceptTerm" data-tema="'.$array["tema_id"].'" data-confirm="'.ucfirst(LABEL_AceptarTermino).'?" data-accepted="'.ucfirst(LABEL_Aceptado).'" href="'.URL_BASE.'index.php?tema='.$array["tema_id"].'&amp;estado_id=13">'.ucfirst(LABEL_AceptarTermino).'</a>';
+    }
+    return $rows;
+}
 
 function HTMLlistaTerminosFecha($limite = "")
 {
