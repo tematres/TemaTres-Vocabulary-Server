@@ -1956,7 +1956,7 @@ function ARRAYverDatosTermino($tema_id)
 
 
     //
-    // sql de expansiÃ³n sobre una lista de ids hacia temas relacionados (expansion to TR)
+    // sql de expansión sobre una lista de ids hacia temas relacionados (expansion to TR)
     //
     function SQLexpansionTR($lista_temas_id)
     {
@@ -1969,9 +1969,7 @@ function ARRAYverDatosTermino($tema_id)
       //Control de estados
       $where=(evalUserLevel($_SESSION[$_SESSION["CFGURL"]])=='0') ? " and t.estado_id='13' " : "" ;
 
-      return SQL(
-        "select",
-        "t.tema_id as tema_id,t.tema, t.isMetaTerm,count(t.tema_id) as cant_rel
+      return SQL("select","t.tema_id as tema_id,t.tema, t.isMetaTerm,count(t.tema_id) as cant_rel
         from $DBCFG[DBprefix]tema t, $DBCFG[DBprefix]tabla_rel tr
         where
         tr.id_menor in ($csv_temas_id)
@@ -5240,4 +5238,44 @@ if(is_array($data)){
                    "dateMod"=>$_SESSION["CFGCreacion"],
                    "data_status"=>0);
   };
+};
+
+
+/*
+* Recupera los términos relacionas (t_relacion=2) de un tema_id
+*/
+function SQLrelatedTerms($tema_id)
+{
+  global $DBCFG;
+
+  $id_TR=secure_data(id_TR, "int");
+
+  $id_TR = $id_TR ?? 2;
+
+  $tema_id=secure_data($tema_id, "int");
+
+  $sql=SQL(
+        "select",
+        "tema.tema_id,tema.tema_id as id_tema,
+        tema.code,
+        tema.tema,
+        tema.isMetaTerm,
+        relaciones.id as id_relacion,
+        relaciones.id as rel_id,
+        relaciones.t_relacion,
+        trr.value_id as rr_id,
+        trr.value_code as rr_code,
+        trr.value as rr_value,
+        c.idioma
+        from $DBCFG[DBprefix]config as c,$DBCFG[DBprefix]tema as tema,$DBCFG[DBprefix]tabla_rel as relaciones    
+        left join $DBCFG[DBprefix]values trr on trr.value_id=relaciones.rel_rel_id
+        where relaciones.t_relacion=$id_TR
+        and relaciones.id_mayor='$tema_id'
+        and relaciones.id_menor=tema.tema_id
+        and tema.estado_id='13'
+        and c.id=tema.tesauro_id
+        group by tema.tema_id
+        order by trr.value_order,lower(tema.tema)"
+      );
+return $sql;
 };

@@ -23,7 +23,7 @@ class XMLvocabularyServices
     function fetchRelatedTerms($tema_id)
     {
 
-        $sql=SQLverTerminoRelaciones($tema_id);
+        $sql=SQLrelatedTerms($tema_id);
 
         while ($array=$sql->FetchRow()) {
             if ($array["t_relacion"]=='2') {
@@ -134,10 +134,11 @@ class XMLvocabularyServices
     {
 
         /*
-        $sql=SQLterminosDirectos($tema_id);
+        * Previous query
+        * $sql=SQLverTerminoRelaciones($tema_id);
         */
-        $sql=SQLverTerminoRelaciones($tema_id);
-
+        
+        $sql=SQLterminosDirectos($tema_id);
         while ($array=$sql->FetchRow()) {
             $relation_type=arrayReplace(array("2","3","4"), array("RT","BT","UF"), $array["t_relacion"]);
 
