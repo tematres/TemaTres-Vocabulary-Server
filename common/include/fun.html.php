@@ -488,24 +488,35 @@ function HTMLbodyTermino($array)
 
     $body.=HTMLshowCode($array,$editFlag);
 
-    if ($HTMLterminos["cantRelaciones"]["cantUF"]>0) {
-        $body.='<h4>'.ucfirst(LABEL_nonPreferedTerms).'</h4>' ;
+    // "+" next to the relation headings for admin and editor, under the same conditions as the Add and Options menus
+    $add_links=array("UF"=>'',"BT"=>'',"NT"=>'',"RT"=>'');
+    if (in_array($user_level, array('1','2')) && ($array["estado_id"]=='13') && (isValidTerm($array["tema_id"]))) {
+        $add_links["UF"]=HTMLlinkAddRelation('addUF', MENU_AgregarUP, $array["idTema"]);
+        if (($HTMLterminos["cantRelaciones"]["cantTG"]==0) || ($_SESSION["CFGPolijerarquia"]=='1')) {
+            $add_links["BT"]=HTMLlinkAddRelation('addBT', MENU_AgregarTG, $array["idTema"]);
+        }
+        $add_links["NT"]=HTMLlinkAddRelation('addNT', MENU_AgregarTE, $array["idTema"]);
+        $add_links["RT"]=HTMLlinkAddRelation('addRTnw', MENU_AgregarTR, $array["idTema"]);
+    }
+
+    if (($HTMLterminos["cantRelaciones"]["cantUF"]>0) || ($add_links["UF"])) {
+        $body.='<h4>'.ucfirst(LABEL_nonPreferedTerms).$add_links["UF"].'</h4>' ;
         $body.='<div>'.$HTMLterminos["HTMLterminos"]["UP"].'</div>' ;
     }
-    if ($HTMLterminos["cantRelaciones"]["cantTG"]>0) {
-        $body.='<h4>'.ucfirst(LABEL_broatherTerms).'</h4>' ;
+    if (($HTMLterminos["cantRelaciones"]["cantTG"]>0) || ($add_links["BT"])) {
+        $body.='<h4>'.ucfirst(LABEL_broatherTerms).$add_links["BT"].'</h4>' ;
         $body.='<div>'.$HTMLterminos["HTMLterminos"]["TG"].'</div>' ;
     }
     //display terms relations
     $body.=$HTMLterminos["HTMLterminos"]["USE"];
 
-    if ($HTMLterminos["cantRelaciones"]["cantNT"]>0) {
-        $body.='<h4>'.ucfirst(LABEL_narrowerTerms).'</h4>' ;
+    if (($HTMLterminos["cantRelaciones"]["cantNT"]>0) || ($add_links["NT"])) {
+        $body.='<h4>'.ucfirst(LABEL_narrowerTerms).$add_links["NT"].'</h4>' ;
         $body.='<div>'.$HTMLterminos["HTMLterminos"]["TE"].'</div>' ;
     }
 
-    if ($HTMLterminos["cantRelaciones"]["cantRT"]>0) {
-        $body.='<h4>'.ucfirst(LABEL_relatedTerms).'</h4>' ;
+    if (($HTMLterminos["cantRelaciones"]["cantRT"]>0) || ($add_links["RT"])) {
+        $body.='<h4>'.ucfirst(LABEL_relatedTerms).$add_links["RT"].'</h4>' ;
         $body.='<div>'.$HTMLterminos["HTMLterminos"]["TR"].'</div>' ;
     }
 
@@ -2971,6 +2982,12 @@ return $rows;
 
 
 
+
+/* "+" link next to a relation heading on the term page, to the same form as the menu item */
+function HTMLlinkAddRelation($task, $label, $tema_id)
+{
+    return ' <a class="btn btn-outline-secondary btn-xs" title="'.ucfirst($label).'" aria-label="'.ucfirst($label).'" href="'.URL_BASE.'index.php?taskterm='.$task.'&amp;tema='.$tema_id.'">+</a>';
+}
 
 /* 
 * Term menu options for editors and admins
