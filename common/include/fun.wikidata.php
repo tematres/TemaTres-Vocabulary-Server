@@ -481,32 +481,38 @@ function HTMLformSuggestedTermsFromWikidata($ARRAYtermino,$t_relation,$p_relatio
 }
 
 
-function getWikidata($url,$language="es"){
-     $opcionesHTTP = [
-        'http' => [
-            'method' => 'GET',
-            'header' => "User-Agent: Tematres (+https://vocabularyserver.com)\r\n" .
-                        "Accept-Language: $language\r\n"
-        ]
-    ];
-   
-    $contexto = stream_context_create($opcionesHTTP);
-    $respuesta = file_get_contents($url, false, $contexto);
-
+function getWikidata($url, $language = "es") {
+    $userAgent = 'TemaTres/4.0 (https://www.vocabularyserver.com; admin@vocabularyserver.com) PHP/' . phpversion();
+    
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, $url);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_USERAGENT, $userAgent);
+    curl_setopt($ch, CURLOPT_HTTPHEADER, ["Accept-Language: {$language}"]);
+    curl_setopt($ch, CURLOPT_TIMEOUT, 30); // Tiempo máximo de espera
+    
+    $respuesta = curl_exec($ch);
+    $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+    $errorCurl = curl_error($ch);
+    curl_close($ch);
 
     if ($respuesta === false) {
-        throw new Exception(LABEL__wikiConnectionError);
+        throw new Exception("Error de conexión cURL: " . $errorCurl);
+    }
+
+    if ($httpCode === 403) {
+        throw new Exception('Acceso denegado (403): El User-Agent no es aceptado por Wikimedia. Revisa la política de User-Agent.');
+    } elseif ($httpCode === 429) {
+        throw new Exception('Límite de peticiones excedido (429). Debes reducir la frecuencia de tus consultas.');
+    } elseif ($httpCode >= 400) {
+        throw new Exception("Error HTTP {$httpCode} al conectar con Wikidata.");
     }
 
     $datos = json_decode($respuesta, true);
-
-
     if (json_last_error() !== JSON_ERROR_NONE) {
         throw new Exception(LABEL__ParserError);
-    }    
-
+    }
     return $datos;
-
 }
 
 
