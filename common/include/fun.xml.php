@@ -407,6 +407,16 @@ function do_skosNode($nodos_skos, $top_terms = "false")
 };
 
 //
+// SKOS mapping property for a mapping tag (exact, close, related, broad, narrow, partial).
+// SKOS has no partialMatch: a partial mapping is exported as the generic skos:mappingRelation.
+//
+function skosMappingProperty($tag)
+{
+    $tag = strtolower($tag);
+    return ($tag == 'partial') ? 'mappingRelation' : $tag.'Match';
+}
+
+//
 // Arma nodos Skos
 //
 function do_nodo_skos($idTema)
@@ -454,13 +464,13 @@ function do_nodo_skos($idTema)
 
         //terms with internal mapping
         if (in_array($datosTerminosRelacionados["t_relacion"], array(5,6))) {
-            $map_label=arrayReplace(array(5,6), array("partial","exact"), $datosTerminosRelacionados["t_relacion"]);
+            $map_label=skosMappingProperty(arrayReplace(array(5,6), array("partial","exact"), $datosTerminosRelacionados["t_relacion"]));
 
-            $skos_map.='<skos:'.$map_label.'Match>';
+            $skos_map.='<skos:'.$map_label.'>';
             $skos_map.=' <skos:Concept rdf:about="'.$_URI_BASE_ID.$_URI_SEPARATOR_ID.$datosTerminosRelacionados["tema_id"].'">';
             $skos_map.=' <skos:prefLabel xml:lang="'.$datosTerminosRelacionados["idioma"].'">'.$datosTerminosRelacionados["tema"].'</skos:prefLabel>';
             $skos_map.=' </skos:Concept>';
-            $skos_map.='</skos:'.$map_label.'Match>';
+            $skos_map.='</skos:'.$map_label.'>';
         }
     };
 
@@ -469,20 +479,21 @@ function do_nodo_skos($idTema)
     while ($datosTargetTerms=$SQLtargetTerms->FetchRow()) {
         $map_label=(in_array(strtolower($datosTargetTerms["tvocab_tag"]), array('exact','close','related','partial','broad','narrow'))) ? strtolower($datosTargetTerms["tvocab_tag"]) : 'exact';
 
-        $skos_map.='<skos:'.$map_label.'Match>';
+        $skos_map.='<skos:'.skosMappingProperty($map_label).'>';
         $skos_map.=' <skos:Concept rdf:about="'.$datosTargetTerms["tterm_url"].'">';
         $skos_map.=' <skos:prefLabel xml:lang="'.$datosTargetTerms["tvocab_lang"].'">'.$datosTargetTerms["tterm_string"].'</skos:prefLabel>';
         $skos_map.=' </skos:Concept>';
-        $skos_map.='</skos:'.$map_label.'Match>';
+        $skos_map.='</skos:'.skosMappingProperty($map_label).'>';
     };
 
     $SQLURI2term=SQLURIxterm($idTema);
 
     while ($datosURI2term=$SQLURI2term->FetchRow()) {
         if (in_array(strtolower($datosURI2term["uri_code"]), array('exactmatch','closematch','relatedmatch','partialmatch','broadmatch','narrowmatch'))) {
-            $skos_map.='<skos:'.$datosURI2term["uri_code"].'>';
+            $uri_property=(strtolower($datosURI2term["uri_code"])=='partialmatch') ? 'mappingRelation' : $datosURI2term["uri_code"];
+            $skos_map.='<skos:'.$uri_property.'>';
             $skos_map.=' <skos:Concept rdf:about="'.htmlentities($datosURI2term["uri"]).'"/>';
-            $skos_map.='</skos:'.$datosURI2term["uri_code"].'>';
+            $skos_map.='</skos:'.$uri_property.'>';
 
             /*
             $skos_map.='<skos:'.$datosURI2term[uri_code].' resource="'.htmlentities($datosURI2term[uri]).'" />';
@@ -646,7 +657,7 @@ function do_nodo_turtle($idTema)
                 $triples[] = '    ' . $predicate . ' ' . turtleLiteral($related["tema"], $_SESSION["CFGIdioma"]);
                 break;
             case '5':
-                $triples[] = '    skos:partialMatch ' . $relatedURI;
+                $triples[] = '    skos:mappingRelation ' . $relatedURI;
                 break;
             case '6':
                 $triples[] = '    skos:exactMatch ' . $relatedURI;
@@ -663,14 +674,14 @@ function do_nodo_turtle($idTema)
         if (!in_array($mapping, array('exact', 'close', 'related', 'broad', 'narrow', 'partial'))) {
             $mapping = 'exact';
         }
-        $triples[] = '    skos:' . $mapping . 'Match ' . turtleIRI($target["tterm_url"]);
+        $triples[] = '    skos:' . skosMappingProperty($mapping) . ' ' . turtleIRI($target["tterm_url"]);
     }
 
     $sqlURIs = SQLURIxterm($idTema);
     while ($uri = $sqlURIs->FetchRow()) {
         $predicate = strtolower($uri["uri_code"]);
         if (!empty($uri["uri"]) && in_array($predicate, array('exactmatch', 'closematch', 'relatedmatch', 'partialmatch', 'broadmatch', 'narrowmatch'))) {
-            $triples[] = '    skos:' . $uri["uri_code"] . ' ' . turtleIRI($uri["uri"]);
+            $triples[] = '    skos:' . (($predicate == 'partialmatch') ? 'mappingRelation' : $uri["uri_code"]) . ' ' . turtleIRI($uri["uri"]);
         }
     }
 
@@ -1770,7 +1781,7 @@ function do_jsonld($tema_id)
     while ($datosTargetTerms=$SQLtargetTerms->FetchRow()) {
         $map_label=(in_array(strtolower($datosTargetTerms["tvocab_tag"]), array('exact','close','related','partial','broad','narrow'))) ? strtolower($datosTargetTerms["tvocab_tag"]) : 'exact';
 
-        $skos_tag='skos:'.$map_label.'Match';
+        $skos_tag='skos:'.skosMappingProperty($map_label);
         $ARRAYjson_map["$skos_tag"][]=array("@id"=>$datosTargetTerms["tterm_url"],
         "@type"=>"skos:Concept",
         "skos:prefLabel"=>array("@language"=>$datosTargetTerms["tvocab_lang"],
