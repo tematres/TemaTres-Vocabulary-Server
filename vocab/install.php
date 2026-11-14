@@ -460,6 +460,7 @@ function SQLtematres($DBCFG, $DB, $arrayInstallData = array())
         (50, 'config', 'CFG_ALLOW_DUPLICATED', NULL, '0'),
         (51, 't_nota', 'Example note', 6, 'EX'),
         (52, 'config', 'COPY_CLICK', NULL, '1'),
+        (55, 'config', 'SHOW_REL_ACRONYMS', NULL, '1'),
         (53, 'METADATA', '$local_naan', NULL, 'CFG_ARK_NAAN'),
         (54, 'CFG_STATUS_VOCAB', '$vocabStatus', NULL, NULL);"
     );
