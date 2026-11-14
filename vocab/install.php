@@ -510,6 +510,8 @@ function HTMLformInstall($lang_install)
     foreach ($CFG["ISO639-1"] as $langs) {
         array_push($arrayLang, "$langs[0]#$langs[1]");
     };
+    // the vocabulary language: the installer language if it is in the list (ca-ES, pt-BR), otherwise its ISO 639-1 part (en-EN -> en)
+    $vocab_lang=(isset($CFG["ISO639-1"][$lang_install])) ? $lang_install : substr($lang_install, 0, 2);
 
     $array_kos_types=array(KOS_categorization_scheme.'#'.KOS_categorization_scheme,KOS_classification_scheme.'#'.KOS_classification_scheme,KOS_dictionary.'#'.KOS_dictionary,KOS_gazetteer.'#'.KOS_gazetteer,KOS_glossary.'#'.KOS_glossary,KOS_list.'#'.KOS_list,KOS_name_authority_list.'#'.KOS_name_authority_list,KOS_ontology.'#'.KOS_ontology,KOS_semantic_network.'#'.KOS_semantic_network,KOS_subject_heading_scheme.'#'.KOS_subject_heading_scheme,KOS_taxonomy.'#'.KOS_taxonomy,KOS_terminology.'#'.KOS_terminology,KOS_thesaurus.'#'.KOS_thesaurus);
 
@@ -539,7 +541,7 @@ function HTMLformInstall($lang_install)
       <label class="col-lg-4 col-form-label" for="lang">'.ucfirst(LABEL_Idioma).'</label>
       <div class="col-lg-4">
         <select id="lang" name="lang" class="form-select">
-        '.doSelectForm($arrayLang, $lang_install).'
+        '.doSelectForm($arrayLang, $vocab_lang).'
         </select>
       </div>
     </div>
