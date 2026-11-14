@@ -1742,15 +1742,10 @@ function HTMLformConfigValues($array_vocabulario)
                 $rows.=' </div>';
                 $rows.='</div><hr/>';
                 break;
-            case 'SHOW_REL_ACRONYMS':
-                $rows.='<div class="row mb-3">';
-                $rows.='<label class="col-md-6 col-form-label" for="'.$key.'">'.ucfirst(LABEL_SHOW_REL_ACRONYMS).'</label>';
-                $rows.='<div class="col-md-5">     <select id="'.$key.'" name="'.$key.'">';
-                $rows.=    doSelectForm(array('1#'.LABEL_SI,'00#'.LABEL_NO), $NEWarrayCFGs[$key]);
-                $rows.='</select>';
-                $rows.=' </div>';
-                $rows.='</div><hr/>';
+            case 'CFG_STATUS_VOCAB':
+                // set with the vocabulary status field above (vocab_status), not a YES/NO option
                 break;
+
             default:
                 $rows.='<div class="row mb-3">';
                 $rows.='<label class="col-md-6 col-form-label" for="'.$key.'">'.mb_ucfirst(arrayReplace(array('_USE_CODE','_SHOW_CODE','CFG_VIEW_STATUS','CFG_SIMPLE_WEB_SERVICE','_SHOW_TREE','_PUBLISH_SKOS','CFG_ENABLE_SPARQL'), array(LABEL__USE_CODE,LABEL__SHOW_CODE,LABEL_CFG_VIEW_STATUS,LABEL_CFG_SIMPLE_WEB_SERVICE,LABEL__SHOW_TREE,LABEL__PUBLISH_SKOS,LABEL__ENABLE_SPARQL), $key)).'</label>';
