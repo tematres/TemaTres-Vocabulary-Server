@@ -248,7 +248,7 @@ class PDF extends FPDF
         $this->SetY($y+20);
         $this->SetFont('helvetica', 'B', 10);
 
-        $this->MultiCell(0, 8, latin1(ucfirst(LABEL_references).':'), 0, 'L');
+        $this->MultiCell(0, 8, latin1(mb_ucfirst(LABEL_references).':'), 0, 'L');
         $y=$this->GetY();
         $this->Line(10, $y, 200, $y);
         $this->SetY($y+1);
@@ -303,8 +303,8 @@ class PDF extends FPDF
         $this->MultiCell(0, 4, latin1(LABEL_Termino.': '.NOTE_isMetaTerm.' '.NOTE_isMetaTermNote.'.'), 0, 'L');
 
         $this->SetTextColor(0, 0, 0);
-        $this->MultiCell(0, 4, latin1(ucfirst(LABEL_lastChangeDate).': '.substr(fetchlastMod(), 0, 10)), 0, 'L');
-        $this->MultiCell(0, 4, latin1(ucfirst(LABEL_printData).': '.date("Y-m-d")), 0, 'L');
+        $this->MultiCell(0, 4, latin1(mb_ucfirst(LABEL_lastChangeDate).': '.substr(fetchlastMod(), 0, 10)), 0, 'L');
+        $this->MultiCell(0, 4, latin1(mb_ucfirst(LABEL_printData).': '.date("Y-m-d")), 0, 'L');
 
         $tematres_link=$this->WriteHTML(LABEL_Version.': <a href="https://www.vocabularyserver.com">'.$_SESSION["CFGVersion"].'</a>');
         $this->MultiCell(0, 4, latin1($tematres_link), 0, 'L');
@@ -356,10 +356,10 @@ class PDF extends FPDF
 
                         $this->SetFont('Arial', '', 6);
                         if ($params["includeCreatedDate"]==1) {
-                            $this->MultiCell(80, 5, latin1(ucfirst(LABEL_fecha_creacion).': '.$arrayTerm["cuando"]), 0, "L");
+                            $this->MultiCell(80, 5, latin1(mb_ucfirst(LABEL_fecha_creacion).': '.$arrayTerm["cuando"]), 0, "L");
                         }
                         if (($arrayTerm["cuando_final"]>$arrayTerm["cuando"]) && ($params["includeModDate"]==1)) {
-                            $this->MultiCell(80, 5, latin1(ucfirst(LABEL_fecha_modificacion).': '.$arrayTerm["cuando_final"]), 0, "L");
+                            $this->MultiCell(80, 5, latin1(mb_ucfirst(LABEL_fecha_modificacion).': '.$arrayTerm["cuando_final"]), 0, "L");
                         }
                     }//end if hidden
                 };
@@ -378,16 +378,16 @@ class PDF extends FPDF
                 $this->SetTextColor(0, 0, 0);
                 //Show code
                 if (($CFG["_SHOW_CODE"]=='1') && (strlen($arrayTerm["code"]>0))) {
-                    $this->MultiCell(80, 5, latin1(ucfirst(LABEL_CODE).': '.$arrayTerm["code"]), 0, "L");
+                    $this->MultiCell(80, 5, latin1(mb_ucfirst(LABEL_CODE).': '.$arrayTerm["code"]), 0, "L");
                 };
 
                 $this->SetFont('Arial', '', 6);
 
                 if ($params["includeCreatedDate"]==1) {
-                    $this->MultiCell(80, 5, latin1(ucfirst(LABEL_fecha_creacion).': '.$arrayTerm["cuando"]), 0, "L");
+                    $this->MultiCell(80, 5, latin1(mb_ucfirst(LABEL_fecha_creacion).': '.$arrayTerm["cuando"]), 0, "L");
                 }
                 if (($arrayTerm["cuando_final"]>$arrayTerm["cuando"]) && ($params["includeModDate"]==1)) {
-                    $this->MultiCell(80, 5, latin1(ucfirst(LABEL_fecha_modificacion).': '.$arrayTerm["cuando_final"]), 0, "L");
+                    $this->MultiCell(80, 5, latin1(mb_ucfirst(LABEL_fecha_modificacion).': '.$arrayTerm["cuando_final"]), 0, "L");
                 }
 
                 /*  Notas  */
@@ -473,13 +473,13 @@ class PDF extends FPDF
                 //mapped target terms
                 $SQLtargetTerms=SQLtargetTerms($arrayTerm["id_definitivo"]);
                 while ($arrayTargetT=$SQLtargetTerms->FetchRow()) {
-                    $this->MultiCell(80, 5, latin1(ucfirst($arrayTargetT["tvocab_label"].': '.$arrayTargetT["tterm_string"])), 0, "L");
+                    $this->MultiCell(80, 5, latin1(mb_ucfirst($arrayTargetT["tvocab_label"].': '.$arrayTargetT["tterm_string"])), 0, "L");
                 };
 
                 //mapped URLs terms
                 $SQLURI4term=SQLURIxterm($arrayTerm["id_definitivo"]);
                 while ($arrayURI4term=$SQLURI4term->FetchRow()) {
-                    $this->MultiCell(80, 5, latin1(ucfirst($arrayURI4term["uri_value"].': '.$arrayURI4term["uri"])), 0, "L");
+                    $this->MultiCell(80, 5, latin1(mb_ucfirst($arrayURI4term["uri_value"].': '.$arrayURI4term["uri"])), 0, "L");
                 };
 
                 $this->Ln(3);

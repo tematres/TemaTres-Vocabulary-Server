@@ -12,7 +12,7 @@ require "config.tematres.php";
 <html lang="<?php echo LANG;?>">
   <body>
         <div class="modal-header"><a href="http://www.vocabularyserver.com/" title="TemaTres: vocabulary server" target="_blank">
-            <img src="<?php echo T3_WEBPATH;?>/images/tematres-logo.gif" width="42" alt="TemaTres"/></a> <?php echo ucfirst($_SESSION["CFGTitulo"]);?>
+            <img src="<?php echo T3_WEBPATH;?>/images/tematres-logo.gif" width="42" alt="TemaTres"/></a> <?php echo mb_ucfirst($_SESSION["CFGTitulo"]);?>
         </div>
         <div class="modal-body">
             <?php
@@ -38,7 +38,7 @@ require "config.tematres.php";
             ?>
         </div>
         <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><?php echo ucfirst(LABEL_close);?></button>
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><?php echo mb_ucfirst(LABEL_close);?></button>
         </div>
     </body>
 </html>

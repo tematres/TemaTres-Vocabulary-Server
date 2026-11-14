@@ -88,6 +88,9 @@ $CFG["_SHOW_CODE"] = $_SESSION[$_SESSION["CFGURL"]]["_SHOW_CODE"];
 // Enable copy the string value of valid terms with on click. Default true=1
 $CFG["COPY_CLICK"] = $_SESSION[$_SESSION["CFGURL"]]["COPY_CLICK"];
 
+// Show the relation abbreviations (BT, NT, RT, UF) in front of related terms to visitors. Default true=1. Editors always see them.
+$CFG["SHOW_REL_ACRONYMS"] = $_SESSION[$_SESSION["CFGURL"]]["SHOW_REL_ACRONYMS"];
+
 
 // Maximum level of depth in the tree of items for display on the same page [Máximo nivel de profundidad en el árbol de temas para la visualización en una misma página]
 define('CFG_MAX_TREE_DEEP', $_SESSION[$_SESSION["CFGURL"]]["CFG_MAX_TREE_DEEP"]);

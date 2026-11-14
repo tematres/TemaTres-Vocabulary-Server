@@ -460,6 +460,7 @@ function SQLtematres($DBCFG, $DB, $arrayInstallData = array())
         (50, 'config', 'CFG_ALLOW_DUPLICATED', NULL, '0'),
         (51, 't_nota', 'Example note', 6, 'EX'),
         (52, 'config', 'COPY_CLICK', NULL, '1'),
+        (55, 'config', 'SHOW_REL_ACRONYMS', NULL, '1'),
         (53, 'METADATA', '$local_naan', NULL, 'CFG_ARK_NAAN'),
         (54, 'CFG_STATUS_VOCAB', '$vocabStatus', NULL, NULL);"
     );
@@ -510,6 +511,8 @@ function HTMLformInstall($lang_install)
     foreach ($CFG["ISO639-1"] as $langs) {
         array_push($arrayLang, "$langs[0]#$langs[1]");
     };
+    // the vocabulary language: the installer language if it is in the list (ca-ES, pt-BR), otherwise its ISO 639-1 part (en-EN -> en)
+    $vocab_lang=(isset($CFG["ISO639-1"][$lang_install])) ? $lang_install : substr($lang_install, 0, 2);
 
     $array_kos_types=array(KOS_categorization_scheme.'#'.KOS_categorization_scheme,KOS_classification_scheme.'#'.KOS_classification_scheme,KOS_dictionary.'#'.KOS_dictionary,KOS_gazetteer.'#'.KOS_gazetteer,KOS_glossary.'#'.KOS_glossary,KOS_list.'#'.KOS_list,KOS_name_authority_list.'#'.KOS_name_authority_list,KOS_ontology.'#'.KOS_ontology,KOS_semantic_network.'#'.KOS_semantic_network,KOS_subject_heading_scheme.'#'.KOS_subject_heading_scheme,KOS_taxonomy.'#'.KOS_taxonomy,KOS_terminology.'#'.KOS_terminology,KOS_thesaurus.'#'.KOS_thesaurus);
 
@@ -517,29 +520,29 @@ function HTMLformInstall($lang_install)
     $rows='<form class="" id="formulaire" name="formulaire" method="post" action="install.php">
     <fieldset>
     <!-- Form Name -->
-    <legend>'.ucfirst(LABEL_lcDatos).'</legend>
+    <legend>'.mb_ucfirst(LABEL_lcDatos).'</legend>
     <!-- Text input-->
     <div class="row mb-3">
-      <label class="col-lg-4 col-form-label" for="title">'.ucfirst(LABEL_Titulo).'</label>
+      <label class="col-lg-4 col-form-label" for="title">'.mb_ucfirst(LABEL_Titulo).'</label>
       <div class="col-lg-5">
-      <input id="title" name="title" placeholder="'.ucfirst(LABEL_Titulo).'" class="form-control" required="" type="text">
+      <input id="title" name="title" placeholder="'.mb_ucfirst(LABEL_Titulo).'" class="form-control" required="" type="text">
       </div>
     </div>
 
     <!-- Text input-->
     <div class="row mb-3">
-      <label class="col-lg-4 col-form-label" for="author">'.ucfirst(LABEL_Autor).'</label>
+      <label class="col-lg-4 col-form-label" for="author">'.mb_ucfirst(LABEL_Autor).'</label>
       <div class="col-lg-5">
-      <input id="author" name="author" placeholder="'.ucfirst(LABEL_Autor).'" class="form-control" required="" type="text">
+      <input id="author" name="author" placeholder="'.mb_ucfirst(LABEL_Autor).'" class="form-control" required="" type="text">
       </div>
     </div>
 
     <!-- Select Basic -->
     <div class="row mb-3">
-      <label class="col-lg-4 col-form-label" for="lang">'.ucfirst(LABEL_Idioma).'</label>
+      <label class="col-lg-4 col-form-label" for="lang">'.mb_ucfirst(LABEL_Idioma).'</label>
       <div class="col-lg-4">
         <select id="lang" name="lang" class="form-select">
-        '.doSelectForm($arrayLang, $lang_install).'
+        '.doSelectForm($arrayLang, $vocab_lang).'
         </select>
       </div>
     </div>
@@ -547,7 +550,7 @@ function HTMLformInstall($lang_install)
 
     <!-- Select Basic -->
     <div class="row mb-3">
-      <label class="col-lg-4 col-form-label" for="tipo">'.ucfirst(LABEL_TipoLenguaje).'</label>
+      <label class="col-lg-4 col-form-label" for="tipo">'.mb_ucfirst(LABEL_TipoLenguaje).'</label>
       <div class="col-lg-4">
         <select id="tipo_lang" name="kos_type" class="form-select">
         '.doSelectForm($array_kos_types, "").'
@@ -559,45 +562,45 @@ function HTMLformInstall($lang_install)
 
     <fieldset>
     <!-- Form Name -->
-    <legend>'.ucfirst(MENU_NuevoUsuario).'</legend>
+    <legend>'.mb_ucfirst(MENU_NuevoUsuario).'</legend>
     <!-- Text input-->
     <div class="row mb-3">
-      <label class="col-lg-4 col-form-label" for="name">'.ucfirst(LABEL_nombre).'</label>
+      <label class="col-lg-4 col-form-label" for="name">'.mb_ucfirst(LABEL_nombre).'</label>
       <div class="col-lg-4">
-      <input id="name" name="name" placeholder="'.ucfirst(LABEL_nombre).'" class="form-control" required="" type="text">
+      <input id="name" name="name" placeholder="'.mb_ucfirst(LABEL_nombre).'" class="form-control" required="" type="text">
       </div>
     </div>
 
     <!-- Text input-->
     <div class="row mb-3">
-      <label class="col-lg-4 col-form-label" for="s_name">'.ucfirst(LABEL_apellido).'</label>
+      <label class="col-lg-4 col-form-label" for="s_name">'.mb_ucfirst(LABEL_apellido).'</label>
       <div class="col-lg-4">
-      <input id="s_name" name="s_name" placeholder="'.ucfirst(LABEL_apellido).'" class="form-control" required="" type="text">
+      <input id="s_name" name="s_name" placeholder="'.mb_ucfirst(LABEL_apellido).'" class="form-control" required="" type="text">
       </div>
     </div>
 
     <!-- Text input-->
     <div class="row mb-3">
-      <label class="col-lg-4 col-form-label" for="mail">'.ucfirst(LABEL_mail).'</label>
+      <label class="col-lg-4 col-form-label" for="mail">'.mb_ucfirst(LABEL_mail).'</label>
       <div class="col-lg-4">
-      <input id="mail" name="mail" placeholder="'.ucfirst(LABEL_mail).'" class="form-control" required="" type="email">
+      <input id="mail" name="mail" placeholder="'.mb_ucfirst(LABEL_mail).'" class="form-control" required="" type="email">
       </div>
     </div>
 
     <!-- Password input-->
     <div class="row mb-3">
-      <label class="col-lg-4 col-form-label" for="mdp">'.ucfirst(LABEL_pass).'</label>
+      <label class="col-lg-4 col-form-label" for="mdp">'.mb_ucfirst(LABEL_pass).'</label>
       <div class="col-lg-4">
-        <input id="mdp" name="mdp"  data-minlength="4" placeholder="'.ucfirst(LABEL_pass).'" class="form-control" required="" type="password">
-        <span class="form-text">'.ucfirst(sprintf(MSG_lengh_error, 4)).'</span>
+        <input id="mdp" name="mdp"  data-minlength="4" placeholder="'.mb_ucfirst(LABEL_pass).'" class="form-control" required="" type="password">
+        <span class="form-text">'.mb_ucfirst(sprintf(MSG_lengh_error, 4)).'</span>
       </div>
     </div>
 
     <!-- rePassword input-->
     <div class="row mb-3">
-      <label class="col-lg-4 col-form-label" for="password">'.ucfirst(LABEL_repass).'</label>
+      <label class="col-lg-4 col-form-label" for="password">'.mb_ucfirst(LABEL_repass).'</label>
       <div class="col-lg-4">
-        <input id="password" name="password" data-match="#mdp" data-match-error="'.ucfirst(MSG_repass_error).'"  placeholder="'.ucfirst(LABEL_repass).'" class="form-control" required="" type="password">
+        <input id="password" name="password" data-match="#mdp" data-match-error="'.mb_ucfirst(MSG_repass_error).'"  placeholder="'.mb_ucfirst(LABEL_repass).'" class="form-control" required="" type="password">
         <div class="form-text with-errors"></div>
       </div>
     </div>
@@ -605,7 +608,7 @@ function HTMLformInstall($lang_install)
     <!-- Button -->
     <div class="row mb-3">
     <div class="text-center">
-        <button type="submit" name="send" id="singlebutton" name="singlebutton" class="btn btn-primary">'.ucfirst(LABEL_Enviar).'</button>
+        <button type="submit" name="send" id="singlebutton" name="singlebutton" class="btn btn-primary">'.mb_ucfirst(LABEL_Enviar).'</button>
       </div>
     </div>
 

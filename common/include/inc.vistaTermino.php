@@ -117,7 +117,7 @@ if ($evalUserLevel>0) {
 
 
             } catch (Exception $e) {
-                echo '[ <a class="topOfPage" href="'.URL_BASE.'index.php?tema='.$metadata["arraydata"]["idTema"].'" title="'.$metadata["arraydata"]["titTema"].'">'.ucfirst(LABEL_Anterior).'</a> ]' . $e->getMessage();
+                echo '[ <a class="topOfPage" href="'.URL_BASE.'index.php?tema='.$metadata["arraydata"]["idTema"].'" title="'.$metadata["arraydata"]["titTema"].'">'.mb_ucfirst(LABEL_Anterior).'</a> ]' . $e->getMessage();
             }
 
 

@@ -1451,6 +1451,9 @@ if ($_SESSION[$_SESSION["CFGURL"]]["ssuser_nivel"]=='1') {
         /*add config option for 3.2 version*/
         $ctrl32=ARRAYfetchValueXValue('config', 'COPY_CLICK');
 
+        /*add config option for 4.0 version*/
+        $ctrl40=ARRAYfetchValueXValue('config', 'SHOW_REL_ACRONYMS');
+
 
         /*add config option for 3.6 version*/
         $arrayCurrentStatusVocab=getCurrentVocabStatus();
@@ -1518,6 +1521,15 @@ if ($_SESSION[$_SESSION["CFGURL"]]["ssuser_nivel"]=='1') {
             "insert",
             "into `".$DBCFG["DBprefix"]."values` (`value_type`, `value`, `value_order`, `value_code`) VALUES
             ('config', 'COPY_CLICK', NULL, '$value_code')"
+          );
+        }
+
+        if (!$ctrl40["value_id"]) {
+          $value_code=($_POST["SHOW_REL_ACRONYMS"]=='00') ? '0' : '1';
+          $sql40=SQL(
+            "insert",
+            "into `".$DBCFG["DBprefix"]."values` (`value_type`, `value`, `value_order`, `value_code`) VALUES
+            ('config', 'SHOW_REL_ACRONYMS', NULL, '$value_code')"
           );
         }
 
@@ -1777,7 +1789,7 @@ function doBrowseTermsFromUser($user_id, $ord = "")
   $sql=SQLlistTermsfromUser($user_id, $ord);
 
   $rows='<div class="table-responsive"> ';
-  $rows.='<table id="termaudit" class="table table-striped table-bordered table-sm table-hover" summary="'.ucfirst(LABEL_auditoria).'">';
+  $rows.='<table id="termaudit" class="table table-striped table-bordered table-sm table-hover" summary="'.mb_ucfirst(LABEL_auditoria).'">';
 
   $rows.='<tbody>';
   while ($array=$sql->FetchRow()) {
@@ -1794,19 +1806,19 @@ function doBrowseTermsFromUser($user_id, $ord = "")
 
   $rows.='<thead>';
   $rows.='<tr>';
-  $rows.='<th class="izq" colspan="3"><a href="sobre.php">'.ucfirst(LABEL_auditoria).'</a> &middot; <a href="admin.php?user_id='.$user_id.'"  title="'.LABEL_verDetalle.$apellido.', '.$nombres.'">'.$apellido.', '.$nombres.'</a>: '.SQLcount($sql).' '.LABEL_Terminos.'.</th>';
+  $rows.='<th class="izq" colspan="3"><a href="sobre.php">'.mb_ucfirst(LABEL_auditoria).'</a> &middot; <a href="admin.php?user_id='.$user_id.'"  title="'.LABEL_verDetalle.$apellido.', '.$nombres.'">'.$apellido.', '.$nombres.'</a>: '.SQLcount($sql).' '.LABEL_Terminos.'.</th>';
   $rows.='</tr>';
 
   $rows.='<tr>';
-  $rows.='<th><a href="sobre.php?user_id='.$user_id.'&ord=T" title="'.LABEL_ordenar.' '.LABEL_Termino.'">'.ucfirst(LABEL_Termino).'</a></th>';
-  $rows.='<th><a href="sobre.php?user_id='.$user_id.'&ord=F" title="'.LABEL_ordenar.' '.LABEL_Fecha.'">'.ucfirst(LABEL_Fecha).'</a></th>';
+  $rows.='<th><a href="sobre.php?user_id='.$user_id.'&ord=T" title="'.LABEL_ordenar.' '.LABEL_Termino.'">'.mb_ucfirst(LABEL_Termino).'</a></th>';
+  $rows.='<th><a href="sobre.php?user_id='.$user_id.'&ord=F" title="'.LABEL_ordenar.' '.LABEL_Fecha.'">'.mb_ucfirst(LABEL_Fecha).'</a></th>';
   $rows.='</tr>';
   $rows.='</thead>';
 
 
   $rows.='<tfoot>';
   $rows.='<tr>';
-  $rows.='<td class="izq">'.ucfirst(LABEL_TotalTerminos).'</td>';
+  $rows.='<td class="izq">'.mb_ucfirst(LABEL_TotalTerminos).'</td>';
   $rows.='<td>'.SQLcount($sql).'</td>';
   $rows.='</tr>';
   $rows.='</tfoot>';
@@ -1832,10 +1844,10 @@ function HTMLListaUsers()
   $rows.='<th class="izq" colspan="4">'.MENU_Usuarios.' &middot; <a class="btn btn-primary btn-xs" href="admin.php?user_id=new" title="'.MENU_NuevoUsuario.'">'.MENU_NuevoUsuario.'</a></th>';
   $rows.='</tr>';
   $rows.='<tr>';
-  $rows.='<th>'.ucfirst(LABEL_apellido).', '.ucfirst(LABEL_nombre).'</th>';
-  $rows.='<th>'.ucfirst(LABEL_userType).'</th>';
-  $rows.='<th>'.ucfirst(LABEL_Fecha).'</th>';
-  $rows.='<th>'.ucfirst(LABEL_Terminos).'</th>';
+  $rows.='<th>'.mb_ucfirst(LABEL_apellido).', '.mb_ucfirst(LABEL_nombre).'</th>';
+  $rows.='<th>'.mb_ucfirst(LABEL_userType).'</th>';
+  $rows.='<th>'.mb_ucfirst(LABEL_Fecha).'</th>';
+  $rows.='<th>'.mb_ucfirst(LABEL_Terminos).'</th>';
   $rows.='</tr>';
   $rows.='</thead>';
 
@@ -1846,7 +1858,7 @@ function HTMLListaUsers()
     $rows.='<tr>';
     $rows.='<td class="izq"><a href="admin.php?user_id='.$listaUsers["id"].'" title="'.LABEL_verDetalle.' '.$listaUsers["apellido"].', '.$listaUsers["nombres"].'">'.$listaUsers["apellido"].', '.$listaUsers["nombres"].'</a></td>';
 
-    $rows.='<td class="izq">'.arrayReplace(array("1","2","3"), array(ucfirst(LABEL_userIsAdmin),ucfirst(LABEL_userIsEditor),ucfirst(LABEL_userIsColab)), $listaUsers["nivel"]).'</td>';
+    $rows.='<td class="izq">'.arrayReplace(array("1","2","3"), array(mb_ucfirst(LABEL_userIsAdmin),mb_ucfirst(LABEL_userIsEditor),mb_ucfirst(LABEL_userIsColab)), $listaUsers["nivel"]).'</td>';
     $rows.='<td>'.$fecha_alta["dia"].'-'.$fecha_alta["descMes"].'-'.$fecha_alta["ano"].' ('.arrayReplace(array("ACTIVO","BAJA"), array(LABEL_User_Habilitado,LABEL_User_NoHabilitado), $listaUsers["estado"]). ')</td>';
     if ($listaUsers["cant_terminos"]>0) {
       $rows.='<td><a href="sobre.php?user_id='.$listaUsers["id"].'" title="'.LABEL_Detalle.'">'.$listaUsers["cant_terminos"].'</a></td>';
@@ -1859,7 +1871,7 @@ function HTMLListaUsers()
   $rows.='</tbody>';
   $rows.='<tfoot>';
   $rows.='<tr>';
-  $rows.='<td class="izq">'.ucfirst(LABEL_TotalUsuarios).'</td>';
+  $rows.='<td class="izq">'.mb_ucfirst(LABEL_TotalUsuarios).'</td>';
   $rows.='<td colspan="3">'.SQLcount($sqlListaUsers).'</td>';
   $rows.='</tr>';
   $rows.='</tfoot>';
@@ -1879,27 +1891,27 @@ function HTMLlistaVocabularios()
   $sql=SQLdatosVocabulario(1);
 
 
-  $rows='<div class="jumbotron jumbotron-fluid" id="list-config"><h2>'.ucfirst(LABEL_lcConfig).' &middot; '.strtolower(LABEL_Opciones).'</h2>';
+  $rows='<div class="jumbotron jumbotron-fluid" id="list-config"><h2>'.mb_ucfirst(LABEL_lcConfig).' &middot; '.strtolower(LABEL_Opciones).'</h2>';
   $rows.='<p><ul class="list-group nobullet">';
-  $rows.='<li class=""><a class="list-group-item list-group-item-action" title="'.LABEL_lcConfig.' ('.LABEL_metadatos.')" href="admin.php?vocabulario_id=1">'.ucfirst(LABEL_lcConfig).'</a></li>';
-  $rows.='<li class=""><a class="list-group-item list-group-item-action" title="'.LABEL_vocabulario_referencia.'" href="#ref_vocab">'.ucfirst(LABEL_vocabulario_referencia).'</a></li>';
-  $rows.='<li class=""><a class="list-group-item list-group-item-action" title="'.LABEL_vocabulario_referenciaWS.'" href="#target_vocab">'.ucfirst(LABEL_vocabulario_referenciaWS).'</a></li>';
-  $rows.='<li class=""><a class="list-group-item list-group-item-action" title="'.LABEL_configTypeNotes.'" href="#morenotas">'.ucfirst(LABEL_configTypeNotes).'</a></li>';
-  $rows.='<li class=""><a class="list-group-item list-group-item-action" title="'.LABEL_relationEditor.'" href="#morerelations">'.ucfirst(LABEL_relationEditor).'</a></li>';
-  $rows.='<li class=""><a class="list-group-item list-group-item-action" title="'.LABEL_URItypeEditor.'" href="#moreURI">'.ucfirst(LABEL_URItypeEditor).'</a></li>';
-  $rows.='<li class=""><a class="list-group-item list-group-item-action" title="'.LABEL_source.'" href="#source_list">'.ucfirst(LABEL_source).'</a></li>';
+  $rows.='<li class=""><a class="list-group-item list-group-item-action" title="'.LABEL_lcConfig.' ('.LABEL_metadatos.')" href="admin.php?vocabulario_id=1">'.mb_ucfirst(LABEL_lcConfig).'</a></li>';
+  $rows.='<li class=""><a class="list-group-item list-group-item-action" title="'.LABEL_vocabulario_referencia.'" href="#ref_vocab">'.mb_ucfirst(LABEL_vocabulario_referencia).'</a></li>';
+  $rows.='<li class=""><a class="list-group-item list-group-item-action" title="'.LABEL_vocabulario_referenciaWS.'" href="#target_vocab">'.mb_ucfirst(LABEL_vocabulario_referenciaWS).'</a></li>';
+  $rows.='<li class=""><a class="list-group-item list-group-item-action" title="'.LABEL_configTypeNotes.'" href="#morenotas">'.mb_ucfirst(LABEL_configTypeNotes).'</a></li>';
+  $rows.='<li class=""><a class="list-group-item list-group-item-action" title="'.LABEL_relationEditor.'" href="#morerelations">'.mb_ucfirst(LABEL_relationEditor).'</a></li>';
+  $rows.='<li class=""><a class="list-group-item list-group-item-action" title="'.LABEL_URItypeEditor.'" href="#moreURI">'.mb_ucfirst(LABEL_URItypeEditor).'</a></li>';
+  $rows.='<li class=""><a class="list-group-item list-group-item-action" title="'.LABEL_source.'" href="#source_list">'.mb_ucfirst(LABEL_source).'</a></li>';
   $rows.='</ul></p>';
   $rows.='</div><hr>';
 
   $rows.='<div class="table-responsive"> ';
-  $rows.='<h3>'.ucfirst(LABEL_lcConfig).' </h3>';
+  $rows.='<h3>'.mb_ucfirst(LABEL_lcConfig).' </h3>';
 
   $rows.='<table class="table table-striped table-bordered table-sm table-hover"  summary="'.LABEL_lcConfig.'">';
   $rows.='<thead>';
   $rows.='<tr>';
-  $rows.='<th>'.ucfirst(LABEL_Titulo).'</th>';
-  $rows.='<th>'.ucfirst(LABEL_Autor).'</th>';
-  $rows.='<th>'.ucfirst(LABEL_tipo_vocabulario).'</th>';
+  $rows.='<th>'.mb_ucfirst(LABEL_Titulo).'</th>';
+  $rows.='<th>'.mb_ucfirst(LABEL_Autor).'</th>';
+  $rows.='<th>'.mb_ucfirst(LABEL_tipo_vocabulario).'</th>';
   $rows.='</tr>';
   $rows.='</thead>';
   $rows.='<tbody>';
@@ -1932,18 +1944,18 @@ function HTMLlistaInternalTargetVocabularios()
   $sql=SQLinternalTargetVocabs();
 
   $rows='<div class="table-responsive" id="ref_vocab"> ';
-  $rows.='<a href="#list-config" title="'.ucfirst(LABEL_lcConfig).' &middot; '.strtolower(LABEL_Opciones).'"><svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-caret-up-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+  $rows.='<a href="#list-config" title="'.mb_ucfirst(LABEL_lcConfig).' &middot; '.strtolower(LABEL_Opciones).'"><svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-caret-up-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
   <path d="M7.247 4.86l-4.796 5.481c-.566.647-.106 1.659.753 1.659h9.592a1 1 0 0 0 .753-1.659l-4.796-5.48a1 1 0 0 0-1.506 0z"/>
   </svg></a>';
-  $rows.='<h3>'.ucfirst(LABEL_vocabulario_referencia).' ('.SQLcount($sql).') <a class="btn btn-primary btn-xs" href="admin.php?vocabulario_id=0" title="'.LABEL_vocabulario_referencia.'">'.ucfirst(LABEL_Agregar.' '.LABEL_vocabulario_referencia).'</a></h3>';
+  $rows.='<h3>'.mb_ucfirst(LABEL_vocabulario_referencia).' ('.SQLcount($sql).') <a class="btn btn-primary btn-xs" href="admin.php?vocabulario_id=0" title="'.LABEL_vocabulario_referencia.'">'.mb_ucfirst(LABEL_Agregar.' '.LABEL_vocabulario_referencia).'</a></h3>';
 
   if (SQLcount($sql)>0) {
     $rows.='<table class="table table-striped table-bordered table-sm table-hover"  summary="'.LABEL_lcConfig.'">';
     $rows.='<thead>';
     $rows.='<tr>';
-    $rows.='<th>'.ucfirst(LABEL_Titulo).'</th>';
-    $rows.='<th>'.ucfirst(LABEL_Autor).'</th>';
-    $rows.='<th>'.ucfirst(LABEL_Terminos).'</th>';
+    $rows.='<th>'.mb_ucfirst(LABEL_Titulo).'</th>';
+    $rows.='<th>'.mb_ucfirst(LABEL_Autor).'</th>';
+    $rows.='<th>'.mb_ucfirst(LABEL_Terminos).'</th>';
     $rows.='</tr>';
     $rows.='</thead>';
     $rows.='<tbody>';
@@ -1974,25 +1986,25 @@ function HTMLlistaTargetVocabularios()
 
 
   $rows='<div class="table-responsive" id="target_vocab"> ';
-  $rows.='<a href="#list-config" title="'.ucfirst(LABEL_lcConfig).' &middot; '.strtolower(LABEL_Opciones).'"><svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-caret-up-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+  $rows.='<a href="#list-config" title="'.mb_ucfirst(LABEL_lcConfig).' &middot; '.strtolower(LABEL_Opciones).'"><svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-caret-up-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
   <path d="M7.247 4.86l-4.796 5.481c-.566.647-.106 1.659.753 1.659h9.592a1 1 0 0 0 .753-1.659l-4.796-5.48a1 1 0 0 0-1.506 0z"/>
   </svg></a>';
-  $rows.='<h3>'.ucfirst(LABEL_vocabulario_referenciaWS).' ('.SQLcount($sql).') <a class="btn btn-primary btn-xs" href="admin.php?tvocabulario_id=0&doAdmin=seeformTargetVocabulary" title="'.ucfirst(LABEL_addTargetVocabulary).'">'.ucfirst(LABEL_addTargetVocabulary).'</a></h3>';
+  $rows.='<h3>'.mb_ucfirst(LABEL_vocabulario_referenciaWS).' ('.SQLcount($sql).') <a class="btn btn-primary btn-xs" href="admin.php?tvocabulario_id=0&doAdmin=seeformTargetVocabulary" title="'.mb_ucfirst(LABEL_addTargetVocabulary).'">'.mb_ucfirst(LABEL_addTargetVocabulary).'</a></h3>';
 
   if (SQLcount($sql)>0) {
     $rows.='<table class="table table-striped table-bordered table-sm table-hover"  summary="'.LABEL_lcConfig.'">';
     $rows.='<thead>';
     $rows.='<tr>';
-    $rows.='<th>'.ucfirst(LABEL_tvocab_label).'</th>';
-    $rows.='<th>'.ucfirst(LABEL_Titulo).'</th>';
-    $rows.='<th>'.ucfirst(LABEL_Terminos).'</th>';
+    $rows.='<th>'.mb_ucfirst(LABEL_tvocab_label).'</th>';
+    $rows.='<th>'.mb_ucfirst(LABEL_Titulo).'</th>';
+    $rows.='<th>'.mb_ucfirst(LABEL_Terminos).'</th>';
     $rows.='</tr>';
     $rows.='</thead>';
     $rows.='<tbody>';
 
     while ($array=$sql->FetchRow()) {
 
-      $label_tvocab_status=($array["tvocab_status"]=='1') ? ucfirst(LABEL_enable) : ucfirst(LABEL_disable);
+      $label_tvocab_status=($array["tvocab_status"]=='1') ? mb_ucfirst(LABEL_enable) : mb_ucfirst(LABEL_disable);
 
       $rows.='<tr>';
       $rows.='<td class="izq"><a href="admin.php?tvocab_id='.$array["tvocab_id"].'&amp;doAdmin=seeformTargetVocabulary" title="'.MENU_DatosTesauro.' '.$array["tvocab_title"].'">'.FixEncoding($array["tvocab_label"]).'</a> ('.FixEncoding($array["tvocab_tag"]).')</td>';
@@ -2058,8 +2070,8 @@ function HTMLlistaTermsTargetVocabularios($tvocab_id, $from = "0")
       */
       if (!$dataSimpleChkUpdateTterm->result->term->tema_id) {
         $linkUpdateTterm[$array["tterm_uri"]].= '<ul class="errorNoImage">';
-        $linkUpdateTterm[$array["tterm_uri"]].= '<li><strong>'.ucfirst(LABEL_notFound).'</strong></li>';
-        $linkUpdateTterm[$array["tterm_uri"]].= '<li>[<a href="admin.php?doAdmin=seeTermsTargetVocabulary&amp;doAdmin2=checkDateTermsTargetVocabulary&amp;tvocab_id='.$ARRAYtargetVocabulary["tvocab_id"].'&amp;f='.$from.'&amp;tterm_id='.$array["tterm_id"].'&amp;tema='.$array["tema_id"].'&amp;taskrelations=delTgetTerm" title="'.ucfirst(LABEL_borraRelacion).'">'.ucfirst(LABEL_borraRelacion).'</a>]</li>';
+        $linkUpdateTterm[$array["tterm_uri"]].= '<li><strong>'.mb_ucfirst(LABEL_notFound).'</strong></li>';
+        $linkUpdateTterm[$array["tterm_uri"]].= '<li>[<a href="admin.php?doAdmin=seeTermsTargetVocabulary&amp;doAdmin2=checkDateTermsTargetVocabulary&amp;tvocab_id='.$ARRAYtargetVocabulary["tvocab_id"].'&amp;f='.$from.'&amp;tterm_id='.$array["tterm_id"].'&amp;tema='.$array["tema_id"].'&amp;taskrelations=delTgetTerm" title="'.mb_ucfirst(LABEL_borraRelacion).'">'.mb_ucfirst(LABEL_borraRelacion).'</a>]</li>';
         $linkUpdateTterm[$array["tterm_uri"]].= '</ul>';
       } /*
       hay actualizacion del término
@@ -2072,8 +2084,8 @@ function HTMLlistaTermsTargetVocabularios($tvocab_id, $from = "0")
         $linkUpdateTterm["$array[tterm_uri]"].= '<ul class="warningNoImage">';
         $linkUpdateTterm["$array[tterm_uri]"].= '<li><strong>'.$ARRAYupdateTterm["$array[tterm_uri]"]["string"].'</strong></li>';
         $linkUpdateTterm["$array[tterm_uri]"].= '<li>'.$ARRAYupdateTterm["$array[tterm_uri]"]["date_mod"].'</li>';
-        $linkUpdateTterm["$array[tterm_uri]"].= '<li>[<a href="admin.php?doAdmin=seeTermsTargetVocabulary&amp;doAdmin2=checkDateTermsTargetVocabulary&amp;tvocab_id='.$ARRAYtargetVocabulary["tvocab_id"].'&amp;f='.$from.'&amp;tterm_id='.$array["tterm_id"].'&amp;tgetTerm_id='.$array["tterm_id"].'&amp;tema='.$array["tema_id"].'&amp;taskrelations=updTgetTerm" title="'.ucfirst(LABEL_actualizar).'">'.ucfirst(LABEL_actualizar).'</a>]</li>';
-        $linkUpdateTterm["$array[tterm_uri]"].= '<li>[<a href="admin.php?doAdmin=seeTermsTargetVocabulary&amp;doAdmin2=checkDateTermsTargetVocabulary&amp;tvocab_id='.$ARRAYtargetVocabulary["tvocab_id"].'&amp;f='.$from.'&amp;tterm_id='.$array["tterm_id"].'&amp;tema='.$array["tema_id"].'&amp;taskrelations=delTgetTerm" title="'.ucfirst(LABEL_borraRelacion).'">'.ucfirst(LABEL_borraRelacion).'</a>]</li>';
+        $linkUpdateTterm["$array[tterm_uri]"].= '<li>[<a href="admin.php?doAdmin=seeTermsTargetVocabulary&amp;doAdmin2=checkDateTermsTargetVocabulary&amp;tvocab_id='.$ARRAYtargetVocabulary["tvocab_id"].'&amp;f='.$from.'&amp;tterm_id='.$array["tterm_id"].'&amp;tgetTerm_id='.$array["tterm_id"].'&amp;tema='.$array["tema_id"].'&amp;taskrelations=updTgetTerm" title="'.mb_ucfirst(LABEL_actualizar).'">'.mb_ucfirst(LABEL_actualizar).'</a>]</li>';
+        $linkUpdateTterm["$array[tterm_uri]"].= '<li>[<a href="admin.php?doAdmin=seeTermsTargetVocabulary&amp;doAdmin2=checkDateTermsTargetVocabulary&amp;tvocab_id='.$ARRAYtargetVocabulary["tvocab_id"].'&amp;f='.$from.'&amp;tterm_id='.$array["tterm_id"].'&amp;tema='.$array["tema_id"].'&amp;taskrelations=delTgetTerm" title="'.mb_ucfirst(LABEL_borraRelacion).'">'.mb_ucfirst(LABEL_borraRelacion).'</a>]</li>';
         $linkUpdateTterm["$array[tterm_uri]"].= '</ul>';
       }
     }
@@ -2097,7 +2109,7 @@ function HTMLlistaTermsTargetVocabularios($tvocab_id, $from = "0")
   $rows.='<td class="izq" colspan="3">'.$ARRAYtargetVocabulary["cant"].' '.FORM_LABEL_Terminos.': '.$linkFirst.$linkLess.' '.$labelShow.' '.$linkMore.$linkLast.' ';
 
   if ($ARRAYtargetVocabulary["cant"]>0) {
-    $rows.='&middot;  <a href="admin.php?doAdmin=seeTermsTargetVocabulary&amp;doAdmin2=checkDateTermsTargetVocabulary&amp;tvocab_id='.$ARRAYtargetVocabulary["tvocab_id"].'&amp;f='.$from.'">'.ucfirst(LABEL_ShowTargetTermsforUpdate).'</a>';
+    $rows.='&middot;  <a href="admin.php?doAdmin=seeTermsTargetVocabulary&amp;doAdmin2=checkDateTermsTargetVocabulary&amp;tvocab_id='.$ARRAYtargetVocabulary["tvocab_id"].'&amp;f='.$from.'">'.mb_ucfirst(LABEL_ShowTargetTermsforUpdate).'</a>';
   }
 
 
@@ -2116,13 +2128,13 @@ function HTMLlistaTermsTargetVocabularios($tvocab_id, $from = "0")
 
   $thead.='<thead>';
   $thead.='<tr>';
-  $thead.='<th class="izq" colspan="3"><a href="admin.php" title="'.ucfirst(LABEL_lcConfig).'">'.ucfirst(LABEL_lcConfig).'</a> &middot; '.$ARRAYtargetVocabulary["tvocab_title"].' &middot '.(($ARRAYtargetVocabulary["tvocab_status"]=='1') ? LABEL_enable : LABEL_disable).'</th>';
+  $thead.='<th class="izq" colspan="3"><a href="admin.php" title="'.mb_ucfirst(LABEL_lcConfig).'">'.mb_ucfirst(LABEL_lcConfig).'</a> &middot; '.$ARRAYtargetVocabulary["tvocab_title"].' &middot '.(($ARRAYtargetVocabulary["tvocab_status"]=='1') ? LABEL_enable : LABEL_disable).'</th>';
   $thead.='</tr>';
   $thead.='<tr>';
   $thead.='<th class="izq" colspan="3">'.$ARRAYtargetVocabulary["cant"].' '.FORM_LABEL_Terminos.': '.$linkFirst.$linkLess.' '.$labelShow.' '.$linkMore.$linkLast.' ';
 
   if ($ARRAYtargetVocabulary["cant"]>0) {
-    $thead.='&middot;  <a href="admin.php?doAdmin=seeTermsTargetVocabulary&amp;doAdmin2=checkDateTermsTargetVocabulary&amp;tvocab_id='.$ARRAYtargetVocabulary["tvocab_id"].'&amp;f='.$from.'">'.ucfirst(LABEL_ShowTargetTermsforUpdate).'</a>';
+    $thead.='&middot;  <a href="admin.php?doAdmin=seeTermsTargetVocabulary&amp;doAdmin2=checkDateTermsTargetVocabulary&amp;tvocab_id='.$ARRAYtargetVocabulary["tvocab_id"].'&amp;f='.$from.'">'.mb_ucfirst(LABEL_ShowTargetTermsforUpdate).'</a>';
   }
 
   if (isset($iUpd)) {
@@ -2132,9 +2144,9 @@ function HTMLlistaTermsTargetVocabularios($tvocab_id, $from = "0")
   $thead.='</th>';
   $thead.='</tr>';
   $thead.='<tr>';
-  $thead.='<th>'.ucfirst(LABEL_Termino).'</th>';
-  $thead.='<th>'.ucfirst($ARRAYtargetVocabulary["tvocab_label"]).'</th>';
-  $thead.='<th>'.ucfirst(LABEL_Fecha).'</th>';
+  $thead.='<th>'.mb_ucfirst(LABEL_Termino).'</th>';
+  $thead.='<th>'.mb_ucfirst($ARRAYtargetVocabulary["tvocab_label"]).'</th>';
+  $thead.='<th>'.mb_ucfirst(LABEL_Fecha).'</th>';
   $thead.='</tr>';
   $thead.='</thead>';
 
@@ -2684,12 +2696,12 @@ function txtAlfabetico($params = array())
 
   global $CFG;
 
-  $txt=ucfirst(LABEL_Titulo).': '.$_SESSION["CFGTitulo"]."\r\n";
-  $txt.=ucfirst(LABEL_Autor).': '.$_SESSION["CFGAutor"]."\r\n";
-  $txt.=ucfirst(LABEL_Keywords).': '.$_SESSION["CFGKeywords"]."\r\n";
-  $txt.=ucfirst(LABEL_Cobertura).': '.$_SESSION["CFGCobertura"]."\r\n";
+  $txt=mb_ucfirst(LABEL_Titulo).': '.$_SESSION["CFGTitulo"]."\r\n";
+  $txt.=mb_ucfirst(LABEL_Autor).': '.$_SESSION["CFGAutor"]."\r\n";
+  $txt.=mb_ucfirst(LABEL_Keywords).': '.$_SESSION["CFGKeywords"]."\r\n";
+  $txt.=mb_ucfirst(LABEL_Cobertura).': '.$_SESSION["CFGCobertura"]."\r\n";
   $txt.=LABEL_URI.': '.$_SESSION["CFGURL"]."\r\n";
-  $txt.=ucfirst(LABEL_Version).': '.$_SESSION["CFGVersion"]."\r\n";
+  $txt.=mb_ucfirst(LABEL_Version).': '.$_SESSION["CFGVersion"]."\r\n";
   $txt.="__________________________________________________________________________\r\n";
 
   //Lista de todos los términos
@@ -2726,7 +2738,7 @@ function txtAlfabetico($params = array())
       $txt.="\n".$arrayTema["tema"]."\r\n";
 
       //show code
-      $txt.=(($CFG["_SHOW_CODE"]==1) && (strlen((string) $arrayTema["code"])>0)) ? '	'.ucfirst(LABEL_CODE).': '.$arrayTema["code"]."\r\n" : "";
+      $txt.=(($CFG["_SHOW_CODE"]==1) && (strlen((string) $arrayTema["code"])>0)) ? '	'.mb_ucfirst(LABEL_CODE).': '.$arrayTema["code"]."\r\n" : "";
 
 
       $label_target_vocabulary='';
@@ -2806,7 +2818,7 @@ function txtAlfabetico($params = array())
       //Terminos equivalentes web services
       $SQLtargetTerms=SQLtargetTerms($arrayTema["id"]);
       while ($arrayTT=$SQLtargetTerms->FetchRow()) {
-        $txt.='	'.FixEncoding(ucfirst($arrayTT["tvocab_label"])).': '.FixEncoding($arrayTT["tterm_string"])."\r\n";
+        $txt.='	'.FixEncoding(mb_ucfirst($arrayTT["tvocab_label"])).': '.FixEncoding($arrayTT["tterm_string"])."\r\n";
       };
     }
   }
@@ -2889,7 +2901,7 @@ function txt4term($tema_id, $params = array())
   //Terminos equivalentes web services
   $SQLtargetTerms=SQLtargetTerms($arrayTema["tema_id"]);
   while ($arrayTT=$SQLtargetTerms->FetchRow()) {
-    $txt.='	'.FixEncoding(ucfirst($arrayTT["tvocab_label"])).': '.FixEncoding($arrayTT["tterm_string"])."\r\n";
+    $txt.='	'.FixEncoding(mb_ucfirst($arrayTT["tvocab_label"])).': '.FixEncoding($arrayTT["tterm_string"])."\r\n";
   };
   return $txt;
 }
@@ -2898,12 +2910,12 @@ function txtJerarquico()
 {
   global $CFG;
 
-  $txt=ucfirst(LABEL_Titulo).': '.$_SESSION["CFGTitulo"]."\r\n";
-  $txt.=ucfirst(LABEL_Autor).': '.$_SESSION["CFGAutor"]."\r\n";
-  $txt.=ucfirst(LABEL_Keywords).': '.$_SESSION["CFGKeywords"]."\r\n";
-  $txt.=ucfirst(LABEL_Cobertura).': '.$_SESSION["CFGCobertura"]."\r\n";
+  $txt=mb_ucfirst(LABEL_Titulo).': '.$_SESSION["CFGTitulo"]."\r\n";
+  $txt.=mb_ucfirst(LABEL_Autor).': '.$_SESSION["CFGAutor"]."\r\n";
+  $txt.=mb_ucfirst(LABEL_Keywords).': '.$_SESSION["CFGKeywords"]."\r\n";
+  $txt.=mb_ucfirst(LABEL_Cobertura).': '.$_SESSION["CFGCobertura"]."\r\n";
   $txt.=LABEL_URI.': '.$_SESSION["CFGURL"]."\r\n";
-  $txt.=ucfirst(LABEL_Version).': '.$_SESSION["CFGVersion"]."\r\n";
+  $txt.=mb_ucfirst(LABEL_Version).': '.$_SESSION["CFGVersion"]."\r\n";
   $txt.="__________________________________________________________________________\r\n";
 
   //Lista de términos topes
@@ -3359,7 +3371,7 @@ function HTMLformUserNotes()
 
     $task=abm_userNotes("A", $arrayValues);
     if ($task["cant"]>0) {
-      echo "<script>javascript:alert('".ucfirst(LABEL_saved)."');</script>";
+      echo "<script>javascript:alert('".mb_ucfirst(LABEL_saved)."');</script>";
     }
   }
 
@@ -3370,7 +3382,7 @@ function HTMLformUserNotes()
     "alias"=>$_POST['alias']);
     $task=abm_userNotes("M", $arrayValues, $_POST['valueid']);
     if ($task["cant"]>0) {
-      echo "<script>javascript:alert('".ucfirst(LABEL_saved)."');</script>";
+      echo "<script>javascript:alert('".mb_ucfirst(LABEL_saved)."');</script>";
     }
 
     $_POST['value']='';
@@ -3391,15 +3403,15 @@ function HTMLformUserNotes()
   $rows.=' <input type="hidden" name="valueid" id="valueid"> ';
 
   $rows.='<div class="table-responsive"> ';
-  $rows.='  <a href="#list-config" title="'.ucfirst(LABEL_lcConfig).' &middot; '.strtolower(LABEL_Opciones).'"><svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-caret-up-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+  $rows.='  <a href="#list-config" title="'.mb_ucfirst(LABEL_lcConfig).' &middot; '.strtolower(LABEL_Opciones).'"><svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-caret-up-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
   <path d="M7.247 4.86l-4.796 5.481c-.566.647-.106 1.659.753 1.659h9.592a1 1 0 0 0 .753-1.659l-4.796-5.48a1 1 0 0 0-1.506 0z"/>
-  </svg></a><h3>'.ucfirst(LABEL_configTypeNotes).'</h3>';
-  $rows.='<table class="table table-striped table-bordered table-sm table-hover"  summary="'.ucfirst(LABEL_configTypeNotes).'">';
+  </svg></a><h3>'.mb_ucfirst(LABEL_configTypeNotes).'</h3>';
+  $rows.='<table class="table table-striped table-bordered table-sm table-hover"  summary="'.mb_ucfirst(LABEL_configTypeNotes).'">';
   $rows.='<thead>';
   $rows.='<tr>';
-  $rows.=' <th>'.ucfirst(LABEL_tipoNota).'</th>';
-  $rows.= '<th>'.ucfirst(LABEL_alias).':</th>';
-  $rows.= '<th>'.ucfirst(LABEL_order).'</th>';
+  $rows.=' <th>'.mb_ucfirst(LABEL_tipoNota).'</th>';
+  $rows.= '<th>'.mb_ucfirst(LABEL_alias).':</th>';
+  $rows.= '<th>'.mb_ucfirst(LABEL_order).'</th>';
   $rows.= '<th></th>';
   $rows.= '</tr>';
 
@@ -3408,7 +3420,7 @@ function HTMLformUserNotes()
   $rows.='<th class="izq"><input type="text" name="value" id="value"/></td>';
   $rows.='<th class="izq"><input type="text" name="alias" size="2" id="alias"/></td>';
   $rows.='<th class="izq"><input type="text" name="orden" size="2"  id="orden"/></td>';
-  $rows.='<th><a onclick="envianota()" href="#"><strong>'.ucfirst(LABEL_Enviar).'</strong></a></td>';
+  $rows.='<th><a onclick="envianota()" href="#"><strong>'.mb_ucfirst(LABEL_Enviar).'</strong></a></td>';
   $rows.='</tr>';
 
   $rows.=' </thead>';
@@ -3429,7 +3441,7 @@ function HTMLformUserNotes()
       $rows.=' <td class="izq"><a title="'.$array["value"].'"  href="javascript:recargaedit(\''.$array["value"].'\',\''.$array["value_order"].'\',\''.$array["value_code"].'\',\''.$array["value_id"].'\')">'.$array["value"].'</a></td>';
       $rows.= '<td>'.$array["value_code"].'</td>';
       $rows.= '<td>'.$array["value_order"].'</td>';
-      $rows.= ($array["cant"]>0) ? '<td>'.$array["cant"].' '.LABEL_notes.'</td>' : '<td><a onclick=preparaborrado2(\''.$array["value_id"].'\') title="'.ucfirst(LABEL_eliminar).'" href="#")><strong>'.ucfirst(LABEL_eliminar).'</strong></a></td>';
+      $rows.= ($array["cant"]>0) ? '<td>'.$array["cant"].' '.LABEL_notes.'</td>' : '<td><a onclick=preparaborrado2(\''.$array["value_id"].'\') title="'.mb_ucfirst(LABEL_eliminar).'" href="#")><strong>'.mb_ucfirst(LABEL_eliminar).'</strong></a></td>';
       $rows.= '</tr>';
     }
   }
@@ -3467,7 +3479,7 @@ function HTMLformUserRelations()
     $task=abm_userRelations("A", $arrayValues);
 
     if ($task["cant"]>0) {
-      echo "<script>javascript:alert('".ucfirst(LABEL_saved)."');</script>";
+      echo "<script>javascript:alert('".mb_ucfirst(LABEL_saved)."');</script>";
     }
   }
 
@@ -3481,7 +3493,7 @@ function HTMLformUserRelations()
     $task=abm_userRelations("M", $arrayValues, $_POST['rr_id']);
 
     if ($task["cant"]>0) {
-      echo "<script>javascript:alert('".ucfirst(LABEL_saved)."');</script>";
+      echo "<script>javascript:alert('".mb_ucfirst(LABEL_saved)."');</script>";
     }
 
     $_POST['rr_value']='';
@@ -3509,17 +3521,17 @@ function HTMLformUserRelations()
   $rows.='<input type="hidden" name="rr_id" id="rr_id"> ';
 
   $rows.='<div class="table-responsive"> ';
-  $rows.='<a href="#list-config" title="'.ucfirst(LABEL_lcConfig).' &middot; '.strtolower(LABEL_Opciones).'"><svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-caret-up-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+  $rows.='<a href="#list-config" title="'.mb_ucfirst(LABEL_lcConfig).' &middot; '.strtolower(LABEL_Opciones).'"><svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-caret-up-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
   <path d="M7.247 4.86l-4.796 5.481c-.566.647-.106 1.659.753 1.659h9.592a1 1 0 0 0 .753-1.659l-4.796-5.48a1 1 0 0 0-1.506 0z"/>
   </svg></a>';
-  $rows.='<h3>'.ucfirst(LABEL_relationEditor).'</h3>';
-  $rows.='<table class="table table-striped table-bordered table-sm table-hover"  summary="'.ucfirst(LABEL_relationEditor).'">';
+  $rows.='<h3>'.mb_ucfirst(LABEL_relationEditor).'</h3>';
+  $rows.='<table class="table table-striped table-bordered table-sm table-hover"  summary="'.mb_ucfirst(LABEL_relationEditor).'">';
   $rows.='<thead>';
   $rows.='<tr>';
-  $rows.=' <th>'.ucfirst(LABEL_relationSubType).'</th>';
-  $rows.= '<th>'.ucfirst(LABEL_relationSubTypeLabel).':</th>';
-  $rows.= '<th>'.ucfirst(LABEL_relationSubTypeCode).'</th>';
-  $rows.= '<th>'.ucfirst(LABEL_order).'</th>';
+  $rows.=' <th>'.mb_ucfirst(LABEL_relationSubType).'</th>';
+  $rows.= '<th>'.mb_ucfirst(LABEL_relationSubTypeLabel).':</th>';
+  $rows.= '<th>'.mb_ucfirst(LABEL_relationSubTypeCode).'</th>';
+  $rows.= '<th>'.mb_ucfirst(LABEL_order).'</th>';
   $rows.= '<th></th>';
   $rows.= '</tr>';
 
@@ -3532,7 +3544,7 @@ function HTMLformUserRelations()
   $rows.='<th class="izq"><input type="text" name="rr_value" id="rr_value"/></td>';
   $rows.='<th class="izq"><input type="text" name="rr_code" size="2" maxlength="2" id="rr_code"/></td>';
   $rows.='<th class="izq"><input type="text" name="rr_ord" size="2" maxlength="2" id="rr_ord"/></td>';
-  $rows.='<th><a onclick="enviaRel()" href="#"><strong>'.ucfirst(LABEL_Enviar).'</strong></a></td>';
+  $rows.='<th><a onclick="enviaRel()" href="#"><strong>'.mb_ucfirst(LABEL_Enviar).'</strong></a></td>';
   $rows.='</tr>';
   $rows.=' </thead>';
   $rows.=' <tbody>';
@@ -3547,7 +3559,7 @@ function HTMLformUserRelations()
     $rows.=' <td class="izq"><a title="'.$array["rr_value"].'"  href="javascript:recargaeditRel(\''.$array["rr_value"].'\',\''.$array["t_relation"].'\',\''.$array["rr_code"].'\',\''.$array["rel_rel_id"].'\',\''.$array["rr_ord"].'\')">'.$array["rr_value"].'</a></td>';
     $rows.= '<td>'.$array["rr_code"].'</td>';
     $rows.= '<td>'.$array["rr_ord"].'</td>';
-    $rows.= ($array["cant"]>0) ? '<td>'.$array["cant"].'</td>' : '<td><a onclick=preparaborradoRel(\''.$array["rel_rel_id"].'\') title="'.ucfirst(LABEL_eliminar).'" href="#")><strong>'.ucfirst(LABEL_relationDelete).'</strong></a></td>';
+    $rows.= ($array["cant"]>0) ? '<td>'.$array["cant"].'</td>' : '<td><a onclick=preparaborradoRel(\''.$array["rel_rel_id"].'\') title="'.mb_ucfirst(LABEL_eliminar).'" href="#")><strong>'.mb_ucfirst(LABEL_relationDelete).'</strong></a></td>';
     $rows.= '</tr>';
   }
 
@@ -3580,7 +3592,7 @@ function HTMLformURIdefinition()
     $task=abm_URIdefinition("A", $arrayValues);
 
     if ($task["cant"]>0) {
-      echo "<script>javascript:alert('".ucfirst(LABEL_saved)."');</script>";
+      echo "<script>javascript:alert('".mb_ucfirst(LABEL_saved)."');</script>";
     }
   }
 
@@ -3591,7 +3603,7 @@ function HTMLformURIdefinition()
 
     $task=abm_URIdefinition("M", $arrayValues, $_POST['uri_type_id']);
     if ($task["cant"]>0) {
-      echo "<script>javascript:alert('".ucfirst(LABEL_saved)."');</script>";
+      echo "<script>javascript:alert('".mb_ucfirst(LABEL_saved)."');</script>";
     }
 
     $_POST['uri_value']='';
@@ -3610,22 +3622,22 @@ function HTMLformURIdefinition()
   $rows.='<input type="hidden" name="uri_type_id" id="uri_type_id"> ';
 
   $rows.='<div class="table-responsive"> ';
-  $rows.='  <a href="#list-config" title="'.ucfirst(LABEL_lcConfig).' &middot; '.strtolower(LABEL_Opciones).'"><svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-caret-up-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+  $rows.='  <a href="#list-config" title="'.mb_ucfirst(LABEL_lcConfig).' &middot; '.strtolower(LABEL_Opciones).'"><svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-caret-up-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
   <path d="M7.247 4.86l-4.796 5.481c-.566.647-.106 1.659.753 1.659h9.592a1 1 0 0 0 .753-1.659l-4.796-5.48a1 1 0 0 0-1.506 0z"/>
   </svg></a>';
-  $rows.='<h3>'.ucfirst(LABEL_URItypeEditor).'</h3>';
-  $rows.='<table class="table table-striped table-bordered table-sm table-hover"  summary="'.ucfirst(LABEL_URItypeEditor).'">';
+  $rows.='<h3>'.mb_ucfirst(LABEL_URItypeEditor).'</h3>';
+  $rows.='<table class="table table-striped table-bordered table-sm table-hover"  summary="'.mb_ucfirst(LABEL_URItypeEditor).'">';
   $rows.='<thead>';
   $rows.='<tr>';
-  $rows.= '<th>'.ucfirst(LABEL_URItypeLabel).':</th>';
-  $rows.= '<th>'.ucfirst(LABEL_URItypeCode).'</th>';
+  $rows.= '<th>'.mb_ucfirst(LABEL_URItypeLabel).':</th>';
+  $rows.= '<th>'.mb_ucfirst(LABEL_URItypeCode).'</th>';
   $rows.= '<th></th>';
   $rows.= '</tr>';
 
   $rows.='<tr>';
   $rows.='<th class="izq"><input type="text" name="uri_value" id="uri_value"/></td>';
   $rows.='<th class="izq"><input type="text" name="uri_code" size="10" id="uri_code"/></td>';
-  $rows.='<th><a onclick="enviaURI()" href="#"><strong>'.ucfirst(LABEL_Enviar).'</strong></a></td>';
+  $rows.='<th><a onclick="enviaURI()" href="#"><strong>'.mb_ucfirst(LABEL_Enviar).'</strong></a></td>';
   $rows.='</tr>';
   $rows.=' </thead>';
   $rows.=' <tbody>';
@@ -3638,7 +3650,7 @@ function HTMLformURIdefinition()
     $rows.='<tr>';
     $rows.=' <td class="izq"><a title="'.$array["uri_value"].'"  href="javascript:recargaeditURI(\''.$array["uri_value"].'\',\''.$array["uri_code"].'\',\''.$array["uri_type_id"].'\')">'.$array["uri_value"].'</a></td>';
     $rows.= '<td>'.$array["uri_code"].'</td>';
-    $rows.= ($array["uri_cant"]>0) ? '<td>'.$array["uri_cant"].'</td>' : '<td><a onclick=preparaborradoURI(\''.$array["uri_type_id"].'\') title="'.ucfirst(LABEL_eliminar).'" href="#moreURI")><strong>'.ucfirst(LABEL_URItypeDelete).'</strong></a></td>';
+    $rows.= ($array["uri_cant"]>0) ? '<td>'.$array["uri_cant"].'</td>' : '<td><a onclick=preparaborradoURI(\''.$array["uri_type_id"].'\') title="'.mb_ucfirst(LABEL_eliminar).'" href="#moreURI")><strong>'.mb_ucfirst(LABEL_URItypeDelete).'</strong></a></td>';
     $rows.= '</tr>';
   }
 
@@ -4270,12 +4282,12 @@ function TXTalphaList4term($term_id, $params = array())
 
 
   global $CFG;
-  $txt=ucfirst(LABEL_Titulo).': '.$_SESSION["CFGTitulo"]."\r\n";
-  $txt.=ucfirst(LABEL_Autor).': '.$_SESSION["CFGAutor"]."\r\n";
-  $txt.=ucfirst(LABEL_Keywords).': '.$_SESSION["CFGKeywords"]."\r\n";
-  $txt.=ucfirst(LABEL_Cobertura).': '.$_SESSION["CFGCobertura"]."\r\n";
+  $txt=mb_ucfirst(LABEL_Titulo).': '.$_SESSION["CFGTitulo"]."\r\n";
+  $txt.=mb_ucfirst(LABEL_Autor).': '.$_SESSION["CFGAutor"]."\r\n";
+  $txt.=mb_ucfirst(LABEL_Keywords).': '.$_SESSION["CFGKeywords"]."\r\n";
+  $txt.=mb_ucfirst(LABEL_Cobertura).': '.$_SESSION["CFGCobertura"]."\r\n";
   $txt.=LABEL_URI.': '.$_SESSION["CFGURL"]."\r\n";
-  $txt.=ucfirst(LABEL_Version).': '.$_SESSION["CFGVersion"]."\r\n";
+  $txt.=mb_ucfirst(LABEL_Version).': '.$_SESSION["CFGVersion"]."\r\n";
   $txt.="__________________________________________________________________________\r\n";
   //Lista de todos los términos
   $sql=SQLterm2down($term_id);
@@ -4302,7 +4314,7 @@ function TXTalphaList4term($term_id, $params = array())
     } else {    // Si es preferido: mostar notas y relaciones
       $txt.="\n".$arrayTema["tema"]."\r\n";
       //show code
-      $txt.=(($CFG["_SHOW_CODE"]=='1') && (strlen((string) $arrayTema["code"])>0)) ? '	'.ucfirst(LABEL_CODE).': '.$arrayTema["code"]."\r\n" : "";
+      $txt.=(($CFG["_SHOW_CODE"]=='1') && (strlen((string) $arrayTema["code"])>0)) ? '	'.mb_ucfirst(LABEL_CODE).': '.$arrayTema["code"]."\r\n" : "";
 
       $label_target_vocabulary='';
 
@@ -4363,7 +4375,7 @@ function TXTalphaList4term($term_id, $params = array())
       //Terminos equivalentes web services
       $SQLtargetTerms=SQLtargetTerms($arrayTema["id"]);
       while ($arrayTT=$SQLtargetTerms->FetchRow()) {
-        $txt.='	'.FixEncoding(ucfirst($arrayTT["tvocab_label"])).': '.FixEncoding($arrayTT["tterm_string"])."\r\n";
+        $txt.='	'.FixEncoding(mb_ucfirst($arrayTT["tvocab_label"])).': '.FixEncoding($arrayTT["tterm_string"])."\r\n";
       };
     } //end Si es preferido: mostar notas y relaciones
   }
@@ -4378,12 +4390,12 @@ function TXTalphaList4term($term_id, $params = array())
 function TXTtreeList4term($term_id)
 {
 
-  $txt=ucfirst(LABEL_Titulo).': '.$_SESSION["CFGTitulo"]."\r\n";
-  $txt.=ucfirst(LABEL_Autor).': '.$_SESSION["CFGAutor"]."\r\n";
-  $txt.=ucfirst(LABEL_Keywords).': '.$_SESSION["CFGKeywords"]."\r\n";
-  $txt.=ucfirst(LABEL_Cobertura).': '.$_SESSION["CFGCobertura"]."\r\n";
+  $txt=mb_ucfirst(LABEL_Titulo).': '.$_SESSION["CFGTitulo"]."\r\n";
+  $txt.=mb_ucfirst(LABEL_Autor).': '.$_SESSION["CFGAutor"]."\r\n";
+  $txt.=mb_ucfirst(LABEL_Keywords).': '.$_SESSION["CFGKeywords"]."\r\n";
+  $txt.=mb_ucfirst(LABEL_Cobertura).': '.$_SESSION["CFGCobertura"]."\r\n";
   $txt.=LABEL_URI.': '.$_SESSION["CFGURL"]."\r\n";
-  $txt.=ucfirst(LABEL_Version).': '.$_SESSION["CFGVersion"]."\r\n";
+  $txt.=mb_ucfirst(LABEL_Version).': '.$_SESSION["CFGVersion"]."\r\n";
   $txt.="__________________________________________________________________________\r\n";
 
 
@@ -4571,7 +4583,7 @@ function autoridadesMarcXML($params = array())
         if (!in_array($arrayRelaciones["rr_code"], $CFG["HIDDEN_EQ"])) {
           $txt .=' <datafield tag="450" ind1=" " ind2=" ">' . "\n";
           $txt .=' <subfield code="a">'.$arrayRelaciones["uf_tema"] .'</subfield>' . "\n";
-          $txt .=' <subfield code="i">'.ucfirst(LABEL_esNoPreferido).'</subfield>' . "\n";
+          $txt .=' <subfield code="i">'.mb_ucfirst(LABEL_esNoPreferido).'</subfield>' . "\n";
           $txt .=' </datafield>' . "\n";
         }
       }

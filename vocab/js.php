@@ -49,8 +49,8 @@ if (evalUserLevel($_SESSION[$_SESSION["CFGURL"]])>0) {
           onblur : 'cancel',
           submitdata: { _method: "put" },
           select : true,
-          submit : '<?php echo ucfirst(LABEL_Guardar);?>',
-          cancel : '<?php echo ucfirst(LABEL_Cancelar);?>',
+          submit : '<?php echo mb_ucfirst(LABEL_Guardar);?>',
+          cancel : '<?php echo mb_ucfirst(LABEL_Cancelar);?>',
           cssclass : "editable",
           onerror : function(settings, original, xhr) {
             original.reset()
@@ -69,8 +69,8 @@ if (evalUserLevel($_SESSION[$_SESSION["CFGURL"]])>0) {
           type   : 'textarea',
           submitdata: { _method: "put" },
           select : true,
-          submit : '<?php echo ucfirst(LABEL_Guardar);?>',
-          cancel : '<?php echo ucfirst(LABEL_Cancelar);?>',
+          submit : '<?php echo mb_ucfirst(LABEL_Guardar);?>',
+          cancel : '<?php echo mb_ucfirst(LABEL_Cancelar);?>',
           cssclass : "editable",
           onerror : function(settings, original, xhr) {
             original.reset()
@@ -227,7 +227,7 @@ jQuery(function(){
             noCache: false,
             onSelect: onSelect,
             showNoSuggestionNotice: true,
-            noSuggestionNotice: '<i><?php echo ucfirst(LABEL_noResults);?></i>',
+            noSuggestionNotice: '<i><?php echo mb_ucfirst(LABEL_noResults);?></i>',
             autoSelectFirst:true
 
             };
@@ -266,7 +266,7 @@ function envianota(){
 
 
 function preparaborrado2(a){
-  if (confirm("<?php echo ucfirst(FORM_JS_confirmDeleteTypeNote)?>")==true) {
+  if (confirm("<?php echo mb_ucfirst(FORM_JS_confirmDeleteTypeNote)?>")==true) {
     document.getElementById("value").value=a;
     document.getElementById("doAdmin").value='deleteUserNotes';
     document.getElementById("morenotas").submit();
@@ -302,7 +302,7 @@ function enviaRel(){
 
 
 function preparaborradoRel(a){
-  if (confirm("<?php echo ucfirst(FORM_JS_confirmDeleteTypeRelation)?>")==true) {
+  if (confirm("<?php echo mb_ucfirst(FORM_JS_confirmDeleteTypeRelation)?>")==true) {
     document.getElementById("rr_id").value=a;
     document.getElementById("doAdminR").value='deleteUserRelations';
     document.getElementById("morerelations").submit();
@@ -325,7 +325,7 @@ function enviaURI(){
 
 
 function preparaborradoURI(a){
-  if (confirm("<?php echo ucfirst(FORM_JS_confirmDeleteURIdefinition)?>")==true) {
+  if (confirm("<?php echo mb_ucfirst(FORM_JS_confirmDeleteURIdefinition)?>")==true) {
     document.getElementById("uri_type_id").value=a;
     document.getElementById("doAdminU").value='deleteURIdefinition';
     document.getElementById("moreURI").submit();

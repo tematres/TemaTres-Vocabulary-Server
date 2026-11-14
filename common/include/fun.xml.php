@@ -1160,7 +1160,7 @@ function do_meta_tag($arrayTermino = "")
     $relMeta='';
 
     //Si hay cambio de idioma... para que no dé duplicado
-    $labelChangeLang= ($_GET["setLang"]) ? '. '.ucfirst($_SESSION[$_SESSION["CFGURL"]]["lang"][0]) : '';
+    $labelChangeLang= ($_GET["setLang"]) ? '. '.mb_ucfirst($_SESSION[$_SESSION["CFGURL"]]["lang"][0]) : '';
     $ARRAYfetchValues=ARRAYfetchValues('METADATA');
 
     $_SESSION["CFGContributor"]=$ARRAYfetchValues["dc:contributor"]["value"];

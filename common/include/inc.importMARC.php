@@ -100,7 +100,7 @@ if ($_SESSION[$_SESSION["CFGURL"]]["ssuser_nivel"]=='1') {
             }
         }
         $sql=SQLreCreateTermIndex();
-        echo '<p class="true">'.ucfirst(IMPORT_finish).'</p>' ;
+        echo '<p class="true">'.mb_ucfirst(IMPORT_finish).'</p>' ;
     };
 }
 
