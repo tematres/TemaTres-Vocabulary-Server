@@ -41,7 +41,7 @@ if ($_SESSION[$_SESSION["CFGURL"]]["ssuser_id"]) {
         $arrayTerm = ARRAYverTerminoBasico($tema_id);
         if ($taskMod["log"]==false) {
             header("HTTP/1.1 406 Not Acceptable");
-            echo ucfirst(LABEL_duplicatedTerm);
+            echo mb_ucfirst(LABEL_duplicatedTerm);
         } else {
             echo $arrayTerm["tema"];
         }

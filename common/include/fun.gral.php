@@ -11,6 +11,33 @@ use PHPMailer\PHPMailer\Exception;
 // Distribuido bajo Licencia GNU Public License, versión 2 (de junio de 1.991) Free Software Foundation
 */
 
+/*
+ * UTF-8 safe ucfirst(). ucfirst() only handles ASCII, so labels beginning with a non-ASCII letter (e.g. Å, Ä, Ö, É,
+ * Cyrillic) were never capitalised. PHP 8.4 has a native mb_ucfirst(), which is then used instead of this one; this
+ * one does the same for valid UTF-8 (title case of the first character, mbstring's internal encoding unless one is
+ * given; invalid bytes may become ? as the built-in does, except an invalid first byte, which the built-in keeps), and
+ * falls back to ucfirst() if mbstring is missing.
+ */
+if (!function_exists('mb_ucfirst')) {
+    function mb_ucfirst($string, $encoding = null)
+    {
+        $string = (string) $string;
+        if (!function_exists('mb_convert_case')) {
+            return ucfirst($string);
+        }
+        if ($encoding === null) {
+            $encoding = mb_internal_encoding();
+        }
+        return mb_convert_case(mb_substr($string, 0, 1, $encoding), MB_CASE_TITLE, $encoding) . mb_substr($string, 1, null, $encoding);
+    }
+}
+
+/* Upper case for comparing texts: UTF-8 aware if mbstring is available, as strtoupper() otherwise. */
+function strtoupperUTF8($string)
+{
+    return function_exists('mb_strtoupper') ? mb_strtoupper((string) $string, 'UTF-8') : strtoupper((string) $string);
+}
+
 /** FUNCIONES GENERALES */
 
 /** addslashes to vars Funcion tomada de PHPBB: http://www.phpbb.com/
@@ -244,9 +271,9 @@ function doSelectForm4array($array, $selec_value)
 
     foreach ($array as $key => $value) {
         if ($key==$selec_value) {
-            $selec_values.='<option value="'.$key.'" selected>'.ucfirst($value).'</option>'."\n\r";
+            $selec_values.='<option value="'.$key.'" selected>'.mb_ucfirst($value).'</option>'."\n\r";
         } else {
-            $selec_values.='<option value="'.$key.'">'.ucfirst($value).'</option>'."\n\r";
+            $selec_values.='<option value="'.$key.'">'.mb_ucfirst($value).'</option>'."\n\r";
         };
     };
     return $selec_values;
@@ -578,13 +605,13 @@ function string2gloss($string, $toSee, $noteTypes = array("NA"))
 
         $text=html2txt($description);
     } else {
-        $text=ucfirst(LABEL_Detalle).' '.$arrayTerm["tema"];
+        $text=mb_ucfirst(LABEL_Detalle).' '.$arrayTerm["tema"];
     }
 
     if ($arrayTerm["tema_id"]) {
         return '<a href="'.URL_BASE.'index.php?tema='.$arrayTerm["tema_id"].'" class="autoGloss" data-bs-toggle="tooltip" data-bs-placement="right" title="'.$text.'">'.$toSee.'</a>';
     } else {
-        return '<a href="'.URL_BASE.'index.php?'.FORM_LABEL_buscar.'='.$string.'&amp;sgs=off" title="'.ucfirst(LABEL_Detalle).' '.$string.'">'.$toSee.'</a>';
+        return '<a href="'.URL_BASE.'index.php?'.FORM_LABEL_buscar.'='.$string.'&amp;sgs=off" title="'.mb_ucfirst(LABEL_Detalle).' '.$string.'">'.$toSee.'</a>';
     }
 }
 

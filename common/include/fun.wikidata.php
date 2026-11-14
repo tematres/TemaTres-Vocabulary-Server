@@ -60,7 +60,7 @@ function obtenerEntidadesRelacionadasWikidata($pId,$qId, $language = 'es',$limit
     $response=getWikidata($url,$language);
 
     if ($response === false) {
-        throw new Exception(ucfirst(LABEL__wikiServiceError));
+        throw new Exception(mb_ucfirst(LABEL__wikiServiceError));
     }
 
     $i=0;
@@ -80,7 +80,7 @@ function obtenerEntidadesRelacionadasWikidata($pId,$qId, $language = 'es',$limit
     }
 
     if($i==0){
-        throw new Exception('<h3 class="alert alert-danger" role="alert">'.ucfirst(LABEL__wikiEntity). ' <a href="https://www.wikidata.org/wiki/'.$qId.'" title="'.ucfirst(LABEL_verDetalle).' '.ucfirst(LABEL__wikiEntity). ' '.$qId.'" target="_blank">'. $qId.'</a> ('.strtoupper($language).') + '.ucfirst(LABEL__wikiProperty). ' <a href="https://www.wikidata.org/wiki/Property:'.$pId.'" title="'.ucfirst(LABEL_verDetalle).' '.ucfirst(LABEL__wikiProperty). ' '.$qId.'" target="_blank">'. $pId.'</a>  : <strong>'.$i.'</strong></h3>');
+        throw new Exception('<h3 class="alert alert-danger" role="alert">'.mb_ucfirst(LABEL__wikiEntity). ' <a href="https://www.wikidata.org/wiki/'.$qId.'" title="'.mb_ucfirst(LABEL_verDetalle).' '.mb_ucfirst(LABEL__wikiEntity). ' '.$qId.'" target="_blank">'. $qId.'</a> ('.strtoupper($language).') + '.mb_ucfirst(LABEL__wikiProperty). ' <a href="https://www.wikidata.org/wiki/Property:'.$pId.'" title="'.mb_ucfirst(LABEL_verDetalle).' '.mb_ucfirst(LABEL__wikiProperty). ' '.$qId.'" target="_blank">'. $pId.'</a>  : <strong>'.$i.'</strong></h3>');
 
     }
 
@@ -127,7 +127,7 @@ function obtenerSinonimosWikidata($qId, $language = 'es') {
     $datos=getWikidata($url,$language);
 
     if ($datos === false) {
-        throw new Exception(ucfirst(LABEL__wikiServiceError));
+        throw new Exception(mb_ucfirst(LABEL__wikiServiceError));
     }
 
     // Procesar los aliases
@@ -145,7 +145,7 @@ function obtenerSinonimosWikidata($qId, $language = 'es') {
         }
 
     }else{
-        throw new Exception('<h3 class="alert alert-danger" role="alert">'.ucfirst(LABEL__wikiEntity).' <i><a href="https://www.wikidata.org/wiki/'.$qId.'" title="'.ucfirst(LABEL_verDetalle).' '.$qId.'" target="_blank">'.$qId.'</a></i>  ('.strtoupper($language).') + '.ucfirst(UP_termino).' : <strong>0</strong></h3>');
+        throw new Exception('<h3 class="alert alert-danger" role="alert">'.mb_ucfirst(LABEL__wikiEntity).' <i><a href="https://www.wikidata.org/wiki/'.$qId.'" title="'.mb_ucfirst(LABEL_verDetalle).' '.$qId.'" target="_blank">'.$qId.'</a></i>  ('.strtoupper($language).') + '.mb_ucfirst(UP_termino).' : <strong>0</strong></h3>');
     }
 
 
@@ -168,7 +168,7 @@ function buscarConceptosEnWikidataSoloIdioma($searchText, $language = 'es', $lim
     // Validaciones iniciales
     if (empty($searchText)) {
         return false;
-        throw new Exception(ucfirst(sprintf(MSG_minCharSerarch, stripslashes($searchText), strlen($searchText), CFG_MIN_SEARCH_SIZE-1)));
+        throw new Exception(mb_ucfirst(sprintf(MSG_minCharSerarch, stripslashes($searchText), strlen($searchText), CFG_MIN_SEARCH_SIZE-1)));
     }
 
     $language = strtolower($language);
@@ -189,7 +189,7 @@ function buscarConceptosEnWikidataSoloIdioma($searchText, $language = 'es', $lim
 
 
     if (json_last_error() !== JSON_ERROR_NONE) {
-        throw new Exception(ucfirst(LABEL__ParserError));
+        throw new Exception(mb_ucfirst(LABEL__ParserError));
     }
 
     // Filtrar resultados que no cumplan con el idioma requerido
@@ -198,7 +198,7 @@ function buscarConceptosEnWikidataSoloIdioma($searchText, $language = 'es', $lim
     if (isset($datos['search'])) {
 
         if(count($datos['search'])===0){
-            throw new Exception('<h3 class="alert alert-danger" role="alert">'.ucfirst(LABEL__wikiEntity).' "<i>' . $searchText.'</i>"  ('.strtoupper($language).'): '.ucfirst(LABEL__noResult). '. </h3>');
+            throw new Exception('<h3 class="alert alert-danger" role="alert">'.mb_ucfirst(LABEL__wikiEntity).' "<i>' . $searchText.'</i>"  ('.strtoupper($language).'): '.mb_ucfirst(LABEL__noResult). '. </h3>');
         }
 
         foreach ($datos['search'] as $item) {
@@ -277,11 +277,11 @@ function HTMLformSuggestTerms4Wikidata($string2search='')
     $rows.='    <div class="row">
     <!-- panel  -->
     <div class="col-xl-10">
-        <h3>'.ucfirst(LABEL__getForWikidataTerms).'</h3>
+        <h3>'.mb_ucfirst(LABEL__getForWikidataTerms).'</h3>
         <div class="card">
             <div class="card-body">
                 <div class="row mb-3">
-                    <label for="string2search" class="col-md-3 col-form-label">'.ucfirst(LABEL_Buscar).'</label>
+                    <label for="string2search" class="col-md-3 col-form-label">'.mb_ucfirst(LABEL_Buscar).'</label>
                     <div class="col-md-9">
                         <input type="text" class="form-control" required autofocus type="search" id="string2search" name="string2search" value="">
                     </div>
@@ -289,8 +289,8 @@ function HTMLformSuggestTerms4Wikidata($string2search='')
             
     $rows.='    <div class="row mb-3">
                     <div class="col-md-12 text-end">
-                        <button type="submit" class="btn btn-primary" value="'.LABEL_Buscar.'"/>'.ucfirst(LABEL_Buscar).'</button>
-                        <button type="button" class="btn btn-secondary" name="cancelar" onClick="location.href=\'index.php?taskterm=addTerm&tema=0\'">'.ucfirst(LABEL_Cancelar).'</button>
+                        <button type="submit" class="btn btn-primary" value="'.LABEL_Buscar.'"/>'.mb_ucfirst(LABEL_Buscar).'</button>
+                        <button type="button" class="btn btn-secondary" name="cancelar" onClick="location.href=\'index.php?taskterm=addTerm&tema=0\'">'.mb_ucfirst(LABEL_Cancelar).'</button>
 
                     </div>
                 </div>
@@ -322,20 +322,20 @@ function HTMLformSelectTerms4Wikidata($string_search,$resultados)
     $rows.='<form role="form" name="select_multi_term" action="index.php" method="post">';
     $rows.='    <div class="row">
         <div class="col-xl-10">
-            <legend class="alert alert-info">'.ucfirst(MSG_ResultBusca).' <i>'.$string_search.'</i></legend>
+            <legend class="alert alert-info">'.mb_ucfirst(MSG_ResultBusca).' <i>'.$string_search.'</i></legend>
         </div>
         <!-- panel  -->
         <div class="col-xl-10">
             <div class="card">
                 <div class="card-body">';
-    $rows.='<div><input id="filter" type="text" class="form-control" placeholder="'.ucfirst(LABEL_type2filter).'"></div>';
+    $rows.='<div><input id="filter" type="text" class="form-control" placeholder="'.mb_ucfirst(LABEL_type2filter).'"></div>';
     $rows.='<div class="table-responsive"> ';
     $rows.='<table class="table table-striped table-bordered table-sm table-hover">
     <thead>
     <tr>
         <th  class="text-center"><input name="checktodos" type="checkbox" title="'.LABEL_selectAll.'"/></th>
-        <th>'.ucfirst(LABEL_Termino).'</th>
-        <th>'.ucfirst(LABEL_nota).'</th>
+        <th>'.mb_ucfirst(LABEL_Termino).'</th>
+        <th>'.mb_ucfirst(LABEL_nota).'</th>
     </tr>
     </thead>
     <tbody class="searchable">';
@@ -352,18 +352,18 @@ function HTMLformSelectTerms4Wikidata($string_search,$resultados)
             if (($is_duplicated) && ($flag_allow_duplicated==1)) {
                 $rows.=  '      <td align="center"><input type="checkbox" name="selectedTerms[]" id="tterm_'.$item['id'].'" title="'.$item['titulo'].'" value="'.$item['titulo'].'|'.$item["id"].'" /> </td>';
 
-                $rows.=  '      <td><label class="check_label" title="'.$item['titulo'].'" for="tterm_'.$item['id'].'">'.$item['titulo'].' <span style="font-weight:normal;">[<a href="https://www.wikidata.org/wiki/'.$item['id'].'" title="'.ucfirst(LABEL_verDetalle).' '.$item['id'].'" target="_blank">'.$item['id'].'</a>]</span>  <span style="color:red">'.LABEL_terminoExistente.'</span></label></td>';
+                $rows.=  '      <td><label class="check_label" title="'.$item['titulo'].'" for="tterm_'.$item['id'].'">'.$item['titulo'].' <span style="font-weight:normal;">[<a href="https://www.wikidata.org/wiki/'.$item['id'].'" title="'.mb_ucfirst(LABEL_verDetalle).' '.$item['id'].'" target="_blank">'.$item['id'].'</a>]</span>  <span style="color:red">'.LABEL_terminoExistente.'</span></label></td>';
                 $rows.=  '      <td>'.$item['descripcion'].'</td>';
             //duplicated term & nos allowed d
             } elseif (($is_duplicated) && ($flag_allow_duplicated==0)) {
                 $rows.=  '      <td align="center"> </td>';
 
-                $rows.=  '      <td><label class="check_label" title="'.$item['titulo'].'" for="tterm_'.$item['id'].'">'.$item['titulo'].' <span style="font-weight:normal;">[<a href="https://www.wikidata.org/wiki/'.$item['id'].'" title="'.ucfirst(LABEL_verDetalle).' '.$item['id'].'" target="_blank">'.$item['id'].'</a>]</span>  <span style="color:red">'.LABEL_terminoExistente.'</span></label></td>';
+                $rows.=  '      <td><label class="check_label" title="'.$item['titulo'].'" for="tterm_'.$item['id'].'">'.$item['titulo'].' <span style="font-weight:normal;">[<a href="https://www.wikidata.org/wiki/'.$item['id'].'" title="'.mb_ucfirst(LABEL_verDetalle).' '.$item['id'].'" target="_blank">'.$item['id'].'</a>]</span>  <span style="color:red">'.LABEL_terminoExistente.'</span></label></td>';
                 $rows.=  '      <td>'.$item['descripcion'].'</td>';
             } else {
                 $rows.=  '      <td align="center"><input type="checkbox" name="selectedTerms[]" id="tterm_'.$item['id'].'" title="'.$item['titulo'].'" value="'.$item['titulo'].'|'.$item['id'].'" /> </td>';
 
-                $rows.=  '      <td><label class="check_label" title="'.$item['titulo'].'" for="tterm_'.$item['id'].'">'.$item['titulo'].' <span style="font-weight:normal;">[<a href="https://www.wikidata.org/wiki/'.$item['id'].'" title="'.ucfirst(LABEL_verDetalle).' '.$item['id'].'" target="_blank">'.$item['id'].'</a>]</span>  </label></td>';
+                $rows.=  '      <td><label class="check_label" title="'.$item['titulo'].'" for="tterm_'.$item['id'].'">'.$item['titulo'].' <span style="font-weight:normal;">[<a href="https://www.wikidata.org/wiki/'.$item['id'].'" title="'.mb_ucfirst(LABEL_verDetalle).' '.$item['id'].'" target="_blank">'.$item['id'].'</a>]</span>  </label></td>';
                 $rows.=  '      <td>'.$item['descripcion'].'</td>';
             }
             $rows.=  '</tr>';
@@ -373,8 +373,8 @@ function HTMLformSelectTerms4Wikidata($string_search,$resultados)
 
         $rows.='    <div class="row mb-3">
                 <div class="col-md-12 text-center">
-                <button type="submit" class="btn btn-primary" value="'.LABEL_Enviar.'"/>'.ucfirst(LABEL_Enviar).'</button>
-                 <button type="button" class="btn btn-secondary" name="cancelar" onClick="location.href=\'index.php?tema='.$ARRAYtermino["idTema"].'\'">'.ucfirst(LABEL_Cancelar).'</button>
+                <button type="submit" class="btn btn-primary" value="'.LABEL_Enviar.'"/>'.mb_ucfirst(LABEL_Enviar).'</button>
+                 <button type="button" class="btn btn-secondary" name="cancelar" onClick="location.href=\'index.php?tema='.$ARRAYtermino["idTema"].'\'">'.mb_ucfirst(LABEL_Cancelar).'</button>
                 </div>
         </div>
     </div>
@@ -402,7 +402,7 @@ function HTMLformSuggestedTermsFromWikidata($ARRAYtermino,$t_relation,$p_relatio
 
     if(!is_array($resultados)){
         return '<div class="col-xl-10">
-            <legend class="alert alert-danger">'.ucfirst(LABEL__noResult).': <i>"' . arrayReplace(array(2,3,4), array(TR_termino,TE_termino,UP_termino), $t_relation).'"</i> (<a href="https://www.wikidata.org/wiki/Property:'.$p_relation.'" title="'.ucfirst(LABEL_verDetalle).' '.$p_relation.'" target="_blank">'.$p_relation.'</a>) '.LABEL__wikiEntity.' <i>"'.$ARRAYtermino["titTema"].'"</i> (<a href="https://www.wikidata.org/wiki/'.$q_entity.'" title="'.ucfirst(LABEL_verDetalle).' '.$q_entity.'" target="_blank">'.$q_entity.'</a>)</legend>
+            <legend class="alert alert-danger">'.mb_ucfirst(LABEL__noResult).': <i>"' . arrayReplace(array(2,3,4), array(TR_termino,TE_termino,UP_termino), $t_relation).'"</i> (<a href="https://www.wikidata.org/wiki/Property:'.$p_relation.'" title="'.mb_ucfirst(LABEL_verDetalle).' '.$p_relation.'" target="_blank">'.$p_relation.'</a>) '.LABEL__wikiEntity.' <i>"'.$ARRAYtermino["titTema"].'"</i> (<a href="https://www.wikidata.org/wiki/'.$q_entity.'" title="'.mb_ucfirst(LABEL_verDetalle).' '.$q_entity.'" target="_blank">'.$q_entity.'</a>)</legend>
         </div>';
     } ;
 
@@ -412,7 +412,7 @@ function HTMLformSuggestedTermsFromWikidata($ARRAYtermino,$t_relation,$p_relatio
     $rows='<form role="form" name="select_multi_term" action="index.php" method="post">';
     $rows.='    <div class="row">
         <div class="col-xl-10">
-            <legend class="alert alert-info">'.ucfirst(LABEL_results).':  <i>"' . arrayReplace(array(2,3,4), array(TR_termino,TE_termino,UP_termino), $t_relation).'"</i> (<a href="https://www.wikidata.org/wiki/Property:'.$p_relation.'" title="'.ucfirst(LABEL_verDetalle).' '.$p_relation.'" target="_blank">'.$p_relation.'</a>) '.LABEL__wikiEntity.' <i>"'.$ARRAYtermino["titTema"].'"</i> (<a href="https://www.wikidata.org/wiki/'.$q_entity.'" title="'.ucfirst(LABEL_verDetalle).' '.$q_entity.'" target="_blank">'.$q_entity.'</a>)</legend>
+            <legend class="alert alert-info">'.mb_ucfirst(LABEL_results).':  <i>"' . arrayReplace(array(2,3,4), array(TR_termino,TE_termino,UP_termino), $t_relation).'"</i> (<a href="https://www.wikidata.org/wiki/Property:'.$p_relation.'" title="'.mb_ucfirst(LABEL_verDetalle).' '.$p_relation.'" target="_blank">'.$p_relation.'</a>) '.LABEL__wikiEntity.' <i>"'.$ARRAYtermino["titTema"].'"</i> (<a href="https://www.wikidata.org/wiki/'.$q_entity.'" title="'.mb_ucfirst(LABEL_verDetalle).' '.$q_entity.'" target="_blank">'.$q_entity.'</a>)</legend>
         </div>
 
 
@@ -426,8 +426,8 @@ function HTMLformSuggestedTermsFromWikidata($ARRAYtermino,$t_relation,$p_relatio
     <thead>
     <tr>
         <th class="text-center"></th>
-        <th>'.ucfirst(LABEL_Termino).'</th>
-        <th>'.ucfirst(LABEL_nota).'</th>
+        <th>'.mb_ucfirst(LABEL_Termino).'</th>
+        <th>'.mb_ucfirst(LABEL_nota).'</th>
     </tr>
     </thead>
     <tbody class="searchable">';
@@ -441,18 +441,18 @@ function HTMLformSuggestedTermsFromWikidata($ARRAYtermino,$t_relation,$p_relatio
             if (($is_duplicated) && ($flag_allow_duplicated==1)) {
                 $rows.=  '      <td align="center"><input type="checkbox" name="selectedTerms[]" id="tterm_'.$item['id'].'" title="'.$item['label'].'" value="'.$item['label'].'|'.$item["qid"].'" /> </td>';
 
-                $rows.=  '      <td><label class="check_label" title="'.$item['label'].'" for="tterm_'.$item['id'].'">'.$item['label'].' <span style="font-weight:normal;">[<a href="https://www.wikidata.org/wiki/'.$item['qid'].'" title="'.ucfirst(LABEL_verDetalle).' '.$item['id'].'" target="_blank">'.$item['qid'].'</a>]</span>  <span style="color:red">'.LABEL_terminoExistente.'</span></label></td>';
+                $rows.=  '      <td><label class="check_label" title="'.$item['label'].'" for="tterm_'.$item['id'].'">'.$item['label'].' <span style="font-weight:normal;">[<a href="https://www.wikidata.org/wiki/'.$item['qid'].'" title="'.mb_ucfirst(LABEL_verDetalle).' '.$item['id'].'" target="_blank">'.$item['qid'].'</a>]</span>  <span style="color:red">'.LABEL_terminoExistente.'</span></label></td>';
                 $rows.=  '      <td>'.$item['description'].'</td>';
             //duplicated term & nos allowed d
             } elseif (($is_duplicated) && ($flag_allow_duplicated==0)) {
                 $rows.=  '      <td align="center"> </td>';
 
-                $rows.=  '      <td><label class="check_label" title="'.$item['label'].'" for="tterm_'.$item['id'].'">'.$item['label'].' <span style="font-weight:normal;">[<a href="https://www.wikidata.org/wiki/'.$item['qid'].'" title="'.ucfirst(LABEL_verDetalle).' '.$item['id'].'" target="_blank">'.$item['qid'].'</a>]</span>  <span style="color:red">'.LABEL_terminoExistente.'</span></label></td>';
+                $rows.=  '      <td><label class="check_label" title="'.$item['label'].'" for="tterm_'.$item['id'].'">'.$item['label'].' <span style="font-weight:normal;">[<a href="https://www.wikidata.org/wiki/'.$item['qid'].'" title="'.mb_ucfirst(LABEL_verDetalle).' '.$item['id'].'" target="_blank">'.$item['qid'].'</a>]</span>  <span style="color:red">'.LABEL_terminoExistente.'</span></label></td>';
                 $rows.=  '      <td>'.$item['description'].'</td>';
             } else {
                 $rows.=  '      <td align="center"><input type="checkbox" name="selectedTerms[]" id="tterm_'.$item['id'].'" title="'.$item['label'].'" value="'.$item['label'].'|'.$item['qid'].'" /> </td>';
 
-                $rows.=  '      <td><label class="check_label" title="'.$item['label'].'" for="tterm_'.$item['id'].'">'.$item['label'].' <span style="font-weight:normal;">[<a href="https://www.wikidata.org/wiki/'.$item['qid'].'" title="'.ucfirst(LABEL_verDetalle).' '.$item['id'].'" target="_blank">'.$item['qid'].'</a>]</span>  </label></td>';
+                $rows.=  '      <td><label class="check_label" title="'.$item['label'].'" for="tterm_'.$item['id'].'">'.$item['label'].' <span style="font-weight:normal;">[<a href="https://www.wikidata.org/wiki/'.$item['qid'].'" title="'.mb_ucfirst(LABEL_verDetalle).' '.$item['id'].'" target="_blank">'.$item['qid'].'</a>]</span>  </label></td>';
                 $rows.=  '      <td>'.$item['description'].'</td>';
             }
             $rows.=  '</tr>';
@@ -462,8 +462,8 @@ function HTMLformSuggestedTermsFromWikidata($ARRAYtermino,$t_relation,$p_relatio
 
         $rows.='    <div class="row mb-3">
                 <div class="col-md-12 text-center">
-                <button type="submit" class="btn btn-primary" value="'.LABEL_Enviar.'"/>'.ucfirst(LABEL_Enviar).'</button>
-                 <button type="button" class="btn btn-secondary" name="cancelar" onClick="location.href=\'index.php?tema='.$ARRAYtermino["idTema"].'\'">'.ucfirst(LABEL_Cancelar).'</button>
+                <button type="submit" class="btn btn-primary" value="'.LABEL_Enviar.'"/>'.mb_ucfirst(LABEL_Enviar).'</button>
+                 <button type="button" class="btn btn-secondary" name="cancelar" onClick="location.href=\'index.php?tema='.$ARRAYtermino["idTema"].'\'">'.mb_ucfirst(LABEL_Cancelar).'</button>
                 </div>
         </div>
     </div>
@@ -534,7 +534,7 @@ foreach ($wikidata_terms as $item) {
 $selected_q=XSSprevent($selected_q);
 
 //Configurar opcion búsqueda por código
-$arrayOptions= array('3#'.ucfirst(TE_termino),'4#'.ucfirst(UP_termino),'2#'.ucfirst(TR_termino));
+$arrayOptions= array('3#'.mb_ucfirst(TE_termino),'4#'.mb_ucfirst(UP_termino),'2#'.mb_ucfirst(TR_termino));
     
 $rows='<div class="container" id="bodyText">';
 $rows.='<a class="topOfPage" href="'.URL_BASE.'index.php?tema='.$ARRAYtermino["idTema"].'" title="'.LABEL_Anterior.'">'.LABEL_Anterior.'</a>';
@@ -545,15 +545,15 @@ $rows.='<h3>'.HTMLlinkTerm(array("tema_id"=>$ARRAYtermino["idTema"],"tema"=>$ARR
     $rows.='<form class="" role="form" name="alta_tt" id="alta_tt" action="index.php#suggestResult" method="get">';
     $rows.='    <div class="row">
     <div class="col-md-12">
-        <legend>'.ucfirst(LABEL__getForRecomendationWiki).'</legend>
+        <legend>'.mb_ucfirst(LABEL__getForRecomendationWiki).'</legend>
     </div>
     <!-- panel  -->
     <div class="col-xl-7">
-        <h4>'.ucfirst(LABEL__wikiSearch).'</h4>
+        <h4>'.mb_ucfirst(LABEL__wikiSearch).'</h4>
         <div class="card">
             <div class="card-body">
                             <div class="row mb-3">
-                            <label for="tvocab_id" class="col-md-3 col-form-label">'.ucfirst(LABEL__wikiEntity).'</label>
+                            <label for="tvocab_id" class="col-md-3 col-form-label">'.mb_ucfirst(LABEL__wikiEntity).'</label>
                                     <div class="col-md-9">
                                             <select class="form-select" id="q_id" name="q_id">
                                             '.doSelectForm($array_qIds, $selected_q).'
@@ -561,7 +561,7 @@ $rows.='<h3>'.HTMLlinkTerm(array("tema_id"=>$ARRAYtermino["idTema"],"tema"=>$ARR
                                     </div>
                             </div>
                             <div class="row mb-3">
-                            <label for="t_relation" class="col-md-3 col-form-label">'.ucfirst(LABEL_relationSubType).'</label>
+                            <label for="t_relation" class="col-md-3 col-form-label">'.mb_ucfirst(LABEL_relationSubType).'</label>
                                     <div class="col-md-9">
                                             <select class="form-select" id="t_relation" name="t_relation">
                                             '.doSelectForm($arrayOptions, $t_relation).'
@@ -570,8 +570,8 @@ $rows.='<h3>'.HTMLlinkTerm(array("tema_id"=>$ARRAYtermino["idTema"],"tema"=>$ARR
                             </div>
                 <div class="row mb-3">
                     <div class="col-md-12 text-end">
-                                             <button type="submit" class="btn btn-primary" value="'.LABEL_Buscar.'"/>'.ucfirst(LABEL_Buscar).'</button>
-                                              <button type="button" class="btn btn-secondary" name="cancelar" onClick="location.href=\'index.php?tema='.$ARRAYtermino["idTema"].'\'">'.ucfirst(LABEL_Cancelar).'</button>
+                                             <button type="submit" class="btn btn-primary" value="'.LABEL_Buscar.'"/>'.mb_ucfirst(LABEL_Buscar).'</button>
+                                              <button type="button" class="btn btn-secondary" name="cancelar" onClick="location.href=\'index.php?tema='.$ARRAYtermino["idTema"].'\'">'.mb_ucfirst(LABEL_Cancelar).'</button>
 
                     </div>
                 </div>
