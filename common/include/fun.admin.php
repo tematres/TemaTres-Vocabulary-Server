@@ -1513,7 +1513,7 @@ if ($_SESSION[$_SESSION["CFGURL"]]["ssuser_nivel"]=='1') {
         }
 
         if (!$ctrl32["value_id"]) {
-          $value_code=($_POST["COPY_CLICK"]=='00') ? '0' : '1';
+          $value_code=($_POST["COPY_CLICK"]=='00') ? '0' : (($_POST["COPY_CLICK"]=='2') ? '2' : '1');
           $sql32=SQL(
             "insert",
             "into `".$DBCFG["DBprefix"]."values` (`value_type`, `value`, `value_order`, `value_code`) VALUES

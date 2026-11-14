@@ -1108,6 +1108,11 @@ function loadConfigValues($renew = "0")
         $array["value_code"] = (!$array["value_code"]) ? $arrayCFGs[$array["value"]] : $array["value_code"] ;
         break;
 
+        case 'COPY_CLICK':
+        // 0 = off, 1 = on every term (default), 2 = only in the heading of the term page
+        $array["value_code"] = (in_array($array["value_code"], array(0,1,2))) ? $array["value_code"] : $arrayCFGs[$array["value"]];
+        break;
+
         default:
         $array["value_code"] = (in_array($array["value_code"], array(1,0))) ? $array["value_code"] : $arrayCFGs[$array["value"]];
         }

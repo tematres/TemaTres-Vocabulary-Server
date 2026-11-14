@@ -594,3 +594,5 @@ define('LABEL__example', 'ejemplo');
  define('LABEL__STATUS_VOCAB_50','Publicado - Estable');
  #3.6.3
  define('LABEL_toggleNavigation','Alternar navegación');
+ define('LABEL_COPY_CLICK_EVERYWHERE','En todos los términos');
+ define('LABEL_COPY_CLICK_HEADING','Sólo en el encabezado del término');
