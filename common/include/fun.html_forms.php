@@ -208,20 +208,6 @@ function HTMLformAssociateExistTerms($taskterm, $ARRAYtermino, $term_id = "0")
         $rows_busca.='</form>';
     }//if cant
     $rows_busca.='</div>';
-    $rows_busca.='<script type="text/javascript">
-        $(document).ready(function(){
-            //Checkbox
-            $("input[name=checktodos]").change(function(){
-                $("input[type=checkbox]").each( function() {
-                    if($("input[name=checktodos]:checked").length == 1){
-                        this.checked = true;
-                    } else {
-                        this.checked = false;
-                    }
-                });
-            });
-        });
-        </script>';
 
     $rows.='<div class="container" id="bodyText">
     <a class="topOfPage" href="'.URL_BASE.'index.php?tema='.$ARRAYtermino["idTema"].'" title="'.LABEL_Anterior.' ('.$ARRAYtermino["tema"].')">'.LABEL_Anterior.'</a>
