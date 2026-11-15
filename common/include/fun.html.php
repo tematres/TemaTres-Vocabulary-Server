@@ -671,7 +671,7 @@ function HTMLNotasTermino($array, $editFlag = 0)
             $body_note[$tipoNota]["content"].='<div class="card-footer"">' ;
             $body_note[$tipoNota]["content"].=' '.$array["notas"][$iNota]["cuando_nota"].' <a class="right_separator" href="'.URL_BASE.'sobre.php?user_id='.$array["notas"][$iNota]["user_id"].'#termaudit" title="'.LABEL_DatosUser.'">'.$array["notas"][$iNota]["user"].'</a>' ;
             $body_note[$tipoNota]["content"].=' <span class="right_separator"><a role="button" class="btn btn-primary btn-xs" href="'.URL_BASE.'index.php?editNota='.$array["notas"][$iNota]["id"].'&amp;taskterm=editNote&amp;tema='.$array["idTema"].'">'.mb_ucfirst(LABEL_EditarNota).'</a>' ;
-            $body_note[$tipoNota]["content"].=' <a role="button" class="btn btn-danger btn-xs" href="'.URL_BASE.'index.php?tema='.$array["idTema"].'&amp;idTema='.$array["idTema"].'&amp;idNota='.$array["notas"][$iNota]["id"].'&amp;taskNota=rem" name="eliminarNota" title="'.LABEL_EliminarNota.'"/>'.mb_ucfirst(LABEL_EliminarNota).'</a></span>' ;
+            $body_note[$tipoNota]["content"].=' <a role="button" class="btn btn-danger btn-xs" href="'.URL_BASE.'index.php?tema='.$array["idTema"].'&amp;idTema='.$array["idTema"].'&amp;idNota='.$array["notas"][$iNota]["id"].'&amp;taskNota=rem" name="eliminarNota" title="'.LABEL_EliminarNota.'" onclick="return confirm('.htmlspecialchars(json_encode(mb_ucfirst(LABEL_EliminarNota).'?'), ENT_QUOTES).')"/>'.mb_ucfirst(LABEL_EliminarNota).'</a></span>' ;
 
             $body_note[$tipoNota]["content"].='</div>' ;
         }
