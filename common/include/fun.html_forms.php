@@ -1797,7 +1797,7 @@ function HTMLformImport()
                                                                             class="form-control"
                                                                             type="file"
                                                                             id="file"
-                                                                            name="file">
+                                                                            name="file" required>
                                                                             <div class="form-text with-errors"></div>
                                                                     </div>
                                     </div>';
