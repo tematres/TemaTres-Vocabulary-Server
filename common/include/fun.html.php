@@ -2077,7 +2077,14 @@ function HTMLjsInclude()
 		<script type="text/javascript" src="'.T3_WEBPATH.'jq/tagcloud.js"></script>' ;
 
     if (strtolower(substr($_SESSION[$_SESSION["CFGURL"]]["lang"][2], 0,2))!=='en') {
-        $rows.='<script src="'.T3_WEBPATH.'forms/localization/messages_'.$_SESSION[$_SESSION["CFGURL"]]["lang"][2].'.js" type="text/javascript"></script>' ;
+        // the messages file of the language as it exists: messages_xx-YY.js, messages_xx_YY.js or messages_xx.js (none for some, e.g. gl)
+        $lang_code=$_SESSION[$_SESSION["CFGURL"]]["lang"][2];
+        foreach (array($lang_code, str_replace('-', '_', $lang_code), substr($lang_code, 0, 2)) as $messages_code) {
+            if (is_file(T3_ABSPATH.'common/forms/localization/messages_'.$messages_code.'.js')) {
+                $rows.='<script src="'.T3_WEBPATH.'forms/localization/messages_'.$messages_code.'.js" type="text/javascript"></script>' ;
+                break;
+            }
+        }
     }
 
     $rows.='<script type="text/javascript">
