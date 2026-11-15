@@ -180,7 +180,7 @@ function HTMLformAssociateExistTerms($taskterm, $ARRAYtermino, $term_id = "0")
             if ($resulta_busca["tema_id"]!==$ARRAYtermino["idTema"]) {
                 if ($taskterm=='addBT') {
                     $rows_busca.= '<tr>';
-                    $rows_busca.=  '     <td align="center"><input type="radio" name="rema_id" id="rema_'.$resulta_busca["tema_id"].'" title="'.$resulta_busca["tema"].'" value="'.$resulta_busca["tema_id"].'" /> </td>';
+                    $rows_busca.=  '     <td align="center"><input type="radio" name="rema_id" id="rema_'.$resulta_busca["tema_id"].'" title="'.$resulta_busca["tema"].'" value="'.$resulta_busca["tema_id"].'" required /> </td>';
                     $rows_busca.=  '     <td><label  for="rema_'.$resulta_busca["tema_id"].'" '.$css_class_MT.'> '.$resulta_busca["tema"].'</label> '.$alert_MT.' </td>';
                     $rows_busca.=  '      <td>'.$resulta_busca["cuando"].'</td>';
                     $rows_busca.=  '  </tr>';

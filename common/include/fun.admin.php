@@ -335,7 +335,7 @@ if($user_nivel_id==3){//is colab
     break;
 
     case 'addRT':
-    for ($i=0; $i<sizeof($_GET["rema_id"]); ++$i) {
+    for ($i=0; $i<(is_array($_GET["rema_id"]) ? sizeof($_GET["rema_id"]) : 0); ++$i) {
       $new_relacion=do_terminos_relacionados($_GET["rema_id"][$i], $_GET["tema"]);
     }
     $tema=$_GET["tema"];
@@ -354,7 +354,7 @@ if($user_nivel_id==3){//is colab
     break;
 
     case 'addFreeUF':
-    for ($i=0; $i<sizeof($_GET["rema_id"]); ++$i) {
+    for ($i=0; $i<(is_array($_GET["rema_id"]) ? sizeof($_GET["rema_id"]) : 0); ++$i) {
       $new_relacion=do_r($_GET["rema_id"][$i], $_GET["tema"], "4");
       //DATESTAMP change term for the non-prefered term.
       updateTermDate($_GET["rema_id"][$i]);
@@ -370,7 +370,7 @@ if($user_nivel_id==3){//is colab
     break;
 
     case 'addFreeNT':
-    for ($i=0; $i<sizeof($_GET["rema_id"]); ++$i) {
+    for ($i=0; $i<(is_array($_GET["rema_id"]) ? sizeof($_GET["rema_id"]) : 0); ++$i) {
       $new_relacion=do_r($_GET["tema"], $_GET["rema_id"][$i], "3");
     }
     $tema=$_GET["tema"];
