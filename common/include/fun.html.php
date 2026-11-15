@@ -630,10 +630,10 @@ function HTMLmainMenu()
 
         $row.='<ul class="dropdown-menu">' ;
         $row.='<li><a class="dropdown-item" role="button" title="'.mb_ucfirst(MENU_AgregarT).'" href="index.php?taskterm=addTerm&amp;tema=0">'.mb_ucfirst(MENU_AgregarT).'</a></li>' ;
-        $row.='<li><a class="dropdown-item" role="button" title="'.mb_ucfirst(MENU_AgregarT).'" href="index.php?taskterm=addTermSuggested" title="'.mb_ucfirst(LABEL__getForRecomendation).'">'.mb_ucfirst(LABEL__getForRecomendation).'</a></li>' ;
-        $row.='<li><a class="dropdown-item" role="button" title="'.mb_ucfirst(MENU_AgregarT).'" href="index.php?taskterm=getWikidataTerm" title="'.mb_ucfirst('LABEL__getForWikidataTerms').'">'.mb_ucfirst(LABEL__getForWikidataTerms).'</a></li>' ;
+        $row.='<li><a class="dropdown-item" role="button" href="index.php?taskterm=addTermSuggested" title="'.mb_ucfirst(LABEL__getForRecomendation).'">'.mb_ucfirst(LABEL__getForRecomendation).'</a></li>' ;
+        $row.='<li><a class="dropdown-item" role="button" href="index.php?taskterm=getWikidataTerm" title="'.mb_ucfirst(LABEL__getForWikidataTerms).'">'.mb_ucfirst(LABEL__getForWikidataTerms).'</a></li>' ;
         $row.='<li><hr class="dropdown-divider"></li>' ;        
-        $row.='<li><a class="dropdown-item" role="button" title="'.mb_ucfirst(MENU_AgregarT).'" href="index.php?taskterm=findTermNews" title="'.mb_ucfirst(LABEL__getForTargetVocabularyNews).'">'.mb_ucfirst(LABEL__getForTargetVocabularyNews).'</a></li>' ;
+        $row.='<li><a class="dropdown-item" role="button" href="index.php?taskterm=findTermNews" title="'.mb_ucfirst(LABEL__getForTargetVocabularyNews).'">'.mb_ucfirst(LABEL__getForTargetVocabularyNews).'</a></li>' ;
         $row.='  </ul>' ;
         $row.='</li>' ;
     }

@@ -2001,7 +2001,7 @@ function HTMLformLogin($task_result)
     $rows.='<div class="row mb-3"><label for="id_password" class="visually-hidden" accesskey="p">'.mb_ucfirst(LABEL_pass).'</label>';
     $rows.='<input type="password" name="id_password" class="form-control" placeholder="'.mb_ucfirst(LABEL_pass).'" required id="id_password" size="11"/>';
     $rows.='	</div>';
-    $rows.='<div class="offset-xl-2 col-xl-10 style="margin-left:15em" align="center">';
+    $rows.='<div class="row">';
     $rows.='<input type="hidden"  name="task" value="login" />';
     $rows.='<button class="btn btn-lg btn-primary w-100" type="submit">'.LABEL_Enviar.'</button>';
     $rows.='</div>';

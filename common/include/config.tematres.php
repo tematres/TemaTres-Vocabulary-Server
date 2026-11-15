@@ -153,7 +153,7 @@ $idiomas_disponibles = array(
      "en-US"  => array("english (US)", "en-US-$CFG[_CHAR_ENCODE].inc.php", "en-US","en-EU-$CFG[_CHAR_ENCODE]"),
      "en-GB"  => array("english (GB)", "en-GB-$CFG[_CHAR_ENCODE].inc.php", "en-GB","en-GB-$CFG[_CHAR_ENCODE]"),
      "es-ES"  => array("español", "es-ES-$CFG[_CHAR_ENCODE].inc.php", "es-ES","es-$CFG[_CHAR_ENCODE]"),
-     "eu-ES"  => array("euskeda", "eu-ES-$CFG[_CHAR_ENCODE].inc.php", "eu-EU","eu-$CFG[_CHAR_ENCODE]"),
+     "eu-ES"  => array("euskara", "eu-ES-$CFG[_CHAR_ENCODE].inc.php", "eu-ES","eu-$CFG[_CHAR_ENCODE]"),
      "fr-FR"  => array("français","fr-FR-$CFG[_CHAR_ENCODE].inc.php", "fr-FR","fr-$CFG[_CHAR_ENCODE]"),
      "gl-ES"  => array("galego","gl-ES-$CFG[_CHAR_ENCODE].inc.php", "gl-ES","gl-$CFG[_CHAR_ENCODE]"),
      "it-IT"  => array("italiano","it-IT-$CFG[_CHAR_ENCODE].inc.php", "it-IT","it-$CFG[_CHAR_ENCODE]"),
@@ -163,7 +163,7 @@ $idiomas_disponibles = array(
      "pl-PL"  => array("polski","pl-PL-$CFG[_CHAR_ENCODE].inc.php", "pl-PL","pl-$CFG[_CHAR_ENCODE]"),
      "pt-BR"  => array("português (Brasil)","pt-BR-$CFG[_CHAR_ENCODE].inc.php", "pt-BR","ptBR-$CFG[_CHAR_ENCODE]"),
      "pt-PT"  => array("português (Portugal)","pt-PT-$CFG[_CHAR_ENCODE].inc.php", "pt-PT","ptPT-$CFG[_CHAR_ENCODE]"),
-     "ru-RU"  => array("Pусский","ru-RU-$CFG[_CHAR_ENCODE].inc.php", "ru-RU","ru-$CFG[_CHAR_ENCODE]")
+     "ru-RU"  => array("Русский","ru-RU-$CFG[_CHAR_ENCODE].inc.php", "ru-RU","ru-$CFG[_CHAR_ENCODE]")
     );
 
 // Constantes
