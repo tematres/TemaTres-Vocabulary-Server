@@ -1742,6 +1742,15 @@ function HTMLformConfigValues($array_vocabulario)
                 $rows.=' </div>';
                 $rows.='</div><hr/>';
                 break;
+            case 'SHOW_REL_ACRONYMS':
+                $rows.='<div class="row mb-3">';
+                $rows.='<label class="col-md-6 col-form-label" for="'.$key.'">'.mb_ucfirst(LABEL_SHOW_REL_ACRONYMS).'</label>';
+                $rows.='<div class="col-md-5">     <select id="'.$key.'" name="'.$key.'">';
+                $rows.=    doSelectForm(array('1#'.LABEL_SI,'00#'.LABEL_NO), $NEWarrayCFGs[$key]);
+                $rows.='</select>';
+                $rows.=' </div>';
+                $rows.='</div><hr/>';
+                break;
             case 'CFG_STATUS_VOCAB':
                 // set with the vocabulary status field above (vocab_status), not a YES/NO option
                 break;
