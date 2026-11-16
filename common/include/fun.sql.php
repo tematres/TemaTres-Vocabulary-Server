@@ -853,6 +853,7 @@ function ARRAYverDatosTermino($tema_id)
   /*
   Buscador de términos aceptados UF,TR y TG directo de tema_id == retrive accepted UF,TR and direct TG for tema_id
   * Changelog v 1.1: no traé a los tema_id que están a la derecha de tabla_rel
+  * Changlog v 4.0: se excluyen los NT
   */
   function SQLterminosDirectos($tema_id)
   {
@@ -874,11 +875,10 @@ function ARRAYverDatosTermino($tema_id)
       left join $DBCFG[DBprefix]tema t2 on t2.tema_id=rel.id_mayor
       where
       rel.t_relacion in(2,3,4)
-      and '$tema_id' in (rel.id_mayor,rel.id_menor)
-      and rel.t_relacion in(2,3,4)
+      and '$tema_id' = rel.id_menor
       and t1.estado_id='13'
       and t2.estado_id='13'
-      group by t1.tema_id,t2.tema_id
+      group by tema_id
       order by rel.t_relacion,lower(t1.tema)"
     );
   };
@@ -3452,9 +3452,9 @@ function SQLtargetVocabulary($tvocab_status = "1", $tvocab_id = "0")
 
   $tvocab_id=secure_data($tvocab_id, "int");
 
-  $tvocab_status=(in_array($tvocab_status, array(1,0))) ? $tvocab_status : 1;
+  $tvocab_status=(in_array($tvocab_status, array(1,0))) ? $tvocab_status : 0;
 
-  $where= ($tvocab_status=='1') ? " where tv.tvocab_status='1' " : " where tv.tvocab_status is not null";
+  $where= ($tvocab_status==1) ? " where tv.tvocab_status=1 " : " where tv.tvocab_status is not null";
 
   $where.= ($tvocab_id>0) ? " and tv.tvocab_id='$tvocab_id' " : "";
 

@@ -56,11 +56,17 @@ if (($_POST["task_config"] == 'configvocab') && ($_POST["vocabulario_id"] == 'NE
 }
 
 if (($_POST["doAdmin"] == 'addTargetVocabulary')) {
-    abm_targetVocabulary("A");
+    $targetVocabularyResult = abm_targetVocabulary("A");
+    if (isset($targetVocabularyResult["error"])) {
+        $targetVocabularyError = $targetVocabularyResult["error"];
+    }
 }
 
 if (($_POST["doAdmin"] == 'saveTargetVocabulary')) {
-    abm_targetVocabulary("M", $_POST["tvocab_id"]);
+    $targetVocabularyResult = abm_targetVocabulary("M", $_POST["tvocab_id"]);
+    if (isset($targetVocabularyResult["error"])) {
+        $targetVocabularyError = $targetVocabularyResult["error"];
+    }
 }
 
 if (($_POST["doAdmin"] == 'saveSourceNote')) {
@@ -100,6 +106,10 @@ if (($_POST["doAdmin"] == 'updateEndpointNow')) {
     <div class="container">
 
 <?php
+if (isset($targetVocabularyError)) {
+    echo '<p class="alert alert-danger" role="alert">'.htmlspecialchars($targetVocabularyError, ENT_QUOTES, 'UTF-8').'</p>';
+}
+
 if (evalUserLevel($_SESSION[$_SESSION["CFGURL"]])==1) {
     if ($_GET["opTbl"] == 'TRUE') {
         echo optimizarTablas();

@@ -1586,7 +1586,14 @@ if ($_SESSION[$_SESSION["CFGURL"]]["ssuser_nivel"]=='1') {
           include_once T3_ABSPATH . 'common/include/vocabularyservices.php'    ;
           $arrayVocab["tvocab_uri_service"]=$_POST["tvocab_uri_service"];
 
-          $dataVocab=getURLdata($arrayVocab["tvocab_uri_service"].'?task=fetchVocabularyData');
+          $dataVocab=getURLdata($arrayVocab["tvocab_uri_service"].'?task=fetchVocabularyData', 0, true);
+
+          if (!is_object($dataVocab) || !isset($dataVocab->result->vocabulary_id)) {
+            return array("error"=>"El servicio de vocabulario no responde correctamente.");
+          }
+          if ($dataVocab->result->vocabulary_id=='1' && (!isset($dataVocab->result->title) || !isset($dataVocab->result->uri))) {
+            return array("error"=>"El servicio de vocabulario no responde correctamente.");
+          }
 
           /*
           Check web services
@@ -1610,7 +1617,7 @@ if ($_SESSION[$_SESSION["CFGURL"]]["ssuser_nivel"]=='1') {
 
             $tvocab_id=$sql["cant"];
           } else {
-            return false;
+            return array("error"=>"El servicio de vocabulario no responde correctamente.");
           }
 
           //prevent duplicate
@@ -1626,7 +1633,14 @@ if ($_SESSION[$_SESSION["CFGURL"]]["ssuser_nivel"]=='1') {
 
       $arrayVocab=ARRAYtargetVocabulary($tvocab_id);
 
-      $dataVocab=getURLdata($arrayVocab["tvocab_uri_service"].'?task=fetchVocabularyData');
+      $dataVocab=getURLdata($arrayVocab["tvocab_uri_service"].'?task=fetchVocabularyData', 0, true);
+
+      if (!is_object($dataVocab) || !isset($dataVocab->result->vocabulary_id)) {
+        return array("error"=>"El servicio de vocabulario no responde correctamente.");
+      }
+      if ($dataVocab->result->vocabulary_id=='1' && (!isset($dataVocab->result->title) || !isset($dataVocab->result->uri))) {
+        return array("error"=>"El servicio de vocabulario no responde correctamente.");
+      }
 
       /*
       Check web services

@@ -120,7 +120,7 @@ Hacer una consulta y devolver un objeto
 * +    & task = consulta a realizar
 * +    & arg = argumentos de la consulta
 */
-function getURLdata($url, $debug = 0)
+function getURLdata($url, $debug = 0, $returnFalseOnError = false)
 {
 
 
@@ -129,13 +129,37 @@ function getURLdata($url, $debug = 0)
         curl_setopt($rCURL, CURLOPT_URL, $url);
         curl_setopt($rCURL, CURLOPT_HEADER, 0);
         curl_setopt($rCURL, CURLOPT_RETURNTRANSFER, 1);
-        $xml = curl_exec($rCURL) or die("Could not open a feed called: " . $url);
+        $xml = curl_exec($rCURL);
+        if ($xml === false) {
+            curl_close($rCURL);
+            if ($returnFalseOnError) {
+                return false;
+            }
+            die("Could not open a feed called: " . $url);
+        }
+        $httpCode = curl_getinfo($rCURL, CURLINFO_HTTP_CODE);
         curl_close($rCURL);
+        if ($returnFalseOnError && ($httpCode < 200 || $httpCode >= 300)) {
+            return false;
+        }
     } else {
-        $xml=file_get_contents($url) or die("Could not open a feed called: " . $url);
+        $xml = $returnFalseOnError ? @file_get_contents($url) : file_get_contents($url);
+        if ($xml === false) {
+            if ($returnFalseOnError) {
+                return false;
+            }
+            die("Could not open a feed called: " . $url);
+        }
     }
 
-    $content = new SimpleXMLElement($xml);
+    if ($returnFalseOnError) {
+        $content = @simplexml_load_string($xml);
+        if ($content === false) {
+            return false;
+        }
+    } else {
+        $content = new SimpleXMLElement($xml);
+    }
 
 
 
