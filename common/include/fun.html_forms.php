@@ -180,7 +180,7 @@ function HTMLformAssociateExistTerms($taskterm, $ARRAYtermino, $term_id = "0")
             if ($resulta_busca["tema_id"]!==$ARRAYtermino["idTema"]) {
                 if ($taskterm=='addBT') {
                     $rows_busca.= '<tr>';
-                    $rows_busca.=  '     <td align="center"><input type="radio" name="rema_id" id="rema_'.$resulta_busca["tema_id"].'" title="'.$resulta_busca["tema"].'" value="'.$resulta_busca["tema_id"].'" /> </td>';
+                    $rows_busca.=  '     <td align="center"><input type="radio" name="rema_id" id="rema_'.$resulta_busca["tema_id"].'" title="'.$resulta_busca["tema"].'" value="'.$resulta_busca["tema_id"].'" required /> </td>';
                     $rows_busca.=  '     <td><label  for="rema_'.$resulta_busca["tema_id"].'" '.$css_class_MT.'> '.$resulta_busca["tema"].'</label> '.$alert_MT.' </td>';
                     $rows_busca.=  '      <td>'.$resulta_busca["cuando"].'</td>';
                     $rows_busca.=  '  </tr>';
@@ -208,20 +208,6 @@ function HTMLformAssociateExistTerms($taskterm, $ARRAYtermino, $term_id = "0")
         $rows_busca.='</form>';
     }//if cant
     $rows_busca.='</div>';
-    $rows_busca.='<script type="text/javascript">
-        $(document).ready(function(){
-            //Checkbox
-            $("input[name=checktodos]").change(function(){
-                $("input[type=checkbox]").each( function() {
-                    if($("input[name=checktodos]:checked").length == 1){
-                        this.checked = true;
-                    } else {
-                        this.checked = false;
-                    }
-                });
-            });
-        });
-        </script>';
 
     $rows.='<div class="container" id="bodyText">
     <a class="topOfPage" href="'.URL_BASE.'index.php?tema='.$ARRAYtermino["idTema"].'" title="'.LABEL_Anterior.' ('.$ARRAYtermino["tema"].')">'.LABEL_Anterior.'</a>
@@ -1797,7 +1783,7 @@ function HTMLformImport()
                                                                             class="form-control"
                                                                             type="file"
                                                                             id="file"
-                                                                            name="file">
+                                                                            name="file" required>
                                                                             <div class="form-text with-errors"></div>
                                                                     </div>
                                     </div>';

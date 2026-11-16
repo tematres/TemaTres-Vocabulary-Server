@@ -29,7 +29,7 @@ if ($editNota) {
 
         $buttons .= '<button type="submit" class="btn btn-primary" name="guardarCambioNota" value="' . LABEL_Cambiar . '">' . mb_ucfirst(LABEL_Cambiar) . '</button>';
         $buttons .= '<button type="button" class="btn btn-secondary" name="cancelar" onClick="location.href=\'index.php?tema=' . htmlspecialchars($metadata["arraydata"]["tema_id"] ?? '', ENT_QUOTES, 'UTF-8') . '\'" value="' . $cancelLabel . '">' . $cancelLabel . '</button>';
-        $buttons .= '<a href="index.php?tema=' . htmlspecialchars($metadata["arraydata"]["tema_id"] ?? '', ENT_QUOTES, 'UTF-8') . '&amp;idTema=' . htmlspecialchars($metadata["arraydata"]["tema_id"] ?? '', ENT_QUOTES, 'UTF-8') . '&amp;idNota=' . htmlspecialchars($arrayNota["idNota"], ENT_QUOTES, 'UTF-8') . '&amp;taskNota=rem" role="button" class="btn btn-danger" name="eliminarNota" title="' . LABEL_EliminarNota . '">' . mb_ucfirst(LABEL_EliminarNota) . '</a>';
+        $buttons .= '<a href="index.php?tema=' . htmlspecialchars($metadata["arraydata"]["tema_id"] ?? '', ENT_QUOTES, 'UTF-8') . '&amp;idTema=' . htmlspecialchars($metadata["arraydata"]["tema_id"] ?? '', ENT_QUOTES, 'UTF-8') . '&amp;idNota=' . htmlspecialchars($arrayNota["idNota"], ENT_QUOTES, 'UTF-8') . '&amp;taskNota=rem" role="button" class="btn btn-danger" name="eliminarNota" title="' . LABEL_EliminarNota . '" onclick="return confirm(' . htmlspecialchars(json_encode(mb_ucfirst(LABEL_EliminarNota) . '?'), ENT_QUOTES) . ')">' . mb_ucfirst(LABEL_EliminarNota) . '</a>';
     } else {
         // Modo alta
         $hidden .= '<input type="hidden" name="taskNota" value="alta" />';
