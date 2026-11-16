@@ -284,7 +284,7 @@ function HTMLformEditTerms($taskterm, $ARRAYtermino = array())
             $hidden.='<div><input type="checkbox" name="isMetaTerm" id="isMetaTerm" value="1" alt="'.mb_ucfirst(LABEL_meta_term).'" /> <label for="isMetaTerm" accesskey="e">'.mb_ucfirst(LABEL_meta_term).'</label>
             <div class="alert alert-info" role="alert">'.NOTE_isMetaTermNote.'</div>
             </div>';
-            $help_rows='<p class="text-primary">'.HELP_variosTerminos.'</p>';
+            $help_rows='<div id="addTermsHelp" class="form-text">'.HELP_variosTerminos.'</div>';
 
             break;
         case 'editTerm'://Edici�n de un t�rmino $edit_id
@@ -296,7 +296,7 @@ function HTMLformEditTerms($taskterm, $ARRAYtermino = array())
         case 'addNT':// add narowwer term
             $nombre_pantalla=LABEL_AgregarTE.HTMLlinkTerm(array("tema_id"=>$ARRAYtermino["idTema"],"tema"=>$ARRAYtermino["titTema"]));
             $hidden.='<input type="hidden"  name="id_termino_sub" value="'.$ARRAYtermino["idTema"].'" />';
-            $help_rows='<p class="text-primary">'.HELP_variosTerminos.'</p>';
+            $help_rows='<div id="addTermsHelp" class="form-text">'.HELP_variosTerminos.'</div>';
             $extra_button["term"]='<a class="btn btn-sm btn-outline-primary" role="button" href="'.URL_BASE.'index.php?taskterm=addFreeNT&amp;tema='.$ARRAYtermino["idTema"].'" title="'.mb_ucfirst(MENU_selectExistTerm).'">'.mb_ucfirst(MENU_selectExistTerm).'</a>';
             $extra_button["tterm"]=' <a class="btn btn-sm btn-outline-secondary" role="button" href="'.URL_BASE.'index.php?taskterm=findSuggestionTargetTerm&amp;tema='.$ARRAYtermino["idTema"].'&amp;t_relation=3" title="'.mb_ucfirst(LABEL__getForRecomendation).'">'.mb_ucfirst(LABEL__getForRecomendation).'</a>';
             $t_relation='3';
@@ -304,7 +304,7 @@ function HTMLformEditTerms($taskterm, $ARRAYtermino = array())
         case 'addUF'://Alta de un t�rmino no preferido a $id_uf
             $nombre_pantalla=LABEL_AgregarUP.HTMLlinkTerm(array("tema_id"=>$ARRAYtermino["idTema"],"tema"=>$ARRAYtermino["titTema"]));
             $hidden='<input type="hidden"  name="id_termino_uf" value="'.$ARRAYtermino["idTema"].'" />';
-            $help_rows='<p class="text-primary">'.HELP_variosTerminos.'</p>';
+            $help_rows='<div id="addTermsHelp" class="form-text">'.HELP_variosTerminos.'</div>';
 
             $extra_button["term"]='  <a class="btn btn-sm btn-outline-primary" href="'.URL_BASE.'index.php?taskterm=addFreeUF&amp;tema='.$ARRAYtermino["idTema"].'" title="'.mb_ucfirst(MENU_AgregarUPexist).'">'.mb_ucfirst(MENU_AgregarUPexist).'</a>';
             $extra_button["tterm"]=' <a class="btn btn-sm btn-outline-secondary" role="button" href="'.URL_BASE.'index.php?taskterm=findSuggestionTargetTerm&amp;tema='.$ARRAYtermino["idTema"].'&amp;t_relation=4" title="'.mb_ucfirst(LABEL__getForRecomendation).'">'.mb_ucfirst(LABEL__getForRecomendation).'</a>';
@@ -313,7 +313,7 @@ function HTMLformEditTerms($taskterm, $ARRAYtermino = array())
         case 'addRTnw'://Alta de un término RT
             $nombre_pantalla=LABEL_AgregarTR.HTMLlinkTerm(array("tema_id"=>$ARRAYtermino["idTema"],"tema"=>$ARRAYtermino["titTema"]));
             $hidden='<input type="hidden"  name="id_termino_rt" value="'.$ARRAYtermino["idTema"].'" />';
-            $help_rows='<p class="text-primary">'.HELP_variosTerminos.'</p>';
+            $help_rows='<div id="addTermsHelp" class="form-text">'.HELP_variosTerminos.'</div>';
             $extra_button["term"]='<a class="btn btn-sm btn-outline-primary" role="button" href="'.URL_BASE.'index.php?taskterm=addRT&amp;tema='.$ARRAYtermino["idTema"].'" title="'.mb_ucfirst(MENU_selectExistTerm).'">'.mb_ucfirst(MENU_selectExistTerm).'</a>';
             $extra_button["tterm"]=' <a class="btn btn-sm btn-outline-secondary" role="button" href="'.URL_BASE.'index.php?taskterm=findSuggestionTargetTerm&amp;tema='.$ARRAYtermino["idTema"].'&amp;t_relation=2" title="'.mb_ucfirst(LABEL__getForRecomendation).'">'.mb_ucfirst(LABEL__getForRecomendation).'</a>';
             $t_relation='2';
