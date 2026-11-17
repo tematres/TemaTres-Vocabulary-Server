@@ -458,12 +458,15 @@ function is_alpha_numeric($inStr)
 
 
 // XML Entity Mandatory Escape Characters or CDATA
-function xmlentities($string, $pcdata = false)
+function xmlentities($string, $pcdata = false, $decode = true)
 {
     if ($pcdata == true) {
         return  '<![CDATA[ '.str_replace(array ('[[',']]' ), array ('',''), (string)$string).' ]]>';
     } else {
-        return str_replace(array ( '&', '"', "'", '<', '>','[[',']]' ), array ( '&amp;' , '&quot;', '&apos;' , '&lt;' , '&gt;','',''), (string)$string);
+        // Text is stored HTML-encoded (R&amp;D): decode it once, so that it is encoded only once for XML.
+        // $decode=false keeps stored HTML (notes) as its source.
+        $string = ($decode) ? html_entity_decode((string)$string, ENT_QUOTES | ENT_HTML5, 'UTF-8') : (string)$string;
+        return str_replace(array ( '&', '"', "'", '<', '>','[[',']]' ), array ( '&amp;' , '&quot;', '&apos;' , '&lt;' , '&gt;','',''), $string);
     }
 }
 
