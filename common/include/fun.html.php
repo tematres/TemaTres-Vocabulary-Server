@@ -1693,11 +1693,9 @@ function getData4jtree($term_id = 0)
         //is top terms
         $load_on_demand=(@$term_id=='TT') ? true : $load_on_demand;
 
-
-        if ((evalUserLevel($_SESSION[$_SESSION["CFGURL"]])>0) && ($CFG["_USE_CODE"]=='1')) {
-            $pre_link=' '.$array["code"].' ' ;
-        } elseif ($CFG["_SHOW_CODE"]=='1') {
-            $pre_link=' '.$array["code"].' ' ;
+        if (((evalUserLevel($_SESSION[$_SESSION["CFGURL"]])>0) && ($CFG["_USE_CODE"]=='1')) || ($CFG["_SHOW_CODE"]=='1')) {
+            $safeCode = htmlspecialchars(html_entity_decode((string) $array["code"], ENT_QUOTES | ENT_HTML5, "UTF-8"), ENT_QUOTES | ENT_SUBSTITUTE, "UTF-8");
+            $pre_link=' '.$safeCode.' ' ;
         } else {
             $pre_link='	' ;
         }
@@ -1858,19 +1856,27 @@ function HTMLlinkTerm($arrayTerm, $arg = array())
 
     $class.=(array2value("isMetaTerm",$arrayTerm)==1) ? ' metaTerm' : '' ;
 
+    $term = html_entity_decode((string) $arrayTerm["tema"], ENT_QUOTES | ENT_HTML5, "UTF-8");
+    $termHtml = htmlspecialchars($term, ENT_QUOTES | ENT_SUBSTITUTE, "UTF-8");
+    $safeClass = htmlspecialchars(trim($class), ENT_QUOTES | ENT_SUBSTITUTE, "UTF-8");
+    $termId = (int) $arrayTerm["tema_id"];
 
     $url_parts=parse_url($_SESSION["CFGURL"]) ;
+    $baseURL = $url_parts['scheme'] . '://' . $url_parts['host']
+        . (isset($url_parts['port']) ? ':' . $url_parts['port'] : '')
+        . ($url_parts['path'] ?? '');
 
     $arg["modal"]=array2value("modal", $arg) ;
     //if is modal link
     if ($arg["modal"]==1) {
-        return '<a href="'.$url_parts['scheme'] . '://' . $url_parts['host'] . ':' . @$url_parts['port'] . @$url_parts['path'].'modal.php?tema='.$arrayTerm["tema_id"].'" class="modalTrigger '.$class.'">'.$arrayTerm["tema"].'</a>' ;
+        $href = $baseURL.'modal.php?tema='.$termId;
+        return '<a href="'.htmlspecialchars($href, ENT_QUOTES | ENT_SUBSTITUTE, "UTF-8").'" class="modalTrigger '.$safeClass.'">'.$termHtml.'</a>' ;
     }
 
-    $urlTerm=$url_parts['scheme'] . '://' . $url_parts['host'] . ':' . @$url_parts['port'] . $url_parts['path'].'index.php?tema='.$arrayTerm["tema_id"].'&amp;/'.string2url($arrayTerm["tema"]);
+    $urlTerm=$baseURL.'index.php?tema='.$termId.'&/'.string2url($term);
 
 
-    return '<a class="'.$class.'" href="'.$urlTerm.'" title="'.LABEL_verDetalle.$arrayTerm["tema"].'" lang="'.@$arrayTerm["lang"].'">'.$arrayTerm["tema"].'</a>' ;
+    return '<a class="'.$safeClass.'" href="'.htmlspecialchars($urlTerm, ENT_QUOTES | ENT_SUBSTITUTE, "UTF-8").'" title="'.htmlspecialchars(LABEL_verDetalle.$term, ENT_QUOTES | ENT_SUBSTITUTE, "UTF-8").'" lang="'.htmlspecialchars((string) ($arrayTerm["lang"] ?? ''), ENT_QUOTES | ENT_SUBSTITUTE, "UTF-8").'">'.$termHtml.'</a>' ;
 }
 
 

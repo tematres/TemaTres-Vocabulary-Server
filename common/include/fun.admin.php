@@ -585,8 +585,9 @@ function addLocalTargetTerms($tvocab_id, $data = array())
     };
     //add equivalences
     for ($i=0; $i<sizeof($data["term_id"]); ++$i) {
-      if (strlen((string) $data["tterm_string"][$i])>1) {
-        $tterm_id=addTerm($data["tterm_string"][$i], $ARRAYvocabulario["vocabulario_id"], '13');
+      $tterm_string = XSSprevent(trim((string) $data["tterm_string"][$i]));
+      if (strlen((string) $tterm_string)>1) {
+        $tterm_id=addTerm($tterm_string, $ARRAYvocabulario["vocabulario_id"], '13');
         $tterm_rel=do_r($tterm_id, $data["term_id"][$i], $data["tipo_equivalencia"][$i], "");
       }
     }
