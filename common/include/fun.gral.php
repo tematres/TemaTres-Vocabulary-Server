@@ -1723,6 +1723,15 @@ function URIterm2array($URI_term)
 
 function check2Date($stringDate, $char = "-")
 {
+    if (!is_string($stringDate) && !is_numeric($stringDate)) {
+        return false;
+    }
+
+    $stringDate = XSSprevent((string) $stringDate);
+    if (!is_string($stringDate) || !preg_match('/^\d{4}-\d{2}-\d{2}$/D', $stringDate)) {
+        return false;
+    }
+
     $arrayDate  = explode('-', $stringDate);
     if (count($arrayDate)!==3) {
         return false;
