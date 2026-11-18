@@ -133,7 +133,7 @@ $CFG["USE_CDN"]=0;
 $CFG["PUBLISH_GLOBAL_SUMMARY"]=0;
 
 //Publish in open web XML metadata of each term. Enabled schemas : 'bs8723','dc','vdex','mads','skos','ttl','xtm','zthes','tbx','json','jsonld' 
-$CFG["ENABLES_XML_METADATA"]=array('bs8723','dc','vdex','mads','skos','ttl','xtm','zthes','tbx','son','jsonld');
+$CFG["ENABLES_XML_METADATA"]=array('bs8723','dc','vdex','mads','skos','ttl','xtm','zthes','tbx','json','jsonld');
 
 
 /* Config here to publish image and fixed link in header:
