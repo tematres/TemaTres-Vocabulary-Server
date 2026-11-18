@@ -1766,9 +1766,9 @@ function do_jsonld($tema_id)
         if ($datosTerminosRelacionados["t_relacion"]=='4') {// UF
             //HiddenLabel
             if (in_array($datosTerminosRelacionados["rr_code"], $CFG["HIDDEN_EQ"])) {
-                array_push($ARRAYjson_relations["skos:hiddenLabel"], array("language"=>$_SESSION["CFGIdioma"],"value"=>html_entity_decode($datosTerminosRelacionados["tema"], ENT_QUOTES | ENT_HTML5, 'UTF-8')));
+                array_push($ARRAYjson_relations["skos:hiddenLabel"], array("@language"=>$_SESSION["CFGIdioma"],"@value"=>html_entity_decode($datosTerminosRelacionados["tema"], ENT_QUOTES | ENT_HTML5, 'UTF-8')));
             } else {
-                array_push($ARRAYjson_relations["skos:altLabel"], array("language"=>$_SESSION["CFGIdioma"],"value"=>html_entity_decode($datosTerminosRelacionados["tema"], ENT_QUOTES | ENT_HTML5, 'UTF-8')));
+                array_push($ARRAYjson_relations["skos:altLabel"], array("@language"=>$_SESSION["CFGIdioma"],"@value"=>html_entity_decode($datosTerminosRelacionados["tema"], ENT_QUOTES | ENT_HTML5, 'UTF-8')));
             }
         };
     };
