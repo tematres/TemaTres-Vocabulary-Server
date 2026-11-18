@@ -33,7 +33,7 @@ function Do_Dspace_node($tema_id)
     while ($array=$sql->FetchRow()) {
         $sqlNotes=SQLdatosTerminoNotas($array["id_tema"],array("NA"));
         while ($arrayNotes=$sqlNotes->FetchRow()) {
-            $noteNote.='<hasNote>'.xmlentities($arrayNotes["nota"]).'</hasNote>';
+            $noteNote.='<hasNote>'.xmlentities($arrayNotes["nota"], false, false).'</hasNote>';
         }
 
         if ($array["id_te"]) {
@@ -847,7 +847,7 @@ function do_nodo_mads($idTema)
 
     for ($iNota=0; $iNota<(count($datosTermino["notas"])); ++$iNota) {
         if ($datosTermino["notas"][$iNota]["id"]) {
-            $note_content=xmlentities($datosTermino["notas"][$iNota]["nota"].' '.TXTsource4note($datosTermino["notas"][$iNota]["id"]));
+            $note_content=xmlentities($datosTermino["notas"][$iNota]["nota"].' '.TXTsource4note($datosTermino["notas"][$iNota]["id"]), false, false);
 
             switch ($datosTermino["notas"][$iNota]["tipoNota"]) {
                 case 'NH':
@@ -1766,9 +1766,9 @@ function do_jsonld($tema_id)
         if ($datosTerminosRelacionados["t_relacion"]=='4') {// UF
             //HiddenLabel
             if (in_array($datosTerminosRelacionados["rr_code"], $CFG["HIDDEN_EQ"])) {
-                array_push($ARRAYjson_relations["skos:hiddenLabel"], array("language"=>$_SESSION["CFGIdioma"],"value"=>$datosTerminosRelacionados["tema"]));
+                array_push($ARRAYjson_relations["skos:hiddenLabel"], array("language"=>$_SESSION["CFGIdioma"],"value"=>html_entity_decode($datosTerminosRelacionados["tema"], ENT_QUOTES | ENT_HTML5, 'UTF-8')));
             } else {
-                array_push($ARRAYjson_relations["skos:altLabel"], array("language"=>$_SESSION["CFGIdioma"],"value"=>$datosTerminosRelacionados["tema"]));
+                array_push($ARRAYjson_relations["skos:altLabel"], array("language"=>$_SESSION["CFGIdioma"],"value"=>html_entity_decode($datosTerminosRelacionados["tema"], ENT_QUOTES | ENT_HTML5, 'UTF-8')));
             }
         };
     };
@@ -1785,7 +1785,7 @@ function do_jsonld($tema_id)
         $ARRAYjson_map["$skos_tag"][]=array("@id"=>$datosTargetTerms["tterm_url"],
         "@type"=>"skos:Concept",
         "skos:prefLabel"=>array("@language"=>$datosTargetTerms["tvocab_lang"],
-        "@value"=>$datosTargetTerms["tterm_string"])
+        "@value"=>html_entity_decode($datosTargetTerms["tterm_string"], ENT_QUOTES | ENT_HTML5, 'UTF-8'))
         );
     };
 
@@ -1804,7 +1804,8 @@ function do_jsonld($tema_id)
 
     for ($iNota=0; $iNota<(count($datosTermino["notas"])); ++$iNota) {
         if ($datosTermino["notas"][$iNota]["id"]) {
-            $note_content=html2txt($datosTermino["notas"][$iNota]["nota"].' '.TXTsource4note($datosTermino["notas"][$iNota]["id"]));
+            // html2txt() returns HTML-encoded text; JSON needs the plain text
+            $note_content=html_entity_decode(html2txt($datosTermino["notas"][$iNota]["nota"].' '.TXTsource4note($datosTermino["notas"][$iNota]["id"])), ENT_QUOTES | ENT_HTML5, 'UTF-8');
 
             switch ($datosTermino["notas"][$iNota]["tipoNota"]) {
                 case 'NH':
@@ -1853,7 +1854,7 @@ function do_jsonld($tema_id)
     "@id"=>$_URI_BASE_ID.$_URI_SEPARATOR_ID.$datosTermino["idTema"],
     "@type"=>"skos:Concept",
     "skos:prefLabel"=>array("@language"=>$_SESSION["CFGIdioma"],
-    "@value"=>xmlentities($datosTermino["titTema"])),
+    "@value"=>html_entity_decode($datosTermino["titTema"], ENT_QUOTES | ENT_HTML5, 'UTF-8')),
     "skos:inScheme"=>$_URI_BASE_ID,
     "dct:created"=>$datosTermino["cuando"]
     );

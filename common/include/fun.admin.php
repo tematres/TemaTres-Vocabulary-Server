@@ -2570,7 +2570,7 @@ function doTotalWXR($tipoEnvio = 'file')
   <channel>
   <title>'.xmlentities($_SESSION["CFGTitulo"]).'</title>
   <link>'.$_SESSION["CFGURL"].'</link>
-  <description>'.xmlentities($_SESSION["CFGCobertura"]).'</description>
+  <description>'.xmlentities($_SESSION["CFGCobertura"], false, false).'</description>
   <pubDate>'.date('D, d M Y H:i:s T').'</pubDate>
   <language>'.$_SESSION["CFGIdioma"].'</language>
   <wp:wxr_version>1.1</wp:wxr_version>';
