@@ -4652,7 +4652,7 @@ function SQLrelationsSinceDate($sinceDate, $limit = 50)
     and t2.tema_id=r.id_menor
     and r.t_relacion in (2,3,4)
     and r.cuando >='$sinceDate'
-    order by r.cuando desc
+    order by r.cuando desc,r.id
     limit $limit"
   );
 
@@ -4679,7 +4679,7 @@ function SQLtermsSinceDate($sinceDate, $limit = "50")
     where t.estado_id='13'
     and t.tesauro_id='$vocab_id'
     and if(t.cuando_final is not null,t.cuando_final,t.cuando)>='$sinceDate'
-    order by t.cuando_final,t.cuando desc
+    order by t.cuando_final,t.cuando desc,t.tema_id,v.id
     limit $limit"
   );
 
