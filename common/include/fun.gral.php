@@ -1614,7 +1614,7 @@ function loadPage($page)
 {
 
     $page=in_array($page, array('admin.php','index.php','login.php','sobre.php','install.php','sparql.php')) ? $page : 'index.php';
-    return header("Location:$page");
+    return header('Location:'.$_SESSION["CFGURL"].$page);
 }
 
 //Check if is allow to public view the vocabulary
