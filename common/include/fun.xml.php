@@ -574,7 +574,9 @@ function do_nodo_skos($idTema)
 
 function turtleLiteral($value, $language = '')
 {
-    $value = strtr((string)$value, array(
+    // Text is stored HTML-encoded (R&amp;D): decode it once, so the literal holds the plain text.
+    $value = html_entity_decode((string)$value, ENT_QUOTES | ENT_HTML5, 'UTF-8');
+    $value = strtr($value, array(
         "\\" => "\\\\",
         "\"" => "\\\"",
         "\t" => "\\t",
@@ -1922,7 +1924,7 @@ function do_json($tema_id)
 
 
     $ARRAYterm["tema_id"]=$datosTermino["tema_id"];
-    $ARRAYterm["string"]=$datosTermino["titTema"];
+    $ARRAYterm["string"]=html_entity_decode($datosTermino["titTema"], ENT_QUOTES | ENT_HTML5, 'UTF-8');
     $ARRAYterm["created"]=$datosTermino["cuando"];
     $ARRAYterm["code"]=$datosTermino["code"];
     if ($datosTermino["cuando_final"]) {
@@ -1934,7 +1936,7 @@ function do_json($tema_id)
         if (($datosTermino["notas"][$iNota]["id"]) && ($datosTermino["notas"][$iNota]["tipoNota"]!=='NP')) {
             $tipoNota=(in_array($datosTermino["notas"][$iNota]["tipoNota_id"], array(8,9,10,11,15))) ? arrayReplace(array(8,9,10,11,15), array(LABEL_NA,LABEL_NH,LABEL_NB,LABEL_NP,LABEL_NC), $datosTermino["notas"][$iNota]["tipoNota_id"]) : $datosTermino["notas"][$iNota]["tipoNotaLabel"];
 
-            $ARRAYterm["notes"][]=array("@type"=>$tipoNota,"@lang"=>$datosTermino["notas"][$iNota]["lang_nota"],"@value"=>html2txt($datosTermino["notas"][$iNota]["nota"]).' '.TXTsource4note($datosTermino["notas"][$iNota]["id"]));
+            $ARRAYterm["notes"][]=array("@type"=>$tipoNota,"@lang"=>$datosTermino["notas"][$iNota]["lang_nota"],"@value"=>html_entity_decode(html2txt($datosTermino["notas"][$iNota]["nota"]).' '.TXTsource4note($datosTermino["notas"][$iNota]["id"]), ENT_QUOTES | ENT_HTML5, 'UTF-8'));
         };
     };
 
