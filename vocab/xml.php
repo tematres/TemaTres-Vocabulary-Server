@@ -9,14 +9,23 @@ require "config.tematres.php";
 
 $schema=array2value("schema",$_GET);
 $schema=configValue($schema, '', array('skos','zthes','vdex','bs8723','mads','xtm','dc','json','jsonld','rss','tbx','ttl'));
+$metadataSchemas=array('skos','zthes','vdex','bs8723','mads','xtm','dc','json','jsonld','tbx','ttl');
+$enabledXmlMetadata = (isset($CFG["ENABLES_XML_METADATA"]) && is_array($CFG["ENABLES_XML_METADATA"]))
+    ? array_intersect($metadataSchemas, $CFG["ENABLES_XML_METADATA"])
+    : array();
+$skosMeta=array2value("skosMeta",$_GET);
+$skosNode=array2value("skosNode",$_GET);
+
+if ((in_array($schema, $metadataSchemas, true) && !in_array($schema, $enabledXmlMetadata, true))
+    || (($skosMeta == 1 || $skosNode) && !in_array('skos', $enabledXmlMetadata, true))) {
+    loadPage('index.php');
+    exit;
+}
 
 if(strlen($schema)>0){
     $term_id=array2value("term_id",$_GET);
     echo selectSchema($schema,$term_id);
 }
-
-$skosMeta=array2value("skosMeta",$_GET);
-$skosNode=array2value("skosNode",$_GET);
 
 if ($skosMeta==1) {
     header('Content-Type: text/xml');

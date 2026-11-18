@@ -1720,6 +1720,11 @@ function HTMLtermMetadata($arrayTerm, $arrayCantRelaciones)
 {
     global $CFG;
 
+    $metadataSchemas = array('bs8723','dc','mads','skos','ttl','vdex','xtm','zthes','tbx','json','jsonld');
+    $enabledXmlMetadata = (isset($CFG["ENABLES_XML_METADATA"]) && is_array($CFG["ENABLES_XML_METADATA"]))
+        ? array_intersect($metadataSchemas, $CFG["ENABLES_XML_METADATA"])
+        : array();
+
     $fecha_crea=do_fecha($arrayTerm["cuando"]);
     $fecha_estado=do_fecha($arrayTerm["cuando_estado"]);
     $body='<dl class="dl-horizontal">' ;
@@ -1765,23 +1770,46 @@ function HTMLtermMetadata($arrayTerm, $arrayCantRelaciones)
     $body.='<dt>'.mb_ucfirst(LABEL_notes).' </dt>' ;
     $body.='<dd> '.count($arrayTerm["notas"]).'</dd>' ;
 
-    $body.='<dt>'.mb_ucfirst(LABEL_metadatos).'</dt>' ;
-    $body.='<dd>' ;
-
-    $body.='<ul class="list-inline" id="enlaces_xml">' ;
-    $body.='        <li><a class="btn btn-outline-secondary btn-xs" target="_blank" rel="nofollow" title="'.LABEL_verEsquema.' BS8723-5"  href="'.URL_BASE.'xml.php?schema=bs8723&term_id='.$arrayTerm["tema_id"].'">BS8723-5</a></li>' ;
-    $body.='        <li><a class="btn btn-outline-secondary btn-xs" target="_blank" rel="nofollow" title="'.LABEL_verEsquema.' Dublin Core"  href="'.URL_BASE.'xml.php?schema=dc&term_id='.$arrayTerm["tema_id"].'">DC</a></li>' ;
-    $body.='        <li><a class="btn btn-outline-secondary btn-xs"  target="_blank" rel="nofollow" title="'.LABEL_verEsquema.' MADS"  href="'.URL_BASE.'xml.php?schema=mads&term_id='.$arrayTerm["tema_id"].'">MADS</a></li>  ' ;
-    $body.='        <li><a class="btn btn-outline-secondary btn-xs"  target="_blank" rel="nofollow" title="'.LABEL_verEsquema.' Skos"  href="'.URL_BASE.'xml.php?schema=skos&term_id='.$arrayTerm["tema_id"].'">SKOS-Core</a></li>' ;
-    $body.='        <li><a class="btn btn-outline-secondary btn-xs"  target="_blank" rel="nofollow" title="'.LABEL_verEsquema.' Turtle" href="'.URL_BASE.'xml.php?schema=ttl&term_id='.$arrayTerm["tema_id"].'">TTL</a></li>' ;
-    $body.='        <li><a class="btn btn-outline-secondary btn-xs"  target="_blank" title="'.LABEL_verEsquema.' IMS Vocabulary Definition Exchange (VDEX)"  href="'.URL_BASE.'xml.php?schema=vdex&term_id='.$arrayTerm["tema_id"].'">VDEX</a></li>' ;
-    $body.='        <li><a class="btn btn-outline-secondary btn-xs"  target="_blank" rel="nofollow" title="'.LABEL_verEsquema.' TopicMap"  href="'.URL_BASE.'xml.php?schema=xtm&term_id='.$arrayTerm["tema_id"].'">XTM</a></li>' ;
-    $body.='        <li><a class="btn btn-outline-secondary btn-xs"  target="_blank" rel="nofollow" title="'.LABEL_verEsquema.' Zthes" href="'.URL_BASE.'xml.php?schema=zthes&term_id='.$arrayTerm["tema_id"].'">Zthes</a></li>  ' ;
-    $body.='        <li><a class="btn btn-outline-secondary btn-xs"  target="_blank" rel="nofollow" title="'.LABEL_verEsquema.' TBX" href="'.URL_BASE.'xml.php?schema=tbx&term_id='.$arrayTerm["tema_id"].'">TBX</a></li>  ' ;
-    $body.='        <li><a class="btn btn-outline-secondary btn-xs"  target="_blank" rel="nofollow" title="'.LABEL_verEsquema.' JavaScript Object Notation" href="'.URL_BASE.'xml.php?schema=json&term_id='.$arrayTerm["tema_id"].'">JSON</a></li>  ' ;
-    $body.='        <li><a class="btn btn-outline-secondary btn-xs"  target="_blank" rel="nofollow" title="'.LABEL_verEsquema.' JavaScript Object Notation for Linked Data" href="'.URL_BASE.'xml.php?schema=jsonld&term_id='.$arrayTerm["tema_id"].'">JSON-LD</a></li>  ' ;
-    $body.='</ul>' ;
-    $body.='</dd>' ;
+    if ($enabledXmlMetadata) {
+        $body.='<dt>'.mb_ucfirst(LABEL_metadatos).'</dt>' ;
+        $body.='<dd>' ;
+        $body.='<ul class="list-inline" id="enlaces_xml">' ;
+        if (in_array('bs8723', $enabledXmlMetadata, true)) {
+            $body.='        <li><a class="btn btn-outline-secondary btn-xs" target="_blank" rel="nofollow" title="'.LABEL_verEsquema.' BS8723-5"  href="'.URL_BASE.'xml.php?schema=bs8723&term_id='.$arrayTerm["tema_id"].'">BS8723-5</a></li>' ;
+        }
+        if (in_array('dc', $enabledXmlMetadata, true)) {
+            $body.='        <li><a class="btn btn-outline-secondary btn-xs" target="_blank" rel="nofollow" title="'.LABEL_verEsquema.' Dublin Core"  href="'.URL_BASE.'xml.php?schema=dc&term_id='.$arrayTerm["tema_id"].'">DC</a></li>' ;
+        }
+        if (in_array('mads', $enabledXmlMetadata, true)) {
+            $body.='        <li><a class="btn btn-outline-secondary btn-xs"  target="_blank" rel="nofollow" title="'.LABEL_verEsquema.' MADS"  href="'.URL_BASE.'xml.php?schema=mads&term_id='.$arrayTerm["tema_id"].'">MADS</a></li>  ' ;
+        }
+        if (in_array('skos', $enabledXmlMetadata, true)) {
+            $body.='        <li><a class="btn btn-outline-secondary btn-xs"  target="_blank" rel="nofollow" title="'.LABEL_verEsquema.' Skos"  href="'.URL_BASE.'xml.php?schema=skos&term_id='.$arrayTerm["tema_id"].'">SKOS-Core</a></li>' ;
+        }
+        if (in_array('ttl', $enabledXmlMetadata, true)) {
+            $body.='        <li><a class="btn btn-outline-secondary btn-xs"  target="_blank" rel="nofollow" title="'.LABEL_verEsquema.' Turtle" href="'.URL_BASE.'xml.php?schema=ttl&term_id='.$arrayTerm["tema_id"].'">TTL</a></li>' ;
+        }
+        if (in_array('vdex', $enabledXmlMetadata, true)) {
+            $body.='        <li><a class="btn btn-outline-secondary btn-xs"  target="_blank" title="'.LABEL_verEsquema.' IMS Vocabulary Definition Exchange (VDEX)"  href="'.URL_BASE.'xml.php?schema=vdex&term_id='.$arrayTerm["tema_id"].'">VDEX</a></li>' ;
+        }
+        if (in_array('xtm', $enabledXmlMetadata, true)) {
+            $body.='        <li><a class="btn btn-outline-secondary btn-xs"  target="_blank" rel="nofollow" title="'.LABEL_verEsquema.' TopicMap"  href="'.URL_BASE.'xml.php?schema=xtm&term_id='.$arrayTerm["tema_id"].'">XTM</a></li>' ;
+        }
+        if (in_array('zthes', $enabledXmlMetadata, true)) {
+            $body.='        <li><a class="btn btn-outline-secondary btn-xs"  target="_blank" rel="nofollow" title="'.LABEL_verEsquema.' Zthes" href="'.URL_BASE.'xml.php?schema=zthes&term_id='.$arrayTerm["tema_id"].'">Zthes</a></li>  ' ;
+        }
+        if (in_array('tbx', $enabledXmlMetadata, true)) {
+            $body.='        <li><a class="btn btn-outline-secondary btn-xs"  target="_blank" rel="nofollow" title="'.LABEL_verEsquema.' TBX" href="'.URL_BASE.'xml.php?schema=tbx&term_id='.$arrayTerm["tema_id"].'">TBX</a></li>  ' ;
+        }
+        if (in_array('json', $enabledXmlMetadata, true)) {
+            $body.='        <li><a class="btn btn-outline-secondary btn-xs"  target="_blank" rel="nofollow" title="'.LABEL_verEsquema.' JavaScript Object Notation" href="'.URL_BASE.'xml.php?schema=json&term_id='.$arrayTerm["tema_id"].'">JSON</a></li>  ' ;
+        }
+        if (in_array('jsonld', $enabledXmlMetadata, true)) {
+            $body.='        <li><a class="btn btn-outline-secondary btn-xs"  target="_blank" rel="nofollow" title="'.LABEL_verEsquema.' JavaScript Object Notation for Linked Data" href="'.URL_BASE.'xml.php?schema=jsonld&term_id='.$arrayTerm["tema_id"].'">JSON-LD</a></li>  ' ;
+        }
+        $body.='</ul>' ;
+        $body.='</dd>' ;
+    }
 
     $body.='</dl> ' ;
     // fin Div pie de datos
