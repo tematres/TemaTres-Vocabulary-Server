@@ -322,7 +322,8 @@ class XMLvocabularyServices
             "note_type"=>($array["ntype_code"]) ? $array["ntype_code"] : $array["tipo_nota"],
             "note_lang"=>$array["lang_nota"],
             "note_text"=>$note_text,
-            "note_src"=>TXTsource4note($array["nota_id"])
+            "note_src"=>TXTsource4note($array["nota_id"]),
+            "note_date"=>$array["cuando"]
             );
         };
         return $result;
