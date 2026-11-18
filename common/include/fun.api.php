@@ -675,7 +675,7 @@ class XMLvocabularyServices
                 "rterm_id"=>$array["rterm_id"],
                 "relType"=>$array["relType"],
                 "relSubType"=>$array["relSubType"],
-                "created"=>$array["created"]
+                "date_create"=>$array["created"]
                    );
             };
             return $result;
@@ -898,11 +898,6 @@ class XMLvocabularyServices
         $array['fetchURI']['task'] = 'fetchURI';
         $array['fetchURI']['arg'] = 'one ID term_id (int)';
         $array['fetchURI']['example'] = $_SESSION["CFGURL"].'services.php?task=fetchURI&arg=1';
-
-        //~ $array['fetchSourceTermsURI']['action'] = 'Search and retrieve terms mapped in target vocabulary for term in source vocabulary. Use URI of web services for the term to retrieve data';
-        //~ $array['fetchSourceTermsURI']['task'] = 'fetchSourceTermsURI';
-        //~ $array['fetchSourceTermsURI']['arg'] = 'the URI provided by source vocabulary for the term. The URI must be a string according to RFC 3986.';
-        //~ $array['fetchSourceTermsURI']['example'] = $_SESSION["CFGURL"].'/services.php?task=fetchSourceTermsURI&arg='.$_SESSION["CFGURL"].'services.php?task=fetchTerm&arg=1';
 
         $array['fetchTargetTerms']['action'] = 'Search and retrieve data about target terms mapped via web services for one term_id';
         $array['fetchTargetTerms']['task'] = 'fetchTargetTerms';
@@ -1191,7 +1186,9 @@ function fetchVocabularyService($task, $arg, $output = "xml")
 
         global $CFG;
 
-        $arrayResume['status'] = (CFG_SIMPLE_WEB_SERVICE=='1') ? 'available' : 'disable';
+
+
+        $arrayResume['status'] = ((CFG_SIMPLE_WEB_SERVICE=='1') || (checkAllowPublication(basename($_SERVER['SCRIPT_NAME'])) == 0))  ? 'available' : 'disable';
 
         $arrayResume['param'] = array("task"=>$task,"arg"=>$arg);
 
