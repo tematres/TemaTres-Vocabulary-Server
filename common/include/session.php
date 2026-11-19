@@ -20,7 +20,14 @@ if (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on') {
 }
 
 if (session_status() === PHP_SESSION_NONE) {
-    session_start();
+    // The web service (T3_STATELESS) starts no session for a client without a session cookie, unless it logs in or
+    // chooses a language: no cookie is set, and the response can be cached. A logged-in user keeps the session.
+    if (defined('T3_STATELESS') && !isset($_COOKIE[session_name()]) && !isset($_POST['id_correo_electronico']) && !isset($_GET['setLang'])) {
+        $_SESSION = array();
+        define('T3_NO_SESSION', true);
+    } else {
+        session_start();
+    }
 }
 
 $SQL_CFG_LC=SQL("select", "id,titulo,autor,idioma,cobertura,keywords,tipo,cuando,url_base,polijerarquia from $DBCFG[DBprefix]config where id=1");
