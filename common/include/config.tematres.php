@@ -166,6 +166,10 @@ $idiomas_disponibles = array(
      "ru-RU"  => array("Русский","ru-RU-$CFG[_CHAR_ENCODE].inc.php", "ru-RU","ru-$CFG[_CHAR_ENCODE]")
     );
 
+
+//Publish in open web XML metadata of each term. Enabled schemas : 'bs8723','dc','vdex','mads','skos','ttl','xtm','zthes','tbx','json','jsonld' 
+$CFG["ENABLES_XML_METADATA"]=array();
+
 // Constantes
 define("id_TR", "2"); //Tipo relacion término relacionado
 define("id_TG", "3"); //Tipo relacion término superior

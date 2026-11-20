@@ -1637,15 +1637,18 @@ if ($_SESSION[$_SESSION["CFGURL"]]["ssuser_nivel"]=='1') {
       $dataVocab=getURLdata($arrayVocab["tvocab_uri_service"].'?task=fetchVocabularyData', 0, true);
 
       if (!is_object($dataVocab) || !isset($dataVocab->result->vocabulary_id)) {
+        //Deshabilitar el vocabulario si no responde bien
+        $sql=SQL("update","$DBCFG[DBprefix]tvocab set tvocab_status=0, cuando=now(), uid=$user_id where tvocab_id='$tvocab_id'");        
         return array("error"=>"El servicio de vocabulario no responde correctamente.");
       }
       if ($dataVocab->result->vocabulary_id=='1' && (!isset($dataVocab->result->title) || !isset($dataVocab->result->uri))) {
+        //Deshabilitar el vocabulario si no responde bien
+        $sql=SQL("update","$DBCFG[DBprefix]tvocab set tvocab_status=0, cuando=now(), uid=$user_id where tvocab_id='$tvocab_id'");
+
         return array("error"=>"El servicio de vocabulario no responde correctamente.");
       }
 
-      /*
-      Check web services
-      */
+      //Check data
       if ($dataVocab->result->vocabulary_id=='1') {
         $array["tvocab_label"]=$DB->qstr(trim((string) $_POST["tvocab_label"]));
         $array["tvocab_tag"]=$DB->qstr(trim((string) $_POST["tvocab_tag"]));
@@ -1654,7 +1657,6 @@ if ($_SESSION[$_SESSION["CFGURL"]]["ssuser_nivel"]=='1') {
         $array["tvocab_uri"]=$DB->qstr(trim((string) $dataVocab->result->uri));
         $array["tvocab_uri_service"]=$DB->qstr(trim((string) $_POST["tvocab_uri_service"]));
         $array["tvocab_status"]= ($_POST["tvocab_status"]==1) ? 1 : 0;
-
 
         $sql=SQL(
           "update",
