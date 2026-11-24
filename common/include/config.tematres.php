@@ -163,7 +163,8 @@ $idiomas_disponibles = array(
      "pl-PL"  => array("polski","pl-PL-$CFG[_CHAR_ENCODE].inc.php", "pl-PL","pl-$CFG[_CHAR_ENCODE]"),
      "pt-BR"  => array("português (Brasil)","pt-BR-$CFG[_CHAR_ENCODE].inc.php", "pt-BR","ptBR-$CFG[_CHAR_ENCODE]"),
      "pt-PT"  => array("português (Portugal)","pt-PT-$CFG[_CHAR_ENCODE].inc.php", "pt-PT","ptPT-$CFG[_CHAR_ENCODE]"),
-     "ru-RU"  => array("Русский","ru-RU-$CFG[_CHAR_ENCODE].inc.php", "ru-RU","ru-$CFG[_CHAR_ENCODE]")
+     "ru-RU"  => array("Русский","ru-RU-$CFG[_CHAR_ENCODE].inc.php", "ru-RU","ru-$CFG[_CHAR_ENCODE]"),
+     "sv-SE"  => array("svenska","sv-SE-$CFG[_CHAR_ENCODE].inc.php", "sv-SE","sv-$CFG[_CHAR_ENCODE]")
     );
 
 
