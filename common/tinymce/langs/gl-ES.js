@@ -1,4 +1,4 @@
-tinymce.addI18n('gl',{
+tinymce.addI18n('gl-ES',{
 "Redo": "Refacer",
 "Undo": "Desfacer",
 "Cut": "Cortar",

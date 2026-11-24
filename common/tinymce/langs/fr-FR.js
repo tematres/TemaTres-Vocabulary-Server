@@ -1,4 +1,4 @@
-tinymce.addI18n('fr_FR',{
+tinymce.addI18n('fr-FR',{
 "Redo": "R\u00e9tablir",
 "Undo": "Annuler",
 "Cut": "Couper",

@@ -17,7 +17,7 @@ if (evalUserLevel($_SESSION[$_SESSION["CFGURL"]])>0) {
     <!-- Load TinyMCE -->
     tinymce.init({
         selector: "textarea#<?php echo LABEL_nota;?>",
-        language : "<?php echo LANG;?>",
+        language : "<?php echo $_SESSION[$_SESSION["CFGURL"]]["lang"][2];?>",
         plugins: "advlist autolink autosave link image lists preview autolink visualchars code media nonbreaking directionality  autoresize preview save",
         toolbar1: "bold italic bullist numlist link image | preview code ",
         code_dialog_width: 400,

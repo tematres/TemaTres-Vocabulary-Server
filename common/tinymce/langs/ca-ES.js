@@ -1,4 +1,4 @@
-tinymce.addI18n('ca',{
+tinymce.addI18n('ca-ES',{
 "Redo": "Refer",
 "Undo": "Desfer",
 "Cut": "Retalla",

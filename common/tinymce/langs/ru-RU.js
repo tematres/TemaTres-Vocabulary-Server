@@ -1,4 +1,4 @@
-tinymce.addI18n('ru',{
+tinymce.addI18n('ru-RU',{
 "Redo": "\u0412\u0435\u0440\u043d\u0443\u0442\u044c",
 "Undo": "\u041e\u0442\u043c\u0435\u043d\u0438\u0442\u044c",
 "Cut": "\u0412\u044b\u0440\u0435\u0437\u0430\u0442\u044c",
