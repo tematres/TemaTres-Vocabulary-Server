@@ -1,4 +1,4 @@
-tinymce.addI18n('pl',{
+tinymce.addI18n('pl-PL',{
 "Redo": "Powt\u00f3rz",
 "Undo": "Cofnij",
 "Cut": "Wytnij",

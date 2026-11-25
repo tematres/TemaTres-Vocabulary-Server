@@ -1,4 +1,4 @@
-tinymce.addI18n('nl',{
+tinymce.addI18n('nl-NL',{
 "Redo": "Opnieuw uitvoeren",
 "Undo": "Ongedaan maken",
 "Cut": "Knippen",
